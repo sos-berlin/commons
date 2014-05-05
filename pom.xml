@@ -27,6 +27,8 @@
         <module>sos-settings</module>
         <module>sos-util</module>
         <module>sos-xml</module>
+        <module>sos-marshalling</module>
+        <module>sos-textprocessor</module>
     </modules>
 
 </project>
