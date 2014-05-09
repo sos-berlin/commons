@@ -29,6 +29,7 @@
         <module>sos-xml</module>
         <module>sos-marshalling</module>
         <module>sos-textprocessor</module>
+        <module>commons-all</module>
     </modules>
 
 </project>
