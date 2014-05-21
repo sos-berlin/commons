@@ -17,6 +17,7 @@
     <modules>
         <module>sos-configuration</module>
         <module>sos-connection</module>
+        <!-- module>sos-ldap</module -->
         <module>sos-settings</module>
         <module>sos-util</module>
         <module>sos-xml</module>
