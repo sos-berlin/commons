@@ -15,6 +15,7 @@
     <inceptionYear>2014</inceptionYear>
 
     <modules>
+        <module>common-resources</module>
         <module>sos-configuration</module>
         <module>sos-connection</module>
         <!-- module>sos-ldap</module -->
