@@ -20,36 +20,24 @@
         <setup.target.name>com.sos.configuration</setup.target.name>
     </properties>
 
+    <profiles>
+    </profiles>
+
+    <!--
     <reporting>
         <plugins>
-
-            <!--
-            a prototype for doxygen integration. Projectname, Version etc. are set to fix values in the configurationFile and
-            mixing with properties setting in the plugin configuration is not possible.
-            -->
             <plugin>
                 <groupId>com.soebes.maven.plugins.dmg</groupId>
                 <artifactId>doxygen-maven-plugin</artifactId>
                 <version>1.0.1</version>
                 <configuration>
                     <quiet>false</quiet>
-                    <!--
-                    <haveDot>false</haveDot>
-                    <projectName>${project.name}</projectName>
-                    <projectNumber>${project.version}</projectNumber>
-                    <optimizeOutputJava>true</optimizeOutputJava>
-                    <extractAll>true</extractAll>
-                    <recursive>true</recursive>
-                    <stripFromPath></stripFromPath>
-                    <extractPrivate>true</extractPrivate>
-                    <inputEncoding>${sos.encoding}</inputEncoding>
-                    <input>${project.basedir}\src\main\java</input>
-                    -->
-                    <configurationFile>${project.basedir}\src\test\resources\configuration.doxyfile</configurationFile>
-            </configuration>
+                    <configurationFile>${project.build.directory}/doxygen.config/general.doxyfile</configurationFile>
+                </configuration>
             </plugin>
         </plugins>
     </reporting>
+        -->
 
     <dependencies>
 
