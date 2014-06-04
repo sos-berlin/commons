@@ -11,6 +11,7 @@ package sos.util;
  *
  * 
  */
+@Deprecated // Millisekunden nicht notwendigerweise unique
 public class SOSUniqueID {
 	
 	static long current= System.currentTimeMillis();
