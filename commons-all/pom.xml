@@ -42,6 +42,12 @@
         
         <dependency>
             <groupId>com.sos-berlin.products.commons</groupId>
+            <artifactId>common-resources</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.sos-berlin.products.commons</groupId>
             <artifactId>sos-configuration</artifactId>
             <version>${project.version}</version>
         </dependency>
