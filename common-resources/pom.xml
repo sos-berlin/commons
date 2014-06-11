@@ -21,4 +21,15 @@
         <setup.target.name>com.sos.common-resources</setup.target.name>
     </properties>
 
+    <dependencies>
+
+        <!-- to make the common resources from JobScheduler engine available -->
+        <dependency>
+            <groupId>com.sos.scheduler.enginedoc</groupId>
+            <artifactId>enginedoc-common</artifactId>
+            <version>${sos.engine.version}</version>
+        </dependency>
+
+    </dependencies>
+
 </project>
