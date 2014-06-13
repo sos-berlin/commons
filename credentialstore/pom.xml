@@ -12,6 +12,12 @@
   <artifactId>credentialstore</artifactId>
   <name>${project.artifactId}</name>
   <description>Credential Store	</description>
+
+  <!-- Bewirkt die Kopie in lib_release_unversioned_jar und lib_release_jar -->
+  <properties>
+      <setup.do.not.deploy>false</setup.do.not.deploy>
+      <setup.target.name>com.sos.credentialstore</setup.target.name>
+  </properties>
   
   <dependencies>
 	  

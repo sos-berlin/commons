@@ -15,12 +15,6 @@
     <name>${project.artifactId}</name>
     <inceptionYear>2014</inceptionYear>
 
-    <!-- Bewirkt die Kopie in lib_release_unversioned_jar und lib_release_jar -->
-    <properties>
-        <setup.do.not.deploy>false</setup.do.not.deploy>
-        <setup.target.name>com.sos.common-resources</setup.target.name>
-    </properties>
-
     <dependencies>
 
         <!-- to make the common resources from JobScheduler engine available -->
