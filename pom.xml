@@ -24,6 +24,7 @@
         <module>sos-marshalling</module>
         <module>sos-textprocessor</module>
         <module>commons-all</module>
+        <module>credentialstore</module>
     </modules>
 
 </project>
