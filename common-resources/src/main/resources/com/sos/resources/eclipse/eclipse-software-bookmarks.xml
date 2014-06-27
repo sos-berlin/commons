@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bookmarks>
+   <site url="http://eclipse-cs.sf.net/update/" selected="true" name="Checkst"/>
+   <site url="http://sevntu-checkstyle.github.com/sevntu.checkstyle/update-site/" selected="true" name="CheckStyle"/>
+   <site url="http://download.gna.org/eclox/update/" selected="true" name="eclox"/>
+   <site url="http://findbugs.cs.umd.edu/eclipse" selected="true" name="FindBugs"/>
+   <site url="http://download.eclipse.org/releases/kepler" selected="true" name="Kepler"/>
+   <site url="http://bitstrings.github.com/m2e-connectors-p2/milestones" selected="true" name="m2e :: Connectors :: Eclipse Repository"/>
+   <site url="http://repo1.maven.org/maven2/.m2e/connectors/m2eclipse-subclipse/0.13.0/N/0.13.0.201303011221/" selected="true" name="Maven SCM Handler for Subclipse"/>
+   <site url="http://repo1.maven.org/maven2/.m2e/connectors/m2eclipse-subversive/0.13.0/N/0.13.0.201302121311/" selected="true" name="Maven SCM Handler for Subversive"/>
+   <site url="http://download.eclipse.org/mylyn/releases/latest" selected="true" name="MyLyn"/>
+   <site url="http://download.eclipse.org/mylyn/releases/kepler" selected="true" name="Mylyn for Eclipse Kepler"/>
+   <site url="http://repo1.maven.org/maven2/.m2e/connectors/m2eclipse-tycho/0.7.0/N/0.7.0.201309291400/" selected="true" name="org.sonatype.tycho.update"/>
+   <site url="http://sourceforge.net/projects/shelled/files/shelled/update/" selected="true" name="shelled"/>
+   <site url="http://download.eclipse.org/eclipse/updates/4.3" selected="true" name="The Eclipse Project Updates"/>
+   <site url="http://community.polarion.com/projects/subversive/download/eclipse/3.0/kepler-site/" selected="true" name="Update Site"/>
+   <site url="http://www.wickedshell.net/updatesite" selected="true" name="wickedshell"/>
+   <site url="http://wireframesketcher.com/updates" selected="true" name="wirefrane"/>
+   <site url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/" selected="true" name="Xtext All In One - Releases"/>
+</bookmarks>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><templates><template autoinsert="true" context="java" deleted="false" description="SOS Text to i18n conversion" enabled="true" name="text2i18n">//  SOSVfs_${i18n_msgtype}_${i18n_key} = ${i18n_text}&#13;
+	@I18NMsg private final SOSMsgVfs SOSVfs_${i18n_msgtype}_${i18n_key} = new SOSMsgVfs("SOSVfs_${i18n_msgtype}_${i18n_key}"); // "${i18n_text}";&#13;
+	SOSVfs_${i18n_msgtype}_${i18n_key}.params();&#13;
+</template></templates>
