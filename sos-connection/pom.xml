@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.sos-berlin.products</groupId>
+        <groupId>com.sos-berlin</groupId>
         <artifactId>commons</artifactId>
         <version>1.8-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.sos-berlin.products.commons</groupId>
+    <groupId>com.sos-berlin.commons</groupId>
     <artifactId>sos-connection</artifactId>
     <name>${project.artifactId}</name>
 
@@ -22,7 +22,7 @@
     <dependencies>
 
         <dependency>
-            <groupId>com.sos-berlin.products.commons</groupId>
+            <groupId>com.sos-berlin.commons</groupId>
             <artifactId>sos-util</artifactId>
             <version>${project.version}</version>
         </dependency>

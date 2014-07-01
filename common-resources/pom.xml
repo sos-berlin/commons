@@ -3,12 +3,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.sos-berlin.products</groupId>
+        <groupId>com.sos-berlin</groupId>
         <artifactId>commons</artifactId>
         <version>1.8-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.sos-berlin.products.commons</groupId>
+    <groupId>com.sos-berlin.commons</groupId>
     <artifactId>common-resources</artifactId>
     <description>Common resources for all projects of the products branch.</description>
     <packaging>jar</packaging>
