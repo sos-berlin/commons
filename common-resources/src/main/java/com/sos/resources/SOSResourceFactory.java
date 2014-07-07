@@ -1,15 +1,15 @@
 package com.sos.resources;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-
-import javax.xml.transform.stream.StreamSource;
-
+import com.google.common.io.Resources;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.io.Resources;
+import javax.xml.transform.stream.StreamSource;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 /**
  * A class to get common resources in various types.
@@ -58,6 +58,17 @@ public class SOSResourceFactory {
 
     public static StreamSource asStreamSource(String forResource) {
         return new StreamSource(asInputStream(forResource));
+    }
+
+    public static File asFile(String forResource) {
+        URL url = asURL(forResource);
+        File resultFile = null;
+        try {
+            resultFile = new File(url.toURI());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return resultFile;
     }
 
     private static String normalizePackageName(String forResource) {
