@@ -1178,7 +1178,7 @@
             </xsl:apply-templates>
         </xsl:if>
     </xsl:template>
-	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Eine Tabellenzeile pro Resources/ Database/ Resource -->
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Eine Tabellenzeile pro Resources/ Database/ SOSResource -->
     <xsl:template match="jobdoc:resource">
         <xsl:param name="lang" />
         <tr>
