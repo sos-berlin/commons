@@ -15,7 +15,7 @@ import java.net.URL;
  * A class to get common resources in various types.
  *
  * The static methods of this class are for access to resources. You can either get a resource via a symbolic name defined in the
- * enum class SOSResource or by giving a full resource name (String) to the access method.
+ * enum class SOSProductionResource or by giving a full resource name (String) to the access method.
  *
  * @version 1.0
  * @author Stefan Schädlich
@@ -60,8 +60,17 @@ public class SOSResourceFactory {
         return new StreamSource(asInputStream(forResource));
     }
 
+    public static File asFile(SOSResource forResource) {
+        URL url = asURL(forResource);
+        return url2file(url);
+    }
+
     public static File asFile(String forResource) {
         URL url = asURL(forResource);
+        return url2file(url);
+    }
+
+    private static File url2file(URL url) {
         File resultFile = null;
         try {
             resultFile = new File(url.toURI());
