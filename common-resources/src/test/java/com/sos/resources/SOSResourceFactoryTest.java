@@ -17,4 +17,9 @@ public class SOSResourceFactoryTest {
         assertEquals("this file contains only dummy text.", Files.toString(f, Charset.defaultCharset()));
     }
 
+    @Test(expected = java.lang.IllegalArgumentException.class )
+    public void testAsFileInvalid() throws IOException {
+        File f = SOSResourceFactory.asFile("/com/sos/resources/invalid.txt");
+    }
+
 }
