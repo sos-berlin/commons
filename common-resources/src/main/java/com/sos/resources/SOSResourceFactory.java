@@ -8,7 +8,6 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 import java.net.URL;
 
 /**
@@ -25,12 +24,12 @@ public class SOSResourceFactory {
     private static Logger logger = LoggerFactory.getLogger(SOSResourceFactory.class);
 
     public static URL asURL(SOSResource forResource) {
-        logger.info("Try to read resource " + forResource.getFullName());
+        logger.info("Try to read resource {}.",forResource.getFullName());
         return Resources.getResource(forResource.getFullName());
     }
 
     public static URL asURL(String forResource) {
-        logger.info("Try to read resource " + forResource);
+        logger.info("Try to read resource {}.",forResource);
         return Resources.getResource(normalizePackageName(forResource));
     }
 
@@ -38,18 +37,18 @@ public class SOSResourceFactory {
         try {
             return asURL(forResource).openStream();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Error reading resource {}.",forResource.getFullName(),e);
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
     public static InputStream asInputStream(String forResource) {
         try {
             return asURL(forResource).openStream();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Error reading resource {}.",forResource,e);
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
     public static StreamSource asStreamSource(SOSResource forResource) {
@@ -62,22 +61,16 @@ public class SOSResourceFactory {
 
     public static File asFile(SOSResource forResource) {
         URL url = asURL(forResource);
-        return url2file(url);
+        return ResourceHelper.getInstance().createFileFromURL(url);
     }
 
     public static File asFile(String forResource) {
         URL url = asURL(forResource);
-        return url2file(url);
+        return ResourceHelper.getInstance().createFileFromURL(url);
     }
 
-    private static File url2file(URL url) {
-        File resultFile = null;
-        try {
-            resultFile = new File(url.toURI());
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return resultFile;
+    public static void removeTemporaryFiles() {
+        ResourceHelper.destroy();
     }
 
     private static String normalizePackageName(String forResource) {
