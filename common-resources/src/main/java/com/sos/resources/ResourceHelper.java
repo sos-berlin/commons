@@ -60,7 +60,7 @@ public class ResourceHelper {
      */
     private File createFileFromString(String fileContent, String filenameWithoutPath) {
         File configFile = null;
-        setWorkingDirectory();
+        createWorkingDirectory();
         logger.info("Copy resource to folder {}.", workingDirectory.getAbsolutePath());
         logger.info("Targetname is {}.", filenameWithoutPath);
         try {
@@ -107,8 +107,9 @@ public class ResourceHelper {
             logger.warn("Could not delete Temporary {} [{}].",type,f.getAbsolutePath());
     }
 
-    private void setWorkingDirectory() {
+    public File createWorkingDirectory() {
         if (workingDirectory==null)
             workingDirectory = Files.createTempDir();
+        return workingDirectory;
     }
 }
