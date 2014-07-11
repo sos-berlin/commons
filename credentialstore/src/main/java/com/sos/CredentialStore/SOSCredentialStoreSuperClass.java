@@ -88,14 +88,14 @@ public class SOSCredentialStoreSuperClass extends JSOptionsClass implements ISOS
 	}
 
 	@Override public SOSOptionHostName getHost() {
-		return null;
+		return new SOSOptionHostName ("localhost");
 	}
 
 	@Override public void setHost(final SOSOptionElement p_host) {
 	}
 
 	@Override public SOSOptionPortNumber getPort() {
-		return null;
+		return new SOSOptionPortNumber("80");
 	}
 
 	@Override public void setPort(final SOSOptionPortNumber p_port) {

@@ -2,33 +2,22 @@
  * 
  */
 package com.sos.CredentialStore.Options;
-import java.util.HashMap;
-
 import com.sos.JSHelper.Options.SOSOptionAuthenticationMethod;
-import com.sos.JSHelper.Options.SOSOptionBoolean;
 import com.sos.JSHelper.Options.SOSOptionElement;
-import com.sos.JSHelper.Options.SOSOptionHostName;
 import com.sos.JSHelper.Options.SOSOptionInFileName;
-import com.sos.JSHelper.Options.SOSOptionInteger;
-import com.sos.JSHelper.Options.SOSOptionPassphrase;
 import com.sos.JSHelper.Options.SOSOptionPassword;
 import com.sos.JSHelper.Options.SOSOptionPortNumber;
-import com.sos.JSHelper.Options.SOSOptionRegExp;
-import com.sos.JSHelper.Options.SOSOptionString;
-import com.sos.JSHelper.Options.SOSOptionTransferMode;
 import com.sos.JSHelper.Options.SOSOptionTransferType;
-import com.sos.JSHelper.Options.SOSOptionUrl;
 import com.sos.JSHelper.Options.SOSOptionUserName;
-import com.sos.JSHelper.interfaces.ISOSDataProviderOptions;
 
 /**
  * @author KB
  *
  */
 public interface ISOSCredentialStoreOptionsBridge {
-	public abstract SOSOptionUrl getUrl(); // public String geturl
+	public abstract SOSOptionElement getUrl(); // public String geturl
 
-	public abstract void setUrl(SOSOptionUrl pstrValue); // public SOSConnection2OptionsSuperClass seturl
+	public abstract void setUrl(SOSOptionElement pstrValue); // public SOSConnection2OptionsSuperClass seturl
 
 	/**
 	 * \brief gethost : Host-Name This parameter specifies th
@@ -39,7 +28,7 @@ public interface ISOSCredentialStoreOptionsBridge {
 	 * \return Host-Name This parameter specifies th
 	 *
 	 */
-	public abstract SOSOptionHostName getHost();
+	public abstract SOSOptionElement getHost();
 
 	/**
 	 * \brief sethost : Host-Name This parameter specifies th
@@ -49,7 +38,7 @@ public interface ISOSCredentialStoreOptionsBridge {
 	 *
 	 * @param host : Host-Name This parameter specifies th
 	 */
-	public abstract void setHost(SOSOptionHostName p_host);
+	public abstract void setHost(SOSOptionElement p_host);
 
 	/**
 	 * \brief getport : Port-Number to be used for Data-Transfer

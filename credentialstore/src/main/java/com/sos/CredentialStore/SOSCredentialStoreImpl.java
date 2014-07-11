@@ -124,6 +124,8 @@ public class SOSCredentialStoreImpl extends JSToolBox {
 				throw new CredentialStoreEntryExpired(objExpDate);
 			}
 			boolean flgHideValuesFromCredentialStore = false;
+			boolean flgUrlIsValid = true;
+
 			if (objEntry.Url().length() > 0) {
 				logger.trace(objEntry.Url());
 				// Possible Elements of an URL are:
@@ -158,6 +160,7 @@ public class SOSCredentialStoreImpl extends JSToolBox {
 				}
 				catch (MalformedURLException e) {
 					// not a valid url. ignore it, because it could be a host name only
+					flgUrlIsValid = false;
 				}
 			}
 			if (isNotEmpty(objEntry.UserName())) {
@@ -168,14 +171,14 @@ public class SOSCredentialStoreImpl extends JSToolBox {
 				objOptionsBridge.getPassword().Value(objEntry.Password());
 				objOptionsBridge.getPassword().setHideValue(flgHideValuesFromCredentialStore);
 			}
-			if (isNotEmpty(objEntry.Url())) {
+			if (flgUrlIsValid && isNotEmpty(objEntry.Url())) {
 				objOptionsBridge.getHost().Value(objEntry.Url());
 				objOptionsBridge.getHost().setHideValue(flgHideValuesFromCredentialStore);
 			}
 			objEntry.ExpirationDate();
 			//			
-			if (objOptionsBridge.getHost().isNotDirty()) {
-				objOptionsBridge.getHost().Value(objEntry.getUrl().toString());
+			if (isNotEmpty (objEntry.Url()) && objOptionsBridge.getHost().isNotDirty()) {
+				objOptionsBridge.getHost().Value(objEntry.Url());
 			}
 			//			assertEquals("note ", "-dburl=test -verbose=-2 -password=12345", objEntry.Notes());
 			//			System.out.println("binary Description: " + objEntry.getBinaryDescription().getText());
