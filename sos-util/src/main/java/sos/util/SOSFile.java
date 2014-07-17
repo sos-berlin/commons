@@ -239,9 +239,11 @@ public class SOSFile {
 			throw new FileNotFoundException("directory does not exist: " + folder);
 		filelist = new Vector<File>();
 		File[] files = f.listFiles(new SOSFilelistFilter(regexp, flag));
-		for (int i = 0; i < files.length; i++) {
-			if (!files[i].getName().equals(".") && !files[i].getName().equals(".."))
-				filelist.add(files[i]);
+		if (files != null) {
+			for (int i = 0; i < files.length; i++) {
+				if (!files[i].getName().equals(".") && !files[i].getName().equals(".."))
+					filelist.add(files[i]);
+			}
 		}
 
 		return filelist;
