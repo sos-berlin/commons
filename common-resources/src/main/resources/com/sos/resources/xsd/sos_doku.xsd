@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 3 U (http://www.xmlspy.com) by Andreas Pueschel (APL Software GmbH) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="documentation">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="title"/>
+				<xs:element name="author" type="authorType" minOccurs="0"/>
+				<xs:element name="date" type="xs:string" minOccurs="0"/>
+				<xs:element name="company" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="name" type="xs:string"/>
+							<xs:element name="adress" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="p" type="pType" maxOccurs="unbounded"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="phone" type="xs:string" minOccurs="0"/>
+							<xs:element name="fax" type="xs:string" minOccurs="0"/>
+							<xs:element name="email" type="xs:string" minOccurs="0"/>
+							<xs:element name="website" type="xs:string" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="topics">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="topic" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="topicType">
+											<xs:attribute name="id" type="xs:string" use="optional"/>
+										</xs:extension>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="appendices" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="topic" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="topicType">
+											<xs:attribute name="id" type="xs:string" use="optional"/>
+										</xs:extension>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="glossary" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence maxOccurs="unbounded">
+							<xs:element name="glossaryTerm">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="name" type="xs:string"/>
+										<xs:element ref="description"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="description">
+		<xs:complexType>
+			<xs:sequence maxOccurs="unbounded">
+				<xs:element name="p" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="pType">
+								<xs:attribute name="create-for" use="optional">
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:enumeration value="pdf"/>
+											<xs:enumeration value="sos_help"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:attribute>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="example" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="p" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="pType">
+											<xs:attribute name="create-for" use="optional">
+												<xs:simpleType>
+													<xs:restriction base="xs:string">
+														<xs:enumeration value="pdf"/>
+														<xs:enumeration value="sos_help"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:attribute>
+										</xs:extension>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="id" type="xs:string" use="optional"/>
+						<xs:attribute name="title" type="xs:string" use="optional"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="command_line" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="title" type="xs:string" minOccurs="0"/>
+							<xs:element ref="description" minOccurs="0"/>
+							<xs:element name="command_option" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="name" type="xs:string">
+											<xs:annotation>
+												<xs:documentation>Name der Option, ggf mit '-' davor schreiben</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="type" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Platzhalter für Option, ggf hier ein '=' oder ' ' mit einfügen</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element name="title" type="xs:string" minOccurs="0">
+											<xs:annotation>
+												<xs:documentation>Kurzbeschreibung</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+										<xs:element ref="description" minOccurs="0" maxOccurs="unbounded"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="id" type="xs:string" use="optional"/>
+						<xs:attribute name="program" type="xs:string" use="required"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="settingsType">
+		<xs:sequence>
+			<xs:element ref="description" minOccurs="0"/>
+			<xs:element name="application" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="description" minOccurs="0"/>
+						<xs:element name="section" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element ref="description" minOccurs="0"/>
+									<xs:element ref="setting" maxOccurs="unbounded"/>
+								</xs:sequence>
+								<xs:attribute name="name" type="xs:string" use="optional"/>
+								<xs:attribute name="id" type="xs:ID" use="optional"/>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="name" type="xs:string" use="optional"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="setting">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="title" type="xs:string"/>
+				<xs:element name="author" type="authorType" minOccurs="0"/>
+				<xs:element name="created" type="xs:dateTime" minOccurs="0"/>
+				<xs:element ref="description"/>
+			</xs:sequence>
+			<xs:attribute name="type" type="xs:string" use="required"/>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+			<xs:attribute name="id" type="xs:string" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="pType" mixed="true">
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:choice>
+				<xs:element name="ul" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="li" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="p" type="pType" minOccurs="0" maxOccurs="unbounded"/>
+									</xs:sequence>
+									<xs:attribute name="bullet" type="xs:string" use="optional"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="em" type="pType" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="strong" type="pType" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="dl" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence minOccurs="0" maxOccurs="unbounded">
+							<xs:element name="dt" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="p" type="pType" maxOccurs="unbounded"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="dd" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="p" type="pType" maxOccurs="unbounded"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ol" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="li" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="code" type="pType" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="pre" type="pType" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="table" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="col" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>width in %, z.B. width="30%"</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:attribute name="width" type="xs:string"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="thead" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element ref="tr" minOccurs="0" maxOccurs="unbounded"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="tbody">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element ref="tr" minOccurs="0" maxOccurs="unbounded"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="border" type="xs:integer" use="optional"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="link" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>mit pageno=true wird Seitenzahl mit ausgegeben</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="pType">
+								<xs:attribute name="pageno" type="xs:boolean" use="optional"/>
+								<xs:attribute name="href" type="xs:anyURI" use="optional"/>
+								<xs:attribute name="target" type="xs:string" use="optional"/>
+								<xs:attribute name="create-for" use="optional">
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:enumeration value="pdf"/>
+											<xs:enumeration value="sos_help"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:attribute>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="p" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="pType">
+								<xs:attribute name="create-for" use="optional">
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:enumeration value="pdf"/>
+											<xs:enumeration value="sos_help"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:attribute>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="indexterm" nillable="true" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="xs:string">
+								<xs:attribute name="display" type="xs:boolean" use="optional" default="false"/>
+								<xs:attribute name="index" type="xs:string" use="required"/>
+								<xs:attribute name="context" type="xs:string" use="optional"/>
+							</xs:extension>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="image" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:attribute name="src" type="xs:anyURI" use="required"/>
+						<xs:attribute name="width" type="xs:int" use="optional"/>
+						<xs:attribute name="height" type="xs:int" use="optional"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="imagelist" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="imageitem" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="p" type="pType"/>
+									</xs:sequence>
+									<xs:attribute name="src" type="xs:anyURI" use="required"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="br" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:attribute name="keep-with-next" use="optional">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:enumeration value="false"/>
+									<xs:enumeration value="true"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="u" type="pType" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="small_caps" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="todo" type="pType" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="topic_title" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:attribute name="id" type="xs:string" use="required"/>
+						<xs:attribute name="pageno" type="xs:boolean"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:string" use="optional"/>
+		<xs:attribute name="indent" type="xs:int" use="optional"/>
+		<xs:attribute name="keep-together" type="xs:boolean" use="optional" default="false"/>
+	</xs:complexType>
+	<xs:complexType name="sampleType">
+		<xs:sequence>
+			<xs:element name="title"/>
+			<xs:element ref="description"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="topicType">
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="title" type="xs:string"/>
+			<xs:element ref="description"/>
+			<xs:element name="settings" type="settingsType" minOccurs="0"/>
+			<xs:element name="xml_elements" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="xml_element" maxOccurs="unbounded"/>
+					</xs:sequence>
+					<xs:attribute name="order" type="xs:boolean" use="optional" default="true"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="topic" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="topicType">
+							<xs:attribute name="id" type="xs:string" use="optional"/>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="authorType">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string"/>
+			<xs:element name="email" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="tr">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="td" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="p" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="pType">
+											<xs:attribute name="create-for" use="optional">
+												<xs:simpleType>
+													<xs:restriction base="xs:string">
+														<xs:enumeration value="pdf"/>
+														<xs:enumeration value="sos_help"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:attribute>
+										</xs:extension>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="colspan" type="xs:int" use="optional"/>
+						<xs:attribute name="rowspan" type="xs:int" use="optional"/>
+						<xs:attribute name="valign" type="xs:string" use="optional" default="middle"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="xml_element">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="name" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>name des Elements ohne spitze Klammern </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="title" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Kurzbeschreibung</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="description" minOccurs="0"/>
+				<xs:element name="xml_parent_element" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>text() node referenziert name von xml_element</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="xml_child_element" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="xml_attribute" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="name" type="xs:string"/>
+							<xs:element name="type" type="xs:string"/>
+							<xs:element name="initial" type="xs:string" minOccurs="0"/>
+							<xs:element name="title" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Kurzbeschreibung</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element ref="description" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="display" type="xs:boolean" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="nodeType">
+		<xs:sequence>
+			<xs:element name="label" minOccurs="0"/>
+			<xs:element name="node" type="nodeType"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

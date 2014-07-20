@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: sos_docu.xsd 18454 2012-11-22 20:48:29Z kb $ -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+    <xs:include schemaLocation="./sos_doc_base.xsd" />
+    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2005/08/xml.xsd" />
+
+    <xs:element name="documentation" type="documentationType">
+        <xs:annotation>
+            <xs:documentation></xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+    <xs:element name="jobdocs" type="documentationType">
+        <xs:annotation>
+            <xs:documentation></xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+    <xs:complexType name="documentationType">
+        <xs:sequence>
+            <xs:element ref="title" maxOccurs="unbounded" minOccurs="1" />
+            <xs:element ref="title2" maxOccurs="unbounded" minOccurs="0" />
+            <xs:element ref="subtitle" maxOccurs="unbounded" minOccurs="0" />
+            <xs:element ref="author" minOccurs="0" />
+            <xs:element name="date" type="xs:string" minOccurs="0" />
+            <xs:element ref="company" minOccurs="0" />
+                        <xs:any namespace="http://www.w3.org/2001/XInclude" processContents="lax" minOccurs="0" maxOccurs="unbounded" />
+            
+            <xs:element ref="topics" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element ref="appendices" minOccurs="0" />
+            <xs:element ref="glossary" minOccurs="0" maxOccurs="1" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="sampleType">
+        <xs:sequence>
+            <xs:element ref="title" />
+            <xs:element ref="description" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:group name="inline">
+        <xs:annotation>
+        </xs:annotation>
+        <xs:choice>
+        </xs:choice>
+    </xs:group>
+
+    <xs:complexType name="nodeType">
+        <xs:sequence>
+            <xs:element name="label" minOccurs="0" />
+            <xs:element name="node" type="nodeType" />
+        </xs:sequence>
+    </xs:complexType>
+
+
+</xs:schema>

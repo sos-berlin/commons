@@ -1,0 +1,1118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: param_scheduler_file_path.xml 15153 2011-09-14 11:59:34Z kb $ -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+<!-- see http://www.oxygenxml.com/forum/topic1521.html why this import is needed -->
+<xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2005/08/xml.xsd"/>
+
+    <xs:element name="indexterm" nillable="true">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:simpleContent>
+                <xs:extension base="xs:string">
+                    <xs:attribute name="display" type="xs:boolean" use="optional" default="false" />
+                    <xs:attribute name="index" type="xs:string" use="required" />
+                    <xs:attribute name="context" type="xs:string" use="optional" />
+                    <xs:attribute name="glossarid" type="xs:string" use="optional" />
+                    <xs:attributeGroup ref="languageGroup" />
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="titleType" mixed="true">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:group ref="html_xi" />
+        <!--
+            <xs:any namespace="##any" minOccurs="0" maxOccurs="unbounded"></xs:any>
+        -->
+        <xs:attributeGroup ref="languageGroup" />
+    </xs:complexType>
+
+    <xs:element name="title">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="titleType" />
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="title2">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="titleType" />
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="subtitle">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="titleType" />
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:group name="html_xi">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:choice>
+            <xs:element ref="p" minOccurs="0" maxOccurs="unbounded" />
+            <xs:any namespace="http://www.w3.org/1999/xhtml" processContents="lax" minOccurs="0" maxOccurs="unbounded" />
+            <xs:any namespace="http://www.w3.org/2001/XInclude" processContents="lax" minOccurs="0" maxOccurs="unbounded" />
+        </xs:choice>
+    </xs:group>
+
+    <xs:attributeGroup name="languageGroup">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <!--
+            <xs:attribute ref="language" />
+            <xs:attribute ref="os" />
+            <xs:attribute ref="type" />
+        -->
+        <xs:attribute name="language" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>the language used for this piece of text. see xml:lang for more details
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="os" type="xs:string" />
+        <xs:attribute name="type" type="xs:string" />
+        <xs:attribute name="role" type="xs:string" />
+        <xs:attribute name="audience" type="xs:string" />
+        <xs:attribute name="name" use="optional" />
+    </xs:attributeGroup>
+
+    <xs:element name="p">
+        <xs:annotation>
+            <xs:documentation>
+                a paragraph. should be used instead of inflating a text with br's.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:complexContent>
+                <xs:extension base="pType" />
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="wikilink">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="linkGroup" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="jswikilink">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="linkGroup" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="doxylink">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="linkGroup" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="apilink">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="linkGroup" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="sosdownload">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="linkGroup" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:attributeGroup name="linkGroup">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+            <xs:attribute name="linkto" type="xs:string" use="optional" />
+            <xs:attribute name="text" type="xs:string" use="optional" />
+    </xs:attributeGroup>
+
+    <xs:element name="glossarlink">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:attribute name="glossarid" type="xs:string" use="optional" />
+            <xs:attributeGroup ref="linkGroup" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="doculink">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="linkGroup" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="listType">
+        <xs:choice minOccurs="1" maxOccurs="unbounded">
+            <xs:element name="item" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="task" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="feature" minOccurs="0" maxOccurs="unbounded"/>
+
+                    </xs:choice>
+        <xs:attribute name="type">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="ordered" >
+                        <xs:annotation>
+                            <xs:documentation>
+                            numbered list, see html ol tag
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="unordered" >
+                        <xs:annotation>
+                            <xs:documentation>
+                            bulleted list, see html ul tag
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="numbered" />
+                    <xs:enumeration value="features" />
+                    <xs:enumeration value="restrictions" />
+                    <xs:enumeration value="limitations" />
+                    <xs:enumeration value="tasks" />
+                    <xs:enumeration value="prerequisites" />
+                    <xs:enumeration value="def" >
+                        <xs:annotation>
+                            <xs:documentation>
+                            bulleted list, see html dl tag
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:enumeration>
+                </xs:restriction>
+            </xs:simpleType>
+
+        </xs:attribute>
+        <xs:attribute name="id" type="xs:string" use="optional" />
+    </xs:complexType>
+
+    <xs:element name="list">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="listType">
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="sosdocpdflink">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="linkGroup" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="sosdocsoshelplink">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="linkGroup" />
+                <xs:attribute name="anchor" use="optional" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="code">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:choice>
+                <xs:element ref="pre" minOccurs="0" maxOccurs="unbounded" />
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="pre">
+        <xs:annotation>
+            <xs:documentation>
+                mark a preformatted text
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="JobScheduler" nillable="true">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="JOE" nillable="true">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:attribute name="mode" use="optional" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="joe" nillable="true">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:attribute name="mode" use="optional" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="JOC" nillable="true">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:attribute name="mode" use="optional" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="joc" nillable="true">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:attribute name="mode" use="optional" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="SOSFTP" nillable="true">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:attribute name="mode" use="optional" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="JADE" nillable="true">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:attribute name="mode" use="optional" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Oracle" nillable="true">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:attribute name="mode" use="optional" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Unix" nillable="true">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Windows" nillable="true">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="term" nillable="true">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="path" nillable="true">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:choice minOccurs="1" maxOccurs="unbounded">
+                 <xs:element ref="envvar" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="folder" nillable="true">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+                    <xs:choice minOccurs="1" maxOccurs="unbounded">
+                                    <xs:any  processContents="lax" minOccurs="0" maxOccurs="unbounded" />
+        </xs:choice>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="paramref">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:attribute name="linkto" type="xs:string" use="optional" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="paramval">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:attribute name="datatype" type="SOSOptionTypes" />
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="link">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:attribute name="id" use="optional" />
+            <xs:attribute name="pageno" use="optional">
+                <xs:annotation>
+                    <xs:documentation>mit pageno=true wird Seitenzahl mit ausgegeben</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="href" type="xs:anyURI" use="optional">
+                <xs:annotation>
+                    <xs:documentation>
+                        href is optional.
+                        if href is not specified the text() of the tag is used as value for href.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="target" type="xs:string" use="optional" />
+            <xs:attribute name="create-for" use="optional">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="pdf" />
+                        <xs:enumeration value="sos_help" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:simpleType name="SOSOptionTypes">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="SOSOptionBoolean" />
+            <xs:enumeration value="SOSOptionDate" />
+            <xs:enumeration value="SOSOptionFileSize" />
+            <xs:enumeration value="SOSOptionFolderName" />
+            <xs:enumeration value="SOSOptionGracious" />
+            <xs:enumeration value="SOSOptionInteger" />
+            <xs:enumeration value="SOSOptionRegExp" />
+            <xs:enumeration value="SOSOptionString" />
+            <xs:enumeration value="SOSOptionTime" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="codeexample">
+        <xs:annotation>
+            <xs:documentation></xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:choice minOccurs="1" maxOccurs="unbounded">
+                <xs:any namespace="http://www.w3.org/2001/XInclude" processContents="lax" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="embeddedExample" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="explanation" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="title" minOccurs="0" maxOccurs="unbounded" />
+            </xs:choice>
+            <xs:attributeGroup ref="languageGroup" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="embeddedExample">
+        <xs:annotation>
+            <xs:documentation></xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:choice minOccurs="1" maxOccurs="unbounded">
+                <xs:element ref="envvar" minOccurs="0" maxOccurs="unbounded" />
+                <xs:group ref="html_xi" maxOccurs="unbounded" />
+            </xs:choice>
+            <xs:attributeGroup ref="languageGroup" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="explanation">
+        <xs:annotation>
+            <xs:documentation></xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:choice minOccurs="1" maxOccurs="unbounded">
+            <xs:group ref="html_xi" maxOccurs="unbounded" />
+                <xs:element ref="title" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="description" minOccurs="0" maxOccurs="1" />
+            </xs:choice>
+            <xs:attributeGroup ref="languageGroup" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="menu">
+        <xs:annotation>
+            <xs:documentation></xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:complexContent>
+                <xs:extension base="guiElement" />
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="guiElement" mixed="true">
+        <xs:annotation>
+            <xs:documentation></xs:documentation>
+        </xs:annotation>
+        <xs:group ref="html_xi" maxOccurs="unbounded" />
+        <xs:attribute name="i18n" type="xs:string"/>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attributeGroup ref="languageGroup" />
+    </xs:complexType>
+
+    <xs:element name="formfield">
+        <xs:annotation>
+            <xs:documentation></xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:complexContent>
+                <xs:extension base="guiElement" />
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="formlabel">
+        <xs:annotation>
+            <xs:documentation></xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:complexContent>
+                <xs:extension base="guiElement" />
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="formvalue">
+        <xs:annotation>
+            <xs:documentation></xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:complexContent>
+                <xs:extension base="guiElement" />
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="key">
+        <xs:annotation>
+            <xs:documentation></xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:complexContent>
+                <xs:extension base="guiElement" />
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="button">
+        <xs:annotation>
+            <xs:documentation></xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:complexContent>
+                <xs:extension base="guiElement" />
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="image">
+        <xs:annotation>
+            <xs:documentation></xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:attribute name="src" type="xs:anyURI" use="required" />
+            <xs:attribute name="width" type="xs:int" use="optional" />
+            <xs:attribute name="height" type="xs:int" use="optional" />
+            <xs:attribute name="border" type="xs:int" use="optional" />
+            <xs:attribute name="title" type="xs:string" use="optional" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="imagelist">
+        <xs:annotation>
+            <xs:documentation></xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="imageitem" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="p" />
+                        </xs:sequence>
+                        <xs:attribute name="src" type="xs:anyURI" use="required" />
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="pType" mixed="true">
+        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:choice>
+                            <xs:any namespace="http://www.w3.org/2001/XInclude" processContents="lax" minOccurs="0" maxOccurs="unbounded" />
+
+                <xs:element ref="sosdownload" />
+                <xs:element ref="apilink" />
+                <xs:element ref="sosdocsoshelplink" />
+                <xs:element ref="p" />
+                <xs:element ref="JADE" />
+                <xs:element ref="SOSFTP" />
+                <xs:element ref="JOC" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="JOE" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="joe" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="Unix" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="Windows" minOccurs="0" maxOccurs="unbounded" />
+
+                <xs:element ref="envvar" />
+                <xs:element ref="command" />
+                <xs:element ref="file" />
+                <xs:element ref="formfield" />
+                <xs:element ref="jobname" />
+                <xs:element ref="jobdoc" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="wikilink" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="jswikilink" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="doxylink" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="link" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="paramref" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="paramval" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="JobScheduler" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="Oracle" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="sosdocpdflink" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="indexterm" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="term" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="glossarlink" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="path" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="folder" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="doculink" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="list" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="codeexample" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="menu" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="formlabel" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="formvalue" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="key" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="button" minOccurs="0" maxOccurs="unbounded" />
+                <!--
+                    <xs:any namespace="##any" minOccurs="0" maxOccurs="unbounded" processContents="lax" />
+                -->
+
+                <xs:element name="ul" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="li" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element ref="p" minOccurs="0" maxOccurs="unbounded" />
+                                    </xs:sequence>
+                                    <xs:attribute name="bullet" type="xs:string" use="optional" />
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="em" type="pType" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element name="strong" type="pType" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element name="dl" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                            <xs:element name="dt" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element ref="p" maxOccurs="unbounded" />
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="dd" minOccurs="0" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element ref="p" maxOccurs="unbounded" />
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="ol" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="li" maxOccurs="unbounded" />
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="code" type="pType" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element name="pre" type="pType" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element name="table" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="col" minOccurs="0" maxOccurs="unbounded">
+                                <xs:annotation>
+                                    <xs:documentation>width in %, z.B. width="30%"</xs:documentation>
+                                </xs:annotation>
+                                <xs:complexType>
+                                    <xs:attribute name="width" type="xs:string" />
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="thead" minOccurs="0">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element ref="tr" minOccurs="0" maxOccurs="unbounded" />
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="tbody">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element ref="tr" minOccurs="0" maxOccurs="unbounded" />
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="border" type="xs:integer" use="optional" />
+                    </xs:complexType>
+                </xs:element>
+                <!--
+                    <xs:element name="p" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                    <xs:complexContent>
+                    <xs:extension base="pType">
+                    <xs:attribute name="language" type="xs:string" use="optional"/>
+                    </xs:extension>
+                    </xs:complexContent>
+                    </xs:complexType>
+                    </xs:element>
+                    <xs:element ref="indexterm" nillable="true" minOccurs="0" maxOccurs="unbounded">
+                    </xs:element>
+                -->
+
+                <xs:element ref="image" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="imagelist" minOccurs="0" maxOccurs="unbounded" />
+                <!--
+                    <xs:element name="br" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                    <xs:attribute name="keep-with-next" use="optional">
+                    <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                    <xs:enumeration value="false"/>
+                    <xs:enumeration value="true"/>
+                    </xs:restriction>
+                    </xs:simpleType>
+                    </xs:attribute>
+                    </xs:complexType>
+                    </xs:element>
+                -->
+                <xs:element name="u" type="pType" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element name="small_caps" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element name="todo" type="pType" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element name="a" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType mixed="true">
+                <xs:attribute name="href" use="required"></xs:attribute>
+                <xs:attribute name="target" use="optional"></xs:attribute>
+                </xs:complexType>
+                </xs:element>
+                <xs:element name="topic_title" minOccurs="0" maxOccurs="unbounded" >
+                <xs:complexType>
+                <xs:attribute name="id" use="required"></xs:attribute>
+                </xs:complexType>
+                </xs:element>
+                <xs:element name="filename" maxOccurs="unbounded"/>
+                           </xs:choice>
+        </xs:sequence>
+        <xs:attributeGroup ref="languageGroup" />
+        <xs:attribute name="id" type="xs:string" use="optional" />
+        <xs:attribute name="indent" type="xs:int" use="optional" />
+        <xs:attribute name="keep-together" use="optional">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="true" />
+                    <xs:enumeration value="false" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+
+    </xs:complexType>
+
+    <xs:element name="jobname">
+        <xs:complexType mixed="true">
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="jobdoc">
+        <xs:complexType mixed="true">
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="tr">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="td" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="p" minOccurs="0" maxOccurs="unbounded" />
+                        </xs:sequence>
+                        <xs:attribute name="colspan" type="xs:int" use="optional" />
+                        <xs:attribute name="rowspan" type="xs:int" use="optional" />
+                        <xs:attribute name="valign" type="xs:string" use="optional" default="middle" />
+                        <xs:attribute name="style" type="xs:string" use="optional" />
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="company">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string" />
+                <xs:element name="adress" minOccurs="0">
+                    <xs:complexType>
+                        <xs:choice maxOccurs="unbounded">
+                            <xs:element ref="p" maxOccurs="unbounded" />
+                            <xs:element name="street" minOccurs="1" maxOccurs="1"/>
+                            <xs:element name="housenumber" minOccurs="1" maxOccurs="1"/>
+                            <xs:element name="zipcode" minOccurs="1" maxOccurs="1"/>
+                            <xs:element name="city" minOccurs="1" maxOccurs="1"/>
+                            <xs:element name="country" minOccurs="1" maxOccurs="1"/>
+                        </xs:choice>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="phone" type="xs:string" minOccurs="0" />
+                <xs:element name="fax" type="xs:string" minOccurs="0" />
+                <xs:element name="email" type="xs:string" minOccurs="0" />
+                <xs:element name="website" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+                        <xs:attribute ref="xml:base"/>
+
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="topics">
+        <xs:complexType>
+            <xs:choice  maxOccurs="unbounded">
+                <xs:element ref="topic" maxOccurs="unbounded">
+                </xs:element>
+            <xs:any namespace="http://www.w3.org/2001/XInclude" processContents="lax" minOccurs="0" maxOccurs="unbounded" />
+            </xs:choice>
+            <xs:attribute ref="xml:base"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="topicType">
+        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="title" minOccurs="0" maxOccurs="unbounded" />
+            <xs:element ref="description" minOccurs="1"/>
+            <xs:element name="settings" type="settingsType" minOccurs="0" />
+            <xs:element name="xml_elements" minOccurs="0">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="xml_element" maxOccurs="unbounded" />
+                        <xs:any namespace="http://www.w3.org/2001/XInclude" processContents="lax" minOccurs="0" maxOccurs="unbounded" />
+                    </xs:sequence>
+                    <xs:attribute name="order" type="xs:string">
+                    </xs:attribute>
+                </xs:complexType>
+            </xs:element>
+            <xs:choice  minOccurs="0" maxOccurs="unbounded" >
+            <xs:element ref="topic" minOccurs="0" maxOccurs="unbounded" />
+            <xs:any namespace="http://www.w3.org/2001/XInclude" processContents="lax" minOccurs="0" maxOccurs="unbounded" />
+
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute ref="xml:base"/>
+
+    </xs:complexType>
+
+    <xs:complexType name="authorType">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string" />
+            <xs:element name="email" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="xml_element">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>name des Elements ohne spitze Klammern </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="title">
+                    <xs:annotation>
+                        <xs:documentation>Kurzbeschreibung</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element ref="description" />
+                <xs:element name="xml_parent_element" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+                    <xs:annotation>
+                        <xs:documentation>text() node referenziert name von xml_element</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="xml_child_element" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element name="xml_attribute" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="name" type="xs:string" />
+                            <xs:element name="type" type="xs:string" />
+                            <xs:element name="initial" type="xs:string" minOccurs="0" />
+                            <xs:element ref="title" minOccurs="0">
+                                <xs:annotation>
+                                    <xs:documentation>Kurzbeschreibung</xs:documentation>
+                                </xs:annotation>
+                            </xs:element>
+                            <xs:element ref="description" minOccurs="0" />
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="description">
+        <xs:complexType>
+            <xs:choice maxOccurs="unbounded">
+                <xs:element ref="p" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="codeexample" minOccurs="0" />
+                <xs:element ref="indexterm"  maxOccurs="unbounded"/>
+                <xs:element ref="list"  maxOccurs="unbounded"/>
+                <xs:element name="example" minOccurs="0">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="p" maxOccurs="unbounded" />
+                        </xs:sequence>
+                        <xs:attribute name="id" type="xs:string" use="optional" />
+                        <xs:attribute name="title" type="xs:string" use="optional" />
+                    </xs:complexType>
+                </xs:element>
+
+                <xs:element name="command_line" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element ref="title" minOccurs="0" />
+                            <xs:element ref="description" minOccurs="0" />
+                            <xs:element name="command_option" minOccurs="0" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="name" type="xs:string">
+                                            <xs:annotation>
+                                                <xs:documentation>Name der Option, ggf mit '-' davor schreiben</xs:documentation>
+                                            </xs:annotation>
+                                        </xs:element>
+                                        <xs:element name="type" type="xs:string" minOccurs="0">
+                                            <xs:annotation>
+                                                <xs:documentation>Platzhalter für Option, ggf hier ein '=' oder ' ' mit einfügen</xs:documentation>
+                                            </xs:annotation>
+                                        </xs:element>
+                                        <xs:element ref="title" minOccurs="0">
+                                            <xs:annotation>
+                                                <xs:documentation>Kurzbeschreibung</xs:documentation>
+                                            </xs:annotation>
+                                        </xs:element>
+                                        <xs:element ref="description" minOccurs="0" maxOccurs="unbounded" />
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="id" type="xs:string" use="optional" />
+                        <xs:attribute name="program" type="xs:string" use="required" />
+                    </xs:complexType>
+                </xs:element>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="settingsType">
+        <xs:sequence>
+            <xs:element ref="description" minOccurs="0" />
+            <xs:element name="application" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="description" minOccurs="0" />
+                        <xs:element name="section" maxOccurs="unbounded">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element ref="description" minOccurs="0" />
+                                    <xs:element ref="setting" maxOccurs="unbounded" />
+                                </xs:sequence>
+                                <xs:attribute name="name" type="xs:string" use="optional" />
+                                <xs:attribute name="id" type="xs:ID" use="optional" />
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                    <xs:attribute name="name" type="xs:string" use="optional" />
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="setting">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="title" />
+                <xs:element name="author" type="authorType" minOccurs="0" />
+                <xs:element name="created" type="xs:dateTime" minOccurs="0" />
+                <xs:element ref="description" />
+            </xs:sequence>
+            <xs:attribute name="type" type="xs:string" use="required" />
+            <xs:attribute name="name" type="xs:string" use="required" />
+            <xs:attribute name="id" type="xs:string" use="optional" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="topic">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="topicType">
+                    <xs:attribute name="id" type="xs:string" use="optional" />
+                    <xs:attributeGroup ref="languageGroup"></xs:attributeGroup>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="glossary">
+        <xs:complexType>
+            <xs:choice maxOccurs="unbounded">
+                <xs:element ref="glossaryTerm" />
+                <xs:any namespace="http://www.w3.org/2001/XInclude" processContents="lax" minOccurs="0" maxOccurs="unbounded" />
+            </xs:choice>
+            <xs:attributeGroup ref="languageGroup" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="glossaryTerm">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string" />
+                <xs:element ref="description" />
+            </xs:sequence>
+            <xs:attributeGroup ref="languageGroup" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="appendices">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="topic" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+                <xs:element name="author" type="authorType" />
+                <xs:element name="file" type="xs:string" />
+                <xs:element name="envvar" type="xs:string" />
+
+    <xs:element name="command" nillable="true">
+        <xs:annotation>
+            <xs:documentation>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+                    <xs:choice minOccurs="1" maxOccurs="unbounded">
+                    <xs:element ref="envvar" />
+        </xs:choice>
+        </xs:complexType>
+    </xs:element>
+
+
+</xs:schema>

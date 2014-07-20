@@ -1,5 +1,8 @@
 package com.sos.resources;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 /**
  * A list of common resources used in different products/projects.
  *
@@ -28,7 +31,19 @@ public enum SOSProductionResource implements SOSResource {
         return SOSProductionResource.class.getPackage().getName().replaceAll("\\.","/");
     }
 
-    public String getFullName() {
+    @Override public String getFullName() {
         return packageName + resourceName;
     }
+
+    public URL getURL() {
+    	URL objU = null;
+		try {
+			objU = new URL(packageName + resourceName);
+		}
+		catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+        return objU;
+    }
+
 }
