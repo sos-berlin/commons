@@ -24,8 +24,6 @@
         <module>sos-textprocessor</module>
         <module>commons-all</module>
         <module>credentialstore</module>
-        <module>ca7</module>
-                <module>ctm2jobscheduler</module>
         
     </modules>
 
