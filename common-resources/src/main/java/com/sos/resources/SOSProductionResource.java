@@ -12,7 +12,7 @@ public enum SOSProductionResource implements SOSResource {
 
     JOB_CHAIN_EXTENSIONS_XSD(basePackage() + "/xsd","job-chain-extensions-v1.0.xsd"),
 
-    JOB_DOC_XSD(basePackage() + "/xsd","scheduler_job_documentation_v1.1.xsd"),
+    JOB_DOC_XSD(basePackage() + "/xsd","scheduler_job_documentation_v1.2.xsd"),
 
     EVENT_SERVICE_XSD(basePackage() + "/xsd","events2actions.xsd"),
 
