@@ -5,13 +5,14 @@ xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 xmlns:jobdoc="http://www.sos-berlin.com/schema/scheduler_job_documentation_v1.1"
 xmlns:fn="http://www.w3.org/2005/xpath-functions"
 xmlns="http://www.w3.org/1999/xhtml" xmlns:xhtml="http://www.w3.org/1999/xhtml" exclude-result-prefixes="jobdoc xhtml xi fn" >
-	<xsl:output method="xml" omit-xml-declaration="no" version="1.0" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
-	doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" indent="yes" />
+	<xsl:output method="html" omit-xml-declaration="yes" version="1.0" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+	doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" indent="yes" encoding="UTF-8" />
 
 	<!-- Wurzel, hier: Grundgerüst der Seite/ Reihenfolge der anderen Template-Aufrufe -->
 
 	<xsl:variable name="default_lang" select="'en'"/>
-	<xsl:variable name="DisplayStyle" select="'display:none'" />
+<!-- <xsl:variable name="DisplayStyle" select="'display:none'" />    -->	
+	<xsl:variable name="DisplayStyle" select="'display:block'" />   <!--  start with "show all" -->
 	<xsl:variable name="test"></xsl:variable>
 	<xsl:variable name="lang_file" select="'jobdoc.languages.xml'"/>
 	<xsl:variable name="dq" select="'&#34;'" />
@@ -23,6 +24,7 @@ xmlns="http://www.w3.org/1999/xhtml" xmlns:xhtml="http://www.w3.org/1999/xhtml" 
 	<xsl:template match="/jobdoc:description">
 		<html>
 			<head>
+			    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 				<meta http-equiv="Content-Style-Type" content="text/css"/>
 				<meta name="author" content="SOS GmbH"/>
 				<meta name="publisher" content="Software- und Organisations- Service GmbH (SOS), Berlin"/>
@@ -2121,7 +2123,7 @@ xmlns="http://www.w3.org/1999/xhtml" xmlns:xhtml="http://www.w3.org/1999/xhtml" 
 	<xsl:template name="get_css">
 		<style type="text/css"><![CDATA[
 
-      body { background-color:#FFFFFF; margin-left:20px; font-family:verdana,arial,sans-serif;font-size:10pt; }
+      body { background-color:#F9FCFC; margin-left:2px; font-family:verdana,arial,sans-serif;font-size:120%; }
 
       ul    { margin-top: 0px; margin-bottom: 10px; margin-left: 0; padding-left: 1em;
               font-weight:300; }
@@ -2130,19 +2132,21 @@ xmlns="http://www.w3.org/1999/xhtml" xmlns:xhtml="http://www.w3.org/1999/xhtml" 
       h1    { font-family:verdana,arial,sans-serif;font-size:10pt; font-weight:600; }
 
       /* table { width:100%; background-color:#F3F4F4; } dunkler */
-      /* table { width:100%; background-color:#F5FAFA; } heller */
+      /* table { width:100%; background-color:#F5FAFA; } heller 
+              background-color:#F9FCFC;
+              background-color:#DCDCDC;
+      */
 
       table.navi {background-color:#FFFFFF }
 
-      table { font-family:verdana,arial,sans-serif;font-size:10pt;
+      table { font-family:verdana,arial,sans-serif;
               width:100%;
-              background-color:#F9FCFC;
             }
 
       td {
         padding: 2px 2px 2px 2px;
         vertical-align:top; text-align: left;
-        font-family:verdana, arial, sans-serif;font-size:10pt;
+        font-family:verdana, arial, sans-serif;
       }
 
       table.box        { border-width:2px; border-style:solid; border-color:#C0C0C0; }
@@ -2167,31 +2171,31 @@ xmlns="http://www.w3.org/1999/xhtml" xmlns:xhtml="http://www.w3.org/1999/xhtml" 
 
       th.resource1     { background-color:#F3F4F4;
                          text-align: left;
-                         font-family:verdana,arial,sans-serif;font-size:10pt;
+                         font-family:verdana,arial,sans-serif;
                          font-weight:300;
                          width:20%;
                        }
       th.resource2     { background-color:#F3F4F4;
                          text-align: left;
-                         font-family:verdana,arial,sans-serif;font-size:10pt;
+                         font-family:verdana,arial,sans-serif;
                          font-weight:300;
                          width:10%;
                        }
       th.resource3     { background-color:#F3F4F4;
                          text-align: left;
-                         font-family:verdana,arial,sans-serif;font-size:10pt;
+                         font-family:verdana,arial,sans-serif;
                          font-weight:300;
                          width:10%;
                        }
       th.resource2_3   { background-color:#F3F4F4;
                          text-align: left;
-                         font-family:verdana,arial,sans-serif;font-size:10pt;
+                         font-family:verdana,arial,sans-serif;
                          font-weight:300;
                          width:20%;
                        }
       th.resource4     { background-color:#F3F4F4;
                          text-align: left;
-                         font-family:verdana,arial,sans-serif;font-size:10pt;
+                         font-family:verdana,arial,sans-serif;
                          font-weight:300;
                          width:60%;
                        }
@@ -2223,9 +2227,10 @@ xmlns="http://www.w3.org/1999/xhtml" xmlns:xhtml="http://www.w3.org/1999/xhtml" 
                          background-color:#F3F4F4;
                          width:60%;
                        }
+      table.section   {  }
 
+/*
       table.section   { background-color:#DCDCDC; }
-
       td.section1     { color:#009900;
                         background-color:#F3F4F4;
                         width:20%;
@@ -2235,28 +2240,43 @@ xmlns="http://www.w3.org/1999/xhtml" xmlns:xhtml="http://www.w3.org/1999/xhtml" 
                         background-color:#F3F4F4;
                         width:80%;
                       }
-                      
+*/                      
+
+      td.section1     { 
+                        width:20%;
+                      }
+      td.section2     { 
+                        font-weight:300;
+                        width:80%;
+                      }
+
+
       table.description   { background-color:#DCDCDC; margin-top:4px; margin-bottom:4px; }
       table.description th, table.description td { background-color:#F3F4F4; }
 
       .section        {color:#000000; font-weight:600; }                         /* schwarze Schrift, fett */
       .label          {color:#000000; font-weight:300; }
-      .labelSmall     {color:#000000; font-weight:300; font-size:8pt; }          /* schwarze Schrift */
+      .labelSmall     {color:#000000; font-weight:300; font-size:80%; }          /* schwarze Schrift */
+/*      
       .sourceName     {color:#009900; font-weight:300; }                         /* grüne Schrift */
       .sourceNameBold {color:#009900; font-weight:600; }                         /* grüne Schrift */
       .desc           {color:#336699; font-weight:300; }                         /* blaue Schrift */
+*/      
+      .sourceName     {color:#000000; font-weight:300; }  
+      .sourceNameBold {color:#000000; font-weight:600; }  
+      .desc           {color:#000000; font-weight:300; }  
 
-      .code           {color:#000000; font-weight:300; font-family:"Courier New",sans-serif;font-size:10pt; }      /* Schrift für XML-Code */
+      .code           {color:#000000; font-weight:300; font-family:"Courier New",sans-serif;font-size:100%; }      /* Schrift für XML-Code */
       pre.example     {background-color:#F3F4F4; padding-left:10px;}
 
       font.section        {color:#000000; font-weight:600; }                      /* schwarze Schrift, fett */
       font.label          {color:#000000; font-weight:300; }                      /* schwarze Schrift */
-      font.labelSmall     {color:#000000; font-weight:300; font-size:8pt; }       /* schwarze Schrift */
+      font.labelSmall     {color:#000000; font-weight:300; font-size:80%; }       /* schwarze Schrift */
       font.sourceName     {color:#009900; font-weight:300; }                      /* grüne Schrift */
       font.sourceNameBold {color:#009900; font-weight:600; }                      /* grüne Schrift */
       font.desc           {color:#336699; font-weight:300; }                      /* blaue Schrift */
 
-      font.code           {color:#000000; font-weight:300; font-family:"Courier New",sans-serif;font-size:10pt; }      /* Schrift für XML-Code */
+      font.code           {color:#000000; font-weight:300; font-family:"Courier New",sans-serif;font-size:100%; }      /* Schrift für XML-Code */
       .tooltip
        {
         position:absolute;
@@ -2271,7 +2291,7 @@ xmlns="http://www.w3.org/1999/xhtml" xmlns:xhtml="http://www.w3.org/1999/xhtml" 
 
       /*** LINK Formatierungen ***/
 
-      	a													{ font-weight:600; text-decoration:none; font-size:10pt; }
+      	a													{ font-weight:600; text-decoration:none;  }
 
       /* Links Navigation */
 	      a.navi:link								{ color:#FF9900; font-weight:600; font-size:12pt;}

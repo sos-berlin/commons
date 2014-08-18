@@ -3,7 +3,7 @@
     xmlns:jobdoc="http://www.sos-berlin.com/schema/scheduler_job_documentation_v1.1" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns="http://www.w3.org/1999/xhtml"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     exclude-result-prefixes="jobdoc  xhtml xi fn">
-    <xsl:output method="html" omit-xml-declaration="no" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+    <xsl:output method="text/html" omit-xml-declaration="no" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
         indent="yes" encoding="UTF-8" />
 
     <xsl:strip-space elements="p br" />
@@ -14,8 +14,12 @@
    <xsl:variable name="default_lang" select="'en'" />
     <xsl:variable name="lang_en" select="'en'" />
     <xsl:variable name="lang_de" select="'de'" />
+
     <xsl:variable name="NewLine" select="'&#x0A;&#x0D;'" />
+/* 
     <xsl:variable name="DisplayStyle" select="'display:none'" />
+*/    
+    <xsl:variable name="DisplayStyle" select="''" />
     <xsl:variable name="test"></xsl:variable>
 
     <xsl:template match="/jobdoc:description">

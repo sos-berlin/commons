@@ -1,7 +1,10 @@
 package com.sos.resources;
 
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import javax.xml.transform.stream.StreamSource;
 
 /**
  * A list of common resources used in different products/projects.
@@ -13,6 +16,9 @@ public enum SOSProductionResource implements SOSResource {
     JOB_CHAIN_EXTENSIONS_XSD(basePackage() + "/xsd","job-chain-extensions-v1.0.xsd"),
 
     JOB_DOC_XSD(basePackage() + "/xsd","scheduler_job_documentation_v1.2.xsd"),
+    JOB_DOC_XSLT(basePackage() + "/xsl","scheduler_job_documentation_v1.1.xsl"),
+    // ist zwar die höhere Versionsnummer aber leider wurde 1.1 weitergepflegt :-(
+//    JOB_DOC_XSLT(basePackage() + "/xsl","scheduler_job_documentation_v2.0.xsl"),
 
     EVENT_SERVICE_XSD(basePackage() + "/xsd","events2actions.xsd"),
 
@@ -34,6 +40,19 @@ public enum SOSProductionResource implements SOSResource {
     @Override public String getFullName() {
         return packageName + resourceName;
     }
+
+    public  StreamSource getAsStreamSource () {
+    	return new StreamSource(getInputStream4Resource());
+    }
+    
+	public  InputStream getInputStream4Resource () {
+		String pstrKey = "/" + getFullName();  // in jar it works with leading slash only
+		InputStream objSS = this.getClass().getResourceAsStream(pstrKey);
+		if (objSS == null) {
+			throw new RuntimeException("Resource not found: " + pstrKey);
+		}
+		return objSS;
+	}
 
     public URL getURL() {
     	URL objU = null;
