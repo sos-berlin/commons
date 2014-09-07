@@ -43,10 +43,10 @@ package <xsl:value-of select="$package_name" />;
 
 import <xsl:value-of select="$package_name" />.<xsl:value-of select="$WorkerClassName" />;
 import <xsl:value-of select="$package_name" />.<xsl:value-of select="$WorkerClassName" />Options;
+import com.sos.JSHelper.Basics.JSJobUtilitiesClass;
+
 import org.apache.log4j.Logger;
-import com.sos.JSHelper.Basics.JSToolBox;
-import com.sos.localization.*;
-import com.sos.JSHelper.Basics.JSJobUtilities;
+import com.sos.scheduler.messages.JSMsg;
 
 /**
  * \class 		<xsl:value-of select="$class_name" /> - Workerclass for "<xsl:value-of select="$class_title" />"
@@ -63,13 +63,13 @@ import com.sos.JSHelper.Basics.JSJobUtilities;
  * mechanicaly created by <xsl:value-of select="$XSLTFilename" /> from http://www.sos-berlin.com at <xsl:value-of select="$timestamp" /> 
  * \endverbatim
  */
-public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select="$ExtendsClassName" /> implements JSJobUtilities {
-	private final String					conClassName						= "<xsl:value-of select="$class_name" />";  //$NON-NLS-1$
-	private static Logger		logger			= Logger.getLogger(<xsl:value-of select="$class_name" />.class);
-
-	protected <xsl:value-of select="$class_name"/>Options	objOptions			= null;
-    private JSJobUtilities      objJSJobUtilities   = this;
-
+public class <xsl:value-of select="$class_name" /> extends  JSJobUtilitiesClass &lt;<xsl:value-of select="$class_name"/>Options&gt; {
+	@SuppressWarnings("unused")
+	private final String conClassName = this.getClass().getSimpleName();
+	@SuppressWarnings("unused")
+	private static final String conSVNVersion = "$Id$";
+	@SuppressWarnings("unused")
+	private final Logger logger = Logger.getLogger(this.getClass());
 
 	/**
 	 * 
@@ -79,7 +79,7 @@ public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select=
 	 *
 	 */
 	public <xsl:value-of select="$class_name" />() {
-		super();
+		super(new <xsl:value-of select="$class_name" />Options());
 	}
 
 	/**
@@ -95,32 +95,12 @@ public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select=
 	 */
 	public <xsl:value-of select="$class_name" />Options Options() {
 
-		@SuppressWarnings("unused")  //$NON-NLS-1$
-		final String conMethodName = conClassName + "::Options";  //$NON-NLS-1$
+		@SuppressWarnings("unused")  
+		final String conMethodName = conClassName + "::Options";  
 
 		if (objOptions == null) {
 			objOptions = new <xsl:value-of select="$class_name" />Options();
 		}
-		return objOptions;
-	}
-
-	/**
-	 * 
-	 * \brief Options - set the <xsl:value-of select="$class_name" />OptionClass
-	 * 
-	 * \details
-	 * The <xsl:value-of select="$class_name" />OptionClass is used as a Container for all Options (Settings) which are
-	 * needed.
-	 *  
-	 * \return <xsl:value-of select="$class_name" />Options
-	 *
-	 */
-	public <xsl:value-of select="$class_name" />Options Options(final <xsl:value-of select="$class_name" />Options pobjOptions) {
-
-		@SuppressWarnings("unused")  //$NON-NLS-1$
-		final String conMethodName = conClassName + "::Options";  //$NON-NLS-1$
-
-		objOptions = pobjOptions;
 		return objOptions;
 	}
 
@@ -140,103 +120,34 @@ public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select=
 	 * @return
 	 */
 	public <xsl:value-of select="$class_name" /> Execute() throws Exception {
-		final String conMethodName = conClassName + "::Execute";  //$NON-NLS-1$
+		final String conMethodName = conClassName + "::Execute";  
 
-		logger.debug(String.format(Messages.getMsg("JSJ-I-110"), conMethodName ) );
+		logger.debug(String.format(new JSMsg("JSJ-I-110").get(), conMethodName));
 
-		try { 
+		try {
 			Options().CheckMandatory();
-			logger.debug(Options().toString());
+			logger.debug(Options().dirtyString());
 		}
 		catch (Exception e) {
 			e.printStackTrace(System.err);
-			logger.error(String.format(Messages.getMsg("JSJ-I-107"), conMethodName ), e);
-            throw e;			
+			logger.error(String.format(new JSMsg("JSJ-I-107").get(), conMethodName), e);
+			throw e;
 		}
 		finally {
-			logger.debug(String.format(Messages.getMsg("JSJ-I-111"), conMethodName ) );
+			logger.debug(String.format(new JSMsg("JSJ-I-111").get(), conMethodName));
 		}
 		
 		return this;
 	}
 
 	public void init() {
-		@SuppressWarnings("unused")  //$NON-NLS-1$
-		final String conMethodName = conClassName + "::init";  //$NON-NLS-1$
+		@SuppressWarnings("unused")  
+		final String conMethodName = conClassName + "::init";  
 		doInitialize();
 	}
 
 	private void doInitialize() {
 	} // doInitialize
-
-    public String myReplaceAll(String pstrSourceString, String pstrReplaceWhat, String pstrReplaceWith) {
-
-        String newReplacement = pstrReplaceWith.replaceAll("\\$", "\\\\\\$");
-        return pstrSourceString.replaceAll("(?m)" + pstrReplaceWhat, newReplacement);
-    }
-
-    /**
-     * 
-     * \brief replaceSchedulerVars
-     * 
-     * \details
-     * Dummy-Method to make sure, that there is always a valid Instance for the JSJobUtilities.
-     * \return 
-     *
-     * @param isWindows
-     * @param pstrString2Modify
-     * @return
-     */
-    @Override
-    public String replaceSchedulerVars(boolean isWindows, String pstrString2Modify) {
-        logger.debug("replaceSchedulerVars as Dummy-call executed. No Instance of JobUtilites specified.");
-        return pstrString2Modify;
-    }
-
-    /**
-     * 
-     * \brief setJSParam
-     * 
-     * \details
-     * Dummy-Method to make shure, that there is always a valid Instance for the JSJobUtilities.
-     * \return 
-     *
-     * @param pstrKey
-     * @param pstrValue
-     */
-    @Override
-    public void setJSParam(String pstrKey, String pstrValue) {
-
-    }
-
-    @Override
-    public void setJSParam(String pstrKey, StringBuffer pstrValue) {
-
-    }
-
-    /**
-     * 
-     * \brief setJSJobUtilites
-     * 
-     * \details
-     * The JobUtilities are a set of methods used by the SSH-Job or can be used be other, similar, job-
-     * implementations.
-     * 
-     * \return void
-     *
-     * @param pobjJSJobUtilities
-     */
-    public void setJSJobUtilites(JSJobUtilities pobjJSJobUtilities) {
-
-        if (pobjJSJobUtilities == null) {
-            objJSJobUtilities = this;
-        }
-        else {
-            objJSJobUtilities = pobjJSJobUtilities;
-        }
-        logger.debug("objJSJobUtilities = " + objJSJobUtilities.getClass().getName());
-    }
-
 
 
 }  // class <xsl:value-of select="$class_name" />

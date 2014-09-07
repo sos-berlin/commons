@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--  $Id$ -->
 <xsl:stylesheet version="2.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -84,7 +85,6 @@ import com.sos.JSHelper.Options.*;
 import com.sos.JSHelper.Annotations.JSOptionClass;
 import com.sos.JSHelper.Annotations.JSOptionDefinition;
 import com.sos.JSHelper.Exceptions.JSExceptionMandatoryOptionMissing;
-import com.sos.JSHelper.Listener.JSListener; 
 import org.apache.log4j.Logger;
 
 import com.sos.JSHelper.Options.*;
@@ -145,14 +145,7 @@ public class <xsl:value-of select="$class_name" /> extends JSOptionsClass {
 		objParentClass = this.getClass();
 	} // public <xsl:value-of select="$class_name" />
 
-	public <xsl:value-of select="$class_name" />(JSListener pobjListener) {
-		this();
-		this.registerMessageListener(pobjListener);
-	} // public <xsl:value-of select="$class_name" />
-
-		//
-
-	public <xsl:value-of select="$class_name" /> (HashMap &lt;String, String&gt; JSSettings) throws Exception {
+	public <xsl:value-of select="$class_name" /> (HashMap &lt;String, String&gt; JSSettings) {
 		this();
 		this.setAllOptions(JSSettings);
 	} // public <xsl:value-of select="$class_name" /> (HashMap JSSettings)
@@ -194,9 +187,8 @@ public class <xsl:value-of select="$class_name" /> extends JSOptionsClass {
  * \see JSOptionsClass::getItem
  *
  * @param pobjJSSettings
- * @throws Exception
  */
-	public void setAllOptions(HashMap &lt;String, String&gt; pobjJSSettings) throws Exception {
+	public void setAllOptions(HashMap &lt;String, String&gt; pobjJSSettings) {
 		@SuppressWarnings("unused")
 		final String conMethodName = conClassName + "::setAllOptions";
 		flgSetAllOptions = true;
@@ -238,10 +230,9 @@ public class <xsl:value-of select="$class_name" /> extends JSOptionsClass {
  * \return void
  *
  * @param pstrArgs
- * @throws Exception
  */
 	@Override
-	public void CommandLineArgs(String[] pstrArgs) throws Exception {
+	public void CommandLineArgs(String[] pstrArgs)  {
 		super.CommandLineArgs(pstrArgs);
 		this.setAllOptions(super.objSettings);
 	}
@@ -467,6 +458,10 @@ public class <xsl:value-of select="$class_name" /> extends JSOptionsClass {
         return <xsl:value-of select="./@name" />;
     }
 
+    public <xsl:value-of select="$datatype" /><xsl:text> </xsl:text> <xsl:value-of select="./@name" />() {
+        return <xsl:value-of select="./@name" />;
+    }
+
 /**
  * \brief set<xsl:value-of select="./@name" /> : <xsl:value-of select="$title" />
  * 
@@ -476,6 +471,10 @@ public class <xsl:value-of select="$class_name" /> extends JSOptionsClass {
  * @param <xsl:value-of select="concat(./@name, ' : ', $title)" />
  */
     public void set<xsl:value-of select="concat(./@name, ' (', $datatype, ' p_',./@name, ') {')" /> 
+        this.<xsl:value-of select="concat(./@name, ' = p_', ./@name, ';' )" />
+    }
+
+     public void <xsl:value-of select="concat(./@name, ' (', $datatype, ' p_',./@name, ') {')" /> 
         this.<xsl:value-of select="concat(./@name, ' = p_', ./@name, ';' )" />
     }
 

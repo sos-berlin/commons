@@ -52,7 +52,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.sos.JSHelper.Basics.JSToolBox;
-import com.sos.JSHelper.Listener.JSListenerClass;
 
 /**
  * \class 		<xsl:value-of select="$ClassName" /> - <xsl:value-of select="$class_title" />
@@ -103,12 +102,8 @@ public class <xsl:value-of select="$ClassName" /> extends  <xsl:value-of select=
 	@Before
 	public void setUp() throws Exception {
 		objE = new <xsl:value-of select="$WorkerClassName" />();
-		objE.registerMessageListener(this);
 		objOptions = objE.Options();
-		objOptions.registerMessageListener(this);
 		
-		JSListenerClass.bolLogDebugInformation = true;
-		JSListenerClass.intMaxDebugLevel = 9;
 	}
 
 	@After

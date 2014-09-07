@@ -59,11 +59,13 @@ import com.sos.JSHelper.Basics.JSToolBox;
  * mechanicaly created by <xsl:value-of select="$XSLTFilename" /> from http://www.sos-berlin.com at <xsl:value-of select="$timestamp" /> 
  * \endverbatim
  */
-public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select="$ExtendsClassName" /> {
-	private final static String					conClassName						= "<xsl:value-of select="$class_name" />"; //$NON-NLS-1$
-	private static Logger		logger			= Logger.getLogger(<xsl:value-of select="$class_name" />.class);
-
-	protected <xsl:value-of select="$WorkerClassName" />Options	objOptions			= null;
+public class <xsl:value-of select="$class_name" /> extends JSJobUtilitesClass &lt;<xsl:value-of select="$WorkerClassName" />Options &gt;{
+	// see http://stackoverflow.com/questions/8275499/how-to-call-getclass-from-a-static-method-in-java
+	private static Class<?> currentClass = new Object() { }.getClass().getEnclosingClass();
+	private static final String conClassName = currentClass.getSimpleName();
+	private static final Logger logger = Logger.getLogger(currentClass.getEnclosingClass());
+	@SuppressWarnings("unused")
+	private static final String conSVNVersion = "$Id$";
 
 	/**
 	 * 
@@ -78,12 +80,13 @@ public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select=
 	 */
 	public final static void main(String[] pstrArgs) {
 
-		final String conMethodName = conClassName + "::Main"; //$NON-NLS-1$
+		final String conMethodName = conClassName + "::Main"; 
 
-		logger.info("<xsl:value-of select="$WorkerClassName" /> - Main"); //$NON-NLS-1$
+		logger.info("<xsl:value-of select="$WorkerClassName" /> - Main"); 
+		logger.info(conSVNVersion);
 
 		try {
-			<xsl:value-of select="$WorkerClassName" /> objM = new <xsl:value-of select="$WorkerClassName" />();
+			<xsl:value-of select="$WorkerClassName" /> objM = new <xsl:value-of select="$WorkerClassName" />(<xsl:value-of select="$WorkerClassName" />Options);
 			<xsl:value-of select="$WorkerClassName" />Options objO = objM.Options();
 			
 			objO.CommandLineArgs(pstrArgs);
@@ -94,11 +97,11 @@ public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select=
 			System.err.println(conMethodName + ": " + "Error occured ..." + e.getMessage()); 
 			e.printStackTrace(System.err);
 			int intExitCode = 99;
-			logger.error(String.format("JSJ-E-105: %1$s - terminated with exit-code %2$d", conMethodName, intExitCode), e);		
+			logger.error(String.format(new JSMsg("JSJ-E-105").get(), conMethodName, intExitCode), e);		
 			System.exit(intExitCode);
 		}
 		
-		logger.info(String.format("JSJ-I-106: %1$s - ended without errors", conMethodName));		
+		logger.info(String.format(new JSMsg("JSJ-I-106").get(), conMethodName));		
 	}
 
 }  // class <xsl:value-of select="$class_name" />
