@@ -16,7 +16,7 @@ public enum SOSProductionResource implements SOSResource {
     JOB_CHAIN_EXTENSIONS_XSD(basePackage() + "/xsd","job-chain-extensions-v1.0.xsd"),
 
     JOB_DOC_XSD(basePackage() + "/xsd","scheduler_job_documentation_v1.2.xsd"),
-    JOB_DOC_XSLT(basePackage() + "/xsl","scheduler_job_documentation_v1.1.xsl"),
+    JOB_DOC_XSLT(basePackage() + "/xsl/jobdoc","scheduler_job_documentation_v1.1.xsl"),
     // ist zwar die höhere Versionsnummer aber leider wurde 1.1 weitergepflegt :-(
 //    JOB_DOC_XSLT(basePackage() + "/xsl","scheduler_job_documentation_v2.0.xsl"),
 
