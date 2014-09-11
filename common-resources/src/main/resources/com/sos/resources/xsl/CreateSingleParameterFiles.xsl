@@ -12,7 +12,7 @@
 		<xsl:for-each select="./jobdoc:param">
 			<xsl:if test="./@name != '' and ./@name != '*'">
 				<xsl:variable name="DocumentName">
-					<xsl:value-of select="concat('file:///c:/temp/param_', ./@name, '.xml')"></xsl:value-of>
+					<xsl:value-of select="concat('file:///c:/temp/param_', ./@name, '.jobdoc')"></xsl:value-of>
 				</xsl:variable>
 				<xsl:message>
 					<xsl:value-of select="concat('DocFileName is ', $DocumentName)"></xsl:value-of>
@@ -39,15 +39,13 @@
 				<xsl:if test="./@name != '' and ./@name != '*'">
 					<xsl:element name="xi:include" namespace="http://www.w3.org/2001/XInclude">
 						<xsl:attribute name="href"
-							select="concat('file:///c:/temp/param_', ./@name, '.xml')" />
+							select="concat('file:///c:/temp/param_', ./@name, '.jobdoc')" />
 						<xsl:attribute name="parse" select="'xml'" />
 					</xsl:element>
 				</xsl:if>
 			</xsl:for-each>
 		</xsl:result-document>
-
 	</xsl:template>
-
 
 	<xsl:template match="text()">
 		<!--
