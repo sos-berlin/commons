@@ -61,7 +61,7 @@ import com.sos.JSHelper.Basics.JSToolBox;
  */
 public class <xsl:value-of select="$class_name" /> extends JSJobUtilitesClass &lt;<xsl:value-of select="$WorkerClassName" />Options &gt;{
 	// see http://stackoverflow.com/questions/8275499/how-to-call-getclass-from-a-static-method-in-java
-	private static Class<?> currentClass = new Object() { }.getClass().getEnclosingClass();
+	private static Class&lt;?&gt; currentClass = new Object() { }.getClass().getEnclosingClass();
 	private static final String conClassName = currentClass.getSimpleName();
 	private static final Logger logger = Logger.getLogger(currentClass.getEnclosingClass());
 	@SuppressWarnings("unused")
@@ -88,8 +88,19 @@ public class <xsl:value-of select="$class_name" /> extends JSJobUtilitesClass &l
 		try {
 			<xsl:value-of select="$WorkerClassName" /> objM = new <xsl:value-of select="$WorkerClassName" />(<xsl:value-of select="$WorkerClassName" />Options);
 			<xsl:value-of select="$WorkerClassName" />Options objO = objM.Options();
-			
+
+			objO.AllowEmptyParameterList.setFalse();
+			objO.CheckNotProcessedOptions.setTrue();
+						
 			objO.CommandLineArgs(pstrArgs);
+			
+			if (objO.CheckNotProcessedOptions.isTrue()) {
+				if (objO.CheckNotProcessedOptions() == true) {
+				}
+				else {
+					throw new JobSchedulerException("Unsupported or wrong Options found.");
+				}
+			}
 			objM.Execute();
 		}
 		
