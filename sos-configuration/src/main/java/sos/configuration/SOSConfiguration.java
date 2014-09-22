@@ -151,7 +151,6 @@ public class SOSConfiguration {
 
 	public SOSConfiguration(final String settingsFile_, final String settingsProfilename_, final SOSLogger sosLogger_) throws Exception {
 		try {
-
 			sosLogger = sosLogger_;
 			settingsFile = settingsFile_;
 			settingsProfilename = settingsProfilename_;
