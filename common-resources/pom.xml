@@ -19,7 +19,64 @@
     <properties>
         <setup.do.not.deploy>false</setup.do.not.deploy>
         <setup.target.name>com.sos.common-resources</setup.target.name>
+        <joe.templates.src.dir>${project.build.directory}/classes/com/sos/resources/xsl</joe.templates.src.dir>
+        <workspace.dir>${project.build.directory}/workspace</workspace.dir>
+        <joe.templates.workspace.dir>${workspace.dir}/JOETemplates/java</joe.templates.workspace.dir>
     </properties>
+    
+    <build>
+        <plugins>
+        		<!-- copy some xsl files for setup into JOETemplates/java -->
+        		<plugin>
+							<artifactId>maven-resources-plugin</artifactId>
+								<executions>
+									<execution>
+										<id>copy-joe-templates-resources</id>
+										<phase>prepare-package</phase>
+										<goals>
+											<goal>copy-resources</goal>
+										</goals>
+										<configuration>
+										<outputDirectory>${joe.templates.workspace.dir}</outputDirectory>
+										<resources>
+											<resource>
+												<directory>${joe.templates.src.dir}/</directory>
+												<includes>
+													<include>*.xsl</include>
+												</includes>
+												<filtering>false</filtering>
+											</resource>
+										</resources>
+									</configuration>
+								</execution>
+							</executions>
+						</plugin>
+						
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+								<artifactId>maven-assembly-plugin</artifactId>
+									<executions>
+										<execution>
+											<id>package-setup</id>
+											<phase>package</phase>
+											<goals>
+												<goal>single</goal>
+											</goals>
+											<configuration>
+											<descriptors>
+												<descriptor>src/main/assembly/setup.xml</descriptor>
+											</descriptors>
+											<archive>
+												<manifest>
+													<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+												</manifest>
+											</archive>
+										</configuration>
+									</execution>
+								</executions>
+						</plugin>
+        </plugins>
+    </build>
 
     <dependencies>
 
