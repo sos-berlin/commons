@@ -1,5 +1,3 @@
-
-
 package com.sos.CredentialStore.Options;
 
 import java.util.HashMap;
@@ -27,15 +25,18 @@ import com.sos.JSHelper.Listener.JSListener;
  * mechanicaly created by JobDocu2OptionsClass.xslt from http://www.sos-berlin.com at 20140304141232
  * \endverbatim
  */
-@JSOptionClass(name = "SOSCredentialStoreOptions", description = "SOSCredentialStore") public class SOSCredentialStoreOptions extends
-		SOSCredentialStoreOptionsSuperClass {
+@JSOptionClass(name = "SOSCredentialStoreOptions", description = "SOSCredentialStore")
+public class SOSCredentialStoreOptions extends SOSCredentialStoreOptionsSuperClass {
 	/**
 	 *
 	 */
-	private static final long								serialVersionUID	= 1L;
-	@SuppressWarnings("unused") private final String		conClassName		= this.getClass().getSimpleName();
-	@SuppressWarnings("unused") private static final String	conSVNVersion		= "$Id$";
-	@SuppressWarnings("unused") private final Logger		logger				= Logger.getLogger(this.getClass());
+	private static final long	serialVersionUID	= 1L;
+	@SuppressWarnings("unused")
+	private final String		conClassName		= this.getClass().getSimpleName();
+	@SuppressWarnings("unused")
+	private static final String	conSVNVersion		= "$Id$";
+	@SuppressWarnings("unused")
+	private final Logger		logger				= Logger.getLogger(this.getClass());
 
 	/**
 	* constructors
@@ -44,27 +45,34 @@ import com.sos.JSHelper.Listener.JSListener;
 		logger.trace("constructor SOSCredentialStoreOptions");
 	} // public SOSCredentialStoreOptions
 
+	public SOSCredentialStoreOptions(final String pstrAlternatePrefix) {
+		logger.trace("constructor SOSCredentialStoreOptions");
+		strAlternativePrefix = pstrAlternatePrefix;
+	} // public SOSCredentialStoreOptions
+
 	@Deprecated
 	public SOSCredentialStoreOptions(final JSListener pobjListener) {
 		this();
 		this.registerMessageListener(pobjListener);
 	} // public SOSCredentialStoreOptions
 
-		//
+	//
 
-	public SOSCredentialStoreOptions (final HashMap <String, String> JSSettings) throws Exception {
+	public SOSCredentialStoreOptions(final HashMap<String, String> JSSettings) throws Exception {
 		super(JSSettings);
 	} // public SOSCredentialStoreOptions (HashMap JSSettings)
-/**
- * \brief CheckMandatory - prüft alle Muss-Optionen auf Werte
- *
- * \details
- * @throws Exception
- *
- * @throws Exception
- * - wird ausgelöst, wenn eine mandatory-Option keinen Wert hat
- */
-		@Override  // SOSCredentialStoreOptionsSuperClass
+
+	/**
+	 * \brief CheckMandatory - prüft alle Muss-Optionen auf Werte
+	 *
+	 * \details
+	 * @throws Exception
+	 *
+	 * @throws Exception
+	 * - wird ausgelöst, wenn eine mandatory-Option keinen Wert hat
+	 */
+	@Override
+	// SOSCredentialStoreOptionsSuperClass
 	public void CheckMandatory() {
 		try {
 			super.CheckMandatory();
@@ -74,4 +82,3 @@ import com.sos.JSHelper.Listener.JSListener;
 		}
 	} // public void CheckMandatory ()
 }
-
