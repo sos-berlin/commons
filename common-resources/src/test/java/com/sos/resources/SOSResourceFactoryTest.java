@@ -1,6 +1,7 @@
 package com.sos.resources;
 
 import com.google.common.io.Files;
+
 import org.junit.Test;
 
 import java.io.File;
@@ -24,6 +25,8 @@ public class SOSResourceFactoryTest {
     public void testNamedResource() {
         File tempFile = SOSResourceFactory.asFile(SOSProductionResource.SCHEDULER_XSD);
         File tempDir = ResourceHelper.getInstance().getWorkingDirectory();
+        String s = this.getClass().getClassLoader().getResource(SOSProductionResource.SCHEDULER_XSD.getFullName()).toString();
+
         assertTrue(tempFile.exists());
         SOSResourceFactory.removeTemporaryFiles();
         assertFalse(tempFile.exists());
