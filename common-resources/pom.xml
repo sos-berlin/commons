@@ -17,8 +17,6 @@
 
     <!-- Bewirkt die Kopie in lib_release_unversioned_jar und lib_release_jar -->
     <properties>
-        <setup.do.not.deploy>false</setup.do.not.deploy>
-        <setup.target.name>com.sos.common-resources</setup.target.name>
         <joe.templates.src.dir>${project.build.directory}/classes/com/sos/resources/xsl</joe.templates.src.dir>
         <workspace.dir>${project.build.directory}/workspace</workspace.dir>
         <joe.templates.workspace.dir>${workspace.dir}/JOETemplates/java</joe.templates.workspace.dir>
