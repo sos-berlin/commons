@@ -96,7 +96,6 @@
         <dependency>
             <groupId>com.sos.scheduler.enginedoc</groupId>
             <artifactId>enginedoc-common</artifactId>
-            <version>${sos.engine.version}</version>
             <scope>test</scope>
         </dependency>
 
