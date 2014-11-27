@@ -23,7 +23,6 @@
         <module>sos-marshalling</module>
         <module>sos-textprocessor</module>
         <module>sos-trilead-ssh2</module>
-        <module>commons-all</module>
         <module>credentialstore</module>
         
     </modules>
