@@ -14,6 +14,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -86,9 +87,15 @@ public abstract class SOSConnection {
 	protected boolean				lowerCase								= true;
 
 	/** flag if a resultset is expected by exec **/
-	protected boolean				currentStatementsExecReturnsResultset	= false;
 	private boolean					execReturnsResultSet					= false;
-
+	/** 
+	 * Usage:
+	 * 1) exec return result set
+	 * exec test_prod param1 param1 --EXECRETURNSRESULTSET;
+	 * 2) exec without resultset
+	 * exec test_prod param1 param1;
+	 **/
+	private final String            EXEC_COMMENT_RETURN_RESULTSET = "EXECRETURNSRESULTSET";
 	/** JDBC Driver */
 	protected String				driver;
 
@@ -141,6 +148,9 @@ public abstract class SOSConnection {
 	private int						minorVersion							= 0;
 	private String					productVersion							= "";
 
+	private boolean useExecuteBatch = false;
+	private int batchSize			= 100;
+	
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -2641,7 +2651,7 @@ public abstract class SOSConnection {
 	 * @throws Exception
 	 */
 
-	public ArrayList getStatements(String contentOfClobAttribute) throws Exception {
+	public ArrayList<String> getStatements(String contentOfClobAttribute) throws Exception {
 
 		if (contentOfClobAttribute == null || contentOfClobAttribute.length() == 0) {
 			throw new Exception(SOSClassUtil.getMethodName() + ": contentOfClobAttribute is empty");
@@ -2654,7 +2664,7 @@ public abstract class SOSConnection {
 		//contentOfClobAttribute = contentOfClobAttribute.replaceAll(
 		//        "[/][*](?s).*?[*][/]", "");
 
-		ArrayList statements = new ArrayList();
+		ArrayList<String> statements = new ArrayList<String>();
 
 		StringBuffer splitSB = new StringBuffer();
 		StringBuffer endSB = new StringBuffer();
@@ -2664,10 +2674,6 @@ public abstract class SOSConnection {
 		// endSB wird nicht immer bei PL/SQL Syntax hinzugefügt
 		boolean alwaysAddEndSB = this.prepareGetStatements(contentSB, splitSB, endSB);
 
-		if (contentSB.toString().toLowerCase().contains("execreturnsresultset")) {
-			currentStatementsExecReturnsResultset = true;
-			logger.debug6(SOSClassUtil.getMethodName() + " : found EXECRETURNSRESULTSET");
-		}
 		contentOfClobAttribute = this.stripOuterComments(contentSB.toString());
 
 		String[] commands = contentOfClobAttribute.replaceAll("\\;[ \\t]", ";").split(splitSB.toString());
@@ -2984,6 +2990,119 @@ public abstract class SOSConnection {
 
 		flgColumnNamesCaseSensitivity = pflgColumnNamesCaseSensitivity;
 	}
+	
+	/**
+	 * 
+	 * @param statements
+	 * @throws Exception
+	 */
+	public void executeBatch(ArrayList<String> statements) throws Exception{
+		final String methodName = SOSClassUtil.getMethodName();
+		
+		Statement st = this.connection.createStatement();
+		//st.clearBatch();
+		try{
+			long count = 0;
+			long countAddBatches = 0;
+			for (int i = 0; i < statements.size(); i++) {
+				String sql = normalizeStatement(statements.get(i).toString().trim());
+				String sqlToLower = sql.toLowerCase();
+				
+				if(sqlToLower.equals("commit")){
+					if(countAddBatches > 0){
+						logger.debug3(String.format("%s: call executeBatch - %s batches",methodName,countAddBatches));
+						st.executeBatch();
+						countAddBatches = 0;
+					}
+					
+					logger.debug3(String.format("%s: call connection commit",
+							methodName));
+					this.connection.commit();
+				}
+				else if(sqlToLower.equals("rollback")){
+					if(countAddBatches > 0){
+						logger.debug3(String.format("%s: call executeBatch - %s batches",methodName,countAddBatches));
+						st.executeBatch();
+						countAddBatches = 0;
+					}
+					
+					// SQL Server 2005 compatibility issue: bei connection.rollback()
+					// wird der Transaktionszähler falsch erhöht, daher explizites
+					// "rollback"
+					this.executeUpdate("ROLLBACK");
+				}
+				else if (sqlToLower.startsWith("select") || 
+					(sqlToLower.startsWith("exec") && (this.execReturnsResultSet || sqlToLower.contains(EXEC_COMMENT_RETURN_RESULTSET.toLowerCase())))) {
+						
+					if(countAddBatches > 0){
+						logger.debug3(String.format("%s: call executeBatch - %s batches",methodName,countAddBatches));
+						st.executeBatch();
+						countAddBatches = 0;
+					}
+					
+					try{
+						logger.debug3(String.format("%s: call executeQuery - %s",
+								methodName,
+								sql));
+						
+						this.statement = st;
+						if(this.resultSet != null){
+							this.resultSet.close();
+						}
+						this.resultSet = st.executeQuery(sql);
+					}
+					catch(Exception ex){
+						try{if(this.resultSet != null){	this.resultSet.close();}}catch(Exception e){}
+						try{if(this.statement != null){	this.statement.close();}}catch(Exception e){}
+						throw ex;
+					}
+				}
+				else{	
+					logger.debug6(String.format("%s: call addBatch - %s",
+							methodName,
+							sql));
+					
+					st.addBatch(sql);
+					countAddBatches++;
+					if(++count % this.batchSize == 0) {
+						logger.debug3(String.format("%s: call executeBatch - %s batches",methodName,countAddBatches));
+						st.executeBatch();
+						countAddBatches = 0;
+					}
+				}
+			}
+			if(countAddBatches > 0){
+				logger.debug3(String.format("%s: call executeBatch - %s batches",methodName,countAddBatches));
+				st.executeBatch();
+			}
+		}
+		catch(Exception ex){
+			if(!this.getAutoCommit()){
+				if(this instanceof SOSPgSQLConnection){
+					//http://stackoverflow.com/questions/10399727/psqlexception-current-transaction-is-aborted-commands-ignored-until-end-of-tra
+					//But that wasn't enough, THEN you used that same connection, using the SAME TRANSACTION to run another query. The exception gets thrown on the second, correctly formed query because you are using a broken transaction to do additional work. Postgresql by default stops you from doing this.
+					try{this.executeUpdate("ROLLBACK");}catch(Exception e){}
+				}
+			}
+			if(ex instanceof SQLException){
+				SQLException sex = ((SQLException)ex);
+				if(sex.getNextException() == null){
+					throw ex;
+				}
+				else{
+					throw sex.getNextException();
+				}
+			}
+			else{
+				throw ex;
+			}
+		}
+		finally{
+			try{st.close();}catch(Exception ex){}
+		}
+		
+
+	}
 
 	/**
 	 * extract statements from a string and execute these
@@ -2993,15 +3112,28 @@ public abstract class SOSConnection {
 	 * @throws Exception
 	 */
 	public void executeStatements(final String contentOfClobAttribute) throws Exception {
-		currentStatementsExecReturnsResultset = this.isExecReturnsResultSet();
-		ArrayList statements = null;
+		final String methodName = SOSClassUtil.getMethodName();
+		
+		ArrayList<String> statements = null;
 
-		logger.debug6(SOSClassUtil.getMethodName());
-
-		/*
-		logger.debug6(SOSClassUtil.getMethodName()
-		        + " : contentOfClobAttribute = " + contentOfClobAttribute);
-		*/
+		boolean executeBatch = this.getUseExecuteBatch();
+		boolean supportsBatchUpdates = false;
+		try{
+			supportsBatchUpdates = this.connection.getMetaData().supportsBatchUpdates();
+		}
+		catch(Exception ex){
+			logger.warn(String.format("%s: %s",methodName,ex.getMessage()));
+		}
+		if(executeBatch){
+			executeBatch = supportsBatchUpdates;
+		}
+		
+		logger.info(String.format("%s: executeBatch = %s (supportsBatchUpdates = %s, useExecuteBatch = %s, batchSize = %s)",
+				methodName,
+				executeBatch,
+				supportsBatchUpdates,
+				this.getUseExecuteBatch(),
+				this.batchSize));
 		try {
 			statements = this.getStatements(contentOfClobAttribute);
 
@@ -3011,22 +3143,27 @@ public abstract class SOSConnection {
 				}
 			}
 			else {
-				boolean hasOpenResultSet = false;
+				if(executeBatch){
+					this.executeBatch(statements);
+				}
+				else{
+					boolean hasOpenResultSet = false;
+					for (int i = 0; i < statements.size(); i++) {
 
-				for (int i = 0; i < statements.size(); i++) {
-
-					String statement = statements.get(i).toString().trim();
-
-					if (statement.toLowerCase().startsWith("select") || statement.toLowerCase().startsWith("exec") && currentStatementsExecReturnsResultset) {
-						if (hasOpenResultSet) {
-							this.closeQuery();
-							hasOpenResultSet = false;
+						String statement = statements.get(i).toString().trim();
+						String sqlToLower = statement.toLowerCase();
+						if (sqlToLower.startsWith("select") || 
+								(sqlToLower.startsWith("exec") && (this.execReturnsResultSet || sqlToLower.contains(EXEC_COMMENT_RETURN_RESULTSET.toLowerCase())))) {
+							if (hasOpenResultSet) {
+								this.closeQuery();
+								hasOpenResultSet = false;
+							}
+							this.executeQuery(statement);
+							hasOpenResultSet = true;
 						}
-						this.executeQuery(statement);
-						hasOpenResultSet = true;
-					}
-					else {
-						this.executeUpdate(statement);
+						else {
+							this.executeUpdate(statement);
+						}
 					}
 				}
 			}
@@ -3035,9 +3172,7 @@ public abstract class SOSConnection {
 		catch (Exception e) {
 			throw new Exception(SOSClassUtil.getMethodName() + " : " + e, e);
 		}
-		finally {
-			currentStatementsExecReturnsResultset = this.isExecReturnsResultSet();
-		}
+		
 	}
 
 	/**
@@ -3190,6 +3325,31 @@ public abstract class SOSConnection {
 		this.compatibility = compatibility;
 	}
 
+	/**
+	 * using jdbc executeBatch methods 
+	 * 
+	 * @param executeBatch
+	 */
+	public void setUseExecuteBatch(final boolean executeBatch){
+		this.useExecuteBatch = executeBatch;
+	}
+	
+	public boolean getUseExecuteBatch(){
+		return this.useExecuteBatch;
+	}
+	/**
+	 * by using of jdbc executeBatch methods
+	 * do executeBatch after the size of the added batches is reached 
+	 * @param size
+	 */
+	public void setBatchSize(final int size){
+		this.batchSize = size;
+	}
+	
+	public int getBatchSize(){
+		return this.batchSize;
+	}
+	
 	public static int getCompatibility(final String compatibility) {
 		if (compatibility.equalsIgnoreCase("normal"))
 			return SOSConnectionVersionLimiter.CHECK_NORMAL;

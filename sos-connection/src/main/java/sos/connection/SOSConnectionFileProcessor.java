@@ -3,10 +3,14 @@ package sos.connection;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 import java.util.Vector;
 
 import sos.connection.SOSConnection;
+import sos.util.SOSClassUtil;
 import sos.util.SOSFile;
 import sos.util.SOSLogger;
 import sos.util.SOSStandardLogger;
@@ -25,7 +29,14 @@ public class SOSConnectionFileProcessor {
     
     boolean commitAtEnd = false;
     
-
+    private ArrayList<String> successFiles;
+    private LinkedHashMap<String,String> errorFiles;
+    
+    /**
+     * 
+     * @param sosConnection
+     * @throws Exception
+     */
 	public SOSConnectionFileProcessor(SOSConnection sosConnection)
 			throws Exception {
 
@@ -33,6 +44,12 @@ public class SOSConnectionFileProcessor {
 		this.init();
 	}
 
+	/**
+	 * 
+	 * @param sosConnection
+	 * @param sosLogger
+	 * @throws Exception
+	 */
 	public SOSConnectionFileProcessor(SOSConnection sosConnection,
 			SOSLogger sosLogger) throws Exception {
 
@@ -41,12 +58,23 @@ public class SOSConnectionFileProcessor {
 		this.init();
 	}
 
+	/**
+	 * 
+	 * @param settingsFilename
+	 * @throws Exception
+	 */
 	public SOSConnectionFileProcessor(String settingsFilename) throws Exception {
 
 		this.setSettingsFilename(settingsFilename);
 		this.init();
 	}
 
+	/**
+	 * 
+	 * @param settingsFilename
+	 * @param sosLogger
+	 * @throws Exception
+	 */
 	public SOSConnectionFileProcessor(String settingsFilename,
 			SOSLogger sosLogger) throws Exception {
 
@@ -55,6 +83,10 @@ public class SOSConnectionFileProcessor {
 		this.init();
 	}
 
+	/**
+	 * 
+	 * @throws Exception
+	 */
 	public void init() throws Exception {
 
 		try {
@@ -80,67 +112,141 @@ public class SOSConnectionFileProcessor {
 		}
 	}
 
+	/**
+	 * 
+	 * @param inputFile
+	 * @param fileSpec
+	 * @throws Exception
+	 */
 	public void process(File inputFile, String fileSpec) throws Exception {
 
 		this.setFileSpec(fileSpec);
 		this.process(inputFile);
 	}
 
-	
+	private void initCounters(){
+		this.errorFiles = new LinkedHashMap<String,String>();
+		this.successFiles = new ArrayList<String>();
+	}
+	/**
+	 * 
+	 * @param inputFile
+	 * @throws Exception
+	 */
 	public void process(File inputFile) throws Exception {
-
+		final String methodName = SOSClassUtil.getMethodName();
+		
 		boolean isEnd = false;
+		
 		try {
 			if (inputFile.isDirectory()) {
-				
+				if (this.getLogger() != null){
+					this.getLogger().info(String.format("%s: process directory %s, fileSpec = %s",
+							methodName,
+							inputFile.getAbsolutePath(),
+							this.getFileSpec()));
+				}
 				this.hasDirectory = true;
+				this.initCounters();
 				
-				Vector filelist = SOSFile.getFilelist(inputFile
+				Vector<File> filelist = SOSFile.getFilelist(inputFile
 						.getAbsolutePath(), this.getFileSpec(), 0);
 				
-				Iterator iterator = filelist.iterator();
-				
+				Iterator<File> iterator = filelist.iterator();
 				while (iterator.hasNext()) {
-					this.process((File) iterator.next());
+					this.process(iterator.next());
 				}
-				
 				isEnd = true;
 				
+				if (this.getLogger() != null){
+					this.getLogger().info(String.format("%s: directory proccessed (total = %s, success = %s, error = %s) %s",
+							methodName,
+							filelist.size(),
+							this.successFiles.size(),
+							this.errorFiles.size(),
+							inputFile.getAbsolutePath()));
+					
+					if(this.successFiles.size() > 0){
+						this.getLogger().info(String.format("%s:   success:",methodName));
+						for(int i=0;i<this.successFiles.size();i++){
+							this.getLogger().info(String.format("%s:     %s) %s",
+									methodName,
+									(i+1),
+									this.successFiles.get(i)));
+						}
+					}
+					if(this.errorFiles.size() > 0){
+						this.getLogger().info(String.format("%s:   error:",methodName));
+						int i = 1;
+						for(Entry<String,String> entry : this.errorFiles.entrySet()){
+							this.getLogger().info(String.format("%s:     %s) %s: %s",
+									methodName,
+									i,
+									entry.getKey(),
+									entry.getValue()));
+							i++;
+						}
+					}
+				}
 			} 
 			else {
-				BufferedReader br = new BufferedReader(new FileReader(inputFile
-						.getAbsolutePath()));
-				String nextLine = "";
+				FileReader fr = null;
+				BufferedReader br = null;
 				StringBuffer sb = new StringBuffer();
-				while ((nextLine = br.readLine()) != null) {
-					sb.append(nextLine);
-					sb.append("\n");
-				}
-
-				this.getConnection().executeStatements(sb.toString());
-
 				
+				if (this.getLogger() != null){
+					this.getLogger().info(String.format("%s: process file %s",
+							methodName,
+							inputFile.getAbsolutePath()));
+				}
+				
+				try{
+					fr = new FileReader(inputFile.getAbsolutePath());
+					br = new BufferedReader(fr);
+					String nextLine = "";
+					while ((nextLine = br.readLine()) != null) {
+						sb.append(nextLine);
+						sb.append("\n");
+					}
+				}
+				catch(Exception ex){
+					throw ex;
+				}
+				finally{
+					if(br != null){
+						try{ br.close();}catch(Exception ex){}
+					}
+					if(fr != null){
+						try{ fr.close();}catch(Exception ex){}
+					}
+				}
+				
+				this.getConnection().executeStatements(sb.toString());
 				if(!this.hasDirectory){
 					isEnd = true;
 				}
 				
-				if (this.getLogger() != null)
-					this.getLogger().info(
-							"file successfully processed: " + inputFile);
+				this.successFiles.add(inputFile.getAbsolutePath());
+				if (this.getLogger() != null){
+					this.getLogger().info(String.format("%s: file successfully processed %s",
+							methodName,
+							inputFile.getAbsolutePath()));
+				}
 			}
 		} catch (Exception e) {
-			if (this.getLogger() != null)
-				this.getLogger().warn(
-						"an error occurred processing file ["
-								+ inputFile.getAbsolutePath() + "]: "
-								+ e.getMessage());
+			this.errorFiles.put(inputFile.getAbsolutePath(), e.getMessage());
+			if (this.getLogger() != null){
+				this.getLogger().warn(String.format("%s: an error occurred processing file [%s]: %s",
+						methodName,		
+						inputFile.getAbsolutePath(),
+						e.getMessage()));
+			}
 		} finally {
 			// SQL Server 2005 compatibility issue: bei connection.rollback()
 			// wird der Transaktionszähler falsch erhöht, daher explizites
 			// "rollback"
 			// try { if (this.getConnection() != null)
 			// this.getConnection().rollback(); } catch (Exception ex) {}
-			
 			try {
 				if (this.getConnection() != null && isEnd) {
                     if (this.isCommitAtEnd()) {
@@ -155,6 +261,21 @@ public class SOSConnectionFileProcessor {
 		}
 	}
 
+	/**
+	 * 
+	 * @param param
+	 * @return
+	 */
+	private String getParamValue(String param){
+		String[] arr = param.split("=");
+		if(arr.length > 1){
+			return arr[1].trim();
+		}
+		else{
+			return param;
+		}
+	}
+	
 	/**
 	 * @return Returns the connection.
 	 */
@@ -230,33 +351,63 @@ public class SOSConnectionFileProcessor {
     }
 
     
-    /** process directory or files */
+    /** 
+     * 1. configuration-file
+     * 2. path
+     * 3. file-specification
+     * 4. log-level 
+     * weitere [-commit-at-end|-auto-commit|-execute-batch|batch-size=xxx]
+     * 
+     * process directory or files */
 	public static void main(String args[]) throws Exception {
-
-		int logLevel = 0;
-
 		if (args.length < 2) {
-			System.out
-					.println("Usage: SOSConnectionFileProcessor configuration-file  path  [file-specification]  [log-level] [-commit-at-end|-auto-commit] ");
+			System.out.println("Usage: SOSConnectionFileProcessor configuration-file  path  [file-specification]  [log-level] [-commit-at-end|-auto-commit|-execute-batch|batch-size=xxx]");
+			return;
 		}
 
-		if (args.length > 3)
+		String settingsFile = args[0];
+		int logLevel = 0;
+		if (args.length > 3){
 			logLevel = Integer.parseInt(args[3]);
-
+		}
+		
 		SOSConnectionFileProcessor processor = new SOSConnectionFileProcessor(
-				args[0], (SOSLogger) new SOSStandardLogger(logLevel));
+				settingsFile, (SOSLogger) new SOSStandardLogger(logLevel));
 
-		File inputFile = new File(args[1]);
-
-		if (args.length > 2)
-			processor.setFileSpec(args[2]);
-
-        if (args.length > 4) {
-            if (args[4].equalsIgnoreCase("-commit-at-end")) processor.setCommitAtEnd(true);
-            if (args[4].equalsIgnoreCase("-auto-commit")) processor.getConnection().setAutoCommit(true);
-        }
-        
+		File inputFile = null;
+		for(int i=0;i<args.length;i++){
+			String param = args[i].trim();
+			System.out.println(String.format("  %s) %s",(i+1),param));
+			
+			if(i == 1){
+				inputFile = new File(param);
+			}
+			else if(i == 2){
+				processor.setFileSpec(param);
+			}
+			else if(i > 3){
+				if (param.equalsIgnoreCase("-commit-at-end")){ 
+					processor.setCommitAtEnd(true);
+				}
+				else if (param.equalsIgnoreCase("-auto-commit")){ 
+					processor.getConnection().setAutoCommit(true);
+				}
+				else if (param.equalsIgnoreCase("-execute-batch")){ 
+					processor.getConnection().setUseExecuteBatch(true);
+				}
+				else if (param.startsWith("batch-size")){ 
+					int batchSize = processor.getConnection().getBatchSize();
+					try{
+						batchSize = Integer.parseInt(processor.getParamValue(param));
+					}
+					catch(Exception ex){
+						System.out.println(String.format("   error: invalid value of the param %s",param));
+						System.out.println(String.format("          batch-size setted to default value = %s",batchSize));
+					}
+					processor.getConnection().setBatchSize(batchSize);
+				}
+			}
+		}
 		processor.process(inputFile);
 	}
-
 }
