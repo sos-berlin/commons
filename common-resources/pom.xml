@@ -93,7 +93,7 @@
 
         <!-- to make the common resources from JobScheduler engine available -->
         <dependency>
-            <groupId>com.sos.scheduler.enginedoc</groupId>
+            <groupId>com.sos-berlin.jobscheduler.enginedoc</groupId>
             <artifactId>enginedoc-common</artifactId>
             <scope>test</scope>
         </dependency>
