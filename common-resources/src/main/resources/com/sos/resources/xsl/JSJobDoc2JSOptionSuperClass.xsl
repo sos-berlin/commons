@@ -194,9 +194,8 @@ public class <xsl:value-of select="$class_name" /> extends JSOptionsClass {
  * \see JSOptionsClass::getItem
  *
  * @param pobjJSSettings
- * @throws Exception
  */
-	public void setAllOptions(HashMap &lt;String, String&gt; pobjJSSettings) throws Exception {
+	public void setAllOptions(HashMap &lt;String, String&gt; pobjJSSettings)   {
 		@SuppressWarnings("unused")
 		final String conMethodName = conClassName + "::setAllOptions";
 		flgSetAllOptions = true;
@@ -238,10 +237,9 @@ public class <xsl:value-of select="$class_name" /> extends JSOptionsClass {
  * \return void
  *
  * @param pstrArgs
- * @throws Exception
  */
 	@Override
-	public void CommandLineArgs(String[] pstrArgs) throws Exception {
+	public void CommandLineArgs(String[] pstrArgs)   {
 		super.CommandLineArgs(pstrArgs);
 		this.setAllOptions(super.objSettings);
 	}

@@ -63,7 +63,7 @@ import com.sos.JSHelper.Basics.JSJobUtilities;
  * mechanicaly created by <xsl:value-of select="$XSLTFilename" /> from http://www.sos-berlin.com at <xsl:value-of select="$timestamp" /> 
  * \endverbatim
  */
-public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select="$ExtendsClassName" />&lt;<xsl:value-of select="$class_name" />Options&gt;{  
+public class <xsl:value-of select="$class_name" /> extends JSJobUtilitiesClass &lt;<xsl:value-of select="$class_name" />Options&gt;{  
 	private final String					conClassName						= "<xsl:value-of select="$class_name" />";  //$NON-NLS-1$
 	private static Logger		logger			= Logger.getLogger(<xsl:value-of select="$class_name" />.class);
 
@@ -79,7 +79,7 @@ public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select=
 	 *
 	 */
 	public <xsl:value-of select="$class_name" />() {
-		super(new (<xsl:value-of select="$class_name" />Options));
+		super(new <xsl:value-of select="$class_name" />Options());
 	}
 
 	/**
