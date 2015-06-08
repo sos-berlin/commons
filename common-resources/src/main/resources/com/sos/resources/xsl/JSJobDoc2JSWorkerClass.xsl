@@ -47,6 +47,7 @@ import org.apache.log4j.Logger;
 import com.sos.JSHelper.Basics.JSToolBox;
 import com.sos.localization.*;
 import com.sos.JSHelper.Basics.JSJobUtilities;
+import com.sos.JSHelper.Basics.JSJobUtilitiesClass;
 
 /**
  * \class 		<xsl:value-of select="$class_name" /> - Workerclass for "<xsl:value-of select="$class_title" />"
