@@ -140,8 +140,11 @@ public class SOSConfigurationRequiredItem {
 			for (int i = 0; i < configurationItem.length; i++) {
 				String name = configurationItem[i].getName();
 				String value = configurationItem[i].getValue();
-
-				getLogger().debug("check parameter [" + name + "=" + value + "]");
+				if(configurationItem[i].isPassword()){
+					getLogger().debug("check parameter [" + name + "=*****]");
+				}else{
+					getLogger().debug("check parameter [" + name + "=" + value + "]");
+				}
 
 //				String itemId = checkParameterNames(name, configurationItem[i]);
 				String itemId = name + "_id";

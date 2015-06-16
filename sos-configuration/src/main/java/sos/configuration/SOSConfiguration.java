@@ -774,13 +774,13 @@ public class SOSConfiguration {
 			sos.util.SOSLogger sosLogger = new sos.util.SOSStandardLogger(10);
 
 			//1- Testen von Programmargumente und SOSProfileSettings mit Configuration.xml
-			test1(args, requiredDefaultFile, sosLogger);
+//			test1(args, requiredDefaultFile, sosLogger);
 
 			//2- Testen von Programmargumente und SOSXMLSettings mit Configuration.xml
-			test2(args, requiredDefaultFile, sosLogger);
+//			test2(args, requiredDefaultFile, sosLogger);
 
 			//3- Testen von Programmargumente und SOSConnectionSettings mit Configuration.xml
-			test3(args, "./testDateien/sos_settings.ini", requiredDefaultFile, sosLogger);
+//			test3(args, "./testDateien/sos_settings.ini", requiredDefaultFile, sosLogger);
 
 			//4- Testen mit Scheduler Parameter. Siehe dazu Beispiel sos.util.configuration.TestJob
 
