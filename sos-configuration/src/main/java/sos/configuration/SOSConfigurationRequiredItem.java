@@ -31,7 +31,7 @@ public class SOSConfigurationRequiredItem {
 	/** Liste der zu überprüfende Ids. Siehe Pfad in der XML ->
 	 * <Configurations>
 	 * 	<items>
-	 * 		<!-- Folgende Parameter kennt SOSFTP -->
+	 * 		<!-- Folgende Parameter kennt JADE -->
 	 * 		<item name="operation" default_value="" itemId="operation_id"/>
 	 * 		<item name="settings" default_value="" itemId="settings_id" checkId="settings_and_profile_id"/>
 	 * 		<item name="profile" default_value="false" itemId="profile_id" checkId="settings_and_profile_id"/>
@@ -298,7 +298,7 @@ public class SOSConfigurationRequiredItem {
 	 * 
 	 * <Configurations>
 	 * 	<items>
-	 * 		<!-- Folgende Parameter kennt SOSFTP -->
+	 * 		<!-- Folgende Parameter kennt JADE -->
 	 * 		<item name="operation" default_value="" itemId="operation_id"/>
 	 * 		<item name="settings" default_value="" itemId="settings_id" checkId="settings_and_profile_id"/>
 	 * 		<item name="profile" default_value="false" itemId="profile_id" checkId="settings_and_profile_id"/>
@@ -510,7 +510,7 @@ public class SOSConfigurationRequiredItem {
 	 * beispiel XML:
 	 * <Configurations>
 	 * 	<items>
-	 * 		<!-- Folgende Parameter kennt SOSFTP -->
+	 * 		<!-- Folgende Parameter kennt JADE -->
 	 * 		<item name="operation" default_value="" itemId="operation_id"/>
 	 * 		<item name="settings" default_value="" itemId="settings_id" checkId="settings_and_profile_id"/>
 	 * 		<item name="profile" default_value="false" itemId="profile_id" checkId="settings_and_profile_id"/>
@@ -667,7 +667,7 @@ public class SOSConfigurationRequiredItem {
 	 * entsprechende XML:
 	 * <Configurations>
 	 * 	<items>
-	 * 		<!-- Folgende Parameter kennt SOSFTP -->
+	 * 		<!-- Folgende Parameter kennt JADE -->
 	 * 		<item name="operation" default_value="" itemId="operation_id" required="true"/>
 	 * 
 	 * 
