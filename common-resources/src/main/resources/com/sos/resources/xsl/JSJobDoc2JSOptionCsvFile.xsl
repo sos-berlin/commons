@@ -7,13 +7,7 @@
 
 	<xsl:output method="text" encoding="iso-8859-1" indent="no" />
 
-	<!--
-		c:\temp\JobSchedulerSSHJob.xml TODO Attribute title bei "param/note"
-
-		TODO Attribute data_type bei param 
-		TODO child aliase bei param 
-		TODO child alias bei aliase <xsl:eval>formatDate(new Date().getVarDate(), "MMMM dd',' yyyy");</xsl:eval>
-	-->
+	
 
 		<xsl:message>
 			script JSJobDoc2JSOptionClass started ...

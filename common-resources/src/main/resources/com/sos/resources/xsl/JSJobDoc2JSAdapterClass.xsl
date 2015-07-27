@@ -45,32 +45,13 @@
 
 package <xsl:value-of select="$package_name" />;
 
-import java.util.HashMap;
-
 import <xsl:value-of select="$package_name" />.<xsl:value-of select="$WorkerClassName" />;
 import <xsl:value-of select="$package_name" />.<xsl:value-of select="$WorkerClassName" />Options;
-import sos.spooler.Order;
-import sos.spooler.Variable_set;
 import sos.scheduler.job.JobSchedulerJobAdapter;  // Super-Class for JobScheduler Java-API-Jobs
 import org.apache.log4j.Logger;
 import com.sos.JSHelper.Exceptions.JobSchedulerException;
 import com.sos.localization.*;
-/**
- * \class 		<xsl:value-of select="$class_name" /> - JobScheduler Adapter for "<xsl:value-of select="$class_title" />"
- *
- * \brief AdapterClass of <xsl:value-of select="$WorkerClassName" /> for the SOSJobScheduler
- *
- * This Class <xsl:value-of select="$class_name" /> works as an adapter-class between the SOS
- * JobScheduler and the worker-class <xsl:value-of select="$WorkerClassName" />.
- *
-<xsl:copy-of select="//jobdoc/description" />
- *
- * see \see <xsl:value-of select="$XMLDocuFilename" /> for more details.
- *
- * \verbatim ;
- * mechanicaly created by <xsl:value-of select="$XSLTFilename" /> from http://www.sos-berlin.com at <xsl:value-of select="$timestamp" />
- * \endverbatim
- */
+
 public class <xsl:value-of select="$class_name" /> extends JobSchedulerJobAdapter <!-- extends <xsl:value-of select="$ExtendsClassName" /> --> {
 	private final String					conClassName						= "<xsl:value-of select="$class_name" />";
 	private static Logger		logger			= Logger.getLogger(<xsl:value-of select="$class_name" />.class);

@@ -61,25 +61,7 @@ import com.sos.JSHelper.Listener.JSListenerClass;
  *
  *
 <xsl:copy-of select="//jobdoc:description/documentation[language=$default_lang]" />
- *
- * see \see <xsl:value-of select="$XMLDocuFilename" /> for (more) details.
- * 
- * \verbatim ;
- * mechanicaly created by <xsl:value-of select="$XSLTFilename" /> from http://www.sos-berlin.com at <xsl:value-of select="$timestamp" /> 
- * \endverbatim
- *
- * \section TestData Eine Hilfe zum Erzeugen einer HashMap mit Testdaten
- *
- * Die folgenden Methode kann verwendet werden, um für einen Test eine HashMap
- * mit sinnvollen Werten für die einzelnen Optionen zu erzeugen.
- *
- * \verbatim
- private HashMap &lt;String, String&gt; SetJobSchedulerSSHJobOptions (HashMap &lt;String, String&gt; pobjHM) {
-	pobjHM.put ("		<xsl:value-of select="$ClassName" />.auth_file", "test");  // This parameter specifies the path and name of a user's pr
-		return pobjHM;
-  }  //  private void SetJobSchedulerSSHJobOptions (HashMap &lt;String, String&gt; pobjHM)
- * \endverbatim
- */
+ 
 public class <xsl:value-of select="$ClassName" /> extends  <xsl:value-of select="$ExtendsClassName"/> {
 	private final String					conClassName						= "<xsl:value-of select="$ClassName" />"; //$NON-NLS-1$
 		@SuppressWarnings("unused") //$NON-NLS-1$

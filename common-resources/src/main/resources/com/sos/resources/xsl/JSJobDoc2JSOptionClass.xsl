@@ -51,23 +51,7 @@ import com.sos.JSHelper.Exceptions.JSExceptionMandatoryOptionMissing;
 import com.sos.JSHelper.Listener.JSListener;
 import org.apache.log4j.Logger;
 
-/**
- * \class 		<xsl:value-of select="$class_name" /> - <xsl:value-of select="$class_title" />
- *
- * \brief
- * An Options as a container for the Options super class.
- * The Option class will hold all the things, which would be otherwise overwritten at a re-creation
- * of the super-class.
- *
- *
-<xsl:copy-of select="//jobdoc/description/documentation[language=$default_lang]" />
- *
- * see \see <xsl:value-of select="$XMLDocuFilename" /> for (more) details.
- *
- * \verbatim ;
- * mechanicaly created by JobDocu2OptionsClass.xslt from http://www.sos-berlin.com at <xsl:value-of select="$timestamp" />
- * \endverbatim
- */
+ 
 @JSOptionClass(name = "<xsl:value-of select="$class_name" />", description = "<xsl:value-of select="$class_title" />")
 public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select="$ExtendsClassName" /> {
 	@SuppressWarnings("unused")
