@@ -24,25 +24,6 @@
 <xsl:param name="default_lang" required="yes" as="xs:string"/>
 
 
-	<!--
-		c:\temp\JobSchedulerSSHJob.xml 
-		
-		TODO Attribute title bei "param/note"
-
-		TODO Attribute DataType bei param 
-		TODO Attribute OptionName bei param
-		TODO Attribute Alias bei param 
-		TODO Attribute Interface bei param 
-		TODO Attribute Category bei param 
-		TODO Attribute Extends bei param 
-		TODO child aliase bei param 
-		TODO child alias bei aliase
-		<xsl:eval>formatDate(new Date().getVarDate(), "MMMM dd','
-		yyyy");</xsl:eval> 
-		TODO child values-tag bei aufzähltypen 
-		TODO child value bei values <xsl:message> script JSJobDoc2JSOptionClass started
-		... </xsl:message>
-	-->
 
 	<xsl:variable name="nl" select="'&#xa;'" />
 
@@ -99,33 +80,7 @@ import com.sos.JSHelper.Options.*;
  *
  *
 <xsl:copy-of select="//jobdoc/description[lang=$default_lang]" />
- *
- * see \see <xsl:value-of select="$XMLDocuFilename" /> for (more) details.
- * 
- * \verbatim ;
- * mechanicaly created by <xsl:value-of select="$XSLTFilename" /> from http://www.sos-berlin.com at <xsl:value-of select="$timestamp" /> 
- * \endverbatim
- * \section OptionsTable Tabelle der vorhandenen Optionen
- * <TABLE border="1">
- * <CAPTION>Tabelle mit allen Optionen</CAPTION>
- * <TR style="bold">
- * <TD><b>MethodName</b></TD>
- * <TD><b>Title</b></TD>
- * <TD><b>Setting</b></TD>
- * <TD><b>Description</b></TD>
- * <TD><b>IsMandatory</b></TD>
- * <TD><b>DataType</b></TD>
- * <TD align="center"><b>InitialValue</b></TD>
- * <TD align="center"><b>TestValue</b></TD>
- * </TR>
- * </TABLE>
- *
- * \section TestData Eine Hilfe zum Erzeugen einer HashMap mit Testdaten
- *
- * Die folgenden Methode kann verwendet werden, um für einen Test eine HashMap
- * mit sinnvollen Werten für die einzelnen Optionen zu erzeugen.
- *
- * \verbatim
+ 
  private HashMap &lt;String, String&gt; SetJobSchedulerSSHJobOptions (HashMap &lt;String, String&gt; pobjHM) {
 	pobjHM.put ("		<xsl:value-of select="$class_name" />.auth_file", "test");  // This parameter specifies the path and name of a user's pr
 		return pobjHM;
@@ -194,9 +149,8 @@ public class <xsl:value-of select="$class_name" /> extends JSOptionsClass {
  * \see JSOptionsClass::getItem
  *
  * @param pobjJSSettings
- * @throws Exception
  */
-	public void setAllOptions(HashMap &lt;String, String&gt; pobjJSSettings) throws Exception {
+	public void setAllOptions(HashMap &lt;String, String&gt; pobjJSSettings)   {
 		@SuppressWarnings("unused")
 		final String conMethodName = conClassName + "::setAllOptions";
 		flgSetAllOptions = true;
@@ -238,10 +192,9 @@ public class <xsl:value-of select="$class_name" /> extends JSOptionsClass {
  * \return void
  *
  * @param pstrArgs
- * @throws Exception
  */
 	@Override
-	public void CommandLineArgs(String[] pstrArgs) throws Exception {
+	public void CommandLineArgs(String[] pstrArgs)   {
 		super.CommandLineArgs(pstrArgs);
 		this.setAllOptions(super.objSettings);
 	}

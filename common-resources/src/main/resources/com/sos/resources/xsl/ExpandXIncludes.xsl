@@ -29,13 +29,7 @@
     omit-xml-declaration="no" 
     encoding="UTF-8"/>
   
-<!-- ==============================================================
-     XInclude implementation
 
-     Implements XInclude by processing the entire doc
-     to produce a single result tree with all the includes resolved
-     and then applies the normal template processing to that document.
-     ==============================================================-->
 <xsl:template match="/">
  <xsl:choose>
    <xsl:when test="//xi:include">
