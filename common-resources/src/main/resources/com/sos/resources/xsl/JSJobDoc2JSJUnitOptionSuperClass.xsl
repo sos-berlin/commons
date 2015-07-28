@@ -59,7 +59,7 @@ import com.sos.JSHelper.Listener.JSListenerClass;
  *
  * \brief 
  *
- *
+ */
 <xsl:copy-of select="//jobdoc:description/documentation[language=$default_lang]" />
  
 public class <xsl:value-of select="$ClassName" /> extends  <xsl:value-of select="$ExtendsClassName"/> {
