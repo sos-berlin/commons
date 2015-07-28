@@ -44,26 +44,13 @@ package <xsl:value-of select="$package_name" />;
 import <xsl:value-of select="$package_name" />.<xsl:value-of select="$WorkerClassName" />;
 import <xsl:value-of select="$package_name" />.<xsl:value-of select="$WorkerClassName" />Options;
 import org.apache.log4j.Logger;
-import com.sos.JSHelper.Basics.JSToolBox;
+import com.sos.JSHelper.Basics.JSJobUtilitiesClass;
 import com.sos.localization.*;
+import com.sos.scheduler.messages.JSMessages;
 import com.sos.JSHelper.Basics.JSJobUtilities;
 
-/**
- * \class 		<xsl:value-of select="$class_name" /> - Workerclass for "<xsl:value-of select="$class_title" />"
- *
- * \brief AdapterClass of <xsl:value-of select="$WorkerClassName" /> for the SOSJobScheduler
- *
- * This Class <xsl:value-of select="$class_name" /> is the worker-class.
- *
-<xsl:copy-of select="//jobdoc/description[lang=$default_lang]" />
- *
- * see \see <xsl:value-of select="$XMLDocuFilename" /> for (more) details.
- *
- * \verbatim ;
- * mechanicaly created by <xsl:value-of select="$XSLTFilename" /> from http://www.sos-berlin.com at <xsl:value-of select="$timestamp" /> 
- * \endverbatim
- */
-public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select="$ExtendsClassName" /> implements JSJobUtilities {
+
+public class <xsl:value-of select="$class_name" /> extends JSJobUtilitiesClass &lt;<xsl:value-of select="$class_name" />Options&gt;{  
 	private final String					conClassName						= "<xsl:value-of select="$class_name" />";  //$NON-NLS-1$
 	private static Logger		logger			= Logger.getLogger(<xsl:value-of select="$class_name" />.class);
 
@@ -79,7 +66,7 @@ public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select=
 	 *
 	 */
 	public <xsl:value-of select="$class_name" />() {
-		super();
+		super(new <xsl:value-of select="$class_name" />Options());
 	}
 
 	/**
@@ -142,7 +129,7 @@ public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select=
 	public <xsl:value-of select="$class_name" /> Execute() throws Exception {
 		final String conMethodName = conClassName + "::Execute";  //$NON-NLS-1$
 
-		logger.debug(String.format(Messages.getMsg("JSJ-I-110"), conMethodName ) );
+        logger.debug(String.format(JSMessages.JSJ_I_110.get(), conMethodName ));
 
 		try { 
 			Options().CheckMandatory();
@@ -150,11 +137,11 @@ public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select=
 		}
 		catch (Exception e) {
 			e.printStackTrace(System.err);
-			logger.error(String.format(Messages.getMsg("JSJ-I-107"), conMethodName ), e);
+			logger.error(String.format(JSMessages.JSJ_F_107.get(), conMethodName ),e);
             throw e;			
 		}
 		finally {
-			logger.debug(String.format(Messages.getMsg("JSJ-I-111"), conMethodName ) );
+            logger.debug(String.format(JSMessages.JSJ_I_111.get(), conMethodName ));
 		}
 		
 		return this;
