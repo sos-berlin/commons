@@ -44,11 +44,10 @@ package <xsl:value-of select="$package_name" />;
 import <xsl:value-of select="$package_name" />.<xsl:value-of select="$WorkerClassName" />;
 import <xsl:value-of select="$package_name" />.<xsl:value-of select="$WorkerClassName" />Options;
 import org.apache.log4j.Logger;
-import com.sos.JSHelper.Basics.JSToolBox;
 import com.sos.JSHelper.Basics.JSJobUtilitiesClass;
 import com.sos.localization.*;
+import com.sos.scheduler.messages.JSMessages;
 import com.sos.JSHelper.Basics.JSJobUtilities;
-import com.sos.JSHelper.Basics.JSJobUtilitiesClass;
 
 
 public class <xsl:value-of select="$class_name" /> extends JSJobUtilitiesClass &lt;<xsl:value-of select="$class_name" />Options&gt;{  
@@ -130,7 +129,7 @@ public class <xsl:value-of select="$class_name" /> extends JSJobUtilitiesClass &
 	public <xsl:value-of select="$class_name" /> Execute() throws Exception {
 		final String conMethodName = conClassName + "::Execute";  //$NON-NLS-1$
 
-		logger.debug(String.format(Messages.getMsg("JSJ-I-110"), conMethodName ) );
+        logger.debug(String.format(JSMessages.JSJ_I_110.get(), conMethodName ));
 
 		try { 
 			Options().CheckMandatory();
@@ -138,11 +137,11 @@ public class <xsl:value-of select="$class_name" /> extends JSJobUtilitiesClass &
 		}
 		catch (Exception e) {
 			e.printStackTrace(System.err);
-			logger.error(String.format(Messages.getMsg("JSJ-I-107"), conMethodName ), e);
+			logger.error(String.format(JSMessages.JSJ_F_107.get(), conMethodName ),e);
             throw e;			
 		}
 		finally {
-			logger.debug(String.format(Messages.getMsg("JSJ-I-111"), conMethodName ) );
+            logger.debug(String.format(JSMessages.JSJ_I_111.get(), conMethodName ));
 		}
 		
 		return this;
