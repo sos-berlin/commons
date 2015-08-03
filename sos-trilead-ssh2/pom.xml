@@ -5,9 +5,8 @@
     <parent>
         <groupId>com.sos-berlin</groupId>
         <artifactId>commons</artifactId>
-<<<<<<< .mine        <version>1.9.5-SNAPSHOT</version>
-=======        <version>1.8.3-SNAPSHOT</version>
->>>>>>> .theirs    </parent>
+        <version>1.9.5-SNAPSHOT</version>
+    </parent>
 
     <version>211</version>
     <groupId>com.trilead</groupId>
