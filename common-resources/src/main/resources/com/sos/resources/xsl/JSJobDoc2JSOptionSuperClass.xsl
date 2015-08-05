@@ -70,23 +70,7 @@ import org.apache.log4j.Logger;
 
 import com.sos.JSHelper.Options.*;
 
-/**
- * \class 		<xsl:value-of select="$class_name" /> - <xsl:value-of select="$class_title" />
- *
- * \brief 
- * An Options-Super-Class with all Options. This Class will be extended by the "real" Options-class (\see <xsl:value-of select="$real_class_name" />.
- * The "real" Option class will hold all the things, which are normaly overwritten at a new generation
- * of the super-class.
- *
- *
-<xsl:copy-of select="//jobdoc/description[lang=$default_lang]" />
- 
- private HashMap &lt;String, String&gt; SetJobSchedulerSSHJobOptions (HashMap &lt;String, String&gt; pobjHM) {
-	pobjHM.put ("		<xsl:value-of select="$class_name" />.auth_file", "test");  // This parameter specifies the path and name of a user's pr
-		return pobjHM;
-  }  //  private void SetJobSchedulerSSHJobOptions (HashMap &lt;String, String&gt; pobjHM)
- * \endverbatim
- */
+
 @JSOptionClass(name = "<xsl:value-of select="$class_name" />", description = "<xsl:value-of select="$class_name" />")
 public class <xsl:value-of select="$class_name" /> extends JSOptionsClass {
 	private final String					conClassName						= "<xsl:value-of select="$class_name" />";

@@ -53,19 +53,7 @@ import org.junit.Test;
 import com.sos.JSHelper.Basics.JSToolBox;
 import com.sos.JSHelper.Listener.JSListenerClass;
 
-/**
- * \class 		<xsl:value-of select="$class_name" /> - JUnit-Test for "<xsl:value-of select="$class_title" />"
- *
- * \brief MainClass to launch <xsl:value-of select="$WorkerClassName" /> as an executable command-line program
- *
-<xsl:copy-of select="//jobdoc/description/documentation[language=$default_lang]" />
- *
- * see \see <xsl:value-of select="$XMLDocuFilename" /> for (more) details.
- *
- * \verbatim ;
- * mechanicaly created by <xsl:value-of select="$XSLTFilename" /> from http://www.sos-berlin.com at <xsl:value-of select="$timestamp" /> 
- * \endverbatim
- */
+
 public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select="$ExtendsClassName" /> {
 	@SuppressWarnings("unused")	 //$NON-NLS-1$
 	private final static String					conClassName						= "<xsl:value-of select="$class_name" />"; //$NON-NLS-1$
