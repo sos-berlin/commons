@@ -4,8 +4,8 @@
 
     <parent>
         <groupId>com.sos-berlin</groupId>
-		    <artifactId>products</artifactId>
-        <version>1.9.2.TEST-SNAPSHOT</version>
+	    <artifactId>products</artifactId>
+        <version>1.10.0-TEST-SNAPSHOT</version>
     </parent>
 
     <artifactId>commons</artifactId>
