@@ -18,7 +18,7 @@
         <dependency>
             <groupId>com.sos-berlin.jobscheduler.engine</groupId>
             <artifactId>engine-job-api</artifactId>
-	        <version>${project.version}</version>
+	        <version>${sos.engine.version}</version>
         </dependency>
 
         <dependency>
