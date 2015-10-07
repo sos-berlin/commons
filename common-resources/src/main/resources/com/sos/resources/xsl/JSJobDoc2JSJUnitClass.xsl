@@ -80,7 +80,7 @@ public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select=
 	public void setUp() throws Exception {
 		objE = new <xsl:value-of select="$WorkerClassName" />();
 		objE.registerMessageListener(this);
-		objOptions = objE.Options();
+		objOptions = objE.getOptions();
 		objOptions.registerMessageListener(this);
 		
 		JSListenerClass.bolLogDebugInformation = true;

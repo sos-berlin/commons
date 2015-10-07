@@ -70,7 +70,7 @@ public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select=
 
 		try {
 			<xsl:value-of select="$WorkerClassName" /> objM = new <xsl:value-of select="$WorkerClassName" />();
-			<xsl:value-of select="$WorkerClassName" />Options objO = objM.Options();
+			<xsl:value-of select="$WorkerClassName" />Options objO = objM.getOptions();
 			
 			objO.CommandLineArgs(pstrArgs);
 			objM.Execute();

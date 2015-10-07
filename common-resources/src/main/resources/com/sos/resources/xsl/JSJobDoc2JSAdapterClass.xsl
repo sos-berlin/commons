@@ -102,7 +102,7 @@ public class <xsl:value-of select="$class_name" /> extends JobSchedulerJobAdapte
 		final String conMethodName = conClassName + "::doProcessing";
 
 		<xsl:value-of select="$WorkerClassName" /> objR = new <xsl:value-of select="$WorkerClassName" />();
-		<xsl:value-of select="$WorkerClassName" />Options objO = objR.Options();
+		<xsl:value-of select="$WorkerClassName" />Options objO = objR.getOptions();
 
         objO.CurrentNodeName(this.getCurrentNodeName());
 		objO.setAllOptions(getSchedulerParameterAsProperties(getJobOrOrderParameters()));

@@ -66,7 +66,7 @@ public class <xsl:value-of select="$class_name" /> extends JSJobUtilitiesClass &
 	 *
 	 */
 	public <xsl:value-of select="$class_name" />() {
-		super(new <xsl:value-of select="$class_name" />Options());
+		super(new <xsl:value-of select="$class_name" />getOptions());
 	}
 
 	/**
@@ -80,13 +80,13 @@ public class <xsl:value-of select="$class_name" /> extends JSJobUtilitiesClass &
 	 * \return <xsl:value-of select="$class_name" />Options
 	 *
 	 */
-	public <xsl:value-of select="$class_name" />Options Options() {
+	public <xsl:value-of select="$class_name" />Options getOptions() {
 
 		@SuppressWarnings("unused")  //$NON-NLS-1$
 		final String conMethodName = conClassName + "::Options";  //$NON-NLS-1$
 
 		if (objOptions == null) {
-			objOptions = new <xsl:value-of select="$class_name" />Options();
+			objOptions = new <xsl:value-of select="$class_name" />getOptions();
 		}
 		return objOptions;
 	}
@@ -102,7 +102,7 @@ public class <xsl:value-of select="$class_name" /> extends JSJobUtilitiesClass &
 	 * \return <xsl:value-of select="$class_name" />Options
 	 *
 	 */
-	public <xsl:value-of select="$class_name" />Options Options(final <xsl:value-of select="$class_name" />Options pobjOptions) {
+	public <xsl:value-of select="$class_name" />Options getOptions(final <xsl:value-of select="$class_name" />Options pobjOptions) {
 
 		@SuppressWarnings("unused")  //$NON-NLS-1$
 		final String conMethodName = conClassName + "::Options";  //$NON-NLS-1$
