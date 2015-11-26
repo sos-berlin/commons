@@ -2,24 +2,14 @@
  * 
  */
 package com.sos.CredentialStore.Options;
-import java.util.HashMap;
-
 import com.sos.JSHelper.Options.SOSOptionAuthenticationMethod;
-import com.sos.JSHelper.Options.SOSOptionBoolean;
-import com.sos.JSHelper.Options.SOSOptionElement;
 import com.sos.JSHelper.Options.SOSOptionHostName;
 import com.sos.JSHelper.Options.SOSOptionInFileName;
-import com.sos.JSHelper.Options.SOSOptionInteger;
-import com.sos.JSHelper.Options.SOSOptionPassphrase;
 import com.sos.JSHelper.Options.SOSOptionPassword;
 import com.sos.JSHelper.Options.SOSOptionPortNumber;
-import com.sos.JSHelper.Options.SOSOptionRegExp;
-import com.sos.JSHelper.Options.SOSOptionString;
-import com.sos.JSHelper.Options.SOSOptionTransferMode;
 import com.sos.JSHelper.Options.SOSOptionTransferType;
 import com.sos.JSHelper.Options.SOSOptionUrl;
 import com.sos.JSHelper.Options.SOSOptionUserName;
-import com.sos.JSHelper.interfaces.ISOSDataProviderOptions;
 
 /**
  * @author KB
