@@ -61,6 +61,7 @@
                             <xsd:element ref="jobs" minOccurs="0"/>
                             <xsd:element ref="job_chains" minOccurs="0"/>
                             <xsd:element ref="commands" minOccurs="0"/>
+                            <xsd:element ref="monitors" minOccurs="0"/>
                         </xsd:sequence>
                         <xsd:attribute name="spooler_id" type="Name"/>
                         <xsd:attribute name="port" type="xsd:nonNegativeInteger"/>
@@ -335,31 +336,16 @@
                         <xsd:attribute name="user" type="String" use="required"/>
                     </xsd:complexType>
                 </xsd:element>
-                <xsd:choice minOccurs="0">
-                    <xsd:element ref="script"/>
-                    <xsd:element name="process">
+                <xsd:element ref="script" minOccurs="0"/>
+                <xsd:choice minOccurs="0" maxOccurs="unbounded">
+                    <xsd:element ref="monitor"/>
+                    <xsd:element name="monitor.use">
                         <xsd:complexType>
-                            <xsd:sequence>
-                                <xsd:element name="environment" type="environment" minOccurs="0"/>
-                                <!-- Veraltet -->
-                            </xsd:sequence>
-                            <xsd:attribute name="file" type="File" use="required"/>
-                            <xsd:attribute name="param" type="String"/>
-                            <xsd:attribute name="log_file" type="File"/>
-                            <xsd:attribute name="ignore_error" type="Yes_no"/>
-                            <xsd:attribute name="ignore_signal" type="Yes_no"/>
+                            <xsd:attribute name="monitor" type="Path" use="required"/>
+                            <xsd:attribute name="ordering" type="xsd:nonNegativeInteger"/>
                         </xsd:complexType>
                     </xsd:element>
                 </xsd:choice>
-                <xsd:element name="monitor" minOccurs="0" maxOccurs="unbounded">
-                    <xsd:complexType>
-                        <xsd:sequence>
-                            <xsd:element ref="script"/>
-                        </xsd:sequence>
-                        <xsd:attribute name="name" type="Name"/>
-                        <xsd:attribute name="ordering" type="xsd:nonNegativeInteger"/>
-                    </xsd:complexType>
-                </xsd:element>
                 <xsd:element name="start_when_directory_changed" minOccurs="0" maxOccurs="unbounded">
                     <xsd:complexType>
                         <xsd:attribute name="directory" type="File" use="required"/>
@@ -434,6 +420,7 @@
             <xsd:attribute name="warn_if_longer_than" type="Duration_or_percentage"/>
             <xsd:attribute name="warn_if_shorter_than" type="Duration_or_percentage"/>
             <xsd:attribute name="enabled" type="Yes_no"/>
+            <xsd:attribute name="stderr_log_level" type="Log_level"/>
             <!-- Veraltet, wird ignoriert -->
             <!-- Für ap, 1.4.06 timeout="0" soll erlaubt sein (kein Aprilscherz) -->
         </xsd:complexType>
@@ -487,6 +474,15 @@
             </xsd:element>
         </xsd:sequence>
     </xsd:complexType>
+    <xsd:element name="monitor">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="script"/>
+            </xsd:sequence>
+            <xsd:attribute name="name" type="Name"/>
+            <xsd:attribute name="ordering" type="xsd:nonNegativeInteger"/>
+        </xsd:complexType>
+    </xsd:element>
     <xsd:element name="job_chain">
         <xsd:complexType>
             <xsd:sequence>
@@ -530,7 +526,7 @@
                                 <xsd:complexType>
                                     <xsd:sequence>
                                         <xsd:element ref="extensions" minOccurs="0"/>
-                                        <xsd:any namespace="##other"  processContents="lax" minOccurs="0" />
+                                        <xsd:any namespace="##other" processContents="lax" minOccurs="0"/>
                                         <xsd:element name="on_return_codes" minOccurs="0">
                                             <xsd:complexType>
                                                 <xsd:sequence maxOccurs="unbounded">
@@ -565,7 +561,7 @@
                                     </xsd:attribute>
                                     <xsd:attribute name="suspend" type="Yes_no"/>
                                     <xsd:attribute name="delay" type="xsd:nonNegativeInteger"/>
-                                    <xsd:anyAttribute namespace="##other"  processContents="lax" />
+                                    <xsd:anyAttribute namespace="##other" processContents="lax"/>
                                 </xsd:complexType>
                             </xsd:element>
                             <xsd:element name="file_order_sink">
@@ -588,6 +584,8 @@
             <xsd:attribute name="distributed" type="Yes_no"/>
             <xsd:attribute name="title" type="String"/>
             <xsd:attribute name="max_orders" type="xsd:nonNegativeInteger"/>
+            <xsd:attribute name="process_class" type="Path"/>
+            <xsd:attribute name="file_watching_process_class" type="Path"/>
         </xsd:complexType>
         <!--libxslt xsd:key name="job_chain_node">
             <xsd:selector xpath="job_chain_node"/>
@@ -628,6 +626,13 @@
             <xsd:selector xpath="job"/>
             <xsd:field xpath="@name"/>
         </xsd:key-->
+    </xsd:element>
+    <xsd:element name="monitors">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="monitor" minOccurs="0" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
     </xsd:element>
     <xsd:element name="kill_task">
         <xsd:complexType>
@@ -1385,6 +1390,8 @@
                         <xsd:element name="remote_scheduler" minOccurs="0" maxOccurs="unbounded">
                             <xsd:complexType>
                                 <xsd:attribute name="remote_scheduler" type="String"/>
+                                <xsd:attribute name="http_heartbeat_period" type="xsd:positiveInteger"/>
+                                <xsd:attribute name="http_heartbeat_timeout" type="xsd:positiveInteger"/>
                             </xsd:complexType>
                         </xsd:element>
                     </xsd:sequence>
@@ -1594,6 +1601,11 @@
         </xsd:restriction>
         <!-- Eine engere Beschränkung wäre gut: Buchstabe gefolgt von (Buchstabe, Ziffer, _ und vielleicht -)*  -->
         <!-- Regulärer Ausdruck wie bei Path -->
+    </xsd:simpleType>
+    <xsd:simpleType name="Absolute_path">
+        <xsd:restriction base="Path">
+            <xsd:pattern value="/.*"/>
+        </xsd:restriction>
     </xsd:simpleType>
     <xsd:simpleType name="Path">
         <xsd:restriction base="String">
