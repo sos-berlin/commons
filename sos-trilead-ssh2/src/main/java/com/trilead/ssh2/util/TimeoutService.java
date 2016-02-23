@@ -20,91 +20,72 @@ import com.trilead.ssh2.log.Logger;
  * @author Christian Plattner, plattner@trilead.com
  * @version $Id: TimeoutService.java,v 1.1 2007/10/15 12:49:57 cplattne Exp $
  */
-public class TimeoutService
-{
-	private static final Logger log = Logger.getLogger(TimeoutService.class);
+public class TimeoutService {
+	private static final Logger LOG = Logger.getLogger(TimeoutService.class);
+    /* The list object is also used for locking purposes */
+    private static final LinkedList todolist = new LinkedList();
+    private static Thread timeoutThread = null;
 
-	public static class TimeoutToken implements Comparable
-	{
+	public static class TimeoutToken implements Comparable{
 		private long runTime;
 		private Runnable handler;
 
-		private TimeoutToken(long runTime, Runnable handler)
-		{
+		private TimeoutToken(long runTime, Runnable handler){
 			this.runTime = runTime;
 			this.handler = handler;
 		}
 
-		public int compareTo(Object o)
-		{
+		public int compareTo(Object o){
 			TimeoutToken t = (TimeoutToken) o;
-			if (runTime > t.runTime)
+			if (runTime > t.runTime) {
 				return 1;
-			if (runTime == t.runTime)
+			}
+			if (runTime == t.runTime) {
 				return 0;
+			}
 			return -1;
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+		    return super.equals(obj);
 		}
 	}
 
-	private static class TimeoutThread extends Thread
-	{
-		public void run()
-		{
-			synchronized (todolist)
-			{
-				while (true)
-				{
-					if (todolist.size() == 0)
-					{
+	private static class TimeoutThread extends Thread {
+		public void run() {
+			synchronized (todolist) {
+				while (true) {
+					if (todolist.size() == 0) {
 						timeoutThread = null;
 						return;
 					}
-
 					long now = System.currentTimeMillis();
-
 					TimeoutToken tt = (TimeoutToken) todolist.getFirst();
-
-					if (tt.runTime > now)
-					{
+					if (tt.runTime > now) {
 						/* Not ready yet, sleep a little bit */
-
-						try
-						{
+						try {
 							todolist.wait(tt.runTime - now);
+						} catch (InterruptedException e) {
 						}
-						catch (InterruptedException e)
-						{
-						}
-
 						/* We cannot simply go on, since it could be that the token
 						 * was removed (cancelled) or another one has been inserted in
 						 * the meantime.
 						 */
-
 						continue;
 					}
-
 					todolist.removeFirst();
-
-					try
-					{
+					try {
 						tt.handler.run();
-					}
-					catch (Exception e)
-					{
+					} catch (Exception e) {
 						StringWriter sw = new StringWriter();
 						e.printStackTrace(new PrintWriter(sw));
-						log.log(20, "Exeception in Timeout handler:" + e.getMessage() + "(" + sw.toString() + ")");
+						LOG.log(20, "Exeception in Timeout handler:" + e.getMessage() + "(" + sw.toString() + ")");
 					}
 				}
 			}
 		}
 	}
-
-	/* The list object is also used for locking purposes */
-	private static final LinkedList todolist = new LinkedList();
-
-	private static Thread timeoutThread = null;
 
 	/**
 	 * It is assumed that the passed handler will not execute for a long time.
@@ -113,36 +94,28 @@ public class TimeoutService
 	 * @param handler
 	 * @return a TimeoutToken that can be used to cancel the timeout.
 	 */
-	public static final TimeoutToken addTimeoutHandler(long runTime, Runnable handler)
-	{
+	public static final TimeoutToken addTimeoutHandler(long runTime, Runnable handler) {
 		TimeoutToken token = new TimeoutToken(runTime, handler);
-
-		synchronized (todolist)
-		{
+		synchronized (todolist) {
 			todolist.add(token);
 			Collections.sort(todolist);
-
-			if (timeoutThread != null)
+			if (timeoutThread != null) {
 				timeoutThread.interrupt();
-			else
-			{
+			} else {
 				timeoutThread = new TimeoutThread();
 				timeoutThread.setDaemon(true);
 				timeoutThread.start();
 			}
 		}
-
 		return token;
 	}
 
-	public static final void cancelTimeoutHandler(TimeoutToken token)
-	{
-		synchronized (todolist)
-		{
+	public static final void cancelTimeoutHandler(TimeoutToken token) {
+		synchronized (todolist) {
 			todolist.remove(token);
-
-			if (timeoutThread != null)
+			if (timeoutThread != null) {
 				timeoutThread.interrupt();
+			}
 		}
 	}
 
