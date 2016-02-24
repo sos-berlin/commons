@@ -50,6 +50,11 @@ public class TimeoutService {
 		public boolean equals(Object obj) {
 		    return super.equals(obj);
 		}
+		
+		@Override
+		public int hashCode() {
+		    return super.hashCode();
+		}
 	}
 
 	private static class TimeoutThread extends Thread {
