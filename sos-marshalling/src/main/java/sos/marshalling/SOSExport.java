@@ -959,28 +959,39 @@ public class SOSExport {
                         String key = it.next().toString();
                         String lobType = null;
                         switch (fieldTypes.getTypeId(normalizeFieldName(key))) {
+                        case Types.CLOB:
                         case Types.LONGVARCHAR:
                             lobType = "clob";
-                        case Types.BINARY:
-                            if (lobType == null) {
-                                lobType = "blob";
-                            }
+                            break;
                         case Types.BLOB:
-                            if (lobType == null) {
-                                lobType = "blob";
-                            }
-                        case Types.CLOB:
-                            if (lobType == null) {
-                                lobType = "clob";
-                            }
-                        case Types.LONGVARBINARY:
-                            if (lobType == null) {
-                                lobType = "blob";
-                            }
+                        case Types.BINARY:
                         case Types.VARBINARY:
-                            if (lobType == null) {
-                                lobType = "blob";
+                        case Types.LONGVARBINARY:
+                            lobType = "blob";
+                            break;
+                        default:
+                            // ...sonst als xml string ausgeben
+                            if (record.get(key) != null) {
+                                switch (fieldTypes.getTypeId(normalizeFieldName(key))) {
+                                case Types.DATE:
+                                case Types.TIMESTAMP:
+                                    String val = record.get(key).toString();
+                                    if (val.endsWith(".0")) {
+                                        record.put(key, val.substring(0, val.length() - 2));
+                                    }
+                                }
                             }
+                            fw.write(indent() + "<" + normalizeTagName(key)
+                                    + " null=");
+                            if (record.get(key) != null) {
+                                fw.write("\"false\"><![CDATA[" + asXml(record.get(key).toString()) + "]]>");
+                            } else {
+                                fw.write("\"true\"><![CDATA[]]>");
+                            }
+                            fw.write("</" + normalizeTagName(key) + ">\n");
+                            break;
+                        }
+                        if(lobType != null) {
                             // // als binaer behandeln und in hex umwandeln ////
                             // create blob-stm
                             int posBegin = new String(queryStm).toLowerCase().indexOf("from");
@@ -1015,29 +1026,6 @@ public class SOSExport {
                                 fw.write("\n" + indent(-1));
                             } else {
                                 fw.write("\"true\">");
-                            }
-                            fw.write("</" + normalizeTagName(key) + ">\n");
-                            break;
-                        // ...sonst als xml string ausgeben
-                        default:
-                            // TODO Workaround - Millisekunden entfernen
-                            if (record.get(key) != null) {
-                                switch (fieldTypes.getTypeId(normalizeFieldName(key))) {
-                                case Types.DATE:
-                                case Types.TIMESTAMP:
-                                    String val = record.get(key).toString();
-                                    if (val.endsWith(".0")) {
-                                        record.put(key, val.substring(0, val.length() - 2));
-                                    }
-                                }
-                            }
-
-                            fw.write(indent() + "<" + normalizeTagName(key)
-                                    + " null=");
-                            if (record.get(key) != null) {
-                                fw.write("\"false\"><![CDATA[" + asXml(record.get(key).toString()) + "]]>");
-                            } else {
-                                fw.write("\"true\"><![CDATA[]]>");
                             }
                             fw.write("</" + normalizeTagName(key) + ">\n");
                         }
@@ -1267,30 +1255,39 @@ public class SOSExport {
                         String key = it.next().toString();
                         String lobType = null;
                         switch (fieldTypes.getTypeId(normalizeFieldName(key))) {
+                        case Types.CLOB:
                         case Types.LONGVARCHAR:
                             lobType = "clob";
-                        case Types.BINARY:
-                            if (lobType == null) {
-                                lobType = "blob";
-                            }
+                            break;
                         case Types.BLOB:
-                            if (lobType == null) {
-                                lobType = "blob";
-                            }
-                        case Types.CLOB:
-                            if (lobType == null) {
-                                lobType = "clob";
-                            }
-                        case Types.LONGVARBINARY:
-                            if (lobType == null) {
-                                lobType = "blob";
-                            }
+                        case Types.BINARY:
                         case Types.VARBINARY:
-                            if (lobType == null) {
-                                lobType = "blob";
+                        case Types.LONGVARBINARY:
+                            lobType = "blob";
+                            break;
+                        default:
+                            // ...sonst als xml string ausgeben
+                            if (record.get(key) != null) {
+                                switch (fieldTypes.getTypeId(normalizeFieldName(key))) {
+                                case Types.DATE:
+                                case Types.TIMESTAMP:
+                                    String val = record.get(key).toString();
+                                    if (val.endsWith(".0")) {
+                                        record.put(key, val.substring(0, val.length() - 2));
+                                    }
+                                }
                             }
+                            output.append(indent() + "<" + normalizeTagName(key) + " null=");
+                            if (record.get(key) != null) {
+                                output.append("\"false\"><![CDATA[" + asXml(record.get(key).toString()) + "]]>");
+                            } else {
+                                output.append("\"true\"><![CDATA[]]>");
+                            }
+                            output.append("</" + normalizeTagName(key) + ">\n");
+                            break;
+                        }
+                        if (lobType != null){
                             // // als binaer behandeln und in hex umwandeln ////
-
                             // create blob-stm
                             int posBegin = new String(queryStm).toLowerCase().indexOf("from");
                             int posEnd = new String(queryStm).toLowerCase().indexOf(" ", posBegin + 5);
@@ -1322,27 +1319,6 @@ public class SOSExport {
                                 output.append("\"false\">\n" + toHexString(blob, indent(), _lineWrap) + "\n" + indent(-1));
                             } else {
                                 output.append("\"true\">");
-                            }
-                            output.append("</" + normalizeTagName(key) + ">\n");
-                            break;
-                        // ...sonst als xml string ausgeben
-                        default:
-                            // TODO Workaround - Millisekunden entfernen
-                            if (record.get(key) != null) {
-                                switch (fieldTypes.getTypeId(normalizeFieldName(key))) {
-                                case Types.DATE:
-                                case Types.TIMESTAMP:
-                                    String val = record.get(key).toString();
-                                    if (val.endsWith(".0")) {
-                                        record.put(key, val.substring(0, val.length() - 2));
-                                    }
-                                }
-                            }
-                            output.append(indent() + "<" + normalizeTagName(key) + " null=");
-                            if (record.get(key) != null) {
-                                output.append("\"false\"><![CDATA[" + asXml(record.get(key).toString()) + "]]>");
-                            } else {
-                                output.append("\"true\"><![CDATA[]]>");
                             }
                             output.append("</" + normalizeTagName(key) + ">\n");
                         }
@@ -1556,8 +1532,10 @@ public class SOSExport {
                     case Types.LONGVARBINARY:
                     case Types.VARBINARY:
                         row.put(rsmd.getColumnName(i), null);
+                        break;
                     default:
                         row.put(rsmd.getColumnName(i), rs.getString(i));
+                        break;
                     }
                 }
                 result.add(row);
