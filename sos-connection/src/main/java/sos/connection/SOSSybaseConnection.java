@@ -8,26 +8,19 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
+
 import sos.util.SOSClassUtil;
 import sos.util.SOSLogger;
 import sos.util.SOSString;
 
-/** Title:
- * <p>
- * Description: Implementation of SOSConnection-class for Sybase Adaptive
- * Enterprise Server (15)
- * </p>
- * Copyright: Copyright (c) 2007 Company: SOS GmbH
- * 
- * @author <a href="mailto:andreas.pueschel@sos-berlin.com">Andreas Püschel</a>
- * @version $Id: SOSSybaseConnection.java 2887 2007-08-07 15:53:12Z al $ */
+/** @author Andreas Püschel */
 public class SOSSybaseConnection extends sos.connection.SOSConnection {
 
-    /** replacements for %lcase, %ucase, %now, %updlock */
     private static final String replacement[] = { "LOWER", "UPPER", "GETDATE()", "holdlock" };
     private static final SOSConnectionVersionLimiter versionLimiter;
-
-    // initialize versionLimiter
+    private static final Logger LOGGER = Logger.getLogger(SOSSybaseConnection.class);
+    
     static {
         versionLimiter = new SOSConnectionVersionLimiter();
         versionLimiter.setMinSupportedVersion(12, 0);
@@ -50,31 +43,26 @@ public class SOSSybaseConnection extends sos.connection.SOSConnection {
         super(configFileName);
     }
 
-    /** @see SOSConnection#SOSConnection(String, String, String, String) */
-    public SOSSybaseConnection(final String driver, final String url, final String dbuser,
-            final String dbpassword) throws Exception {
+    public SOSSybaseConnection(final String driver, final String url, final String dbuser, final String dbpassword) throws Exception {
         super(driver, url, dbuser, dbpassword);
     }
 
-    /** @see #SOSConnection(String, String, String, String, SOSLogger) */
-    public SOSSybaseConnection(final String driver, final String url, final String dbuser,
-            final String dbpassword, final SOSLogger logger) throws Exception {
+    public SOSSybaseConnection(final String driver, final String url, final String dbuser, final String dbpassword, final SOSLogger logger)
+            throws Exception {
         super(driver, url, dbuser, dbpassword, logger);
     }
 
-    public SOSSybaseConnection(final String driver, final String url, final String dbname,
-            final String dbuser, final String dbpassword, final SOSLogger logger)
-            throws Exception {
+    public SOSSybaseConnection(final String driver, final String url, final String dbname, final String dbuser, final String dbpassword,
+            final SOSLogger logger) throws Exception {
         super(driver, url, dbuser, dbpassword, logger);
         if (dbname == null) {
-            throw new Exception(SOSClassUtil.getMethodName()
-                    + ": missing database name.");
+            throw new Exception(SOSClassUtil.getMethodName() + ": missing database name.");
         }
         this.dbname = dbname;
     }
 
-    public SOSSybaseConnection(final String driver, final String url, final String dbname,
-            final String dbuser, final String dbpassword) throws Exception {
+    public SOSSybaseConnection(final String driver, final String url, final String dbname, final String dbuser, final String dbpassword)
+            throws Exception {
         super(driver, url, dbuser, dbpassword);
         if (dbname == null) {
             throw new Exception(SOSClassUtil.getMethodName() + ": missing database name.");
@@ -167,16 +155,11 @@ public class SOSSybaseConnection extends sos.connection.SOSConnection {
             try {
                 logger.warn(e.toString());
             } catch (Exception e1) {
-                e1.printStackTrace();
+                LOGGER.warn(e.getMessage(), e);
             }
         }
     }
 
-    /** returns Sybase timestamp function
-     * 
-     * @param dateString
-     * @return Sybase timestamp function
-     * @throws java.lang.Exception */
     @Override
     public String toDate(final String dateString) throws Exception {
         if (SOSString.isEmpty(dateString)) {
@@ -259,15 +242,6 @@ public class SOSSybaseConnection extends sos.connection.SOSConnection {
         return "SELECT @@IDENTITY";
     }
 
-    /*
-     * Sybase Adaptive Server Enterprise returns as productVersion e.g. Adaptive
-     * Server Enterprise/15.0.2/EBF 14332/P/NT (IX86)/Windows
-     * 2000/ase1502/2486/32-bit/OPT/Thu May 24 04:10:36 2007 Adaptive Server
-     * Enterprise/15.0/EBF 13446 ESD#2/P/RS6000/AIX
-     * 5.2/ase150/2193/64-bit/FBO/Wed May 17 18:47:27 2006 Dec 17 2002 14:22:05
-     * Copyright (c) 1988-2003 Microsoft Corporation Developer Edition on
-     * Windows NT 5.2 (Build 3790: ) or: 8.00.760
-     */
     @Override
     public int parseMajorVersion(final String productVersion) throws Exception {
         Pattern pattern;
