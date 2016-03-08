@@ -20,112 +20,13 @@ import org.xml.sax.InputSource;
 
 import sos.util.SOSClassUtil;
 
-/** @author ap
- *
- *         To change the template for this generated type comment go to Window -
- *         Preferences - Java - Code Generation - Code and Comments */
+/** @author ap */
 public class SOSXMLXPath extends CachedXPathAPI {
 
-    public Document document = null;
-    public Element root = null;
-    public Node node = null;
     private static final Logger LOGGER = Logger.getLogger(SOSXMLXPath.class);
-
-    public static void main(String[] args) {
-        try {
-            SOSXMLXPath xpath_Xinclude = new SOSXMLXPath(new FileInputStream("C:/temp/a.xml"), true);
-            NodeList nl = xpath_Xinclude.selectNodeList(xpath_Xinclude.document.getElementsByTagName("*").item(0), "//test");
-            LOGGER.info(nl.getLength());
-            for (int i = 0; i < nl.getLength(); i++) {
-                Node n = nl.item(i);
-                LOGGER.info("Tagname: " + n.getNodeName());
-                org.w3c.dom.NamedNodeMap map = n.getAttributes();
-                for (int j = 0; j < map.getLength(); j++) {
-                    LOGGER.info(j + "'te attribut : " + map.item(j));
-                }
-            }
-            if (true) {
-                return;
-            }
-            String xmlStr = "<?xml version='1.0' encoding='UTF-8'?><soapenv:Envelope "
-                    + "xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/'>    "
-                    + "<soapenv:Header>        "
-                    + "<wsa:To xmlns:wsa='http://schemas.xmlsoap.org/ws/2004/08/addressing'>"
-                    + "http://localhost:4444/servingxml_xml2flat_service</wsa:To>        "
-                    + "<wsa:ReplyTo xmlns:wsa='http://schemas.xmlsoap.org/ws/2004/08/addressing'>            "
-                    + "<wsa:Address>http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous</wsa:Address>        "
-                    + "</wsa:ReplyTo>    "
-                    + "</soapenv:Header>    "
-                    + "<soapenv:Body>        "
-                    + "<addOrder xmlns='http://www.sos-berlin.com/scheduler'>             "
-                    + "<title>ServingXML Order</title>             "
-                    + "<param>                 "
-                    + "<name>service</name> "
-                    + "<value>bookReviews</value>            "
-                    + "</param>            "
-                    + "<param>                "
-                    + "<name>resources</name>                "
-                    + "<value>http://localhost:4444/servingxml/resources/servingxml_xml2flat/bookReviews.xml</value>            "
-                    + "</param>            "
-                    + "<param>                "
-                    + "<name>extension</name>                "
-                    + "<value>.txt</value>            "
-                    + "</param>            "
-                    + "<xml_payload>                "
-                    + "<myns:books xmlns:myns='http://www.mydomain.com/MyNamespace'>                 "
-                    + "<myns:book id='002' categoryCode='F'>                    "
-                    + "<myns:title>Kafka on the Shore</myns:title>                    "
-                    + "<myns:author>Haruki Murakami</myns:author>                    "
-                    + "<myns:price>25.17</myns:price>                    "
-                    + "<myns:reviews>                      "
-                    + "<myns:review>                        "
-                    + "<myns:reviewer>Curley</myns:reviewer>                        "
-                    + "<myns:rating>*****</myns:rating>                      "
-                    + "</myns:review>                      "
-                    + "<myns:review>                        "
-                    + "<myns:reviewer>Larry</myns:reviewer>                        "
-                    + "<myns:rating>***</myns:rating>                      "
-                    + "</myns:review>                      "
-                    + "<myns:review>                        "
-                    + "<myns:reviewer>Moe</myns:reviewer>                        "
-                    + "<myns:rating>*</myns:rating>                      "
-                    + "</myns:review>                    "
-                    + "</myns:reviews>                "
-                    + "</myns:book>                "
-                    + "</myns:books>            "
-                    + "</xml_payload>        "
-                    + "</addOrder>    "
-                    + "</soapenv:Body></soapenv:Envelope>";
-            SOSXMLXPath myxpath = new SOSXMLXPath(new StringBuffer(xmlStr));
-            String xstring = myxpath.selectSingleNodeValue("//param[name[text()='service']]/value");
-            LOGGER.info("param:" + xstring + "\n\n");
-            Node xNode = myxpath.selectSingleNode("//xml_payload");
-            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-            Document xDoc = docBuilder.newDocument();
-            xDoc.appendChild(xDoc.importNode(xNode, true));
-            StringWriter out = new StringWriter();
-            XMLSerializer serializer = new XMLSerializer(out, new OutputFormat(xDoc));
-            serializer.serialize(xDoc);
-            String result = out.toString();
-            SOSXMLXPath xpath = new SOSXMLXPath(new StringBuffer("<spooler><answer><ERROR code=\"4711\" text=\"ein Fehler\"/></answer></spooler>"));
-            String astring = xpath.selectSingleNodeValue("//ERROR/@code");
-            String bstring = xpath.selectSingleNodeValue("//ERROR/@text");
-            LOGGER.info("code: " + astring + " text: " + bstring);
-            SOSXMLXPath xpath_mo = new SOSXMLXPath("J:/E/java/mo/sos.xml/src/sos/xml/parser/spooler.xml");
-            NodeList n2 = xpath_mo.selectNodeList(xpath_mo.document.getElementsByTagName("*").item(0), "//spooler//answer//state//remote_schedulers//remote_scheduler");
-            for (int i = 0; i < nl.getLength(); i++) {
-                Node n = n2.item(i);
-                LOGGER.info("Tagname: " + n.getNodeName());
-                org.w3c.dom.NamedNodeMap map = n.getAttributes();
-                for (int j = 0; j < map.getLength(); j++) {
-                    LOGGER.info(j + "'te attribut : " + map.item(j));
-                }
-            }
-        } catch (Exception e) {
-            LOGGER.error("", e);
-        }
-    }
+    private Document document = null;
+    private Element root = null;
+    private Node node = null;
 
     public SOSXMLXPath(StringBuffer xmlStr) throws Exception {
         super();
@@ -147,10 +48,6 @@ public class SOSXMLXPath extends CachedXPathAPI {
         this.root = this.document.getDocumentElement();
     }
 
-    /** re
-     * 
-     * @param stream
-     * @throws Exception */
     public SOSXMLXPath(InputStream stream) throws Exception {
         super();
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -214,12 +111,10 @@ public class SOSXMLXPath extends CachedXPathAPI {
         return out.toString();
     }
 
-    /** liefert das XML-Dokument */
     public Document getDocument() throws Exception {
         return this.document;
     }
 
-    /** liefert das XML-Dokument */
     public Element getElement() throws Exception {
         return (Element) this.node;
     }
@@ -234,10 +129,16 @@ public class SOSXMLXPath extends CachedXPathAPI {
                 case Node.TEXT_NODE:
                 case Node.CDATA_SECTION_NODE:
                     strRet += item.getNodeValue();
+                    break;
                 }
             }
         }
         return strRet;
+    }
+
+    
+    public Element getRoot() {
+        return root;
     }
 
 }
