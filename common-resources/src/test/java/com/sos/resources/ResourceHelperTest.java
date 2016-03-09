@@ -9,9 +9,7 @@ import java.net.URL;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
-/**
- * Created by schaedi on 10.07.2014.
- */
+/** Created by schaedi on 10.07.2014. */
 public class ResourceHelperTest {
 
     @Test

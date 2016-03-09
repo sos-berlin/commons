@@ -20,7 +20,7 @@ public class SOSSybaseConnection extends sos.connection.SOSConnection {
     private static final String replacement[] = { "LOWER", "UPPER", "GETDATE()", "holdlock" };
     private static final SOSConnectionVersionLimiter versionLimiter;
     private static final Logger LOGGER = Logger.getLogger(SOSSybaseConnection.class);
-    
+
     static {
         versionLimiter = new SOSConnectionVersionLimiter();
         versionLimiter.setMinSupportedVersion(12, 0);
@@ -47,13 +47,12 @@ public class SOSSybaseConnection extends sos.connection.SOSConnection {
         super(driver, url, dbuser, dbpassword);
     }
 
-    public SOSSybaseConnection(final String driver, final String url, final String dbuser, final String dbpassword, final SOSLogger logger)
-            throws Exception {
+    public SOSSybaseConnection(final String driver, final String url, final String dbuser, final String dbpassword, final SOSLogger logger) throws Exception {
         super(driver, url, dbuser, dbpassword, logger);
     }
 
-    public SOSSybaseConnection(final String driver, final String url, final String dbname, final String dbuser, final String dbpassword,
-            final SOSLogger logger) throws Exception {
+    public SOSSybaseConnection(final String driver, final String url, final String dbname, final String dbuser, final String dbpassword, final SOSLogger logger)
+            throws Exception {
         super(driver, url, dbuser, dbpassword, logger);
         if (dbname == null) {
             throw new Exception(SOSClassUtil.getMethodName() + ": missing database name.");
@@ -61,8 +60,7 @@ public class SOSSybaseConnection extends sos.connection.SOSConnection {
         this.dbname = dbname;
     }
 
-    public SOSSybaseConnection(final String driver, final String url, final String dbname, final String dbuser, final String dbpassword)
-            throws Exception {
+    public SOSSybaseConnection(final String driver, final String url, final String dbname, final String dbuser, final String dbpassword) throws Exception {
         super(driver, url, dbuser, dbpassword);
         if (dbname == null) {
             throw new Exception(SOSClassUtil.getMethodName() + ": missing database name.");

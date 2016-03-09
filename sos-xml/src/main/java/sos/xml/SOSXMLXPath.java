@@ -136,7 +136,6 @@ public class SOSXMLXPath extends CachedXPathAPI {
         return strRet;
     }
 
-    
     public Element getRoot() {
         return root;
     }

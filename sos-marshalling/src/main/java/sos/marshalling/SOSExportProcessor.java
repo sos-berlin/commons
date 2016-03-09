@@ -8,16 +8,16 @@ import sos.util.SOSArguments;
 import sos.marshalling.SOSExport;
 import sos.util.SOSStandardLogger;
 
-/**
- * Title: SOSExportProcessor<br>
- * Description: Kommandozeilentool zum Exportieren von Daten einer Applikation im XML-Format<br>
+/** Title: SOSExportProcessor<br>
+ * Description: Kommandozeilentool zum Exportieren von Daten einer Applikation
+ * im XML-Format<br>
  * 
  * Copyright: Copyright (c) 2005<br>
  * Company: SOS Berlin GmbH<br>
+ * 
  * @author <a href="mailto:robert.ehrlich@sos-berlin.com">Robert Ehrlich</a>
- * Resource sos.connection.jar sos.util.jar
- * @version $Id$
- */
+ *         Resource sos.connection.jar sos.util.jar
+ * @version $Id$ */
 public class SOSExportProcessor {
 
     private SOSConnection _sosConnection = null;
@@ -42,26 +42,19 @@ public class SOSExportProcessor {
 
     private boolean enableExecuteParametr = true;
 
-    /**
-     * Konstruktor
+    /** Konstruktor
      * 
-     * @param configFile
-     *            Datei, in der die Zugangsdaten zur Datenbank enthalten sind
-     * @param logFile
-     *            Name der Protokolldatei
-     * @param logLevel
-     *            Log Level für die Protokolldatei
-     * @param outputFile
-     *            Name der XML-Datei für Export
-     * @param tableNames
-     *            Tabellennamen für den Export. <br>
+     * @param configFile Datei, in der die Zugangsdaten zur Datenbank enthalten
+     *            sind
+     * @param logFile Name der Protokolldatei
+     * @param logLevel Log Level für die Protokolldatei
+     * @param outputFile Name der XML-Datei für Export
+     * @param tableNames Tabellennamen für den Export. <br>
      *            Es werden alle Daten der jeweiligen Tabelle exportiert <br>
      *            Mehrere Tabellen durch + Zeichen getrennt.
-     * @param executeQuery
-     *            eigene SQL-Statement für eine Tabelle angeben. <br>
+     * @param executeQuery eigene SQL-Statement für eine Tabelle angeben. <br>
      *            Muß in doppelten Hochkommas angegeben werden
-     * @param keys
-     *            Schlüsselfelder für eine bzw mehreren Tabellen. <br>
+     * @param keys Schlüsselfelder für eine bzw mehreren Tabellen. <br>
      *            Wird im Zusammenhang mit dem Parameter tableNames
      *            berücksichtigt <br>
      *            Schlüsselfelder sind wichtig, wenn eine Tabelle CLOB bzw BLOB
@@ -69,18 +62,14 @@ public class SOSExportProcessor {
      *            mehrere Schlüssel für eine Tabellen durch Komma getrennt <br>
      *            für mehreren Tabellen durch + Zeichen getrennt <br>
      *            für mehreren Tabellen : die Reihenfolge wie bei tableNames
-     * @throws Exception
-     */
-    public SOSExportProcessor(File configFile, File logFile, int logLevel,
-            File outputFile, String tableNames, String executeQuery, String keys)
+     * @throws Exception */
+    public SOSExportProcessor(File configFile, File logFile, int logLevel, File outputFile, String tableNames, String executeQuery, String keys)
             throws Exception {
 
         if (configFile == null)
-                throw new NullPointerException(
-                        "Export: Parameter config == null!");
+            throw new NullPointerException("Export: Parameter config == null!");
         if (outputFile == null)
-                throw new NullPointerException(
-                        "Export: Parameter output == null!");
+            throw new NullPointerException("Export: Parameter output == null!");
 
         try {
             _configFile = configFile;
@@ -91,29 +80,26 @@ public class SOSExportProcessor {
             _executeQuery = executeQuery;
             _keys = keys;
 
-            if (_configFile != null && _configFile.getName().length() > 0
-                    && !_configFile.exists()) { throw new Exception(
-                    "configuration file not found: " + _configFile); }
+            if (_configFile != null && _configFile.getName().length() > 0 && !_configFile.exists()) {
+                throw new Exception("configuration file not found: " + _configFile);
+            }
 
-            if ((_tableNames != null && !tableNames.equals(""))
-                    && (_executeQuery != null && !_executeQuery.equals(""))) { throw new Exception(
-                    "-tables and -execute may not be indicated together"); }
+            if ((_tableNames != null && !tableNames.equals("")) && (_executeQuery != null && !_executeQuery.equals(""))) {
+                throw new Exception("-tables and -execute may not be indicated together");
+            }
 
-            if (_logLevel != 0 && _logFile.toString().equals("")) { throw new Exception(
-                    "log file is not defined"); }
+            if (_logLevel != 0 && _logFile.toString().equals("")) {
+                throw new Exception("log file is not defined");
+            }
 
         } catch (Exception e) {
-            throw new Exception("error in SOSExportProcessor: "
-                    + e.getMessage());
+            throw new Exception("error in SOSExportProcessor: " + e.getMessage());
         }
     }
 
-    /**
-     * Konstruktor
+    /** Konstruktor
      * 
-     * wird aufgerufen, um die Programm USAGE anzuzeigen
-     *  
-     */
+     * wird aufgerufen, um die Programm USAGE anzuzeigen */
     public SOSExportProcessor() {
         System.out.println("Syntax");
         System.out.println("Optionen :");
@@ -159,34 +145,29 @@ public class SOSExportProcessor {
 
     }
 
-    /**
-     * Export anhand der registrierten Abfragen ausf&uuml;hren
+    /** Export anhand der registrierten Abfragen ausf&uuml;hren
      * 
-     * @throws Exception
-     */
+     * @throws Exception */
     public void doExport() throws Exception {
 
         try {
 
             if (this.isEnableTableParametr() && this.isEnableExecuteParametr()) {
-                if ((_tableNames == null || _tableNames.equals(""))
-                        && (_executeQuery == null || _executeQuery.equals(""))) { throw new Exception(
-                        "undefined operation for export. Check please input for your -tables or -execute arguments"); }
+                if ((_tableNames == null || _tableNames.equals("")) && (_executeQuery == null || _executeQuery.equals(""))) {
+                    throw new Exception("undefined operation for export. Check please input for your -tables or -execute arguments");
+                }
             }
 
             if (_logLevel == 0) {
                 _sosLogger = new SOSStandardLogger(SOSStandardLogger.DEBUG);
             } else {
-                _sosLogger = new SOSStandardLogger(_logFile.toString(),
-                        _logLevel);
+                _sosLogger = new SOSStandardLogger(_logFile.toString(), _logLevel);
             }
 
-            _sosConnection = SOSConnection.createInstance(_configFile
-                    .toString(), _sosLogger);
+            _sosConnection = SOSConnection.createInstance(_configFile.toString(), _sosLogger);
             _sosConnection.connect();
 
-            SOSExport export = new SOSExport(_sosConnection, _outputFile
-                    .toString(), "EXPORT", _sosLogger);
+            SOSExport export = new SOSExport(_sosConnection, _outputFile.toString(), "EXPORT", _sosLogger);
 
             prepareExport(export);
 
@@ -195,8 +176,7 @@ public class SOSExportProcessor {
             System.out.println("Export erfolgreich beendet.");
 
         } catch (Exception e) {
-            throw new Exception("error in SOSExportProcessor: "
-                    + e.getMessage());
+            throw new Exception("error in SOSExportProcessor: " + e.getMessage());
         } finally {
             try {
                 if (_sosConnection != null) {
@@ -208,14 +188,11 @@ public class SOSExportProcessor {
 
     }
 
-    /**
-     * Export vorbereiten.<br>
-     * Die Methode setzt Tabellennamen, Schlüsselfelder usw für den Export. 
+    /** Export vorbereiten.<br>
+     * Die Methode setzt Tabellennamen, Schlüsselfelder usw für den Export.
      * 
-     * @param export
-     *            SOSExport Objekt
-     * @throws Exception
-     */
+     * @param export SOSExport Objekt
+     * @throws Exception */
     public void prepareExport(SOSExport export) throws Exception {
 
         String keys = "";
@@ -260,44 +237,48 @@ public class SOSExportProcessor {
             }
             export.add(table, keys, _executeQuery, null, 0);
         }
-        
+
     }
 
-    /**
-     * Programm ausführen<br>
+    /** Programm ausführen<br>
      * 
-     * @param args		Programmargumente<br><br>
+     * @param args Programmargumente<br>
+     * <br>
      * 
-     * Mit dem Argument "?" bzw "help"  kann mann sich Programm Usage anzeigen lassen.<br><br> 
+     *            Mit dem Argument "?" bzw "help" kann mann sich Programm Usage
+     *            anzeigen lassen.<br>
+     * <br>
      * 
-     * Weitere mögliche Argumente<br>
-     *  	-config		Datei, in der die Zugangsdaten zur Datenbank enthalten sind<br>
-     * 					Default	: sos_settings.ini<br>
-     *  	-log        Name der Protokolldatei<br>
-     * 					Default : sos_export.log<br>
-     *  	-log-level  Log Level für die Protokolldatei<br>
-     * 					Default : 0   keine Protokollierung<br>
-     *  	-output     Name der XML-Datei für Export<br>
-     * 					Default	: sos_export.xml<br>
-     * 		-tables		Tabellennamen für den Export. <br>
-     *            		Es werden alle Daten der jeweiligen Tabelle exportiert <br>
-     *            		Mehrere Tabellen durch + Zeichen getrennt.<br>
-     * 					Default : Leerstring<br>
-     *  	-execute    eigene SQL-Statement für eine Tabelle angeben. <br>
-     *            		Muß in doppelten Hochkommas angegeben werden<br>
-     * 					Default : Leerstring<br>
-     * 		-keys       Schlüsselfelder für eine bzw mehreren Tabellen. <br>
-     *            		Wird im Zusammenhang mit dem Argument -tables berücksichtigt <br>
-     *            		Schlüsselfelder sind wichtig, wenn eine Tabelle CLOB bzw BLOB enthält. <br>
-     *            		mehrere Schlüssel für eine Tabelle -  durch Komma getrennt <br>
-     *            		für mehreren Tabellen durch + Zeichen getrennt <br>
-     *            		für mehreren Tabellen : die Reihenfolge wie bei -tables<br>
-     * 					Default : Leerstring<br><br>
-     * -execute und -tables dürfen nicht zusammen angegeben werden.<br>
-     * eine von beiden Optionen muss angegeben sein<br>
+     *            Weitere mögliche Argumente<br>
+     *            -config Datei, in der die Zugangsdaten zur Datenbank enthalten
+     *            sind<br>
+     *            Default : sos_settings.ini<br>
+     *            -log Name der Protokolldatei<br>
+     *            Default : sos_export.log<br>
+     *            -log-level Log Level für die Protokolldatei<br>
+     *            Default : 0 keine Protokollierung<br>
+     *            -output Name der XML-Datei für Export<br>
+     *            Default : sos_export.xml<br>
+     *            -tables Tabellennamen für den Export. <br>
+     *            Es werden alle Daten der jeweiligen Tabelle exportiert <br>
+     *            Mehrere Tabellen durch + Zeichen getrennt.<br>
+     *            Default : Leerstring<br>
+     *            -execute eigene SQL-Statement für eine Tabelle angeben. <br>
+     *            Muß in doppelten Hochkommas angegeben werden<br>
+     *            Default : Leerstring<br>
+     *            -keys Schlüsselfelder für eine bzw mehreren Tabellen. <br>
+     *            Wird im Zusammenhang mit dem Argument -tables berücksichtigt <br>
+     *            Schlüsselfelder sind wichtig, wenn eine Tabelle CLOB bzw BLOB
+     *            enthält. <br>
+     *            mehrere Schlüssel für eine Tabelle - durch Komma getrennt <br>
+     *            für mehreren Tabellen durch + Zeichen getrennt <br>
+     *            für mehreren Tabellen : die Reihenfolge wie bei -tables<br>
+     *            Default : Leerstring<br>
+     * <br>
+     *            -execute und -tables dürfen nicht zusammen angegeben werden.<br>
+     *            eine von beiden Optionen muss angegeben sein<br>
      * 
-     * @throws Exception
-     */
+     * @throws Exception */
     public static void main(String[] args) throws Exception {
 
         boolean isExport = true;
@@ -313,55 +294,37 @@ public class SOSExportProcessor {
         if (isExport) {
             SOSArguments arguments = new SOSArguments(args);
 
-            SOSExportProcessor processor = new SOSExportProcessor(new File(
-                    arguments.as_string("-config=", "sos_settings.ini")),
-                    new File(arguments.as_string("-log=", "sos_export.log")),
-                    arguments.as_int("-log-level=", 0), 
-                    new File(arguments.as_string("-output=", "sos_export.xml")),
-                    new String(arguments.as_string("-tables=", "")),
-                    new String(arguments.as_string("-execute=", "")),
-                    new String(arguments.as_string("-keys=", "")));
+            SOSExportProcessor processor = new SOSExportProcessor(new File(arguments.as_string("-config=", "sos_settings.ini")), new File(arguments.as_string("-log=", "sos_export.log")), arguments.as_int("-log-level=", 0), new File(arguments.as_string("-output=", "sos_export.xml")), new String(arguments.as_string("-tables=", "")), new String(arguments.as_string("-execute=", "")), new String(arguments.as_string("-keys=", "")));
 
             arguments.check_all_used();
             processor.doExport();
         }
     }
 
-    
-    /**
-     * Liefert den Zustand : Prüfen nach -execute Option
+    /** Liefert den Zustand : Prüfen nach -execute Option
      * 
-     * @return Liefert den Zustand : Prüfen nach -execute Option oder nicht.
-     */
+     * @return Liefert den Zustand : Prüfen nach -execute Option oder nicht. */
     public boolean isEnableExecuteParametr() {
         return enableExecuteParametr;
     }
 
-    /**
-     * Setzt Zustand : Prüfen nach -execute Option
+    /** Setzt Zustand : Prüfen nach -execute Option
      * 
-     * @param enableExecuteParametr  Prüfen nach -execute Option  oder nicht
-     *            
-     */
+     * @param enableExecuteParametr Prüfen nach -execute Option oder nicht */
     public void setEnableExecuteParametr(boolean enableExecuteParametr) {
         this.enableExecuteParametr = enableExecuteParametr;
     }
 
-    /**
-     * Liefert den Zustand : Prüfen nach -tables Option
+    /** Liefert den Zustand : Prüfen nach -tables Option
      * 
-     * @return Liefert den Zustand : Prüfen nach -tables Option oder nicht.
-     */
+     * @return Liefert den Zustand : Prüfen nach -tables Option oder nicht. */
     public boolean isEnableTableParametr() {
         return enableTableParametr;
     }
 
-    /**
-     * Setzt Zustand : Prüfen nach -tables Option
+    /** Setzt Zustand : Prüfen nach -tables Option
      * 
-     * @param enableTableParametr
-     *            Prüfen nach -tables Option  oder nicht.
-     */
+     * @param enableTableParametr Prüfen nach -tables Option oder nicht. */
     public void setEnableTableParametr(boolean enableTableParametr) {
         this.enableTableParametr = enableTableParametr;
     }

@@ -275,8 +275,7 @@ public class SOSConfigurationRequiredItem {
                             } else {
                                 SOSConfigurationItem newItem = getNewConfigurationItem(itemId);
                                 String newName = sosString.parseToString(newItem.getName());
-                                String newValue = sosString.parseToString(
-                                        newItem.getValue()).trim().length() == 0 ? sosString.parseToString(newItem.getDefaults())
+                                String newValue = sosString.parseToString(newItem.getValue()).trim().length() == 0 ? sosString.parseToString(newItem.getDefaults())
                                         : sosString.parseToString(newItem.getValue());
                                 if (newValue.length() > 0) {
                                     listOfMissingItemWithDefaults.add(newItem);

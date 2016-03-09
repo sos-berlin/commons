@@ -127,11 +127,9 @@ public class SOSCheckSettings {
         try {
             rules = new HashMap();
             // VerOderung
-            if ((condition.toLowerCase().indexOf(" or ") > -1) ||
-                    (condition.toLowerCase().indexOf("(or") > -1) ||
-                    (condition.toLowerCase().indexOf(")or") > -1) ||
-                    (condition.toLowerCase().indexOf(" or(") > -1) ||
-                    (condition.toLowerCase().indexOf(" or)") > -1)) {
+            if ((condition.toLowerCase().indexOf(" or ") > -1) || (condition.toLowerCase().indexOf("(or") > -1)
+                    || (condition.toLowerCase().indexOf(")or") > -1) || (condition.toLowerCase().indexOf(" or(") > -1)
+                    || (condition.toLowerCase().indexOf(" or)") > -1)) {
                 rules.put("0or0", "0");
                 rules.put("0or1", "1");
                 rules.put("1or0", "1");
@@ -142,11 +140,9 @@ public class SOSCheckSettings {
                 rules.put("\\(1or1\\)", "1");
             }
             // VerUNDung
-            if ((condition.toLowerCase().indexOf(" and ") > -1) ||
-                    (condition.toLowerCase().indexOf("(and") > -1) ||
-                    (condition.toLowerCase().indexOf(")and") > -1) ||
-                    (condition.toLowerCase().indexOf("and(") > -1) ||
-                    (condition.toLowerCase().indexOf("and)") > -1)) {
+            if ((condition.toLowerCase().indexOf(" and ") > -1) || (condition.toLowerCase().indexOf("(and") > -1)
+                    || (condition.toLowerCase().indexOf(")and") > -1) || (condition.toLowerCase().indexOf("and(") > -1)
+                    || (condition.toLowerCase().indexOf("and)") > -1)) {
                 rules.put("0and0", "0");
                 rules.put("0and1", "0");
                 rules.put("1and0", "0");
@@ -157,11 +153,9 @@ public class SOSCheckSettings {
                 rules.put("\\(1and1\\)", "1");
             }
             // XODER
-            if ((condition.toLowerCase().indexOf(" xor ") > -1) ||
-                    (condition.toLowerCase().indexOf("(xor") > -1) ||
-                    (condition.toLowerCase().indexOf(")xor") > -1) ||
-                    (condition.toLowerCase().indexOf("xor(") > -1) ||
-                    (condition.toLowerCase().indexOf("xor)") > -1)) {
+            if ((condition.toLowerCase().indexOf(" xor ") > -1) || (condition.toLowerCase().indexOf("(xor") > -1)
+                    || (condition.toLowerCase().indexOf(")xor") > -1) || (condition.toLowerCase().indexOf("xor(") > -1)
+                    || (condition.toLowerCase().indexOf("xor)") > -1)) {
                 rules.put("0xor0", "0");
                 rules.put("0xor1", "1");
                 rules.put("1xor0", "1");

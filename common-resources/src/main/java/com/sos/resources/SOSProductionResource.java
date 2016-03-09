@@ -9,16 +9,14 @@ import javax.xml.transform.stream.StreamSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /** A list of common resources used in different products/projects.
  *
  * The list entries should refer to the newest version of a resource file. */
 public enum SOSProductionResource implements SOSResource {
 
-    JOB_CHAIN_EXTENSIONS_XSD(basePackage() + "/xsd", "job-chain-extensions-v1.0.xsd"),
-    JOB_DOC_XSD(basePackage() + "/xsd", "scheduler_job_documentation_v1.2.xsd"),
-    JOB_DOC_XSLT(basePackage() + "/xsl/jobdoc", "scheduler_job_documentation_v1.1.xsl"),
-    EVENT_SERVICE_XSD(basePackage() + "/xsd", "events2actions.xsd"),
+    JOB_CHAIN_EXTENSIONS_XSD(basePackage() + "/xsd", "job-chain-extensions-v1.0.xsd"), JOB_DOC_XSD(basePackage() + "/xsd",
+            "scheduler_job_documentation_v1.2.xsd"), JOB_DOC_XSLT(basePackage() + "/xsl/jobdoc", "scheduler_job_documentation_v1.1.xsl"), EVENT_SERVICE_XSD(
+            basePackage() + "/xsd", "events2actions.xsd"),
     // the version is determined via the dependency setting in the pom.xml
     SCHEDULER_XSD("com/sos/scheduler/enginedoc/common", "scheduler.xsd");
 

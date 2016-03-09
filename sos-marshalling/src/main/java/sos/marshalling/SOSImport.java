@@ -319,8 +319,8 @@ public class SOSImport extends DefaultHandler {
                 _curMetaKeysOpened = true;
             } else if ("field".equalsIgnoreCase(name) && _curMetaKeysOpened) {
                 if (_log != null) {
-                    _log.debug9("add keyfield: name = " + normalizeFieldName(atts.getValue("name")) + " type = " + atts.getValue("type")
-                            + " typeID = " + atts.getValue("typeID") + " len = " + atts.getValue("len") + " scale = " + atts.getValue("scale"));
+                    _log.debug9("add keyfield: name = " + normalizeFieldName(atts.getValue("name")) + " type = " + atts.getValue("type") + " typeID = "
+                            + atts.getValue("typeID") + " len = " + atts.getValue("len") + " scale = " + atts.getValue("scale"));
                 }
                 String field = atts.getValue("name");
                 if (_autoNormalizeField && !_autoChecked) {
@@ -512,8 +512,8 @@ public class SOSImport extends DefaultHandler {
         }
     }
 
-    public void doImport(SOSConnection conn, String fileName, String packageId, String packageElement, String packageValue) throws Exception,
-            SAXException, FileNotFoundException {
+    public void doImport(SOSConnection conn, String fileName, String packageId, String packageElement, String packageValue) throws Exception, SAXException,
+            FileNotFoundException {
         try {
             if (conn != null) {
                 _conn = conn;
@@ -581,8 +581,7 @@ public class SOSImport extends DefaultHandler {
                     if (_records.getValue(index, restrictName) == null) {
                         _curBlockedPackageDepth = _curPackageDepth;
                         if (_log != null) {
-                            _log.debug3("import denied for element by restriction at depth " + _curBlockedPackageDepth + ": " + restrictName
-                                    + " not in record");
+                            _log.debug3("import denied for element by restriction at depth " + _curBlockedPackageDepth + ": " + restrictName + " not in record");
                         }
                         return;
                     }
@@ -777,8 +776,7 @@ public class SOSImport extends DefaultHandler {
                     if (_records.getValue(index, restrictName) == null) {
                         _curBlockedPackageDepth = _curPackageDepth;
                         if (_log != null) {
-                            _log.debug3("import denied for element by restriction at depth " + _curBlockedPackageDepth + ": " + restrictName
-                                    + " not in record");
+                            _log.debug3("import denied for element by restriction at depth " + _curBlockedPackageDepth + ": " + restrictName + " not in record");
                         }
                         return;
                     }
@@ -864,8 +862,7 @@ public class SOSImport extends DefaultHandler {
                     if (_records.getValue(index, restrictName) == null) {
                         _curBlockedPackageDepth = _curPackageDepth;
                         if (_log != null) {
-                            _log.debug3("import denied for element by restriction at depth " + _curBlockedPackageDepth + ": " + restrictName
-                                    + " not in record");
+                            _log.debug3("import denied for element by restriction at depth " + _curBlockedPackageDepth + ": " + restrictName + " not in record");
                         }
                         return;
                     }
@@ -1046,8 +1043,8 @@ public class SOSImport extends DefaultHandler {
                     break;
                 }
                 if (_log != null) {
-                    _log.debug6("found " + blobType + ": name = " + key + " type = " + _metaFieldRecords.get(name).getTypeName(key)
-                            + " typeID = " + _metaFieldRecords.get(name).getTypeId(key));
+                    _log.debug6("found " + blobType + ": name = " + key + " type = " + _metaFieldRecords.get(name).getTypeName(key) + " typeID = "
+                            + _metaFieldRecords.get(name).getTypeId(key));
                 }
                 obj.add(blobType);
                 blobs.put(key, obj);
