@@ -95,7 +95,8 @@ public class SOSCredentialStoreImpl extends JSToolBox {
                 // protocol
                 //
                 // ftp://<user>:<password>@<host>:<port>/<url-path>;type=<typecode>
-                // see http://docs.oracle.com/javase/7/docs/api/java/net/URL.html
+                // see
+                // http://docs.oracle.com/javase/7/docs/api/java/net/URL.html
                 String strUrl = objEntry.Url();
                 try {
                     URL objURL = new URL(strUrl);
@@ -114,7 +115,8 @@ public class SOSCredentialStoreImpl extends JSToolBox {
                     }
                     String strAuthority = objURL.getAuthority();
                 } catch (MalformedURLException e) {
-                    // not a valid url. ignore it, because it could be a host name only
+                    // not a valid url. ignore it, because it could be a host
+                    // name only
                 }
             }
             if (isNotEmpty(objEntry.UserName())) {

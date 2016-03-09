@@ -33,7 +33,8 @@ public class KeePassDataBaseFactory {
     private static final List<DBType> TYPES;
 
     static {
-        // XKDB is xml based dont want to load class when unnecesary as its dependencies may not be available if someone intends to use kdb only
+        // XKDB is xml based dont want to load class when unnecesary as its
+        // dependencies may not be available if someone intends to use kdb only
         ArrayList<DBType> list = new ArrayList<DBType>();
         // TODO Keepass-Class as an Option
         list.add(new DBType(KeePassConst.KDB_SIG_1, KeePassConst.KDB_SIG_2, "com.sos.CredentialStore.KeePass.pl.sind.keepass.kdb.v1.KeePassDataBaseV1"));
@@ -41,8 +42,8 @@ public class KeePassDataBaseFactory {
         TYPES = Collections.unmodifiableList(list);
     }
 
-    public static KeePassDataBase loadDataBase(final InputStream dbFile, final InputStream keyFile, final String password) 
-            throws IOException, UnsupportedDataBaseException, KeePassDataBaseException {
+    public static KeePassDataBase loadDataBase(final InputStream dbFile, final InputStream keyFile, final String password) throws IOException,
+            UnsupportedDataBaseException, KeePassDataBaseException {
         // first load database
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         byte[] bytes = new byte[1024];
@@ -67,8 +68,7 @@ public class KeePassDataBaseFactory {
             if (e.getCause() != null) {
                 if (e.getCause() instanceof UnsupportedDataBaseException) {
                     throw (UnsupportedDataBaseException) e.getCause();
-                }
-                else if (e.getCause() instanceof KeePassDataBaseException) {
+                } else if (e.getCause() instanceof KeePassDataBaseException) {
                     throw (KeePassDataBaseException) e.getCause();
                 }
             }

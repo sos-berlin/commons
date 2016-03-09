@@ -19,8 +19,7 @@ public class SOSOrderedHashtable extends Hashtable {
     private Hashtable mHashtable;
 
     /** Public Constructor */
-    public SOSOrderedHashtable()
-    {
+    public SOSOrderedHashtable() {
         this.mSerialOrder = new Vector();
         this.mHashtable = new Hashtable();
     }
@@ -29,8 +28,7 @@ public class SOSOrderedHashtable extends Hashtable {
      *
      * @exception UnsupportedOperationException - clear is not supported by the
      *                underlying Interface java.util.Map. */
-    synchronized public void clear() throws UnsupportedOperationException
-    {
+    synchronized public void clear() throws UnsupportedOperationException {
         this.mHashtable.clear();
         this.mSerialOrder.clear();
     }
@@ -41,8 +39,7 @@ public class SOSOrderedHashtable extends Hashtable {
      * @param key - the key that needs to be removed.
      * @return the value to which the key had been mapped in this
      *         OrderedHashtable, or null if the key did not have a mapping. */
-    synchronized public Object remove(Object key)
-    {
+    synchronized public Object remove(Object key) {
         this.mSerialOrder.remove(key);
         return this.mHashtable.remove(key);
     }
@@ -57,8 +54,7 @@ public class SOSOrderedHashtable extends Hashtable {
      * @exception NullPointerException, if the key or value is null.
      * @return the previous value of the specified key in this hashtable, or
      *         null if it did not have one. */
-    synchronized public Object put(Object key, Object value) throws NullPointerException
-    {
+    synchronized public Object put(Object key, Object value) throws NullPointerException {
         Object toReturn = this.mHashtable.put(key, value);
         if (toReturn == null)
             this.mSerialOrder.add(key);
@@ -83,50 +79,43 @@ public class SOSOrderedHashtable extends Hashtable {
     }
 
     /** Tests if the specified object is a key in this OrderedHashtable */
-    public boolean containsKey(Object key)
-    {
+    public boolean containsKey(Object key) {
         return this.mHashtable.containsKey(key);
     }
 
     /** Returns true if this OrderedHashtable maps one or more keys to this value */
-    public boolean containsValue(Object value)
-    {
+    public boolean containsValue(Object value) {
         return this.mHashtable.containsValue(value);
     }
 
     /** Returns the value to which the specified key is mapped in this
      * OrderedHashtable, or null if the key is not mapped to any value. */
-    public Object get(Object key)
-    {
+    public Object get(Object key) {
         return this.mHashtable.get(key);
     }
 
     /** Tests if this OrderedHashtable maps no keys to values. */
-    public boolean isEmpty()
-    {
+    public boolean isEmpty() {
         return this.mHashtable.isEmpty();
     }
 
     /** Returns the number of keys in this OrderedHashtable. */
-    public int size()
-    {
+    public int size() {
         return this.mHashtable.size();
     }
 
     /** Returns the hash code value for this Map. */
-    public synchronized int hashCode()
-    {
+    public synchronized int hashCode() {
         return this.mHashtable.hashCode();
     }
-    
+
     @Override
     public synchronized boolean equals(Object o) {
         return this.equals(o);
     }
 
     /** Returns a string representation of the OrderedHashtable. */
-    public String toString()
-    {
+    public String toString() {
         StringBuffer s = new StringBuffer();
         s.append("{ ");
         Object key = null;
@@ -143,8 +132,7 @@ public class SOSOrderedHashtable extends Hashtable {
     }
 
     // inner class,
-    private class Enumerator implements Enumeration, Iterator
-    {
+    private class Enumerator implements Enumeration, Iterator {
 
         int COUNT = mSerialOrder.size();		// number of elements in the Vector
         int SERIAL = 0;							// keep track of the current element
