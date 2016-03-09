@@ -136,7 +136,8 @@ public class SOSConfigurationRequiredItem {
                                 missingparam = true;
                             }
                             if (missingparam) {
-                                msgUnknownParameter = (msgUnknownParameter.length() > 0 ? msgUnknownParameter + "\n" : "") + "missing dependencies Parameter " + depItem;
+                                msgUnknownParameter = (msgUnknownParameter.length() > 0 ? msgUnknownParameter + "\n" : "") + "missing dependencies Parameter "
+                                        + depItem;
                             }
                         }
                     }
@@ -166,7 +167,8 @@ public class SOSConfigurationRequiredItem {
                 for (int i = 0; i < listOfMissingItemWithDefaults.size(); i++) {
                     newconfigurationItem[configurationsItem.length + i] = (SOSConfigurationItem) listOfMissingItemWithDefaults.get(i);
                 }
-                // Überprüfe weil Parameter sich durch die Abhängigkeit verändert haben
+                // Überprüfe weil Parameter sich durch die Abhängigkeit
+                // verändert haben
                 getLogger().debug("check again, cause new Defaultvalues change the Conditions");
             }
             return newconfigurationItem;
@@ -269,8 +271,8 @@ public class SOSConfigurationRequiredItem {
                             } else {
                                 SOSConfigurationItem newItem = getNewConfigurationItem(itemId);
                                 String newName = sosString.parseToString(newItem.getName());
-                                String newValue = sosString.parseToString(
-                                        newItem.getValue()).trim().length() == 0 ? sosString.parseToString(newItem.getDefaults()) : sosString.parseToString(newItem.getValue());
+                                String newValue = sosString.parseToString(newItem.getValue()).trim().length() == 0 ? sosString.parseToString(newItem.getDefaults())
+                                        : sosString.parseToString(newItem.getValue());
                                 if (newValue.length() > 0) {
                                     listOfMissingItemWithDefaults.add(newItem);
                                 }
@@ -358,13 +360,17 @@ public class SOSConfigurationRequiredItem {
             }
             Node n = xPath.selectSingleNode("//Configurations/items/item[@name='" + name + "'] ");
             if (n == null) {
-                // Beim SchedulerBetrieb können beliebige Auftragsparameter mit übergeben werden.
-                // Die Überprüfung der gültigen Parametername soll indem Fall ignoriert werden oder man kann die Konfigurationsdatei erweitern.
+                // Beim SchedulerBetrieb können beliebige Auftragsparameter mit
+                // übergeben werden.
+                // Die Überprüfung der gültigen Parametername soll indem Fall
+                // ignoriert werden oder man kann die Konfigurationsdatei
+                // erweitern.
                 if (allowOtherParamsNames) {
                     item.setItemId(name + "_id");
                     return name + "_id";
                 }
-                // Parametername unbekannt. Überprüfe ob dieser parameter einen gültigen Präfix hat
+                // Parametername unbekannt. Überprüfe ob dieser parameter einen
+                // gültigen Präfix hat
                 String itemIdfromPrefix = validItemPrefix(name, item);
                 if (itemIdfromPrefix != null && itemIdfromPrefix.length() > 0) {
                     return itemIdfromPrefix;

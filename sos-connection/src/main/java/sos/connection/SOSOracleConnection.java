@@ -38,35 +38,40 @@ import sos.util.SOSClassUtil;
 import sos.util.SOSLogger;
 import sos.util.SOSString;
 
-/**
- * <p>Title: </p> 
- * <p>Description: Implementation of SOSConnection for Oracle</p>
- * <p>Copyright: Copyright (c) 2003</p>
- * <p>Company: SOS GmbH</p>
+/** <p>
+ * Title:
+ * </p>
+ * <p>
+ * Description: Implementation of SOSConnection for Oracle
+ * </p>
+ * <p>
+ * Copyright: Copyright (c) 2003
+ * </p>
+ * <p>
+ * Company: SOS GmbH
+ * </p>
+ * 
  * @author <a href="mailto:ghassan.beydoun@sos-berlin.com">Ghassan Beydoun</a>
  * @resource ojdbc14.jar sos.util.jar
- * @version $Id$
- */
+ * @version $Id$ */
 
 public class SOSOracleConnection extends sos.connection.SOSConnection implements SequenceReader {
 
     /** Replacements for %lcase, %ucase, %now, %updlock */
-    private static final String replacement[] = { "LOWER", "UPPER", "SYSDATE",
-            "FOR UPDATE"};
+    private static final String replacement[] = { "LOWER", "UPPER", "SYSDATE", "FOR UPDATE" };
 
     private static final SOSConnectionVersionLimiter versionLimiter;
-    
+
     // initialize versionLimiter
     static {
-    	versionLimiter = new SOSConnectionVersionLimiter();
-    	versionLimiter.addSupportedVersion(8,1);
-    	versionLimiter.addSupportedVersion(9,2);
-    	versionLimiter.setMinSupportedVersion(10,0);
-    	versionLimiter.setMaxSupportedVersion(10,2); 
+        versionLimiter = new SOSConnectionVersionLimiter();
+        versionLimiter.addSupportedVersion(8, 1);
+        versionLimiter.addSupportedVersion(9, 2);
+        versionLimiter.setMinSupportedVersion(10, 0);
+        versionLimiter.setMaxSupportedVersion(10, 2);
     }
-    
-    public SOSOracleConnection(Connection connection, SOSLogger logger)
-            throws Exception {
+
+    public SOSOracleConnection(Connection connection, SOSLogger logger) throws Exception {
         super(connection, logger);
     }
 
@@ -74,8 +79,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
         super(connection);
     }
 
-    public SOSOracleConnection(String configFileName, SOSLogger logger)
-            throws Exception {
+    public SOSOracleConnection(String configFileName, SOSLogger logger) throws Exception {
 
         super(configFileName, logger);
     }
@@ -84,13 +88,11 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
         super(configFileName);
     }
 
-    public SOSOracleConnection(String driver, String url, String dbuser,
-            String dbpassword, SOSLogger logger) throws Exception {
+    public SOSOracleConnection(String driver, String url, String dbuser, String dbpassword, SOSLogger logger) throws Exception {
         super(driver, url, dbuser, dbpassword, logger);
     }
 
-    public SOSOracleConnection(String driver, String url, String dbuser,
-            String dbpassword) throws Exception {
+    public SOSOracleConnection(String driver, String url, String dbuser, String dbpassword) throws Exception {
         super(driver, url, dbuser, dbpassword);
     }
 
@@ -100,17 +102,13 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
         logger.debug6("calling " + SOSClassUtil.getMethodName());
 
         if (SOSString.isEmpty(url))
-                throw new Exception(SOSClassUtil.getMethodName()
-                        + ": missing database url.");
+            throw new Exception(SOSClassUtil.getMethodName() + ": missing database url.");
         if (SOSString.isEmpty(driver))
-                throw new Exception(SOSClassUtil.getMethodName()
-                        + ": missing database driver.");
+            throw new Exception(SOSClassUtil.getMethodName() + ": missing database driver.");
         if (SOSString.isEmpty(dbuser))
-                throw new Exception(SOSClassUtil.getMethodName()
-                        + ": missing database user.");
+            throw new Exception(SOSClassUtil.getMethodName() + ": missing database user.");
         if (SOSString.isEmpty(dbpassword))
-                throw new Exception(SOSClassUtil.getMethodName()
-                        + ": missing database password.");
+            throw new Exception(SOSClassUtil.getMethodName() + ": missing database password.");
 
         properties.setProperty("user", dbuser);
         properties.setProperty("password", dbpassword);
@@ -118,9 +116,9 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
         Driver driver = (Driver) Class.forName(this.driver).newInstance();
         connection = driver.connect(url, properties);
         if (connection == null)
-                throw new Exception("can't connect to database");
+            throw new Exception("can't connect to database");
         logger.debug6(".. successfully connected to " + url);
-        
+
         versionLimiter.check(this, logger);
         prepare(connection);
 
@@ -133,7 +131,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
 
         try {
             if (connection == null)
-                    throw new Exception("can't connect to database");
+                throw new Exception("can't connect to database");
 
             connection.setAutoCommit(false);
             connection.rollback();
@@ -149,37 +147,30 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
             logger.debug9(".. " + NLS_DATE_FORMAT + " successfully set.");
             logger.debug9(".. " + NLS_SORT + " successfully set.");
             CallableStatement enable_stmt = null;
-            enable_stmt = this.getConnection().prepareCall(
-                    "begin dbms_output.enable(10000); end;");
+            enable_stmt = this.getConnection().prepareCall("begin dbms_output.enable(10000); end;");
             enable_stmt.executeUpdate();
         } catch (Exception e) {
             throw e;
         } finally {
             try {
-                if (stmt != null) stmt.close();
+                if (stmt != null)
+                    stmt.close();
             } catch (Exception e) {
             }
         }
     }
 
-    /**
-     * updates a blob
+    /** updates a blob
      * 
-     * @param tableName
-     *            taget table
-     * @param columnName
-     *            target column
-     * @param data
-     *            blob data byte-array
-     * @param condition
-     *            condition(s) (excluding WHERE) of the SQL statement
+     * @param tableName taget table
+     * @param columnName target column
+     * @param data blob data byte-array
+     * @param condition condition(s) (excluding WHERE) of the SQL statement
      * @return number bytes written
      * @throws java.lang.Exception
-     * @see #getBlob( String )
-     * @see #getBlob( String, String )
-     */
-    public long updateBlob(String tableName, String columnName, byte[] data,
-            String condition) throws Exception {
+     * @see #getBlob(String )
+     * @see #getBlob(String, String ) */
+    public long updateBlob(String tableName, String columnName, byte[] data, String condition) throws Exception {
         long totalBytesRead = 0;
         Statement stmt = null;
         StringBuffer query = null;
@@ -194,16 +185,15 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
             logger.debug6("calling " + SOSClassUtil.getMethodName());
 
             if (connection == null)
-                    throw new Exception(
-                            SOSClassUtil.getMethodName()
-                                    + ": sorry, there is no successful connection established."
-                                    + " may be the connect method was not called");
+                throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
+                        + " may be the connect method was not called");
 
             if (SOSString.isEmpty(tableName))
-                    throw new Exception("tableName is null.");
+                throw new Exception("tableName is null.");
             if (SOSString.isEmpty(columnName))
-                    throw new Exception("columnName is null.");
-            if (data.length <= 0) throw new Exception("data has no value.");
+                throw new Exception("columnName is null.");
+            if (data.length <= 0)
+                throw new Exception("data has no value.");
 
             in = new ByteArrayInputStream(data);
 
@@ -286,26 +276,31 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
 
             logger.debug6(".. blob successfully updated.");
         } catch (Exception e) {
-            if (connection != null) connection.rollback();
+            if (connection != null)
+                connection.rollback();
             throw e;
         } finally {
 
             try {
-                if (stmt != null) stmt.close();
+                if (stmt != null)
+                    stmt.close();
             } catch (Exception e) {
             }
 
             try {
-                if (rs != null) rs.close();
+                if (rs != null)
+                    rs.close();
             } catch (Exception e) {
             }
 
             try {
-                if (out != null) out.close();
+                if (out != null)
+                    out.close();
             } catch (Exception e) {
             }
             try {
-                if (in != null) in.close();
+                if (in != null)
+                    in.close();
             } catch (Exception e) {
             }
 
@@ -314,22 +309,15 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
 
     }
 
-    /**
-     * updates a blob from a file
+    /** updates a blob from a file
      * 
-     * @param tableName
-     *            taget table
-     * @param columnName
-     *            target column
-     * @param file
-     *            source of the blob data
-     * @param condition
-     *            condition(s) (excluding WHERE) of the SQL statement
+     * @param tableName taget table
+     * @param columnName target column
+     * @param file source of the blob data
+     * @param condition condition(s) (excluding WHERE) of the SQL statement
      * @return number of bytes written
-     * @throws java.lang.Exception
-     */
-    public long updateBlob(String tableName, String columnName,
-            String fileName, String condition) throws Exception {
+     * @throws java.lang.Exception */
+    public long updateBlob(String tableName, String columnName, String fileName, String condition) throws Exception {
 
         long totalBytesRead = 0;
         OutputStream out = null;
@@ -345,20 +333,19 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
             logger.debug6("calling " + SOSClassUtil.getMethodName());
 
             if (connection == null)
-                    throw new Exception(
-                            SOSClassUtil.getMethodName()
-                                    + ": sorry, there is no successful connection established."
-                                    + " may be the connect method was not called");
+                throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
+                        + " may be the connect method was not called");
 
             if (SOSString.isEmpty(tableName))
-                    throw new Exception("tableName is null.");
+                throw new Exception("tableName is null.");
             if (SOSString.isEmpty(columnName))
-                    throw new Exception("columnName is null.");
+                throw new Exception("columnName is null.");
             if (SOSString.isEmpty(fileName))
-                    throw new Exception("fileName is null.");
+                throw new Exception("fileName is null.");
 
             File file = new File(fileName);
-            if (!file.exists()) throw new Exception("file doesn't exist.");
+            if (!file.exists())
+                throw new Exception("file doesn't exist.");
 
             in = new FileInputStream(file);
 
@@ -433,27 +420,31 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
 
             logger.debug6(".. blob successfully updated.");
         } catch (Exception e) {
-            if (connection != null) connection.rollback();
-            throw new Exception(SOSClassUtil.getMethodName() + ":"
-                    + e.toString(), e);
+            if (connection != null)
+                connection.rollback();
+            throw new Exception(SOSClassUtil.getMethodName() + ":" + e.toString(), e);
         } finally {
 
             try {
-                if (stmt != null) stmt.close();
+                if (stmt != null)
+                    stmt.close();
             } catch (Exception e) {
             }
 
             try {
-                if (rs != null) rs.close();
+                if (rs != null)
+                    rs.close();
             } catch (Exception e) {
             }
 
             try {
-                if (out != null) out.close();
+                if (out != null)
+                    out.close();
             } catch (Exception e) {
             }
             try {
-                if (in != null) in.close();
+                if (in != null)
+                    in.close();
             } catch (Exception e) {
             }
 
@@ -461,18 +452,15 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
         return totalBytesRead;
     }
 
-    /**
-     * writes the contents of a clob to a file
+    /** writes the contents of a clob to a file
      * 
-     * @param query
-     *            SQL query
+     * @param query SQL query
      * @param filename the file to write
      * @return number of bytes written
      * @throws java.lang.Exception
-     * @see #updateBlob( String, String, byte[], String)
-     * @see #updateBlob( String, String, String, String)
-     * @see #getBlob( String )
-     */
+     * @see #updateBlob(String, String, byte[], String)
+     * @see #updateBlob(String, String, String, String)
+     * @see #getBlob(String ) */
     public long getBlob(String query, String fileName) throws Exception {
 
         InputStream in = null;
@@ -487,16 +475,15 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
             logger.debug9("calling " + SOSClassUtil.getMethodName());
 
             if (connection == null)
-                    throw new Exception(
-                            SOSClassUtil.getMethodName()
-                                    + ": sorry, there is no successful connection established."
-                                    + " may be the connect method was not called");
+                throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
+                        + " may be the connect method was not called");
 
             query = normalizeStatement(query, replacement);
-            if (profiler != null) try {
-                profiler.start(query);
-            } catch (Exception e) {
-            }
+            if (profiler != null)
+                try {
+                    profiler.start(query);
+                } catch (Exception e) {
+                }
 
             stmt = connection.createStatement();
             rs = stmt.executeQuery(query);
@@ -504,7 +491,9 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
 
             if (rs.next()) {
                 in = rs.getBinaryStream(1);
-                if (in == null) { return readBytes; }
+                if (in == null) {
+                    return readBytes;
+                }
                 byte[] buff = new byte[1024];
 
                 if ((len = in.read(buff)) > 0) { // hat BLOB-Feld 0 byte??
@@ -522,46 +511,47 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
                 }
 
             }
-            logger.debug9(SOSClassUtil.getMethodName()
-                    + " successfully executed.");
+            logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
         } catch (Exception e) {
-            if (profiler != null) try {
-                profiler.stop("ERROR", e.toString());
-            } catch (Exception ex) {
-            }
+            if (profiler != null)
+                try {
+                    profiler.stop("ERROR", e.toString());
+                } catch (Exception ex) {
+                }
             throw e;
         } finally {
-            if (out != null) try {
-                out.close();
-            } catch (Exception e) {
-            }
-            if (in != null) try {
-                in.close();
-            } catch (Exception e) {
-            }
-            if (stmt != null) try {
-                stmt.close();
-            } catch (Exception e) {
-            }
-            if (profiler != null) try {
-                profiler.stop("", "");
-            } catch (Exception e) {
-            }
+            if (out != null)
+                try {
+                    out.close();
+                } catch (Exception e) {
+                }
+            if (in != null)
+                try {
+                    in.close();
+                } catch (Exception e) {
+                }
+            if (stmt != null)
+                try {
+                    stmt.close();
+                } catch (Exception e) {
+                }
+            if (profiler != null)
+                try {
+                    profiler.stop("", "");
+                } catch (Exception e) {
+                }
         }
 
         return readBytes;
     }
 
-    /**
-     * returns the content of a blob as byte array
+    /** returns the content of a blob as byte array
      * 
-     * @param query
-     *            SQL query
+     * @param query SQL query
      * @throws java.lang.Exception
-     * @see #getBlob( String, String )
-     * @see #updateBlob( String, String, byte[], String )
-     * @see #updateBlob( String, String, String, String )
-     */
+     * @see #getBlob(String, String )
+     * @see #updateBlob(String, String, byte[], String )
+     * @see #updateBlob(String, String, String, String ) */
     public byte[] getBlob(String query) throws Exception {
 
         ByteArrayOutputStream out = null;
@@ -576,16 +566,15 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
             logger.debug9("calling " + SOSClassUtil.getMethodName());
 
             if (connection == null)
-                    throw new Exception(
-                            SOSClassUtil.getMethodName()
-                                    + ": sorry, there is no successful connection established."
-                                    + " may be the connect method was not called");
+                throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
+                        + " may be the connect method was not called");
 
             query = normalizeStatement(query, replacement);
-            if (profiler != null) try {
-                profiler.start(query);
-            } catch (Exception e) {
-            }
+            if (profiler != null)
+                try {
+                    profiler.start(query);
+                } catch (Exception e) {
+                }
 
             stmt = connection.createStatement();
             logger.debug6(".. " + query);
@@ -602,8 +591,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
                 out = new ByteArrayOutputStream((int) blob.length());
                 in = new BufferedInputStream(blob.getBinaryStream());
                 if (in == null) {
-                    logger
-                            .debug9(".. ResultSet InputStream returns NULL value.");
+                    logger.debug9(".. ResultSet InputStream returns NULL value.");
                     return result;
                 }
                 if ((bytesRead = in.read(data, 0, data.length)) != -1) {
@@ -611,50 +599,52 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
                     result = out.toByteArray();
                 }
             }
-            logger.debug9(SOSClassUtil.getMethodName()
-                    + " successfully executed.");
+            logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
         } catch (Exception e) {
-            if (profiler != null) try {
-                profiler.stop("ERROR", e.toString());
-            } catch (Exception ex) {
-            }
+            if (profiler != null)
+                try {
+                    profiler.stop("ERROR", e.toString());
+                } catch (Exception ex) {
+                }
             throw e;
         } finally {
-            if (out != null) try {
-                out.close();
-            } catch (Exception e) {
-            }
-            if (in != null) try {
-                in.close();
-            } catch (Exception e) {
-            }
-            if (stmt != null) try {
-                stmt.close();
-            } catch (Exception e) {
-            }
-            if (rs != null) try {
-                rs.close();
-            } catch (Exception e) {
-            }
-            if (profiler != null) try {
-                profiler.stop("", "");
-            } catch (Exception e) {
-            }
+            if (out != null)
+                try {
+                    out.close();
+                } catch (Exception e) {
+                }
+            if (in != null)
+                try {
+                    in.close();
+                } catch (Exception e) {
+                }
+            if (stmt != null)
+                try {
+                    stmt.close();
+                } catch (Exception e) {
+                }
+            if (rs != null)
+                try {
+                    rs.close();
+                } catch (Exception e) {
+                }
+            if (profiler != null)
+                try {
+                    profiler.stop("", "");
+                } catch (Exception e) {
+                }
         }
         return result;
     }
 
-    /**
-     * writes the contents of a clob to a file
+    /** writes the contents of a clob to a file
      * 
-     * @param query
-     *            SQL query
+     * @param query SQL query
      * @return number of bytes written
      * @throws java.lang.Exception
-     * @see #updateClob( String, String, String, String )
-     * @see #updateClob( String, String, File, String )
-     * @see #getClob( String )
-     */
+     * @see #updateClob(String, String, String, String )
+     * @see #updateClob(String, String, File, String )
+     * @see #getClob(String ) */
     public long getClob(String query, String fileName) throws Exception {
 
         FileWriter out = null;
@@ -668,10 +658,8 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
             logger.debug9("calling " + SOSClassUtil.getMethodName());
 
             if (connection == null)
-                    throw new Exception(
-                            SOSClassUtil.getMethodName()
-                                    + ": sorry, there is no successful connection established."
-                                    + " may be the connect method was not called");
+                throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
+                        + " may be the connect method was not called");
 
             query = normalizeStatement(query, replacement);
             logger.debug6(SOSClassUtil.getMethodName() + ": " + query);
@@ -692,46 +680,47 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
                     totalBytesRead += bytesRead;
                 }
             }
-            logger.debug9(SOSClassUtil.getMethodName()
-                    + " successfully executed.");
+            logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
         } catch (Exception e) {
             throw e;
         } finally {
-            if (out != null) try {
-                out.flush();
-            } catch (Exception e) {
-            }
-            if (out != null) try {
-                out.close();
-            } catch (Exception e) {
-            }
-            if (stmt != null) try {
-                stmt.close();
-            } catch (Exception e) {
-            }
-            if (in != null) try {
-                in.close();
-            } catch (Exception e) {
-            }
-            if (rs != null) try {
-                rs.close();
-            } catch (Exception e) {
-            }
+            if (out != null)
+                try {
+                    out.flush();
+                } catch (Exception e) {
+                }
+            if (out != null)
+                try {
+                    out.close();
+                } catch (Exception e) {
+                }
+            if (stmt != null)
+                try {
+                    stmt.close();
+                } catch (Exception e) {
+                }
+            if (in != null)
+                try {
+                    in.close();
+                } catch (Exception e) {
+                }
+            if (rs != null)
+                try {
+                    rs.close();
+                } catch (Exception e) {
+                }
         }
         return totalBytesRead;
     }
 
-    /**
-     * returns content of a clob
+    /** returns content of a clob
      * 
-     * @param query
-     *            SQL query
+     * @param query SQL query
      * @return content of the clob or empty string
      * @throws java.lang.Exception
-     * @see #updateClob( String, String, String, String )
-     * @see #updateClob( String, String, File, String )
-     * @see #getClob( String, String )
-     */
+     * @see #updateClob(String, String, String, String )
+     * @see #updateClob(String, String, File, String )
+     * @see #getClob(String, String ) */
     public String getClob(String query) throws Exception {
 
         Reader in = null;
@@ -743,10 +732,8 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
             logger.debug9("calling " + SOSClassUtil.getMethodName());
 
             if (connection == null)
-                    throw new Exception(
-                            SOSClassUtil.getMethodName()
-                                    + ": sorry, there is no successful connection established."
-                                    + " may be the connect method is not called");
+                throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
+                        + " may be the connect method is not called");
 
             query = normalizeStatement(query, replacement);
             logger.debug6(SOSClassUtil.getMethodName() + ": " + query);
@@ -763,46 +750,41 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
                     sb.append((char) bytesRead);
                 }
             }
-            logger.debug9(SOSClassUtil.getMethodName()
-                    + " successfully executed.");
+            logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
         } catch (Exception e) {
             throw e;
         } finally {
-            if (stmt != null) try {
-                stmt.close();
-            } catch (Exception e) {
-            }
-            if (in != null) try {
-                in.close();
-            } catch (Exception e) {
-            }
-            if (rs != null) try {
-                rs.close();
-            } catch (Exception e) {
-            }
+            if (stmt != null)
+                try {
+                    stmt.close();
+                } catch (Exception e) {
+                }
+            if (in != null)
+                try {
+                    in.close();
+                } catch (Exception e) {
+                }
+            if (rs != null)
+                try {
+                    rs.close();
+                } catch (Exception e) {
+                }
         }
         return sb.toString();
     }
 
-    /**
-     * updates a clob from a file
+    /** updates a clob from a file
      * 
-     * @param tableName
-     *            taget table
-     * @param columnName
-     *            target column
-     * @param file
-     *            source of the clob data
-     * @param condition
-     *            condition(s) (excluding WHERE) of the SQL statement
+     * @param tableName taget table
+     * @param columnName target column
+     * @param file source of the clob data
+     * @param condition condition(s) (excluding WHERE) of the SQL statement
      * @return number of bytes written
      * @throws java.lang.Exception
-     * @see #updateClob( String, String, String, String )
-     * @see #getClob( String, String )
-     * @see #getClob( String )
-     */
-    public long updateClob(String tableName, String columnName, File file,
-            String condition) throws Exception {
+     * @see #updateClob(String, String, String, String )
+     * @see #getClob(String, String )
+     * @see #getClob(String ) */
+    public long updateClob(String tableName, String columnName, File file, String condition) throws Exception {
 
         Statement stmt = null;
         ResultSet rs = null;
@@ -817,16 +799,15 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
         try {
             logger.debug9("calling " + SOSClassUtil.getMethodName());
             if (connection == null)
-                    throw new Exception(
-                            SOSClassUtil.getMethodName()
-                                    + ": sorry, there is no successful connection established."
-                                    + " may be the connect method was not called");
+                throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
+                        + " may be the connect method was not called");
 
             if (SOSString.isEmpty(tableName))
-                    throw new NullPointerException("tableName is null.");
+                throw new NullPointerException("tableName is null.");
             if (SOSString.isEmpty(columnName))
-                    throw new NullPointerException("columnName is null.");
-            if (!file.exists()) throw new Exception("file doesn't exist.");
+                throw new NullPointerException("columnName is null.");
+            if (!file.exists())
+                throw new Exception("file doesn't exist.");
 
             query = new StringBuffer("UPDATE ");
 
@@ -861,8 +842,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
                 stmt.close();
                 stmt = null;
             } catch (Exception e) {
-                throw new Exception("an error occurred closing the statement: "
-                        + e);
+                throw new Exception("an error occurred closing the statement: " + e);
             }
             stmt = connection.createStatement();
             if (fieldNameUpperCase) {
@@ -886,7 +866,8 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
             theQuery = this.normalizeStatement(query.toString(), replacement);
             logger.debug6(SOSClassUtil.getMethodName() + ": " + theQuery);
             rs = stmt.executeQuery(theQuery);
-            if (rs.next()) clob = (CLOB) rs.getClob(1);
+            if (rs.next())
+                clob = (CLOB) rs.getClob(1);
 
             in = new FileReader(file);
             char[] buffer = new char[clob.getBufferSize()];
@@ -896,49 +877,45 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
                 out.write(buffer, 0, bytesRead);
                 totalBytesWritten += bytesRead;
             }
-            logger.debug9(SOSClassUtil.getMethodName()
-                    + " successfully executed.");
+            logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
         } catch (Exception e) {
             throw e;
         } finally {
-            if (out != null) try {
-                out.close();
-            } catch (Exception e) {
-            }
-            if (stmt != null) try {
-                stmt.close();
-            } catch (Exception e) {
-            }
-            if (in != null) try {
-                in.close();
-            } catch (Exception e) {
-            }
-            if (rs != null) try {
-                rs.close();
-            } catch (Exception e) {
-            }
+            if (out != null)
+                try {
+                    out.close();
+                } catch (Exception e) {
+                }
+            if (stmt != null)
+                try {
+                    stmt.close();
+                } catch (Exception e) {
+                }
+            if (in != null)
+                try {
+                    in.close();
+                } catch (Exception e) {
+                }
+            if (rs != null)
+                try {
+                    rs.close();
+                } catch (Exception e) {
+                }
         }
         return totalBytesWritten;
     }
 
-    /**
-     * updates a clob
+    /** updates a clob
      * 
-     * @param tableName
-     *            taget table
-     * @param columnName
-     *            target column
-     * @param data
-     *            clob String
-     * @param condition
-     *            condition(s) (excluding WHERE) of the SQL statement
+     * @param tableName taget table
+     * @param columnName target column
+     * @param data clob String
+     * @param condition condition(s) (excluding WHERE) of the SQL statement
      * @return number bytes written
      * @throws java.lang.Exception
-     * @see #getClob( String )
-     * @see #getClob( String, String )
-     */
-    public long updateClob(String tableName, String columnName, String data,
-            String condition) throws Exception {
+     * @see #getClob(String )
+     * @see #getClob(String, String ) */
+    public long updateClob(String tableName, String columnName, String data, String condition) throws Exception {
 
         Statement stmt = null;
         ResultSet rs = null;
@@ -954,16 +931,14 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
         try {
             logger.debug9("calling " + SOSClassUtil.getMethodName());
             if (connection == null)
-                    throw new Exception(
-                            "sorry, there is no successful connection established."
-                                    + " may be the connect method is not called");
+                throw new Exception("sorry, there is no successful connection established." + " may be the connect method is not called");
 
             if (SOSString.isEmpty(tableName))
-                    throw new NullPointerException("tableName is null.");
+                throw new NullPointerException("tableName is null.");
             if (SOSString.isEmpty(columnName))
-                    throw new NullPointerException("columnName is null.");
+                throw new NullPointerException("columnName is null.");
             if (SOSString.isEmpty(data))
-                    throw new Exception("data has null value.");
+                throw new Exception("data has null value.");
 
             query = new StringBuffer("UPDATE ");
             if (tableNameUpperCase)
@@ -997,8 +972,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
                 stmt.close();
                 stmt = null;
             } catch (Exception e) {
-                throw new Exception(" an error occurred closing the statement: "
-                        + e);
+                throw new Exception(" an error occurred closing the statement: " + e);
             }
             stmt = connection.createStatement();
             if (fieldNameUpperCase) {
@@ -1022,7 +996,8 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
             theQuery = this.normalizeStatement(query.toString(), replacement);
             logger.debug6(SOSClassUtil.getMethodName() + ": " + theQuery);
             rs = stmt.executeQuery(theQuery);
-            if (rs.next()) clob = (CLOB) rs.getClob(1);
+            if (rs.next())
+                clob = (CLOB) rs.getClob(1);
             bufferSize = clob.getBufferSize();
             char[] buffer = new char[bufferSize];
             out = clob.getCharacterOutputStream();
@@ -1031,51 +1006,48 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
                 out.write(buffer, 0, bytesRead);
                 totalBytesWritten += bytesRead;
             }
-            logger.debug9(SOSClassUtil.getMethodName()
-                    + " successfully executed.");
+            logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
         } catch (Exception e) {
             throw e;
         } finally {
-            if (out != null) try {
-                out.close();
-            } catch (Exception e) {
-            }
-            if (stmt != null) try {
-                stmt.close();
-            } catch (Exception e) {
-            }
-            if (in != null) try {
-                in.close();
-            } catch (Exception e) {
-            }
-            if (rs != null) try {
-                rs.close();
-            } catch (Exception e) {
-            }
+            if (out != null)
+                try {
+                    out.close();
+                } catch (Exception e) {
+                }
+            if (stmt != null)
+                try {
+                    stmt.close();
+                } catch (Exception e) {
+                }
+            if (in != null)
+                try {
+                    in.close();
+                } catch (Exception e) {
+                }
+            if (rs != null)
+                try {
+                    rs.close();
+                } catch (Exception e) {
+                }
         }
         return totalBytesWritten;
     }
 
-    /**
-     * returns Oracle timestamp functions
+    /** returns Oracle timestamp functions
      * 
      * @param dateString
      * @return oracle timestamp function
-     * @throws java.lang.Exception
-     */
+     * @throws java.lang.Exception */
     public String toDate(String dateString) throws Exception {
         if (SOSString.isEmpty(dateString))
-                throw new Exception(SOSClassUtil.getMethodName()
-                        + ": dateString has no value.");
+            throw new Exception(SOSClassUtil.getMethodName() + ": dateString has no value.");
         return "to_date('" + dateString + "','YYYY-MM-DD HH24:MI:SS')";
     }
 
-    /**
-    /**
-     * returns output of the database sertver (not the ResultSet)
+    /** /** returns output of the database sertver (not the ResultSet)
      * 
-     * @return Vector of Strings for each line of the output
-     */
+     * @return Vector of Strings for each line of the output */
     public Vector getOutput() throws Exception {
 
         Vector out = new Vector();
@@ -1099,19 +1071,18 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
                 }
             }
         } catch (Exception e) {
-            throw new Exception("error occurred reading output: "
-                    + e.getMessage());
+            throw new Exception("error occurred reading output: " + e.getMessage());
         } finally {
-            if (stmt != null) try {
-                stmt.close();
-                stmt = null;
-            } catch (Exception ex) {
-            } // ignore this error
+            if (stmt != null)
+                try {
+                    stmt.close();
+                    stmt = null;
+                } catch (Exception ex) {
+                } // ignore this error
         }
         return out;
     }
 
-    
     protected GregorianCalendar getDateTime(String format) throws Exception {
         GregorianCalendar gc = new GregorianCalendar();
 
@@ -1127,117 +1098,117 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
 
         return gc;
     }
-    
-    
-    protected String replaceCasts( String inputString) throws Exception {
-        
+
+    protected String replaceCasts(String inputString) throws Exception {
+
         logger.debug6("Calling " + SOSClassUtil.getMethodName());
-        
+
         Pattern pattern = Pattern.compile(CAST_PATTERN);
         Matcher matcher = pattern.matcher(inputString);
         StringBuffer buffer = new StringBuffer();
         String replaceString;
         String token;
-       
+
         while ((matcher.find())) {
 
             replaceString = matcher.group().toLowerCase();
-            if ( matcher.group(1) != null &&  matcher.group(6) != null) {
-                token = matcher.group(6).replaceFirst("\\)","").trim();
+            if (matcher.group(1) != null && matcher.group(6) != null) {
+                token = matcher.group(6).replaceFirst("\\)", "").trim();
 
-                if ( token.matches(".*varchar.*")) {
-                  replaceString = replaceString.replaceAll("varchar",")");
-                  replaceString = replaceString.replaceFirst("%cast","TRIM(TO_CHAR");
-                } else if ( token.matches(".*character.*")) {
-                      replaceString = replaceString.replaceAll("character","");
-                      replaceString = replaceString.replaceFirst("%cast","TO_CHAR");
+                if (token.matches(".*varchar.*")) {
+                    replaceString = replaceString.replaceAll("varchar", ")");
+                    replaceString = replaceString.replaceFirst("%cast", "TRIM(TO_CHAR");
+                } else if (token.matches(".*character.*")) {
+                    replaceString = replaceString.replaceAll("character", "");
+                    replaceString = replaceString.replaceFirst("%cast", "TO_CHAR");
                 } else if (token.matches(".*integer.*")) {
-                  replaceString = replaceString.replaceAll("integer","");
-                  replaceString = replaceString.replaceFirst("%cast","TO_NUMBER");
-                }
-                else if (token.matches(".*timestamp.*")) {
-                    replaceString = replaceString.replaceAll("timestamp",",'yyyy-mm-dd HH24:MI:SS'");
-                    replaceString = replaceString.replaceFirst("%cast","TO_DATE");
-                }
-                else if (token.matches(".*datetime.*")) {
-                    replaceString = replaceString.replaceAll("datetime",",'yyyy-mm-dd HH24:MI:SS'");
-                    replaceString = replaceString.replaceFirst("%cast","TO_DATE");
+                    replaceString = replaceString.replaceAll("integer", "");
+                    replaceString = replaceString.replaceFirst("%cast", "TO_NUMBER");
+                } else if (token.matches(".*timestamp.*")) {
+                    replaceString = replaceString.replaceAll("timestamp", ",'yyyy-mm-dd HH24:MI:SS'");
+                    replaceString = replaceString.replaceFirst("%cast", "TO_DATE");
+                } else if (token.matches(".*datetime.*")) {
+                    replaceString = replaceString.replaceAll("datetime", ",'yyyy-mm-dd HH24:MI:SS'");
+                    replaceString = replaceString.replaceFirst("%cast", "TO_DATE");
                 }
             } // if
-            if ( matcher.group(3) != null && matcher.group(4) != null) { // group 4 "VALUE <data_type>"
-                token = matcher.group(4).replaceFirst("\\(","").trim();
-                
-                if ( token.matches(".*varchar.*")) {
-                   replaceString = replaceString.replaceAll("varchar",")");
-                   replaceString = replaceString.replaceAll("%cast","TRIM(TO_CHAR");
-                } else if ( token.matches(".*character.*")) {
-                       replaceString = replaceString.replaceAll("character","");
-                       replaceString = replaceString.replaceAll("%cast","TO_CHAR");
+            if (matcher.group(3) != null && matcher.group(4) != null) { // group
+                                                                        // 4
+                                                                        // "VALUE <data_type>"
+                token = matcher.group(4).replaceFirst("\\(", "").trim();
+
+                if (token.matches(".*varchar.*")) {
+                    replaceString = replaceString.replaceAll("varchar", ")");
+                    replaceString = replaceString.replaceAll("%cast", "TRIM(TO_CHAR");
+                } else if (token.matches(".*character.*")) {
+                    replaceString = replaceString.replaceAll("character", "");
+                    replaceString = replaceString.replaceAll("%cast", "TO_CHAR");
                 } else if (token.matches(".*integer.*")) {
-                   replaceString = replaceString.replaceAll("integer","");
-                   replaceString = replaceString.replaceAll("%cast","TO_NUMBER");
-               }
-                else if (token.matches(".*timestamp.*")) {
-                    replaceString = replaceString.replaceAll("timestamp",",'yyyy-mm-dd HH24:MI:SS'");
-                    replaceString = replaceString.replaceFirst("%cast","TO_DATE");
-                }
-                else if (token.matches(".*datetime.*")) {
-                    replaceString = replaceString.replaceAll("datetime",",'yyyy-mm-dd HH24:MI:SS'");
-                    replaceString = replaceString.replaceFirst("%cast","TO_DATE");
+                    replaceString = replaceString.replaceAll("integer", "");
+                    replaceString = replaceString.replaceAll("%cast", "TO_NUMBER");
+                } else if (token.matches(".*timestamp.*")) {
+                    replaceString = replaceString.replaceAll("timestamp", ",'yyyy-mm-dd HH24:MI:SS'");
+                    replaceString = replaceString.replaceFirst("%cast", "TO_DATE");
+                } else if (token.matches(".*datetime.*")) {
+                    replaceString = replaceString.replaceAll("datetime", ",'yyyy-mm-dd HH24:MI:SS'");
+                    replaceString = replaceString.replaceFirst("%cast", "TO_DATE");
                 }
             }
             replaceString = replaceString.toUpperCase();
             matcher.appendReplacement(buffer, replaceString);
-            
+
         }
-        
-        
-        
+
         matcher.appendTail(buffer);
         logger.debug6(".. result [" + buffer.toString() + "]");
         return buffer.toString();
     } // pseudoFunctions
 
-	
-	protected String getLastSequenceQuery(String sequence) {		
-		return "SELECT "+sequence+".currval FROM DUAL";
-	}
-    
-	public String getNextSequenceValue(String sequence) throws Exception {
-		return getSingleValue("SELECT "+sequence+".nextval FROM DUAL");
-	}
-
-	/*
-	 * Oracle returns as productVersion e.g.:
-	 * Oracle9i Enterprise Edition Release 9.2.0.1.0 - Production
-     * With the Partitioning, OLAP and Oracle Data Mining options
-     * JServer Release 9.2.0.1.0 - Production
-	 */
-	public int parseMajorVersion(String productVersion) throws Exception {
-		String[] oraSplit = productVersion.split("Release");
-		if (oraSplit.length>1) productVersion=oraSplit[1];
-		return super.parseMajorVersion(productVersion);
-	}
-
-	
-	public int parseMinorVersion(String productVersion) throws Exception {
-		String[] oraSplit = productVersion.split("Release");
-		if (oraSplit.length>1) productVersion=oraSplit[1];
-		return super.parseMinorVersion(productVersion);
-	}
-	
-    protected boolean prepareGetStatements(StringBuffer contentSB,StringBuffer splitSB,StringBuffer endSB) throws Exception{
-    	if(contentSB == null){ throw new Exception("contentSB is null");}
-    	if(splitSB == null){ throw new Exception("splitSB is null");}
-    	if(endSB == null){ throw new Exception("endSB is null");}
-    	    	
-        splitSB.append("\n/\n");
-        endSB.append("");   
-    return true;
+    protected String getLastSequenceQuery(String sequence) {
+        return "SELECT " + sequence + ".currval FROM DUAL";
     }
-    
+
+    public String getNextSequenceValue(String sequence) throws Exception {
+        return getSingleValue("SELECT " + sequence + ".nextval FROM DUAL");
+    }
+
+    /*
+     * Oracle returns as productVersion e.g.: Oracle9i Enterprise Edition
+     * Release 9.2.0.1.0 - Production With the Partitioning, OLAP and Oracle
+     * Data Mining options JServer Release 9.2.0.1.0 - Production
+     */
+    public int parseMajorVersion(String productVersion) throws Exception {
+        String[] oraSplit = productVersion.split("Release");
+        if (oraSplit.length > 1)
+            productVersion = oraSplit[1];
+        return super.parseMajorVersion(productVersion);
+    }
+
+    public int parseMinorVersion(String productVersion) throws Exception {
+        String[] oraSplit = productVersion.split("Release");
+        if (oraSplit.length > 1)
+            productVersion = oraSplit[1];
+        return super.parseMinorVersion(productVersion);
+    }
+
+    protected boolean prepareGetStatements(StringBuffer contentSB, StringBuffer splitSB, StringBuffer endSB) throws Exception {
+        if (contentSB == null) {
+            throw new Exception("contentSB is null");
+        }
+        if (splitSB == null) {
+            throw new Exception("splitSB is null");
+        }
+        if (endSB == null) {
+            throw new Exception("endSB is null");
+        }
+
+        splitSB.append("\n/\n");
+        endSB.append("");
+        return true;
+    }
+
     public String[] getReplacement() {
-		return replacement;
-	}
-    
+        return replacement;
+    }
+
 }

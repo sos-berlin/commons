@@ -10,26 +10,26 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-/**
- * A class to get common resources in various types.
+/** A class to get common resources in various types.
  *
- * The static methods of this class are for access to resources. You can either get a resource via a symbolic name defined in the
- * enum class SOSProductionResource or by giving a full resource name (String) to the access method.
+ * The static methods of this class are for access to resources. You can either
+ * get a resource via a symbolic name defined in the enum class
+ * SOSProductionResource or by giving a full resource name (String) to the
+ * access method.
  *
  * @version 1.0
- * @author Stefan Schädlich
- */
+ * @author Stefan Schädlich */
 public class SOSResourceFactory {
 
     private static Logger logger = LoggerFactory.getLogger(SOSResourceFactory.class);
 
     public static URL asURL(SOSResource forResource) {
-        logger.info("Try to read resource {}.",forResource.getFullName());
+        logger.info("Try to read resource {}.", forResource.getFullName());
         return Resources.getResource(forResource.getFullName());
     }
 
     public static URL asURL(String forResource) {
-        logger.info("Try to read resource {}.",forResource);
+        logger.info("Try to read resource {}.", forResource);
         return Resources.getResource(normalizePackageName(forResource));
     }
 
@@ -37,7 +37,7 @@ public class SOSResourceFactory {
         try {
             return asURL(forResource).openStream();
         } catch (IOException e) {
-            logger.error("Error reading resource {}.",forResource.getFullName(),e);
+            logger.error("Error reading resource {}.", forResource.getFullName(), e);
             throw new RuntimeException(e);
         }
     }
@@ -46,7 +46,7 @@ public class SOSResourceFactory {
         try {
             return asURL(forResource).openStream();
         } catch (IOException e) {
-            logger.error("Error reading resource {}.",forResource,e);
+            logger.error("Error reading resource {}.", forResource, e);
             throw new RuntimeException(e);
         }
     }

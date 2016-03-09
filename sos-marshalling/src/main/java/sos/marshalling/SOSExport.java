@@ -85,8 +85,7 @@ public class SOSExport {
     private int _lineWrap = 254;
     /** Tabelle zur Konvertierung von Teilbytes in den dazugeh&ouml;rigen
      * Hex-Wert */
-    private static char[] _hexChar = { '0', '1', '2', '3', '4', '5', '6', '7',
-            '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+    private static char[] _hexChar = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
     private class Query {
 
@@ -96,7 +95,8 @@ public class SOSExport {
         private ArrayList _key = new ArrayList();
         /** Der Querystring */
         private String _query = null;
-        /** ArrayListe der Parameter - Das ? Zeichen wird durch Spalteninhalte, die als Parameter angegeben wurden ersetzt */
+        /** ArrayListe der Parameter - Das ? Zeichen wird durch Spalteninhalte,
+         * die als Parameter angegeben wurden ersetzt */
         private ArrayList _parameters = new ArrayList();
         /** ArrayListe der abh&auml;ngigen SQL-Statement IDs */
         private ArrayList _dependRefs = new ArrayList();
@@ -105,10 +105,13 @@ public class SOSExport {
         /** Bearbeitungsstatus des SQL-Statements */
         private boolean _done = false;
         private boolean dependent = false;
-        /** Operation die durchgeführt wurde: Mögliche Operation ist insert, update oder delete */
+        /** Operation die durchgeführt wurde: Mögliche Operation ist insert,
+         * update oder delete */
         private String _operation = null;
-        HashMap fieldsKeys = null; 
-        // Hilfsvariable: Beim operation delete werden hier Schlüsselfelder eingefügt
+        HashMap fieldsKeys = null;
+
+        // Hilfsvariable: Beim operation delete werden hier Schlüsselfelder
+        // eingefügt
 
         /** Konstruktor
          * 
@@ -331,7 +334,7 @@ public class SOSExport {
                 sb.append((String) _parameters.get(i));
                 if (i < _parameters.size() - 1) {
                     sb.append(", ");
-                }  
+                }
             }
             return sb.toString();
         }
@@ -548,7 +551,7 @@ public class SOSExport {
      * 
      * @param indentation Einr&uuml;ckungsstring */
     public void setXMLIndentation(String indentation) {
-        if ((indentation.length() & 0x1) != 0){
+        if ((indentation.length() & 0x1) != 0) {
             throw new IllegalArgumentException("SOSExport.setXMLIndentation: the indentation string must have an even length");
         }
         _xmlIndentation = indentation;
@@ -801,7 +804,8 @@ public class SOSExport {
                 OutputStreamWriter fw = new OutputStreamWriter(fos, _xmlEncoding);
                 // XML Header
                 fw.write("<?xml version=\"1.0\" encoding=\"" + _xmlEncoding + "\"?>\n");
-                fw.write(indent(1) + "<" + normalizeTagName(_xmlTagname) + " application=\"" + _application + "\" created=\"" + dateFormat.format(new Date()) + "\">\n");
+                fw.write(indent(1) + "<" + normalizeTagName(_xmlTagname) + " application=\"" + _application + "\" created=\"" + dateFormat.format(new Date())
+                        + "\">\n");
                 dateFormat = null;
                 // Abfragen ausfuehren
                 for (int i = 0; i < _queries.cnt(); i++) {
@@ -828,7 +832,8 @@ public class SOSExport {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 // XML Header
                 output.append("<?xml version=\"1.0\" encoding=\"" + _xmlEncoding + "\"?>\n");
-                output.append(indent(1) + "<" + normalizeTagName(_xmlTagname) + " application=\"" + _application + "\" created=\"" + dateFormat.format(new Date()) + "\">\n");
+                output.append(indent(1) + "<" + normalizeTagName(_xmlTagname) + " application=\"" + _application + "\" created=\""
+                        + dateFormat.format(new Date()) + "\">\n");
                 dateFormat = null;
                 // Abfragen ausfuehren
                 for (int i = 0; i < _queries.cnt(); i++) {
@@ -893,8 +898,8 @@ public class SOSExport {
     private String exportQueries(int queryId, ArrayList parameterValues, Writer fw) throws Exception {
         try {
             if (_log != null) {
-                _log.debug3("export_queries: " + " name=\"" + _queries.get(queryId).getTag() + "\" query_id=\"" + queryId + "\" key=\"" 
-                        + _queries.get(queryId).keysToStr() + "\" dependend=\"" + _queries.get(queryId).dependRefToStr() + "\" operation=\"" 
+                _log.debug3("export_queries: " + " name=\"" + _queries.get(queryId).getTag() + "\" query_id=\"" + queryId + "\" key=\""
+                        + _queries.get(queryId).keysToStr() + "\" dependend=\"" + _queries.get(queryId).dependRefToStr() + "\" operation=\""
                         + _queries.get(queryId).getOperation() + "\" independend=\"" + _queries.get(queryId).indepdRefToStr() + "\"");
             }
             _rekursionCnt++;
@@ -949,9 +954,11 @@ public class SOSExport {
                         _log.debug9("get: " + _queries.get(queryId).getTag() + " query_id=" + queryId);
                     }
                     fw.write(indent(1) + "<" + normalizeTagName(_xmlTagname + "_record name=\"") + _queries.get(queryId).getTag() + "\">\n");
-                    fw.write(indent(1) + "<" + normalizeTagName(_xmlTagname + "_fields") + 
-                            (_queries.get(queryId).getOperation() != null && _queries.get(queryId).getOperation().length() > 0
-                                            ? " operation=\"" + _queries.get(queryId).getOperation() + "\" " : "") + ">\n");
+                    fw.write(indent(1)
+                            + "<"
+                            + normalizeTagName(_xmlTagname + "_fields")
+                            + (_queries.get(queryId).getOperation() != null && _queries.get(queryId).getOperation().length() > 0 ? " operation=\""
+                                    + _queries.get(queryId).getOperation() + "\" " : "") + ">\n");
                     // Spalten alphabetische Sortierung
                     // Vector record_vector = new Vector(record.keySet());
                     // Collections.sort(record_vector);
@@ -981,8 +988,7 @@ public class SOSExport {
                                     }
                                 }
                             }
-                            fw.write(indent() + "<" + normalizeTagName(key)
-                                    + " null=");
+                            fw.write(indent() + "<" + normalizeTagName(key) + " null=");
                             if (record.get(key) != null) {
                                 fw.write("\"false\"><![CDATA[" + asXml(record.get(key).toString()) + "]]>");
                             } else {
@@ -991,7 +997,7 @@ public class SOSExport {
                             fw.write("</" + normalizeTagName(key) + ">\n");
                             break;
                         }
-                        if(lobType != null) {
+                        if (lobType != null) {
                             // // als binaer behandeln und in hex umwandeln ////
                             // create blob-stm
                             int posBegin = new String(queryStm).toLowerCase().indexOf("from");
@@ -1007,8 +1013,7 @@ public class SOSExport {
                             for (int j = 0; j < _queries.get(queryId).getKeyCnt(); j++) {
                                 String keyFieldName = getKeyFieldName(allFieldNames, _queries.get(queryId).getKey(j));
                                 queryBlobStm.append(and + normalizeFieldName(keyFieldName) + " =");
-                                queryBlobStm.append(quote(fieldTypes.getTypeId(normalizeFieldName(_queries.get(queryId).getKey(j))),
-                                    (String) record.get(normalizeFieldName(_queries.get(queryId).getKey(j)))));
+                                queryBlobStm.append(quote(fieldTypes.getTypeId(normalizeFieldName(_queries.get(queryId).getKey(j))), (String) record.get(normalizeFieldName(_queries.get(queryId).getKey(j)))));
                                 and = " AND ";
                             }
                             // blob mit Umbruch ausgeben
@@ -1074,10 +1079,10 @@ public class SOSExport {
     public String exportQueriesForDelete(int queryId, ArrayList parameterValues, Writer fw) throws Exception {
         try {
             if (_log != null) {
-                _log.debug3("export_queries: " + " name=\"" + _queries.get(queryId).getTag() + "\" query_id=\"" + queryId 
-                        + "\" key=\"" + _queries.get(queryId).keysToStr() + "\" dependend=\"" + _queries.get(queryId).dependRefToStr() 
-                        + "\" operation=\"" + _queries.get(queryId).getOperation() + "\" field_keys=\"" + _queries.get(queryId).getFieldsKeys() 
-                        + "\" independend=\"" + _queries.get(queryId).indepdRefToStr() + "\"");
+                _log.debug3("export_queries: " + " name=\"" + _queries.get(queryId).getTag() + "\" query_id=\"" + queryId + "\" key=\""
+                        + _queries.get(queryId).keysToStr() + "\" dependend=\"" + _queries.get(queryId).dependRefToStr() + "\" operation=\""
+                        + _queries.get(queryId).getOperation() + "\" field_keys=\"" + _queries.get(queryId).getFieldsKeys() + "\" independend=\""
+                        + _queries.get(queryId).indepdRefToStr() + "\"");
             }
             _rekursionCnt++;
             // Parameterwerte in das SQL-Statement einfuegen
@@ -1126,9 +1131,11 @@ public class SOSExport {
                 _log.debug9("get: " + _queries.get(queryId).getTag() + " query_id=" + queryId);
             }
             fw.write(indent(1) + "<" + normalizeTagName(_xmlTagname + "_record name=\"") + _queries.get(queryId).getTag() + "\">\n");
-            fw.write(indent(1) + "<" + normalizeTagName(_xmlTagname + "_fields") 
-                    + (_queries.get(queryId).getOperation() != null && _queries.get(queryId).getOperation().length() > 0
-                                    ? " operation=\"" + _queries.get(queryId).getOperation() + "\" " : "") + ">\n");
+            fw.write(indent(1)
+                    + "<"
+                    + normalizeTagName(_xmlTagname + "_fields")
+                    + (_queries.get(queryId).getOperation() != null && _queries.get(queryId).getOperation().length() > 0 ? " operation=\""
+                            + _queries.get(queryId).getOperation() + "\" " : "") + ">\n");
             for (Iterator it = record.keySet().iterator(); it.hasNext();) {
                 String key = it.next().toString();
                 if (record.get(key) != null) {
@@ -1193,9 +1200,9 @@ public class SOSExport {
         StringBuilder output = new StringBuilder();
         try {
             if (_log != null) {
-                _log.debug3("export_queries: name=\"" + _queries.get(queryId).getTag() + "\" query_id=\"" + queryId + "\" key=\"" 
-                        + _queries.get(queryId).keysToStr() + "\" dependend=\"" + _queries.get(queryId).dependRefToStr()
-                        + "\" independend=\"" + _queries.get(queryId).indepdRefToStr() + "\"");
+                _log.debug3("export_queries: name=\"" + _queries.get(queryId).getTag() + "\" query_id=\"" + queryId + "\" key=\""
+                        + _queries.get(queryId).keysToStr() + "\" dependend=\"" + _queries.get(queryId).dependRefToStr() + "\" independend=\""
+                        + _queries.get(queryId).indepdRefToStr() + "\"");
             }
             _rekursionCnt++;
             // Parameterwerte in das SQL-Statement einfuegen
@@ -1286,7 +1293,7 @@ public class SOSExport {
                             output.append("</" + normalizeTagName(key) + ">\n");
                             break;
                         }
-                        if (lobType != null){
+                        if (lobType != null) {
                             // // als binaer behandeln und in hex umwandeln ////
                             // create blob-stm
                             int posBegin = new String(queryStm).toLowerCase().indexOf("from");
@@ -1302,8 +1309,7 @@ public class SOSExport {
                             for (int j = 0; j < _queries.get(queryId).getKeyCnt(); j++) {
                                 String keyFieldName = getKeyFieldName(allFieldNames, _queries.get(queryId).getKey(j));
                                 queryBlobStm.append(and + normalizeFieldName(keyFieldName) + " =");
-                                queryBlobStm.append(quote(fieldTypes.getTypeId(normalizeFieldName(_queries.get(queryId).getKey(j))),
-                                    (String) record.get(normalizeFieldName(_queries.get(queryId).getKey(j)))));
+                                queryBlobStm.append(quote(fieldTypes.getTypeId(normalizeFieldName(_queries.get(queryId).getKey(j))), (String) record.get(normalizeFieldName(_queries.get(queryId).getKey(j)))));
                                 and = " AND ";
                             }
                             // blob mit Umbruch ausgeben
@@ -1356,16 +1362,14 @@ public class SOSExport {
         }
     }
 
-    /*************************************************************************** 
-     * Da es im SQL Statement Felder mit "AS" selektiert werden können, ordnet
+    /*************************************************************************** Da es im SQL Statement Felder mit "AS" selektiert werden können, ordnet
      * diese Methode die originale Feldnamen zu dem neuen Feldnamen zu z.B :
      * select vorname as name,nachname from table [name] = vorname [nachname] =
      * nachname
      * 
      * @param stmt SQL Statement
      * @return wenn select * leere HashMap, sonst HashMap mit dem Schlüssel
-     *         -neuer Feldname wert - alter Feldname 
-     ***************************************************************************/
+     *         -neuer Feldname wert - alter Feldname ***************************************************************************/
     private HashMap prepareGetFieldName(String stmt) throws Exception {
         int posBegin = new String(stmt).toUpperCase().indexOf("SELECT");
         int posEnd = new String(stmt).toUpperCase().indexOf("FROM");
@@ -1584,11 +1588,10 @@ public class SOSExport {
                 BigInteger size = new BigInteger(fieldDesc.get("columnDisplaySize").toString());
                 Integer scale = new Integer(fieldDesc.get("scale").toString());
                 if (_log != null) {
-                    _log.debug9("field_type: name=" + fieldDesc.get("columnName") + " type=" + fieldDesc.get("columnTypeName") + " type_id=" 
-                            + type + " size=" + size + " scale=" + scale);
+                    _log.debug9("field_type: name=" + fieldDesc.get("columnName") + " type=" + fieldDesc.get("columnTypeName") + " type_id=" + type + " size="
+                            + size + " scale=" + scale);
                 }
-                fieldTypes.addField(normalizeFieldName(normalizeFieldName((String) fieldDesc.get("columnName"))),
-                        (String) fieldDesc.get("columnTypeName"), type, size, scale);
+                fieldTypes.addField(normalizeFieldName(normalizeFieldName((String) fieldDesc.get("columnName"))), (String) fieldDesc.get("columnTypeName"), type, size, scale);
             }
             resultSet.close();
             return fieldTypes;

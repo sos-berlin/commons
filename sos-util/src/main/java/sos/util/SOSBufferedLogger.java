@@ -132,5 +132,5 @@ public class SOSBufferedLogger extends SOSLogger {
     public StringBuffer getLogBuffer() {
         return logBuffer;
     }
-    
+
 }

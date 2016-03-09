@@ -85,8 +85,7 @@ import sos.util.SOSString;
  * Company: SOS GmbH
  * </p>
  * 
- * @author Ghassan Beydoun
- **/
+ * @author Ghassan Beydoun **/
 public abstract class SOSConnection {
 
     protected Properties configFileProperties = new Properties();
@@ -203,8 +202,8 @@ public abstract class SOSConnection {
         logger.debug9(".. driver=" + driver + ", url=" + url + ", dbuser=" + dbuser);
     }
 
-    public SOSConnection(final String driver, final String url, final String dbuser, final String dbpassword, final SOSLogger logger,
-            final int compatibility) throws Exception {
+    public SOSConnection(final String driver, final String url, final String dbuser, final String dbpassword, final SOSLogger logger, final int compatibility)
+            throws Exception {
         this(driver, url, dbuser, dbpassword, logger);
         setCompatibility(compatibility);
     }
@@ -280,14 +279,14 @@ public abstract class SOSConnection {
         return createInstance(className, arguments);
     }
 
-    public static SOSConnection createInstance(final String className, final String driver, final String url, final String dbuser,
-            final String dbpassword) throws Exception {
+    public static SOSConnection createInstance(final String className, final String driver, final String url, final String dbuser, final String dbpassword)
+            throws Exception {
         Object[] arguments = { driver, url, dbuser, dbpassword };
         return createInstance(className, arguments);
     }
 
-    public static SOSConnection createInstance(final String className, final String driver, final String url, final String dbuser,
-            final String dbpassword, final SOSLogger logger) throws Exception {
+    public static SOSConnection createInstance(final String className, final String driver, final String url, final String dbuser, final String dbpassword,
+            final SOSLogger logger) throws Exception {
         Object[] arguments = { driver, url, dbuser, dbpassword, logger };
         return createInstance(className, arguments);
     }
@@ -1710,10 +1709,7 @@ public abstract class SOSConnection {
         Pattern pattern;
         Matcher matcher;
         String replaceString;
-        aPattern = new StringBuffer("(%lcase|%ucase|%now|%updlock)|").append("(%timestamp\\('[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{1,4}'\\))|")
-                .append("(%timestamp\\('[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{1,4}[ \t]?[0-9]{2}:[0-9]{2}(?::[0-9]{2}\\.?[0-9]*)?'\\))|")
-                .append("(%timestamp_iso\\('[0-9]{1,4}[-]?[0-9]{1,2}[-]?[0-9]{1,2}'\\))|")
-                .append("(%timestamp_iso\\('[0-9]{1,4}[-]?[0-9]{1,2}[-]?[0-9]{1,2}[ \t]?[0-9]{2}:[0-9]{2}(?::[0-9]{2}\\.?[0-9]*)?'\\))");
+        aPattern = new StringBuffer("(%lcase|%ucase|%now|%updlock)|").append("(%timestamp\\('[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{1,4}'\\))|").append("(%timestamp\\('[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{1,4}[ \t]?[0-9]{2}:[0-9]{2}(?::[0-9]{2}\\.?[0-9]*)?'\\))|").append("(%timestamp_iso\\('[0-9]{1,4}[-]?[0-9]{1,2}[-]?[0-9]{1,2}'\\))|").append("(%timestamp_iso\\('[0-9]{1,4}[-]?[0-9]{1,2}[-]?[0-9]{1,2}[ \t]?[0-9]{2}:[0-9]{2}(?::[0-9]{2}\\.?[0-9]*)?'\\))");
         pattern = Pattern.compile(aPattern.toString());
         matcher = pattern.matcher(inputString);
         buffer = new StringBuffer();
@@ -2014,28 +2010,23 @@ public abstract class SOSConnection {
                     try {
                         int major = Integer.parseInt(version.substring(0, 2));
                         if (this.getMajorVersion() >= major) {
-                            logger.debug9("using sql comment : db major version = " + this.getMajorVersion() + " comment major version = " + major
-                                    + " ");
+                            logger.debug9("using sql comment : db major version = " + this.getMajorVersion() + " comment major version = " + major + " ");
                             int minor = Integer.parseInt(version.substring(2, 4));
                             if (this.getMinorVersion() >= minor) {
                                 isVersionComment = true;
-                                logger.debug9("using sql comment : db minor version = " + this.getMinorVersion() + " comment minor version = "
-                                        + minor + " ");
+                                logger.debug9("using sql comment : db minor version = " + this.getMinorVersion() + " comment minor version = " + minor + " ");
                             } else {
-                                logger.debug9("skip sql comment : db minor version = " + this.getMinorVersion() + " comment minor version = " + minor
-                                        + " ");
+                                logger.debug9("skip sql comment : db minor version = " + this.getMinorVersion() + " comment minor version = " + minor + " ");
                             }
                         } else {
-                            logger.debug9("skip sql comment : db major version = " + this.getMajorVersion() + " comment major version = " + major
-                                    + " ");
+                            logger.debug9("skip sql comment : db major version = " + this.getMajorVersion() + " comment major version = " + major + " ");
                         }
                     } catch (Exception e) {
                         logger.warn("skip sql comment : no numerical major/minor version in comment = " + version + " database major version = "
                                 + this.getMajorVersion() + " minor version = " + this.getMinorVersion());
                     }
                 } else {
-                    logger.warn("skip sql comment : invalid comment major version length = " + contentArr[0] + " db major version = "
-                            + this.getMajorVersion());
+                    logger.warn("skip sql comment : invalid comment major version length = " + contentArr[0] + " db major version = " + this.getMajorVersion());
                 }
                 if (!isVersionComment) {
                     addRow = false;
@@ -2099,8 +2090,8 @@ public abstract class SOSConnection {
                         countAddBatches = 0;
                     }
                     this.executeUpdate("ROLLBACK");
-                } else if (sqlToLower.startsWith("select") || (sqlToLower.startsWith("exec") && (this.execReturnsResultSet 
-                        || sqlToLower.contains(EXEC_COMMENT_RETURN_RESULTSET.toLowerCase())))) {
+                } else if (sqlToLower.startsWith("select")
+                        || (sqlToLower.startsWith("exec") && (this.execReturnsResultSet || sqlToLower.contains(EXEC_COMMENT_RETURN_RESULTSET.toLowerCase())))) {
                     if (countAddBatches > 0) {
                         logger.debug3(String.format("%s: call executeBatch - %s batches", methodName, countAddBatches));
                         st.executeBatch();
@@ -2199,8 +2190,8 @@ public abstract class SOSConnection {
                     for (int i = 0; i < statements.size(); i++) {
                         String statement = statements.get(i).toString().trim();
                         String sqlToLower = statement.toLowerCase();
-                        if (sqlToLower.startsWith("select") || (sqlToLower.startsWith("exec") && (this.execReturnsResultSet 
-                                || sqlToLower.contains(EXEC_COMMENT_RETURN_RESULTSET.toLowerCase())))) {
+                        if (sqlToLower.startsWith("select")
+                                || (sqlToLower.startsWith("exec") && (this.execReturnsResultSet || sqlToLower.contains(EXEC_COMMENT_RETURN_RESULTSET.toLowerCase())))) {
                             if (hasOpenResultSet) {
                                 this.closeQuery();
                                 hasOpenResultSet = false;

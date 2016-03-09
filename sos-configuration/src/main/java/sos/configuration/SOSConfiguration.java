@@ -40,7 +40,8 @@ public class SOSConfiguration {
     private SOSConfigurationItem[] originParameterFromArguments = new SOSConfigurationItem[] {};
     private final SOSString sosString = new SOSString();
     private SOSLogger sosLogger = null;
-    /** Programargumente k&ouml;nnen entweder als String[] oder als Properties &uuml;bergeben werden */
+    /** Programargumente k&ouml;nnen entweder als String[] oder als Properties
+     * &uuml;bergeben werden */
     private String[] arguments = null;
     private Properties argumentsAsProperties = null;
     /** Scheduler Parameter */
@@ -100,8 +101,8 @@ public class SOSConfiguration {
         }
     }
 
-    public SOSConfiguration(final String[] arguments_, final SOSConnection sosConnection_, final String settingsTablename_, final String settingsApplicationname_,
-            final String settingsProfilename_, final SOSLogger sosLogger_) throws Exception {
+    public SOSConfiguration(final String[] arguments_, final SOSConnection sosConnection_, final String settingsTablename_,
+            final String settingsApplicationname_, final String settingsProfilename_, final SOSLogger sosLogger_) throws Exception {
         try {
             sosLogger = sosLogger_;
             arguments = arguments_;
@@ -612,11 +613,14 @@ public class SOSConfiguration {
             }
             String requiredDefaultFile = "./testDateien/Configuration.xml";
             sos.util.SOSLogger sosLogger = new sos.util.SOSStandardLogger(10);
-            // 1- Testen von Programmargumente und SOSProfileSettings mit Configuration.xml
+            // 1- Testen von Programmargumente und SOSProfileSettings mit
+            // Configuration.xml
             test1(args, requiredDefaultFile, sosLogger);
-            // 2- Testen von Programmargumente und SOSXMLSettings mit Configuration.xml
+            // 2- Testen von Programmargumente und SOSXMLSettings mit
+            // Configuration.xml
             test2(args, requiredDefaultFile, sosLogger);
-            // 3- Testen von Programmargumente und SOSConnectionSettings mit Configuration.xml
+            // 3- Testen von Programmargumente und SOSConnectionSettings mit
+            // Configuration.xml
             test3(args, "./testDateien/sos_settings.ini", requiredDefaultFile, sosLogger);
         } catch (Exception e) {
             LOGGER.error("error : " + e.toString());

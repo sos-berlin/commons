@@ -32,7 +32,7 @@ public class SOSResourceFactoryTest {
         assertFalse(tempFile.exists());
     }
 
-    @Test(expected = IllegalArgumentException.class )
+    @Test(expected = IllegalArgumentException.class)
     public void testAsFileInvalid() throws IOException {
         File f = SOSResourceFactory.asFile("com/sos/resources/invalid.txt");
         SOSResourceFactory.removeTemporaryFiles();
