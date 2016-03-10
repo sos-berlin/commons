@@ -23,12 +23,6 @@ import org.apache.log4j.Logger;
 
 public class Entry {
 
-    @SuppressWarnings("unused")
-    private final String conClassName = this.getClass().getSimpleName();
-    @SuppressWarnings("unused")
-    private static final String conSVNVersion = "$Id$";
-    @SuppressWarnings("unused")
-    private final Logger logger = Logger.getLogger(this.getClass());
     private UUIDField uuid;
     private IdField groupId;
     private IdField imageId;
@@ -164,8 +158,7 @@ public class Entry {
 
     public String[] getNotesAsArray() {
         StrTokenizer objT = new StrTokenizer(notes.getText());
-        String[] strA = objT.getTokenArray();
-        return strA;
+        return objT.getTokenArray();
     }
 
     public String getNotesText() {
@@ -245,7 +238,6 @@ public class Entry {
         File fleO = null;
         try {
             fleO = new File(pstrFileName);
-            // fleO.deleteOnExit();
             FileOutputStream fos = new FileOutputStream(fleO);
             fos.write(getBinaryData().getFieldData());
             fos.close();
@@ -302,108 +294,133 @@ public class Entry {
 
     @Override
     public boolean equals(final Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         Entry other = (Entry) obj;
         if (binaryData == null) {
-            if (other.binaryData != null)
+            if (other.binaryData != null) {
                 return false;
-        } else if (!binaryData.equals(other.binaryData))
+            }
+        } else if (!binaryData.equals(other.binaryData)) {
             return false;
-        if (binaryDescription == null) {
-            if (other.binaryDescription != null)
+        }
+        if (binaryDescription == null) { 
+            if (other.binaryDescription != null) {
                 return false;
-        } else if (!binaryDescription.equals(other.binaryDescription))
+            }
+        } else if (!binaryDescription.equals(other.binaryDescription)) {
             return false;
+        }
         if (comments == null) {
-            if (other.comments != null)
+            if (other.comments != null) {
                 return false;
-        } else if (!comments.equals(other.comments))
+            }
+        } else if (!comments.equals(other.comments)) {
             return false;
+        }
         if (creationTime == null) {
-            if (other.creationTime != null)
+            if (other.creationTime != null) {
                 return false;
-        } else if (!creationTime.equals(other.creationTime))
+            }
+        } else if (!creationTime.equals(other.creationTime)) {
             return false;
+        }
         if (expirationTime == null) {
-            if (other.expirationTime != null)
+            if (other.expirationTime != null) {
                 return false;
-        } else if (!expirationTime.equals(other.expirationTime))
+            }
+        } else if (!expirationTime.equals(other.expirationTime)) {
             return false;
+        }
         if (groupId == null) {
-            if (other.groupId != null)
+            if (other.groupId != null) {
                 return false;
-        } else if (!groupId.equals(other.groupId))
+            }
+        } else if (!groupId.equals(other.groupId)) {
             return false;
+        }
         if (imageId == null) {
-            if (other.imageId != null)
+            if (other.imageId != null) {
                 return false;
-        } else if (!imageId.equals(other.imageId))
+            }
+        } else if (!imageId.equals(other.imageId)) {
             return false;
+        }
         if (lastAccessTime == null) {
-            if (other.lastAccessTime != null)
+            if (other.lastAccessTime != null) {
                 return false;
-        } else if (!lastAccessTime.equals(other.lastAccessTime))
+            }
+        } else if (!lastAccessTime.equals(other.lastAccessTime)) {
             return false;
+        }
         if (lastModificationTime == null) {
-            if (other.lastModificationTime != null)
+            if (other.lastModificationTime != null) {
                 return false;
-        } else if (!lastModificationTime.equals(other.lastModificationTime))
+            }
+        } else if (!lastModificationTime.equals(other.lastModificationTime)) {
             return false;
+        }
         if (notes == null) {
-            if (other.notes != null)
+            if (other.notes != null) {
                 return false;
-        } else if (!notes.equals(other.notes))
+            }
+        } else if (!notes.equals(other.notes)) {
             return false;
+        }
         if (password == null) {
-            if (other.password != null)
+            if (other.password != null) {
                 return false;
-        } else if (!password.equals(other.password))
+            }
+        } else if (!password.equals(other.password)) {
             return false;
+        }
         if (title == null) {
-            if (other.title != null)
+            if (other.title != null) {
                 return false;
-        } else if (!title.equals(other.title))
+            }
+        } else if (!title.equals(other.title)) {
             return false;
+        }
         if (unknowns == null) {
-            if (other.unknowns != null)
+            if (other.unknowns != null) {
                 return false;
-        } else if (!unknowns.equals(other.unknowns))
+            }
+        } else if (!unknowns.equals(other.unknowns)) {
             return false;
+        }
         if (url == null) {
-            if (other.url != null)
+            if (other.url != null) {
                 return false;
-        } else if (!url.equals(other.url))
+            }
+        } else if (!url.equals(other.url)) {
             return false;
+        }
         if (username == null) {
-            if (other.username != null)
+            if (other.username != null) {
                 return false;
+            }
         } else if (!username.equals(other.username))
             return false;
         if (uuid == null) {
-            if (other.uuid != null)
+            if (other.uuid != null) {
                 return false;
-        } else if (!uuid.equals(other.uuid))
+            }
+        } else if (!uuid.equals(other.uuid)) {
             return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
         return this.Title() + ", " + this.getGroupId().getId();
-        // return "Entry [binaryData=" + binaryData
-        // + ", binaryDescription=" + binaryDescription
-        // + ", comments=" + comments
-        // + ", creationTime=" + creationTime + ", expirationTime="
-        // + expirationTime + ", groupId=" + groupId + ", imageId="
-        // + imageId + ", lastAccessTime=" + lastAccessTime
-        // + ", lastModificationTime=" + lastModificationTime + ", notes="
-        // + notes + ", password=" + password + ", title=" + title
-        // + ", unknowns=" + unknowns + ", url=" + url + ", username="
-        // + username + ", uuid=" + uuid + "]";
     }
+    
 }

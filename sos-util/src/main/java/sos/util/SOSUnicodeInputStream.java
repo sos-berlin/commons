@@ -9,27 +9,24 @@ import java.io.PushbackInputStream;
 
 public class SOSUnicodeInputStream extends InputStream {
 
+    private static final int BOM_SIZE = 4;
     private PushbackInputStream inStr;
     private boolean initialized = false;
     private String defaultEncoding;
     private String encoding;
-
-    private static final int BOM_SIZE = 4;
 
     SOSUnicodeInputStream(InputStream in, String defaultEnc) {
         inStr = new PushbackInputStream(in, BOM_SIZE);
         this.defaultEncoding = defaultEnc;
     }
 
-    /** check and skip BOM Bytes */
     protected void init() throws IOException {
-        if (initialized)
+        if (initialized) {
             return;
-
+        }
         byte bom[] = new byte[BOM_SIZE];
         int n, unread;
         n = inStr.read(bom, 0, bom.length);
-
         if ((bom[0] == (byte) 0x00) && (bom[1] == (byte) 0x00) && (bom[2] == (byte) 0xFE) && (bom[3] == (byte) 0xFF)) {
             encoding = "UTF-32BE";
             unread = n - 4;
@@ -46,14 +43,12 @@ public class SOSUnicodeInputStream extends InputStream {
             encoding = "UTF-16LE";
             unread = n - 2;
         } else {
-            // No BOM mark found
             encoding = defaultEncoding;
             unread = n;
         }
-
-        if (unread > 0)
+        if (unread > 0) {
             inStr.unread(bom, (n - unread), unread);
-
+        }
         initialized = true;
     }
 

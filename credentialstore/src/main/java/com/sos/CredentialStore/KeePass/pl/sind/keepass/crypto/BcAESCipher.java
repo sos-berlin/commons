@@ -87,8 +87,9 @@ public class BcAESCipher implements Cipher {
         }
 
         try {
-            if (padding && out < encoded.length)
+            if (padding && out < encoded.length) {
                 cipher.doFinal(encoded, out);
+            }
         } catch (DataLengthException e) {
             // we are padding so shouldn happen
             throw new CipherException("Invalid data lenght", e);

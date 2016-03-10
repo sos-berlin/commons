@@ -2,23 +2,20 @@ package sos.util;
 
 import java.util.*;
 
-/*
- * This class is used to combine the key-value lookup capabilities of a
+/** This class is used to combine the key-value lookup capabilities of a
  * Hashtable along with order preserving capabilities of a Vector. Iterator on a
  * Set of Hashtable keys, obtained by keySet() or an Enumeration obtained by
  * keys() method, both are not guaranteed to iterate in the same order as the
  * values were put in. This class behaves like a queue, (FIFO). Objects are
  * returned in the same order they were put in.
- * @author Animesh Srivastava
- */
-
+ * 
+ * @author Animesh Srivastava */
 public class SOSOrderedHashtable extends Hashtable {
 
     private static final long serialVersionUID = 4689277581313476669L;
     private Vector mSerialOrder;
     private Hashtable mHashtable;
 
-    /** Public Constructor */
     public SOSOrderedHashtable() {
         this.mSerialOrder = new Vector();
         this.mHashtable = new Hashtable();
@@ -56,8 +53,9 @@ public class SOSOrderedHashtable extends Hashtable {
      *         null if it did not have one. */
     synchronized public Object put(Object key, Object value) throws NullPointerException {
         Object toReturn = this.mHashtable.put(key, value);
-        if (toReturn == null)
+        if (toReturn == null) {
             this.mSerialOrder.add(key);
+        }
         return toReturn;
     }
 
@@ -116,7 +114,7 @@ public class SOSOrderedHashtable extends Hashtable {
 
     /** Returns a string representation of the OrderedHashtable. */
     public String toString() {
-        StringBuffer s = new StringBuffer();
+        StringBuilder s = new StringBuilder();
         s.append("{ ");
         Object key = null;
         int i = 0;
@@ -131,11 +129,10 @@ public class SOSOrderedHashtable extends Hashtable {
         return s.toString();
     }
 
-    // inner class,
     private class Enumerator implements Enumeration, Iterator {
 
-        int COUNT = mSerialOrder.size();		// number of elements in the Vector
-        int SERIAL = 0;							// keep track of the current element
+        int COUNT = mSerialOrder.size();
+        int SERIAL = 0;
 
         public boolean hasMoreElements() {
             return SERIAL < COUNT;
@@ -143,8 +140,9 @@ public class SOSOrderedHashtable extends Hashtable {
 
         public Object nextElement() {
             synchronized (SOSOrderedHashtable.this) {
-                if ((COUNT == 0) || (SERIAL == COUNT))
+                if ((COUNT == 0) || (SERIAL == COUNT)) {
                     throw new NoSuchElementException("OrderedHashtable Enumerator");
+                }
                 return mSerialOrder.elementAt(SERIAL++);
             }
         }
@@ -157,9 +155,9 @@ public class SOSOrderedHashtable extends Hashtable {
             return nextElement();
         }
 
-        // optional in jdk1.3
         public void remove() {
         }
+
     }
 
 }
