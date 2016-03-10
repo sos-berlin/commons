@@ -1,10 +1,5 @@
 package sos.connection;
 
-/** Title: SOSDate Description: Copyright: Copyright (c) 2003 Company: SOS GmbH
- * 
- * @author <a href="mailto:andreas.pueschel@sos-berlin.com">Andreas
- *         Pï¿½schel</a> */
-
 import java.util.GregorianCalendar;
 import java.util.Properties;
 import java.util.regex.Matcher;
@@ -17,19 +12,10 @@ import sos.util.SOSClassUtil;
 import sos.util.SOSLogger;
 import sos.util.SOSString;
 
-/** Title:
- * <p>
- * Description: Implementation of SOSConnection-class für ODBD
- * </p>
- * Copyright: Copyright (c) 2003 Company: SOS GmbH
- * 
- * @author <a href="mailto:ghassan.beydoun@sos-berlin.com">Ghassan Beydoun</a>
- * @version $Id$ */
-
+/** @author Ghassan Beydoun */
 public class SOSODBCConnection extends sos.connection.SOSConnection {
 
-    /** replacements für %lcase, %ucase, %now */
-    private static final String replacement[] = { "LCASE", "UCASE", "NOW()", "FOR UPDATE" };
+    private static final String REPLACEMENT[] = { "LCASE", "UCASE", "NOW()", "FOR UPDATE" };
 
     public SOSODBCConnection(Connection connection, SOSLogger logger) throws Exception {
         super(connection, logger);
@@ -40,145 +26,110 @@ public class SOSODBCConnection extends sos.connection.SOSConnection {
     }
 
     public SOSODBCConnection(String configFileName, SOSLogger logger) throws Exception {
-
         super(configFileName, logger);
     }
 
     public SOSODBCConnection(String configFileName) throws Exception {
-
         super(configFileName);
     }
 
     public SOSODBCConnection(String driver, String url, String dbuser, String dbpassword) throws Exception {
-
         super(driver, url, dbuser, dbpassword);
     }
 
     public SOSODBCConnection(String driver, String url, String dbuser, String dbpassword, SOSLogger logger) throws Exception {
-
         super(driver, url, dbuser, dbpassword, logger);
     }
 
     public SOSODBCConnection(String driver, String url, String dbname, String dbuser, String dbpassword, SOSLogger logger) throws Exception {
-
         super(driver, url, dbuser, dbpassword, logger);
-        if (dbname == null)
+        if (dbname == null) {
             throw new Exception(SOSClassUtil.getMethodName() + ": missing database name.");
+        }
         this.dbname = dbname;
     }
 
     public SOSODBCConnection(String driver, String url, String dbname, String dbuser, String dbpassword) throws Exception {
-
         super(driver, url, dbuser, dbpassword);
-
-        if (dbname == null)
+        if (dbname == null) {
             throw new Exception(SOSClassUtil.getMethodName() + ": missing database name.");
+        }
         this.dbname = dbname;
     }
 
     public void connect() throws Exception {
-
         Properties properties = new Properties();
-
-        if (SOSString.isEmpty(url))
+        if (SOSString.isEmpty(url)) {
             throw new Exception(SOSClassUtil.getMethodName() + ": missing database url.");
-        if (SOSString.isEmpty(driver))
+        }
+        if (SOSString.isEmpty(driver)) {
             throw new Exception(SOSClassUtil.getMethodName() + ": missing database driver.");
-        if (SOSString.isEmpty(dbuser))
+        }
+        if (SOSString.isEmpty(dbuser)) {
             throw new Exception(SOSClassUtil.getMethodName() + ": missing database user.");
-        if (SOSString.isEmpty(dbpassword))
+        }
+        if (SOSString.isEmpty(dbpassword)) {
             throw new Exception(SOSClassUtil.getMethodName() + ": missing database password.");
-
-        /*
-         * String ISO_DATE_FORMAT = "set DATEFORMAT ymd"; String
-         * DEFAULT_LANGUAGE = "set LANGUAGE british";
-         */
-        if (!SOSString.isEmpty(dbname)) // falls dbname in der config-datei
-                                        // enthalten ist
+        }
+        if (!SOSString.isEmpty(dbname)) {
             properties.setProperty("databasename", dbname);
+        }
         properties.setProperty("user", dbuser);
         properties.setProperty("password", dbpassword);
-
         try {
             logger.debug9("calling " + SOSClassUtil.getMethodName());
             Driver driver = (Driver) Class.forName(this.driver).newInstance();
-
             connection = driver.connect(url, properties);
-
-            if (connection == null)
+            if (connection == null) {
                 throw new Exception("can't connect to database");
-
+            }
             logger.debug6(".. successfully connected to " + url);
             prepare(connection);
-
-            /*
-             * stmt = connection.createStatement(); stmt.execute(ISO_DATE_FORMAT
-             * + ";" + DEFAULT_LANGUAGE); logger.debug9(".. " + DEFAULT_LANGUAGE
-             * + " successfully set."); logger.debug9(".. " + ISO_DATE_FORMAT +
-             * " successfully set.");
-             */
         } catch (Exception e) {
             throw new Exception(SOSClassUtil.getMethodName() + ": " + e.toString(), e);
-        } finally {
-            // if (stmt != null) try { stmt.close(); } catch(Exception e){}
         }
     }
 
     public void prepare(Connection connection) throws Exception {
-
         try {
             logger.debug6("calling " + SOSClassUtil.getMethodName());
-
             connection.setAutoCommit(false);
             connection.rollback();
-
         } catch (Exception e) {
             throw new Exception(SOSClassUtil.getMethodName() + ": " + e.toString(), e);
         }
     }
 
     public String toDate(String dateString) throws Exception {
-        if (SOSString.isEmpty(dateString))
+        if (SOSString.isEmpty(dateString)) {
             throw new Exception(SOSClassUtil.getMethodName() + ": dateString has no value.");
+        }
         return "{ ts '" + dateString + "'}";
     }
 
     protected GregorianCalendar getDateTime(String format) throws Exception {
         GregorianCalendar gc = new GregorianCalendar();
-
         String timestamp = this.getSingleValue("select CURRENT_TIMESTAMP");
-
         if (timestamp.length() > 19) {
             timestamp = timestamp.substring(0, 19);
         }
-
         java.util.Date date = sos.util.SOSDate.getDate(timestamp, format);
-
         gc.setTime(date);
-
         return gc;
     }
 
     protected String replaceCasts(String inputString) throws Exception {
-
         logger.debug6("Calling " + SOSClassUtil.getMethodName());
-
         Pattern pattern = Pattern.compile(CAST_PATTERN);
         Matcher matcher = pattern.matcher(inputString);
         StringBuffer buffer = new StringBuffer();
         String replaceString;
         String token;
-
         logger.debug9("..inputString [" + inputString + "]");
-
-        while ((matcher.find())) {
-
+        while (matcher.find()) {
             replaceString = matcher.group().toLowerCase();
-
             if (matcher.group(1) != null && matcher.group(6) != null) {
-
                 token = matcher.group(6).replaceFirst("\\)", "").trim();
-
                 if (token.matches(".*varchar.*")) {
                     replaceString = replaceString.replaceAll("varchar", " as varchar");
                     replaceString = replaceString.replaceFirst("%cast", "cast");
@@ -189,12 +140,9 @@ public class SOSODBCConnection extends sos.connection.SOSConnection {
                     replaceString = replaceString.replaceAll("integer", " as integer");
                     replaceString = replaceString.replaceFirst("%cast", "cast");
                 }
-            } // if
-            if (matcher.group(3) != null && matcher.group(4) != null) { // group
-                                                                        // 4
-                                                                        // "VALUE <data_type>"
+            }
+            if (matcher.group(3) != null && matcher.group(4) != null) {
                 token = matcher.group(4).replaceFirst("\\(", "").trim();
-
                 if (token.matches(".*varchar.*")) {
                     replaceString = replaceString.replaceAll("varchar", " as varchar");
                     replaceString = replaceString.replaceAll("%cast", "cast");
@@ -206,10 +154,9 @@ public class SOSODBCConnection extends sos.connection.SOSConnection {
                     replaceString = replaceString.replaceAll("%cast", "cast");
                 }
             }
-
             replaceString = replaceString.toUpperCase();
             matcher.appendReplacement(buffer, replaceString);
-        } // while
+        }
         matcher.appendTail(buffer);
         logger.debug6(".. result [" + buffer.toString() + "]");
         return buffer.toString();
@@ -229,13 +176,13 @@ public class SOSODBCConnection extends sos.connection.SOSConnection {
         if (endSB == null) {
             throw new Exception("endSB is null");
         }
-
         splitSB.append("\n/\n");
         endSB.append("");
         return true;
     }
 
     public String[] getReplacement() {
-        return replacement;
+        return REPLACEMENT;
     }
+    
 }

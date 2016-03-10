@@ -6,18 +6,12 @@ import java.util.Vector;
 
 import org.apache.log4j.Logger;
 
-/** @author Andreas Püschel <andreas.pueschel@sos-berlin.com>
- * @since 2009-02-20
- * @version 1.0
- *
- *          Command line processing */
-// use same on static class vom jshelper
+/** @author Andreas Püschel */
 @Deprecated
 public class SOSCommandline {
 
     private static final Logger LOGGER = Logger.getLogger(SOSCommandline.class);
 
-    /** Parse and split command line arguments */
     public static String[] splitArguments(final String arguments) throws Exception {
         String[] resultArguments = null;
         Vector resultVector = new Vector();
@@ -59,14 +53,14 @@ public class SOSCommandline {
                     resultString = "";
                 }
             }
-            if (resultString.trim().length() > 0) {
+            if (!resultString.trim().isEmpty()) {
                 resultVector.add(resultIndex++, resultString);
             }
             resultArguments = new String[resultIndex];
             resultVector.copyInto(resultArguments);
             return resultArguments;
         } catch (Exception e) {
-            throw new Exception("error occurred splitting arguments: " + e.getMessage());
+            throw new Exception("error occurred splitting arguments: " + e.getMessage(), e);
         }
     }
 

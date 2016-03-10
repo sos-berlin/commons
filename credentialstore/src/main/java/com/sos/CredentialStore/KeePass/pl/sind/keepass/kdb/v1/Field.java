@@ -17,12 +17,6 @@ import org.apache.log4j.Logger;
 
 public class Field {
 
-    @SuppressWarnings("unused")
-    private final String conClassName = this.getClass().getSimpleName();
-    @SuppressWarnings("unused")
-    private static final String conSVNVersion = "$Id$";
-    @SuppressWarnings("unused")
-    private final Logger logger = Logger.getLogger(this.getClass());
     public static final int DATE_FIELD_SIZE = 5;
     public static final int ID_FIELD_SIZE = 4;
     public static final int FLAGS_FIELD_SIZE = 4;
@@ -35,7 +29,8 @@ public class Field {
     public Field(final short fieldType, final int fieldSize, final int expectedFieldSize, final ByteBuffer data) {
         super();
         if (fieldSize != expectedFieldSize) {
-            throw new IllegalArgumentException(String.format("Invalid field size for %s. Expecting %d found %d.", getClass().getSimpleName(), expectedFieldSize, fieldSize));
+            throw new IllegalArgumentException(String.format("Invalid field size for %s. Expecting %d found %d.", getClass().getSimpleName(), 
+                    expectedFieldSize, fieldSize));
         }
         this.fieldType = fieldType;
         this.fieldSize = fieldSize;
@@ -84,19 +79,25 @@ public class Field {
 
     @Override
     public boolean equals(final Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         Field other = (Field) obj;
-        if (!Arrays.equals(fieldData, other.fieldData))
+        if (!Arrays.equals(fieldData, other.fieldData)) {
             return false;
-        if (fieldSize != other.fieldSize)
+        }
+        if (fieldSize != other.fieldSize) {
             return false;
-        if (fieldType != other.fieldType)
+        }
+        if (fieldType != other.fieldType) {
             return false;
+        }
         return true;
     }
 }

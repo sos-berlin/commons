@@ -4,76 +4,45 @@ import java.io.BufferedWriter;
 import java.io.Writer;
 import java.util.Iterator;
 
-/** <p>
- * Title:
- * </p>
- * <p>
- * Description:
- * </p>
- * <p>
- * Copyright: Copyright (c) 2003
- * </p>
- * <p>
- * Company: SOS GmbH
- * </p>
- * 
- * @author <a href="mailto:ghassan.beydoun@sos-berlin.com">Ghassan Beydoun</a>
- * @version $Id$ */
-
+/** @author Ghassan Beydoun */
 public class SOSCSVWriter extends BufferedWriter {
 
-    /** default Feldseparator */
     private static final String FIELD_SEPARATOR = ";";
-
     private static final String QUOTE = "\"";
-
     private String fieldSeparator;
-
-    /** quoting String */
     private String quote = "";
-
-    /** */
     private boolean useQuotes = false;
-
     private int lineCount = 0;
-
-    private StringBuffer line = new StringBuffer();
-
+    private StringBuilder line = new StringBuilder();
     private int fieldCount = 0;
-
     private String field = null;
-
-    /** @param writer */
 
     public SOSCSVWriter(Writer writer) {
         super(writer);
         this.fieldSeparator = SOSCSVWriter.FIELD_SEPARATOR;
         this.field = null;
         this.fieldCount = 0;
-        this.line = new StringBuffer();
+        this.line = new StringBuilder();
     }
 
-    /** @param separator ist der default Feldtrenner.
-     * @param useQuotes falls Quoting verwendet werden soll.
-     * @param writer */
     public SOSCSVWriter(Writer writer, String separator, boolean useQuotes) {
         super(writer);
-
         if (useQuotes) {
             this.setQuote(SOSCSVWriter.QUOTE);
         }
         this.fieldSeparator = separator;
         this.field = null;
         this.fieldCount = 0;
-        this.line = new StringBuffer();
+        this.line = new StringBuilder();
     }
 
     public void writeRecord(Iterator record) throws Exception {
         fieldCount = 0;
-        line = new StringBuffer();
+        line = new StringBuilder();
         while (record.hasNext()) {
-            if (fieldCount++ > 0)
+            if (fieldCount++ > 0) {
                 line.append(fieldSeparator);
+            }
             field = null;
             try {
                 field = record.next().toString();
@@ -93,8 +62,9 @@ public class SOSCSVWriter extends BufferedWriter {
 
     private void encodeField() throws Exception {
         line.append(quote);
-        if (field.indexOf('\r') >= 0 || field.indexOf('\n') >= 0)
+        if (field.indexOf('\r') >= 0 || field.indexOf('\n') >= 0) {
             throw new Exception(line.toString() + ": not allowed character (CR,LF) on line[" + lineCount + "].");
+        }
         line.append(field);
         line.append(quote);
     }
@@ -114,4 +84,5 @@ public class SOSCSVWriter extends BufferedWriter {
     public final void setUseQuotes(boolean useQuotes) {
         this.useQuotes = useQuotes;
     }
+
 }

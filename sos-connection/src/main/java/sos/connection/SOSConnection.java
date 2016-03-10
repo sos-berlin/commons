@@ -36,9 +36,6 @@ import sos.util.SOSStandardLogger;
 import sos.util.SOSString;
 
 /** <p>
- * Title:
- * </p>
- * <p>
  * Description: abstract class for database connection
  * </p>
  * <p>
@@ -88,13 +85,13 @@ import sos.util.SOSString;
  * @author Ghassan Beydoun **/
 public abstract class SOSConnection {
 
+    protected static final String NLS_DE = "DE";
+    protected static final String NLS_ISO = "ISO";
+    protected static final String CAST_PATTERN = "(\\s*%cast\\s*)*\\s*(\\()*\\s*(\\s*%cast\\s*)+\\s*(\\(\\s*\\S+\\s*(\\S+?).*?)\\)(\\s*(\\+|\\-)*[0-9]*\\s*\\S*(\\)))*";
     protected Properties configFileProperties = new Properties();
     protected Statement statement;
     protected ResultSet resultSet;
-    protected static final String NLS_DE = "DE";
-    protected static final String NLS_ISO = "ISO";
     protected boolean lowerCase = true;
-    protected final String CAST_PATTERN = "(\\s*%cast\\s*)*\\s*(\\()*\\s*(\\s*%cast\\s*)+\\s*(\\(\\s*\\S+\\s*(\\S+?).*?)\\)(\\s*(\\+|\\-)*[0-9]*\\s*\\S*(\\)))*";
     protected int compatibility = SOSConnectionVersionLimiter.CHECK_OFF;
     protected boolean fieldNameUpperCase = true;
     protected boolean tableNameUpperCase = true;
@@ -105,12 +102,12 @@ public abstract class SOSConnection {
     protected String dbname;
     protected SOSLogger logger = null;
     private boolean execReturnsResultSet = false;
-    private final String EXEC_COMMENT_RETURN_RESULTSET = "EXECRETURNSRESULTSET";
+    private static final String EXEC_COMMENT_RETURN_RESULTSET = "EXECRETURNSRESULTSET";
+    private static final String REPLACE_BACKSLASH = "\\\\'";
+    private static final String REPLACEMENT_BACKSLASH = "XxxxX";
+    private static final String REPLACE_DOUBLE_APOSTROPHE = "''";
+    private static final String REPLACEMENT_DOUBLE_APOSTROPHE = "YyyyY";
     private String beginProcedure = "";
-    private final String replaceBackslash = "\\\\'";
-    private final String replacementBackslash = "XxxxX";
-    private final String replaceDoubleApostrophe = "''";
-    private final String replacementDoubleApostrophe = "YyyyY";
     private int majorVersion = -1;
     private int minorVersion = 0;
     private String productVersion = "";
@@ -304,7 +301,8 @@ public abstract class SOSConnection {
         ResultSet rs = null;
         ResultSetMetaData meta = null;
         int columnCount = 0;
-        String key, value;
+        String key = null;
+        String value = null;
         try {
             logger.debug9("calling " + SOSClassUtil.getMethodName());
             if (connection == null) {
@@ -755,7 +753,7 @@ public abstract class SOSConnection {
     public long updateBlob(final String tableName, final String columnName, final byte[] data, final String condition) throws Exception {
         ByteArrayInputStream in = null;
         PreparedStatement pstmt = null;
-        StringBuffer query = null;
+        StringBuilder query = null;
         String theQuery = null;
         try {
             logger.debug9("calling " + SOSClassUtil.getMethodName());
@@ -773,7 +771,8 @@ public abstract class SOSConnection {
                 throw new NullPointerException("missing data.");
             }
             in = new ByteArrayInputStream(data);
-            query = new StringBuffer("UPDATE ");
+            query = new StringBuilder();
+            query.append("UPDATE ");
             if (tableNameUpperCase) {
                 query.append(tableName.toUpperCase());
             } else {
@@ -888,8 +887,9 @@ public abstract class SOSConnection {
             pstmt.executeUpdate();
             logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
         } catch (Exception e) {
-            if (profiler != null)
+            if (profiler != null) {
                 profiler.stop("ERROR", e.getMessage());
+            }
             throw new Exception(SOSClassUtil.getMethodName() + ": " + e.getMessage(), e);
         } finally {
             if (pstmt != null) {
@@ -918,7 +918,7 @@ public abstract class SOSConnection {
             logger.debug9("calling " + SOSClassUtil.getMethodName());
             if (connection == null) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
-                        + " may be the connect method was not called");
+                        + " Maybe the connect method was not called.");
             }
             query = normalizeStatement(query, getReplacement());
             logger.debug6(SOSClassUtil.getMethodName() + ": " + query);
@@ -953,11 +953,12 @@ public abstract class SOSConnection {
             }
             logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
         } catch (Exception e) {
-            if (profiler != null)
+            if (profiler != null) {
                 try {
                     profiler.stop("ERROR", e.getMessage());
                 } catch (Exception ex) {
                 }
+            }
             throw new Exception(SOSClassUtil.getMethodName() + ":" + e.getMessage(), e);
         } finally {
             if (stmt != null) {
@@ -1062,7 +1063,7 @@ public abstract class SOSConnection {
 
     public long updateClob(final String tableName, final String columnName, final File file, final String condition) throws Exception {
         PreparedStatement pstmt = null;
-        StringBuffer query = null;
+        StringBuilder query = null;
         long totalBytesWritten = 0;
         String theQuery = null;
         Reader in = null;
@@ -1081,7 +1082,8 @@ public abstract class SOSConnection {
             if (!file.exists()) {
                 throw new Exception("file doesn't exist.");
             }
-            query = new StringBuffer("UPDATE ");
+            query = new StringBuilder();
+            query.append("UPDATE ");
             if (tableNameUpperCase) {
                 query.append(tableName.toUpperCase());
                 query.append(" SET \"");
@@ -1246,7 +1248,7 @@ public abstract class SOSConnection {
             logger.debug9("calling " + SOSClassUtil.getMethodName());
             if (connection == null) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
-                        + " may be the connect method was not called");
+                        + " Maybe the connect method was not called.");
             }
             query = normalizeStatement(query, getReplacement());
             logger.debug6(SOSClassUtil.getMethodName() + ": " + query);
@@ -1285,7 +1287,7 @@ public abstract class SOSConnection {
                 } catch (Exception ex) {
                 }
             }
-            throw new Exception(SOSClassUtil.getMethodName() + ":" + e.getMessage(), e);
+            throw new Exception(SOSClassUtil.getMethodName() + ": " + e.getMessage(), e);
         } finally {
             if (out != null) {
                 try {
@@ -1387,7 +1389,7 @@ public abstract class SOSConnection {
             logger.debug9("calling " + SOSClassUtil.getMethodName());
             if (connection == null) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
-                        + " may be the connect method was not called");
+                        + " Maybe the connect method was not called.");
             }
             query = normalizeStatement(query, getReplacement());
             logger.debug6(SOSClassUtil.getMethodName() + ": " + query);
@@ -1709,7 +1711,10 @@ public abstract class SOSConnection {
         Pattern pattern;
         Matcher matcher;
         String replaceString;
-        aPattern = new StringBuffer("(%lcase|%ucase|%now|%updlock)|").append("(%timestamp\\('[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{1,4}'\\))|").append("(%timestamp\\('[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{1,4}[ \t]?[0-9]{2}:[0-9]{2}(?::[0-9]{2}\\.?[0-9]*)?'\\))|").append("(%timestamp_iso\\('[0-9]{1,4}[-]?[0-9]{1,2}[-]?[0-9]{1,2}'\\))|").append("(%timestamp_iso\\('[0-9]{1,4}[-]?[0-9]{1,2}[-]?[0-9]{1,2}[ \t]?[0-9]{2}:[0-9]{2}(?::[0-9]{2}\\.?[0-9]*)?'\\))");
+        aPattern = new StringBuffer("(%lcase|%ucase|%now|%updlock)|").append("(%timestamp\\('[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{1,4}'\\))|")
+                .append("(%timestamp\\('[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{1,4}[ \t]?[0-9]{2}:[0-9]{2}(?::[0-9]{2}\\.?[0-9]*)?'\\))|")
+                .append("(%timestamp_iso\\('[0-9]{1,4}[-]?[0-9]{1,2}[-]?[0-9]{1,2}'\\))|")
+                .append("(%timestamp_iso\\('[0-9]{1,4}[-]?[0-9]{1,2}[-]?[0-9]{1,2}[ \t]?[0-9]{2}:[0-9]{2}(?::[0-9]{2}\\.?[0-9]*)?'\\))");
         pattern = Pattern.compile(aPattern.toString());
         matcher = pattern.matcher(inputString);
         buffer = new StringBuffer();
@@ -1737,13 +1742,12 @@ public abstract class SOSConnection {
         return buffer.toString();
     }
 
-    abstract public void connect() throws Exception;
+    public abstract void connect() throws Exception;
 
-    abstract public String toDate(String dateString) throws Exception;
+    public abstract String toDate(String dateString) throws Exception;
 
     public String getLastSequenceValue(final String sequence) throws Exception {
-        String value = getSingleValue(getLastSequenceQuery(sequence));
-        return value;
+        return getSingleValue(getLastSequenceQuery(sequence));
     }
 
     protected abstract String getLastSequenceQuery(String sequence);
@@ -1846,7 +1850,7 @@ public abstract class SOSConnection {
         lowerCase = false;
     }
 
-    abstract protected boolean prepareGetStatements(StringBuffer contentSB, StringBuffer splitSB, StringBuffer endSB) throws Exception;
+    protected abstract boolean prepareGetStatements(StringBuffer contentSB, StringBuffer splitSB, StringBuffer endSB) throws Exception;
 
     public ArrayList<String> getStatements(String contentOfClobAttribute) throws Exception {
         if (contentOfClobAttribute == null || contentOfClobAttribute.isEmpty()) {
@@ -1873,8 +1877,8 @@ public abstract class SOSConnection {
                         statements.add(statement + endSB.toString());
                         logger.debug6(SOSClassUtil.getMethodName() + " : statement =" + statement + endSB.toString());
                     } else {
-                        String s = statement.replaceAll(replaceBackslash, replacementBackslash);
-                        s = s.replaceAll(replaceDoubleApostrophe, replacementDoubleApostrophe);
+                        String s = statement.replaceAll(REPLACE_BACKSLASH, REPLACEMENT_BACKSLASH);
+                        s = s.replaceAll(REPLACE_DOUBLE_APOSTROPHE, REPLACEMENT_DOUBLE_APOSTROPHE);
                         this.splitStatements(statements, new StringBuffer(s.trim()), null, endSB.toString(), true, 0);
                         if (!"".equals(beginProcedure)) {
                             int posPLSQL = statement.indexOf(beginProcedure);
@@ -1884,14 +1888,14 @@ public abstract class SOSConnection {
                         }
                     }
                 } else {
-                    String s = statement.replaceAll(replaceBackslash, replacementBackslash);
-                    s = s.replaceAll(replaceDoubleApostrophe, replacementDoubleApostrophe);
+                    String s = statement.replaceAll(REPLACE_BACKSLASH, REPLACEMENT_BACKSLASH);
+                    s = s.replaceAll(REPLACE_DOUBLE_APOSTROPHE, REPLACEMENT_DOUBLE_APOSTROPHE);
                     String end = alwaysAddEndSB ? endSB.toString() : "";
                     this.splitStatements(statements, new StringBuffer(s.trim()), null, end, false, 0);
                 }
             } else {
-                String s = statement.replaceAll(replaceBackslash, replacementBackslash);
-                s = s.replaceAll(replaceDoubleApostrophe, replacementDoubleApostrophe);
+                String s = statement.replaceAll(REPLACE_BACKSLASH, REPLACEMENT_BACKSLASH);
+                s = s.replaceAll(REPLACE_DOUBLE_APOSTROPHE, REPLACEMENT_DOUBLE_APOSTROPHE);
                 this.splitStatements(statements, new StringBuffer(s.trim()), null, endSB.toString(), false, 0);
             }
         }
@@ -1919,16 +1923,14 @@ public abstract class SOSConnection {
             } else {
                 value = st.toString().substring(0, semicolon).trim();
             }
-            value = value.replaceAll(replacementBackslash, replaceBackslash);
-            value = value.replaceAll(replacementDoubleApostrophe, replaceDoubleApostrophe);
+            value = value.replaceAll(REPLACEMENT_BACKSLASH, REPLACE_BACKSLASH);
+            value = value.replaceAll(REPLACEMENT_DOUBLE_APOSTROPHE, REPLACE_DOUBLE_APOSTROPHE);
             if (this.isProcedureSyntax(value)) {
                 if (returnProcedureBegin) {
                     beginProcedure = value;
                     return;
-                } else {
-                    if (!"".equals(procedurEnd)) {
-                        value += procedurEnd;
-                    }
+                } else if (!"".equals(procedurEnd)) {
+                    value += procedurEnd;
                 }
             }
             if (!"".equals(value)) {
@@ -2135,16 +2137,14 @@ public abstract class SOSConnection {
                 st.executeBatch();
             }
         } catch (Exception ex) {
-            if (!this.getAutoCommit()) {
-                if (this instanceof SOSPgSQLConnection) {
-                    try {
-                        this.executeUpdate("ROLLBACK");
-                    } catch (Exception e) {
-                    }
+            if (!this.getAutoCommit() && this instanceof SOSPgSQLConnection) {
+                try {
+                    this.executeUpdate("ROLLBACK");
+                } catch (Exception e) {
                 }
             }
             if (ex instanceof SQLException) {
-                SQLException sex = ((SQLException) ex);
+                SQLException sex = (SQLException) ex;
                 if (sex.getNextException() == null) {
                     throw ex;
                 } else {
@@ -2175,10 +2175,11 @@ public abstract class SOSConnection {
         if (executeBatch) {
             executeBatch = supportsBatchUpdates;
         }
-        logger.info(String.format("%s: executeBatch = %s (supportsBatchUpdates = %s, useExecuteBatch = %s, batchSize = %s)", methodName, executeBatch, supportsBatchUpdates, this.getUseExecuteBatch(), this.batchSize));
+        logger.info(String.format("%s: executeBatch = %s (supportsBatchUpdates = %s, useExecuteBatch = %s, batchSize = %s)", methodName, executeBatch, 
+                supportsBatchUpdates, this.getUseExecuteBatch(), this.batchSize));
         try {
             statements = this.getStatements(contentOfClobAttribute);
-            if (statements == null || statements.size() == 0) {
+            if (statements == null || statements.isEmpty()) {
                 if (logger != null) {
                     logger.info("no sql statements found");
                 }
@@ -2190,8 +2191,8 @@ public abstract class SOSConnection {
                     for (int i = 0; i < statements.size(); i++) {
                         String statement = statements.get(i).toString().trim();
                         String sqlToLower = statement.toLowerCase();
-                        if (sqlToLower.startsWith("select")
-                                || (sqlToLower.startsWith("exec") && (this.execReturnsResultSet || sqlToLower.contains(EXEC_COMMENT_RETURN_RESULTSET.toLowerCase())))) {
+                        if (sqlToLower.startsWith("select") || (sqlToLower.startsWith("exec") 
+                                && (this.execReturnsResultSet || sqlToLower.contains(EXEC_COMMENT_RETURN_RESULTSET.toLowerCase())))) {
                             if (hasOpenResultSet) {
                                 this.closeQuery();
                                 hasOpenResultSet = false;
@@ -2205,7 +2206,7 @@ public abstract class SOSConnection {
                 }
             }
         } catch (Exception e) {
-            throw new Exception(SOSClassUtil.getMethodName() + " : " + e, e);
+            throw new Exception(SOSClassUtil.getMethodName() + " : " + e.getMessage(), e);
         }
     }
 
@@ -2230,8 +2231,7 @@ public abstract class SOSConnection {
     }
 
     public Vector getOutput() throws Exception {
-        Vector out = new Vector();
-        return out;
+        return new Vector();
     }
 
     public GregorianCalendar getTimestamp() throws Exception {
@@ -2243,11 +2243,10 @@ public abstract class SOSConnection {
     }
 
     protected GregorianCalendar getDateTime(final String format) throws Exception {
-        GregorianCalendar gc = new GregorianCalendar();
-        return gc;
+        return new GregorianCalendar();
     }
 
-    abstract protected String replaceCasts(String inputString) throws Exception;
+    protected abstract String replaceCasts(String inputString) throws Exception;
 
     public int parseMajorVersion(final String productVersion) throws Exception {
         String dbVersion = productVersion.replaceAll("[^0-9\\.]", "");
@@ -2255,8 +2254,7 @@ public abstract class SOSConnection {
         if (split.length < 2) {
             throw new Exception("Failed to parse major Version from String \"" + productVersion + "\"");
         }
-        int major = Integer.parseInt(split[0]);
-        return major;
+        return Integer.parseInt(split[0]);
     }
 
     public int parseMinorVersion(final String productVersion) throws Exception {
@@ -2265,8 +2263,7 @@ public abstract class SOSConnection {
         if (split.length < 2) {
             throw new Exception("Failed to parse minor Version from String \"" + productVersion + "\"");
         }
-        int minor = Integer.parseInt(split[1]);
-        return minor;
+        return Integer.parseInt(split[1]);
     }
 
     public int getCompatibility() {
@@ -2310,14 +2307,12 @@ public abstract class SOSConnection {
         if (name.indexOf('.') == -1) {
             name = "sos.connection." + name;
         }
-        Class connectionClass = Class.forName(name);
-        return connectionClass;
+        return Class.forName(name);
     }
 
     private static SOSConnection createInstance(final String className, final Object[] arguments) throws Exception {
         try {
             Class connectionClass = getClass(className);
-            Constructor[] constr = connectionClass.getConstructors();
             Class[] parameterTypes = new Class[arguments.length];
             for (int i = 0; i < parameterTypes.length; i++) {
                 if (arguments[i] instanceof SOSLogger) {
@@ -2329,10 +2324,9 @@ public abstract class SOSConnection {
                 }
             }
             Constructor connectionConstructor = connectionClass.getConstructor(parameterTypes);
-            SOSConnection conn = (SOSConnection) connectionConstructor.newInstance(arguments);
-            return conn;
+            return (SOSConnection) connectionConstructor.newInstance(arguments);
         } catch (Exception e) {
-            throw new Exception("Error occured creating connection object for class " + className + ": " + e);
+            throw new Exception("Error occured creating connection object for class " + className + ": " + e.getMessage(), e);
         }
     }
 

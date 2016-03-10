@@ -21,25 +21,15 @@ import sos.util.SOSStandardLogger;
 public class SOSExportProcessor {
 
     private SOSConnection _sosConnection = null;
-
     private SOSStandardLogger _sosLogger = null;
-
     private File _configFile = null;
-
     private File _logFile = null;
-
     private int _logLevel = 0;
-
     private File _outputFile = null;
-
     private String _tableNames = null;
-
     private String _executeQuery = null;
-
     private String _keys = null;
-
     private boolean enableTableParametr = true;
-
     private boolean enableExecuteParametr = true;
 
     /** Konstruktor
@@ -66,11 +56,12 @@ public class SOSExportProcessor {
     public SOSExportProcessor(File configFile, File logFile, int logLevel, File outputFile, String tableNames, String executeQuery, String keys)
             throws Exception {
 
-        if (configFile == null)
+        if (configFile == null) {
             throw new NullPointerException("Export: Parameter config == null!");
-        if (outputFile == null)
+        }
+        if (outputFile == null) {
             throw new NullPointerException("Export: Parameter output == null!");
-
+        }
         try {
             _configFile = configFile;
             _logFile = logFile;
@@ -79,19 +70,15 @@ public class SOSExportProcessor {
             _tableNames = tableNames;
             _executeQuery = executeQuery;
             _keys = keys;
-
-            if (_configFile != null && _configFile.getName().length() > 0 && !_configFile.exists()) {
+            if (_configFile != null && !_configFile.getName().isEmpty() && !_configFile.exists()) {
                 throw new Exception("configuration file not found: " + _configFile);
             }
-
-            if ((_tableNames != null && !tableNames.equals("")) && (_executeQuery != null && !_executeQuery.equals(""))) {
+            if ((_tableNames != null && !"".equals(tableNames)) && (_executeQuery != null && !"".equals(_executeQuery))) {
                 throw new Exception("-tables and -execute may not be indicated together");
             }
-
-            if (_logLevel != 0 && _logFile.toString().equals("")) {
+            if (_logLevel != 0 && "".equals(_logFile.toString())) {
                 throw new Exception("log file is not defined");
             }
-
         } catch (Exception e) {
             throw new Exception("error in SOSExportProcessor: " + e.getMessage());
         }
@@ -142,39 +129,30 @@ public class SOSExportProcessor {
         System.out.println("");
         System.out.println("Beispiel 5 : eigene SQL-Statement für die Tabelle t1 definieren");
         System.out.println("         -config=config/sos_settings.ini -execute=\"select * from t1 where ID=1\"");
-
     }
 
     /** Export anhand der registrierten Abfragen ausf&uuml;hren
      * 
      * @throws Exception */
     public void doExport() throws Exception {
-
         try {
-
             if (this.isEnableTableParametr() && this.isEnableExecuteParametr()) {
-                if ((_tableNames == null || _tableNames.equals("")) && (_executeQuery == null || _executeQuery.equals(""))) {
+                if ((_tableNames == null || "".equals(_tableNames)) && (_executeQuery == null || "".equals(_executeQuery))) {
                     throw new Exception("undefined operation for export. Check please input for your -tables or -execute arguments");
                 }
             }
-
             if (_logLevel == 0) {
                 _sosLogger = new SOSStandardLogger(SOSStandardLogger.DEBUG);
             } else {
                 _sosLogger = new SOSStandardLogger(_logFile.toString(), _logLevel);
             }
-
             _sosConnection = SOSConnection.createInstance(_configFile.toString(), _sosLogger);
             _sosConnection.connect();
-
             SOSExport export = new SOSExport(_sosConnection, _outputFile.toString(), "EXPORT", _sosLogger);
-
             prepareExport(export);
-
             export.doExport();
             System.out.println("");
             System.out.println("Export erfolgreich beendet.");
-
         } catch (Exception e) {
             throw new Exception("error in SOSExportProcessor: " + e.getMessage());
         } finally {
@@ -194,25 +172,19 @@ public class SOSExportProcessor {
      * @param export SOSExport Objekt
      * @throws Exception */
     public void prepareExport(SOSExport export) throws Exception {
-
         String keys = "";
         String[] tablesKeys = {};
-
-        if (_keys != null && !_keys.trim().equals("")) {
+        if (_keys != null && !"".equals(_keys.trim())) {
             keys = _keys.toUpperCase();
             tablesKeys = keys.split("\\+");
         }
-
-        if (!_tableNames.equals("")) {
+        if (!"".equals(_tableNames)) {
             StringTokenizer tables = new StringTokenizer(_tableNames, "+");
-
             int i = 0;
-
             while (tables.hasMoreTokens()) {
                 String table = tables.nextToken().toUpperCase();
                 String key = "";
-
-                if (!table.equals("")) {
+                if (!"".equals(table)) {
                     if (tablesKeys != null && tablesKeys.length != 0) {
                         try {
                             key = tablesKeys[i];
@@ -223,21 +195,18 @@ public class SOSExportProcessor {
                     i++;
                 }
             }
-        } else if (!_executeQuery.equals("")) {
+        } else if (!"".equals(_executeQuery)) {
             StringTokenizer st = new StringTokenizer(_executeQuery, " ");
-
             String table = "";
-
             while (st.hasMoreTokens()) {
                 String token = st.nextToken().toUpperCase();
-                if (token.equals("FROM")) {
+                if ("FROM".equals(token)) {
                     table = st.nextToken().toUpperCase();
                     break;
                 }
             }
             export.add(table, keys, _executeQuery, null, 0);
         }
-
     }
 
     /** Programm ausführen<br>
@@ -280,22 +249,19 @@ public class SOSExportProcessor {
      * 
      * @throws Exception */
     public static void main(String[] args) throws Exception {
-
         boolean isExport = true;
-
         if (args.length == 1) {
             String argument = args[0].toLowerCase().trim();
-            if (argument.equals("?") || argument.equals("help")) {
-                SOSExportProcessor processor = new SOSExportProcessor();
+            if ("?".equals(argument) || "help".equals(argument)) {
                 isExport = false;
             }
         }
-
         if (isExport) {
             SOSArguments arguments = new SOSArguments(args);
-
-            SOSExportProcessor processor = new SOSExportProcessor(new File(arguments.as_string("-config=", "sos_settings.ini")), new File(arguments.as_string("-log=", "sos_export.log")), arguments.as_int("-log-level=", 0), new File(arguments.as_string("-output=", "sos_export.xml")), new String(arguments.as_string("-tables=", "")), new String(arguments.as_string("-execute=", "")), new String(arguments.as_string("-keys=", "")));
-
+            SOSExportProcessor processor = new SOSExportProcessor(new File(arguments.as_string("-config=", "sos_settings.ini")), 
+                    new File(arguments.as_string("-log=", "sos_export.log")), arguments.as_int("-log-level=", 0), 
+                    new File(arguments.as_string("-output=", "sos_export.xml")), new String(arguments.as_string("-tables=", "")), 
+                    new String(arguments.as_string("-execute=", "")), new String(arguments.as_string("-keys=", "")));
             arguments.check_all_used();
             processor.doExport();
         }
@@ -328,4 +294,5 @@ public class SOSExportProcessor {
     public void setEnableTableParametr(boolean enableTableParametr) {
         this.enableTableParametr = enableTableParametr;
     }
+    
 }
