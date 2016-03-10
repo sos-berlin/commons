@@ -940,13 +940,14 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
         } catch (Exception e) {
             throw new Exception("error occurred reading output: " + e.getMessage());
         } finally {
-            if (stmt != null)
+            if (stmt != null) {
                 try {
                     stmt.close();
                     stmt = null;
                 } catch (Exception ex) {
                     // ignore this error
-                } 
+                }
+            }
         }
         return out;
     }
