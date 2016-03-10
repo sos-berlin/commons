@@ -164,8 +164,9 @@ public class SOSCommandline {
             }
         } catch (Exception e) {
             try {
-                if (logger != null)
+                if (logger != null) {
                     logger.debug("Command could not be executed successfully: " + e.getMessage());
+                }
             } catch (Exception ex) {
             }
             returnValues.add(0, new Integer(1));
