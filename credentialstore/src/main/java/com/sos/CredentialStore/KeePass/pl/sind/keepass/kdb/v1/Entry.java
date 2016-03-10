@@ -406,8 +406,9 @@ public class Entry {
             if (other.username != null) {
                 return false;
             }
-        } else if (!username.equals(other.username))
+        } else if (!username.equals(other.username)) {
             return false;
+        }
         if (uuid == null) {
             if (other.uuid != null) {
                 return false;
