@@ -1,24 +1,6 @@
 package sos.settings;
 
-/** <p>
- * Title:
- * </p>
- * <p>
- * Description:
- * </p>
- * <p>
- * Copyright: Copyright (c) 2003
- * </p>
- * <p>
- * Company: SOS GmbH
- * </p>
- * 
- * @author <a href="mailto:ghassan.beydoun@sos-berlin.com">Ghassan Beydoun</a>
- * @resource sos.util.jar
- * @version $Id: SOSProfileSettings.java,v 1.1.1.1 2003/09/23 11:48:15 gb Exp $
- * @author <a href="mailto:andreas.pueschel@sos-berlin.com">Andreas Püschel</a>
- * @since 2005-01-25
- * @version 1.1 */
+/** Andreas Püschel */
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -36,66 +18,32 @@ import sos.util.SOSString;
 
 public class SOSProfileSettings extends sos.settings.SOSSettings {
 
-    /** section pattern */
     private static final Pattern SECTION_PATTERN = Pattern.compile("^\\s*\\[([^\\]]*)\\].*$");
-    /** entry pattern */
-    // private static final Pattern ENTRY_PATTERN =
-    // Pattern.compile("^(.*)=(.*)$");
-    // private static final Pattern ENTRY_PATTERN =
-    // Pattern.compile("^([a-z A-Z 0-9_]+)[ \t\n]*=(.*)$");
     private static final Pattern ENTRY_PATTERN = Pattern.compile("^([^=#]+)[ \t\n]*=(.*)$");
-    /** stellt sections in der INI-Datei dar */
     private final ArrayList<String> sections = new ArrayList<String>();
-    /** stellt alle Einträge in der INI-Datei dar */
     private final Properties entries = new Properties();
-    /** Feldnamen in Kleinschreibung (default) */
     protected boolean lowerCase = true;
 
-    /** Konstruktor
-     *
-     * @param source Name der Datenquelle
-     *
-     * @throws java.lang.Exception */
     public SOSProfileSettings(final String source) throws Exception {
         super(source);
         this.load();
     }
 
-    /** Konstruktor
-     *
-     * @param source Name der Datenquelle
-     * @param logger Das Logger-Objekt
-     *
-     * @throws java.lang.Exception */
     public SOSProfileSettings(final String source, final SOSLogger logger) throws Exception {
         super(source, logger);
         this.load();
     }
 
-    /** Konstruktor
-     *
-     * @param source Name der Datenquelle
-     * @param section Name der Sektion
-     *
-     * @throws java.lang.Exception */
     public SOSProfileSettings(final String source, final String section) throws Exception {
         super(source, section);
         this.load();
     }
 
-    /** Konstruktor
-     *
-     * @param source Name der Datenquelle
-     * @param section Name der Sektion
-     * @param logger Das Logger-Objekt
-     *
-     * @throws java.lang.Exception */
     public SOSProfileSettings(final String source, final String section, final SOSLogger logger) throws Exception {
         super(source, section, logger);
         this.load();
     }
 
-    /** @throws java.lang.Exception */
     private void load() throws Exception {
         String sectionName = null;
         BufferedReader in = null;
@@ -104,18 +52,15 @@ public class SOSProfileSettings extends sos.settings.SOSSettings {
         String line = null;
         try {
             File file = new File(source);
-            if (!file.exists())
+            if (!file.exists()) {
                 throw new Exception("couldn't find settings-file [" + file.getAbsolutePath() + "].");
+            }
             in = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
             while (true) {
                 line = in.readLine();
-                if (line == null)
+                if (line == null) {
                     break;
-                /** if a line in the ini file ends with \r (e.g. file comes form
-                 * windows in binary format) then the regexp is not able to
-                 * match. Due to the fact that we don't need the \r in the value
-                 * field as well we discard it here from the input line. kb
-                 * 2014-02-14 */
+                }
                 line = line.replaceAll("\\r", "");
                 Matcher matcher = SECTION_PATTERN.matcher(line);
                 if (matcher.matches()) {
@@ -130,26 +75,22 @@ public class SOSProfileSettings extends sos.settings.SOSSettings {
                     }
                 }
             }
-            if (logger != null)
+            if (logger != null) {
                 logger.debug3(SOSClassUtil.getMethodName() + ": profile [" + source + "] successfully loaded.");
+            }
         } catch (Exception e) {
             throw new Exception(SOSClassUtil.getMethodName() + ": " + e.toString());
         } finally {
-            if (in != null)
+            if (in != null) {
                 try {
                     in.close();
                 } catch (Exception e) {
+                    // no exception handling
                 }
+            }
         }
     }
 
-    /** returns the value of the specified entry
-     *
-     * @param section Name der Sektion
-     * @param entry Name des Eintrages
-     * @return String der Wert eines Eintrages
-     * @throws java.lang.Exception
-     * @see #getSectionEntry(String ) */
     public String getSectionEntry(final String section, final String entry) throws Exception {
         String value;
         try {
@@ -160,12 +101,6 @@ public class SOSProfileSettings extends sos.settings.SOSSettings {
         }
     }
 
-    /** returns the value of the specified entry
-     *
-     * @param entry Name des Eintrages
-     * @return String der Wert eines Eintrages
-     * @throws java.lang.Exception
-     * @see #getSectionEntry(String, String ) */
     @Override
     public String getSectionEntry(final String entry) throws Exception {
         try {
@@ -175,11 +110,6 @@ public class SOSProfileSettings extends sos.settings.SOSSettings {
         }
     }
 
-    /** Liefert alle Einträge der eingegebenen Sektion zurück.
-     *
-     * @return Properties Objekt, das alle Einträge der Sektion darstellt.
-     * @throws java.lang.Exception
-     * @see #getSection(String ) */
     @Override
     public Properties getSection(final String section) throws Exception {
         try {
@@ -189,8 +119,9 @@ public class SOSProfileSettings extends sos.settings.SOSSettings {
             java.util.Enumeration<Object> enuma = entries.keys();
             while (enuma.hasMoreElements()) {
                 keyValue = p.split(enuma.nextElement().toString());
-                if (getSectionEntry(section, keyValue[1]) != null)
+                if (getSectionEntry(section, keyValue[1]) != null) {
                     properties.put(normalizeKey(keyValue[1]), this.getSectionEntry(section, keyValue[1]));
+                }
             }
             return properties;
         } catch (Exception e) {
@@ -198,11 +129,6 @@ public class SOSProfileSettings extends sos.settings.SOSSettings {
         }
     }
 
-    /** Liefert alle Einträge einer Sektion zurück.
-     *
-     * @return Properties Objekt, das alle Einträge der Sektion darstellt.
-     * @exception Exception
-     * @see #getSection(String ) */
     @Override
     public Properties getSection() throws Exception {
         try {
@@ -212,11 +138,6 @@ public class SOSProfileSettings extends sos.settings.SOSSettings {
         }
     }
 
-    /** Liefert alle Einträge einer Sektion zurück.
-     *
-     * @return Properties Objekt, das alle Einträge der Sektion darstellt.
-     * @exception Exception
-     * @see #getSection(String ) */
     @Override
     public Properties getSection(final String application, final String section) throws Exception {
         try {
@@ -226,22 +147,11 @@ public class SOSProfileSettings extends sos.settings.SOSSettings {
         }
     }
 
-    /** Liefert alle Sektionen einer Anwendung zurück
-     *
-     * @return ArrayList die alle Sektionen beinhaltet
-     * @throws java.lang.Exception */
     @Override
     public ArrayList<String> getSections() throws Exception {
         return sections;
     }
 
-    /** Liefert nach Inkrementierung den Wert der eingegebenen Variable zurück.
-     *
-     * @param section Name des Sektions
-     * @param entry Name des Eintrags
-     * @return int Wert der inkrementierten Variable bei Erfolg, sonst -1
-     *
-     * @exception Exception wird ausgelï¿½st falls ein Datenbankfehler vorliegt. */
     synchronized public int getSequence(final String section, final String entry) throws Exception {
         String sectionName = null;
         String line = null;
@@ -252,15 +162,17 @@ public class SOSProfileSettings extends sos.settings.SOSSettings {
         int result = -1;
         try {
             inFile = new File(source);
-            if (!inFile.exists())
+            if (!inFile.exists()) {
                 throw new Exception("couldn't find profile [" + source + "].");
+            }
             outFile = new File(source + "~");
             out = new FileOutputStream(outFile);
             in = new BufferedReader(new InputStreamReader(new FileInputStream(source)));
             while (true) {
                 line = in.readLine();
-                if (line == null)
+                if (line == null) {
                     break;
+                }
                 Matcher sectionMatcher = SECTION_PATTERN.matcher(line);
                 Matcher entryMatcher = ENTRY_PATTERN.matcher(line);
                 if (sectionMatcher.matches()) {
@@ -272,10 +184,12 @@ public class SOSProfileSettings extends sos.settings.SOSSettings {
                     if (name.equals(entry) && sectionName.equals(section) && value.matches("[0-9]+")) {
                         result = Integer.valueOf(value.trim()).intValue() + 1;
                         out.write(new String(entry + "=" + result).getBytes());
-                    } else
+                    } else {
                         out.write(line.getBytes());
-                } else
+                    }
+                } else {
                     out.write(line.getBytes());
+                }
                 out.write(10);
                 out.flush();
             }
@@ -286,87 +200,80 @@ public class SOSProfileSettings extends sos.settings.SOSSettings {
             }
             throw new Exception(SOSClassUtil.getMethodName() + ": " + e.toString());
         } finally {
-            if (outFile != null)
+            if (outFile != null) {
                 try {
                     outFile.renameTo(inFile);
                 } catch (Exception ex) {
+                    // no exception handling
                 }
-            if (in != null)
+            }
+            if (in != null) {
                 try {
                     in.close();
                 } catch (Exception ex) {
+                    // no exception handling
                 }
-            if (out != null)
+            }
+            if (out != null) {
                 try {
                     out.close();
                 } catch (Exception ex) {
+                    // no exception handling
                 }
+            }
             this.load();
         }
         return result;
     }
 
-    /** Aktiviert die Kleinschreibung fï¿½r Feldnamen
-     *
-     * @see #setKeysToUpperCase */
     @Override
     public void setKeysToLowerCase() throws Exception {
-        if (logger != null)
+        if (logger != null) {
             logger.debug3("calling " + SOSClassUtil.getMethodName());
-        if (logger != null)
+        }
+        if (logger != null) {
             logger.debug3(".. now keys set to lower case.");
+        }
         lowerCase = true;
     }
 
-    /** Aktiviert die Grossschreibung fï¿½r Feldnamen
-     *
-     * @see #setKeysToLowerCase */
     @Override
     public void setKeysToUpperCase() throws Exception {
-        if (logger != null)
+        if (logger != null) {
             logger.debug3("calling " + SOSClassUtil.getMethodName());
-        if (logger != null)
+        }
+        if (logger != null) {
             logger.debug3(".. now keys set to upper case.");
+        }
         lowerCase = false;
     }
 
-    /** Liefert den eingegebenen String in Kleinschreibung als default.
-     *
-     * @param key
-     * @return String
-     * @throws java.lang.Exception
-     * @see #setKeysToLowerCase
-     * @see #setKeysToUpperCase */
     protected String normalizeKey(final String key) throws Exception {
         try {
-            if (SOSString.isEmpty(key))
+            if (SOSString.isEmpty(key)) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": invalid key.");
-            if (this.getIgnoreCase())
+            }
+            if (this.getIgnoreCase()) {
                 return key;
-            if (lowerCase)
+            }
+            if (lowerCase) {
                 return key.toLowerCase();
-            else
+            }else {
                 return key.toUpperCase();
+            }
         } catch (Exception e) {
             throw new Exception("error occurred in " + SOSClassUtil.getMethodName() + ": " + e);
         }
     }
 
-    /** Setzt den Schalter fï¿½r die Berï¿½cksichtigung von
-     * Groï¿½/Kleinschreibung
-     * 
-     * @param ignoreCase */
     @Override
     public void setIgnoreCase(final boolean ignoreCase) {
         this.ignoreCase = ignoreCase;
     }
 
-    /** liefert den Schalter fï¿½r die Berï¿½cksichtigung von
-     * Groï¿½/Kleinschreibung
-     * 
-     * @param ignoreCase */
     @Override
     public boolean getIgnoreCase() {
         return ignoreCase;
     }
+
 }

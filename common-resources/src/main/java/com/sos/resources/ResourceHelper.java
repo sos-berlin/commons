@@ -16,8 +16,7 @@ import java.nio.charset.Charset;
  * holding the resources. */
 public class ResourceHelper {
 
-    private static Logger logger = LoggerFactory.getLogger(ResourceHelper.class);
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResourceHelper.class);
     private static File workingDirectory = null;
     private static ResourceHelper instance = null;
 
@@ -25,8 +24,9 @@ public class ResourceHelper {
     }
 
     public static ResourceHelper getInstance() {
-        if (instance == null)
+        if (instance == null) {
             instance = new ResourceHelper();
+        }
         return instance;
     }
 
@@ -36,7 +36,7 @@ public class ResourceHelper {
      * @param resource
      * @return */
     public File createFileFromURL(URL resource) {
-        logger.info("Resource is {}.", resource.getPath());
+        LOGGER.info("Resource is {}.", resource.getPath());
         String[] arr = resource.getPath().split("/");
         String filenameWithoutPath = arr[arr.length - 1];
         File configFile = null;
@@ -44,7 +44,7 @@ public class ResourceHelper {
             String fileContent = Resources.toString(resource, Charset.defaultCharset());
             configFile = createFileFromString(fileContent, filenameWithoutPath);
         } catch (IOException e) {
-            logger.error("Error reading resource {}.", resource.getPath(), e);
+            LOGGER.error("Error reading resource {}.", resource.getPath(), e);
             throw new RuntimeException(e);
         }
         return configFile;
@@ -59,16 +59,16 @@ public class ResourceHelper {
     private File createFileFromString(String fileContent, String filenameWithoutPath) {
         File configFile = null;
         createWorkingDirectory();
-        logger.info("Copy resource to folder {}.", workingDirectory.getAbsolutePath());
-        logger.info("Targetname is {}.", filenameWithoutPath);
+        LOGGER.info("Copy resource to folder {}.", workingDirectory.getAbsolutePath());
+        LOGGER.info("Targetname is {}.", filenameWithoutPath);
         try {
             workingDirectory.mkdirs();
-            logger.info("Create file from Resource String:\n{},", fileContent);
+            LOGGER.info("Create file from Resource String:\n{},", fileContent);
             configFile = new File(workingDirectory, filenameWithoutPath);
-            logger.info("Write file {}.", configFile.getAbsolutePath());
+            LOGGER.info("Write file {}.", configFile.getAbsolutePath());
             Files.write(fileContent, configFile, Charset.defaultCharset());
         } catch (IOException e) {
-            logger.error("Could not create File from resource String:\n{}", fileContent);
+            LOGGER.error("Could not create File from resource String:\n{}", fileContent);
             throw new RuntimeException(e);
         }
         return configFile;
@@ -78,7 +78,6 @@ public class ResourceHelper {
         return workingDirectory;
     }
 
-    /** Remove all tempory files and folders created by this class. */
     public static void destroy() {
         removeFolderRecursively(workingDirectory);
     }
@@ -86,10 +85,11 @@ public class ResourceHelper {
     private static void removeFolderRecursively(File folder) {
         if (workingDirectory != null && workingDirectory.isDirectory()) {
             for (File f : folder.listFiles()) {
-                if (f.isFile())
+                if (f.isFile()) {
                     deleteFile(f);
-                else
+                } else {
                     removeFolderRecursively(f);
+                }
             }
             deleteFile(folder);
         }
@@ -97,15 +97,17 @@ public class ResourceHelper {
 
     private static void deleteFile(File f) {
         String type = (f.isDirectory()) ? "folder" : "file";
-        if (f.delete())
-            logger.info("Temporary {} [{}] removed succesfully.", type, f.getAbsolutePath());
-        else
-            logger.warn("Could not delete Temporary {} [{}].", type, f.getAbsolutePath());
+        if (f.delete()) {
+            LOGGER.info("Temporary {} [{}] removed succesfully.", type, f.getAbsolutePath());
+        } else {
+            LOGGER.warn("Could not delete Temporary {} [{}].", type, f.getAbsolutePath());
+        }
     }
 
     public File createWorkingDirectory() {
-        if (workingDirectory == null)
+        if (workingDirectory == null) {
             workingDirectory = Files.createTempDir();
+        }
         return workingDirectory;
     }
 }

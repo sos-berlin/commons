@@ -22,10 +22,7 @@ import java.util.Iterator;
  * @version 1.2 */
 public class SOSImExportTableFieldTypes {
 
-    /** HashMap, &uuml;ber die die Attribute der Felder aufgerufen werden
-     * k&ouml;nnen. */
     private HashMap _fieldTypes = new HashMap();
-    /** zugeh&ouml;rige Tabellenname */
     private String _tableName = null;
 
     /** F&ouml;gt ein Tabellenfeld mit deren Typbeschreibung hinzu.
@@ -51,10 +48,11 @@ public class SOSImExportTableFieldTypes {
      * @return String des Feldtyps. */
     public String getTypeName(String field) {
         ArrayList fieldType = (ArrayList) _fieldTypes.get(field);
-        if (fieldType != null)
+        if (fieldType != null) {
             return (String) fieldType.get(1);
-        else
+        } else {
             return null;
+        }
     }
 
     /** Liefert die ID des Feldtyps f&uuml;r ein Feld.
@@ -63,10 +61,11 @@ public class SOSImExportTableFieldTypes {
      * @return Typ-ID (java.sql.Types) */
     public int getTypeId(String field) {
         ArrayList fieldType = (ArrayList) _fieldTypes.get(field);
-        if (fieldType != null)
+        if (fieldType != null) {
             return ((Integer) fieldType.get(2)).intValue();
-        else
+        } else {
             return -1;
+        }
     }
 
     /** Liefert die Feldtypl&auml;nge eines Feldes.
@@ -75,10 +74,11 @@ public class SOSImExportTableFieldTypes {
      * @return L&auml;nge des Typs. */
     public BigInteger getLength(String field) {
         ArrayList fieldType = (ArrayList) _fieldTypes.get(field);
-        if (fieldType != null)
-            return ((BigInteger) fieldType.get(3));
-        else
+        if (fieldType != null) {
+            return (BigInteger) fieldType.get(3);
+        } else {
             return new BigInteger("-1");
+        }
     }
 
     /** Liefert den Scale eines Tabellenfeldes.
@@ -87,10 +87,11 @@ public class SOSImExportTableFieldTypes {
      * @return Scale des Feldes. */
     public int getScale(String field) {
         ArrayList fieldType = (ArrayList) _fieldTypes.get(field);
-        if (fieldType != null)
+        if (fieldType != null) {
             return ((Integer) fieldType.get(4)).intValue();
-        else
+        } else {
             return -1;
+        }
     }
 
     /** Speichert den Namen der Tabelle.
@@ -114,8 +115,9 @@ public class SOSImExportTableFieldTypes {
         StringBuffer str = new StringBuffer();
         for (Iterator it = _fieldTypes.keySet().iterator(); it.hasNext();) {
             str.append("\"" + it.next().toString() + "\"");
-            if (it.hasNext())
+            if (it.hasNext()) {
                 str.append(", ");
+            }
         }
         return str.toString();
     }

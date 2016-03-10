@@ -251,7 +251,7 @@ public class SOSImport extends DefaultHandler {
     }
 
     public void setNormalizeFieldName(String normalizeFieldName) throws Exception {
-        if (!normalizeFieldName.equalsIgnoreCase("strtolower") && !normalizeFieldName.equalsIgnoreCase("strtoupper")) {
+        if (!"strtolower".equalsIgnoreCase(normalizeFieldName) && !"strtoupper".equalsIgnoreCase(normalizeFieldName)) {
             throw new IllegalArgumentException("SOSExport.setNormalizeFieldName: normalizeFielName must be \"strtolower\" or \"strtoupper\"");
         }
         try {
@@ -360,7 +360,7 @@ public class SOSImport extends DefaultHandler {
                 _curDataFieldOpened = true;
                 _curDataFieldName = normalizeFieldName(name);
                 _curDataFieldData = new StringBuilder();
-                _curDataFieldNull = atts.getValue("null") != null && atts.getValue("null").equalsIgnoreCase("true");
+                _curDataFieldNull = atts.getValue("null") != null && "true".equalsIgnoreCase(atts.getValue("null"));
                 _records.addValue(_recordIndex, _curDataFieldName, _curDataFieldData.toString());
             }
         } catch (Exception e) {
@@ -675,7 +675,7 @@ public class SOSImport extends DefaultHandler {
                         }
                     }
                     if (record.containsKey("SOS_EXPORT_IS_NEW")) {
-                        isNew = new Boolean(((String) record.get("SOS_EXPORT_IS_NEW"))).booleanValue();
+                        isNew = new Boolean((String) record.get("SOS_EXPORT_IS_NEW")).booleanValue();
                         isNewKey = true;
                         record.remove("SOS_EXPORT_IS_NEW");
                     }
@@ -907,7 +907,7 @@ public class SOSImport extends DefaultHandler {
                 }
                 record = _conn.getSingle(stm.toString());
             }
-            boolean isNew = (record == null || record.isEmpty());
+            boolean isNew = record == null || record.isEmpty();
             if (_log != null) {
                 _log.debug6("is_new: " + isNew);
             }
@@ -949,7 +949,7 @@ public class SOSImport extends DefaultHandler {
                         }
                     }
                     if (record.containsKey("SOS_EXPORT_IS_NEW")) {
-                        isNew = new Boolean(((String) record.get("SOS_EXPORT_IS_NEW"))).booleanValue();
+                        isNew = new Boolean((String) record.get("SOS_EXPORT_IS_NEW")).booleanValue();
                         isNewKey = true;
                         record.remove("SOS_EXPORT_IS_NEW");
                     }
@@ -1181,8 +1181,9 @@ public class SOSImport extends DefaultHandler {
             return "%timestamp_iso('" + val + "')";
         default:
             val = val.replaceAll("'", "''");
-            if (_conn instanceof SOSMySQLConnection)
+            if (_conn instanceof SOSMySQLConnection) {
                 val = val.replaceAll("\\\\", "\\\\\\\\");
+            }
             return "'" + val + "'";
         }
     }
@@ -1208,7 +1209,7 @@ public class SOSImport extends DefaultHandler {
     }
 
     private String normalizeFieldName(String field) {
-        if (_normalizeFieldName.equalsIgnoreCase("strtoupper")) {
+        if ("strtoupper".equalsIgnoreCase(_normalizeFieldName)) {
             return field.toUpperCase();
         } else {
             return field.toLowerCase();

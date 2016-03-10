@@ -28,7 +28,6 @@ public class SOSImportProcessor {
     private SOSStandardLogger _sosLogger = null;
     private boolean update = false;
     private String fileSpec = "^(.*)";
-
     private File _configFile = null;
     private File _inputFile = null;
     private File _logFile = null;
@@ -38,7 +37,6 @@ public class SOSImportProcessor {
 
         _configFile = new File(settingsFilename);
         _sosLogger = sosLogger;
-        // this.init();
     }
 
     /** Konstruktor
@@ -51,30 +49,26 @@ public class SOSImportProcessor {
      * @param inputFile Dateiname für Import
      * @throws Exception */
     public SOSImportProcessor(File configFile, File logFile, int logLevel, File inputFile) throws Exception {
-
-        if (configFile == null)
+        if (configFile == null) {
             throw new NullPointerException("Import: Parameter config == null!");
-        if (inputFile == null)
+        }
+        if (inputFile == null) {
             throw new NullPointerException("Import: Parameter input == null!");
-
+        }
         try {
             _configFile = configFile;
             _logFile = logFile;
             _logLevel = logLevel;
             _inputFile = inputFile;
-
-            if (_configFile != null && _configFile.getName().length() > 0 && !_configFile.exists()) {
+            if (_configFile != null && !_configFile.getName().isEmpty() && !_configFile.exists()) {
                 throw new Exception("configuration file not found: " + _configFile);
             }
-
-            if (_inputFile != null && _inputFile.getName().length() > 0 && !_inputFile.exists()) {
+            if (_inputFile != null && !_inputFile.getName().isEmpty() && !_inputFile.exists()) {
                 throw new Exception("input file not found: " + _inputFile);
             }
-
-            if (_logLevel != 0 && _logFile.toString().equals("")) {
+            if (_logLevel != 0 && "".equals(_logFile.toString())) {
                 throw new Exception("log file is not defined");
             }
-
         } catch (Exception e) {
             throw new Exception("error in SOSImportProcessor: " + e.getMessage());
         }
@@ -104,26 +98,19 @@ public class SOSImportProcessor {
      * 
      * @throws Exception */
     public void doImport() throws Exception {
-
         try {
             if (_logLevel == 0) {
                 _sosLogger = new SOSStandardLogger(SOSStandardLogger.DEBUG);
             } else {
                 _sosLogger = new SOSStandardLogger(_logFile.toString(), _logLevel);
             }
-
             _sosConnection = SOSConnection.createInstance(_configFile.toString(), _sosLogger);
             _sosConnection.connect();
-
             SOSImport imp = new SOSImport(_sosConnection, _inputFile.toString(), null, null, null, _sosLogger);
-
             imp.doImport();
-
             _sosConnection.commit();
-
             System.out.println("");
             System.out.println("Import erfolgreich beendet.");
-
         } catch (Exception e) {
             _sosConnection.rollback();
             throw new Exception("error in SOSImportProcessor.doImport: " + e.getMessage());
@@ -135,19 +122,14 @@ public class SOSImportProcessor {
             } catch (Exception e) {
             }
         }
-
     }
 
     public void process(File inputFile) throws Exception {
-
         try {
             _sosConnection = SOSConnection.createInstance(_configFile.toString(), _sosLogger);
             _sosConnection.connect();
-
             if (inputFile.isDirectory()) {
-
                 int counter = 0;
-
                 Vector filelist = SOSFile.getFilelist(inputFile.getAbsolutePath(), this.getFileSpec(), 0);
                 Iterator iterator = filelist.iterator();
                 while (iterator.hasNext()) {
@@ -163,8 +145,9 @@ public class SOSImportProcessor {
             _sosLogger.warn("an error occurred processing file [" + inputFile.getAbsolutePath() + "]: " + e);
         } finally {
             try {
-                if (_sosConnection != null)
+                if (_sosConnection != null) {
                     _sosConnection.rollback();
+                }
             } catch (Exception ex) {
             }
         }
@@ -177,37 +160,22 @@ public class SOSImportProcessor {
      * 
      * @throws Exception */
     public static void main(String[] args) throws Exception {
-
         if (args.length < 2) {
             System.out.println("Usage: SOSImportProcessor configuration-file  path  [file-specification] [update] [log-level]");
         }
-
         int logLevel = 0;
-        if (args.length > 4)
+        if (args.length > 4) {
             logLevel = Integer.parseInt(args[4]);
-
+        }
         SOSImportProcessor processor = new SOSImportProcessor(args[0], new SOSStandardLogger(logLevel));
-
         File inputFile = new File(args[1]);
-        if (args.length > 2)
+        if (args.length > 2) {
             processor.setFileSpec(args[2]);
-        if (args.length > 3)
-            processor.setUpdate(args[3].equals("1"));
+        }
+        if (args.length > 3) {
+            processor.setUpdate("1".equals(args[3]));
+        }
         processor.process(inputFile);
-
-        /*
-         * boolean isImport = true; if(args.length == 1){ String argument =
-         * args[0].toLowerCase().trim(); if(argument.equals("?") ||
-         * argument.equals("help")){ SOSImportProcessor processor = new
-         * SOSImportProcessor(); isImport = false; } } if(isImport){
-         * SOSArguments arguments = new SOSArguments( args ); SOSImportProcessor
-         * processor = new SOSImportProcessor ( new File( arguments.as_string(
-         * "-config=", "sos_settings.ini")), new File( arguments.as_string(
-         * "-log=", "sos_import.log") ), arguments.as_int ( "-log-level=", 0),
-         * new File( arguments.as_string( "-input=", "sos_export.xml")) );
-         * arguments.check_all_used(); processor.doImport(); }
-         */
-
     }
 
     public void setUpdate(boolean ovr) {
@@ -227,4 +195,5 @@ public class SOSImportProcessor {
     public String getFileSpec() {
         return fileSpec;
     }
+    
 }
