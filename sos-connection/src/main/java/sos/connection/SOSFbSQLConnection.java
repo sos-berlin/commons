@@ -208,5 +208,5 @@ public class SOSFbSQLConnection extends sos.connection.SOSConnection implements 
     public String[] getReplacement() {
         return REPLACEMENT;
     }
-    
+
 }

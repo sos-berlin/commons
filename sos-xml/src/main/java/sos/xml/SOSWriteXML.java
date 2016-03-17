@@ -250,15 +250,15 @@ public class SOSWriteXML {
                 }
             }
             if (!atomarChildren.isEmpty()) {
-                if (allTagTypeForTagName.get(atomarChildren.get(0)) != null && ("3".equals(allTagTypeForTagName.get(atomarChildren.get(0))) 
-                        || "5".equals(allTagTypeForTagName.get(atomarChildren.get(0))))) {
+                if (allTagTypeForTagName.get(atomarChildren.get(0)) != null
+                        && ("3".equals(allTagTypeForTagName.get(atomarChildren.get(0))) || "5".equals(allTagTypeForTagName.get(atomarChildren.get(0))))) {
                     selVal = selVal + "select to_char(" + atomarChildren.get(0) + ",'YYYY-MM-DD HH24:MI:SS')";
                 } else {
                     selVal = selVal + "select " + atomarChildren.get(0);
                 }
                 for (int i = 1; i < atomarChildren.size(); i++) {
-                    if (allTagTypeForTagName.get(atomarChildren.get(0)) != null && ("3".equals(allTagTypeForTagName.get(atomarChildren.get(0))) 
-                            || "5".equals(allTagTypeForTagName.get(atomarChildren.get(0))))) {
+                    if (allTagTypeForTagName.get(atomarChildren.get(0)) != null
+                            && ("3".equals(allTagTypeForTagName.get(atomarChildren.get(0))) || "5".equals(allTagTypeForTagName.get(atomarChildren.get(0))))) {
                         selVal = selVal + ", to_char(" + atomarChildren.get(i) + ",'YYYY-MM-DD HH24:MI:SS')";
                     } else {
                         selVal = selVal + ", " + atomarChildren.get(i);
@@ -295,11 +295,10 @@ public class SOSWriteXML {
                     for (int i = 0; i < atomarChildren.size(); i++) {
                         String columnName = atomarChildren.get(i).toString();
                         String t = (String) allTagnamefromColumnName.get(columnName);
-                        if ((rset2.get(columnName.toLowerCase()) == null || ((rset2.get(columnName.toLowerCase()) != null) 
-                                && !rset2.get(columnName.toLowerCase()).toString().isEmpty())) && ("3".equals(allTagTypeForTagName.get(t)) 
-                                        || "5".equals(allTagTypeForTagName.get(t)))) {
-                        } else if ((rset2.get(columnName.toLowerCase()) == null || (rset2.get(columnName.toLowerCase()) != null 
-                                && rset2.get(columnName.toLowerCase()).toString().isEmpty())) && "0".equals(allMinOccurForTagName.get(t))) {
+                        if ((rset2.get(columnName.toLowerCase()) == null || ((rset2.get(columnName.toLowerCase()) != null) && !rset2.get(columnName.toLowerCase()).toString().isEmpty()))
+                                && ("3".equals(allTagTypeForTagName.get(t)) || "5".equals(allTagTypeForTagName.get(t)))) {
+                        } else if ((rset2.get(columnName.toLowerCase()) == null || (rset2.get(columnName.toLowerCase()) != null && rset2.get(columnName.toLowerCase()).toString().isEmpty()))
+                                && "0".equals(allMinOccurForTagName.get(t))) {
                             // in this case do nothing
                         } else {
                             output.write("<" + allTagnamefromColumnName.get(columnName) + ">");
@@ -329,7 +328,8 @@ public class SOSWriteXML {
                                 col = sosString.parseToString(rset2.get(columnName.toLowerCase()));
                             }
                             rset2.get(columnName.toLowerCase());
-                            if (allTagTypeForTagName.get(tag) != null && ("3".equals(allTagTypeForTagName.get(tag)) || "5".equals(allTagTypeForTagName.get(tag)))) {
+                            if (allTagTypeForTagName.get(tag) != null
+                                    && ("3".equals(allTagTypeForTagName.get(tag)) || "5".equals(allTagTypeForTagName.get(tag)))) {
                                 if (col == null) {
                                     localGroupKeys.put(columnName, col);
                                 } else {
@@ -499,5 +499,5 @@ public class SOSWriteXML {
     public void setValidate(boolean validate) {
         this.validate = validate;
     }
-    
+
 }

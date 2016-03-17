@@ -258,7 +258,7 @@ public class SOSProfileSettings extends sos.settings.SOSSettings {
             }
             if (lowerCase) {
                 return key.toLowerCase();
-            }else {
+            } else {
                 return key.toUpperCase();
             }
         } catch (Exception e) {

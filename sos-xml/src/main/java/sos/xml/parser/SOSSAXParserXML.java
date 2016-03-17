@@ -411,5 +411,5 @@ public class SOSSAXParserXML implements ContentHandler, ErrorHandler, DTDHandler
             }
         }
     }
-    
+
 }

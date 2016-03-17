@@ -94,7 +94,6 @@ public class SOSConnectionPool {
         return dataSourceName;
     }
 
-
     public void setDataSourceName(String dataSourceName) {
         this.dataSourceName = dataSourceName;
     }

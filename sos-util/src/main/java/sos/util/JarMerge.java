@@ -883,7 +883,7 @@ public class JarMerge {
                         file = new File(targetPath);
                         if (!file.isDirectory()) {
                             throw new Exception(targetPath + " is no directory");
-                        } else if (!file.canWrite()) { 
+                        } else if (!file.canWrite()) {
                             throw new Exception(targetPath + " is not writable");
                         }
                         targetPath = targetPath.replaceAll("\\\\", "/");

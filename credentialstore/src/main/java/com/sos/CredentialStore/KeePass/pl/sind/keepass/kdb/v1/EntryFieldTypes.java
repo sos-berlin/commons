@@ -22,6 +22,6 @@ public final class EntryFieldTypes {
     public static final int UUID = 0x0001;
     public static final int INVALID_OR_COMMENT = 0x0000;
     public static final short TERMINATOR = (short) 0xFFFF;					// Flags, 32-bit
-                                                           // value, FIELDSIZE =
-                                                           // 4
+    // value, FIELDSIZE =
+    // 4
 }
