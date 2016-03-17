@@ -54,7 +54,8 @@ public class TestSOSXMLXPath {
             String bstring = xpath.selectSingleNodeValue("//ERROR/@text");
             LOGGER.info("code: " + astring + " text: " + bstring);
             SOSXMLXPath xpath_mo = new SOSXMLXPath("J:/E/java/mo/sos.xml/src/sos/xml/parser/spooler.xml");
-            NodeList n2 = xpath_mo.selectNodeList(xpath_mo.getDocument().getElementsByTagName("*").item(0), "//spooler//answer//state//remote_schedulers//remote_scheduler");
+            NodeList n2 = xpath_mo.selectNodeList(xpath_mo.getDocument().getElementsByTagName("*").item(0),
+                    "//spooler//answer//state//remote_schedulers//remote_scheduler");
             for (int i = 0; i < nl.getLength(); i++) {
                 Node n = n2.item(i);
                 LOGGER.info("Tagname: " + n.getNodeName());

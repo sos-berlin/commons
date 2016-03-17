@@ -1711,7 +1711,10 @@ public abstract class SOSConnection {
         Pattern pattern;
         Matcher matcher;
         String replaceString;
-        aPattern = new StringBuffer("(%lcase|%ucase|%now|%updlock)|").append("(%timestamp\\('[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{1,4}'\\))|").append("(%timestamp\\('[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{1,4}[ \t]?[0-9]{2}:[0-9]{2}(?::[0-9]{2}\\.?[0-9]*)?'\\))|").append("(%timestamp_iso\\('[0-9]{1,4}[-]?[0-9]{1,2}[-]?[0-9]{1,2}'\\))|").append("(%timestamp_iso\\('[0-9]{1,4}[-]?[0-9]{1,2}[-]?[0-9]{1,2}[ \t]?[0-9]{2}:[0-9]{2}(?::[0-9]{2}\\.?[0-9]*)?'\\))");
+        aPattern = new StringBuffer("(%lcase|%ucase|%now|%updlock)|").append("(%timestamp\\('[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{1,4}'\\))|")
+                .append("(%timestamp\\('[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{1,4}[ \t]?[0-9]{2}:[0-9]{2}(?::[0-9]{2}\\.?[0-9]*)?'\\))|")
+                .append("(%timestamp_iso\\('[0-9]{1,4}[-]?[0-9]{1,2}[-]?[0-9]{1,2}'\\))|")
+                .append("(%timestamp_iso\\('[0-9]{1,4}[-]?[0-9]{1,2}[-]?[0-9]{1,2}[ \t]?[0-9]{2}:[0-9]{2}(?::[0-9]{2}\\.?[0-9]*)?'\\))");
         pattern = Pattern.compile(aPattern.toString());
         matcher = pattern.matcher(inputString);
         buffer = new StringBuffer();
@@ -2172,7 +2175,8 @@ public abstract class SOSConnection {
         if (executeBatch) {
             executeBatch = supportsBatchUpdates;
         }
-        logger.info(String.format("%s: executeBatch = %s (supportsBatchUpdates = %s, useExecuteBatch = %s, batchSize = %s)", methodName, executeBatch, supportsBatchUpdates, this.getUseExecuteBatch(), this.batchSize));
+        logger.info(String.format("%s: executeBatch = %s (supportsBatchUpdates = %s, useExecuteBatch = %s, batchSize = %s)", methodName, executeBatch,
+                supportsBatchUpdates, this.getUseExecuteBatch(), this.batchSize));
         try {
             statements = this.getStatements(contentOfClobAttribute);
             if (statements == null || statements.isEmpty()) {
@@ -2188,7 +2192,8 @@ public abstract class SOSConnection {
                         String statement = statements.get(i).toString().trim();
                         String sqlToLower = statement.toLowerCase();
                         if (sqlToLower.startsWith("select")
-                                || (sqlToLower.startsWith("exec") && (this.execReturnsResultSet || sqlToLower.contains(EXEC_COMMENT_RETURN_RESULTSET.toLowerCase())))) {
+                                || (sqlToLower.startsWith("exec") && (this.execReturnsResultSet || sqlToLower.contains(EXEC_COMMENT_RETURN_RESULTSET
+                                        .toLowerCase())))) {
                             if (hasOpenResultSet) {
                                 this.closeQuery();
                                 hasOpenResultSet = false;

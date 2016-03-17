@@ -81,9 +81,13 @@ public class SOSConnectionSettings extends sos.settings.SOSSettings {
         }
         logger.debug6("calling " + SOSClassUtil.getMethodName());
         if (this.ignoreCase) {
-            query = new StringBuffer("SELECT \"").append(NAME).append("\",\"").append(VALUE).append("\" FROM ").append(source).append(" WHERE %lcase(\"").append(APPLICATION).append("\") = '").append(application.toLowerCase()).append("' AND %lcase(\"").append(SECTION).append("\") = '").append(section.toLowerCase()).append("' AND \"").append(SECTION).append("\" <> \"").append(NAME).append("\"");
+            query = new StringBuffer("SELECT \"").append(NAME).append("\",\"").append(VALUE).append("\" FROM ").append(source).append(" WHERE %lcase(\"")
+                    .append(APPLICATION).append("\") = '").append(application.toLowerCase()).append("' AND %lcase(\"").append(SECTION).append("\") = '")
+                    .append(section.toLowerCase()).append("' AND \"").append(SECTION).append("\" <> \"").append(NAME).append("\"");
         } else {
-            query = new StringBuffer("SELECT \"").append(NAME).append("\",\"").append(VALUE).append("\" FROM ").append(source).append(" WHERE \"").append(APPLICATION).append("\" = '").append(application).append("' AND \"").append(SECTION).append("\" = '").append(section).append("' AND \"").append(SECTION).append("\" <> \"").append(NAME).append("\"");
+            query = new StringBuffer("SELECT \"").append(NAME).append("\",\"").append(VALUE).append("\" FROM ").append(source).append(" WHERE \"")
+                    .append(APPLICATION).append("\" = '").append(application).append("' AND \"").append(SECTION).append("\" = '").append(section)
+                    .append("' AND \"").append(SECTION).append("\" <> \"").append(NAME).append("\"");
         }
         logger.debug9(".. query: " + query.toString());
         try {
@@ -124,9 +128,11 @@ public class SOSConnectionSettings extends sos.settings.SOSSettings {
         }
         logger.debug6("calling " + SOSClassUtil.getMethodName());
         if (this.ignoreCase) {
-            query = new StringBuffer("SELECT \"").append(SECTION).append("\" FROM ").append(source).append(" WHERE %lcase(\"").append(APPLICATION).append("\") = '").append(application.toLowerCase()).append("' AND \"").append(SECTION).append("\" <> \"").append(APPLICATION).append("\"");
+            query = new StringBuffer("SELECT \"").append(SECTION).append("\" FROM ").append(source).append(" WHERE %lcase(\"").append(APPLICATION)
+                    .append("\") = '").append(application.toLowerCase()).append("' AND \"").append(SECTION).append("\" <> \"").append(APPLICATION).append("\"");
         } else {
-            query = new StringBuffer("SELECT \"").append(SECTION).append("\" FROM ").append(source).append(" WHERE \"").append(APPLICATION).append("\" = '").append(application).append("' AND \"").append(SECTION).append("\" <> \"").append(APPLICATION).append("\"");
+            query = new StringBuffer("SELECT \"").append(SECTION).append("\" FROM ").append(source).append(" WHERE \"").append(APPLICATION).append("\" = '")
+                    .append(application).append("' AND \"").append(SECTION).append("\" <> \"").append(APPLICATION).append("\"");
         }
         logger.debug9(".. query: " + query.toString());
         try {
@@ -193,9 +199,13 @@ public class SOSConnectionSettings extends sos.settings.SOSSettings {
         StringBuffer query = null;
         try {
             if (this.ignoreCase) {
-                query = new StringBuffer("SELECT \"").append(field).append("\" FROM ").append(source).append(" WHERE %lcase(\"").append(APPLICATION).append("\") = '").append(application.toLowerCase()).append("' AND %lcase(\"").append(SECTION).append("\") = '").append(section.toLowerCase()).append("' AND %lcase(\"").append(NAME).append("\") = '").append(entry.toLowerCase()).append("'");
+                query = new StringBuffer("SELECT \"").append(field).append("\" FROM ").append(source).append(" WHERE %lcase(\"").append(APPLICATION)
+                        .append("\") = '").append(application.toLowerCase()).append("' AND %lcase(\"").append(SECTION).append("\") = '")
+                        .append(section.toLowerCase()).append("' AND %lcase(\"").append(NAME).append("\") = '").append(entry.toLowerCase()).append("'");
             } else {
-                query = new StringBuffer("SELECT \"").append(field).append("\" FROM ").append(source).append(" WHERE \"").append(APPLICATION).append("\" = '").append(application).append("' AND \"").append(SECTION).append("\" = '").append(section).append("' AND \"").append(NAME).append("\" = '").append(entry).append("'");
+                query = new StringBuffer("SELECT \"").append(field).append("\" FROM ").append(source).append(" WHERE \"").append(APPLICATION).append("\" = '")
+                        .append(application).append("' AND \"").append(SECTION).append("\" = '").append(section).append("' AND \"").append(NAME)
+                        .append("\" = '").append(entry).append("'");
             }
             return query.toString();
         } catch (Exception e) {
@@ -213,9 +223,13 @@ public class SOSConnectionSettings extends sos.settings.SOSSettings {
             logger.debug6("calling " + SOSClassUtil.getMethodName());
             try {
                 if (this.ignoreCase) {
-                    query.append("SELECT \"").append(VALUE).append("\" FROM ").append(source).append(" WHERE %lcase(\"").append(APPLICATION).append("\") = '").append(application.toLowerCase()).append("' AND %lcase(\"").append(SECTION).append("\") = '").append(section.toLowerCase()).append("' AND %lcase(\"").append(NAME).append("\") = '").append(entry.toLowerCase()).append("'");
+                    query.append("SELECT \"").append(VALUE).append("\" FROM ").append(source).append(" WHERE %lcase(\"").append(APPLICATION).append("\") = '")
+                            .append(application.toLowerCase()).append("' AND %lcase(\"").append(SECTION).append("\") = '").append(section.toLowerCase())
+                            .append("' AND %lcase(\"").append(NAME).append("\") = '").append(entry.toLowerCase()).append("'");
                 } else {
-                    query.append("SELECT \"").append(VALUE).append("\" FROM ").append(source).append(" WHERE \"").append(APPLICATION).append("\" = '").append(application).append("' AND \"").append(SECTION).append("\" = '").append(section).append("' AND \"").append(NAME).append("\" = '").append(entry).append("'");
+                    query.append("SELECT \"").append(VALUE).append("\" FROM ").append(source).append(" WHERE \"").append(APPLICATION).append("\" = '")
+                            .append(application).append("' AND \"").append(SECTION).append("\" = '").append(section).append("' AND \"").append(NAME)
+                            .append("\" = '").append(entry).append("'");
                 }
                 logger.debug9("query: " + query.toString());
                 counter = sosConnection.getSingleValue(query.toString());
@@ -229,7 +243,10 @@ public class SOSConnectionSettings extends sos.settings.SOSSettings {
             }
             try {
                 query = new StringBuilder();
-                query.append("INSERT INTO ").append(source).append("(\"").append(APPLICATION).append("\",\"").append(SECTION).append("\",\"").append(NAME).append("\",\"").append(VALUE).append("\",\"").append("CREATED_BY").append("\",\"").append("MODIFIED_BY").append("\",\"CREATED\",\"MODIFIED\") VALUES('").append(application).append("','").append(section).append("','").append(entry).append("','").append(initValue).append("','").append(createdBy).append("','").append(createdBy).append("',%now,%now").append(")");
+                query.append("INSERT INTO ").append(source).append("(\"").append(APPLICATION).append("\",\"").append(SECTION).append("\",\"").append(NAME)
+                        .append("\",\"").append(VALUE).append("\",\"").append("CREATED_BY").append("\",\"").append("MODIFIED_BY")
+                        .append("\",\"CREATED\",\"MODIFIED\") VALUES('").append(application).append("','").append(section).append("','").append(entry)
+                        .append("','").append(initValue).append("','").append(createdBy).append("','").append(createdBy).append("',%now,%now").append(")");
                 logger.debug9(".. query: " + query.toString());
                 inserted = sosConnection.executeUpdate(query.toString());
                 if (inserted > 0) {
@@ -256,17 +273,27 @@ public class SOSConnectionSettings extends sos.settings.SOSSettings {
             boolean autoCommit = this.sosConnection.getAutoCommit();
             this.sosConnection.setAutoCommit(false);
             if (this.ignoreCase) {
-                query.append("SELECT \"").append(VALUE).append("\" FROM ").append(source).append(" ").append(updlock_from).append(" WHERE %lcase(\"").append(APPLICATION).append("\") = '").append(application.toLowerCase()).append("' AND %lcase(\"").append(SECTION).append("\") = '").append(section.toLowerCase()).append("' AND %lcase(\"").append(NAME).append("\") = '").append(entry.toLowerCase()).append("' ").append(updlock_where);
+                query.append("SELECT \"").append(VALUE).append("\" FROM ").append(source).append(" ").append(updlock_from).append(" WHERE %lcase(\"")
+                        .append(APPLICATION).append("\") = '").append(application.toLowerCase()).append("' AND %lcase(\"").append(SECTION).append("\") = '")
+                        .append(section.toLowerCase()).append("' AND %lcase(\"").append(NAME).append("\") = '").append(entry.toLowerCase()).append("' ")
+                        .append(updlock_where);
             } else {
-                query.append("SELECT \"").append(VALUE).append("\" FROM ").append(source).append(" ").append(updlock_from).append(" WHERE \"").append(APPLICATION).append("\" = '").append(application).append("' AND \"").append(SECTION).append("\" = '").append(section).append("' AND \"").append(NAME).append("\" = '").append(entry).append("' ").append(updlock_where);
+                query.append("SELECT \"").append(VALUE).append("\" FROM ").append(source).append(" ").append(updlock_from).append(" WHERE \"")
+                        .append(APPLICATION).append("\" = '").append(application).append("' AND \"").append(SECTION).append("\" = '").append(section)
+                        .append("' AND \"").append(NAME).append("\" = '").append(entry).append("' ").append(updlock_where);
             }
             logger.debug9(SOSClassUtil.getMethodName() + ": get result query: " + query.toString());
             sequence = Integer.valueOf(sosConnection.getSingleValue(query.toString())).intValue() + 1;
             query = new StringBuilder();
             if (this.ignoreCase) {
-                query.append("UPDATE ").append(source).append(" SET \"").append(VALUE).append("\"=%cast(%cast(\"").append(VALUE).append("\" integer)+1 varchar) WHERE %lcase(\"").append(APPLICATION).append("\") = '").append(application.toLowerCase()).append("' AND %lcase(\"").append(SECTION).append("\") = '").append(section.toLowerCase()).append("' AND %lcase(\"").append(NAME).append("\") = '").append(entry.toLowerCase()).append("'");
+                query.append("UPDATE ").append(source).append(" SET \"").append(VALUE).append("\"=%cast(%cast(\"").append(VALUE)
+                        .append("\" integer)+1 varchar) WHERE %lcase(\"").append(APPLICATION).append("\") = '").append(application.toLowerCase())
+                        .append("' AND %lcase(\"").append(SECTION).append("\") = '").append(section.toLowerCase()).append("' AND %lcase(\"").append(NAME)
+                        .append("\") = '").append(entry.toLowerCase()).append("'");
             } else {
-                query.append("UPDATE ").append(source).append(" SET \"").append(VALUE).append("\"=%cast(%cast(\"").append(VALUE).append("\" integer)+1 varchar) WHERE \"").append(APPLICATION).append("\" = '").append(application).append("' AND \"").append(SECTION).append("\" = '").append(section).append("' AND \"").append(NAME).append("\" = '").append(entry).append("'");
+                query.append("UPDATE ").append(source).append(" SET \"").append(VALUE).append("\"=%cast(%cast(\"").append(VALUE)
+                        .append("\" integer)+1 varchar) WHERE \"").append(APPLICATION).append("\" = '").append(application).append("' AND \"").append(SECTION)
+                        .append("\" = '").append(section).append("' AND \"").append(NAME).append("\" = '").append(entry).append("'");
             }
             logger.debug9(SOSClassUtil.getMethodName() + ": query: " + query.toString());
             sosConnection.execute(query.toString());
@@ -291,17 +318,27 @@ public class SOSConnectionSettings extends sos.settings.SOSSettings {
             boolean autoCommit = this.sosConnection.getAutoCommit();
             this.sosConnection.setAutoCommit(false);
             if (this.ignoreCase) {
-                query.append("SELECT \"").append(VALUE).append("\" FROM ").append(source).append(" ").append(updlock_from).append(" WHERE %lcase(\"").append(APPLICATION).append("\") = '").append(application.toLowerCase()).append("' AND %lcase(\"").append(SECTION).append("\") = '").append(section.toLowerCase()).append("' AND %lcase(\"").append(NAME).append("\") = '").append(entry.toLowerCase()).append("' ").append(updlock_where);
+                query.append("SELECT \"").append(VALUE).append("\" FROM ").append(source).append(" ").append(updlock_from).append(" WHERE %lcase(\"")
+                        .append(APPLICATION).append("\") = '").append(application.toLowerCase()).append("' AND %lcase(\"").append(SECTION).append("\") = '")
+                        .append(section.toLowerCase()).append("' AND %lcase(\"").append(NAME).append("\") = '").append(entry.toLowerCase()).append("' ")
+                        .append(updlock_where);
             } else {
-                query.append("SELECT \"").append(VALUE).append("\" FROM ").append(source).append(" ").append(updlock_from).append(" WHERE \"").append(APPLICATION).append("\" = '").append(application).append("' AND \"").append(SECTION).append("\" = '").append(section).append("' AND \"").append(NAME).append("\" = '").append(entry).append("' ").append(updlock_where);
+                query.append("SELECT \"").append(VALUE).append("\" FROM ").append(source).append(" ").append(updlock_from).append(" WHERE \"")
+                        .append(APPLICATION).append("\" = '").append(application).append("' AND \"").append(SECTION).append("\" = '").append(section)
+                        .append("' AND \"").append(NAME).append("\" = '").append(entry).append("' ").append(updlock_where);
             }
             logger.debug9(SOSClassUtil.getMethodName() + ": get result query: " + query.toString());
             sequence = String.valueOf(Integer.parseInt(sosConnection.getSingleValue(query.toString())) + 1);
             query = new StringBuilder();
             if (this.ignoreCase) {
-                query.append("UPDATE ").append(source).append(" SET \"").append(VALUE).append("\"=%cast(%cast(\"").append(VALUE).append("\" integer)+1 varchar) WHERE %lcase(\"").append(APPLICATION).append("\") = '").append(application.toLowerCase()).append("' AND %lcase(\"").append(SECTION).append("\") = '").append(section.toLowerCase()).append("' AND %lcase(\"").append(NAME).append("\") = '").append(entry.toLowerCase()).append("'");
+                query.append("UPDATE ").append(source).append(" SET \"").append(VALUE).append("\"=%cast(%cast(\"").append(VALUE)
+                        .append("\" integer)+1 varchar) WHERE %lcase(\"").append(APPLICATION).append("\") = '").append(application.toLowerCase())
+                        .append("' AND %lcase(\"").append(SECTION).append("\") = '").append(section.toLowerCase()).append("' AND %lcase(\"").append(NAME)
+                        .append("\") = '").append(entry.toLowerCase()).append("'");
             } else {
-                query.append("UPDATE ").append(source).append(" SET \"").append(VALUE).append("\"=%cast(%cast(\"").append(VALUE).append("\" integer)+1 varchar) WHERE \"").append(APPLICATION).append("\" = '").append(application).append("' AND \"").append(SECTION).append("\" = '").append(section).append("' AND \"").append(NAME).append("\" = '").append(entry).append("'");
+                query.append("UPDATE ").append(source).append(" SET \"").append(VALUE).append("\"=%cast(%cast(\"").append(VALUE)
+                        .append("\" integer)+1 varchar) WHERE \"").append(APPLICATION).append("\" = '").append(application).append("' AND \"").append(SECTION)
+                        .append("\" = '").append(section).append("' AND \"").append(NAME).append("\" = '").append(entry).append("'");
             }
             logger.debug9(SOSClassUtil.getMethodName() + ": query: " + query.toString());
             sosConnection.execute(query.toString());
@@ -320,18 +357,27 @@ public class SOSConnectionSettings extends sos.settings.SOSSettings {
         try {
             logger.debug6("calling " + SOSClassUtil.getMethodName());
             if (this.ignoreCase) {
-                query.append("UPDATE ").append(source).append(" SET \"").append(VALUE).append("\"=%cast(%cast(\"").append(VALUE).append("\" integer)+1 varchar) WHERE %lcase(\"").append(APPLICATION).append("\") = '").append(application.toLowerCase()).append("' AND %lcase(\"").append(SECTION).append("\") = '").append(section.toLowerCase()).append("' AND %lcase(\"").append(NAME).append("\") = '").append(entry.toLowerCase()).append("'");
+                query.append("UPDATE ").append(source).append(" SET \"").append(VALUE).append("\"=%cast(%cast(\"").append(VALUE)
+                        .append("\" integer)+1 varchar) WHERE %lcase(\"").append(APPLICATION).append("\") = '").append(application.toLowerCase())
+                        .append("' AND %lcase(\"").append(SECTION).append("\") = '").append(section.toLowerCase()).append("' AND %lcase(\"").append(NAME)
+                        .append("\") = '").append(entry.toLowerCase()).append("'");
             } else {
-                query.append("UPDATE ").append(source).append(" SET \"").append(VALUE).append("\"=%cast(%cast(\"").append(VALUE).append("\" integer)+1 varchar) WHERE \"").append(APPLICATION).append("\" = '").append(application).append("' AND \"").append(SECTION).append("\" = '").append(section).append("' AND \"").append(NAME).append("\" = '").append(entry).append("'");
+                query.append("UPDATE ").append(source).append(" SET \"").append(VALUE).append("\"=%cast(%cast(\"").append(VALUE)
+                        .append("\" integer)+1 varchar) WHERE \"").append(APPLICATION).append("\" = '").append(application).append("' AND \"").append(SECTION)
+                        .append("\" = '").append(section).append("' AND \"").append(NAME).append("\" = '").append(entry).append("'");
             }
             logger.debug9(SOSClassUtil.getMethodName() + ": query: " + query.toString());
             sosConnection.execute(query.toString());
             logger.debug9(SOSClassUtil.getMethodName() + ": successfully executed: " + query.toString());
             query = new StringBuilder();
             if (this.ignoreCase) {
-                query.append("SELECT \"").append(VALUE).append("\" FROM ").append(source).append(" WHERE %lcase(\"").append(APPLICATION).append("\") = '").append(application.toLowerCase()).append("' AND %lcase(\"").append(SECTION).append("\") = '").append(section.toLowerCase()).append("' AND %lcase(\"").append(NAME).append("\") = '").append(entry.toLowerCase()).append("'");
+                query.append("SELECT \"").append(VALUE).append("\" FROM ").append(source).append(" WHERE %lcase(\"").append(APPLICATION).append("\") = '")
+                        .append(application.toLowerCase()).append("' AND %lcase(\"").append(SECTION).append("\") = '").append(section.toLowerCase())
+                        .append("' AND %lcase(\"").append(NAME).append("\") = '").append(entry.toLowerCase()).append("'");
             } else {
-                query.append("SELECT \"").append(VALUE).append("\" FROM ").append(source).append(" WHERE \"").append(APPLICATION).append("\" = '").append(application).append("' AND \"").append(SECTION).append("\" = '").append(section).append("' AND \"").append(NAME).append("\" = '").append(entry).append("'");
+                query.append("SELECT \"").append(VALUE).append("\" FROM ").append(source).append(" WHERE \"").append(APPLICATION).append("\" = '")
+                        .append(application).append("' AND \"").append(SECTION).append("\" = '").append(section).append("' AND \"").append(NAME)
+                        .append("\" = '").append(entry).append("'");
             }
             logger.debug9(SOSClassUtil.getMethodName() + ": get result query: " + query.toString());
             sequence = Integer.valueOf(sosConnection.getSingleValue(query.toString())).intValue();
@@ -348,18 +394,27 @@ public class SOSConnectionSettings extends sos.settings.SOSSettings {
         try {
             logger.debug6("calling " + SOSClassUtil.getMethodName());
             if (this.ignoreCase) {
-                query.append("UPDATE ").append(source).append(" SET \"").append(VALUE).append("\"=%cast(%cast(\"").append(VALUE).append("\" integer)+1 varchar) WHERE %lcase(\"").append(APPLICATION).append("\") = '").append(application.toLowerCase()).append("' AND %lcase(\"").append(SECTION).append("\") = '").append(section.toLowerCase()).append("' AND %lcase(\"").append(NAME).append("\") = '").append(entry.toLowerCase()).append("'");
+                query.append("UPDATE ").append(source).append(" SET \"").append(VALUE).append("\"=%cast(%cast(\"").append(VALUE)
+                        .append("\" integer)+1 varchar) WHERE %lcase(\"").append(APPLICATION).append("\") = '").append(application.toLowerCase())
+                        .append("' AND %lcase(\"").append(SECTION).append("\") = '").append(section.toLowerCase()).append("' AND %lcase(\"").append(NAME)
+                        .append("\") = '").append(entry.toLowerCase()).append("'");
             } else {
-                query.append("UPDATE ").append(source).append(" SET \"").append(VALUE).append("\"=%cast(%cast(\"").append(VALUE).append("\" integer)+1 varchar) WHERE \"").append(APPLICATION).append("\" = '").append(application).append("' AND \"").append(SECTION).append("\" = '").append(section).append("' AND \"").append(NAME).append("\" = '").append(entry).append("'");
+                query.append("UPDATE ").append(source).append(" SET \"").append(VALUE).append("\"=%cast(%cast(\"").append(VALUE)
+                        .append("\" integer)+1 varchar) WHERE \"").append(APPLICATION).append("\" = '").append(application).append("' AND \"").append(SECTION)
+                        .append("\" = '").append(section).append("' AND \"").append(NAME).append("\" = '").append(entry).append("'");
             }
             logger.debug9(SOSClassUtil.getMethodName() + ": query: " + query.toString());
             sosConnection.execute(query.toString());
             logger.debug9(SOSClassUtil.getMethodName() + ": successfully executed: " + query.toString());
             query = new StringBuilder();
             if (this.ignoreCase) {
-                query.append("SELECT \"").append(VALUE).append("\" FROM ").append(source).append(" WHERE %lcase(\"").append(APPLICATION).append("\") = '").append(application.toLowerCase()).append("' AND %lcase(\"").append(SECTION).append("\") = '").append(section.toLowerCase()).append("' AND %lcase(\"").append(NAME).append("\") = '").append(entry.toLowerCase()).append("'");
+                query.append("SELECT \"").append(VALUE).append("\" FROM ").append(source).append(" WHERE %lcase(\"").append(APPLICATION).append("\") = '")
+                        .append(application.toLowerCase()).append("' AND %lcase(\"").append(SECTION).append("\") = '").append(section.toLowerCase())
+                        .append("' AND %lcase(\"").append(NAME).append("\") = '").append(entry.toLowerCase()).append("'");
             } else {
-                query.append("SELECT \"").append(VALUE).append("\" FROM ").append(source).append(" WHERE \"").append(APPLICATION).append("\" = '").append(application).append("' AND \"").append(SECTION).append("\" = '").append(section).append("' AND \"").append(NAME).append("\" = '").append(entry).append("'");
+                query.append("SELECT \"").append(VALUE).append("\" FROM ").append(source).append(" WHERE \"").append(APPLICATION).append("\" = '")
+                        .append(application).append("' AND \"").append(SECTION).append("\" = '").append(section).append("' AND \"").append(NAME)
+                        .append("\" = '").append(entry).append("'");
             }
             logger.debug9(SOSClassUtil.getMethodName() + ": get result query: " + query.toString());
             sequence = sosConnection.getSingleValue(query.toString());

@@ -125,7 +125,8 @@ public class SOSWriteXML {
             }
             if (startTag.get("content_element_id") != null) {
                 output.write("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
-                writeXML(Integer.parseInt(sosString.parseToString(startTag, "content_element_id")), sosString.parseToString(startTag, "tag_name"), new HashMap());
+                writeXML(Integer.parseInt(sosString.parseToString(startTag, "content_element_id")), sosString.parseToString(startTag, "tag_name"),
+                        new HashMap());
             } else {
                 sosLogger.info("Es wurden keine Startknoten ermittelt.");
             }
@@ -295,9 +296,11 @@ public class SOSWriteXML {
                     for (int i = 0; i < atomarChildren.size(); i++) {
                         String columnName = atomarChildren.get(i).toString();
                         String t = (String) allTagnamefromColumnName.get(columnName);
-                        if ((rset2.get(columnName.toLowerCase()) == null || ((rset2.get(columnName.toLowerCase()) != null) && !rset2.get(columnName.toLowerCase()).toString().isEmpty()))
+                        if ((rset2.get(columnName.toLowerCase()) == null || ((rset2.get(columnName.toLowerCase()) != null) && !rset2
+                                .get(columnName.toLowerCase()).toString().isEmpty()))
                                 && ("3".equals(allTagTypeForTagName.get(t)) || "5".equals(allTagTypeForTagName.get(t)))) {
-                        } else if ((rset2.get(columnName.toLowerCase()) == null || (rset2.get(columnName.toLowerCase()) != null && rset2.get(columnName.toLowerCase()).toString().isEmpty()))
+                        } else if ((rset2.get(columnName.toLowerCase()) == null || (rset2.get(columnName.toLowerCase()) != null && rset2
+                                .get(columnName.toLowerCase()).toString().isEmpty()))
                                 && "0".equals(allMinOccurForTagName.get(t))) {
                             // in this case do nothing
                         } else {

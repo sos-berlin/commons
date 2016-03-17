@@ -124,7 +124,8 @@ public class SOSExportProcessor {
         System.out.println("Beispiel 3 : alle Daten der Tabellen t1 und t2 ohne zu loggen exportieren");
         System.out.println("         -config=config/sos_settings.ini -tables=t1+t2");
         System.out.println("");
-        System.out.println("Beispiel 4 : wie Beispiel 3 + Schlüsselfelder T1_ID und T1_NAME für die Tabelle t1 und Schlüsselfeld T2_ID für die Tabelle t2 definieren");
+        System.out
+                .println("Beispiel 4 : wie Beispiel 3 + Schlüsselfelder T1_ID und T1_NAME für die Tabelle t1 und Schlüsselfeld T2_ID für die Tabelle t2 definieren");
         System.out.println("         -config=config/sos_settings.ini -tables=t1+t2 -keys=T1_ID,T1_NAME+T2_ID");
         System.out.println("");
         System.out.println("Beispiel 5 : eigene SQL-Statement für die Tabelle t1 definieren");
@@ -258,7 +259,9 @@ public class SOSExportProcessor {
         }
         if (isExport) {
             SOSArguments arguments = new SOSArguments(args);
-            SOSExportProcessor processor = new SOSExportProcessor(new File(arguments.as_string("-config=", "sos_settings.ini")), new File(arguments.as_string("-log=", "sos_export.log")), arguments.as_int("-log-level=", 0), new File(arguments.as_string("-output=", "sos_export.xml")), new String(arguments.as_string("-tables=", "")), new String(arguments.as_string("-execute=", "")), new String(arguments.as_string("-keys=", "")));
+            SOSExportProcessor processor = new SOSExportProcessor(new File(arguments.as_string("-config=", "sos_settings.ini")), new File(arguments.as_string(
+                    "-log=", "sos_export.log")), arguments.as_int("-log-level=", 0), new File(arguments.as_string("-output=", "sos_export.xml")), new String(
+                    arguments.as_string("-tables=", "")), new String(arguments.as_string("-execute=", "")), new String(arguments.as_string("-keys=", "")));
             arguments.check_all_used();
             processor.doExport();
         }

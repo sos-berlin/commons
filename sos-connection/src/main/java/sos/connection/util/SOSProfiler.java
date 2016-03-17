@@ -49,17 +49,17 @@ public class SOSProfiler {
             sqlStatement = sqlStatement.replaceAll("'", "''");
             setStartTimeStamp(System.currentTimeMillis());
             history_id = this.getSequence(entry_history_id);
-            insStr = " INSERT INTO " + table_history + " ( " + "  \"ID\" " + ", \"APPLICATION\" " + ", \"SESSION\" " + ", \"STEP\" " 
-                    + ", \"CONTEXT\" " + ", \"SCOPE\" " + ", \"CLASS\" " + ", \"FUNCTION\" " + ", \"SCRIPT_NAME\" " + ", \"START_TIME\" " 
-                    + ", \"START_TIMESTAMP\" " + ", \"STATEMENT\" " + " ) VALUES ( " + history_id + ", '" + application + "'" + ", " 
-                    + session + ", " + step + ", '" + context + "'" + ", " + scope + ", '" + classname + "'" + ", '" + methodname + "'" 
-                    + ", '" + scriptname + "'" + ", %now " + ", " + getStartTimeStamp() + ", '" + sqlStatement + "'" + " )";
+            insStr = " INSERT INTO " + table_history + " ( " + "  \"ID\" " + ", \"APPLICATION\" " + ", \"SESSION\" " + ", \"STEP\" " + ", \"CONTEXT\" "
+                    + ", \"SCOPE\" " + ", \"CLASS\" " + ", \"FUNCTION\" " + ", \"SCRIPT_NAME\" " + ", \"START_TIME\" " + ", \"START_TIMESTAMP\" "
+                    + ", \"STATEMENT\" " + " ) VALUES ( " + history_id + ", '" + application + "'" + ", " + session + ", " + step + ", '" + context + "'"
+                    + ", " + scope + ", '" + classname + "'" + ", '" + methodname + "'" + ", '" + scriptname + "'" + ", %now " + ", " + getStartTimeStamp()
+                    + ", '" + sqlStatement + "'" + " )";
             profilingAllowed = false;
             conn.execute(insStr);
             conn.commit();
             profilingAllowed = true;
         } catch (Exception e) {
-            // 
+            //
         }
     }
 
@@ -73,8 +73,8 @@ public class SOSProfiler {
             if ((error_code != null && !error_code.isEmpty()) || (error_text != null && !error_text.isEmpty())) {
                 error = 1;
             }
-            String updStr = "UPDATE " + table_history + " SET \"END_TIME\" = %now, " + " \"END_TIMESTAMP\" = " + endTimeStamp + "," 
-                    + " \"ELAPSED\" = " + endTimeStamp + " - \"START_TIMESTAMP\"," + " \"ERROR\" = " + error;
+            String updStr = "UPDATE " + table_history + " SET \"END_TIME\" = %now, " + " \"END_TIMESTAMP\" = " + endTimeStamp + "," + " \"ELAPSED\" = "
+                    + endTimeStamp + " - \"START_TIMESTAMP\"," + " \"ERROR\" = " + error;
             if (error_code != null) {
                 if (error_code.length() > 50) {
                     updStr = updStr.concat(", \"ERROR_CODE\" = '" + error_code.substring(0, 50) + "'");
