@@ -184,5 +184,5 @@ public class SOSODBCConnection extends sos.connection.SOSConnection {
     public String[] getReplacement() {
         return REPLACEMENT;
     }
-    
+
 }

@@ -134,7 +134,7 @@ public class SOSXMLStream extends FileInputStream {
     public long skip(long long0) throws IOException {
         if (long0 == 0) {
             return 0;
-        } 
+        }
         if (long0 > this.available()) {
             return super.skip(this.available());
         } else {

@@ -336,7 +336,6 @@ public class SOSSchemaInterpreter implements ContentHandler, ErrorHandler, DTDHa
 
     }
 
-
     public void error(SAXParseException e) throws SAXException {
         throw new SAXException(e.getMessage(), e);
     }
@@ -471,8 +470,8 @@ public class SOSSchemaInterpreter implements ContentHandler, ErrorHandler, DTDHa
         String insStr = new String();
         try {
             insStr = "insert into CONTENT_TAGS" + " ( " + "\"CONTENT_MODEL_ID\", " + "\"CONTENT_ID\", " + "\"CONTENT_ELEMENT_ORDER\", "
-                    + "\"CONTENT_IS_NODE\" , " + "\"SCHEMA_NAME\", " + "\"DESCRIPTION\"" + ") values ( " + content_model_id + "," + "'" + content_id + "'," +
-                    "'" + tablePrefix.toLowerCase() + "'," + "'" + xsdVersionNumber + "'," + "'');";
+                    + "\"CONTENT_IS_NODE\" , " + "\"SCHEMA_NAME\", " + "\"DESCRIPTION\"" + ") values ( " + content_model_id + "," + "'" + content_id + "',"
+                    + "'" + tablePrefix.toLowerCase() + "'," + "'" + xsdVersionNumber + "'," + "'');";
         } catch (Exception e) {
             throw e;
         }
@@ -679,5 +678,5 @@ public class SOSSchemaInterpreter implements ContentHandler, ErrorHandler, DTDHa
     public void setTypes(HashMap hashTypes_) {
         hashTypes = hashTypes_;
     }
-    
+
 }

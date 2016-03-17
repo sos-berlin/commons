@@ -32,9 +32,9 @@ public class TestSOSXMLXPath {
             + "</myns:price><myns:reviews><myns:review><myns:reviewer>Curley</myns:reviewer><myns:rating>*****</myns:rating></myns:review><myns:review><myns:reviewer>"
             + "Larry</myns:reviewer><myns:rating>***</myns:rating></myns:review><myns:review><myns:reviewer>Moe</myns:reviewer><myns:rating>*</myns:rating>"
             + "</myns:review></myns:reviews></myns:book></myns:books></xml_payload></addOrder></soapenv:Body></soapenv:Envelope>";
-    
+
     @Test
-    private void testXml () {
+    private void testXml() {
         try {
             SOSXMLXPath myxpath = new SOSXMLXPath(new StringBuffer(XML));
             NodeList nl = myxpath.selectNodeList(myxpath.getDocument().getElementsByTagName("*").item(0), "//test");
@@ -67,9 +67,9 @@ public class TestSOSXMLXPath {
             LOGGER.error(e.getMessage(), e);
         }
     }
-    
+
     @Test
-    private void test2Xml () {
+    private void test2Xml() {
         try {
             SOSXMLXPath xpath_Xinclude = new SOSXMLXPath(new FileInputStream("C:/temp/a.xml"), true);
             NodeList nl = xpath_Xinclude.selectNodeList(xpath_Xinclude.getDocument().getElementsByTagName("*").item(0), "//test");
