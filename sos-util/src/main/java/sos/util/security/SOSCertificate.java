@@ -22,7 +22,7 @@ import java.util.TimeZone;
 
 import org.apache.log4j.Logger;
 
-public  class SOSCertificate { 
+public class SOSCertificate {
 
     private static final Logger LOGGER = Logger.getLogger(SOSCertificate.class);
     /** ausgestellt für */
@@ -37,36 +37,33 @@ public  class SOSCertificate {
     public static final String SHA1 = "SHA1";
     public static final String MD2 = "MD2";
     public static final String MD5 = "MD5";
-    
-    
-    /**
-     * Certificate Objekt erzeugen
+
+    /** Certificate Objekt erzeugen
      * 
      * @param privateKey
      * @param publicKey
-     * @throws Exception
-     */
+     * @throws Exception */
     public static Certificate createCertificate(PrivateKey privateKey, PublicKey publicKey) throws Exception {
 
-        if (privateKey == null) { 
-            throw new Exception("Private Key is null"); 
+        if (privateKey == null) {
+            throw new Exception("Private Key is null");
         }
-        if (publicKey == null) { 
+        if (publicKey == null) {
             throw new Exception("Public Key is null");
         }
-        if (SOSCertificate.serialNumber == null) { 
+        if (SOSCertificate.serialNumber == null) {
             throw new Exception("Serialnumber is null");
         }
-        if (SOSCertificate.subjectDN == null || SOSCertificate.subjectDN.length() == 0) { 
-            throw new Exception("Subject DN is empty"); 
+        if (SOSCertificate.subjectDN == null || SOSCertificate.subjectDN.length() == 0) {
+            throw new Exception("Subject DN is empty");
         }
-        if (SOSCertificate.issuerDN == null || SOSCertificate.issuerDN.length() == 0) { 
-            throw new Exception("Issuer DN is empty"); 
+        if (SOSCertificate.issuerDN == null || SOSCertificate.issuerDN.length() == 0) {
+            throw new Exception("Issuer DN is empty");
         }
         long time = gmtCalendar.getTimeInMillis();
         if (SOSCertificate.validFrom == null) {
             // von gestern
-            SOSCertificate.validFrom = new Date(time - 24L*60*60*1000);
+            SOSCertificate.validFrom = new Date(time - 24L * 60 * 60 * 1000);
         }
         if (SOSCertificate.validTo == null) {
             SOSCertificate.validTo = new Date(SOSCertificate.validFrom.getTime() + 90 * 24 * 60 * 60 * 1000L);
@@ -81,11 +78,11 @@ public  class SOSCertificate {
             v3CertGen.setSerialNumber(SOSCertificate.serialNumber);
             // ausgestellt für
             v3CertGen.setIssuerDN(new org.bouncycastle.asn1.x509.X509Name(SOSCertificate.issuerDN));
-            //      ausgestellt von
+            // ausgestellt von
             v3CertGen.setSubjectDN(new org.bouncycastle.asn1.x509.X509Name(SOSCertificate.subjectDN));
             // gültig ab
             v3CertGen.setNotBefore(SOSCertificate.validFrom);
-            //gültig bis
+            // gültig bis
             v3CertGen.setNotAfter(SOSCertificate.validTo);
             v3CertGen.setPublicKey(publicKey);
             v3CertGen.setSignatureAlgorithm(SOSCertificate.hashAlgorithm + "With" + privateKey.getAlgorithm());
@@ -98,23 +95,21 @@ public  class SOSCertificate {
         }
     }
 
-    /**
-     * Certificate Objekt erzeugen und in eine Datei schreiben
+    /** Certificate Objekt erzeugen und in eine Datei schreiben
      * 
      * @param privateKey
      * @param publicKey
      * @param certFileName
-     * @throws Exception
-     */
+     * @throws Exception */
     public static void generateCertificate(PrivateKey privateKey, PublicKey publicKey, String certFileName) throws Exception {
         if (privateKey == null) {
-            throw new Exception("Private Key is null"); 
+            throw new Exception("Private Key is null");
         }
-        if (publicKey == null) { 
-            throw new Exception("Public Key is null"); 
+        if (publicKey == null) {
+            throw new Exception("Public Key is null");
         }
-        if (certFileName == null || certFileName.trim().length() == 0) { 
-            throw new Exception("Certification file name is empty"); 
+        if (certFileName == null || certFileName.trim().length() == 0) {
+            throw new Exception("Certification file name is empty");
         }
         try {
             Certificate cert = createCertificate(privateKey, publicKey);
@@ -127,12 +122,10 @@ public  class SOSCertificate {
         }
     }
 
-    /**
-     * Cerificate aus einer Datei lesen
+    /** Cerificate aus einer Datei lesen
      * 
-     * @param file		Certification File
-     * @return			Certificate Objekt
-     */
+     * @param file Certification File
+     * @return Certificate Objekt */
     public static Certificate importCertificate(File file) throws Exception {
         try {
             FileInputStream is = new FileInputStream(file);
@@ -144,16 +137,14 @@ public  class SOSCertificate {
         } catch (IOException e) {
             throw new Exception(e);
         } catch (Exception e) {
-    	    throw new Exception(e);
-    	}
+            throw new Exception(e);
+        }
     }
 
-    /**
-     * Certificate Chain aus einer Datei ermitteln
+    /** Certificate Chain aus einer Datei ermitteln
      * 
-     * @param file		Certificate Filename
-     * @return			Certificate Chain
-     */
+     * @param file Certificate Filename
+     * @return Certificate Chain */
     public static Certificate[] getCertificateChain(String fileName) throws Exception {
         try {
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
@@ -178,13 +169,11 @@ public  class SOSCertificate {
             throw new Exception(e);
         }
     }
-    
-    /**
-     * Certificate Chain aus einem Byte Array ermitteln
+
+    /** Certificate Chain aus einem Byte Array ermitteln
      * 
-     * @param file		Certificate Filename
-     * @return			Certificate Chain
-     */
+     * @param file Certificate Filename
+     * @return Certificate Chain */
     public static Certificate[] getCertificateChain(byte[] bArray) throws Exception {
         try {
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
@@ -209,14 +198,11 @@ public  class SOSCertificate {
             throw new Exception(e);
         }
     }
-    
-    /**
-     * voller Input Stream einer Datei ermitteln
+
+    /** voller Input Stream einer Datei ermitteln
      * 
      * @param fileName
-     * @return @throws
-     *         IOException
-     */
+     * @return @throws IOException */
     private static InputStream getStream(String fileName) throws Exception {
         FileInputStream fis = new FileInputStream(fileName);
         DataInputStream dis = new DataInputStream(fis);
@@ -225,23 +211,20 @@ public  class SOSCertificate {
         ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
         return bais;
     }
-    
-    /**
-     *Input Stream aus einem Byte Array erzeugen
+
+    /** Input Stream aus einem Byte Array erzeugen
      * 
      * @param fileName
-     * @return @throws
-     *         IOException
-     */
+     * @return @throws IOException */
     private static InputStream getStream(byte[] bytes) throws Exception {
         ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
         return bais;
     }
- 
+
     public static String getHashAlgorithm() {
         return SOSCertificate.hashAlgorithm;
     }
-   
+
     public static void setHashAlgorithm(String hashAlgorithm) {
         SOSCertificate.hashAlgorithm = hashAlgorithm;
     }
@@ -289,26 +272,26 @@ public  class SOSCertificate {
     public static void main(String[] args) {
         String path = "J:/E/java/al/sos.util/signature/";
         String keyAlgorithmName = "RSA";
-        String provider			= "BC";
+        String provider = "BC";
         String privateKeyFileName = path + "new_" + keyAlgorithmName + "=" + provider + ".privatekey";
         String publicKeyFileName = path + "new_" + keyAlgorithmName + "=" + provider + ".publickey";
         try {
             PrivateKey privKey = SOSKeyGenerator.getPrivateKeyFromFile(privateKeyFileName);
-            PublicKey pubKey   = SOSKeyGenerator.getPublicKeyFromFile(publicKeyFileName);
+            PublicKey pubKey = SOSKeyGenerator.getPublicKeyFromFile(publicKeyFileName);
             SOSCertificate.setHashAlgorithm(SOSCertificate.SHA1);
             SOSCertificate.setSubjectDN("CN=Andreas Liebert,C=DE,O=APL/SOS");
             SOSCertificate.setIssuerDN("CN=Andreas Liebert,C=DE,O=APL/SOS");
             SOSCertificate.setSerialNumber(BigInteger.valueOf(100));
-            String certFile = privKey.getAlgorithm()+"("+provider+")="+SOSCertificate.getHashAlgorithm()+".cer";
+            String certFile = privKey.getAlgorithm() + "(" + provider + ")=" + SOSCertificate.getHashAlgorithm() + ".cer";
             SOSCertificate.generateCertificate(privKey, pubKey, path + certFile);
             LOGGER.info("Zertifikate wurde erstellt");
-            LOGGER.info("privKey = "+privateKeyFileName);
-            LOGGER.info("pubKey = "+publicKeyFileName);
-            LOGGER.info("certFile = "+path+certFile);
+            LOGGER.info("privKey = " + privateKeyFileName);
+            LOGGER.info("pubKey = " + publicKeyFileName);
+            LOGGER.info("certFile = " + path + certFile);
         } catch (Exception e) {
             LOGGER.error("", e);
         }
 
     }
-    
+
 }

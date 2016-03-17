@@ -258,10 +258,7 @@ public class SOSExportProcessor {
         }
         if (isExport) {
             SOSArguments arguments = new SOSArguments(args);
-            SOSExportProcessor processor = new SOSExportProcessor(new File(arguments.as_string("-config=", "sos_settings.ini")), 
-                    new File(arguments.as_string("-log=", "sos_export.log")), arguments.as_int("-log-level=", 0), 
-                    new File(arguments.as_string("-output=", "sos_export.xml")), new String(arguments.as_string("-tables=", "")), 
-                    new String(arguments.as_string("-execute=", "")), new String(arguments.as_string("-keys=", "")));
+            SOSExportProcessor processor = new SOSExportProcessor(new File(arguments.as_string("-config=", "sos_settings.ini")), new File(arguments.as_string("-log=", "sos_export.log")), arguments.as_int("-log-level=", 0), new File(arguments.as_string("-output=", "sos_export.xml")), new String(arguments.as_string("-tables=", "")), new String(arguments.as_string("-execute=", "")), new String(arguments.as_string("-keys=", "")));
             arguments.check_all_used();
             processor.doExport();
         }
@@ -294,5 +291,5 @@ public class SOSExportProcessor {
     public void setEnableTableParametr(boolean enableTableParametr) {
         this.enableTableParametr = enableTableParametr;
     }
-    
+
 }

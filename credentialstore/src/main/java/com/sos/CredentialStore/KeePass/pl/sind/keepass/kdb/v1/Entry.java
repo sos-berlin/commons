@@ -311,7 +311,7 @@ public class Entry {
         } else if (!binaryData.equals(other.binaryData)) {
             return false;
         }
-        if (binaryDescription == null) { 
+        if (binaryDescription == null) {
             if (other.binaryDescription != null) {
                 return false;
             }
@@ -423,5 +423,5 @@ public class Entry {
     public String toString() {
         return this.Title() + ", " + this.getGroupId().getId();
     }
-    
+
 }

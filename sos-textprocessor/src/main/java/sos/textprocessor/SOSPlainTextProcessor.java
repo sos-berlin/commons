@@ -161,13 +161,12 @@ public class SOSPlainTextProcessor extends SOSTextProcessor {
                     value = replacements.get(key.toString());
                     if (value != null) {
                         try {
-                            content = content.replaceAll("&\\#\\(" + key.toString() + "\\)", SOSDate.getDateAsString(SOSDate.getDate(value.toString()), 
-                                    this.getDateFormat()));
-                            content = content.replaceAll("&\\#\\#\\(" + key.toString() + "\\)", SOSDate.getDateTimeAsString(SOSDate.getDate(value.toString()), 
-                                    this.getDatetimeFormat()));
+                            content = content.replaceAll("&\\#\\(" + key.toString() + "\\)", SOSDate.getDateAsString(SOSDate.getDate(value.toString()), this.getDateFormat()));
+                            content = content.replaceAll("&\\#\\#\\(" + key.toString() + "\\)", SOSDate.getDateTimeAsString(SOSDate.getDate(value.toString()), this.getDatetimeFormat()));
                         } catch (Exception ex) {
-                            // ignore this error: replacement is not convertible to date
-                        } 
+                            // ignore this error: replacement is not convertible
+                            // to date
+                        }
                         Locale defaultLocale = Locale.getDefault();
                         try {
                             double doubleValue = Double.parseDouble(value.toString());

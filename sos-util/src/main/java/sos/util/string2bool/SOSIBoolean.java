@@ -1,8 +1,6 @@
- package  sos.util.string2bool;
-
+package sos.util.string2bool;
 
 interface SOSIBoolean {
 
-
-	boolean booleanValue();
+    boolean booleanValue();
 }

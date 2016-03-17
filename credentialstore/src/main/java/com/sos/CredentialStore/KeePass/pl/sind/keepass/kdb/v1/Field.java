@@ -29,8 +29,7 @@ public class Field {
     public Field(final short fieldType, final int fieldSize, final int expectedFieldSize, final ByteBuffer data) {
         super();
         if (fieldSize != expectedFieldSize) {
-            throw new IllegalArgumentException(String.format("Invalid field size for %s. Expecting %d found %d.", getClass().getSimpleName(), 
-                    expectedFieldSize, fieldSize));
+            throw new IllegalArgumentException(String.format("Invalid field size for %s. Expecting %d found %d.", getClass().getSimpleName(), expectedFieldSize, fieldSize));
         }
         this.fieldType = fieldType;
         this.fieldSize = fieldSize;

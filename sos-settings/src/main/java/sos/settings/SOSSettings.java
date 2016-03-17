@@ -104,5 +104,5 @@ public abstract class SOSSettings {
     public abstract void setIgnoreCase(boolean ignoreCase);
 
     public abstract boolean getIgnoreCase();
-    
+
 }

@@ -262,5 +262,5 @@ public class SOSConnectionVersionLimiter {
         }
         return rc;
     }
-    
+
 }

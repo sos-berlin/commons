@@ -22,24 +22,19 @@ public class SOSSignature {
 
     public final static String MD5 = "MD5";
 
-    /**
-     * @param fileToSign
+    /** @param fileToSign
      * @param signFile
      * @param privKey
-     * @throws Exception
-     */
-    public static void signToFile(String fileToSign, String signFile,
-            PrivateKey privKey) throws Exception {
+     * @throws Exception */
+    public static void signToFile(String fileToSign, String signFile, PrivateKey privKey) throws Exception {
 
         try {
-            if (SOSSignature.provider.equalsIgnoreCase("BC")
-                    && Security.getProvider("BC") == null) {
+            if (SOSSignature.provider.equalsIgnoreCase("BC") && Security.getProvider("BC") == null) {
                 Provider bp = new org.bouncycastle.jce.provider.BouncyCastleProvider();
                 Security.addProvider(bp);
             }
 
-            String algo = SOSSignature.hashAlgorithm + "With"
-                    + privKey.getAlgorithm();
+            String algo = SOSSignature.hashAlgorithm + "With" + privKey.getAlgorithm();
 
             /* Signature */
             Signature sign = Signature.getInstance(algo, SOSSignature.provider);
@@ -70,21 +65,17 @@ public class SOSSignature {
         }
     }
 
-    /**
-     * @param dataFile
+    /** @param dataFile
      * @param signFile
      * @param pubKey
-     * @throws Exception
-     */
-    public static boolean verify(String dataFile, String signFile,
-            PublicKey pubKey) throws Exception {
+     * @throws Exception */
+    public static boolean verify(String dataFile, String signFile, PublicKey pubKey) throws Exception {
 
         try {
             /* unterschrift from file signature lesen */
             byte[] sigToVerify = readFromFile(signFile);
 
-            if (SOSSignature.provider.equalsIgnoreCase("BC")
-                    && Security.getProvider("BC") == null) {
+            if (SOSSignature.provider.equalsIgnoreCase("BC") && Security.getProvider("BC") == null) {
                 Provider bp = new org.bouncycastle.jce.provider.BouncyCastleProvider();
                 Security.addProvider(bp);
             }
@@ -92,8 +83,7 @@ public class SOSSignature {
             /*
              * Signature Objekt erzeugen mit mit public key verify
              */
-            Signature sig = Signature.getInstance(SOSSignature.hashAlgorithm
-                    + "With" + pubKey.getAlgorithm(), SOSSignature.provider);
+            Signature sig = Signature.getInstance(SOSSignature.hashAlgorithm + "With" + pubKey.getAlgorithm(), SOSSignature.provider);
             sig.initVerify(pubKey);
 
             /* lesen from file data update() */
@@ -109,7 +99,7 @@ public class SOSSignature {
 
             /* verify */
             boolean verifies = sig.verify(sigToVerify);
-            //System.out.println("Signature verifies: " + verifies);
+            // System.out.println("Signature verifies: " + verifies);
 
             return verifies;
 
@@ -120,20 +110,14 @@ public class SOSSignature {
         }
     }
 
-    /**
-     * save byte array in to file
-     */
-    public static void saveToFile(byte[] info, String filename)
-            throws Exception {
+    /** save byte array in to file */
+    public static void saveToFile(byte[] info, String filename) throws Exception {
         FileOutputStream fos = new FileOutputStream(filename);
         fos.write(info);
         fos.close();
     }
 
-    /**
-     * lesen from file in byte array
-     *  
-     */
+    /** lesen from file in byte array */
     public static byte[] readFromFile(String fileName) throws Exception {
         byte[] info;
         try {
@@ -148,32 +132,22 @@ public class SOSSignature {
         return (info);
     }
 
-    /**
-     * @return Returns the hashAlgorithm.
-     */
+    /** @return Returns the hashAlgorithm. */
     public static String getHashAlgorithm() {
         return SOSSignature.hashAlgorithm;
     }
 
-    /**
-     * @param hashAlgorithm
-     *            The hashAlgorithm to set.
-     */
+    /** @param hashAlgorithm The hashAlgorithm to set. */
     public static void setHashAlgorithm(String hashAlgorithm) {
         SOSSignature.hashAlgorithm = hashAlgorithm;
     }
 
-    /**
-     * @return Returns the provider.
-     */
+    /** @return Returns the provider. */
     public static String getProvider() {
         return SOSSignature.provider;
     }
 
-    /**
-     * @param provider
-     *            The provider to set.
-     */
+    /** @param provider The provider to set. */
     public static void setProvider(String provider) {
         SOSSignature.provider = provider;
     }
@@ -188,26 +162,22 @@ public class SOSSignature {
         String fileToSign = path + "data.rtf";
         String signFile = path + "data.signature";
 
-        String privateKeyFileName = path + "new_" + keyAlgorithmName + "="
-                + provider + ".privatekey";
-        String publicKeyFileName = path + "new_" + keyAlgorithmName + "="
-                + provider + ".publickey";
+        String privateKeyFileName = path + "new_" + keyAlgorithmName + "=" + provider + ".privatekey";
+        String publicKeyFileName = path + "new_" + keyAlgorithmName + "=" + provider + ".publickey";
 
         try {
-            PrivateKey privKey = SOSKeyGenerator
-                    .getPrivateKeyFromFile(privateKeyFileName);
+            PrivateKey privKey = SOSKeyGenerator.getPrivateKeyFromFile(privateKeyFileName);
 
             SOSSignature.setHashAlgorithm(SOSSignature.SHA1);
             SOSSignature.setProvider(provider);
 
             System.out.println(privKey.getFormat());
 
-            //Signatur Datei erstellen
+            // Signatur Datei erstellen
             SOSSignature.signToFile(fileToSign, signFile, privKey);
 
             // Signatur verifizieren
-            PublicKey pubKey = SOSKeyGenerator
-                    .getPublicKeyFromFile(publicKeyFileName);
+            PublicKey pubKey = SOSKeyGenerator.getPublicKeyFromFile(publicKeyFileName);
             boolean verifies = SOSSignature.verify(fileToSign, signFile, pubKey);
 
             System.out.println("Signature verifies: " + verifies);

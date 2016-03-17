@@ -27,10 +27,10 @@ public class SOSXMLTransformer {
 
     private static final HashMap EMPTY_HASH_MAP = new HashMap();
 
-    private SOSXMLTransformer () {
-        
+    private SOSXMLTransformer() {
+
     }
-    
+
     public static void transform(String data, File xslFile, File outputFile) throws TransformerException, TransformerConfigurationException,
             FileNotFoundException, IOException, Exception {
         transform(data, xslFile, outputFile, EMPTY_HASH_MAP);

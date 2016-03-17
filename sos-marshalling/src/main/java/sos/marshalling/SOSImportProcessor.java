@@ -195,5 +195,5 @@ public class SOSImportProcessor {
     public String getFileSpec() {
         return fileSpec;
     }
-    
+
 }
