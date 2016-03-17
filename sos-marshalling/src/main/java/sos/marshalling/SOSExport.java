@@ -1013,7 +1013,8 @@ public class SOSExport {
                             for (int j = 0; j < _queries.get(queryId).getKeyCnt(); j++) {
                                 String keyFieldName = getKeyFieldName(allFieldNames, _queries.get(queryId).getKey(j));
                                 queryBlobStm.append(and + normalizeFieldName(keyFieldName) + " =");
-                                queryBlobStm.append(quote(fieldTypes.getTypeId(normalizeFieldName(_queries.get(queryId).getKey(j))), (String) record.get(normalizeFieldName(_queries.get(queryId).getKey(j)))));
+                                queryBlobStm.append(quote(fieldTypes.getTypeId(normalizeFieldName(_queries.get(queryId).getKey(j))),
+                                        (String) record.get(normalizeFieldName(_queries.get(queryId).getKey(j)))));
                                 and = " AND ";
                             }
                             // blob mit Umbruch ausgeben
@@ -1309,7 +1310,8 @@ public class SOSExport {
                             for (int j = 0; j < _queries.get(queryId).getKeyCnt(); j++) {
                                 String keyFieldName = getKeyFieldName(allFieldNames, _queries.get(queryId).getKey(j));
                                 queryBlobStm.append(and + normalizeFieldName(keyFieldName) + " =");
-                                queryBlobStm.append(quote(fieldTypes.getTypeId(normalizeFieldName(_queries.get(queryId).getKey(j))), (String) record.get(normalizeFieldName(_queries.get(queryId).getKey(j)))));
+                                queryBlobStm.append(quote(fieldTypes.getTypeId(normalizeFieldName(_queries.get(queryId).getKey(j))),
+                                        (String) record.get(normalizeFieldName(_queries.get(queryId).getKey(j)))));
                                 and = " AND ";
                             }
                             // blob mit Umbruch ausgeben
@@ -1591,7 +1593,8 @@ public class SOSExport {
                     _log.debug9("field_type: name=" + fieldDesc.get("columnName") + " type=" + fieldDesc.get("columnTypeName") + " type_id=" + type + " size="
                             + size + " scale=" + scale);
                 }
-                fieldTypes.addField(normalizeFieldName(normalizeFieldName((String) fieldDesc.get("columnName"))), (String) fieldDesc.get("columnTypeName"), type, size, scale);
+                fieldTypes.addField(normalizeFieldName(normalizeFieldName((String) fieldDesc.get("columnName"))), (String) fieldDesc.get("columnTypeName"),
+                        type, size, scale);
             }
             resultSet.close();
             return fieldTypes;

@@ -68,10 +68,10 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
     /** \var CredentialStore_AuthenticationMethod : */
     @JSOptionDefinition(name = "CredentialStore_AuthenticationMethod", description = "", key = "CredentialStore_AuthenticationMethod", type = "SOSOptionString", mandatory = true)
     public SOSOptionString CredentialStore_AuthenticationMethod = new SOSOptionString(this, conClassName + ".CredentialStore_AuthenticationMethod", // HashMap-Key
-    "", // Titel
-    "privatekey", // InitValue
-    "privatekey", // DefaultValue
-    true // isMandatory
+            "", // Titel
+            "privatekey", // InitValue
+            "privatekey", // DefaultValue
+            true // isMandatory
     );
 
     /** \brief getCredentialStore_AuthenticationMethod :
@@ -99,10 +99,10 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
     /** \var CredentialStore_DeleteExportedFileOnExit : */
     @JSOptionDefinition(name = "CredentialStore_DeleteExportedFileOnExit", description = "", key = "CredentialStore_DeleteExportedFileOnExit", type = "SOSOptionBoolean", mandatory = false)
     public SOSOptionBoolean CredentialStore_DeleteExportedFileOnExit = new SOSOptionBoolean(this, conClassName + ".CredentialStore_DeleteExportedFileOnExit", // HashMap-Key
-    "", // Titel
-    "true", // InitValue
-    "true", // DefaultValue
-    false // isMandatory
+            "", // Titel
+            "true", // InitValue
+            "true", // DefaultValue
+            false // isMandatory
     );
 
     /** \brief getCredentialStore_DeleteExportedFileOnExit :
@@ -131,10 +131,10 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
     /** \var CredentialStore_ExportAttachment : */
     @JSOptionDefinition(name = "CredentialStore_ExportAttachment", description = "", key = "CredentialStore_ExportAttachment", type = "SOSOptionBoolean", mandatory = false)
     public SOSOptionBoolean CredentialStore_ExportAttachment = new SOSOptionBoolean(this, conClassName + ".CredentialStore_ExportAttachment", // HashMap-Key
-    "", // Titel
-    "false", // InitValue
-    "false", // DefaultValue
-    false // isMandatory
+            "", // Titel
+            "false", // InitValue
+            "false", // DefaultValue
+            false // isMandatory
     );
 
     /** \brief getCredentialStore_ExportAttachment :
@@ -163,10 +163,10 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
     @JSOptionDefinition(name = "CredentialStore_ExportAttachment2FileName", description = "", key = "CredentialStore_ExportAttachment2FileName", type = "SOSOptionOutFileName", mandatory = false)
     public SOSOptionOutFileName CredentialStore_ExportAttachment2FileName = new SOSOptionOutFileName(this, conClassName
             + ".CredentialStore_ExportAttachment2FileName", // HashMap-Key
-    "", // Titel
-    " ", // InitValue
-    " ", // DefaultValue
-    false // isMandatory
+            "", // Titel
+            " ", // InitValue
+            " ", // DefaultValue
+            false // isMandatory
     );
 
     /** \brief getCredentialStore_ExportAttachment2FileName :
@@ -195,10 +195,10 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
     /** \var CredentialStore_FileName : */
     @JSOptionDefinition(name = "CredentialStore_FileName", description = "", key = "CredentialStore_FileName", type = "SOSOptionInFileName", mandatory = true)
     public SOSOptionInFileName CredentialStore_FileName = new SOSOptionInFileName(this, conClassName + ".CredentialStore_FileName", // HashMap-Key
-    "", // Titel
-    " ", // InitValue
-    " ", // DefaultValue
-    true // isMandatory
+            "", // Titel
+            " ", // InitValue
+            " ", // DefaultValue
+            true // isMandatory
     );
 
     /** \brief getCredentialStore_FileName :
@@ -226,10 +226,10 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
     /** \var CredentialStore_KeyFileName : */
     @JSOptionDefinition(name = "CredentialStore_KeyFileName", description = "", key = "CredentialStore_KeyFileName", type = "SOSOptionInFileName", mandatory = false)
     public SOSOptionInFileName CredentialStore_KeyFileName = new SOSOptionInFileName(this, conClassName + ".CredentialStore_KeyFileName", // HashMap-Key
-    "", // Titel
-    " ", // InitValue
-    " ", // DefaultValue
-    false // isMandatory
+            "", // Titel
+            " ", // InitValue
+            " ", // DefaultValue
+            false // isMandatory
     );
 
     /** \brief getCredentialStore_KeyFileName :
@@ -257,10 +257,10 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
     /** \var CredentialStore_KeyPath : */
     @JSOptionDefinition(name = "CredentialStore_KeyPath", description = "", key = "CredentialStore_KeyPath", type = "SOSOptionString", mandatory = true)
     public SOSOptionString CredentialStore_KeyPath = new SOSOptionString(this, conClassName + ".CredentialStore_KeyPath", // HashMap-Key
-    "", // Titel
-    " ", // InitValue
-    " ", // DefaultValue
-    true // isMandatory
+            "", // Titel
+            " ", // InitValue
+            " ", // DefaultValue
+            true // isMandatory
     );
 
     /** \brief getCredentialStore_KeyPath :
@@ -288,10 +288,10 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
     /** \var CredentialStore_OverwriteExportedFile : */
     @JSOptionDefinition(name = "CredentialStore_OverwriteExportedFile", description = "", key = "CredentialStore_OverwriteExportedFile", type = "SOSOptionBoolean", mandatory = false)
     public SOSOptionBoolean CredentialStore_OverwriteExportedFile = new SOSOptionBoolean(this, conClassName + ".CredentialStore_OverwriteExportedFile", // HashMap-Key
-    "", // Titel
-    "true", // InitValue
-    "true", // DefaultValue
-    false // isMandatory
+            "", // Titel
+            "true", // InitValue
+            "true", // DefaultValue
+            false // isMandatory
     );
 
     /** \brief getCredentialStore_OverwriteExportedFile :
@@ -320,10 +320,10 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
     /** \var CredentialStore_Permissions4ExportedFile : */
     @JSOptionDefinition(name = "CredentialStore_Permissions4ExportedFile", description = "", key = "CredentialStore_Permissions4ExportedFile", type = "SOSOptionString", mandatory = false)
     public SOSOptionString CredentialStore_Permissions4ExportedFile = new SOSOptionString(this, conClassName + ".CredentialStore_Permissions4ExportedFile", // HashMap-Key
-    "", // Titel
-    "600", // InitValue
-    "600", // DefaultValue
-    false // isMandatory
+            "", // Titel
+            "600", // InitValue
+            "600", // DefaultValue
+            false // isMandatory
     );
 
     /** \brief getCredentialStore_Permissions4ExportedFile :
@@ -352,10 +352,10 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
     /** \var CredentialStore_ProcessNotesParams : */
     @JSOptionDefinition(name = "CredentialStore_ProcessNotesParams", description = "", key = "CredentialStore_ProcessNotesParams", type = "SOSOptionBoolean", mandatory = false)
     public SOSOptionBoolean CredentialStore_ProcessNotesParams = new SOSOptionBoolean(this, conClassName + ".CredentialStore_ProcessNotesParams", // HashMap-Key
-    "", // Titel
-    "false", // InitValue
-    "false", // DefaultValue
-    false // isMandatory
+            "", // Titel
+            "false", // InitValue
+            "false", // DefaultValue
+            false // isMandatory
     );
 
     /** \brief getCredentialStore_ProcessNotesParams :
@@ -383,10 +383,10 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
     /** \var CredentialStore_StoreType : */
     @JSOptionDefinition(name = "CredentialStore_StoreType", description = "", key = "CredentialStore_StoreType", type = "SOSOptionString", mandatory = false)
     public SOSOptionString CredentialStore_StoreType = new SOSOptionString(this, conClassName + ".CredentialStore_StoreType", // HashMap-Key
-    "", // Titel
-    "KeePass", // InitValue
-    "KeePass", // DefaultValue
-    false // isMandatory
+            "", // Titel
+            "KeePass", // InitValue
+            "KeePass", // DefaultValue
+            false // isMandatory
     );
 
     /** \brief getCredentialStore_StoreType :
@@ -414,10 +414,10 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
     /** \var CredentialStore_password : */
     @JSOptionDefinition(name = "CredentialStore_password", description = "", key = "CredentialStore_password", type = "SOSOptionPassword", mandatory = false)
     public SOSOptionPassword CredentialStore_password = new SOSOptionPassword(this, conClassName + ".CredentialStore_password", // HashMap-Key
-    "", // Titel
-    " ", // InitValue
-    " ", // DefaultValue
-    false // isMandatory
+            "", // Titel
+            " ", // InitValue
+            " ", // DefaultValue
+            false // isMandatory
     );
 
     /** \brief getCredentialStore_password :
@@ -445,10 +445,10 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
     /** \var use_credential_Store : */
     @JSOptionDefinition(name = "use_credential_Store", description = "", key = "use_credential_Store", type = "SOSOptionBoolean", mandatory = false)
     public SOSOptionBoolean use_credential_Store = new SOSOptionBoolean(this, conClassName + ".use_credential_Store", // HashMap-Key
-    "", // Titel
-    "false", // InitValue
-    "false", // DefaultValue
-    false // isMandatory
+            "", // Titel
+            "false", // InitValue
+            "false", // DefaultValue
+            false // isMandatory
     );
 
     /** \brief getuse_credential_Store :

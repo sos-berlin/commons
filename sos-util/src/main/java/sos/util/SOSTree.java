@@ -311,8 +311,9 @@ public class SOSTree {
             SOSTreeElement current = node.getList();
             StringBuilder out = new StringBuilder();
             if (_subTables) {
-                out.append("<tr class=\"").append((_disabled ? "dis" : "")).append(_cssClass).append("\"><td colspan=\"10\" class=\"").append((_disabled ? "dis"
-                        : "")).append(_cssClass).append("\"><table class=\"").append((_disabled ? "dis" : "")).append(_cssClass).append("\">");
+                out.append("<tr class=\"").append((_disabled ? "dis" : "")).append(_cssClass).append("\"><td colspan=\"10\" class=\"")
+                        .append((_disabled ? "dis" : "")).append(_cssClass).append("\"><table class=\"").append((_disabled ? "dis" : "")).append(_cssClass)
+                        .append("\">");
             }
             while (current != null) {
                 out.append(formatElement(current, indent.toString()));
@@ -355,16 +356,17 @@ public class SOSTree {
         }
         image.append("\">");
         element.setActivStyle(null);
-        str.append("<tr class=\"").append((_disabled ? "dis" : "")).append(cssClass).append("\"><td class=\"").append((_disabled ? "dis" : "")).append(cssClass).append("\"").append(((_tdWidth != null) ? " width=\""
-                + _tdWidth + "\""
-                : "")).append(">").append(indent);
+        str.append("<tr class=\"").append((_disabled ? "dis" : "")).append(cssClass).append("\"><td class=\"").append((_disabled ? "dis" : ""))
+                .append(cssClass).append("\"").append(((_tdWidth != null) ? " width=\"" + _tdWidth + "\"" : "")).append(">").append(indent);
         if (element.isLeaf() && (element.getImgLeaf() == null || !"".equals(element.getImgLeaf()))) {
             str.append(image).append(_space);
         }
         if (_nodeOpenNode && element.isNode()) {
-            str.append("<a ").append(hrefName).append(" class=\"").append((_disabled ? "dis" : "")).append(cssClass).append("\" href=\"").append(url).append(hrefAnker).append("\">").append(image).append("</a>").append(_space);
+            str.append("<a ").append(hrefName).append(" class=\"").append((_disabled ? "dis" : "")).append(cssClass).append("\" href=\"").append(url)
+                    .append(hrefAnker).append("\">").append(image).append("</a>").append(_space);
         } else if (element.getURL() != null && element.isNode()) {
-            str.append("<a ").append(hrefName).append(" class=\"").append((_disabled ? "dis" : "")).append(cssClass).append("\" href=\"").append(formatURL(element, false)).append(hrefAnker).append("\">").append(image).append("</a>").append(_space);
+            str.append("<a ").append(hrefName).append(" class=\"").append((_disabled ? "dis" : "")).append(cssClass).append("\" href=\"")
+                    .append(formatURL(element, false)).append(hrefAnker).append("\">").append(image).append("</a>").append(_space);
         } else if (element.isNode()) {
             str.append(image).append(_space);
         }
@@ -372,9 +374,11 @@ public class SOSTree {
             str.append(element.getPrefix()).append(_space);
         }
         if (_textOpenNode && element.isNode()) {
-            str.append("<a ").append(activStyle).append(" ").append(hrefName).append(" class=\"").append((_disabled ? "dis" : "")).append(cssClass).append("\" href=\"").append(url).append(hrefAnker).append("\">").append(element.getTitle()).append("</a>");
+            str.append("<a ").append(activStyle).append(" ").append(hrefName).append(" class=\"").append((_disabled ? "dis" : "")).append(cssClass)
+                    .append("\" href=\"").append(url).append(hrefAnker).append("\">").append(element.getTitle()).append("</a>");
         } else if (element.getURL() != null) {
-            str.append("<a ").append(activStyle).append(" ").append(hrefName).append(" class=\"").append((_disabled ? "dis" : "")).append(cssClass).append("\" href=\"").append(formatURL(element, false)).append(hrefAnker).append("\">").append(element.getTitle()).append("</a>");
+            str.append("<a ").append(activStyle).append(" ").append(hrefName).append(" class=\"").append((_disabled ? "dis" : "")).append(cssClass)
+                    .append("\" href=\"").append(formatURL(element, false)).append(hrefAnker).append("\">").append(element.getTitle()).append("</a>");
         } else {
             if (activStyle != null && activStyle.length() > 0) {
                 str.append("<font ").append(activStyle).append(">").append(element.getTitle()).append("</font>");
@@ -386,7 +390,8 @@ public class SOSTree {
         if (element.getPostfix() != null) {
             str.append("<td class=\"").append((_disabled ? "dis" : "")).append(cssClass).append("\">");
             if (element.isNode() && _postfixOpenNode) {
-                str.append("<a ").append(hrefName).append(" class=\"").append((_disabled ? "dis" : "")).append(cssClass).append("\"href=\"").append(url).append(hrefAnker).append("\">").append(element.getPostfix()).append("</a>");
+                str.append("<a ").append(hrefName).append(" class=\"").append((_disabled ? "dis" : "")).append(cssClass).append("\"href=\"").append(url)
+                        .append(hrefAnker).append("\">").append(element.getPostfix()).append("</a>");
             } else {
                 str.append(element.getPostfix());
             }

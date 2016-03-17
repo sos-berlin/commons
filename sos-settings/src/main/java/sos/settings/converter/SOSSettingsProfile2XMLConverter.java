@@ -173,7 +173,11 @@ public class SOSSettingsProfile2XMLConverter {
 
     private String writeNote(String language, String value, String indent) {
         StringBuilder sb = new StringBuilder();
-        sb.append(indent).append("<note language=\"").append(language).append("\">").append(newLine).append(indent).append(INDENT).append("<div xmlns=\"http://www.w3.org/1999/xhtml\">").append(newLine).append(indent).append(INDENT).append(INDENT).append("<p>").append(newLine).append(indent).append(INDENT).append(INDENT).append(INDENT).append(this.writeCDATA(value)).append(newLine).append(indent).append(INDENT).append(INDENT).append("</p>").append(newLine).append(indent).append(INDENT).append("</div>").append(newLine).append(indent).append("</note>").append(newLine);
+        sb.append(indent).append("<note language=\"").append(language).append("\">").append(newLine).append(indent).append(INDENT)
+                .append("<div xmlns=\"http://www.w3.org/1999/xhtml\">").append(newLine).append(indent).append(INDENT).append(INDENT).append("<p>")
+                .append(newLine).append(indent).append(INDENT).append(INDENT).append(INDENT).append(this.writeCDATA(value)).append(newLine).append(indent)
+                .append(INDENT).append(INDENT).append("</p>").append(newLine).append(indent).append(INDENT).append("</div>").append(newLine).append(indent)
+                .append("</note>").append(newLine);
         return sb.toString();
     }
 

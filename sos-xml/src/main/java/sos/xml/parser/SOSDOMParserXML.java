@@ -466,29 +466,40 @@ public class SOSDOMParserXML {
             mappingTagNames.put("VendorBatchNumber", "myVendorBatchNumber");
             mappingTagNames.put("Decimal", "myDecimal");
             mappingTagNames.put("OwningClient", "myOwningClient");
-            mappingTagNames.put("#document_LogisticsStocks_LogisticsStock_ReportingClients_ReportingClients2_StockLevelReport_Warehouse_Item_Batch_BatchStatus__"
-                    + "@_StockUsage", "myStockUsage");
+            mappingTagNames.put(
+                    "#document_LogisticsStocks_LogisticsStock_ReportingClients_ReportingClients2_StockLevelReport_Warehouse_Item_Batch_BatchStatus__"
+                            + "@_StockUsage", "myStockUsage");
             mappingTagNames.put("#document_LogisticsStocks_LogisticsStock_ReportingClients_ReportingClients2__@_ReportingClient", "#document_LogisticsStocks_"
                     + "LogisticsStock_ReportingClients_ReportingClients2__@_ReportingClient");
             mappingTagNames.put("#document_LogisticsStocks_TechnicalInformation__@_DemandID", "myDemandID");
-            mappingTagNames.put("#document_LogisticsStocks_LogisticsStock_ReportingClients_ReportingClients2_StockLevelReport_Warehouse_Item__@_UnitOfMeasurement", "myUnitOfMeasurement");
+            mappingTagNames.put(
+                    "#document_LogisticsStocks_LogisticsStock_ReportingClients_ReportingClients2_StockLevelReport_Warehouse_Item__@_UnitOfMeasurement",
+                    "myUnitOfMeasurement");
             mappingTagNames.put("#document_LogisticsStocks_TechnicalInformation__@_SystemID", "mySystemId");
-            mappingTagNames.put("#document_LogisticsStocks_LogisticsStock_ReportingClients_ReportingClients2_StockLevelReport__@_StockLevelTimeStamp", "myStockLevelTimeStamp");
-            mappingTagNames.put("#document_LogisticsStocks_LogisticsStock_ReportingClients_ReportingClients2_StockLevelReport_Warehouse_Item__@_ItemType", "ItemType");
+            mappingTagNames.put("#document_LogisticsStocks_LogisticsStock_ReportingClients_ReportingClients2_StockLevelReport__@_StockLevelTimeStamp",
+                    "myStockLevelTimeStamp");
+            mappingTagNames.put("#document_LogisticsStocks_LogisticsStock_ReportingClients_ReportingClients2_StockLevelReport_Warehouse_Item__@_ItemType",
+                    "ItemType");
             mappingTagNames.put("#document_LogisticsStocks_TechnicalInformation__@_Decimal", "myDecimal");
-            mappingTagNames.put("#document_LogisticsStocks_LogisticsStock_ReportingClients_ReportingClients2_StockLevelReport_Warehouse_Item__@_LocalItemNumber", "myLocalItemNumber");
+            mappingTagNames.put(
+                    "#document_LogisticsStocks_LogisticsStock_ReportingClients_ReportingClients2_StockLevelReport_Warehouse_Item__@_LocalItemNumber",
+                    "myLocalItemNumber");
             mappingTagNames.put("#document_LogisticsStocks_LogisticsStock_ReportingClients_ReportingClients2_StockLevelReport_Warehouse_Item_Batch__@_"
                     + "VendorBatchNumber", "myVendorBatchNumber");
             mappingTagNames.put("#document_LogisticsStocks_TechnicalInformation__@_TimeZone", "myTimeZone");
-            mappingTagNames.put("#document_LogisticsStocks_LogisticsStock_ReportingClients_ReportingClients2_StockLevelReport_Warehouse_Item_Batch_BatchStatus__"
-                    + "@_Quantity", "myQuantity");
-            mappingTagNames.put("#document_LogisticsStocks_LogisticsStock_ReportingClients_ReportingClients2_StockLevelReport_Warehouse_Item_Batch_BatchStatus__"
-                    + "@_QualityControlStatus", "myQualityControlStatus");
+            mappingTagNames.put(
+                    "#document_LogisticsStocks_LogisticsStock_ReportingClients_ReportingClients2_StockLevelReport_Warehouse_Item_Batch_BatchStatus__"
+                            + "@_Quantity", "myQuantity");
+            mappingTagNames.put(
+                    "#document_LogisticsStocks_LogisticsStock_ReportingClients_ReportingClients2_StockLevelReport_Warehouse_Item_Batch_BatchStatus__"
+                            + "@_QualityControlStatus", "myQualityControlStatus");
             mappingTagNames.put("#document_LogisticsStocks_TechnicalInformation__@_DeliveryNumber", "myDeliveryNumber");
             mappingTagNames.put("#document_LogisticsStocks_LogisticsStock_ReportingClients_ReportingClients2_StockLevelReport_Warehouse_Item_Batch__"
                     + "@_InventoryBatchNumber", "myInventoryBatchNumber");
             mappingTagNames.put("#document_LogisticsStocks_TechnicalInformation__@_CreationTimeStamp", "myCreationTimeStamp");
-            mappingTagNames.put("#document_LogisticsStocks_LogisticsStock_ReportingClients_ReportingClients2_StockLevelReport_Warehouse_Item_Batch__@_OwningClient", "myOwningClient");
+            mappingTagNames.put(
+                    "#document_LogisticsStocks_LogisticsStock_ReportingClients_ReportingClients2_StockLevelReport_Warehouse_Item_Batch__@_OwningClient",
+                    "myOwningClient");
             mappingTagNames.put("#document_LogisticsStocks_LogisticsStock_ReportingClients_ReportingClients2_StockLevelReport_Warehouse_Item_Batch__"
                     + "@_PackagingBatchNumber", "myPackagingBatchNumber");
             return mappingTagNames;

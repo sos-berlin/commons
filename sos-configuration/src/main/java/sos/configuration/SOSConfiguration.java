@@ -189,7 +189,8 @@ public class SOSConfiguration {
     private void readConnectionSettings() throws Exception {
         try {
             if (sosConnection != null && sosString.parseToString(settingsProfilename).length() > 0) {
-                SOSConnectionSettings settings = new SOSConnectionSettings(sosConnection, settingsTablename, settingsApplicationname, settingsProfilename, sosLogger);
+                SOSConnectionSettings settings = new SOSConnectionSettings(sosConnection, settingsTablename, settingsApplicationname, settingsProfilename,
+                        sosLogger);
                 Properties p = settings.getSection();
                 originParameterFromSettings = new SOSConfigurationItem[p.size()];
                 Iterator it = p.keySet().iterator();
