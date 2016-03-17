@@ -215,7 +215,8 @@ public class KeePassDataBaseV1 implements KeePassDataBase {
      * @throws UnsupportedDataBaseException */
     private void validateHeader(final HeaderV1 header) throws UnsupportedDataBaseException {
         if ((header.getVersion() & KeePassConst.KDB_FILE_VERSION_CRITICAL_MASK) != (KeePassConst.KDB_FILE_VERSION & KeePassConst.KDB_FILE_VERSION_CRITICAL_MASK)) {
-            throw new UnsupportedDataBaseException(String.format("Invalid database version %x. Only %x version is supported", header.getVersion(), KeePassConst.KDB_FILE_VERSION));
+            throw new UnsupportedDataBaseException(String.format("Invalid database version %x. Only %x version is supported", header.getVersion(),
+                    KeePassConst.KDB_FILE_VERSION));
         }
         int flags = header.getFlags();
         if ((flags & KeePassConst.KDB_FLAG_TWOFISH) == KeePassConst.KDB_FLAG_TWOFISH) {

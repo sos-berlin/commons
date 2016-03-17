@@ -60,7 +60,8 @@ public class SOSXMLXPath extends CachedXPathAPI {
     public SOSXMLXPath(InputStream stream, boolean xInclude) throws Exception {
         super();
         try {
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance("org.apache.xerces.jaxp.DocumentBuilderFactoryImpl", this.getClass().getClassLoader());
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance("org.apache.xerces.jaxp.DocumentBuilderFactoryImpl", this.getClass()
+                    .getClassLoader());
             dbf.setNamespaceAware(true);
             dbf.setXIncludeAware(true);
             javax.xml.parsers.DocumentBuilder dom = dbf.newDocumentBuilder();

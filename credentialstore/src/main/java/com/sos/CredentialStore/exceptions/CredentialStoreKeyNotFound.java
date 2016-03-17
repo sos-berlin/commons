@@ -18,7 +18,8 @@ public class CredentialStoreKeyNotFound extends SOSCredentialStoreException {
 	 * 
 	 */
     public CredentialStoreKeyNotFound(final SOSCredentialStoreOptions pobjOptions) {
-        super(String.format("SOSVfsCS_E_001: Entry '%1$s' in database '%2$s' not found", pobjOptions.CredentialStore_KeyPath.Value(), pobjOptions.CredentialStore_FileName.Value()));
+        super(String.format("SOSVfsCS_E_001: Entry '%1$s' in database '%2$s' not found", pobjOptions.CredentialStore_KeyPath.Value(),
+                pobjOptions.CredentialStore_FileName.Value()));
         objCredentialStoreOptions = pobjOptions;
         gflgStackTracePrinted = true;
         this.Status(JobSchedulerException.FATAL);

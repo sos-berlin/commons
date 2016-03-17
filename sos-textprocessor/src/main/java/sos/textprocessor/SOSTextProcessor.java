@@ -147,8 +147,8 @@ public abstract class SOSTextProcessor {
         if (this.getTemplateSectionName() == null || this.getTemplateSectionName().isEmpty()) {
             throw new Exception("no template section name has been given for settings.");
         }
-        this.setTemplates(this.getSettings().getSection(this.getTemplateApplicationName(), this.getTemplateSectionName()
-                + (this.hasLocalizedTemplates() ? "_" + this.getLanguage() : "")));
+        this.setTemplates(this.getSettings().getSection(this.getTemplateApplicationName(),
+                this.getTemplateSectionName() + (this.hasLocalizedTemplates() ? "_" + this.getLanguage() : "")));
         if (this.templates == null || this.templates.isEmpty()) {
             return this.templates;
         }
@@ -195,8 +195,8 @@ public abstract class SOSTextProcessor {
             this.getLogger().debug6(SOSClassUtil.getMethodName() + " begin: templateName=" + templateName);
         }
         this.setTemplateName(templateName);
-        this.templateContent = this.getSettings().getSectionEntry(this.getTemplateApplicationName(), this.getTemplateSectionName()
-                + (this.hasLocalizedTemplates() ? "_" + this.getLanguage() : ""), templateName);
+        this.templateContent = this.getSettings().getSectionEntry(this.getTemplateApplicationName(),
+                this.getTemplateSectionName() + (this.hasLocalizedTemplates() ? "_" + this.getLanguage() : ""), templateName);
         if (this.getLogger() != null) {
             this.getLogger().debug9(SOSClassUtil.getMethodName() + ": templateContent=" + this.templateContent);
         }
@@ -220,8 +220,8 @@ public abstract class SOSTextProcessor {
             this.getLogger().debug6(SOSClassUtil.getMethodName() + " begin: templateName=" + templateName);
         }
         this.setTemplateName(templateName);
-        Object content = this.getSettings().getSectionEntryDocument(this.getTemplateApplicationName(), this.getTemplateSectionName()
-                + (this.hasLocalizedTemplates() ? "_" + this.getLanguage() : ""), templateName);
+        Object content = this.getSettings().getSectionEntryDocument(this.getTemplateApplicationName(),
+                this.getTemplateSectionName() + (this.hasLocalizedTemplates() ? "_" + this.getLanguage() : ""), templateName);
         this.templateContent = (content == null) ? null : new String((byte[]) content);
         if (this.getLogger() != null) {
             this.getLogger().debug9(SOSClassUtil.getMethodName() + ": templateContent=" + this.templateContent);
