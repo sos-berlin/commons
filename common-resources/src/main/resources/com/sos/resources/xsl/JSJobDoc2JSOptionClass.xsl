@@ -44,9 +44,7 @@
 package <xsl:value-of select="$package_name" />;
 
 import java.util.HashMap;
-
 import com.sos.JSHelper.Annotations.JSOptionClass;
-
 import com.sos.JSHelper.Exceptions.JSExceptionMandatoryOptionMissing;
 import com.sos.JSHelper.Listener.JSListener;
 import org.apache.log4j.Logger;
@@ -58,10 +56,7 @@ public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select=
 	private final String					conClassName						= "<xsl:value-of select="$class_name" />";
 	@SuppressWarnings("unused")
 	private static Logger		logger			= Logger.getLogger(<xsl:value-of select="$class_name" />.class);
-
-    /**
-    * constructors
-    */
+ 
 
 	public <xsl:value-of select="$class_name" />() {
 	} // public <xsl:value-of select="$class_name" />
@@ -76,16 +71,8 @@ public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select=
 	public <xsl:value-of select="$class_name" /> (HashMap &lt;String, String&gt; JSSettings) throws Exception {
 		super(JSSettings);
 	} // public <xsl:value-of select="$class_name" /> (HashMap JSSettings)
-/**
- * \brief CheckMandatory - prüft alle Muss-Optionen auf Werte
- *
- * \details
- * @throws Exception
- *
- * @throws Exception
- * - wird ausgelöst, wenn eine mandatory-Option keinen Wert hat
- */
-		@Override  // <xsl:value-of select="$ExtendsClassName" />
+ 
+	@Override  // <xsl:value-of select="$ExtendsClassName" />
 	public void CheckMandatory() {
 		try {
 			super.CheckMandatory();

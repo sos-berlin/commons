@@ -50,18 +50,7 @@ public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select=
 	private static Logger		logger			= Logger.getLogger(<xsl:value-of select="$class_name" />.class);
 
 	protected <xsl:value-of select="$WorkerClassName" />Options	objOptions			= null;
-
-	/**
-	 * 
-	 * \brief main
-	 * 
-	 * \details
-	 *
-	 * \return void
-	 *
-	 * @param pstrArgs
-	 * @throws Exception
-	 */
+ 
 	public final static void main(String[] pstrArgs) {
 
 		final String conMethodName = conClassName + "::Main"; //$NON-NLS-1$
@@ -78,7 +67,7 @@ public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select=
 		
 		catch (Exception e) {
 			System.err.println(conMethodName + ": " + "Error occured ..." + e.getMessage()); 
-			e.printStackTrace(System.err);
+			logger.error(e.getMessage(),e);
 			int intExitCode = 99;
 			logger.error(String.format("JSJ-E-105: %1$s - terminated with exit-code %2$d", conMethodName, intExitCode), e);		
 			System.exit(intExitCode);

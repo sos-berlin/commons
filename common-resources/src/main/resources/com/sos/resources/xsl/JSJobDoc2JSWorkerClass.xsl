@@ -136,7 +136,7 @@ public class <xsl:value-of select="$class_name" /> extends JSJobUtilitiesClass &
 			logger.debug(Options().toString());
 		}
 		catch (Exception e) {
-			e.printStackTrace(System.err);
+			logger.error(e.getMessage(),e);
 			logger.error(String.format(JSMessages.JSJ_F_107.get(), conMethodName ),e);
             throw e;			
 		}
@@ -156,11 +156,7 @@ public class <xsl:value-of select="$class_name" /> extends JSJobUtilitiesClass &
 	private void doInitialize() {
 	} // doInitialize
 
-    public String myReplaceAll(String pstrSourceString, String pstrReplaceWhat, String pstrReplaceWith) {
-
-        String newReplacement = pstrReplaceWith.replaceAll("\\$", "\\\\\\$");
-        return pstrSourceString.replaceAll("(?m)" + pstrReplaceWhat, newReplacement);
-    }
+  
 
     /**
      * 
