@@ -70,7 +70,11 @@ import org.apache.log4j.Logger;
 
 import com.sos.JSHelper.Options.*;
 
+<<<<<<< HEAD
 
+=======
+ 
+>>>>>>> origin/release/1.9
 @JSOptionClass(name = "<xsl:value-of select="$class_name" />", description = "<xsl:value-of select="$class_name" />")
 public class <xsl:value-of select="$class_name" /> extends JSOptionsClass {
 	private final String					conClassName						= "<xsl:value-of select="$class_name" />";
@@ -109,31 +113,12 @@ public class <xsl:value-of select="$class_name" /> extends JSOptionsClass {
 		final String conMethodName = conClassName + "::getAllOptionsAsString";
 		String strT = conClassName + "\n";
 		final StringBuffer strBuffer = new StringBuffer();
-		// strT += IterateAllDataElementsByAnnotation(objParentClass, this,
-		// JSOptionsClass.IterationTypes.toString, strBuffer);
-		// strT += IterateAllDataElementsByAnnotation(objParentClass, this, 13,
-		// strBuffer);
 		strT += this.toString(); // fix
-		//
+	 
 		return strT;
 	} // private String getAllOptionsAsString ()
 
-/**
- * \brief setAllOptions - übernimmt die OptionenWerte aus der HashMap
- *
- * \details In der als Parameter anzugebenden HashMap sind Schlüssel (Name)
- * und Wert der jeweiligen Option als Paar angegeben. Ein Beispiel für den
- * Aufbau einer solchen HashMap findet sich in der Beschreibung dieser
- * Klasse (\ref TestData "setJobSchedulerSSHJobOptions"). In dieser Routine
- * werden die Schlüssel analysiert und, falls gefunden, werden die
- * dazugehörigen Werte den Properties dieser Klasse zugewiesen.
- *
- * Nicht bekannte Schlüssel werden ignoriert.
- *
- * \see JSOptionsClass::getItem
- *
- * @param pobjJSSettings
- */
+ 
 	public void setAllOptions(HashMap &lt;String, String&gt; pobjJSSettings)   {
 		@SuppressWarnings("unused")
 		final String conMethodName = conClassName + "::setAllOptions";
@@ -144,15 +129,7 @@ public class <xsl:value-of select="$class_name" /> extends JSOptionsClass {
 		flgSetAllOptions = false;
 	} // public void setAllOptions (HashMap &lt;String, String&gt; JSSettings)
 
-/**
- * \brief CheckMandatory - prüft alle Muss-Optionen auf Werte
- *
- * \details
- * @throws Exception
- *
- * @throws Exception
- * - wird ausgelöst, wenn eine mandatory-Option keinen Wert hat
- */
+ 
 		@Override
 	public void CheckMandatory() throws JSExceptionMandatoryOptionMissing //
 		, Exception {
@@ -164,19 +141,7 @@ public class <xsl:value-of select="$class_name" /> extends JSOptionsClass {
 		}
 		} // public void CheckMandatory ()
 
-/**
- *
- * \brief CommandLineArgs - Übernehmen der Options/Settings aus der
- * Kommandozeile
- *
- * \details Die in der Kommandozeile beim Starten der Applikation
- * angegebenen Parameter werden hier in die HashMap übertragen und danach
- * den Optionen als Wert zugewiesen.
- *
- * \return void
- *
- * @param pstrArgs
- */
+ 
 	@Override
 	public void CommandLineArgs(String[] pstrArgs)   {
 		super.CommandLineArgs(pstrArgs);
@@ -373,11 +338,7 @@ public class <xsl:value-of select="$class_name" /> extends JSOptionsClass {
                         </xsl:choose>
                     </xsl:variable>
 
-/**
- * \var <xsl:value-of select="./@name" /> : <xsl:value-of select="$title" />
- * <xsl:value-of select="normalize-space(./jobdoc:note[@language=$default_lang]/xhtml:div)" />
- *
- */
+ 
     @JSOptionDefinition(name = "<xsl:value-of select="./@name" />", 
     description = "<xsl:value-of select="$title" />", 
     key = "<xsl:value-of select="./@name" />", 
@@ -391,27 +352,12 @@ public class <xsl:value-of select="$class_name" /> extends JSOptionsClass {
                                                                 <xsl:value-of select="$mandatory" /> // isMandatory
                     );
 
-/**
- * \brief get<xsl:value-of select="./@name" /> : <xsl:value-of select="$title" />
- * 
- * \details
- * <xsl:value-of select="normalize-space(./jobdoc:note[@language=$default_lang]/xhtml:div)" />
- *
- * \return <xsl:value-of select="$title" />
- *
- */
+ 
     public <xsl:value-of select="$datatype" /><xsl:text> </xsl:text> get<xsl:value-of select="./@name" />() {
         return <xsl:value-of select="./@name" />;
     }
 
-/**
- * \brief set<xsl:value-of select="./@name" /> : <xsl:value-of select="$title" />
- * 
- * \details
- * <xsl:value-of select="normalize-space(./jobdoc:note[@language=$default_lang]/xhtml:div)" />
- *
- * @param <xsl:value-of select="concat(./@name, ' : ', $title)" />
- */
+ 
     public void set<xsl:value-of select="concat(./@name, ' (', $datatype, ' p_',./@name, ') {')" /> 
         this.<xsl:value-of select="concat(./@name, ' = p_', ./@name, ';' )" />
     }
