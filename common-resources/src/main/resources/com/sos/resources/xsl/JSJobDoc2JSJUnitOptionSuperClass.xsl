@@ -54,12 +54,7 @@ import org.junit.Test;
 import com.sos.JSHelper.Basics.JSToolBox;
 import com.sos.JSHelper.Listener.JSListenerClass;
 
-/**
- * \class 		<xsl:value-of select="$ClassName" /> - <xsl:value-of select="$class_title" />
- *
- * \brief 
- *
- */
+ 
 <xsl:copy-of select="//jobdoc:description/documentation[language=$default_lang]" />
  
 public class <xsl:value-of select="$ClassName" /> extends  <xsl:value-of select="$ExtendsClassName"/> {
@@ -232,14 +227,7 @@ public class <xsl:value-of select="$ClassName" /> extends  <xsl:value-of select=
                             </xsl:otherwise>
                         </xsl:choose>
                     </xsl:variable>
-
-/**
- * \brief test<xsl:value-of select="./@name" /> : <xsl:value-of select="$title" />
- * 
- * \details
- * <xsl:value-of select="normalize-space(./jobdoc:note[@language=$default_lang]/xhtml:div)" />
- *
- */
+ 
     @Test
     public void test<xsl:value-of select="./@name" />() {  // <xsl:value-of select="$datatype"/>
     <xsl:choose>
