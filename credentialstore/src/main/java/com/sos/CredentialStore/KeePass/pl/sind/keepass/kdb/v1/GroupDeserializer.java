@@ -83,7 +83,8 @@ public class GroupDeserializer {
     }
 
     public Group getGroup() {
-        Group objG = new Group(groupId, groupName, creationTime, lastModificationTime, lastAccessTime, expirationTime, level, flags, comments, unknowns);
+        Group objG =
+                new Group(groupId, groupName, creationTime, lastModificationTime, lastAccessTime, expirationTime, level, flags, comments, unknowns);
         int intLevel = level.getLevel();
         if (intLevel > intLastLevel) {
             objG.setParent(objLastParent);

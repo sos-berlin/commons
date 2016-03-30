@@ -38,8 +38,8 @@ public class Group {
     private Group objParent = null;
 
     public Group(final IdField groupId, final TextField groupName, final DateField creationTime, final DateField lastModificationTime,
-            final DateField lastAccessTime, final DateField expirationTime, final LevelField level, final FlagsField flags, final List<Field> comments,
-            final List<Field> unknowns) {
+            final DateField lastAccessTime, final DateField expirationTime, final LevelField level, final FlagsField flags,
+            final List<Field> comments, final List<Field> unknowns) {
         super();
         this.groupId = groupId;
         this.groupName = groupName;
@@ -290,8 +290,9 @@ public class Group {
 
     @Override
     public String toString() {
-        return "\n\nGroup [groupId=" + groupId + ",\n groupName=" + groupName + " Name=" + this.Name() + ",\n level=" + level + " " + level.getLevel()
-                + ",\n flags=" + flags + ",\n creationTime=" + creationTime + ",\n expirationTime=" + expirationTime + ",\n lastAccessTime=" + lastAccessTime
-                + ",\n lastModificationTime=" + lastModificationTime + ",\n comments=" + comments + ",\n unknowns=" + unknowns + "]";
+        return "\n\nGroup [groupId=" + groupId + ",\n groupName=" + groupName + " Name=" + this.Name() + ",\n level=" + level + " "
+                + level.getLevel() + ",\n flags=" + flags + ",\n creationTime=" + creationTime + ",\n expirationTime=" + expirationTime
+                + ",\n lastAccessTime=" + lastAccessTime + ",\n lastModificationTime=" + lastModificationTime + ",\n comments=" + comments
+                + ",\n unknowns=" + unknowns + "]";
     }
 }

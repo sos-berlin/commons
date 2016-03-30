@@ -51,7 +51,8 @@ public class SOSWriteXML {
         }
     }
 
-    public SOSWriteXML(SOSConnection conn_, String tableExport_, String outbound_content_id_, String fileName_, SOSStandardLogger sosLogger_) throws Exception {
+    public SOSWriteXML(SOSConnection conn_, String tableExport_, String outbound_content_id_, String fileName_, SOSStandardLogger sosLogger_)
+            throws Exception {
         try {
             conn = conn_;
             tableExport = tableExport_;
@@ -119,8 +120,9 @@ public class SOSWriteXML {
         String selst = "";
         try {
             if (!hasStartTag) {
-                selst = "SELECT \"TAG_NAME\", \"CONTENT_ELEMENT_ID\"  FROM CONTENT_TAGS " + " WHERE \"CONTENT_MODEL_ID\" = " + content_model_id
-                        + " AND \"CONTENT_ID\" = '" + outbound_content_id + "'" + " AND \"PARENT\" = 0 ORDER BY \"CONTENT_ELEMENT_ORDER\" ";
+                selst =
+                        "SELECT \"TAG_NAME\", \"CONTENT_ELEMENT_ID\"  FROM CONTENT_TAGS " + " WHERE \"CONTENT_MODEL_ID\" = " + content_model_id
+                                + " AND \"CONTENT_ID\" = '" + outbound_content_id + "'" + " AND \"PARENT\" = 0 ORDER BY \"CONTENT_ELEMENT_ORDER\" ";
                 startTag = conn.getSingle(selst);
             }
             if (startTag.get("content_element_id") != null) {
@@ -138,8 +140,9 @@ public class SOSWriteXML {
     private void getContentElementIdFromTI() throws Exception {
         String sc = null;
         try {
-            String selst = "SELECT \"PARENT\" FROM CONTENT_TAGS " + " WHERE \"CONTENT_MODEL_ID\" =  " + content_model_id + " AND \"CONTENT_ID\" = 'T' "
-                    + " AND upper(\"TAG_NAME\") = 'TECHNICALINFORMATION'";
+            String selst =
+                    "SELECT \"PARENT\" FROM CONTENT_TAGS " + " WHERE \"CONTENT_MODEL_ID\" =  " + content_model_id + " AND \"CONTENT_ID\" = 'T' "
+                            + " AND upper(\"TAG_NAME\") = 'TECHNICALINFORMATION'";
             sc = conn.getSingleValue(selst);
             if (sc != null && !sc.isEmpty()) {
                 contentElementIdFromTI = Integer.parseInt(conn.getSingleValue(selst));
@@ -152,8 +155,9 @@ public class SOSWriteXML {
     private void writeHeader() throws Exception {
         HashMap rset = null;
         try {
-            String selst = "SELECT \"SYSTEM_ID\", \"TIME_ZONE\", replace(to_char(\"CREATION_TIMESTAMP\",'YYYY-MM-DD HH24:MI:SS'),' ','T') as \"CREATION_TIMESTAMP\", \"DELIVERY_NUMBER\" "
-                    + " FROM " + tableExport + " WHERE \"CONTENT_ID\" = 'T'";
+            String selst =
+                    "SELECT \"SYSTEM_ID\", \"TIME_ZONE\", replace(to_char(\"CREATION_TIMESTAMP\",'YYYY-MM-DD HH24:MI:SS'),' ','T') as \"CREATION_TIMESTAMP\", \"DELIVERY_NUMBER\" "
+                            + " FROM " + tableExport + " WHERE \"CONTENT_ID\" = 'T'";
             rset = conn.getSingle(selst);
             String ti = "<TechnicalInformation>" + "<SystemID>" + sosString.parseToString(rset, "system_id") + "</SystemID>";
             ti = ti + "<InterfaceID />  <DemandID />" + "<Decimal>.</Decimal> ";
@@ -174,9 +178,10 @@ public class SOSWriteXML {
         ArrayList aset = null;
         HashMap rset = null;
         try {
-            selst = " SELECT \"TAG_NAME\", " + " \"TAG_TYPE\", " + " \"GROUPABLE\", " + " \"PARENT\", " + " \"CONTENT_ELEMENT_ID\" " + " FROM CONTENT_TAGS "
-                    + " WHERE \"CONTENT_MODEL_ID\" = " + content_model_id + " AND \"CONTENT_ID\" = '" + outbound_content_id + "'"
-                    + " ORDER BY \"CONTENT_ELEMENT_ORDER\" ";
+            selst =
+                    " SELECT \"TAG_NAME\", " + " \"TAG_TYPE\", " + " \"GROUPABLE\", " + " \"PARENT\", " + " \"CONTENT_ELEMENT_ID\" "
+                            + " FROM CONTENT_TAGS " + " WHERE \"CONTENT_MODEL_ID\" = " + content_model_id + " AND \"CONTENT_ID\" = '"
+                            + outbound_content_id + "'" + " ORDER BY \"CONTENT_ELEMENT_ORDER\" ";
             String lastParent = "";
             aset = conn.getArray(selst);
             for (int i = 0; i < aset.size(); i++) {
@@ -268,7 +273,8 @@ public class SOSWriteXML {
                 selVal = selVal + " from " + tableExport + " where \"CONTENT_ID\" = '" + outbound_content_id + "' ";
                 for (int i = 0; i < groupKeys.keySet().toArray().length; i++) {
                     selVal = selVal + " and " + groupKeys.keySet().toArray()[i];
-                    if (groupKeys.values().toArray()[i] == null && sosString.parseToString(groupKeys.values().toArray()[i]).replaceAll("'", "").isEmpty()) {
+                    if (groupKeys.values().toArray()[i] == null
+                            && sosString.parseToString(groupKeys.values().toArray()[i]).replaceAll("'", "").isEmpty()) {
                         selVal = selVal + " is null ";
                     } else {
                         selVal = selVal + " = " + groupKeys.values().toArray()[i];
@@ -296,11 +302,11 @@ public class SOSWriteXML {
                     for (int i = 0; i < atomarChildren.size(); i++) {
                         String columnName = atomarChildren.get(i).toString();
                         String t = (String) allTagnamefromColumnName.get(columnName);
-                        if ((rset2.get(columnName.toLowerCase()) == null || ((rset2.get(columnName.toLowerCase()) != null) && !rset2
-                                .get(columnName.toLowerCase()).toString().isEmpty()))
+                        if ((rset2.get(columnName.toLowerCase()) == null || ((rset2.get(columnName.toLowerCase()) != null) && !rset2.get(
+                                columnName.toLowerCase()).toString().isEmpty()))
                                 && ("3".equals(allTagTypeForTagName.get(t)) || "5".equals(allTagTypeForTagName.get(t)))) {
-                        } else if ((rset2.get(columnName.toLowerCase()) == null || (rset2.get(columnName.toLowerCase()) != null && rset2
-                                .get(columnName.toLowerCase()).toString().isEmpty()))
+                        } else if ((rset2.get(columnName.toLowerCase()) == null || (rset2.get(columnName.toLowerCase()) != null && rset2.get(
+                                columnName.toLowerCase()).toString().isEmpty()))
                                 && "0".equals(allMinOccurForTagName.get(t))) {
                             // in this case do nothing
                         } else {
@@ -327,7 +333,8 @@ public class SOSWriteXML {
                         if (groupableChildren.containsKey(columnName)) {
                             Object tag = this.allTagnamefromColumnName.get(columnName);
                             String col = null;
-                            if (rset2.get(columnName.toLowerCase()) != null && !sosString.parseToString(rset2.get(columnName.toLowerCase())).isEmpty()) {
+                            if (rset2.get(columnName.toLowerCase()) != null
+                                    && !sosString.parseToString(rset2.get(columnName.toLowerCase())).isEmpty()) {
                                 col = sosString.parseToString(rset2.get(columnName.toLowerCase()));
                             }
                             rset2.get(columnName.toLowerCase());
@@ -342,7 +349,8 @@ public class SOSWriteXML {
                                 if (col == null) {
                                     localGroupKeys.put(columnName, null);
                                 } else {
-                                    localGroupKeys.put(columnName, "'" + sosString.parseToString(rset2, columnName.toLowerCase()).replaceAll("'", "''") + "'");
+                                    localGroupKeys.put(columnName, "'"
+                                            + sosString.parseToString(rset2, columnName.toLowerCase()).replaceAll("'", "''") + "'");
                                 }
                             }
                         }
@@ -378,9 +386,10 @@ public class SOSWriteXML {
         ArrayList list = null;
         HashMap result = null;
         try {
-            String selst = " SELECT \"COLUMN_NAME\"" + " , \"TAG_NAME\"" + " , \"MIN_OCCURS\"" + " , \"TAG_TYPE\"" + " FROM CONTENT_TAGS a, CONTENT_COLUMNS b"
-                    + " WHERE a.\"COLUMN_ID\" = b.\"COLUMN_ID\" " + " and a.\"CONTENT_MODEL_ID\" = " + content_model_id + " and a.\"CONTENT_ID\" = '"
-                    + outbound_content_id + "'";
+            String selst =
+                    " SELECT \"COLUMN_NAME\"" + " , \"TAG_NAME\"" + " , \"MIN_OCCURS\"" + " , \"TAG_TYPE\""
+                            + " FROM CONTENT_TAGS a, CONTENT_COLUMNS b" + " WHERE a.\"COLUMN_ID\" = b.\"COLUMN_ID\" "
+                            + " and a.\"CONTENT_MODEL_ID\" = " + content_model_id + " and a.\"CONTENT_ID\" = '" + outbound_content_id + "'";
             list = conn.getArray(selst);
             for (int i = 0; i < list.size(); i++) {
                 result = (HashMap) list.get(i);
@@ -438,8 +447,9 @@ public class SOSWriteXML {
         ArrayList list = null;
         HashMap rset = null;
         try {
-            selst = " SELECT \"TAG_NAME\"" + " , \"LEAF\" " + " FROM CONTENT_TAGS a " + " WHERE a.\"CONTENT_MODEL_ID\" = " + content_model_id
-                    + " and a.\"CONTENT_ID\" = '" + outbound_content_id + "'" + " order by a.\"CONTENT_ELEMENT_ORDER\"";
+            selst =
+                    " SELECT \"TAG_NAME\"" + " , \"LEAF\" " + " FROM CONTENT_TAGS a " + " WHERE a.\"CONTENT_MODEL_ID\" = " + content_model_id
+                            + " and a.\"CONTENT_ID\" = '" + outbound_content_id + "'" + " order by a.\"CONTENT_ELEMENT_ORDER\"";
             list = conn.getArray(selst);
             for (int i = 0; i < list.size(); i++) {
                 rset = (HashMap) list.get(i);

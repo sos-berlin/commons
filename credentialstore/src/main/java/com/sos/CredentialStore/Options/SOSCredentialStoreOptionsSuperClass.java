@@ -72,7 +72,7 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
             "privatekey", // InitValue
             "privatekey", // DefaultValue
             true // isMandatory
-    );
+            );
 
     /** \brief getCredentialStore_AuthenticationMethod :
      *
@@ -94,16 +94,18 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
         CredentialStore_AuthenticationMethod = p_CredentialStore_AuthenticationMethod;
     }
 
-    public SOSOptionString CS_AuthenticationMethod = (SOSOptionString) CredentialStore_AuthenticationMethod.SetAlias(conClassName + ".CS_AuthenticationMethod");
+    public SOSOptionString CS_AuthenticationMethod = (SOSOptionString) CredentialStore_AuthenticationMethod.SetAlias(conClassName
+            + ".CS_AuthenticationMethod");
 
     /** \var CredentialStore_DeleteExportedFileOnExit : */
     @JSOptionDefinition(name = "CredentialStore_DeleteExportedFileOnExit", description = "", key = "CredentialStore_DeleteExportedFileOnExit", type = "SOSOptionBoolean", mandatory = false)
-    public SOSOptionBoolean CredentialStore_DeleteExportedFileOnExit = new SOSOptionBoolean(this, conClassName + ".CredentialStore_DeleteExportedFileOnExit", // HashMap-Key
+    public SOSOptionBoolean CredentialStore_DeleteExportedFileOnExit = new SOSOptionBoolean(this, conClassName
+            + ".CredentialStore_DeleteExportedFileOnExit", // HashMap-Key
             "", // Titel
             "true", // InitValue
             "true", // DefaultValue
             false // isMandatory
-    );
+            );
 
     /** \brief getCredentialStore_DeleteExportedFileOnExit :
      *
@@ -135,7 +137,7 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
             "false", // InitValue
             "false", // DefaultValue
             false // isMandatory
-    );
+            );
 
     /** \brief getCredentialStore_ExportAttachment :
      *
@@ -167,7 +169,7 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
             " ", // InitValue
             " ", // DefaultValue
             false // isMandatory
-    );
+            );
 
     /** \brief getCredentialStore_ExportAttachment2FileName :
      *
@@ -199,7 +201,7 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
             " ", // InitValue
             " ", // DefaultValue
             true // isMandatory
-    );
+            );
 
     /** \brief getCredentialStore_FileName :
      *
@@ -230,7 +232,7 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
             " ", // InitValue
             " ", // DefaultValue
             false // isMandatory
-    );
+            );
 
     /** \brief getCredentialStore_KeyFileName :
      *
@@ -261,7 +263,7 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
             " ", // InitValue
             " ", // DefaultValue
             true // isMandatory
-    );
+            );
 
     /** \brief getCredentialStore_KeyPath :
      *
@@ -287,12 +289,13 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
 
     /** \var CredentialStore_OverwriteExportedFile : */
     @JSOptionDefinition(name = "CredentialStore_OverwriteExportedFile", description = "", key = "CredentialStore_OverwriteExportedFile", type = "SOSOptionBoolean", mandatory = false)
-    public SOSOptionBoolean CredentialStore_OverwriteExportedFile = new SOSOptionBoolean(this, conClassName + ".CredentialStore_OverwriteExportedFile", // HashMap-Key
+    public SOSOptionBoolean CredentialStore_OverwriteExportedFile = new SOSOptionBoolean(this, conClassName
+            + ".CredentialStore_OverwriteExportedFile", // HashMap-Key
             "", // Titel
             "true", // InitValue
             "true", // DefaultValue
             false // isMandatory
-    );
+            );
 
     /** \brief getCredentialStore_OverwriteExportedFile :
      *
@@ -319,12 +322,13 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
 
     /** \var CredentialStore_Permissions4ExportedFile : */
     @JSOptionDefinition(name = "CredentialStore_Permissions4ExportedFile", description = "", key = "CredentialStore_Permissions4ExportedFile", type = "SOSOptionString", mandatory = false)
-    public SOSOptionString CredentialStore_Permissions4ExportedFile = new SOSOptionString(this, conClassName + ".CredentialStore_Permissions4ExportedFile", // HashMap-Key
+    public SOSOptionString CredentialStore_Permissions4ExportedFile = new SOSOptionString(this, conClassName
+            + ".CredentialStore_Permissions4ExportedFile", // HashMap-Key
             "", // Titel
             "600", // InitValue
             "600", // DefaultValue
             false // isMandatory
-    );
+            );
 
     /** \brief getCredentialStore_Permissions4ExportedFile :
      *
@@ -356,7 +360,7 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
             "false", // InitValue
             "false", // DefaultValue
             false // isMandatory
-    );
+            );
 
     /** \brief getCredentialStore_ProcessNotesParams :
      *
@@ -378,7 +382,8 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
         CredentialStore_ProcessNotesParams = p_CredentialStore_ProcessNotesParams;
     }
 
-    public SOSOptionBoolean CS_ProcessNotesParams = (SOSOptionBoolean) CredentialStore_ProcessNotesParams.SetAlias(conClassName + ".CS_ProcessNotesParams");
+    public SOSOptionBoolean CS_ProcessNotesParams = (SOSOptionBoolean) CredentialStore_ProcessNotesParams.SetAlias(conClassName
+            + ".CS_ProcessNotesParams");
 
     /** \var CredentialStore_StoreType : */
     @JSOptionDefinition(name = "CredentialStore_StoreType", description = "", key = "CredentialStore_StoreType", type = "SOSOptionString", mandatory = false)
@@ -387,7 +392,7 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
             "KeePass", // InitValue
             "KeePass", // DefaultValue
             false // isMandatory
-    );
+            );
 
     /** \brief getCredentialStore_StoreType :
      *
@@ -418,7 +423,7 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
             " ", // InitValue
             " ", // DefaultValue
             false // isMandatory
-    );
+            );
 
     /** \brief getCredentialStore_password :
      *
@@ -449,7 +454,7 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
             "false", // InitValue
             "false", // DefaultValue
             false // isMandatory
-    );
+            );
 
     /** \brief getuse_credential_Store :
      *

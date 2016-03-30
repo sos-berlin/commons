@@ -65,8 +65,8 @@ public class SOSSchemaInterpreter implements ContentHandler, ErrorHandler, DTDHa
     private int count = 0;
     private static ArrayList allTags = new ArrayList();
 
-    public SOSSchemaInterpreter(String fileName_, String content_id_, String scriptName_, String dbIniFile_, String contentTableName_, String tablePrefix_)
-            throws Exception {
+    public SOSSchemaInterpreter(String fileName_, String content_id_, String scriptName_, String dbIniFile_, String contentTableName_,
+            String tablePrefix_) throws Exception {
         try {
             fileName = fileName_;
             content_id = content_id_;
@@ -81,7 +81,8 @@ public class SOSSchemaInterpreter implements ContentHandler, ErrorHandler, DTDHa
 
     }
 
-    public SOSSchemaInterpreter(String fileName_, String content_id_, String scriptName_, String contentTableName_, String tablePrefix_) throws Exception {
+    public SOSSchemaInterpreter(String fileName_, String content_id_, String scriptName_, String contentTableName_, String tablePrefix_)
+            throws Exception {
         try {
             fileName = fileName_;
             content_id = content_id_;
@@ -403,10 +404,12 @@ public class SOSSchemaInterpreter implements ContentHandler, ErrorHandler, DTDHa
         HashMap childHash = new HashMap();
         Object jparent = "0";
         try {
-            insStr = "insert into CONTENT_TAGS" + " ( " + "\"CONTENT_ELEMENT_ID\", " + "\"LEAF\", " + "\"CONTENT_MODEL_ID\", " + "\"CONTENT_ID\", "
-                    + "\"CONTENT_ELEMENT_ORDER\", " + "\"CONTENT_IS_NODE\", " + "\"PARENT\", " + "\"TAG_NAME\", " + "\"TAG_TYPE\", " + "\"TAG_MAXLENGTH\", "
-                    + "\"TOTAL_DIGITS\", " + "\"FRACTION_DIGITS\", " + "\"MIN_OCCURS\", " + "\"MAX_OCCURS\", " + "\"DESCRIPTION\" " + ") values ( "
-                    + content_element_id++ + "," + "" + hashContentsElements.get("LEAF") + ", " + "" + content_model_id + ",";
+            insStr =
+                    "insert into CONTENT_TAGS" + " ( " + "\"CONTENT_ELEMENT_ID\", " + "\"LEAF\", " + "\"CONTENT_MODEL_ID\", " + "\"CONTENT_ID\", "
+                            + "\"CONTENT_ELEMENT_ORDER\", " + "\"CONTENT_IS_NODE\", " + "\"PARENT\", " + "\"TAG_NAME\", " + "\"TAG_TYPE\", "
+                            + "\"TAG_MAXLENGTH\", " + "\"TOTAL_DIGITS\", " + "\"FRACTION_DIGITS\", " + "\"MIN_OCCURS\", " + "\"MAX_OCCURS\", "
+                            + "\"DESCRIPTION\" " + ") values ( " + content_element_id++ + "," + "" + hashContentsElements.get("LEAF") + ", " + ""
+                            + content_model_id + ",";
             if (parentID4TechnicalInformation.equals(parent.get(parent.size() - 1))) {
                 sContentID = "T";
                 insStr = insStr + "'T',";
@@ -436,10 +439,11 @@ public class SOSSchemaInterpreter implements ContentHandler, ErrorHandler, DTDHa
                     startTag.put("tag_name", hashContentsElements.get("TAG_NAME"));
                 }
             }
-            insStr = insStr + " '" + hashContentsElements.get("TAG_NAME") + "', " + "" + hashContentsElements.get("TAG_TYPE") + ", " + ""
-                    + hashContentsElements.get("TAG_MAXLENGTH") + ", " + "" + hashContentsElements.get("TOTAL_DIGITS") + ", " + ""
-                    + hashContentsElements.get("FRACTION_DIGITS") + ", " + "" + hashContentsElements.get("MIN_OCCURS") + ", " + ""
-                    + hashContentsElements.get("MAX_OCCURS") + ", " + "'" + hashContentsElements.get("DESCRIPTION") + "');";
+            insStr =
+                    insStr + " '" + hashContentsElements.get("TAG_NAME") + "', " + "" + hashContentsElements.get("TAG_TYPE") + ", " + ""
+                            + hashContentsElements.get("TAG_MAXLENGTH") + ", " + "" + hashContentsElements.get("TOTAL_DIGITS") + ", " + ""
+                            + hashContentsElements.get("FRACTION_DIGITS") + ", " + "" + hashContentsElements.get("MIN_OCCURS") + ", " + ""
+                            + hashContentsElements.get("MAX_OCCURS") + ", " + "'" + hashContentsElements.get("DESCRIPTION") + "');";
             if (collect && sContentID.equals(content_id)) {
                 childHash = new HashMap();
                 childHash.put("tag_name", hashContentsElements.get("TAG_NAME"));
@@ -469,9 +473,10 @@ public class SOSSchemaInterpreter implements ContentHandler, ErrorHandler, DTDHa
     private String getInsertsIOContentModells() throws Exception {
         String insStr = new String();
         try {
-            insStr = "insert into CONTENT_TAGS" + " ( " + "\"CONTENT_MODEL_ID\", " + "\"CONTENT_ID\", " + "\"CONTENT_ELEMENT_ORDER\", "
-                    + "\"CONTENT_IS_NODE\" , " + "\"SCHEMA_NAME\", " + "\"DESCRIPTION\"" + ") values ( " + content_model_id + "," + "'" + content_id + "',"
-                    + "'" + tablePrefix.toLowerCase() + "'," + "'" + xsdVersionNumber + "'," + "'');";
+            insStr =
+                    "insert into CONTENT_TAGS" + " ( " + "\"CONTENT_MODEL_ID\", " + "\"CONTENT_ID\", " + "\"CONTENT_ELEMENT_ORDER\", "
+                            + "\"CONTENT_IS_NODE\" , " + "\"SCHEMA_NAME\", " + "\"DESCRIPTION\"" + ") values ( " + content_model_id + "," + "'"
+                            + content_id + "'," + "'" + tablePrefix.toLowerCase() + "'," + "'" + xsdVersionNumber + "'," + "'');";
         } catch (Exception e) {
             throw e;
         }
@@ -482,8 +487,9 @@ public class SOSSchemaInterpreter implements ContentHandler, ErrorHandler, DTDHa
         String selStr = "";
         try {
             if (conn != null) {
-                selStr = " SELECT LOWER(\"TITLE\"), \"VALUE\" " + " FROM SETTINGS " + " WHERE \"APPLICATION\" = 'standard_tables' "
-                        + " AND  \"SECTION\" = 'tag_types' " + " AND \"VALUE\" <> ' ' ORDER BY \"VALUE\" ";
+                selStr =
+                        " SELECT LOWER(\"TITLE\"), \"VALUE\" " + " FROM SETTINGS " + " WHERE \"APPLICATION\" = 'standard_tables' "
+                                + " AND  \"SECTION\" = 'tag_types' " + " AND \"VALUE\" <> ' ' ORDER BY \"VALUE\" ";
                 hashTypes.putAll(conn.getArrayAsProperties(selStr));
             }
         } catch (Exception e) {

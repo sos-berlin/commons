@@ -104,8 +104,9 @@ public class EntryDeserializer {
     }
 
     public Entry getEntry() {
-        Entry toReturn = new Entry(uuid, groupId, imageId, title, url, username, password, notes, creationTime, lastModificationTime, lastAccessTime,
-                expirationTime, binaryDescription, binaryData, unknowns, comments);
+        Entry toReturn =
+                new Entry(uuid, groupId, imageId, title, url, username, password, notes, creationTime, lastModificationTime, lastAccessTime,
+                        expirationTime, binaryDescription, binaryData, unknowns, comments);
         reset();
         return toReturn;
     }

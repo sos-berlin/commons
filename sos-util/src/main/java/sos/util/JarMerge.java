@@ -134,7 +134,8 @@ public class JarMerge {
                     throw new Exception("unknown parameter '" + args[1] + "'");
                 }
                 arg = args[1].substring(0, 2).toLowerCase();
-                if ("-s".equals(arg) || "-o".equals(arg) || "-f".equals(arg) || "-m".equals(arg) || "-c".equals(arg) || "-d".equals(arg) || "-h".equals(arg)) {
+                if ("-s".equals(arg) || "-o".equals(arg) || "-f".equals(arg) || "-m".equals(arg) || "-c".equals(arg) || "-d".equals(arg)
+                        || "-h".equals(arg)) {
                     throw new Exception("unexpected parameter '" + args[1] + "'");
                 } else {
                     throw new Exception("unknown parameter '" + args[1] + "'");
@@ -298,8 +299,8 @@ public class JarMerge {
             return null;
         }
         for (int i = 0; i < list.length; i++) {
-            if (list[i] == null || list[i].getCanonicalPath().equals(newjarPath) || Pattern.matches(".*META-INF[/\\\\]MANIFEST[.]MF", list[i].getPath())
-                    || !pattern.matcher(list[i].getName()).matches()) {
+            if (list[i] == null || list[i].getCanonicalPath().equals(newjarPath)
+                    || Pattern.matches(".*META-INF[/\\\\]MANIFEST[.]MF", list[i].getPath()) || !pattern.matcher(list[i].getName()).matches()) {
                 list[i] = null;
                 deleted++;
             }
@@ -425,16 +426,19 @@ public class JarMerge {
             file.setLastModified(jarEntry.getTime());
             return targetPath + filename;
         } catch (JarException jax) {
-            throw new JarException(jax.getMessage() + ": " + identity + ".unpackJarEntry: " + jarFile.getName() + " => " + targetPath + jarEntry.getName());
+            throw new JarException(jax.getMessage() + ": " + identity + ".unpackJarEntry: " + jarFile.getName() + " => " + targetPath
+                    + jarEntry.getName());
         } catch (IOException iox) {
-            throw new IOException(iox.getMessage() + ": " + identity + ".unpackJarEntry: " + jarFile.getName() + " => " + targetPath + jarEntry.getName(), iox);
+            throw new IOException(iox.getMessage() + ": " + identity + ".unpackJarEntry: " + jarFile.getName() + " => " + targetPath
+                    + jarEntry.getName(), iox);
         } catch (Exception e) {
-            throw new Exception(e.getMessage() + ": " + identity + ".unpackJarEntry: " + jarFile.getName() + " => " + targetPath + jarEntry.getName(), e);
+            throw new Exception(
+                    e.getMessage() + ": " + identity + ".unpackJarEntry: " + jarFile.getName() + " => " + targetPath + jarEntry.getName(), e);
         }
     }
 
-    private void createManifestFile(final ArrayList<String> iSecName, final ArrayList<String> iSecOrigin, final ArrayList<String> iSecDate, String targetPath)
-            throws IOException, Exception {
+    private void createManifestFile(final ArrayList<String> iSecName, final ArrayList<String> iSecOrigin, final ArrayList<String> iSecDate,
+            String targetPath) throws IOException, Exception {
         Manifest manifest = null;
         File file = null;
         try {
@@ -619,7 +623,8 @@ public class JarMerge {
                 this.logln("\n create new manifest");
                 StringBuilder sb = new StringBuilder();
                 sb.append("Manifest-Version: 1.0\n");
-                sb.append("Created-By: ").append(System.getProperty("java.vm.version")).append(" (").append(System.getProperty("java.vm.vendor")).append(")\n");
+                sb.append("Created-By: ").append(System.getProperty("java.vm.version")).append(" (").append(System.getProperty("java.vm.vendor")).append(
+                        ")\n");
                 sb.append("\n");
                 InputStream is = new ByteArrayInputStream(sb.toString().getBytes("UTF-8"));
                 manifest = new Manifest(is);
@@ -689,7 +694,8 @@ public class JarMerge {
             this.logln("\n create new manifest");
             StringBuilder sb = new StringBuilder();
             sb.append("Manifest-Version: 1.0\n");
-            sb.append("Created-By: ").append(System.getProperty("java.vm.version")).append(" (").append(System.getProperty("java.vm.vendor")).append(")\n");
+            sb.append("Created-By: ").append(System.getProperty("java.vm.version")).append(" (").append(System.getProperty("java.vm.vendor")).append(
+                    ")\n");
             sb.append("\n");
             InputStream is = new ByteArrayInputStream(sb.toString().getBytes("UTF-8"));
             manifest = new Manifest(is);

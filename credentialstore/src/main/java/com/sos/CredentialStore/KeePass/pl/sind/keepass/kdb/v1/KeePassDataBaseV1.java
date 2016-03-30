@@ -58,7 +58,8 @@ public class KeePassDataBaseV1 implements KeePassDataBase {
     private final byte[] masterSeed2;
     private final byte[] encryptionIv;
 
-    public KeePassDataBaseV1(final byte[] data, final InputStream keyFile, final String password) throws UnsupportedDataBaseException, KeePassDataBaseException {
+    public KeePassDataBaseV1(final byte[] data, final InputStream keyFile, final String password) throws UnsupportedDataBaseException,
+            KeePassDataBaseException {
         super();
         ByteBuffer bb = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN);
         HeaderV1 header = new HeaderV1(bb);

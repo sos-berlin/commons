@@ -45,10 +45,10 @@ public class Entry {
         super();
     }
 
-    public Entry(final UUIDField uuid, final IdField groupId, final IdField imageId, final TextField title, final TextField url, final TextField username,
-            final TextField password, final TextField notes, final DateField creationTime, final DateField lastModificationTime,
-            final DateField lastAccessTime, final DateField expirationTime, final TextField binaryDescription, final BinaryField binaryData,
-            final List<Field> comments, final List<Field> unknowns) {
+    public Entry(final UUIDField uuid, final IdField groupId, final IdField imageId, final TextField title, final TextField url,
+            final TextField username, final TextField password, final TextField notes, final DateField creationTime,
+            final DateField lastModificationTime, final DateField lastAccessTime, final DateField expirationTime, final TextField binaryDescription,
+            final BinaryField binaryData, final List<Field> comments, final List<Field> unknowns) {
         super();
         this.uuid = uuid;
         this.groupId = groupId;

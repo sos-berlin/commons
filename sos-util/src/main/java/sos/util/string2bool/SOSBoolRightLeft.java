@@ -46,7 +46,8 @@ final class SOSBoolRightLeft extends SOSBooleanExpression {
         }
     }
 
-    private SOSIBoolean toIBoolean(final SOSIBoolean lastIBoolean, final String formatedBooleanExpression, final int index) throws SOSMalformedBooleanException {
+    private SOSIBoolean toIBoolean(final SOSIBoolean lastIBoolean, final String formatedBooleanExpression, final int index)
+            throws SOSMalformedBooleanException {
         char firstChar = getFirstChar(formatedBooleanExpression);
         if (new Character(firstChar).toString().matches("\\s")) {
             firstChar = ' ';
