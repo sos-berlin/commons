@@ -35,7 +35,8 @@ public class SOSConnectionLogger extends SOSBufferedLogger {
             sosConnection.execute(query);
             query = "INSERT INTO " + getTableLogs() + " (\"OBJECT\", \"ID\") VALUES (" + objectType + ", " + objectId + ")";
             sosConnection.execute(query);
-            sosConnection.updateBlob(getTableLogs(), "LOG", this.logBuffer.toString().getBytes(), "\"OBJECT\"=" + objectType + " AND \"ID\"=" + objectId);
+            sosConnection.updateBlob(getTableLogs(), "LOG", this.logBuffer.toString().getBytes(), "\"OBJECT\"=" + objectType + " AND \"ID\"="
+                    + objectId);
         } catch (Exception e) {
             throw new Exception("error occurred while logging: " + e.getMessage());
         }

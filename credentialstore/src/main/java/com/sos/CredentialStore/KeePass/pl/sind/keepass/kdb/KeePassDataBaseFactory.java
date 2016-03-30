@@ -37,8 +37,10 @@ public class KeePassDataBaseFactory {
         // dependencies may not be available if someone intends to use kdb only
         ArrayList<DBType> list = new ArrayList<DBType>();
         // TODO Keepass-Class as an Option
-        list.add(new DBType(KeePassConst.KDB_SIG_1, KeePassConst.KDB_SIG_2, "com.sos.CredentialStore.KeePass.pl.sind.keepass.kdb.v1.KeePassDataBaseV1"));
-        list.add(new DBType(KeePassConst.KDBX_SIG_1, KeePassConst.KDBX_SIG_2, "com.sos.CredentialStore.KeePass.pl.sind.keepass.kdb.v2.KeePassDataBaseV2"));
+        list.add(new DBType(KeePassConst.KDB_SIG_1, KeePassConst.KDB_SIG_2,
+                "com.sos.CredentialStore.KeePass.pl.sind.keepass.kdb.v1.KeePassDataBaseV1"));
+        list.add(new DBType(KeePassConst.KDBX_SIG_1, KeePassConst.KDBX_SIG_2,
+                "com.sos.CredentialStore.KeePass.pl.sind.keepass.kdb.v2.KeePassDataBaseV2"));
         TYPES = Collections.unmodifiableList(list);
     }
 

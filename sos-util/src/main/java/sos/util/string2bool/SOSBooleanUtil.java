@@ -64,7 +64,8 @@ final class SOSBooleanUtil {
             }
         }
         if (closeParenthesis < openParenthesis) {
-            throw new SOSMalformedBooleanException("Have an open parenthesis without a close parenthesis", lastOpenParenthesisIndex, booleanExpression);
+            throw new SOSMalformedBooleanException("Have an open parenthesis without a close parenthesis", lastOpenParenthesisIndex,
+                    booleanExpression);
         }
     }
 

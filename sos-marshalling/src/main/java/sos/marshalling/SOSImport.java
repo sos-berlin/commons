@@ -319,16 +319,15 @@ public class SOSImport extends DefaultHandler {
                 _curMetaKeysOpened = true;
             } else if ("field".equalsIgnoreCase(name) && _curMetaKeysOpened) {
                 if (_log != null) {
-                    _log.debug9("add keyfield: name = " + normalizeFieldName(atts.getValue("name")) + " type = " + atts.getValue("type") + " typeID = "
-                            + atts.getValue("typeID") + " len = " + atts.getValue("len") + " scale = " + atts.getValue("scale"));
+                    _log.debug9("add keyfield: name = " + normalizeFieldName(atts.getValue("name")) + " type = " + atts.getValue("type")
+                            + " typeID = " + atts.getValue("typeID") + " len = " + atts.getValue("len") + " scale = " + atts.getValue("scale"));
                 }
                 String field = atts.getValue("name");
                 if (_autoNormalizeField && !_autoChecked) {
                     autoNormalize(field);
                     _autoChecked = true;
                 }
-                _metaKeyRecords.get(_curPackageId).addField(normalizeFieldName(field), atts.getValue("type"), new Integer(atts.getValue("typeID")),
-                        new BigInteger(atts.getValue("len")), new Integer(atts.getValue("scale")));
+                _metaKeyRecords.get(_curPackageId).addField(normalizeFieldName(field), atts.getValue("type"), new Integer(atts.getValue("typeID")), new BigInteger(atts.getValue("len")), new Integer(atts.getValue("scale")));
             } else if ("fields".equalsIgnoreCase(name) && _curMetaOpened) {
                 _curMetaFieldsOpened = true;
             } else if ("field".equalsIgnoreCase(name) && _curMetaFieldsOpened) {
@@ -341,8 +340,7 @@ public class SOSImport extends DefaultHandler {
                     autoNormalize(field);
                     _autoChecked = true;
                 }
-                _metaFieldRecords.get(_curPackageId).addField(normalizeFieldName(field), atts.getValue("type"), new Integer(atts.getValue("typeID")),
-                        new BigInteger(atts.getValue("len")), new Integer(atts.getValue("scale")));
+                _metaFieldRecords.get(_curPackageId).addField(normalizeFieldName(field), atts.getValue("type"), new Integer(atts.getValue("typeID")), new BigInteger(atts.getValue("len")), new Integer(atts.getValue("scale")));
             } else if (name.equalsIgnoreCase(_xmlTagname + "_data") && _curPackageOpened && !_curMetaOpened) {
                 _curDataOpened = true;
             } else if (name.equalsIgnoreCase(_xmlTagname + "_record")) {
@@ -514,8 +512,8 @@ public class SOSImport extends DefaultHandler {
         }
     }
 
-    public void doImport(SOSConnection conn, String fileName, String packageId, String packageElement, String packageValue) throws Exception, SAXException,
-            FileNotFoundException {
+    public void doImport(SOSConnection conn, String fileName, String packageId, String packageElement, String packageValue) throws Exception,
+            SAXException, FileNotFoundException {
         try {
             if (conn != null) {
                 _conn = conn;
@@ -583,7 +581,8 @@ public class SOSImport extends DefaultHandler {
                     if (_records.getValue(index, restrictName) == null) {
                         _curBlockedPackageDepth = _curPackageDepth;
                         if (_log != null) {
-                            _log.debug3("import denied for element by restriction at depth " + _curBlockedPackageDepth + ": " + restrictName + " not in record");
+                            _log.debug3("import denied for element by restriction at depth " + _curBlockedPackageDepth + ": " + restrictName
+                                    + " not in record");
                         }
                         return;
                     }
@@ -778,7 +777,8 @@ public class SOSImport extends DefaultHandler {
                     if (_records.getValue(index, restrictName) == null) {
                         _curBlockedPackageDepth = _curPackageDepth;
                         if (_log != null) {
-                            _log.debug3("import denied for element by restriction at depth " + _curBlockedPackageDepth + ": " + restrictName + " not in record");
+                            _log.debug3("import denied for element by restriction at depth " + _curBlockedPackageDepth + ": " + restrictName
+                                    + " not in record");
                         }
                         return;
                     }
@@ -864,7 +864,8 @@ public class SOSImport extends DefaultHandler {
                     if (_records.getValue(index, restrictName) == null) {
                         _curBlockedPackageDepth = _curPackageDepth;
                         if (_log != null) {
-                            _log.debug3("import denied for element by restriction at depth " + _curBlockedPackageDepth + ": " + restrictName + " not in record");
+                            _log.debug3("import denied for element by restriction at depth " + _curBlockedPackageDepth + ": " + restrictName
+                                    + " not in record");
                         }
                         return;
                     }

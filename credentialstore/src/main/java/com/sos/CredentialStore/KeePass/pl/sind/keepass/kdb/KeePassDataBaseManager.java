@@ -33,17 +33,18 @@ public abstract class KeePassDataBaseManager {
     private final Logger logger = Logger.getLogger(this.getClass());
 
     @SuppressWarnings("resource")
-    public static KeePassDataBase openDataBase(final File dbFile, final File keyFile, final String password) throws IOException, UnsupportedDataBaseException,
-            KeePassDataBaseException {
+    public static KeePassDataBase openDataBase(final File dbFile, final File keyFile, final String password) throws IOException,
+            UnsupportedDataBaseException, KeePassDataBaseException {
         return openDataBase(new FileInputStream(dbFile), keyFile == null ? null : new FileInputStream(keyFile), password);
     }
 
-    public static KeePassDataBase openDataBase(final InputStream dbFile, final InputStream keyFile, final String password) throws UnsupportedDataBaseException,
-            IOException, KeePassDataBaseException {
+    public static KeePassDataBase openDataBase(final InputStream dbFile, final InputStream keyFile, final String password)
+            throws UnsupportedDataBaseException, IOException, KeePassDataBaseException {
         return KeePassDataBaseFactory.loadDataBase(dbFile, keyFile, password);
     }
 
-    public static void saveDataBase(final KeePassDataBase dataBase, final File dbFile, final File keyFile, final String password) throws FileNotFoundException {
+    public static void saveDataBase(final KeePassDataBase dataBase, final File dbFile, final File keyFile, final String password)
+            throws FileNotFoundException {
         saveDataBase(dataBase, new FileOutputStream(dbFile), keyFile == null ? null : new FileInputStream(keyFile), password);
     }
 

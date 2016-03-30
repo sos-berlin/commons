@@ -804,8 +804,8 @@ public class SOSExport {
                 OutputStreamWriter fw = new OutputStreamWriter(fos, _xmlEncoding);
                 // XML Header
                 fw.write("<?xml version=\"1.0\" encoding=\"" + _xmlEncoding + "\"?>\n");
-                fw.write(indent(1) + "<" + normalizeTagName(_xmlTagname) + " application=\"" + _application + "\" created=\"" + dateFormat.format(new Date())
-                        + "\">\n");
+                fw.write(indent(1) + "<" + normalizeTagName(_xmlTagname) + " application=\"" + _application + "\" created=\""
+                        + dateFormat.format(new Date()) + "\">\n");
                 dateFormat = null;
                 // Abfragen ausfuehren
                 for (int i = 0; i < _queries.cnt(); i++) {
@@ -1013,8 +1013,7 @@ public class SOSExport {
                             for (int j = 0; j < _queries.get(queryId).getKeyCnt(); j++) {
                                 String keyFieldName = getKeyFieldName(allFieldNames, _queries.get(queryId).getKey(j));
                                 queryBlobStm.append(and + normalizeFieldName(keyFieldName) + " =");
-                                queryBlobStm.append(quote(fieldTypes.getTypeId(normalizeFieldName(_queries.get(queryId).getKey(j))),
-                                        (String) record.get(normalizeFieldName(_queries.get(queryId).getKey(j)))));
+                                queryBlobStm.append(quote(fieldTypes.getTypeId(normalizeFieldName(_queries.get(queryId).getKey(j))), (String) record.get(normalizeFieldName(_queries.get(queryId).getKey(j)))));
                                 and = " AND ";
                             }
                             // blob mit Umbruch ausgeben
@@ -1310,8 +1309,7 @@ public class SOSExport {
                             for (int j = 0; j < _queries.get(queryId).getKeyCnt(); j++) {
                                 String keyFieldName = getKeyFieldName(allFieldNames, _queries.get(queryId).getKey(j));
                                 queryBlobStm.append(and + normalizeFieldName(keyFieldName) + " =");
-                                queryBlobStm.append(quote(fieldTypes.getTypeId(normalizeFieldName(_queries.get(queryId).getKey(j))),
-                                        (String) record.get(normalizeFieldName(_queries.get(queryId).getKey(j)))));
+                                queryBlobStm.append(quote(fieldTypes.getTypeId(normalizeFieldName(_queries.get(queryId).getKey(j))), (String) record.get(normalizeFieldName(_queries.get(queryId).getKey(j)))));
                                 and = " AND ";
                             }
                             // blob mit Umbruch ausgeben
@@ -1590,11 +1588,10 @@ public class SOSExport {
                 BigInteger size = new BigInteger(fieldDesc.get("columnDisplaySize").toString());
                 Integer scale = new Integer(fieldDesc.get("scale").toString());
                 if (_log != null) {
-                    _log.debug9("field_type: name=" + fieldDesc.get("columnName") + " type=" + fieldDesc.get("columnTypeName") + " type_id=" + type + " size="
-                            + size + " scale=" + scale);
+                    _log.debug9("field_type: name=" + fieldDesc.get("columnName") + " type=" + fieldDesc.get("columnTypeName") + " type_id=" + type
+                            + " size=" + size + " scale=" + scale);
                 }
-                fieldTypes.addField(normalizeFieldName(normalizeFieldName((String) fieldDesc.get("columnName"))), (String) fieldDesc.get("columnTypeName"),
-                        type, size, scale);
+                fieldTypes.addField(normalizeFieldName(normalizeFieldName((String) fieldDesc.get("columnName"))), (String) fieldDesc.get("columnTypeName"), type, size, scale);
             }
             resultSet.close();
             return fieldTypes;

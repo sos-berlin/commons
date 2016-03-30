@@ -83,8 +83,8 @@ public class SOSConnectionFileProcessor {
         try {
             if (inputFile.isDirectory()) {
                 if (this.getLogger() != null) {
-                    this.getLogger()
-                            .info(String.format("%s: process directory %s, fileSpec = %s", methodName, inputFile.getAbsolutePath(), this.getFileSpec()));
+                    this.getLogger().info(
+                            String.format("%s: process directory %s, fileSpec = %s", methodName, inputFile.getAbsolutePath(), this.getFileSpec()));
                 }
                 this.hasDirectory = true;
                 this.initCounters();
@@ -156,7 +156,8 @@ public class SOSConnectionFileProcessor {
         } catch (Exception e) {
             this.errorFiles.put(inputFile.getAbsolutePath(), e.getMessage());
             if (this.getLogger() != null) {
-                this.getLogger().warn(String.format("%s: an error occurred processing file [%s]: %s", methodName, inputFile.getAbsolutePath(), e.getMessage()));
+                this.getLogger().warn(
+                        String.format("%s: an error occurred processing file [%s]: %s", methodName, inputFile.getAbsolutePath(), e.getMessage()));
             }
         } finally {
             try {
