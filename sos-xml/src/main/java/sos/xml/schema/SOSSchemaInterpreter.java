@@ -36,7 +36,7 @@ public class SOSSchemaInterpreter implements ContentHandler, ErrorHandler, DTDHa
     private static HashMap hashTypes = new HashMap();
     private int content_element_id = 0;
     private ArrayList parent = new ArrayList();
-    private String parentID4TechnicalInformation = new String("");;
+    private String parentID4TechnicalInformation = new String("");
     private boolean bNextParent = false;
     private boolean bParent = false;
     private String error = new String();
