@@ -14,24 +14,20 @@ import java.util.regex.PatternSyntaxException;
 
 import org.apache.log4j.Logger;
 
-/** This class contains static methods for several file operations
- * 
- * @author Florian Schreiber <fs@sos-berlin.com>
- * @since 2006-10-10
- * @version $Id$
+/** @author Florian Schreiber
  * @deprecated because it is a singleton, use SOSFileSystemOperations */
 @Deprecated
 public class SOSFileOperations {
 
     private static final Logger LOGGER = Logger.getLogger(SOSFileOperations.class);
-    public static Vector<File> lstResultList = null;
+    private static Hashtable<String, String> BOOL = new Hashtable<String, String>();
     public static final int CREATE_DIR = 0x01;
     public static final int GRACIOUS = 0x02;
     public static final int NOT_OVERWRITE = 0x04;
     public static final int RECURSIVE = 0x08;
     public static final int REMOVE_DIR = 0x10;
     public static final int WIPE = 0x20;
-    private static Hashtable<String, String> BOOL = new Hashtable<String, String>();
+    public static Vector<File> lstResultList = null;
 
     static {
         SOSFileOperations.BOOL.put("true", "true");
@@ -51,15 +47,6 @@ public class SOSFileOperations {
         SOSFileOperations.BOOL.put("none", "false");
     }
 
-    /** Maps the strings "true","j","ja","y","yes","on","1" and "all" to true.<br/>
-     * Maps the strings "false","n","nein","no","off","0" and "none" to false.<br/>
-     * The mapping is case insensitive, e.g. the string <em>"nEIN"</em> is
-     * mapped to <em>false</em>.<br/>
-     * If the value cannot be evaluated to a boolean then an exception is
-     * thrown.
-     * 
-     * @param value
-     * @return true oder false */
     public static boolean toBoolean(String value) throws Exception {
         try {
             if (value == null) {
@@ -70,95 +57,35 @@ public class SOSFileOperations {
             if (bool == null) {
                 throw new Exception("\"" + value + "\"");
             }
-            return bool.equals("true");
+            return "true".equals(bool);
         } catch (Exception e) {
             throw new Exception("cannot evaluate to boolean: " + e.getMessage());
         }
     }
 
-    /** Checks wether files can be written.
-     * 
-     * @param file file or directory
-     * @param logger SOSLogger
-     * @return true if file can be written or false if not
-     * @throws Exception */
     public static boolean canWrite(String file, SOSLogger logger) throws Exception {
         File filename = new File(file);
         return canWrite(filename, null, 0, logger);
     }
 
-    /** Checks wether files can be written. if file is a directory and
-     * <em>fileSpec</em> is not NULL <em>fileSpec</em> is applied for matching
-     * files in the directory.
-     * 
-     * @param file file or directory
-     * @param fileSpec Regular expression for file filtering if file is a
-     *            directory
-     * @param logger SOSLogger
-     * @return true if file can be written or false if not
-     * @throws Exception */
     public static boolean canWrite(String file, String fileSpec, SOSLogger logger) throws Exception {
         File filename = new File(file);
         return canWrite(filename, fileSpec, Pattern.CASE_INSENSITIVE, logger);
     }
 
-    /** Checks wether files can be written. if file is a directory and
-     * <em>fileSpec</em> is not NULL <em>fileSpec</em> is applied for matching
-     * files in the directory.
-     * 
-     * @param file file or directory
-     * @param fileSpec Regular expression for file filtering if file is a
-     *            directory
-     * @param fileSpecFlags Pattern bitmask providing the regular expression
-     *            <em>fileSpec</em>
-     * @see <a
-     *      href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
-     * @param logger SOSLogger
-     * @return true if file can be written or false if not
-     * @throws Exception */
     public static boolean canWrite(String file, String fileSpec, int fileSpecFlags, SOSLogger logger) throws Exception {
         File filename = new File(file);
         return canWrite(filename, fileSpec, fileSpecFlags, logger);
     }
 
-    /** Checks wether file can be written
-     * 
-     * @param file file or directory
-     * @param logger SOSLogger
-     * @return true if file exists or false if not
-     * @throws Exception */
     public static boolean canWrite(File file, SOSLogger logger) throws Exception {
         return canWrite(file, null, 0, logger);
     }
 
-    /** Checks wether file can be written if file is a directory and
-     * <em>fileSpec</em> is not NULL <em>fileSpec</em> is applied for matching
-     * files in the directory.
-     * 
-     * @param file file or directory
-     * @param fileSpec Regular expression for file filtering if file is a
-     *            directory
-     * @param logger SOSLogger
-     * @return true if file exists or false if not
-     * @throws Exception */
     public static boolean canWrite(File file, String fileSpec, SOSLogger logger) throws Exception {
         return canWrite(file, fileSpec, Pattern.CASE_INSENSITIVE, logger);
     }
 
-    /** Checks wether file can be written if file is a directory and
-     * <em>fileSpec</em> is not NULL <em>fileSpec</em> is applied for matching
-     * files in the directory.
-     * 
-     * @param file file or directory
-     * @param fileSpec Regular expression for file filtering if file is a
-     *            directory
-     * @param fileSpecFlags Pattern bitmask providing the regular expression
-     *            <em>fileSpec</em>
-     * @see <a
-     *      href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
-     * @param logger SOSLogger
-     * @return true if file exists or false if not
-     * @throws Exception */
     public static boolean canWrite(File file, String fileSpec, int fileSpecFlags, SOSLogger logger) throws Exception {
         try {
             log_debug1("arguments for canWrite:", logger);
@@ -189,8 +116,6 @@ public class SOSFileOperations {
             log_debug1("argument fileSpecFlags=" + msg, logger);
             String filename = file.getPath();
             filename = substituteAllDate(filename);
-            // should any opening and closing brackets be found in the file
-            // name, then this is an error
             Matcher m = Pattern.compile("\\[[^]]*\\]").matcher(filename);
             if (m.find()) {
                 throw new Exception("unsupported file mask found: " + m.group());
@@ -200,10 +125,8 @@ public class SOSFileOperations {
                 log("checking file " + file.getAbsolutePath() + ": no such file or directory", logger);
                 return true;
             } else {
-                // Es ist eine Datei und sie existiert
                 if (!file.isDirectory()) {
                     log("checking the file " + file.getCanonicalPath() + ":: file exists", logger);
-                    // Versuch zu schreiben
                     boolean writable = false;
                     try {
                         new RandomAccessFile(file.getAbsolutePath(), "rw");
@@ -216,15 +139,11 @@ public class SOSFileOperations {
                     } else {
                         return true;
                     }
-                    // Es ist ein Verzeichnis und es existiert
                 } else {
-                    // wenn kein fileSpec angegeben wurde, reicht die simple
-                    // Existenz aus
-                    if (fileSpec == null || fileSpec.length() == 0) {
+                    if (fileSpec == null || fileSpec.isEmpty()) {
                         log("checking file " + file.getCanonicalPath() + ": directory exists", logger);
                         return true;
                     }
-                    // Ein Dateifilter wurde angegeben
                     Vector<File> fileList = getFilelist(file.getPath(), fileSpec, fileSpecFlags, false, 0, 0, -1, -1, 0, 0);
                     if (fileList.isEmpty()) {
                         log("checking file " + file.getCanonicalPath() + ": directory contains no files matching " + fileSpec, logger);
@@ -235,7 +154,6 @@ public class SOSFileOperations {
                         for (int i = 0; i < fileList.size(); i++) {
                             File checkFile = (File) fileList.get(i);
                             log("found " + checkFile.getCanonicalPath(), logger);
-                            // Versuch zu schreiben
                             boolean writable = false;
                             try {
                                 new RandomAccessFile(file.getAbsolutePath(), "rw");
@@ -257,147 +175,27 @@ public class SOSFileOperations {
         }
     }
 
-    /** Checks for existence of file or directory.
-     * 
-     * @param file file or directory
-     * @param logger SOSLogger
-     * @return true if file exists or false if not
-     * @throws Exception */
     public static boolean existsFile(String file, SOSLogger logger) throws Exception {
         File filename = new File(file);
         return existsFile(filename, null, 0, logger);
     }
 
-    /** Checks for file existence. if file is a directory and <em>fileSpec</em>
-     * is not NULL <em>fileSpec</em> is applied for matching files in the
-     * directory. In this case true will only be returned if at least one file
-     * was matched.
-     * 
-     * @param file file or directory
-     * @param fileSpec Regular expression for file filtering if file is a
-     *            directory
-     * @param logger SOSLogger
-     * @return true if file exists or false if not
-     * @throws Exception */
     public static boolean existsFile(String file, String fileSpec, SOSLogger logger) throws Exception {
         File filename = new File(file);
         return existsFile(filename, fileSpec, Pattern.CASE_INSENSITIVE, logger);
     }
 
-    /** Checks for file existence. if file is a directory and <em>fileSpec</em>
-     * is not NULL <em>fileSpec</em> is applied for matching files in the
-     * directory. In this case true will only be returned if at least one file
-     * was matched.
-     * 
-     * @param file file or directory
-     * @param fileSpec Regular expression for file filtering if file is a
-     *            directory
-     * @param fileSpecFlags Pattern bitmask providing the regular expression
-     *            <em>fileSpec</em>
-     * @see <a
-     *      href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
-     * @param logger SOSLogger
-     * @return true if file exists or false if not
-     * @throws Exception */
     public static boolean existsFile(String file, String fileSpec, int fileSpecFlags, SOSLogger logger) throws Exception {
         File filename = new File(file);
         return existsFile(filename, fileSpec, fileSpecFlags, logger);
     }
 
-    /** Checks for file existence. if file is a directory and <em>fileSpec</em>
-     * is not NULL <em>fileSpec</em> is applied for matching files in the
-     * directory. In this case true will only be returned if at least one file
-     * was matched.
-     * 
-     * @param file file or directory
-     * @param fileSpec Regular expression for file filtering if file is a
-     *            directory
-     * @param fileSpecFlags Pattern bitmask providing the regular expression
-     *            <em>fileSpec</em>
-     * @param minFileAge Filter for file age: files with a earlier modification
-     *            date are considered as non existing. Possible values: sec,
-     *            hh:mm, hh:mm:sec The Resulting set is sorted by file age in
-     *            ascending order (most recent first)
-     * @param maxFileAge Filter for file age: files with a later modification
-     *            date are considered as non existing. Possible values: sec,
-     *            hh:mm, hh:mm:sec The Resulting set is sorted by file age in
-     *            ascending order (most recent first)
-     * @param minFileSize Filter for file size: smaller files are considered as
-     *            non existing. Possible values: number (bytes), numberKB,
-     *            numberMB, numberGB (KB, MB, GB case insensitive) The Resulting
-     *            set is sorted by file size in ascending order (smallest
-     *            first). If the set is additionally filtered by file age the
-     *            set is sorted by file age.
-     * @param maxFileSize Filter for file size: greater files are considered as
-     *            non existing. Possible values: number (bytes), numberKB,
-     *            numberMB, numberGB (KB, MB, GB case insensitive) The Resulting
-     *            set is sorted by file size in ascending order (smallest
-     *            first). If the set is additionally filtered by file age the
-     *            set is sorted by file age.
-     * @param skipFirstFiles Decreases the number of noticed files. Requires at
-     *            least one filter of minFileAge, maxFilesAge, minFileSize or
-     *            maxFileSize. The file sre skipped in respect of the sorting of
-     *            the filtered set. The smallest or most recent files are
-     *            skipped.
-     * @param skipLastFiles Decreases the number of noticed files. Requires at
-     *            least one filter of minFileAge, maxFilesAge, minFileSize or
-     *            maxFileSize. The file sre skipped in respect of the sorting of
-     *            the filtered set. The greatest or oldest files are skipped.
-     * @see <a
-     *      href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
-     * @param logger SOSLogger
-     * @return true if file exists or false if not
-     * @throws Exception */
     public static boolean existsFile(String file, String fileSpec, int fileSpecFlags, String minFileAge, String maxFileAge, String minFileSize,
             String maxFileSize, int skipFirstFiles, int skipLastFiles, SOSLogger logger) throws Exception {
         File filename = new File(file);
         return existsFile(filename, fileSpec, fileSpecFlags, minFileAge, maxFileAge, minFileSize, maxFileSize, skipFirstFiles, skipLastFiles, logger);
     }
 
-    /** Checks for file existence. if file is a directory and <em>fileSpec</em>
-     * is not NULL <em>fileSpec</em> is applied for matching files in the
-     * directory. In this case true will only be returned if at least one file
-     * was matched.
-     * 
-     * @param file file or directory
-     * @param fileSpec Regular expression for file filtering if file is a
-     *            directory
-     * @param fileSpecFlags Pattern bitmask providing the regular expression
-     *            <em>fileSpec</em>
-     * @param minFileAge Filter for file age: files with a earlier modification
-     *            date are considered as non existing. Possible values: sec,
-     *            hh:mm, hh:mm:sec The Resulting set is sorted by file age in
-     *            ascending order (most recent first)
-     * @param maxFileAge Filter for file age: files with a later modification
-     *            date are considered as non existing. Possible values: sec,
-     *            hh:mm, hh:mm:sec The Resulting set is sorted by file age in
-     *            ascending order (most recent first)
-     * @param minFileSize Filter for file size: smaller files are considered as
-     *            non existing. Possible values: number (bytes), numberKB,
-     *            numberMB, numberGB (KB, MB, GB case insensitive) The Resulting
-     *            set is sorted by file size in ascending order (smallest
-     *            first). If the set is additionally filtered by file age the
-     *            set is sorted by file age.
-     * @param maxFileSize Filter for file size: greater files are considered as
-     *            non existing. Possible values: number (bytes), numberKB,
-     *            numberMB, numberGB (KB, MB, GB case insensitive) The Resulting
-     *            set is sorted by file size in ascending order (smallest
-     *            first). If the set is additionally filtered by file age the
-     *            set is sorted by file age.
-     * @param skipFirstFiles Decreases the number of noticed files. Requires at
-     *            least one filter of minFileAge, maxFilesAge, minFileSize or
-     *            maxFileSize. The file sre skipped in respect of the sorting of
-     *            the filtered set. The smallest or most recent files are
-     *            skipped.
-     * @param skipLastFiles Decreases the number of noticed files. Requires at
-     *            least one filter of minFileAge, maxFilesAge, minFileSize or
-     *            maxFileSize. The file sre skipped in respect of the sorting of
-     *            the filtered set. The greatest or oldest files are skipped.
-     * @see <a
-     *      href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
-     * @param logger SOSLogger
-     * @return true if file exists or false if not
-     * @throws Exception */
     public static boolean existsFile(String file, String fileSpec, int fileSpecFlags, String minFileAge, String maxFileAge, String minFileSize,
             String maxFileSize, int skipFirstFiles, int skipLastFiles, int minNumOfFiles, int maxNumOfFiles, SOSLogger logger) throws Exception {
         File filename = new File(file);
@@ -405,144 +203,24 @@ public class SOSFileOperations {
                 minNumOfFiles, maxNumOfFiles, logger);
     }
 
-    /** Checks for existence of file or directory.
-     * 
-     * @param file file or directory
-     * @param logger SOSLogger
-     * @return true if file exists or false if not
-     * @throws Exception */
     public static boolean existsFile(File file, SOSLogger logger) throws Exception {
         return existsFile(file, null, 0, logger);
     }
 
-    /** Checks for file existence. if file is a directory and <em>fileSpec</em>
-     * is not NULL <em>fileSpec</em> is applied for matching files in the
-     * directory. In this case true will only be returned if at least one file
-     * was matched.
-     * 
-     * @param file file or directory
-     * @param fileSpec Regular expression for file filtering if file is a
-     *            directory
-     * @param logger SOSLogger
-     * @return true if file exists or false if not
-     * @throws Exception */
     public static boolean existsFile(File file, String fileSpec, SOSLogger logger) throws Exception {
         return existsFile(file, fileSpec, Pattern.CASE_INSENSITIVE, logger);
     }
 
-    /** Checks for file existence. if file is a directory and <em>fileSpec</em>
-     * is not NULL <em>fileSpec</em> is applied for matching files in the
-     * directory. In this case true will only be returned if at least one file
-     * was matched.
-     * 
-     * @param file file or directory
-     * @param fileSpec Regular expression for file filtering if file is a
-     *            directory
-     * @param fileSpecFlags Pattern bitmask providing the regular expression
-     *            <em>fileSpec</em>
-     * @see <a
-     *      href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
-     * @param logger SOSLogger
-     * @return true if file exists or false if not
-     * @throws Exception */
     public static boolean existsFile(File file, String fileSpec, int fileSpecFlags, SOSLogger logger) throws Exception {
         return existsFile(file, fileSpec, fileSpecFlags, "0", "0", "-1", "-1", 0, 0, logger);
     }
 
-    /** Checks for file existence. if file is a directory and <em>fileSpec</em>
-     * is not NULL <em>fileSpec</em> is applied for matching files in the
-     * directory. In this case true will only be returned if at least one file
-     * was matched.
-     * 
-     * @param file file or directory
-     * @param fileSpec Regular expression for file filtering if file is a
-     *            directory
-     * @param fileSpecFlags Pattern bitmask providing the regular expression
-     *            <em>fileSpec</em>
-     * @param minFileAge Filter for file age: files with a earlier modification
-     *            date are considered as non existing. Possible values: sec,
-     *            hh:mm, hh:mm:sec The Resulting set is sorted by file age in
-     *            ascending order (most recent first)
-     * @param maxFileAge Filter for file age: files with a later modification
-     *            date are considered as non existing. Possible values: sec,
-     *            hh:mm, hh:mm:sec The Resulting set is sorted by file age in
-     *            ascending order (most recent first)
-     * @param minFileSize Filter for file size: smaller files are considered as
-     *            non existing. Possible values: number (bytes), numberKB,
-     *            numberMB, numberGB (KB, MB, GB case insensitive) The Resulting
-     *            set is sorted by file size in ascending order (smallest
-     *            first). If the set is additionally filtered by file age the
-     *            set is sorted by file age.
-     * @param maxFileSize Filter for file size: greater files are considered as
-     *            non existing. Possible values: number (bytes), numberKB,
-     *            numberMB, numberGB (KB, MB, GB case insensitive) The Resulting
-     *            set is sorted by file size in ascending order (smallest
-     *            first). If the set is additionally filtered by file age the
-     *            set is sorted by file age.
-     * @param skipFirstFiles Decreases the number of noticed files. Requires at
-     *            least one filter of minFileAge, maxFilesAge, minFileSize or
-     *            maxFileSize. The file sre skipped in respect of the sorting of
-     *            the filtered set. The smallest or most recent files are
-     *            skipped.
-     * @param skipLastFiles Decreases the number of noticed files. Requires at
-     *            least one filter of minFileAge, maxFilesAge, minFileSize or
-     *            maxFileSize. The file sre skipped in respect of the sorting of
-     *            the filtered set. The greatest or oldest files are skipped.
-     * @see <a
-     *      href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
-     * @param logger SOSLogger
-     * @return true if file exists or false if not
-     * @throws Exception */
     public static boolean existsFile(File file, String fileSpec, int fileSpecFlags, String minFileAge, String maxFileAge, String minFileSize,
             String maxFileSize, int skipFirstFiles, int skipLastFiles, SOSLogger logger) throws Exception {
         return existsFile(file, fileSpec, fileSpecFlags, minFileAge, maxFileAge, minFileSize, maxFileSize, skipFirstFiles, skipLastFiles, -1, -1,
                 logger);
     }
 
-    /** Checks for file existence. if file is a directory and <em>fileSpec</em>
-     * is not NULL <em>fileSpec</em> is applied for matching files in the
-     * directory. In this case true will only be returned if at least one file
-     * was matched.
-     * 
-     * @param file file or directory
-     * @param fileSpec Regular expression for file filtering if file is a
-     *            directory
-     * @param fileSpecFlags Pattern bitmask providing the regular expression
-     *            <em>fileSpec</em>
-     * @param minFileAge Filter for file age: files with a earlier modification
-     *            date are considered as non existing. Possible values: sec,
-     *            hh:mm, hh:mm:sec The Resulting set is sorted by file age in
-     *            ascending order (most recent first)
-     * @param maxFileAge Filter for file age: files with a later modification
-     *            date are considered as non existing. Possible values: sec,
-     *            hh:mm, hh:mm:sec The Resulting set is sorted by file age in
-     *            ascending order (most recent first)
-     * @param minFileSize Filter for file size: smaller files are considered as
-     *            non existing. Possible values: number (bytes), numberKB,
-     *            numberMB, numberGB (KB, MB, GB case insensitive) The Resulting
-     *            set is sorted by file size in ascending order (smallest
-     *            first). If the set is additionally filtered by file age the
-     *            set is sorted by file age.
-     * @param maxFileSize Filter for file size: greater files are considered as
-     *            non existing. Possible values: number (bytes), numberKB,
-     *            numberMB, numberGB (KB, MB, GB case insensitive) The Resulting
-     *            set is sorted by file size in ascending order (smallest
-     *            first). If the set is additionally filtered by file age the
-     *            set is sorted by file age.
-     * @param skipFirstFiles Decreases the number of noticed files. Requires at
-     *            least one filter of minFileAge, maxFilesAge, minFileSize or
-     *            maxFileSize. The file sre skipped in respect of the sorting of
-     *            the filtered set. The smallest or most recent files are
-     *            skipped.
-     * @param skipLastFiles Decreases the number of noticed files. Requires at
-     *            least one filter of minFileAge, maxFilesAge, minFileSize or
-     *            maxFileSize. The file sre skipped in respect of the sorting of
-     *            the filtered set. The greatest or oldest files are skipped.
-     * @see <a
-     *      href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
-     * @param logger SOSLogger
-     * @return true if file exists or false if not
-     * @throws Exception */
     public static boolean existsFile(File file, String fileSpec, int fileSpecFlags, String minFileAge, String maxFileAge, String minFileSize,
             String maxFileSize, int skipFirstFiles, int skipLastFiles, int minNumOfFiles, int maxNumOfFiles, SOSLogger logger) throws Exception {
         long minAge = 0;
@@ -602,8 +280,6 @@ public class SOSFileOperations {
             }
             String filename = file.getPath();
             filename = substituteAllDate(filename);
-            // should any opening and closing brackets be found in the file
-            // name, then this is an error
             Matcher m = Pattern.compile("\\[[^]]*\\]").matcher(filename);
             if (m.find()) {
                 throw new Exception("unsupported file mask found: " + m.group());
@@ -613,7 +289,6 @@ public class SOSFileOperations {
                 log("checking file " + file.getAbsolutePath() + ": no such file or directory", logger);
                 return false;
             } else {
-                // Es ist eine Datei und sie existiert
                 if (!file.isDirectory()) {
                     log("checking file " + file.getCanonicalPath() + ": file exists", logger);
                     long currentTime = System.currentTimeMillis();
@@ -650,17 +325,11 @@ public class SOSFileOperations {
                         return false;
                     }
                     return true;
-                    // Es ist ein Verzeichnis und es existiert
                 } else {
-                    // wenn kein fileSpec angegeben wurde, reicht die simple
-                    // Existenz aus
-                    if (fileSpec == null || fileSpec.length() == 0) {
+                    if (fileSpec == null || fileSpec.isEmpty()) {
                         log("checking file " + file.getCanonicalPath() + ": directory exists", logger);
                         return true;
                     }
-                    // Ein Dateifilter wurde angegeben
-                    // hier werden auch Filter wie FileAge, FileSize und
-                    // Einschraenkung der Anzahl (skip files) angewendet
                     Vector<File> fileList =
                             getFilelist(file.getPath(), fileSpec, fileSpecFlags, false, minAge, maxAge, minSize, maxSize, skipFirstFiles,
                                     skipLastFiles);
@@ -692,194 +361,33 @@ public class SOSFileOperations {
         }
     }
 
-    /** Removes one file or all files of a directory from the file system.
-     * Removes one file if <em>file</em> is a file but no directory. If
-     * <em>file</em> is a directory all contained files are removed.
-     * 
-     * @param file file or directory
-     * @param logger
-     * 
-     *            SOSLogger
-     * @return Returns true if at least one file or directory was removed.
-     *         Returns false if zero files or directories were removed
-     * @throws Exception */
     public static boolean removeFile(File file, SOSLogger logger) throws Exception {
         return removeFile(file, ".*", 0, Pattern.CASE_INSENSITIVE, "0", "0", "-1", "-1", 0, 0, logger);
     }
 
-    /** Removes one file or all files of a directory from the file system.
-     * Removes one file if <em>file</em> is a file but no directory. If
-     * <em>file</em> is a directory all contained files are removed.
-     * 
-     * @param file file or directory
-     * @param flags Bit mask for following flags: {@link #GRACIOUS},
-     *            {@link #RECURSIVE}, {@link #REMOVE_DIR} and {@link #WIPE}
-     * @param logger SOSLogger
-     * @return Returns true if at least one file or directory was removed.
-     *         Returns false if zero files or directories were removed
-     * @throws Exception */
     public static boolean removeFile(File file, int flags, SOSLogger logger) throws Exception {
         return removeFile(file, ".*", flags, Pattern.CASE_INSENSITIVE, "0", "0", "-1", "-1", 0, 0, logger);
     }
 
-    /** Removes one file or several files of a directory from the file system.
-     * Removes one file if <em>file</em> is a file but no directory (
-     * <em>fileSpec</em> is ignored). If <em>file</em> is a directory all
-     * contained files matching the expression <em>fileSpec</em> are removed.
-     * 
-     * @param file file or directory
-     * @param fileSpec Regular expression for file filtering if file is a
-     *            directory
-     * @param logger SOSLogger
-     * @return Returns true if at least one file or directory was removed.
-     *         Returns false if zero files or directories were removed
-     * @throws Exception */
     public static boolean removeFile(File file, String fileSpec, SOSLogger logger) throws Exception {
         return removeFile(file, fileSpec, 0, Pattern.CASE_INSENSITIVE, "0", "0", "-1", "-1", 0, 0, logger);
     }
 
-    /** Removes one file or several files of a directory from the file system.
-     * Removes one file if <em>file</em> is a file but no directory (
-     * <em>fileSpec</em> is ignored). If <em>file</em> is a directory all
-     * contained files matching the expression <em>fileSpec</em> are removed.
-     * 
-     * @param file file or directory
-     * @param fileSpec Regular expression for file filtering if file is a
-     *            directory
-     * @param flags Bit mask for following flags: {@link #GRACIOUS},
-     *            {@link #RECURSIVE}, {@link #REMOVE_DIR} and {@link #WIPE}
-     * @param logger SOSLogger
-     * @return Returns true if at least one file or directory was removed.
-     *         Returns false if zero files or directories were removed
-     * @throws Exception */
     public static boolean removeFile(File file, String fileSpec, int flags, SOSLogger logger) throws Exception {
         return removeFile(file, fileSpec, flags, Pattern.CASE_INSENSITIVE, "0", "0", "-1", "-1", 0, 0, logger);
     }
 
-    /** Removes one file or several files of a directory from the file system.
-     * Removes one file if <em>file</em> is a file but no directory (
-     * <em>fileSpec</em> is ignored). If <em>file</em> is a directory all
-     * contained files matching the expression <em>fileSpec</em> are removed.
-     * 
-     * @param file file or directory
-     * @param fileSpec Regular expression for file filtering if file is a
-     *            directory
-     * @param flags Bit mask for following flags: {@link #GRACIOUS},
-     *            {@link #RECURSIVE}, {@link #REMOVE_DIR} and {@link #WIPE}
-     * @param fileSpecFlags Pattern bitmask providing the regular expression
-     *            <em>fileSpec</em>
-     * @see <a
-     *      href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
-     * @param logger SOSLogger
-     * @return Returns true if at least one file or directory was removed.
-     *         Returns false if zero files or directories were removed
-     * @throws Exception */
     public static boolean removeFile(File file, String fileSpec, int flags, int fileSpecFlags, SOSLogger logger) throws Exception {
         return removeFile(file, fileSpec, flags, fileSpecFlags, "0", "0", "-1", "-1", 0, 0, logger);
     }
 
-    /** Removes one file or several files of a directory from the file system.
-     * Removes one file if <em>file</em> is a file but no directory (
-     * <em>fileSpec</em> is ignored). If <em>file</em> is a directory all
-     * contained files matching the expression <em>fileSpec</em> are removed.
-     * 
-     * @param file file or directory
-     * @param fileSpec Regular expression for file filtering if file is a
-     *            directory
-     * @param flags Bit mask for following flags: {@link #GRACIOUS},
-     *            {@link #RECURSIVE}, {@link #REMOVE_DIR} and {@link #WIPE}
-     * @param fileSpecFlags Pattern bitmask providing the regular expression
-     *            <em>fileSpec</em>
-     * @see <a
-     *      href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
-     * @param minFileAge Filter for file age: files with a earlier modification
-     *            date are skipped for removing. Possible values: sec, hh:mm,
-     *            hh:mm:sec The Resulting set is sorted by file age in ascending
-     *            order (most recent first)
-     * @param maxFileAge Filter for file age: files with a later modification
-     *            date are skipped for removing. Possible values: sec, hh:mm,
-     *            hh:mm:sec The Resulting set is sorted by file age in ascending
-     *            order (most recent first)
-     * @param minFileSize Filter for file size: smaller files are skipped for
-     *            removing. Possible values: number (bytes), numberKB, numberMB,
-     *            numberGB (KB, MB, GB case insensitive) The Resulting set is
-     *            sorted by file size in ascending order (smallest first). If
-     *            the set is additionally filtered by file age the set is sorted
-     *            by file age.
-     * @param maxFileSize Filter for file size: greater files are skipped for
-     *            removing. Possible values: number (bytes), numberKB, numberMB,
-     *            numberGB (KB, MB, GB case insensitive) The Resulting set is
-     *            sorted by file size in ascending order (smallest first). If
-     *            the set is additionally filtered by file age the set is sorted
-     *            by file age.
-     * @param skipFirstFiles Decreases the number of removed files. Requires at
-     *            least one filter of minFileAge, maxFilesAge, minFileSize or
-     *            maxFileSize. The file sre skipped in respect of the sorting of
-     *            the filtered set. The smallest or most recent files are
-     *            skipped.
-     * @param skipLastFiles Decreases the number of removed files. Requires at
-     *            least one filter of minFileAge, maxFilesAge, minFileSize or
-     *            maxFileSize. The file sre skipped in respect of the sorting of
-     *            the filtered set. The greatest or oldest files are skipped.
-     * @param logger SOSLogger
-     * @return Returns true if at least one file or directory was removed.
-     *         Returns false if zero files or directories were removed
-     * @throws Exception */
-    public static boolean removeFile(File file, String fileSpec, int flags, int fileSpecFlags, String minFileAge, String maxFileAge,
-            String minFileSize, String maxFileSize, int skipFirstFiles, int skipLastFiles, SOSLogger logger) throws Exception {
-        int nrOfRemovedObjects =
-                removeFileCnt(file, fileSpec, flags, fileSpecFlags, minFileAge, maxFileAge, minFileSize, maxFileSize, skipFirstFiles, skipLastFiles,
-                        logger);
-        return (nrOfRemovedObjects > 0);
+    public static boolean removeFile(File file, String fileSpec, int flags, int fileSpecFlags, String minFileAge, String maxFileAge, String minFileSize,
+            String maxFileSize, int skipFirstFiles, int skipLastFiles, SOSLogger logger) throws Exception {
+        int nrOfRemovedObjects = removeFileCnt(file, fileSpec, flags, fileSpecFlags, minFileAge, maxFileAge, minFileSize, maxFileSize, skipFirstFiles,
+                skipLastFiles, logger);
+        return nrOfRemovedObjects > 0;
     }
 
-    /** Removes one file or several files of a directory from the file system.
-     * Removes one file if <em>file</em> is a file but no directory (
-     * <em>fileSpec</em> is ignored). If <em>file</em> is a directory all
-     * contained files matching the expression <em>fileSpec</em> are removed.
-     * 
-     * @param file file or directory
-     * @param fileSpec Regular expression for file filtering if file is a
-     *            directory
-     * @param flags Bit mask for following flags: {@link #GRACIOUS},
-     *            {@link #RECURSIVE}, {@link #REMOVE_DIR} and {@link #WIPE}
-     * @param fileSpecFlags Pattern bitmask providing the regular expression
-     *            <em>fileSpec</em>
-     * @see <a
-     *      href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
-     * @param minFileAge Filter for file age: files with a earlier modification
-     *            date are skipped for removing. Possible values: sec, hh:mm,
-     *            hh:mm:sec The Resulting set is sorted by file age in ascending
-     *            order (most recent first)
-     * @param maxFileAge Filter for file age: files with a later modification
-     *            date are skipped for removing. Possible values: sec, hh:mm,
-     *            hh:mm:sec The Resulting set is sorted by file age in ascending
-     *            order (most recent first)
-     * @param minFileSize Filter for file size: smaller files are skipped for
-     *            removing. Possible values: number (bytes), numberKB, numberMB,
-     *            numberGB (KB, MB, GB case insensitive) The Resulting set is
-     *            sorted by file size in ascending order (smallest first). If
-     *            the set is additionally filtered by file age the set is sorted
-     *            by file age.
-     * @param maxFileSize Filter for file size: greater files are skipped for
-     *            removing. Possible values: number (bytes), numberKB, numberMB,
-     *            numberGB (KB, MB, GB case insensitive) The Resulting set is
-     *            sorted by file size in ascending order (smallest first). If
-     *            the set is additionally filtered by file age the set is sorted
-     *            by file age.
-     * @param skipFirstFiles Decreases the number of removed files. Requires at
-     *            least one filter of minFileAge, maxFilesAge, minFileSize or
-     *            maxFileSize. The file sre skipped in respect of the sorting of
-     *            the filtered set. The smallest or most recent files are
-     *            skipped.
-     * @param skipLastFiles Decreases the number of removed files. Requires at
-     *            least one filter of minFileAge, maxFilesAge, minFileSize or
-     *            maxFileSize. The file sre skipped in respect of the sorting of
-     *            the filtered set. The greatest or oldest files are skipped.
-     * @param logger SOSLogger
-     * @return Returns the total number of removed files and directories.
-     * 
-     * @throws Exception */
     public static int removeFileCnt(File file, String fileSpec, int flags, int fileSpecFlags, String minFileAge, String maxFileAge,
             String minFileSize, String maxFileSize, int skipFirstFiles, int skipLastFiles, SOSLogger logger) throws Exception {
         boolean gracious;
@@ -897,7 +405,6 @@ public class SOSFileOperations {
             gracious = has(flags, SOSFileOperations.GRACIOUS);
             wipe = has(flags, SOSFileOperations.WIPE);
             remove_dir = has(flags, SOSFileOperations.REMOVE_DIR);
-            // Argumente ausgeben
             log_debug1("arguments for removeFile:", logger);
             log_debug1("argument file=" + file, logger);
             log_debug1("argument fileSpec=" + fileSpec, logger);
@@ -969,21 +476,17 @@ public class SOSFileOperations {
                 }
             }
             Vector<File> fileList;
-            // Verzeichnis
             if (file.isDirectory()) {
                 if (!file.canRead()) {
                     throw new Exception("directory is not readable: " + file.getCanonicalPath());
                 }
                 log("remove [" + fileSpec + "] from " + file.getCanonicalPath() + (recursive ? " (recursive)" : ""), logger);
-                // hier werden Filter wie FileAge, FileSize und Einschraenkung
-                // der Anzahl (skip files) angewendet
                 fileList =
                         getFilelist(file.getPath(), fileSpec, fileSpecFlags, has(flags, SOSFileOperations.RECURSIVE), minAge, maxAge, minSize,
                                 maxSize, skipFirstFiles, skipLastFiles);
             } else {
                 fileList = new Vector<File>();
                 fileList.add(file);
-                // Filterung
                 fileList = filelistFilterAge(fileList, minAge, maxAge);
                 fileList = filelistFilterSize(fileList, minSize, maxSize);
                 if (skipFirstFiles > 0 || skipLastFiles > 0) {
@@ -1005,7 +508,6 @@ public class SOSFileOperations {
                 }
                 nrOfRemovedFiles++;
             }
-            // sollen auch Verzeichnisse entfernt werden ?
             if (remove_dir) {
                 int firstSize = SOSFile.getFolderlist(file.getPath(), ".*", 0, recursive).size();
                 if (recursive) {
@@ -1047,7 +549,7 @@ public class SOSFileOperations {
             }
             log(nrOfRemovedFiles + " file(s) removed" + msg, logger);
             lstResultList = fileList;
-            return (nrOfRemovedFiles + nrOfRemovedDirectories);
+            return nrOfRemovedFiles + nrOfRemovedDirectories;
         } catch (Exception e) {
             throw new Exception("error occurred removing file(s): " + e.getMessage());
         }
@@ -1059,10 +561,8 @@ public class SOSFileOperations {
                 throw new Exception("directory is not readable: " + dir.getCanonicalPath());
             }
         } else {
-            // eine Datei gleich ausschließen
             return false;
         }
-        // Verzeichnisinhalt inklusive Verzeichnisse einlesen - nicht rekursiv!
         File[] list = dir.listFiles();
         if (list.length == 0) {
             return true;
@@ -1089,379 +589,67 @@ public class SOSFileOperations {
                 }
             }
         }
-        // ist das Verzeichnnis jetzt leer?
-        return (dir.list().length == 0);
+        return dir.list().length == 0;
     }
 
-    /** Removes one file or all files of a directory from the file system.
-     * Removes one file if <em>file</em> is a file but no directory. If
-     * <em>file</em> is a directory all contained files are removed.
-     * 
-     * @param file file or directory
-     * @param logger SOSLogger
-     * @return Returns true if at least one file or directory was removed.
-     *         Returns false if zero files or directories were removed
-     * @throws Exception */
     public static boolean removeFile(String file, SOSLogger logger) throws Exception {
         return removeFile(new File(file), logger);
     }
 
-    /** Removes one file or all files of a directory from the file system.
-     * Removes one file if <em>file</em> is a file but no directory. If
-     * <em>file</em> is a directory all contained files are removed.
-     * 
-     * @param file file or directory
-     * @param flags Bit mask for following flags: {@link #GRACIOUS},
-     *            {@link #RECURSIVE}, {@link #REMOVE_DIR} and {@link #WIPE}
-     * @param logger SOSLogger
-     * @return Returns true if at least one file or directory was removed.
-     *         Returns false if zero files or directories were removed
-     * @throws Exception */
     public static boolean removeFile(String file, int flags, SOSLogger logger) throws Exception {
         return removeFile(new File(file), flags, logger);
     }
 
-    /** Removes one file or several files of a directory from the file system.
-     * Removes one file if <em>file</em> is a file but no directory (
-     * <em>fileSpec</em> is ignored). If <em>file</em> is a directory all
-     * contained files matching the expression <em>fileSpec</em> are removed.
-     * 
-     * @param file file or directory
-     * @param fileSpec Regular expression for file filtering if file is a
-     *            directory
-     * @param logger SOSLogger
-     * @return Returns true if at least one file or directory was removed.
-     *         Returns false if zero files or directories were removed
-     * @throws Exception */
     public static boolean removeFile(String file, String fileSpec, SOSLogger logger) throws Exception {
         return removeFile(new File(file), fileSpec, logger);
     }
 
-    /** Removes one file or several files of a directory from the file system.
-     * Removes one file if <em>file</em> is a file but no directory (
-     * <em>fileSpec</em> is ignored). If <em>file</em> is a directory all
-     * contained files matching the expression <em>fileSpec</em> are removed.
-     * 
-     * @param file file or directory
-     * @param fileSpec Regular expression for file filtering if file is a
-     *            directory
-     * @param flags Bit mask for following flags: {@link #GRACIOUS},
-     *            {@link #RECURSIVE}, {@link #REMOVE_DIR} and {@link #WIPE}
-     * @param logger SOSLogger
-     * @return Returns true if at least one file or directory was removed.
-     *         Returns false if zero files or directories were removed
-     * @throws Exception */
     public static boolean removeFile(String file, String fileSpec, int flags, SOSLogger logger) throws Exception {
         return removeFile(new File(file), fileSpec, flags, logger);
     }
 
-    /** Removes one file or several files of a directory from the file system.
-     * Removes one file if <em>file</em> is a file but no directory (
-     * <em>fileSpec</em> is ignored). If <em>file</em> is a directory all
-     * contained files matching the expression <em>fileSpec</em> are removed.
-     * 
-     * @param file file or directory
-     * @param fileSpec Regular expression for file filtering if file is a
-     *            directory
-     * @param flags Bit mask for following flags: {@link #GRACIOUS},
-     *            {@link #RECURSIVE}, {@link #REMOVE_DIR} and {@link #WIPE}
-     * @param fileSpecFlags Pattern bitmask providing the regular expression
-     *            <em>fileSpec</em>
-     * @see <a
-     *      href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
-     * @param logger SOSLogger
-     * @return Returns true if at least one file or directory was removed.
-     *         Returns false if zero files or directories were removed
-     * @throws Exception */
     public static boolean removeFile(String file, String fileSpec, int flags, int fileSpecFlags, SOSLogger logger) throws Exception {
         return removeFile(new File(file), fileSpec, flags, fileSpecFlags, logger);
     }
 
-    /** Removes one file or several files of a directory from the file system.
-     * Removes one file if <em>file</em> is a file but no directory (
-     * <em>fileSpec</em> is ignored). If <em>file</em> is a directory all
-     * contained files matching the expression <em>fileSpec</em> are removed.
-     * 
-     * @param file file or directory
-     * @param fileSpec Regular expression for file filtering if file is a
-     *            directory
-     * @param flags Bit mask for following flags: {@link #GRACIOUS},
-     *            {@link #RECURSIVE}, {@link #REMOVE_DIR} and {@link #WIPE}
-     * @param fileSpecFlags Pattern bitmask providing the regular expression
-     *            <em>fileSpec</em>
-     * @see <a
-     *      href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
-     * @param minFileAge Filter for file age: files with a earlier modification
-     *            date are skipped for removing. Possible values: sec, hh:mm,
-     *            hh:mm:sec The Resulting set is sorted by file age in ascending
-     *            order (most recent first)
-     * @param maxFileAge Filter for file age: files with a later modification
-     *            date are skipped for removing. Possible values: sec, hh:mm,
-     *            hh:mm:sec The Resulting set is sorted by file age in ascending
-     *            order (most recent first)
-     * @param minFileSize Filter for file size: smaller files are skipped for
-     *            removing. Possible values: number (bytes), numberKB, numberMB,
-     *            numberGB (KB, MB, GB case insensitive) The Resulting set is
-     *            sorted by file size in ascending order (smallest first). If
-     *            the set is additionally filtered by file age the set is sorted
-     *            by file age.
-     * @param maxFileSize Filter for file size: greater files are skipped for
-     *            removing. Possible values: number (bytes), numberKB, numberMB,
-     *            numberGB (KB, MB, GB case insensitive) The Resulting set is
-     *            sorted by file size in ascending order (smallest first). If
-     *            the set is additionally filtered by file age the set is sorted
-     *            by file age.
-     * @param skipFirstFiles Decreases the number of removed files. Requires at
-     *            least one filter of minFileAge, maxFilesAge, minFileSize or
-     *            maxFileSize. The file sre skipped in respect of the sorting of
-     *            the filtered set. The smallest or most recent files are
-     *            skipped.
-     * @param skipLastFiles Decreases the number of removed files. Requires at
-     *            least one filter of minFileAge, maxFilesAge, minFileSize or
-     *            maxFileSize. The file sre skipped in respect of the sorting of
-     *            the filtered set. The greatest or oldest files are skipped.
-     * @param logger SOSLogger
-     * @return Returns true if at least one file or directory was removed.
-     *         Returns false if zero files or directories were removed
-     * @throws Exception */
     public static boolean removeFile(String file, String fileSpec, int flags, int fileSpecFlags, String minFileAge, String maxFileAge,
             String minFileSize, String maxFileSize, int skipFirstFiles, int skipLastFiles, SOSLogger logger) throws Exception {
         return removeFile(new File(file), fileSpec, flags, fileSpecFlags, minFileAge, maxFileAge, minFileSize, maxFileSize, skipFirstFiles,
                 skipLastFiles, logger);
     }
 
-    /** Removes one file or several files of a directory from the file system.
-     * Removes one file if <em>file</em> is a file but no directory (
-     * <em>fileSpec</em> is ignored). If <em>file</em> is a directory all
-     * contained files matching the expression <em>fileSpec</em> are removed.
-     * 
-     * @param file file or directory
-     * @param fileSpec Regular expression for file filtering if file is a
-     *            directory
-     * @param flags Bit mask for following flags: {@link #GRACIOUS},
-     *            {@link #RECURSIVE}, {@link #REMOVE_DIR} and {@link #WIPE}
-     * @param fileSpecFlags Pattern bitmask providing the regular expression
-     *            <em>fileSpec</em>
-     * @see <a
-     *      href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
-     * @param minFileAge Filter for file age: files with a earlier modification
-     *            date are skipped for removing. Possible values: sec, hh:mm,
-     *            hh:mm:sec The Resulting set is sorted by file age in ascending
-     *            order (most recent first)
-     * @param maxFileAge Filter for file age: files with a later modification
-     *            date are skipped for removing. Possible values: sec, hh:mm,
-     *            hh:mm:sec The Resulting set is sorted by file age in ascending
-     *            order (most recent first)
-     * @param minFileSize Filter for file size: smaller files are skipped for
-     *            removing. Possible values: number (bytes), numberKB, numberMB,
-     *            numberGB (KB, MB, GB case insensitive) The Resulting set is
-     *            sorted by file size in ascending order (smallest first). If
-     *            the set is additionally filtered by file age the set is sorted
-     *            by file age.
-     * @param maxFileSize Filter for file size: greater files are skipped for
-     *            removing. Possible values: number (bytes), numberKB, numberMB,
-     *            numberGB (KB, MB, GB case insensitive) The Resulting set is
-     *            sorted by file size in ascending order (smallest first). If
-     *            the set is additionally filtered by file age the set is sorted
-     *            by file age.
-     * @param skipFirstFiles Decreases the number of removed files. Requires at
-     *            least one filter of minFileAge, maxFilesAge, minFileSize or
-     *            maxFileSize. The file sre skipped in respect of the sorting of
-     *            the filtered set. The smallest or most recent files are
-     *            skipped.
-     * @param skipLastFiles Decreases the number of removed files. Requires at
-     *            least one filter of minFileAge, maxFilesAge, minFileSize or
-     *            maxFileSize. The file sre skipped in respect of the sorting of
-     *            the filtered set. The greatest or oldest files are skipped.
-     * @param logger SOSLogger
-     * @return Returns the total number of removed files and directories.
-     * 
-     * @throws Exception */
     public static int removeFileCnt(String file, String fileSpec, int flags, int fileSpecFlags, String minFileAge, String maxFileAge,
             String minFileSize, String maxFileSize, int skipFirstFiles, int skipLastFiles, SOSLogger logger) throws Exception {
         return removeFileCnt(new File(file), fileSpec, flags, fileSpecFlags, minFileAge, maxFileAge, minFileSize, maxFileSize, skipFirstFiles,
                 skipLastFiles, logger);
     }
 
-    /** Copies one file or all files of a directory. Already existing files are
-     * overwritten.
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was copied. Returns false if
-     *         zero files were copied
-     * @throws Exception */
     public static boolean copyFile(File source, File target, SOSLogger logger) throws Exception {
         return copyFile(source, target, ".*", 0, Pattern.CASE_INSENSITIVE, null, null, "0", "0", "-1", "-1", 0, 0, logger);
     }
 
-    /** Copies one file or all files of a directory. By default already existing
-     * files are overwritten.
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param flags Bit mask for following flags: {@link #CREATE_DIR},
-     *            {@link #GRACIOUS}, {@link #NOT_OVERWRITE} and
-     *            {@link #RECURSIVE}
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was copied. Returns false if
-     *         zero files were copied
-     * @throws Exception */
     public static boolean copyFile(File source, File target, int flags, SOSLogger logger) throws Exception {
         return copyFile(source, target, ".*", flags, Pattern.CASE_INSENSITIVE, null, null, "0", "0", "-1", "-1", 0, 0, logger);
     }
 
-    /** Copies one file or several files of a directory. Already existing files
-     * are overwritten.
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param fileSpec Regular expression - file filter, used if source is a
-     *            directory
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was copied. Returns false if
-     *         zero files were copied
-     * @throws Exception */
     public static boolean copyFile(File source, File target, String fileSpec, SOSLogger logger) throws Exception {
         return copyFile(source, target, fileSpec, 0, Pattern.CASE_INSENSITIVE, null, null, "0", "0", "-1", "-1", 0, 0, logger);
     }
 
-    /** Copies one file or several files of a directory. By default already
-     * existing files are overwritten.
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param fileSpec Regular expression - file filter, used if source is a
-     *            directory
-     * @param flags Bit mask for following flags: {@link #CREATE_DIR},
-     *            {@link #GRACIOUS}, {@link #NOT_OVERWRITE} and
-     *            {@link #RECURSIVE}
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was copied. Returns false if
-     *         zero files were copied
-     * @throws Exception */
     public static boolean copyFile(File source, File target, String fileSpec, int flags, SOSLogger logger) throws Exception {
         return copyFile(source, target, fileSpec, flags, Pattern.CASE_INSENSITIVE, null, null, "0", "0", "-1", "-1", 0, 0, logger);
     }
 
-    /** Copies one file or several files of a directory. By default already
-     * existing files are overwritten.
-     * 
-     * @param source Source file or source directory, this argument is also used
-     *            as target
-     * @param fileSpec Regular expression - file filter, used if source is a
-     *            directory
-     * @param flags Bit mask for following flags: {@link #CREATE_DIR},
-     *            {@link #GRACIOUS}, {@link #NOT_OVERWRITE} and
-     *            {@link #RECURSIVE}
-     * @param fileSpecFlags Pattern bit mask providing the regular expression
-     *            <em>fileSpec</em>
-     * @see <a
-     *      href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
-     * @param replacing Regular expression for file name replacement with
-     *            <em>replacement</em>. <em>replacing</em> is ignored if it is
-     *            NULL. Requires the parameter <em>replacement</em> being not
-     *            NULL.
-     * @param replacement String for replacement of the expression replacing.
-     *            Replacements for multiple capturing groups are separated by a
-     *            semicolon ";" <em>replacement</em> is ignored if it is NULL.
-     *            Requires the parameter <em>replacing</em> being not NULL.
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was copied. Returns false if
-     *         zero files were copied
-     * @throws Exception */
     public static boolean copyFile(File source, String fileSpec, int flags, int fileSpecFlags, String replacing, String replacement, SOSLogger logger)
             throws Exception {
         return copyFile(source, null, fileSpec, flags, fileSpecFlags, replacing, replacement, "0", "0", "-1", "-1", 0, 0, logger);
     }
 
-    /** Copies one file or several files of a directory. By default already
-     * existing files are overwritten.
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param fileSpec Regular expression - file filter, used if source is a
-     *            directory
-     * @param flags Bit mask for following flags: {@link #CREATE_DIR},
-     *            {@link #GRACIOUS}, {@link #NOT_OVERWRITE} and
-     *            {@link #RECURSIVE}
-     * @param fileSpecFlags Pattern bit mask providing the regular expression
-     *            <em>fileSpec</em>
-     * @see <a
-     *      href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
-     * @param replacing Regular expression for file name replacement with
-     *            <em>replacement</em>. <em>replacing</em> is ignored if it is
-     *            NULL. Requires the parameter <em>replacement</em> being not
-     *            NULL.
-     * @param replacement String for replacement of the expression replacing.
-     *            Replacements for multiple capturing groups are separated by a
-     *            semicolon ";" <em>replacement</em> is ignored if it is NULL.
-     *            Requires the parameter <em>replacing</em> being not NULL.
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was copied. Returns false if
-     *         zero files were copied
-     * @throws Exception */
     public static boolean copyFile(File source, File target, String fileSpec, int flags, int fileSpecFlags, String replacing, String replacement,
             SOSLogger logger) throws Exception {
         return copyFile(source, target, fileSpec, flags, fileSpecFlags, replacing, replacement, "0", "0", "-1", "-1", 0, 0, logger);
     }
 
-    /** Copies one file or several files of a directory. By default already
-     * existing files are overwritten.
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param fileSpec Regular expression - file filter, used if source is a
-     *            directory
-     * @param flags Bit mask for following flags: {@link #CREATE_DIR},
-     *            {@link #GRACIOUS}, {@link #NOT_OVERWRITE} and
-     *            {@link #RECURSIVE}
-     * @param fileSpecFlags Pattern bit mask providing the regular expression
-     *            <em>fileSpec</em>
-     * @see <a
-     *      href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
-     * @param replacing Regular expression for file name replacement with
-     *            <em>replacement</em>. <em>replacing</em> is ignored if it is
-     *            NULL. Requires the parameter <em>replacement</em> being not
-     *            NULL.
-     * @param replacement String for replacement of the expression replacing.
-     *            Replacements for multiple capturing groups are separated by a
-     *            semicolon ";" <em>replacement</em> is ignored if it is NULL.
-     *            Requires the parameter <em>replacing</em> being not NULL.
-     * @param minFileAge Filter for file age: files with a earlier modification
-     *            date are skipped for copying. Possible values: sec, hh:mm,
-     *            hh:mm:sec The Resulting set is sorted by file age in ascending
-     *            order (most recent first)
-     * @param maxFileAge Filter for file age: files with a later modification
-     *            date are skipped for copying. Possible values: sec, hh:mm,
-     *            hh:mm:sec The Resulting set is sorted by file age in ascending
-     *            order (most recent first)
-     * @param minFileSize Filter for file size: smaller files are skipped for
-     *            copying. Possible values: number (bytes), numberKB, numberMB,
-     *            numberGB (KB, MB, GB case insensitive) The Resulting set is
-     *            sorted by file size in ascending order (smallest first). If
-     *            the set is additionally filtered by file age the set is sorted
-     *            by file age.
-     * @param maxFileSize Filter for file size: greater files are skipped for
-     *            copying. Possible values: number (bytes), numberKB, numberMB,
-     *            numberGB (KB, MB, GB case insensitive) The Resulting set is
-     *            sorted by file size in ascending order (smallest first). If
-     *            the set is additionally filtered by file age the set is sorted
-     *            by file age.
-     * @param skipFirstFiles Decreases the number of copied files. Requires at
-     *            least one filter of minFileAge, maxFilesAge, minFileSize or
-     *            maxFileSize. The file sre skipped in respect of the sorting of
-     *            the filtered set. The smallest or most recent files are
-     *            skipped.
-     * @param skipLastFiles Decreases the number of copied files. Requires at
-     *            least one filter of minFileAge, maxFilesAge, minFileSize or
-     *            maxFileSize. The file sre skipped in respect of the sorting of
-     *            the filtered set. The greatest or oldest files are skipped.
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was copied. Returns false if
-     *         zero files were copied
-     * @throws Exception */
     public static boolean copyFile(File source, File target, String fileSpec, int flags, int fileSpecFlags, String replacing, String replacement,
             String minFileAge, String maxFileAge, String minFileSize, String maxFileSize, int skipFirstFiles, int skipLastFiles, SOSLogger logger)
             throws Exception {
@@ -1470,545 +658,108 @@ public class SOSFileOperations {
                 skipFirstFiles, skipLastFiles, mode, logger);
     }
 
-    /** Copies one file or all files of a directory. Already existing files are
-     * overwritten.
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was copied. Returns false if
-     *         zero files were copied
-     * @throws Exception */
     public static boolean copyFile(String source, String target, SOSLogger logger) throws Exception {
         File sourceFile = new File(source);
-        File targetFile = (target == null) ? null : new File(target);
+        File targetFile = target == null ? null : new File(target);
         return copyFile(sourceFile, targetFile, logger);
     }
 
-    /** Copies one file or all files of a directory. By default already existing
-     * files are overwritten.
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param flags Bit mask for following flags: {@link #CREATE_DIR},
-     *            {@link #GRACIOUS}, {@link #NOT_OVERWRITE} and
-     *            {@link #RECURSIVE}
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was copied. Returns false if
-     *         zero files were copied
-     * @throws Exception */
     public static boolean copyFile(String source, String target, int flags, SOSLogger logger) throws Exception {
         File sourceFile = new File(source);
-        File targetFile = (target == null) ? null : new File(target);
+        File targetFile = target == null ? null : new File(target);
         return copyFile(sourceFile, targetFile, flags, logger);
     }
 
-    /** Copies one file or several files of a directory. Already existing files
-     * are overwritten.
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param fileSpec Regular expression - file filter, used if source is a
-     *            directory
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was copied. Returns false if
-     *         zero files were copied
-     * @throws Exception */
     public static boolean copyFile(String source, String target, String fileSpec, SOSLogger logger) throws Exception {
         File sourceFile = new File(source);
-        File targetFile = (target == null) ? null : new File(target);
+        File targetFile = target == null ? null : new File(target);
         return copyFile(sourceFile, targetFile, fileSpec, logger);
     }
 
-    /** Copies one file or several files of a directory. By default already
-     * existing files are overwritten.
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param fileSpec Regular expression - file filter, used if source is a
-     *            directory
-     * @param flags Bit mask for following flags: {@link #CREATE_DIR},
-     *            {@link #GRACIOUS}, {@link #NOT_OVERWRITE} and
-     *            {@link #RECURSIVE}
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was copied. Returns false if
-     *         zero files were copied
-     * @throws Exception */
     public static boolean copyFile(String source, String target, String fileSpec, int flags, SOSLogger logger) throws Exception {
         File sourceFile = new File(source);
-        File targetFile = (target == null) ? null : new File(target);
+        File targetFile = target == null ? null : new File(target);
         return copyFile(sourceFile, targetFile, fileSpec, flags, logger);
     }
 
-    /** Copies one file or several files of a directory. By default already
-     * existing files are overwritten.
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param fileSpec Regular expression - file filter, used if source is a
-     *            directory
-     * @param flags Bit mask for following flags: {@link #CREATE_DIR},
-     *            {@link #GRACIOUS}, {@link #NOT_OVERWRITE} and
-     *            {@link #RECURSIVE}
-     * @param fileSpecFlags Pattern bitmask providing the regular expression
-     *            <em>fileSpec</em>
-     * @see <a
-     *      href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was copied. Returns false if
-     *         zero files were copied
-     * @throws Exception */
     public static boolean copyFile(String source, String target, String fileSpec, int flags, int fileSpecFlags, SOSLogger logger) throws Exception {
         File sourceFile = new File(source);
-        File targetFile = (target == null) ? null : new File(target);
+        File targetFile = target == null ? null : new File(target);
         return copyFile(sourceFile, targetFile, fileSpec, flags, fileSpecFlags, null, null, "0", "0", "-1", "-1", 0, 0, logger);
     }
 
-    /** Copies one file or several files of a directory. By default already
-     * existing files are overwritten.
-     * 
-     * @param source Source file or source directory, this argument is also used
-     *            as target
-     * @param fileSpec Regular expression - file filter, used if source is a
-     *            directory
-     * @param flags Bit mask for following flags: {@link #CREATE_DIR},
-     *            {@link #GRACIOUS}, {@link #NOT_OVERWRITE} and
-     *            {@link #RECURSIVE}
-     * @param fileSpecFlags Pattern bitmask providing the regular expression
-     *            <em>fileSpec</em>
-     * @see <a
-     *      href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
-     * @param replacing Regular expression for file name replacement with
-     *            <em>replacement</em>. <em>replacing</em> is ignored if it is
-     *            NULL. Requires the parameter <em>replacement</em> being not
-     *            NULL.
-     * @param replacement String for replacement of the expression replacing.
-     *            Replacements for multiple capturing groups are separated by a
-     *            semicolon ";" <em>replacement</em> is ignored if it is NULL.
-     *            Requires the parameter <em>replacing</em> being not NULL.
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was copied. Returns false if
-     *         zero files were copied
-     * @throws Exception */
     public static boolean copyFile(String source, String fileSpec, int flags, int fileSpecFlags, String replacing, String replacement,
             SOSLogger logger) throws Exception {
         File sourceFile = new File(source);
         return copyFile(sourceFile, fileSpec, flags, fileSpecFlags, replacing, replacement, logger);
     }
 
-    /** Copies one file or several files of a directory. By default already
-     * existing files are overwritten.
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param fileSpec Regular expression - file filter, used if source is a
-     *            directory
-     * @param flags Bit mask for following flags: {@link #CREATE_DIR},
-     *            {@link #GRACIOUS}, {@link #NOT_OVERWRITE} and
-     *            {@link #RECURSIVE}
-     * @param fileSpecFlags Pattern bitmask providing the regular expression
-     *            <em>fileSpec</em>
-     * @see <a
-     *      href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
-     * @param replacing Regular expression for file name replacement with
-     *            <em>replacement</em>. <em>replacing</em> is ignored if it is
-     *            NULL. Requires the parameter <em>replacement</em> being not
-     *            NULL.
-     * @param replacement String for replacement of the expression replacing.
-     *            Replacements for multiple capturing groups are separated by a
-     *            semicolon ";" <em>replacement</em> is ignored if it is NULL.
-     *            Requires the parameter <em>replacing</em> being not NULL.
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was copied. Returns false if
-     *         zero files were copied
-     * @throws Exception */
     public static boolean copyFile(String source, String target, String fileSpec, int flags, int fileSpecFlags, String replacing, String replacement,
             SOSLogger logger) throws Exception {
         File sourceFile = new File(source);
-        File targetFile = (target == null) ? null : new File(target);
+        File targetFile = target == null ? null : new File(target);
         return copyFile(sourceFile, targetFile, fileSpec, flags, fileSpecFlags, replacing, replacement, logger);
     }
 
-    /** Copies one file or several files of a directory. By default already
-     * existing files are overwritten.
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param fileSpec Regular expression - file filter, used if source is a
-     *            directory
-     * @param flags Bit mask for following flags: {@link #CREATE_DIR},
-     *            {@link #GRACIOUS}, {@link #NOT_OVERWRITE} and
-     *            {@link #RECURSIVE}
-     * @param fileSpecFlags Pattern bitmask providing the regular expression
-     *            <em>fileSpec</em>
-     * @see <a
-     *      href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
-     * @param replacing Regular expression for file name replacement with
-     *            <em>replacement</em>. <em>replacing</em> is ignored if it is
-     *            NULL. Requires the parameter <em>replacement</em> being not
-     *            NULL.
-     * @param replacement String for replacement of the expression replacing.
-     *            Replacements for multiple capturing groups are separated by a
-     *            semicolon ";" <em>replacement</em> is ignored if it is NULL.
-     *            Requires the parameter <em>replacing</em> being not NULL.
-     * @param minFileAge Filter for file age: files with a earlier modification
-     *            date are skipped for copying. Possible values: sec, hh:mm,
-     *            hh:mm:sec The Resulting set is sorted by file age in ascending
-     *            order (most recent first)
-     * @param maxFileAge Filter for file age: files with a later modification
-     *            date are skipped for copying. Possible values: sec, hh:mm,
-     *            hh:mm:sec The Resulting set is sorted by file age in ascending
-     *            order (most recent first)
-     * @param minFileSize Filter for file size: smaller files are skipped for
-     *            copying. Possible values: number (bytes), numberKB, numberMB,
-     *            numberGB (KB, MB, GB case insensitive) The Resulting set is
-     *            sorted by file size in ascending order (smallest first). If
-     *            the set is additionally filtered by file age the set is sorted
-     *            by file age.
-     * @param maxFileSize Filter for file size: greater files are skipped for
-     *            copying. Possible values: number (bytes), numberKB, numberMB,
-     *            numberGB (KB, MB, GB case insensitive) The Resulting set is
-     *            sorted by file size in ascending order (smallest first). If
-     *            the set is additionally filtered by file age the set is sorted
-     *            by file age.
-     * @param skipFirstFiles Decreases the number of copied files. Requires at
-     *            least one filter of minFileAge, maxFilesAge, minFileSize or
-     *            maxFileSize. The file sre skipped in respect of the sorting of
-     *            the filtered set. The smallest or most recent files are
-     *            skipped.
-     * @param skipLastFiles Decreases the number of copied files. Requires at
-     *            least one filter of minFileAge, maxFilesAge, minFileSize or
-     *            maxFileSize. The file sre skipped in respect of the sorting of
-     *            the filtered set. The greatest or oldest files are skipped.
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was copied. Returns false if
-     *         zero files were copied
-     * @throws Exception */
     public static boolean copyFile(String source, String target, String fileSpec, int flags, int fileSpecFlags, String replacing, String replacement,
             String minFileAge, String maxFileAge, String minFileSize, String maxFileSize, int skipFirstFiles, int skipLastFiles, SOSLogger logger)
             throws Exception {
         File sourceFile = new File(source);
-        File targetFile = (target == null) ? null : new File(target);
+        File targetFile = target == null ? null : new File(target);
         return copyFile(sourceFile, targetFile, fileSpec, flags, fileSpecFlags, replacing, replacement, minFileAge, maxFileAge, minFileSize,
                 maxFileSize, skipFirstFiles, skipLastFiles, logger);
     }
 
-    /** Copies one file or several files of a directory. By default already
-     * existing files are overwritten.
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param fileSpec Regular expression - file filter, used if source is a
-     *            directory
-     * @param flags Bit mask for following flags: {@link #CREATE_DIR},
-     *            {@link #GRACIOUS}, {@link #NOT_OVERWRITE} and
-     *            {@link #RECURSIVE}
-     * @param fileSpecFlags Pattern bitmask providing the regular expression
-     *            <em>fileSpec</em>
-     * @see <a
-     *      href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
-     * @param replacing Regular expression for file name replacement with
-     *            <em>replacement</em>. <em>replacing</em> is ignored if it is
-     *            NULL. Requires the parameter <em>replacement</em> being not
-     *            NULL.
-     * @param replacement String for replacement of the expression replacing.
-     *            Replacements for multiple capturing groups are separated by a
-     *            semicolon ";" <em>replacement</em> is ignored if it is NULL.
-     *            Requires the parameter <em>replacing</em> being not NULL.
-     * @param minFileAge Filter for file age: files with a earlier modification
-     *            date are skipped for copying. Possible values: sec, hh:mm,
-     *            hh:mm:sec The Resulting set is sorted by file age in ascending
-     *            order (most recent first)
-     * @param maxFileAge Filter for file age: files with a later modification
-     *            date are skipped for copying. Possible values: sec, hh:mm,
-     *            hh:mm:sec The Resulting set is sorted by file age in ascending
-     *            order (most recent first)
-     * @param minFileSize Filter for file size: smaller files are skipped for
-     *            copying. Possible values: number (bytes), numberKB, numberMB,
-     *            numberGB (KB, MB, GB case insensitive) The Resulting set is
-     *            sorted by file size in ascending order (smallest first). If
-     *            the set is additionally filtered by file age the set is sorted
-     *            by file age.
-     * @param maxFileSize Filter for file size: greater files are skipped for
-     *            copying. Possible values: number (bytes), numberKB, numberMB,
-     *            numberGB (KB, MB, GB case insensitive) The Resulting set is
-     *            sorted by file size in ascending order (smallest first). If
-     *            the set is additionally filtered by file age the set is sorted
-     *            by file age.
-     * @param skipFirstFiles Decreases the number of copied files. Requires at
-     *            least one filter of minFileAge, maxFilesAge, minFileSize or
-     *            maxFileSize. The file sre skipped in respect of the sorting of
-     *            the filtered set. The smallest or most recent files are
-     *            skipped.
-     * @param skipLastFiles Decreases the number of copied files. Requires at
-     *            least one filter of minFileAge, maxFilesAge, minFileSize or
-     *            maxFileSize. The file sre skipped in respect of the sorting of
-     *            the filtered set. The greatest or oldest files are skipped.
-     * @param logger SOSLogger
-     * @return Returns the number of copied files.
-     * @throws Exception */
     public static int copyFileCnt(String source, String target, String fileSpec, int flags, int fileSpecFlags, String replacing, String replacement,
             String minFileAge, String maxFileAge, String minFileSize, String maxFileSize, int skipFirstFiles, int skipLastFiles, SOSLogger logger)
             throws Exception {
         File sourceFile = new File(source);
-        File targetFile = (target == null) ? null : new File(target);
+        File targetFile = target == null ? null : new File(target);
         String mode = "copy";
         return transferFileCnt(sourceFile, targetFile, fileSpec, flags, fileSpecFlags, replacing, replacement, minFileAge, maxFileAge, minFileSize,
                 maxFileSize, skipFirstFiles, skipLastFiles, mode, logger);
     }
 
-    /** Renames/moves one file or all files of a directory. Already existing
-     * files are overwritten.
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was moved. Returns false if
-     *         zero files were moved
-     * @throws Exception */
     public static boolean renameFile(File source, File target, SOSLogger logger) throws Exception {
         return renameFile(source, target, ".*", 0, Pattern.CASE_INSENSITIVE, null, null, "0", "0", "-1", "-1", 0, 0, logger);
     }
 
-    /** Renames/moves one file or all files of a directory. By default already
-     * existing files are overwritten.
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param flags Bit mask for following flags: {@link #CREATE_DIR},
-     *            {@link #GRACIOUS}, {@link #NOT_OVERWRITE} and
-     *            {@link #RECURSIVE}
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was moved. Returns false if
-     *         zero files were moved
-     * @throws Exception */
     public static boolean renameFile(File source, File target, int flags, SOSLogger logger) throws Exception {
         return renameFile(source, target, ".*", flags, Pattern.CASE_INSENSITIVE, null, null, "0", "0", "-1", "-1", 0, 0, logger);
     }
 
-    /** Renames/moves one file or several files of a directory. Already existing
-     * files are overwritten.
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param fileSpec Regular expression - file filter, used if source is a
-     *            directory
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was moved. Returns false if
-     *         zero files were moved
-     * @throws Exception */
     public static boolean renameFile(File source, File target, String fileSpec, SOSLogger logger) throws Exception {
         return renameFile(source, target, fileSpec, 0, Pattern.CASE_INSENSITIVE, null, null, "0", "0", "-1", "-1", 0, 0, logger);
     }
 
-    /** Renames/moves one file or several files of a directory. By default
-     * already existing files are overwritten.
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param fileSpec Regular expression - file filter, used if source is a
-     *            directory
-     * @param flags Bit mask for following flags: {@link #CREATE_DIR},
-     *            {@link #GRACIOUS}, {@link #NOT_OVERWRITE} and
-     *            {@link #RECURSIVE}
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was moved. Returns false if
-     *         zero files were moved
-     * @throws Exception */
     public static boolean renameFile(File source, File target, String fileSpec, int flags, SOSLogger logger) throws Exception {
         return renameFile(source, target, fileSpec, flags, Pattern.CASE_INSENSITIVE, null, null, "0", "0", "-1", "-1", 0, 0, logger);
     }
 
-    /** Renames/moves one file or several files of a directory. By default
-     * already existing files are overwritten.
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param fileSpec Regular expression - file filter, used if source is a
-     *            directory
-     * @param flags Bit mask for following flags: {@link #CREATE_DIR},
-     *            {@link #GRACIOUS}, {@link #NOT_OVERWRITE} and
-     *            {@link #RECURSIVE}
-     * @param fileSpecFlags Pattern bitmask providing the regular expression
-     *            <em>fileSpec</em>
-     * @see <a
-     *      href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was moved. Returns false if
-     *         zero files were moved
-     * @throws Exception */
     public static boolean renameFile(File source, File target, String fileSpec, int flags, int fileSpecFlags, SOSLogger logger) throws Exception {
         return renameFile(source, target, fileSpec, flags, fileSpecFlags, null, null, "0", "0", "-1", "-1", 0, 0, logger);
     }
 
-    /** Renames/moves one file or several files of a directory. Already existing
-     * files are overwritten.
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param fileSpec Regular expression - file filter, used if source is a
-     *            directory
-     * @param replacing Regular expression for file name replacement with
-     *            <em>replacement</em>. <em>replacing</em> is ignored if it is
-     *            NULL. Requires the parameter <em>replacement</em> being not
-     *            NULL.
-     * @param replacement String for replacement of the expression replacing.
-     *            Replacements for multiple capturing groups are separated by a
-     *            semicolon ";" <em>replacement</em> is ignored if it is NULL.
-     *            Requires the parameter <em>replacing</em> being not NULL.
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was moved. Returns false if
-     *         zero files were moved
-     * @throws Exception */
     public static boolean renameFile(File source, File target, String fileSpec, String replacing, String replacement, SOSLogger logger)
             throws Exception {
         return renameFile(source, target, fileSpec, 0, Pattern.CASE_INSENSITIVE, replacing, replacement, "0", "0", "-1", "-1", 0, 0, logger);
     }
 
-    /** Renames/moves one file or several files of a directory. By default
-     * already existing files are overwritten.
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param fileSpec Regular expression - file filter, used if source is a
-     *            directory
-     * @param flags Bit mask for following flags: {@link #CREATE_DIR},
-     *            {@link #GRACIOUS}, {@link #NOT_OVERWRITE} and
-     *            {@link #RECURSIVE}
-     * @param replacing Regular expression for file name replacement with
-     *            <em>replacement</em>. <em>replacing</em> is ignored if it is
-     *            NULL. Requires the parameter <em>replacement</em> being not
-     *            NULL.
-     * @param replacement String for replacement of the expression replacing.
-     *            Replacements for multiple capturing groups are separated by a
-     *            semicolon ";" <em>replacement</em> is ignored if it is NULL.
-     *            Requires the parameter <em>replacing</em> being not NULL.
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was moved. Returns false if
-     *         zero files were moved
-     * @throws Exception */
     public static boolean renameFile(File source, File target, String fileSpec, int flags, String replacing, String replacement, SOSLogger logger)
             throws Exception {
         return renameFile(source, target, fileSpec, flags, Pattern.CASE_INSENSITIVE, replacing, replacement, "0", "0", "-1", "-1", 0, 0, logger);
     }
 
-    /** Renames/moves one file or several files of a directory. By default
-     * already existing files are overwritten.
-     * 
-     * @param source Source file or source directory, this argument is also used
-     *            as target
-     * @param fileSpec Regular expression - file filter, used if source is a
-     *            directory
-     * @param flags Bit mask for following flags: {@link #CREATE_DIR},
-     *            {@link #GRACIOUS}, {@link #NOT_OVERWRITE} and
-     *            {@link #RECURSIVE}
-     * @param fileSpecFlags Pattern bitmask providing the regular expression
-     *            <em>fileSpec</em>
-     * @see <a
-     *      href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
-     * @param replacing Regular expression for file name replacement with
-     *            <em>replacement</em>. <em>replacing</em> is ignored if it is
-     *            NULL. Requires the parameter <em>replacement</em> being not
-     *            NULL.
-     * @param replacement String for replacement of the expression replacing.
-     *            Replacements for multiple capturing groups are separated by a
-     *            semicolon ";" <em>replacement</em> is ignored if it is NULL.
-     *            Requires the parameter <em>replacing</em> being not NULL.
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was moved. Returns false if
-     *         zero files were moved
-     * @throws Exception */
     public static boolean renameFile(File source, String fileSpec, int flags, int fileSpecFlags, String replacing, String replacement,
             SOSLogger logger) throws Exception {
         return renameFile(source, null, fileSpec, flags, fileSpecFlags, replacing, replacement, "0", "0", "-1", "-1", 0, 0, logger);
     }
 
-    /** Renames/moves one file or several files of a directory. By default
-     * already existing files are overwritten.
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param fileSpec Regular expression - file filter, used if source is a
-     *            directory
-     * @param flags Bit mask for following flags: {@link #CREATE_DIR},
-     *            {@link #GRACIOUS}, {@link #NOT_OVERWRITE} and
-     *            {@link #RECURSIVE}
-     * @param fileSpecFlags Pattern bitmask providing the regular expression
-     *            <em>fileSpec</em>
-     * @see <a
-     *      href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
-     * @param replacing Regular expression for file name replacement with
-     *            <em>replacement</em>. <em>replacing</em> is ignored if it is
-     *            NULL. Requires the parameter <em>replacement</em> being not
-     *            NULL.
-     * @param replacement String for replacement of the expression replacing.
-     *            Replacements for multiple capturing groups are separated by a
-     *            semicolon ";" <em>replacement</em> is ignored if it is NULL.
-     *            Requires the parameter <em>replacing</em> being not NULL.
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was moved. Returns false if
-     *         zero files were moved
-     * @throws Exception */
     public static boolean renameFile(File source, File target, String fileSpec, int flags, int fileSpecFlags, String replacing, String replacement,
             SOSLogger logger) throws Exception {
         return renameFile(source, target, fileSpec, flags, fileSpecFlags, replacing, replacement, "0", "0", "-1", "-1", 0, 0, logger);
     }
 
-    /** Renames/moves one file or several files of a directory. By default
-     * already existing files are overwritten.
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param fileSpec Regular expression - file filter, used if source is a
-     *            directory
-     * @param flags Bit mask for following flags: {@link #CREATE_DIR},
-     *            {@link #GRACIOUS}, {@link #NOT_OVERWRITE} and
-     *            {@link #RECURSIVE}
-     * @param fileSpecFlags Pattern bitmask providing the regular expression
-     *            <em>fileSpec</em>
-     * @see <a
-     *      href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
-     * @param replacing Regular expression for file name replacement with
-     *            <em>replacement</em>. <em>replacing</em> is ignored if it is
-     *            NULL. Requires the parameter <em>replacement</em> being not
-     *            NULL.
-     * @param replacement String for replacement of the expression replacing.
-     *            Replacements for multiple capturing groups are separated by a
-     *            semicolon ";" <em>replacement</em> is ignored if it is NULL.
-     *            Requires the parameter <em>replacing</em> being not NULL.
-     * @param minFileAge Filter for file age: files with a earlier modification
-     *            date are skipped for renaming. Possible values: sec, hh:mm,
-     *            hh:mm:sec The Resulting set is sorted by file age in ascending
-     *            order (most recent first)
-     * @param maxFileAge Filter for file age: files with a later modification
-     *            date are skipped for renaming. Possible values: sec, hh:mm,
-     *            hh:mm:sec The Resulting set is sorted by file age in ascending
-     *            order (most recent first)
-     * @param minFileSize Filter for file size: smaller files are skipped for
-     *            renaming. Possible values: number (bytes), numberKB, numberMB,
-     *            numberGB (KB, MB, GB case insensitive) The Resulting set is
-     *            sorted by file size in ascending order (smallest first). If
-     *            the set is additionally filtered by file age the set is sorted
-     *            by file age.
-     * @param maxFileSize Filter for file size: greater files are skipped for
-     *            renaming. Possible values: number (bytes), numberKB, numberMB,
-     *            numberGB (KB, MB, GB case insensitive) The Resulting set is
-     *            sorted by file size in ascending order (smallest first). If
-     *            the set is additionally filtered by file age the set is sorted
-     *            by file age.
-     * @param skipFirstFiles Decreases the number of renamed files. Requires at
-     *            least one filter of minFileAge, maxFilesAge, minFileSize or
-     *            maxFileSize. The file sre skipped in respect of the sorting of
-     *            the filtered set. The smallest or most recent files are
-     *            skipped.
-     * @param skipLastFiles Decreases the number of renamed files. Requires at
-     *            least one filter of minFileAge, maxFilesAge, minFileSize or
-     *            maxFileSize. The file sre skipped in respect of the sorting of
-     *            the filtered set. The greatest or oldest files are skipped.
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was moved. Returns false if
-     *         zero files were moved
-     * @throws Exception */
     public static boolean renameFile(File source, File target, String fileSpec, int flags, int fileSpecFlags, String replacing, String replacement,
             String minFileAge, String maxFileAge, String minFileSize, String maxFileSize, int skipFirstFiles, int skipLastFiles, SOSLogger logger)
             throws Exception {
@@ -2017,364 +768,91 @@ public class SOSFileOperations {
                 skipFirstFiles, skipLastFiles, mode, logger);
     }
 
-    /** Renames/moves one file or all files of a directory. Already existing
-     * files are overwritten
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was moved. Returns false if
-     *         zero files were moved
-     * @throws Exception */
     public static boolean renameFile(String source, String target, SOSLogger logger) throws Exception {
         File sourceFile = new File(source);
-        File targetFile = (target == null) ? null : new File(target);
+        File targetFile = target == null ? null : new File(target);
         return renameFile(sourceFile, targetFile, logger);
     }
 
-    /** Renames/moves one file or all files of a directory. By default already
-     * existing files are overwritten
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param flags Bit mask for following flags: {@link #CREATE_DIR},
-     *            {@link #GRACIOUS}, {@link #NOT_OVERWRITE} and
-     *            {@link #RECURSIVE}
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was moved. Returns false if
-     *         zero files were moved
-     * @throws Exception */
     public static boolean renameFile(String source, String target, int flags, SOSLogger logger) throws Exception {
         File sourceFile = new File(source);
-        File targetFile = (target == null) ? null : new File(target);
+        File targetFile = target == null ? null : new File(target);
         return renameFile(sourceFile, targetFile, flags, logger);
     }
 
-    /** Renames/moves one file or several files of a directory. Already existing
-     * files are overwritten.
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param fileSpec Regular expression - file filter, used if source is a
-     *            directory
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was moved. Returns false if
-     *         zero files were moved
-     * @throws Exception */
     public static boolean renameFile(String source, String target, String fileSpec, SOSLogger logger) throws Exception {
         File sourceFile = new File(source);
-        File targetFile = (target == null) ? null : new File(target);
+        File targetFile = target == null ? null : new File(target);
         return renameFile(sourceFile, targetFile, fileSpec, logger);
     }
 
-    /** Renames/moves one file or several files of a directory. By default
-     * already existing files are overwritten.
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param fileSpec Regular expression - file filter, used if source is a
-     *            directory
-     * @param flags Bit mask for following flags: {@link #CREATE_DIR},
-     *            {@link #GRACIOUS}, {@link #NOT_OVERWRITE} and
-     *            {@link #RECURSIVE}
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was moved. Returns false if
-     *         zero files were moved
-     * @throws Exception */
     public static boolean renameFile(String source, String target, String fileSpec, int flags, SOSLogger logger) throws Exception {
         File sourceFile = new File(source);
-        File targetFile = (target == null) ? null : new File(target);
+        File targetFile = target == null ? null : new File(target);
         return renameFile(sourceFile, targetFile, fileSpec, flags, logger);
     }
 
-    /** Renames/moves one file or several files of a directory. By default
-     * already existing files are overwritten.
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param fileSpec Regular expression - file filter, used if source is a
-     *            directory
-     * @param flags Bit mask for following flags: {@link #CREATE_DIR},
-     *            {@link #GRACIOUS}, {@link #NOT_OVERWRITE} and
-     *            {@link #RECURSIVE}
-     * @param fileSpecFlags Pattern bitmask providing the regular expression
-     *            <em>fileSpec</em>
-     * @see <a
-     *      href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was moved. Returns false if
-     *         zero files were moved
-     * @throws Exception */
     public static boolean renameFile(String source, String target, String fileSpec, int flags, int fileSpecFlags, SOSLogger logger) throws Exception {
         File sourceFile = new File(source);
-        File targetFile = (target == null) ? null : new File(target);
+        File targetFile = target == null ? null : new File(target);
         return renameFile(sourceFile, targetFile, fileSpec, flags, fileSpecFlags, logger);
     }
 
-    /** Renames/moves one file or several files of a directory. Already existing
-     * files are overwritten.
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param fileSpec Regular expression - file filter, used if source is a
-     *            directory
-     * @param replacing Regular expression for file name replacement with
-     *            <em>replacement</em>. <em>replacing</em> is ignored if it is
-     *            NULL. Requires the parameter <em>replacement</em> being not
-     *            NULL.
-     * @param replacement String for replacement of the expression replacing.
-     *            Replacements for multiple capturing groups are separated by a
-     *            semicolon ";" <em>replacement</em> is ignored if it is NULL.
-     *            Requires the parameter <em>replacing</em> being not NULL.
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was moved. Returns false if
-     *         zero files were moved
-     * @throws Exception */
     public static boolean renameFile(String source, String target, String fileSpec, String replacing, String replacement, SOSLogger logger)
             throws Exception {
         File sourceFile = new File(source);
-        File targetFile = (target == null) ? null : new File(target);
+        File targetFile = target == null ? null : new File(target);
         return renameFile(sourceFile, targetFile, fileSpec, replacing, replacement, logger);
     }
 
-    /** Renames/moves one file or several files of a directory. By default
-     * already existing files are overwritten.
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param fileSpec Regular expression - file filter, used if source is a
-     *            directory
-     * @param flags Bit mask for following flags: {@link #CREATE_DIR},
-     *            {@link #GRACIOUS}, {@link #NOT_OVERWRITE} and
-     *            {@link #RECURSIVE}
-     * @param replacing Regular expression for file name replacement with
-     *            <em>replacement</em>. <em>replacing</em> is ignored if it is
-     *            NULL. Requires the parameter <em>replacement</em> being not
-     *            NULL.
-     * @param replacement String for replacement of the expression replacing.
-     *            Replacements for multiple capturing groups are separated by a
-     *            semicolon ";" <em>replacement</em> is ignored if it is NULL.
-     *            Requires the parameter <em>replacing</em> being not NULL.
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was moved. Returns false if
-     *         zero files were moved
-     * @throws Exception */
     public static boolean renameFile(String source, String target, String fileSpec, int flags, String replacing, String replacement, SOSLogger logger)
             throws Exception {
         File sourceFile = new File(source);
-        File targetFile = (target == null) ? null : new File(target);
+        File targetFile = target == null ? null : new File(target);
         return renameFile(sourceFile, targetFile, fileSpec, flags, replacing, replacement, logger);
     }
 
-    /** Renames/moves one file or several files of a directory. By default
-     * already existing files are overwritten.
-     * 
-     * @param source Source file or source directory, this argument is also used
-     *            as target
-     * @param fileSpec Regular expression - file filter, used if source is a
-     *            directory
-     * @param flags Bit mask for following flags: {@link #CREATE_DIR},
-     *            {@link #GRACIOUS}, {@link #NOT_OVERWRITE} and
-     *            {@link #RECURSIVE}
-     * @param fileSpecFlags Pattern bitmask providing the regular expression
-     *            <em>fileSpec</em>
-     * @see <a
-     *      href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
-     * @param replacing Regular expression for file name replacement with
-     *            <em>replacement</em>. <em>replacing</em> is ignored if it is
-     *            NULL. Requires the parameter <em>replacement</em> being not
-     *            NULL.
-     * @param replacement String for replacement of the expression replacing.
-     *            Replacements for multiple capturing groups are separated by a
-     *            semicolon ";" <em>replacement</em> is ignored if it is NULL.
-     *            Requires the parameter <em>replacing</em> being not NULL.
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was moved. Returns false if
-     *         zero files were moved
-     * @throws Exception */
     public static boolean renameFile(String source, String fileSpec, int flags, int fileSpecFlags, String replacing, String replacement,
             SOSLogger logger) throws Exception {
         File sourceFile = new File(source);
         return renameFile(sourceFile, fileSpec, flags, fileSpecFlags, replacing, replacement, logger);
     }
 
-    /** Renames/moves one file or several files of a directory. By default
-     * already existing files are overwritten.
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param fileSpec Regular expression - file filter, used if source is a
-     *            directory
-     * @param flags Bit mask for following flags: {@link #CREATE_DIR},
-     *            {@link #GRACIOUS}, {@link #NOT_OVERWRITE} and
-     *            {@link #RECURSIVE}
-     * @param fileSpecFlags Pattern bitmask providing the regular expression
-     *            <em>fileSpec</em>
-     * @see <a
-     *      href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
-     * @param replacing Regular expression for file name replacement with
-     *            <em>replacement</em>. <em>replacing</em> is ignored if it is
-     *            NULL. Requires the parameter <em>replacement</em> being not
-     *            NULL.
-     * @param replacement String for replacement of the expression replacing.
-     *            Replacements for multiple capturing groups are separated by a
-     *            semicolon ";" <em>replacement</em> is ignored if it is NULL.
-     *            Requires the parameter <em>replacing</em> being not NULL.
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was moved. Returns false if
-     *         zero files were moved
-     * @throws Exception */
     public static boolean renameFile(String source, String target, String fileSpec, int flags, int fileSpecFlags, String replacing,
             String replacement, SOSLogger logger) throws Exception {
         File sourceFile = new File(source);
-        File targetFile = (target == null) ? null : new File(target);
+        File targetFile = target == null ? null : new File(target);
         return renameFile(sourceFile, targetFile, fileSpec, flags, fileSpecFlags, replacing, replacement, logger);
     }
 
-    /** Renames/moves one file or several files of a directory. By default
-     * already existing files are overwritten.
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param fileSpec Regular expression - file filter, used if source is a
-     *            directory
-     * @param flags Bit mask for following flags: {@link #CREATE_DIR},
-     *            {@link #GRACIOUS}, {@link #NOT_OVERWRITE} and
-     *            {@link #RECURSIVE}
-     * @param fileSpecFlags Pattern bitmask providing the regular expression
-     *            <em>fileSpec</em>
-     * @see <a
-     *      href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
-     * @param replacing Regular expression for file name replacement with
-     *            <em>replacement</em>. <em>replacing</em> is ignored if it is
-     *            NULL. Requires the parameter <em>replacement</em> being not
-     *            NULL.
-     * @param replacement String for replacement of the expression replacing.
-     *            Replacements for multiple capturing groups are separated by a
-     *            semicolon ";" <em>replacement</em> is ignored if it is NULL.
-     *            Requires the parameter <em>replacing</em> being not NULL.
-     * @param minFileAge Filter for file age: files with a earlier modification
-     *            date are skipped for renaming. Possible values: sec, hh:mm,
-     *            hh:mm:sec The Resulting set is sorted by file age in ascending
-     *            order (most recent first)
-     * @param maxFileAge Filter for file age: files with a later modification
-     *            date are skipped for renaming. Possible values: sec, hh:mm,
-     *            hh:mm:sec The Resulting set is sorted by file age in ascending
-     *            order (most recent first)
-     * @param minFileSize Filter for file size: smaller files are skipped for
-     *            renaming. Possible values: number (bytes), numberKB, numberMB,
-     *            numberGB (KB, MB, GB case insensitive) The Resulting set is
-     *            sorted by file size in ascending order (smallest first). If
-     *            the set is additionally filtered by file age the set is sorted
-     *            by file age.
-     * @param maxFileSize Filter for file size: greater files are skipped for
-     *            renaming. Possible values: number (bytes), numberKB, numberMB,
-     *            numberGB (KB, MB, GB case insensitive) The Resulting set is
-     *            sorted by file size in ascending order (smallest first). If
-     *            the set is additionally filtered by file age the set is sorted
-     *            by file age.
-     * @param skipFirstFiles Decreases the number of renamed files. Requires at
-     *            least one filter of minFileAge, maxFilesAge, minFileSize or
-     *            maxFileSize. The file sre skipped in respect of the sorting of
-     *            the filtered set. The smallest or most recent files are
-     *            skipped.
-     * @param skipLastFiles Decreases the number of renamed files. Requires at
-     *            least one filter of minFileAge, maxFilesAge, minFileSize or
-     *            maxFileSize. The file sre skipped in respect of the sorting of
-     *            the filtered set. The greatest or oldest files are skipped.
-     * @param logger SOSLogger
-     * @return Returns true if at least one file was moved. Returns false if
-     *         zero files were moved
-     * @throws Exception */
     public static boolean renameFile(String source, String target, String fileSpec, int flags, int fileSpecFlags, String replacing,
             String replacement, String minFileAge, String maxFileAge, String minFileSize, String maxFileSize, int skipFirstFiles, int skipLastFiles,
             SOSLogger logger) throws Exception {
         File sourceFile = new File(source);
-        File targetFile = (target == null) ? null : new File(target);
+        File targetFile = target == null ? null : new File(target);
         return renameFile(sourceFile, targetFile, fileSpec, flags, fileSpecFlags, replacing, replacement, minFileAge, maxFileAge, minFileSize,
                 maxFileSize, skipFirstFiles, skipLastFiles, logger);
     }
 
-    /** Renames/moves one file or several files of a directory. By default
-     * already existing files are overwritten.
-     * 
-     * @param source Source file or source directory
-     * @param target Target file or target directory
-     * @param fileSpec Regular expression - file filter, used if source is a
-     *            directory
-     * @param flags Bit mask for following flags: {@link #CREATE_DIR},
-     *            {@link #GRACIOUS}, {@link #NOT_OVERWRITE} and
-     *            {@link #RECURSIVE}
-     * @param fileSpecFlags Pattern bitmask providing the regular expression
-     *            <em>fileSpec</em>
-     * @see <a
-     *      href="http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
-     * @param replacing Regular expression for file name replacement with
-     *            <em>replacement</em>. <em>replacing</em> is ignored if it is
-     *            NULL. Requires the parameter <em>replacement</em> being not
-     *            NULL.
-     * @param replacement String for replacement of the expression replacing.
-     *            Replacements for multiple capturing groups are separated by a
-     *            semicolon ";" <em>replacement</em> is ignored if it is NULL.
-     *            Requires the parameter <em>replacing</em> being not NULL.
-     * @param minFileAge Filter for file age: files with a earlier modification
-     *            date are skipped for renaming. Possible values: sec, hh:mm,
-     *            hh:mm:sec The Resulting set is sorted by file age in ascending
-     *            order (most recent first)
-     * @param maxFileAge Filter for file age: files with a later modification
-     *            date are skipped for renaming. Possible values: sec, hh:mm,
-     *            hh:mm:sec The Resulting set is sorted by file age in ascending
-     *            order (most recent first)
-     * @param minFileSize Filter for file size: smaller files are skipped for
-     *            renaming. Possible values: number (bytes), numberKB, numberMB,
-     *            numberGB (KB, MB, GB case insensitive) The Resulting set is
-     *            sorted by file size in ascending order (smallest first). If
-     *            the set is additionally filtered by file age the set is sorted
-     *            by file age.
-     * @param maxFileSize Filter for file size: greater files are skipped for
-     *            renaming. Possible values: number (bytes), numberKB, numberMB,
-     *            numberGB (KB, MB, GB case insensitive) The Resulting set is
-     *            sorted by file size in ascending order (smallest first). If
-     *            the set is additionally filtered by file age the set is sorted
-     *            by file age.
-     * @param skipFirstFiles Decreases the number of renamed files. Requires at
-     *            least one filter of minFileAge, maxFilesAge, minFileSize or
-     *            maxFileSize. The file sre skipped in respect of the sorting of
-     *            the filtered set. The smallest or most recent files are
-     *            skipped.
-     * @param skipLastFiles Decreases the number of renamed files. Requires at
-     *            least one filter of minFileAge, maxFilesAge, minFileSize or
-     *            maxFileSize. The file sre skipped in respect of the sorting of
-     *            the filtered set. The greatest or oldest files are skipped.
-     * @param logger SOSLogger
-     * @return Returns the number of renamed/moved files.
-     * @throws Exception */
     public static int renameFileCnt(String source, String target, String fileSpec, int flags, int fileSpecFlags, String replacing,
             String replacement, String minFileAge, String maxFileAge, String minFileSize, String maxFileSize, int skipFirstFiles, int skipLastFiles,
             SOSLogger logger) throws Exception {
         File sourceFile = new File(source);
-        File targetFile = (target == null) ? null : new File(target);
+        File targetFile = target == null ? null : new File(target);
         String mode = "rename";
         return transferFileCnt(sourceFile, targetFile, fileSpec, flags, fileSpecFlags, replacing, replacement, minFileAge, maxFileAge, minFileSize,
                 maxFileSize, skipFirstFiles, skipLastFiles, mode, logger);
     }
 
-    /** Used for copyFile and renameFile. Transfers files.
-     * 
-     * Returns true if at least one file was copied or moved. Returns false if
-     * zero files were copied or moved */
     private static boolean transferFile(File source, File target, String fileSpec, int flags, int fileSpecFlags, String replacing,
             String replacement, String minFileAge, String maxFileAge, String minFileSize, String maxFileSize, int skipFirstFiles, int skipLastFiles,
             String mode, SOSLogger logger) throws Exception {
         int nrOfTransferedFiles =
                 transferFileCnt(source, target, fileSpec, flags, fileSpecFlags, replacing, replacement, minFileAge, maxFileAge, minFileSize,
                         maxFileSize, skipFirstFiles, skipLastFiles, mode, logger);
-        return (nrOfTransferedFiles > 0);
+        return nrOfTransferedFiles > 0;
     }
 
-    /** Used for copyFile and renameFile. Transfers files.
-     * 
-     * Returns the number of the transferred files. */
     private static int transferFileCnt(File source, File target, String fileSpec, int flags, int fileSpecFlags, String replacing, String replacement,
             String minFileAge, String maxFileAge, String minFileSize, String maxFileSize, int skipFirstFiles, int skipLastFiles, String mode,
             SOSLogger logger) throws Exception {
@@ -2383,7 +861,6 @@ public class SOSFileOperations {
         boolean gracious;
         boolean overwrite;
         boolean replace = false;
-        // modi
         boolean copying = false;
         boolean renaming = false;
         String targetFilename;
@@ -2392,18 +869,16 @@ public class SOSFileOperations {
         long minSize = -1;
         long maxSize = -1;
         try {
-            if (mode.equals("copy")) {
+            if ("copy".equals(mode)) {
                 copying = true;
-            } else if (mode.equals("rename")) {
+            } else if ("rename".equals(mode)) {
                 renaming = true;
             } else {
                 throw new Exception("unsupported mode: " + mode);
             }
-            // welche Flags sind gesetzt?
             create_dir = has(flags, SOSFileOperations.CREATE_DIR);
             gracious = has(flags, SOSFileOperations.GRACIOUS);
             overwrite = !has(flags, SOSFileOperations.NOT_OVERWRITE);
-            // Argumente ausgeben
             if (copying) {
                 log_debug1("arguments for copyFile:", logger);
             } else if (renaming) {
@@ -2427,7 +902,7 @@ public class SOSFileOperations {
             if (has(flags, SOSFileOperations.RECURSIVE)) {
                 msg += "RECURSIVE ";
             }
-            if (msg.equals("")) {
+            if ("".equals(msg)) {
                 msg = "0";
             }
             log_debug1("argument flags=" + msg, logger);
@@ -2453,7 +928,7 @@ public class SOSFileOperations {
             if (has(fileSpecFlags, Pattern.UNIX_LINES)) {
                 msg += "UNIX_LINES ";
             }
-            if (msg.equals("")) {
+            if ("".equals(msg)) {
                 msg = "0";
             }
             log_debug1("argument fileSpecFlags=" + msg, logger);
@@ -2481,7 +956,6 @@ public class SOSFileOperations {
             if ((skipFirstFiles > 0 || skipLastFiles > 0) && minAge == 0 && maxAge == 0 && minSize == -1 && maxSize == -1) {
                 throw new Exception("missed constraint for file skipping (minFileAge, maxFileAge, minFileSize, maxFileSize)");
             }
-            // Wenn ersetzt werden soll, ist es gültig?
             if (replacing != null || replacement != null) {
                 if (replacing == null) {
                     throw new Exception("replacing cannot be null if replacement is set");
@@ -2498,7 +972,6 @@ public class SOSFileOperations {
                     replace = true;
                 }
             }
-            // Existiert die Quelle?
             if (!source.exists()) {
                 if (gracious) {
                     log(nrOfTransferedFiles + " file(s) renamed", logger);
@@ -2510,32 +983,23 @@ public class SOSFileOperations {
             if (!source.canRead()) {
                 throw new Exception("file or directory is not readable: " + source.getCanonicalPath());
             }
-            // Substitution im Zielverzeichnisnamen
             if (target != null) {
                 targetFilename = substituteAllDate(target.getPath());
                 targetFilename = substituteAllDirectory(targetFilename, source.getPath());
-                // should any opening and closing brackets be found in the file
-                // name, then this is an error
                 Matcher m = Pattern.compile("\\[[^]]*\\]").matcher(targetFilename);
                 if (m.find()) {
                     throw new Exception("unsupported file mask found: " + m.group());
                 }
-                // zum Schluss Änderungen zuweisen
                 target = new File(targetFilename);
             }
-            // optional Zielverzeichnis anlegen
-            if (create_dir) {
-                if (target != null && !target.exists()) {
-                    if (target.mkdirs()) {
-                        log("create target directory " + target.getCanonicalPath(), logger);
-                    } else {
-                        throw new Exception("cannot create directory " + target.getCanonicalPath());
-                    }
+            if (create_dir && target != null && !target.exists()) {
+                if (target.mkdirs()) {
+                    log("create target directory " + target.getCanonicalPath(), logger);
+                } else {
+                    throw new Exception("cannot create directory " + target.getCanonicalPath());
                 }
             }
-            // Liste der Dateien
             Vector<File> list = null;
-            // 1. Quelle ist ein Verzeichnis
             if (source.isDirectory()) {
                 if (target != null) {
                     if (!target.exists()) {
@@ -2545,16 +1009,12 @@ public class SOSFileOperations {
                         throw new Exception("target is no directory: " + target.getCanonicalPath());
                     }
                 }
-                // hier werden Filter wie FileAge, FileSize und Einschraenkung
-                // der Anzahl angewendet
                 list =
                         getFilelist(source.getPath(), fileSpec, fileSpecFlags, has(flags, SOSFileOperations.RECURSIVE), minAge, maxAge, minSize,
                                 maxSize, skipFirstFiles, skipLastFiles);
-                // 2. Quelle ist eine einzige Datei
             } else {
                 list = new Vector<File>();
                 list.add(source);
-                // Filterung
                 list = filelistFilterAge(list, minAge, maxAge);
                 list = filelistFilterSize(list, minSize, maxSize);
                 if (skipFirstFiles > 0 || skipLastFiles > 0) {
@@ -2565,20 +1025,15 @@ public class SOSFileOperations {
             File dir;
             for (int i = 0; i < list.size(); i++) {
                 sourceFile = (File) list.get(i);
-                // Zieldatei ermitteln
                 if (target != null) {
                     if (target.isDirectory()) {
-                        // Rekursion berücksichtigen
                         String root = (source.isDirectory()) ? source.getPath() : source.getParent();
                         targetFilename = target.getPath() + sourceFile.getPath().substring(root.length());
                     } else {
                         targetFilename = target.getPath();
                     }
-                    // target ist null, d.h. das Quellverzeichnis ist auch das
-                    // Zielverzeichnis
                 } else {
                     if (source.isDirectory()) {
-                        // Rekursion berücksichtigen
                         String root = (source.isDirectory()) ? source.getPath() : source.getParent();
                         targetFilename = source.getPath() + sourceFile.getPath().substring(root.length());
                     } else {
@@ -2586,15 +1041,12 @@ public class SOSFileOperations {
                     }
                 }
                 targetFile = new File(targetFilename);
-                // Dateinamen ersetzen
                 try {
                     if (replace) {
                         targetFilename = targetFile.getName();
                         targetFilename = replaceGroups(targetFilename, replacing, replacement);
                         targetFilename = substituteAllDate(targetFilename);
                         targetFilename = substituteAllFilename(targetFilename, targetFile.getName());
-                        // should any opening and closing brackets be found in
-                        // the file name, then this is an error
                         Matcher matcher = Pattern.compile("\\[[^]]*\\]").matcher(targetFilename);
                         if (matcher.find()) {
                             throw new Exception("unsupported file mask found: " + matcher.group());
@@ -2604,7 +1056,6 @@ public class SOSFileOperations {
                 } catch (Exception re) {
                     throw new Exception("replacement error in file " + targetFilename + ": " + re.getMessage());
                 }
-                // Existieren alle benötigten Elternverzeichnisse?
                 dir = new File(targetFile.getParent());
                 if (!dir.exists()) {
                     if (dir.mkdirs()) {
@@ -2720,7 +1171,6 @@ public class SOSFileOperations {
                 return ret;
             }
         }
-
         class AgeComparator implements Comparator {
 
             public int compare(Object o1, Object o2) {
@@ -2740,14 +1190,11 @@ public class SOSFileOperations {
             }
         }
 
-        // sortiert die Dateien im Array aufsteigend nach Größe der Datei, d.h.
-        // kleinere zuerst
-        if (sorting.equals("sort_size")) {
+        if ("sort_size".equals(sorting)) {
             Arrays.sort(oArr, new SizeComparator());
-        } else if (sorting.equals("sort_age")) {
+        } else if ("sort_age".equals(sorting)) {
             Arrays.sort(oArr, new AgeComparator());
         }
-        // Skip files
         filelist = new Vector<File>();
         for (int i = 0 + skipFirstFiles; i < oArr.length - skipLastFiles; i++) {
             filelist.add((File) oArr[i]);
@@ -2755,16 +1202,6 @@ public class SOSFileOperations {
         return filelist;
     }
 
-    /** liefert Dateiliste des eingegebenen Verzeichnis zurueck.
-     * 
-     * @return Vector Dateiliste
-     * @param regexp ein regul&auml;er Ausdruck
-     * @param flag ein Integer-Wert: CASE_INSENSITIVE, MULTILINE, DOTALL,
-     *            UNICODE_CASE, and CANON_EQ
-     * @param withSubFolder
-     * @see <a
-     *      href="http://java.sun.com/j2se/1.4.2/docs/api/constant-values.html#java.util.regex.Pattern.UNIX_LINES">Constant
-     *      Field Values</a> */
     private static Vector<File> getFilelist(String folder, String regexp, int flag, boolean withSubFolder, long minFileAge, long maxFileAge,
             long minFileSize, long maxFileSize, int skipFirstFiles, int skipLastFiles) throws Exception {
         Vector<File> filelist = new Vector<File>();
@@ -2774,7 +1211,6 @@ public class SOSFileOperations {
         file = new File(folder);
         subDir = file.listFiles();
         temp = SOSFile.getFilelist(folder, regexp, flag);
-        // filtern
         temp = filelistFilterAge(temp, minFileAge, maxFileAge);
         temp = filelistFilterSize(temp, minFileSize, maxFileSize);
         if ((minFileSize != -1 || minFileSize != -1) && minFileAge == 0 && maxFileAge == 0) {
@@ -2794,15 +1230,11 @@ public class SOSFileOperations {
         return filelist;
     }
 
-    /** @param fileage sec or hours:min[:sec]
-     * @return long value
-     * @throws Exception */
     private static long calculateFileAge(String fileage) throws Exception {
         long age = 0;
-        if (fileage == null || fileage.trim().length() == 0) {
+        if (fileage == null || fileage.trim().isEmpty()) {
             return 0;
         }
-        // sec
         if (fileage.indexOf(":") == -1) {
             if (!fileage.matches("[\\d]+")) {
                 throw new Exception("[" + fileage + "] is no valid file age");
@@ -2810,7 +1242,6 @@ public class SOSFileOperations {
                 return Long.parseLong(fileage) * 1000;
             }
         }
-        // hours:min[:sec]
         if (!fileage.matches("^[\\d].*[\\d]$")) {
             throw new Exception("[" + fileage + "] is no valid file age");
         }
@@ -2833,12 +1264,9 @@ public class SOSFileOperations {
         return age;
     }
 
-    /** @param filesize X Bytes, X KB, X MB, X GB
-     * @return long value
-     * @throws Exception */
     private static long calculateFileSize(String filesize) throws Exception {
         long size;
-        if (filesize == null || filesize.trim().length() == 0) {
+        if (filesize == null || filesize.trim().isEmpty()) {
             return -1;
         }
         if (filesize.matches("-1")) {
@@ -2861,7 +1289,6 @@ public class SOSFileOperations {
     }
 
     private static String substituteFirstFilename(String targetFilename, String original) throws Exception {
-        // check for [filename:...]
         Matcher matcher = Pattern.compile("\\[filename:([^\\]]*)\\]").matcher(targetFilename);
         if (matcher.find()) {
             if (matcher.group(1).equals("")) {
@@ -2876,8 +1303,6 @@ public class SOSFileOperations {
     }
 
     private static String substituteAllFilename(String targetFilename, String original) throws Exception {
-        // original ist das replacement; es ist der urspruengliche Dateiname
-        // inklusive Endung
         String temp = substituteFirstFilename(targetFilename, original);
         while (!targetFilename.equals(temp)) {
             targetFilename = temp;
@@ -2889,7 +1314,6 @@ public class SOSFileOperations {
     private static String substituteFirstDate(String targetFilename) throws Exception {
         final String conVarName = "[date:";
         try {
-            // check for a date format string given in the file mask
             if (targetFilename.matches("(.*)(\\" + conVarName + ")([^\\]]*)(\\])(.*)")) {
                 int posBegin = targetFilename.indexOf(conVarName);
                 if (posBegin > -1) {
@@ -2929,19 +1353,18 @@ public class SOSFileOperations {
             if (!sourceFile.isDirectory()) {
                 source = sourceFile.getParent();
             }
-            // normalisieren
             source = source.replaceAll("\\\\", "/");
             target = target.replaceAll("\\\\", "/");
             Pattern p = Pattern.compile("\\[directory:(-[\\d]+|[\\d]*)\\]");
             Matcher m = p.matcher(target);
             if (m.find()) {
                 String substitute = "";
-                if (m.group(1).length() == 0 || m.group(1).equals("0") || m.group(1).equals("-0")) {
+                if (m.group(1).isEmpty() || "0".equals(m.group(1)) || "-0".equals(m.group(1))) {
                     substitute = source;
                 } else {
                     int depth = Integer.valueOf(m.group(1)).intValue();
                     StringTokenizer st = new StringTokenizer(source, "/");
-                    int absDepth = (depth < 0) ? -depth : depth;
+                    int absDepth = depth < 0 ? -depth : depth;
                     if (absDepth >= st.countTokens()) {
                         substitute = source;
                     } else {
@@ -2981,16 +1404,6 @@ public class SOSFileOperations {
         return temp;
     }
 
-    /** Replaces all groups in a string with given replacements. If only group 0
-     * is existing (that means the entire match) it will be replaced with the
-     * first replacement. Otherwise each capturing group will be replaced
-     * accordingly.
-     * 
-     * @param input Inputstring
-     * @param replacing Pattern
-     * @param replacements replacement strings separated by semicolons
-     * @return Result
-     * @throws Exception */
     public static String replaceGroups(String input, String replacing, String replacements) throws Exception {
         if (replacements == null) {
             throw new RuntimeException("replacements missing: 0 replacements defined");
@@ -2998,16 +1411,6 @@ public class SOSFileOperations {
         return replaceGroups(input, replacing, replacements.split(";"));
     }
 
-    /** Replaces all groups in a string with given replacements. If only group 0
-     * is existing (that means the entire match) it will be replaced with the
-     * first replacement. Otherwise each capturing group will be replaced
-     * accordingly.
-     * 
-     * @param input Inputstring
-     * @param replacing Pattern
-     * @param replacements Array von Ersetzungsstrings
-     * @return Result
-     * @throws Exception */
     public static String replaceGroups(String pstrSourceString, String replacing, String[] replacements) throws Exception {
         String result = "";
         if (replacements == null) {
@@ -3023,7 +1426,6 @@ public class SOSFileOperations {
             throw new RuntimeException("replacements missing: " + replacements.length + " replacement(s) defined but " + intGroupCount
                     + " groups found");
         }
-        // no groups, exchange the whole string
         if (intGroupCount == 0) {
             result = pstrSourceString.substring(0, m.start()) + replacements[0] + pstrSourceString.substring(m.end());
         } else {
@@ -3140,17 +1542,10 @@ public class SOSFileOperations {
         }
     }
 
-    /** Tests if a flag is set or not */
     private static boolean has(int flags, int f) {
         return (flags & f) > 0;
     }
 
-    /** Method for invoking a method of this class by use of the Reflection API
-     * 
-     * @param methodname
-     * @param argtypes
-     * @param args
-     * @throws Exception */
     public static void callMethod(String methodname, Class[] argtypes, Object[] args) throws Exception {
         Method method = null;
         try {
@@ -3176,22 +1571,12 @@ public class SOSFileOperations {
         }
     }
 
-    /** Returns a new filename where string replacements are applied. <br/>
-     * After replacements are applied the patterns [date:...], [filename:],
-     * [filename:lowercase] and [filename:uppercase] are substituted.
-     * 
-     * @param input original filename
-     * @param replacing regular expression for matching
-     * @param replacements replacement string
-     * @throws Exception */
     public static String getReplacementFilename(String input, String replacing, String replacements) throws Exception {
         String targetFilename = input;
         try {
             targetFilename = replaceGroups(targetFilename, replacing, replacements.split(";"));
             targetFilename = substituteAllDate(targetFilename);
             targetFilename = substituteAllFilename(targetFilename, input);
-            // should any opening and closing brackets be found in the file
-            // name, then this is an error
             Matcher m = Pattern.compile("\\[[^\\]]*\\]").matcher(targetFilename);
             if (m.find()) {
                 throw new Exception("unsupported file mask found:" + m.group());

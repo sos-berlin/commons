@@ -137,12 +137,12 @@ public class SOSDate {
             formatter = new SimpleDateFormat(dateFormat);
             formatter.setLenient(lenient);
         } catch (Exception e) {
-            throw (new Exception("invalid date format string: " + e.toString()));
+            throw new Exception("invalid date format string: " + e.toString());
         }
         try {
             return formatter.parse(dateStr);
         } catch (Exception e) {
-            throw (new Exception("illegal date string: " + e.toString()));
+            throw new Exception("illegal date string: " + e.toString());
         }
     }
 
@@ -157,7 +157,7 @@ public class SOSDate {
             Calendar now = Calendar.getInstance();
             return now.getTime();
         } catch (Exception e) {
-            throw (new Exception("illegal date value: " + e.toString()));
+            throw new Exception("illegal date value: " + e.toString());
         }
     }
 
@@ -173,7 +173,7 @@ public class SOSDate {
             formatter = new SimpleDateFormat(SOSDate.dateTimeFormat);
             formatter.setLenient(lenient);
         } catch (Exception e) {
-            throw (new Exception("invalid date format string: " + e.toString()));
+            throw new Exception("invalid date format string: " + e.toString());
         }
         try {
             return formatter.parse(dateTimeStr);
@@ -194,12 +194,12 @@ public class SOSDate {
             formatter = new SimpleDateFormat(dateTimeFormat);
             formatter.setLenient(lenient);
         } catch (Exception e) {
-            throw (new Exception("invalid date format string: " + e.toString()));
+            throw new Exception("invalid date format string: " + e.toString());
         }
         try {
             return formatter.parse(dateTimeStr);
         } catch (Exception e) {
-            throw (new Exception("illegal date value: " + e.toString()));
+            throw new Exception("illegal date value: " + e.toString());
         }
     }
 
@@ -484,7 +484,7 @@ public class SOSDate {
         Document doc = null;
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
-        doc = db.parse((new InputSource(new StringReader(holidays))));
+        doc = db.parse(new InputSource(new StringReader(holidays)));
         return getNextWorkingDay(date, doc);
     }
 

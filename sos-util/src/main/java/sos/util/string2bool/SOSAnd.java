@@ -3,7 +3,6 @@ package sos.util.string2bool;
 final class SOSAnd implements SOSIBoolean {
 
     private SOSIBoolean iBoolean1;
-
     private SOSIBoolean iBoolean2;
 
     SOSAnd(final SOSIBoolean newIBoolean1, final SOSIBoolean newIBoolean2) {
@@ -19,7 +18,7 @@ final class SOSAnd implements SOSIBoolean {
     }
 
     public boolean booleanValue() {
-        return (this.iBoolean1.booleanValue() && this.iBoolean2.booleanValue());
+        return this.iBoolean1.booleanValue() && this.iBoolean2.booleanValue();
     }
 
     public String toString() {

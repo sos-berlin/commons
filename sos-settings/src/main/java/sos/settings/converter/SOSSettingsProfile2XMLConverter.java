@@ -52,7 +52,7 @@ public class SOSSettingsProfile2XMLConverter {
         try {
             File file = new File(source);
             if (!file.exists()) {
-                throw (new Exception("couldn't find source [" + source + "]."));
+                throw new Exception("couldn't find source [" + source + "].");
             }
             in = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
             sections = new LinkedHashMap();
@@ -92,7 +92,7 @@ public class SOSSettingsProfile2XMLConverter {
                 logger.debug3(SOSClassUtil.getMethodName() + ": profile [" + source + "] successfully loaded.");
             }
         } catch (Exception e) {
-            throw (new Exception(SOSClassUtil.getMethodName() + ": " + e.toString()));
+            throw new Exception(SOSClassUtil.getMethodName() + ": " + e.toString());
         } finally {
             if (in == null) {
                 try {

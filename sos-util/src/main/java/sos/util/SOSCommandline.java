@@ -197,10 +197,8 @@ public class SOSCommandline {
                 }
                 Vector returnValues = SOSCommandline.execute(command, logger);
                 Integer exitValue = (Integer) returnValues.elementAt(0);
-                if (exitValue.compareTo(new Integer(0)) == 0) {
-                    if ((String) returnValues.elementAt(1) != null) {
-                        returnPassword = (String) returnValues.elementAt(1);
-                    }
+                if (exitValue.compareTo(new Integer(0)) == 0 && (String) returnValues.elementAt(1) != null) {
+                    returnPassword = (String) returnValues.elementAt(1);
                 }
             }
         } catch (Exception e) {
