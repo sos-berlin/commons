@@ -41,7 +41,7 @@ public class SOSKeyGenerator {
             throw new Exception("keyLenght cannot be 0");
         }
         try {
-            if (SOSKeyGenerator.provider.equalsIgnoreCase("BC") && Security.getProvider("BC") == null) {
+            if ("BC".equalsIgnoreCase(SOSKeyGenerator.provider) && Security.getProvider("BC") == null) {
                 Provider bp = new org.bouncycastle.jce.provider.BouncyCastleProvider();
                 Security.addProvider(bp);
             }
@@ -173,7 +173,7 @@ public class SOSKeyGenerator {
             System.err.println("exception " + e.toString());
             info = new byte[0];
         }
-        return (info);
+        return info;
     }
 
     public static String getKeyAlgorithmName() {
@@ -200,7 +200,7 @@ public class SOSKeyGenerator {
         SOSKeyGenerator.provider = provider;
     }
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         try {
             String path = "J:/E/java/al/sos.util/signature/";
             String keyAlgorithmName = "RSA";

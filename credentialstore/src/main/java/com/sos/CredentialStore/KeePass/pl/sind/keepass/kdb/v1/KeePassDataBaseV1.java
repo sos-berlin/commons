@@ -39,14 +39,6 @@ import com.sos.CredentialStore.KeePass.pl.sind.keepass.util.Utils;
  * @author Lukasz Wozniak */
 public class KeePassDataBaseV1 implements KeePassDataBase {
 
-    @SuppressWarnings("unused")
-    private final String conClassName = this.getClass().getSimpleName();
-    @SuppressWarnings("unused")
-    private static final String conSVNVersion = "$Id$";
-    @SuppressWarnings("unused")
-    private final Logger logger = Logger.getLogger(this.getClass());
-
-    // private HeaderV1 header;
     private byte[] keyFileHash;
     private byte[] passwordHash;
     private final Hash hash;
@@ -93,15 +85,13 @@ public class KeePassDataBaseV1 implements KeePassDataBase {
             for (int i = 0; i < header.getGroups(); i++) {
                 short fieldType;
                 while ((fieldType = bb.getShort()) != GroupFieldTypes.TERMINATOR) {
-                    // System.out.println(String.format("Group fieldType %x",
-                    // fieldType));
                     if (fieldType == 0) {
                         continue;
                     }
                     int fieldSize = bb.getInt();
                     groupsDes.readField(fieldType, fieldSize, bb);
                 }
-                bb.getInt(); // reading FIELDSIZE of group entry terminator
+                bb.getInt();
                 groups.add(groupsDes.getGroup());
                 groupsDes.reset();
             }
@@ -115,7 +105,7 @@ public class KeePassDataBaseV1 implements KeePassDataBase {
                     int fieldSize = bb.getInt();
                     entryDes.readField(fieldType, fieldSize, bb);
                 }
-                bb.getInt(); // reading FIELDSIZE of entry terminator
+                bb.getInt();
                 entries.add(entryDes.getEntry());
                 entryDes.reset();
             }
@@ -134,11 +124,9 @@ public class KeePassDataBaseV1 implements KeePassDataBase {
                         }
                     }
                 }
-                // System.out.println(strPath);
                 objEntry.setPath(strPath);
             }
         } catch (UnsupportedEncodingException e) {
-            // weird...
             throw new KeePassDataBaseException("UTF-8 is not supported on this platform");
         }
     }
@@ -210,9 +198,6 @@ public class KeePassDataBaseV1 implements KeePassDataBase {
         }
     }
 
-    /** Validates version and encryption flags.<br>
-     * 
-     * @throws UnsupportedDataBaseException */
     private void validateHeader(final HeaderV1 header) throws UnsupportedDataBaseException {
         if ((header.getVersion() & KeePassConst.KDB_FILE_VERSION_CRITICAL_MASK) != (KeePassConst.KDB_FILE_VERSION & KeePassConst.KDB_FILE_VERSION_CRITICAL_MASK)) {
             throw new UnsupportedDataBaseException(String.format("Invalid database version %x. Only %x version is supported", header.getVersion(),
@@ -305,4 +290,5 @@ public class KeePassDataBaseV1 implements KeePassDataBase {
         }
         return null;
     }
+
 }

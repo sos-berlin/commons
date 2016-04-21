@@ -342,7 +342,7 @@ public class SOSSAXParserXML implements ContentHandler, ErrorHandler, DTDHandler
         try {
             this.outputScripFilename = outputScripFilename;
             if (outputScripFilename != null && !outputScripFilename.isEmpty()) {
-                output = new BufferedWriter((new FileWriter(outputScripFilename)));
+                output = new BufferedWriter(new FileWriter(outputScripFilename));
             }
         } catch (Exception e) {
             throw new Exception("\n ..error in " + SOSClassUtil.getMethodName() + " " + e);

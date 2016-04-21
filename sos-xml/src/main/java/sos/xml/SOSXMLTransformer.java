@@ -39,10 +39,10 @@ public class SOSXMLTransformer {
     public static void transform(String data, File xslFile, File outputFile, HashMap parameters) throws TransformerException,
             TransformerConfigurationException, FileNotFoundException, IOException, Exception {
         if (data.isEmpty()) {
-            throw (new Exception("SOSXMLTransformer: no xml document contained in data."));
+            throw new Exception("SOSXMLTransformer: no xml document contained in data.");
         }
         if (!xslFile.exists()) {
-            throw (new Exception("SOSXMLTransformer: no file found containing stylesheet."));
+            throw new Exception("SOSXMLTransformer: no file found containing stylesheet.");
         }
         TransformerFactory tFactory = TransformerFactory.newInstance();
         Transformer transformer = tFactory.newTransformer(new StreamSource(xslFile));
@@ -136,10 +136,10 @@ public class SOSXMLTransformer {
     public static void transform(String data, StreamSource stylesheetStream, File outputFile, HashMap parameters) throws TransformerException,
             TransformerConfigurationException, FileNotFoundException, IOException, Exception {
         if (data.isEmpty()) {
-            throw (new Exception("SOSXMLTransformer: no xml document contained in data."));
+            throw new Exception("SOSXMLTransformer: no xml document contained in data.");
         }
         if (stylesheetStream == null) {
-            throw (new Exception("SOSXMLTransformer: no stylesheet contained in stream."));
+            throw new Exception("SOSXMLTransformer: no stylesheet contained in stream.");
         }
         TransformerFactory tFactory = TransformerFactory.newInstance();
         Transformer transformer = tFactory.newTransformer(stylesheetStream);
