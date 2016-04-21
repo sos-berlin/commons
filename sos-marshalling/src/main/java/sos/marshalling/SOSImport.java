@@ -166,6 +166,11 @@ public class SOSImport extends DefaultHandler {
         public Iterator getIterator() {
             return _tables.keySet().iterator();
         }
+        
+        public boolean isEmpty() {
+            return _tables.isEmpty();
+        }
+        
     }
 
     public SOSImport(SOSConnection conn, String fileName, String packageId, String packageElement, String packageValue, SOSStandardLogger log) {
@@ -553,7 +558,7 @@ public class SOSImport extends DefaultHandler {
             }
             boolean restrictMode = _restrictMode;
             HashMap restrictObject = _restrictObject;
-            if (_tables.size() > 0) {
+            if (!_tables.isEmpty()) {
                 boolean found = false;
                 for (Iterator it = _tables.getIterator(); it.hasNext();) {
                     String key = it.next().toString();
@@ -749,7 +754,7 @@ public class SOSImport extends DefaultHandler {
             }
             boolean restrictMode = _restrictMode;
             HashMap restrictObject = _restrictObject;
-            if (_tables.size() > 0) {
+            if (!_tables.isEmpty()) {
                 boolean found = false;
                 for (Iterator it = _tables.getIterator(); it.hasNext();) {
                     String key = it.next().toString();
@@ -836,7 +841,7 @@ public class SOSImport extends DefaultHandler {
             }
             boolean restrictMode = _restrictMode;
             HashMap restrictObject = _restrictObject;
-            if (_tables.size() > 0) {
+            if (!_tables.isEmpty()) {
                 boolean found = false;
                 for (Iterator it = _tables.getIterator(); it.hasNext();) {
                     String key = it.next().toString();

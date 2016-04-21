@@ -1,15 +1,5 @@
 package sos.settings;
 
-/** Title: SOSConnectionSettings Description: eine einfache Klasse zum Lesen
- * einer settings-Tabelle Copyright: Copyright (c) 2003 Company: SOS Berlin GmbH
- * 
- * @author <a href="mailto:ghassan.beydoun@sos-berlin.com">Ghassan Beydoun</a>
- * @resource sos.connection.jar sos.util.jar
- * @version 1.0
- * @author <a href="mailto:andreas.pueschel@sos-berlin.com">Andreas Püschel</a>
- * @resource sos.connection.jar sos.util.jar
- * @version 1.0 */
-
 import java.util.Properties;
 import java.util.ArrayList;
 
@@ -21,9 +11,10 @@ import sos.util.SOSClassUtil;
 import sos.util.SOSLogger;
 import sos.util.SOSString;
 
+/** @author Ghassan Beydoun
+ * @author Andreas PÃ¼schel*/
 public class SOSConnectionSettings extends sos.settings.SOSSettings {
 
-    private SOSConnection sosConnection;
     protected String application = "";
     protected final static String APPLICATION = "APPLICATION";
     protected final static String SECTION = "SECTION";
@@ -37,11 +28,12 @@ public class SOSConnectionSettings extends sos.settings.SOSSettings {
     protected String entrySettingTitle = "TITLE";
     protected String entrySchemaSection = "**schema**";
     protected String defaultDocumentFileName = "settings_file.dat";
-
+    private SOSConnection sosConnection;
+    
     public SOSConnectionSettings(SOSConnection sosConnection, String source, SOSLogger logger) throws Exception {
         super(source, logger);
         if (sosConnection == null) {
-            throw (new Exception(SOSClassUtil.getMethodName() + " invalid sosConnection !!."));
+            throw new Exception(SOSClassUtil.getMethodName() + " invalid sosConnection !!.");
         }
         this.sosConnection = sosConnection;
     }
@@ -49,10 +41,10 @@ public class SOSConnectionSettings extends sos.settings.SOSSettings {
     public SOSConnectionSettings(SOSConnection sosConnection, String source, String application, SOSLogger logger) throws Exception {
         super(source, logger);
         if (sosConnection == null) {
-            throw (new Exception(SOSClassUtil.getMethodName() + ": invalid sosConnection !!."));
+            throw new Exception(SOSClassUtil.getMethodName() + ": invalid sosConnection !!.");
         }
         if (SOSString.isEmpty(application)) {
-            throw (new Exception(SOSClassUtil.getMethodName() + ": invalid application name !!."));
+            throw new Exception(SOSClassUtil.getMethodName() + ": invalid application name !!.");
         }
         this.sosConnection = sosConnection;
         this.application = application;
@@ -61,10 +53,10 @@ public class SOSConnectionSettings extends sos.settings.SOSSettings {
     public SOSConnectionSettings(SOSConnection sosConnection, String source, String application, String section, SOSLogger logger) throws Exception {
         super(source, section, logger);
         if (sosConnection == null) {
-            throw (new Exception(SOSClassUtil.getMethodName() + ": invalid sosConnection name."));
+            throw new Exception(SOSClassUtil.getMethodName() + ": invalid sosConnection name.");
         }
         if (SOSString.isEmpty(application)) {
-            throw (new Exception(SOSClassUtil.getMethodName() + ": invalid application name."));
+            throw new Exception(SOSClassUtil.getMethodName() + ": invalid application name.");
         }
         this.sosConnection = sosConnection;
         this.application = application;
@@ -72,20 +64,21 @@ public class SOSConnectionSettings extends sos.settings.SOSSettings {
 
     public Properties getSection(String application, String section) throws Exception {
         Properties entries = new Properties();
-        StringBuffer query = null;
+        StringBuilder query = null;
         if (SOSString.isEmpty(application)) {
-            throw (new Exception(SOSClassUtil.getMethodName() + ": application has no value!"));
+            throw new Exception(SOSClassUtil.getMethodName() + ": application has no value!");
         }
         if (SOSString.isEmpty(section)) {
-            throw (new Exception(SOSClassUtil.getMethodName() + ": section has no value!"));
+            throw new Exception(SOSClassUtil.getMethodName() + ": section has no value!");
         }
         logger.debug6("calling " + SOSClassUtil.getMethodName());
+        query = new StringBuilder();
         if (this.ignoreCase) {
-            query = new StringBuffer("SELECT \"").append(NAME).append("\",\"").append(VALUE).append("\" FROM ").append(source).append(" WHERE %lcase(\"")
+            query.append("SELECT \"").append(NAME).append("\",\"").append(VALUE).append("\" FROM ").append(source).append(" WHERE %lcase(\"")
                     .append(APPLICATION).append("\") = '").append(application.toLowerCase()).append("' AND %lcase(\"").append(SECTION).append("\") = '")
                     .append(section.toLowerCase()).append("' AND \"").append(SECTION).append("\" <> \"").append(NAME).append("\"");
         } else {
-            query = new StringBuffer("SELECT \"").append(NAME).append("\",\"").append(VALUE).append("\" FROM ").append(source).append(" WHERE \"")
+            query.append("SELECT \"").append(NAME).append("\",\"").append(VALUE).append("\" FROM ").append(source).append(" WHERE \"")
                     .append(APPLICATION).append("\" = '").append(application).append("' AND \"").append(SECTION).append("\" = '").append(section)
                     .append("' AND \"").append(SECTION).append("\" <> \"").append(NAME).append("\"");
         }
@@ -93,7 +86,7 @@ public class SOSConnectionSettings extends sos.settings.SOSSettings {
         try {
             entries = sosConnection.getArrayAsProperties(query.toString());
         } catch (Exception e) {
-            throw (new Exception(SOSClassUtil.getMethodName() + ":" + e.toString()));
+            throw new Exception(SOSClassUtil.getMethodName() + ":" + e.toString());
         }
         return entries;
     }
@@ -101,10 +94,10 @@ public class SOSConnectionSettings extends sos.settings.SOSSettings {
     public Properties getSection(String section) throws Exception {
         logger.debug6("calling " + SOSClassUtil.getMethodName());
         if (SOSString.isEmpty(section)) {
-            throw (new Exception(SOSClassUtil.getMethodName() + ": section has no value!"));
+            throw new Exception(SOSClassUtil.getMethodName() + ": section has no value!");
         }
         if (this.application == null || this.application.isEmpty()) {
-            throw (new Exception(SOSClassUtil.getMethodName() + ": application has no value!"));
+            throw new Exception(SOSClassUtil.getMethodName() + ": application has no value!");
         }
         return getSection(application, section);
     }
@@ -112,40 +105,41 @@ public class SOSConnectionSettings extends sos.settings.SOSSettings {
     public Properties getSection() throws Exception {
         logger.debug6("calling " + SOSClassUtil.getMethodName());
         if (SOSString.isEmpty(application)) {
-            throw (new Exception(SOSClassUtil.getMethodName() + ": application has no value!"));
+            throw new Exception(SOSClassUtil.getMethodName() + ": application has no value!");
         }
         if (SOSString.isEmpty(section)) {
-            throw (new Exception(SOSClassUtil.getMethodName() + ": section has no value!"));
+            throw new Exception(SOSClassUtil.getMethodName() + ": section has no value!");
         }
         return getSection(application, section);
     }
 
     public ArrayList getSections(String application) throws Exception {
         ArrayList sections = new ArrayList();
-        StringBuffer query = null;
+        StringBuilder query = null;
         if (SOSString.isEmpty(application)) {
-            throw (new Exception(SOSClassUtil.getMethodName() + ": application has no value!"));
+            throw new Exception(SOSClassUtil.getMethodName() + ": application has no value!");
         }
         logger.debug6("calling " + SOSClassUtil.getMethodName());
+        query = new StringBuilder();
         if (this.ignoreCase) {
-            query = new StringBuffer("SELECT \"").append(SECTION).append("\" FROM ").append(source).append(" WHERE %lcase(\"").append(APPLICATION)
+            query.append("SELECT \"").append(SECTION).append("\" FROM ").append(source).append(" WHERE %lcase(\"").append(APPLICATION)
                     .append("\") = '").append(application.toLowerCase()).append("' AND \"").append(SECTION).append("\" <> \"").append(APPLICATION).append("\"");
         } else {
-            query = new StringBuffer("SELECT \"").append(SECTION).append("\" FROM ").append(source).append(" WHERE \"").append(APPLICATION).append("\" = '")
+            query.append("SELECT \"").append(SECTION).append("\" FROM ").append(source).append(" WHERE \"").append(APPLICATION).append("\" = '")
                     .append(application).append("' AND \"").append(SECTION).append("\" <> \"").append(APPLICATION).append("\"");
         }
         logger.debug9(".. query: " + query.toString());
         try {
             sections = sosConnection.getArrayValue(query.toString());
         } catch (Exception e) {
-            throw (new Exception(SOSClassUtil.getMethodName() + ": " + e.toString()));
+            throw new Exception(SOSClassUtil.getMethodName() + ": " + e.toString());
         }
         return sections;
     }
 
     public ArrayList getSections() throws Exception {
         if (SOSString.isEmpty(application)) {
-            throw (new Exception(SOSClassUtil.getMethodName() + ": application has no value!"));
+            throw new Exception(SOSClassUtil.getMethodName() + ": application has no value!");
         }
         return this.getSections(application);
     }
@@ -161,7 +155,7 @@ public class SOSConnectionSettings extends sos.settings.SOSSettings {
             logger.debug9(".. query: " + query);
             return sosConnection.getSingleValue(query);
         } catch (Exception e) {
-            throw (new Exception(SOSClassUtil.getMethodName() + ": " + e.toString()));
+            throw new Exception(SOSClassUtil.getMethodName() + ": " + e.toString());
         }
     }
 
@@ -176,7 +170,7 @@ public class SOSConnectionSettings extends sos.settings.SOSSettings {
             logger.debug9(".. query: " + query);
             return sosConnection.getBlob(query);
         } catch (Exception e) {
-            throw (new Exception(SOSClassUtil.getMethodName() + ": " + e.toString()));
+            throw new Exception(SOSClassUtil.getMethodName() + ": " + e.toString());
         }
     }
 
@@ -191,37 +185,39 @@ public class SOSConnectionSettings extends sos.settings.SOSSettings {
             logger.debug9(".. query: " + query);
             return sosConnection.getBlob(query, fileName);
         } catch (Exception e) {
-            throw (new Exception(SOSClassUtil.getMethodName() + ": " + e.toString()));
+            throw new Exception(SOSClassUtil.getMethodName() + ": " + e.toString());
         }
     }
 
     private String getSectionEntryStatement(String application, String section, String entry, String field) throws Exception {
-        StringBuffer query = null;
+        StringBuilder query = null;
         try {
+            query = new StringBuilder();
             if (this.ignoreCase) {
-                query = new StringBuffer("SELECT \"").append(field).append("\" FROM ").append(source).append(" WHERE %lcase(\"").append(APPLICATION)
+                query.append("SELECT \"").append(field).append("\" FROM ").append(source).append(" WHERE %lcase(\"").append(APPLICATION)
                         .append("\") = '").append(application.toLowerCase()).append("' AND %lcase(\"").append(SECTION).append("\") = '")
                         .append(section.toLowerCase()).append("' AND %lcase(\"").append(NAME).append("\") = '").append(entry.toLowerCase()).append("'");
             } else {
-                query = new StringBuffer("SELECT \"").append(field).append("\" FROM ").append(source).append(" WHERE \"").append(APPLICATION).append("\" = '")
+                query.append("SELECT \"").append(field).append("\" FROM ").append(source).append(" WHERE \"").append(APPLICATION).append("\" = '")
                         .append(application).append("' AND \"").append(SECTION).append("\" = '").append(section).append("' AND \"").append(NAME)
                         .append("\" = '").append(entry).append("'");
             }
             return query.toString();
         } catch (Exception e) {
-            throw (new Exception(SOSClassUtil.getMethodName() + ": " + e.toString()));
+            throw new Exception(SOSClassUtil.getMethodName() + ": " + e.toString());
         }
     }
 
     public boolean initSequence(String application, String section, String entry, String createdBy) throws Exception {
         boolean created = false;
         String counter = null;
-        StringBuilder query = new StringBuilder();
+        StringBuilder query = null;
         String initValue = "1";
         int inserted = 0;
         try {
             logger.debug6("calling " + SOSClassUtil.getMethodName());
             try {
+                query = new StringBuilder();
                 if (this.ignoreCase) {
                     query.append("SELECT \"").append(VALUE).append("\" FROM ").append(source).append(" WHERE %lcase(\"").append(APPLICATION).append("\") = '")
                             .append(application.toLowerCase()).append("' AND %lcase(\"").append(SECTION).append("\") = '").append(section.toLowerCase())
@@ -256,22 +252,23 @@ public class SOSConnectionSettings extends sos.settings.SOSSettings {
                 created = false;
             }
         } catch (Exception e) {
-            throw (new Exception(SOSClassUtil.getMethodName() + ": " + e.toString()));
+            throw new Exception(SOSClassUtil.getMethodName() + ": " + e.toString());
         }
         return created;
     }
 
     public int getLockedSequence(String application, String section, String entry) throws Exception {
-        StringBuilder query = new StringBuilder();
+        StringBuilder query = null;
         String updlock_from = "";
         String updlock_where = "";
         int sequence = -1;
         try {
             logger.debug6("calling " + SOSClassUtil.getMethodName());
             updlock_from = (this.sosConnection instanceof SOSMSSQLConnection || this.sosConnection instanceof SOSSybaseConnection) ? "%updlock" : "";
-            updlock_where = updlock_from.equals("") ? "%updlock" : "";
+            updlock_where = "".equals(updlock_from) ? "%updlock" : "";
             boolean autoCommit = this.sosConnection.getAutoCommit();
             this.sosConnection.setAutoCommit(false);
+            query = new StringBuilder();
             if (this.ignoreCase) {
                 query.append("SELECT \"").append(VALUE).append("\" FROM ").append(source).append(" ").append(updlock_from).append(" WHERE %lcase(\"")
                         .append(APPLICATION).append("\") = '").append(application.toLowerCase()).append("' AND %lcase(\"").append(SECTION).append("\") = '")
@@ -301,22 +298,23 @@ public class SOSConnectionSettings extends sos.settings.SOSSettings {
             this.sosConnection.setAutoCommit(autoCommit);
         } catch (Exception e) {
             logger.debug9(SOSClassUtil.getMethodName() + ": an error occurred : " + e.toString());
-            throw (e);
+            throw e;
         }
         return sequence;
     }
 
     public String getLockedSequenceAsString(String application, String section, String entry) throws Exception {
-        StringBuilder query = new StringBuilder();
+        StringBuilder query = null;
         String updlock_from = "";
         String updlock_where = "";
         String sequence = "";
         try {
             logger.debug6("calling " + SOSClassUtil.getMethodName());
             updlock_from = (this.sosConnection instanceof SOSMSSQLConnection || this.sosConnection instanceof SOSSybaseConnection) ? "%updlock" : "";
-            updlock_where = updlock_from.equals("") ? "%updlock" : "";
+            updlock_where = "".equals(updlock_from) ? "%updlock" : "";
             boolean autoCommit = this.sosConnection.getAutoCommit();
             this.sosConnection.setAutoCommit(false);
+            query = new StringBuilder();
             if (this.ignoreCase) {
                 query.append("SELECT \"").append(VALUE).append("\" FROM ").append(source).append(" ").append(updlock_from).append(" WHERE %lcase(\"")
                         .append(APPLICATION).append("\") = '").append(application.toLowerCase()).append("' AND %lcase(\"").append(SECTION).append("\") = '")
@@ -346,16 +344,17 @@ public class SOSConnectionSettings extends sos.settings.SOSSettings {
             this.sosConnection.setAutoCommit(autoCommit);
         } catch (Exception e) {
             logger.debug9(SOSClassUtil.getMethodName() + ": an error occurred : " + e.toString());
-            throw (e);
+            throw e;
         }
         return sequence;
     }
 
     public int getSequence(String application, String section, String entry) throws Exception {
-        StringBuilder query = new StringBuilder();
+        StringBuilder query = null;
         int sequence = -1;
         try {
             logger.debug6("calling " + SOSClassUtil.getMethodName());
+            query = new StringBuilder();
             if (this.ignoreCase) {
                 query.append("UPDATE ").append(source).append(" SET \"").append(VALUE).append("\"=%cast(%cast(\"").append(VALUE)
                         .append("\" integer)+1 varchar) WHERE %lcase(\"").append(APPLICATION).append("\") = '").append(application.toLowerCase())
@@ -383,16 +382,17 @@ public class SOSConnectionSettings extends sos.settings.SOSSettings {
             sequence = Integer.valueOf(sosConnection.getSingleValue(query.toString())).intValue();
         } catch (Exception e) {
             logger.debug9(SOSClassUtil.getMethodName() + ": an error occurred : " + e.toString());
-            throw (e);
+            throw e;
         }
         return sequence;
     }
 
     public String getSequenceAsString(String application, String section, String entry) throws Exception {
-        StringBuilder query = new StringBuilder();
+        StringBuilder query = null;
         String sequence = "";
         try {
             logger.debug6("calling " + SOSClassUtil.getMethodName());
+            query = new StringBuilder();
             if (this.ignoreCase) {
                 query.append("UPDATE ").append(source).append(" SET \"").append(VALUE).append("\"=%cast(%cast(\"").append(VALUE)
                         .append("\" integer)+1 varchar) WHERE %lcase(\"").append(APPLICATION).append("\") = '").append(application.toLowerCase())
@@ -420,7 +420,7 @@ public class SOSConnectionSettings extends sos.settings.SOSSettings {
             sequence = sosConnection.getSingleValue(query.toString());
         } catch (Exception e) {
             logger.debug9(SOSClassUtil.getMethodName() + ": an error occurred : " + e.toString());
-            throw (e);
+            throw e;
         }
         return sequence;
     }

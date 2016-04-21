@@ -8,16 +8,7 @@ import sos.util.SOSArguments;
 import sos.marshalling.SOSExport;
 import sos.util.SOSStandardLogger;
 
-/** Title: SOSExportProcessor<br>
- * Description: Kommandozeilentool zum Exportieren von Daten einer Applikation
- * im XML-Format<br>
- * 
- * Copyright: Copyright (c) 2005<br>
- * Company: SOS Berlin GmbH<br>
- * 
- * @author <a href="mailto:robert.ehrlich@sos-berlin.com">Robert Ehrlich</a>
- *         Resource sos.connection.jar sos.util.jar
- * @version $Id$ */
+/** @author Robert Ehrlich */
 public class SOSExportProcessor {
 
     private SOSConnection _sosConnection = null;
@@ -32,30 +23,7 @@ public class SOSExportProcessor {
     private boolean enableTableParametr = true;
     private boolean enableExecuteParametr = true;
 
-    /** Konstruktor
-     * 
-     * @param configFile Datei, in der die Zugangsdaten zur Datenbank enthalten
-     *            sind
-     * @param logFile Name der Protokolldatei
-     * @param logLevel Log Level für die Protokolldatei
-     * @param outputFile Name der XML-Datei für Export
-     * @param tableNames Tabellennamen für den Export. <br>
-     *            Es werden alle Daten der jeweiligen Tabelle exportiert <br>
-     *            Mehrere Tabellen durch + Zeichen getrennt.
-     * @param executeQuery eigene SQL-Statement für eine Tabelle angeben. <br>
-     *            Muß in doppelten Hochkommas angegeben werden
-     * @param keys Schlüsselfelder für eine bzw mehreren Tabellen. <br>
-     *            Wird im Zusammenhang mit dem Parameter tableNames
-     *            berücksichtigt <br>
-     *            Schlüsselfelder sind wichtig, wenn eine Tabelle CLOB bzw BLOB
-     *            enthält. <br>
-     *            mehrere Schlüssel für eine Tabellen durch Komma getrennt <br>
-     *            für mehreren Tabellen durch + Zeichen getrennt <br>
-     *            für mehreren Tabellen : die Reihenfolge wie bei tableNames
-     * @throws Exception */
-    public SOSExportProcessor(File configFile, File logFile, int logLevel, File outputFile, String tableNames, String executeQuery, String keys)
-            throws Exception {
-
+    public SOSExportProcessor(File configFile, File logFile, int logLevel, File outputFile, String tableNames, String executeQuery, String keys) throws Exception {
         if (configFile == null) {
             throw new NullPointerException("Export: Parameter config == null!");
         }
@@ -84,9 +52,6 @@ public class SOSExportProcessor {
         }
     }
 
-    /** Konstruktor
-     * 
-     * wird aufgerufen, um die Programm USAGE anzuzeigen */
     public SOSExportProcessor() {
         System.out.println("Syntax");
         System.out.println("Optionen :");
@@ -131,15 +96,11 @@ public class SOSExportProcessor {
         System.out.println("         -config=config/sos_settings.ini -execute=\"select * from t1 where ID=1\"");
     }
 
-    /** Export anhand der registrierten Abfragen ausf&uuml;hren
-     * 
-     * @throws Exception */
     public void doExport() throws Exception {
         try {
-            if (this.isEnableTableParametr() && this.isEnableExecuteParametr()) {
-                if ((_tableNames == null || "".equals(_tableNames)) && (_executeQuery == null || "".equals(_executeQuery))) {
-                    throw new Exception("undefined operation for export. Check please input for your -tables or -execute arguments");
-                }
+            if (this.isEnableTableParametr() && this.isEnableExecuteParametr() && (_tableNames == null || "".equals(_tableNames)) 
+                    && (_executeQuery == null || "".equals(_executeQuery))) {
+                throw new Exception("undefined operation for export. Check please input for your -tables or -execute arguments");
             }
             if (_logLevel == 0) {
                 _sosLogger = new SOSStandardLogger(SOSStandardLogger.DEBUG);
@@ -166,11 +127,6 @@ public class SOSExportProcessor {
 
     }
 
-    /** Export vorbereiten.<br>
-     * Die Methode setzt Tabellennamen, Schlüsselfelder usw für den Export.
-     * 
-     * @param export SOSExport Objekt
-     * @throws Exception */
     public void prepareExport(SOSExport export) throws Exception {
         String keys = "";
         String[] tablesKeys = {};
@@ -209,7 +165,8 @@ public class SOSExportProcessor {
         }
     }
 
-    /** Programm ausführen<br>
+    /** TODO: translate javadoc to english only!!! 
+     * Programm ausführen<br>
      * 
      * @param args Programmargumente<br>
      * <br>
@@ -268,30 +225,18 @@ public class SOSExportProcessor {
         }
     }
 
-    /** Liefert den Zustand : Prüfen nach -execute Option
-     * 
-     * @return Liefert den Zustand : Prüfen nach -execute Option oder nicht. */
     public boolean isEnableExecuteParametr() {
         return enableExecuteParametr;
     }
 
-    /** Setzt Zustand : Prüfen nach -execute Option
-     * 
-     * @param enableExecuteParametr Prüfen nach -execute Option oder nicht */
     public void setEnableExecuteParametr(boolean enableExecuteParametr) {
         this.enableExecuteParametr = enableExecuteParametr;
     }
 
-    /** Liefert den Zustand : Prüfen nach -tables Option
-     * 
-     * @return Liefert den Zustand : Prüfen nach -tables Option oder nicht. */
     public boolean isEnableTableParametr() {
         return enableTableParametr;
     }
 
-    /** Setzt Zustand : Prüfen nach -tables Option
-     * 
-     * @param enableTableParametr Prüfen nach -tables Option oder nicht. */
     public void setEnableTableParametr(boolean enableTableParametr) {
         this.enableTableParametr = enableTableParametr;
     }

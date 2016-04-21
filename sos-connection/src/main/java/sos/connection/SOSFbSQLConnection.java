@@ -1,13 +1,12 @@
 package sos.connection;
 
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.Statement;
 import java.util.GregorianCalendar;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import java.sql.Driver;
-import java.sql.Statement;
-import java.sql.Connection;
 
 import sos.util.SOSClassUtil;
 import sos.util.SOSLogger;
@@ -124,7 +123,7 @@ public class SOSFbSQLConnection extends sos.connection.SOSConnection implements 
         String replaceString = null;
         String token;
         logger.debug9("..inputString [" + inputString + "]");
-        while ((matcher.find())) {
+        while (matcher.find()) {
             replaceString = matcher.group().toLowerCase();
             if (matcher.group(1) != null && matcher.group(6) != null) {
                 token = matcher.group(6).replaceFirst("\\)", "").trim();

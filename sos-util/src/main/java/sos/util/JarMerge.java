@@ -345,41 +345,39 @@ public class JarMerge {
                     classFile = entry.getName();
                     lDate = entry.getTime();
                     size = entry.getSize();
-                    if (classFile.length() > 6) {
-                        if (".class".equals(classFile.substring(classFile.length() - 6))) {
-                            if (!inventory.containsKey(classFile)) {
-                                inventory.put(classFile, list[i] + "|" + String.valueOf(lDate) + "|" + String.valueOf(size));
+                    if (classFile.length() > 6 && ".class".equals(classFile.substring(classFile.length() - 6))) {
+                        if (!inventory.containsKey(classFile)) {
+                            inventory.put(classFile, list[i] + "|" + String.valueOf(lDate) + "|" + String.valueOf(size));
+                        } else {
+                            st = new StringTokenizer((String) inventory.get(classFile), "|");
+                            sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                            firstFile = st.nextToken();
+                            firstDate = st.nextToken();
+                            firstSize = st.nextToken();
+                            if (Long.parseLong(firstDate) < 0) {
+                                firstDate = "unknown";
                             } else {
-                                st = new StringTokenizer((String) inventory.get(classFile), "|");
-                                sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                                firstFile = st.nextToken();
-                                firstDate = st.nextToken();
-                                firstSize = st.nextToken();
-                                if (Long.parseLong(firstDate) < 0) {
-                                    firstDate = "unknown";
-                                } else {
-                                    firstDate = sdf.format(new Date(Long.parseLong(firstDate)));
-                                }
-                                if (Long.parseLong(firstSize) < 0) {
-                                    firstSize = "unknown";
-                                }
-                                gap = Math.max(firstFile.length(), firstDate.length());
-                                gap = Math.max(gap, firstSize.length());
-                                while (firstFile.length() < gap) {
-                                    firstFile += " ";
-                                }
-                                while (firstDate.length() < gap) {
-                                    firstDate += " ";
-                                }
-                                while (firstSize.length() < gap) {
-                                    firstSize += " ";
-                                }
-                                this.logln("\n duplicate class found: " + classFile);
-                                this.logln(" " + firstFile + "   " + list[i]);
-                                this.logln(" " + firstDate + "   " + (lDate < 0 ? "unknown" : sdf.format(new Date(lDate))));
-                                this.logln(" " + firstSize + "   " + (size < 0 ? "unknown" : String.valueOf(size)));
-                                duplicates++;
+                                firstDate = sdf.format(new Date(Long.parseLong(firstDate)));
                             }
+                            if (Long.parseLong(firstSize) < 0) {
+                                firstSize = "unknown";
+                            }
+                            gap = Math.max(firstFile.length(), firstDate.length());
+                            gap = Math.max(gap, firstSize.length());
+                            while (firstFile.length() < gap) {
+                                firstFile += " ";
+                            }
+                            while (firstDate.length() < gap) {
+                                firstDate += " ";
+                            }
+                            while (firstSize.length() < gap) {
+                                firstSize += " ";
+                            }
+                            this.logln("\n duplicate class found: " + classFile);
+                            this.logln(" " + firstFile + "   " + list[i]);
+                            this.logln(" " + firstDate + "   " + (lDate < 0 ? "unknown" : sdf.format(new Date(lDate))));
+                            this.logln(" " + firstSize + "   " + (size < 0 ? "unknown" : String.valueOf(size)));
+                            duplicates++;
                         }
                     }
                 }
@@ -861,18 +859,16 @@ public class JarMerge {
             }
             if ((check || zip || add) && !file.isDirectory()) {
                 throw new Exception(file.getCanonicalPath() + " is no directory");
-            } else if (unzip) {
-                if (!file.isDirectory()) {
-                    if (!file.isFile()) {
-                        throw new Exception(source + " is no normal file");
+            } else if (unzip && !file.isDirectory()) {
+                if (!file.isFile()) {
+                    throw new Exception(source + " is no normal file");
+                } else {
+                    if (source.length() < 5) {
+                        throw new Exception(file.getCanonicalPath() + " is no valid archiv");
                     } else {
-                        if (source.length() < 5) {
+                        String suffix = source.substring(source.length() - 4);
+                        if (!(".jar".equals(suffix) || ".zip".equals(suffix))) {
                             throw new Exception(file.getCanonicalPath() + " is no valid archiv");
-                        } else {
-                            String suffix = source.substring(source.length() - 4);
-                            if (!(".jar".equals(suffix) || ".zip".equals(suffix))) {
-                                throw new Exception(file.getCanonicalPath() + " is no valid archiv");
-                            }
                         }
                     }
                 }
