@@ -18,7 +18,7 @@ public class SOSArguments {
             _value = value;
         }
 
-    };
+    }
 
     public SOSArguments(String argStr) throws Exception {
         String[] args = (" " + argStr).split(" [-]");

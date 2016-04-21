@@ -1291,11 +1291,11 @@ public class SOSFileOperations {
     private static String substituteFirstFilename(String targetFilename, String original) throws Exception {
         Matcher matcher = Pattern.compile("\\[filename:([^\\]]*)\\]").matcher(targetFilename);
         if (matcher.find()) {
-            if (matcher.group(1).equals("")) {
+            if ("".equals(matcher.group(1))) {
                 targetFilename = targetFilename.replaceFirst("\\[filename:\\]", original);
-            } else if (matcher.group(1).equals("lowercase")) {
+            } else if ("lowercase".equals(matcher.group(1))) {
                 targetFilename = targetFilename.replaceFirst("\\[filename:lowercase\\]", original.toLowerCase());
-            } else if (matcher.group(1).equals("uppercase")) {
+            } else if ("uppercase".equals(matcher.group(1))) {
                 targetFilename = targetFilename.replaceFirst("\\[filename:uppercase\\]", original.toUpperCase());
             }
         }
