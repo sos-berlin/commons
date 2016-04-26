@@ -406,7 +406,8 @@ public class SOSExport {
                             for (int j = 0; j < _queries.get(queryId).getKeyCnt(); j++) {
                                 String keyFieldName = getKeyFieldName(allFieldNames, _queries.get(queryId).getKey(j));
                                 queryBlobStm.append(and + normalizeFieldName(keyFieldName) + " =");
-                                queryBlobStm.append(quote(fieldTypes.getTypeId(normalizeFieldName(_queries.get(queryId).getKey(j))), (String) record.get(normalizeFieldName(_queries.get(queryId).getKey(j)))));
+                                queryBlobStm.append(quote(fieldTypes.getTypeId(normalizeFieldName(_queries.get(queryId).getKey(j))),
+                                        (String) record.get(normalizeFieldName(_queries.get(queryId).getKey(j)))));
                                 and = " AND ";
                             }
                             byte[] blob = null;
@@ -580,14 +581,15 @@ public class SOSExport {
             output.append(indent(1) + "<" + normalizeTagName(_xmlTagname + "_package id=\"") + _queries.get(queryId).getTag() + "\">\n");
             if (!result.isEmpty()) {
                 output.append(indent(1)).append("<").append(normalizeTagName(_xmlTagname + "_meta")).append(">\n");
-                output.append(indent(0)).append("<").append(normalizeTagName("table name=\"")).append(_queries.get(queryId).getTag()).append("\" />\n");
+                output.append(indent(0)).append("<").append(normalizeTagName("table name=\"")).append(_queries.get(queryId).getTag()).append(
+                        "\" />\n");
                 output.append(indent(1)).append("<").append(normalizeTagName("key_fields")).append(">\n");
                 for (int i = 0; i < _queries.get(queryId).getKeyCnt(); i++) {
                     if (_log != null) {
                         _log.debug6("key_field[" + i + "]=\"" + _queries.get(queryId).getKey(i) + "\"");
                     }
-                    output.append(indent()).append("<").append(normalizeTagName("field name=\"")).append(normalizeFieldName(_queries.get(queryId).getKey(i)))
-                            .append("\"");
+                    output.append(indent()).append("<").append(normalizeTagName("field name=\"")).append(
+                            normalizeFieldName(_queries.get(queryId).getKey(i))).append("\"");
                     output.append(" type=\"").append(fieldTypes.getTypeName(normalizeFieldName(_queries.get(queryId).getKey(i)))).append("\"");
                     output.append(" typeID=\"").append(fieldTypes.getTypeId(normalizeFieldName(_queries.get(queryId).getKey(i)))).append("\"");
                     output.append(" len=\"").append(fieldTypes.getLength(normalizeFieldName(_queries.get(queryId).getKey(i)))).append("\"");
@@ -599,7 +601,8 @@ public class SOSExport {
                 output.append(indent(1)).append(normalizeTagName("<fields>")).append("\n");
                 Object[] fields = ((HashMap) result.get(0)).keySet().toArray();
                 for (int i = 0; i < fields.length; i++) {
-                    output.append(indent()).append("<").append(normalizeTagName("field name=\"")).append(normalizeFieldName((String) fields[i])).append("\"");
+                    output.append(indent()).append("<").append(normalizeTagName("field name=\"")).append(normalizeFieldName((String) fields[i])).append(
+                            "\"");
                     output.append(" type=\"").append(fieldTypes.getTypeName(normalizeFieldName((String) fields[i]))).append("\"");
                     output.append(" typeID=\"").append(fieldTypes.getTypeId(normalizeFieldName((String) fields[i]))).append("\"");
                     output.append(" len=\"").append(fieldTypes.getLength(normalizeFieldName((String) fields[i]))).append("\"");
@@ -615,8 +618,9 @@ public class SOSExport {
                     if (_log != null) {
                         _log.debug9("get: " + _queries.get(queryId).getTag() + " query_id=" + queryId);
                     }
-                    output.append(indent(1)).append("<").append(normalizeTagName(_xmlTagname + "_record name=\"")).append(_queries.get(queryId).getTag())
-                            .append("\">\n").append(indent(1)).append("<").append(normalizeTagName(_xmlTagname + "_fields")).append(">\n");
+                    output.append(indent(1)).append("<").append(normalizeTagName(_xmlTagname + "_record name=\"")).append(
+                            _queries.get(queryId).getTag()).append("\">\n").append(indent(1)).append("<").append(
+                            normalizeTagName(_xmlTagname + "_fields")).append(">\n");
                     for (Iterator it = record.keySet().iterator(); it.hasNext();) {
                         String key = it.next().toString();
                         String lobType = null;
@@ -665,7 +669,8 @@ public class SOSExport {
                             for (int j = 0; j < _queries.get(queryId).getKeyCnt(); j++) {
                                 String keyFieldName = getKeyFieldName(allFieldNames, _queries.get(queryId).getKey(j));
                                 queryBlobStm.append(and).append(normalizeFieldName(keyFieldName)).append(" =");
-                                queryBlobStm.append(quote(fieldTypes.getTypeId(normalizeFieldName(_queries.get(queryId).getKey(j))), (String) record.get(normalizeFieldName(_queries.get(queryId).getKey(j)))));
+                                queryBlobStm.append(quote(fieldTypes.getTypeId(normalizeFieldName(_queries.get(queryId).getKey(j))),
+                                        (String) record.get(normalizeFieldName(_queries.get(queryId).getKey(j)))));
                                 and = " AND ";
                             }
                             byte[] blob = null;
@@ -890,7 +895,8 @@ public class SOSExport {
                     _log.debug9("field_type: name=" + fieldDesc.get("columnName") + " type=" + fieldDesc.get("columnTypeName") + " type_id=" + type
                             + " size=" + size + " scale=" + scale);
                 }
-                fieldTypes.addField(normalizeFieldName(normalizeFieldName((String) fieldDesc.get("columnName"))), (String) fieldDesc.get("columnTypeName"), type, size, scale);
+                fieldTypes.addField(normalizeFieldName(normalizeFieldName((String) fieldDesc.get("columnName"))),
+                        (String) fieldDesc.get("columnTypeName"), type, size, scale);
             }
             resultSet.close();
             return fieldTypes;

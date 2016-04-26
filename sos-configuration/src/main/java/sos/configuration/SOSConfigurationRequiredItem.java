@@ -73,8 +73,8 @@ public class SOSConfigurationRequiredItem {
         }
     }
 
-    private SOSConfigurationItem[] mergeListOfMissingItemWithDefaults(ArrayList listOfMissingItemWithDefaults, SOSConfigurationItem[] configurationsItem)
-            throws Exception {
+    private SOSConfigurationItem[] mergeListOfMissingItemWithDefaults(ArrayList listOfMissingItemWithDefaults,
+            SOSConfigurationItem[] configurationsItem) throws Exception {
         SOSConfigurationItem[] newconfigurationItem = configurationsItem;
         try {
             if (!listOfMissingItemWithDefaults.isEmpty()) {
@@ -167,7 +167,8 @@ public class SOSConfigurationRequiredItem {
             SOSConfigurationItem sshProxyUser = new SOSConfigurationItem();
             sshProxyUser.setName("ssh_proxy_user");
             sshProxyUser.setValue("sos");
-            SOSConfigurationItem[] p1 = new SOSConfigurationItem[] { pOperation, pfilePath, pProtocol, pUser, sshProxyHost, sshProxyPort, sshProxyUser };
+            SOSConfigurationItem[] p1 =
+                    new SOSConfigurationItem[] { pOperation, pfilePath, pProtocol, pUser, sshProxyHost, sshProxyPort, sshProxyUser };
             sosLogger.debug("***************************Start configuration Item vorher************************");
             for (int i = 0; i < p1.length; i++) {
                 sosLogger.debug(i + "'te Parameter");

@@ -167,7 +167,8 @@ public class SOSXMLSettings extends SOSSettings {
                 throw new Exception(SOSClassUtil.getMethodName() + ": entry has no value!");
             }
             if (logger != null) {
-                logger.debug6("calling " + SOSClassUtil.getMethodName() + " : application = " + application + " section = " + section + " entry = " + entry);
+                logger.debug6("calling " + SOSClassUtil.getMethodName() + " : application = " + application + " section = " + section + " entry = "
+                        + entry);
             }
             if (this.applications != null && this.applications.containsKey(application)) {
                 LinkedHashMap sections = (LinkedHashMap) this.applications.get(application);

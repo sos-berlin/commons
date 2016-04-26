@@ -64,8 +64,8 @@ public class SOSFileOperationsTest {
         doTest("FileName lowercase", ".*", "[filename:lowercase]", "1.txt", "1.txt");
     }
 
-    private void doTest(final String strText, final String strReplaceWhat, final String strReplaceWith, final String strWork, final String strExpectedResult)
-            throws Exception {
+    private void doTest(final String strText, final String strReplaceWhat, final String strReplaceWith, final String strWork,
+            final String strExpectedResult) throws Exception {
         String strResult = SOSFileOperations.getReplacementFilename(strWork, strReplaceWhat, strReplaceWith);
         assertEquals(strText, strExpectedResult, strResult);
     }
@@ -81,8 +81,9 @@ public class SOSFileOperationsTest {
         String minFileSize = "-1";
         String maxFileSize = "-1";
         SOSSchedulerLogger objSOSLogger = null;
-        boolean flgOperationWasSuccessful = SOSFileOperations.existsFile(file, fileSpec, Pattern.CASE_INSENSITIVE, minFileAge, maxFileAge, minFileSize, maxFileSize, 
-                skipFirstFiles, skipLastFiles, objSOSLogger);
+        boolean flgOperationWasSuccessful =
+                SOSFileOperations.existsFile(file, fileSpec, Pattern.CASE_INSENSITIVE, minFileAge, maxFileAge, minFileSize, maxFileSize,
+                        skipFirstFiles, skipLastFiles, objSOSLogger);
         System.out.println("flgOperationWasSuccessful: " + flgOperationWasSuccessful);
         if (flgOperationWasSuccessful) {
             Vector<File> lstR = SOSFileOperations.lstResultList;

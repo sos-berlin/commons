@@ -23,7 +23,8 @@ public class SOSExportProcessor {
     private boolean enableTableParametr = true;
     private boolean enableExecuteParametr = true;
 
-    public SOSExportProcessor(File configFile, File logFile, int logLevel, File outputFile, String tableNames, String executeQuery, String keys) throws Exception {
+    public SOSExportProcessor(File configFile, File logFile, int logLevel, File outputFile, String tableNames, String executeQuery, String keys)
+            throws Exception {
         if (configFile == null) {
             throw new NullPointerException("Export: Parameter config == null!");
         }
@@ -98,7 +99,7 @@ public class SOSExportProcessor {
 
     public void doExport() throws Exception {
         try {
-            if (this.isEnableTableParametr() && this.isEnableExecuteParametr() && (_tableNames == null || "".equals(_tableNames)) 
+            if (this.isEnableTableParametr() && this.isEnableExecuteParametr() && (_tableNames == null || "".equals(_tableNames))
                     && (_executeQuery == null || "".equals(_executeQuery))) {
                 throw new Exception("undefined operation for export. Check please input for your -tables or -execute arguments");
             }
@@ -165,8 +166,7 @@ public class SOSExportProcessor {
         }
     }
 
-    /** TODO: translate javadoc to english only!!! 
-     * Programm ausführen<br>
+    /** TODO: translate javadoc to english only!!! Programm ausführen<br>
      * 
      * @param args Programmargumente<br>
      * <br>
