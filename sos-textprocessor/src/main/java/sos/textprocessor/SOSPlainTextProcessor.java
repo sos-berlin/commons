@@ -45,7 +45,8 @@ public class SOSPlainTextProcessor extends SOSTextProcessor {
         this.init();
     }
 
-    public SOSPlainTextProcessor(SOSConnectionSettings settings, SOSLogger logger, String templateSectionName, String templateApplicationName) throws Exception {
+    public SOSPlainTextProcessor(SOSConnectionSettings settings, SOSLogger logger, String templateSectionName, String templateApplicationName)
+            throws Exception {
         this.setSettings(settings);
         this.setLogger(logger);
         this.setTemplateSectionName(templateSectionName);
@@ -161,10 +162,12 @@ public class SOSPlainTextProcessor extends SOSTextProcessor {
                     value = replacements.get(key.toString());
                     if (value != null) {
                         try {
-                            content = content.replaceAll("&\\#\\(" + key.toString() + "\\)",
-                                    SOSDate.getDateAsString(SOSDate.getDate(value.toString()), this.getDateFormat()));
-                            content = content.replaceAll("&\\#\\#\\(" + key.toString() + "\\)",
-                                    SOSDate.getDateTimeAsString(SOSDate.getDate(value.toString()), this.getDatetimeFormat()));
+                            content =
+                                    content.replaceAll("&\\#\\(" + key.toString() + "\\)", SOSDate.getDateAsString(SOSDate.getDate(value.toString()),
+                                            this.getDateFormat()));
+                            content =
+                                    content.replaceAll("&\\#\\#\\(" + key.toString() + "\\)", SOSDate.getDateTimeAsString(
+                                            SOSDate.getDate(value.toString()), this.getDatetimeFormat()));
                         } catch (Exception ex) {
                             // ignore this error: replacement is not convertible
                             // to date

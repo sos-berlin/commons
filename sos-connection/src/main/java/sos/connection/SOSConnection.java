@@ -183,7 +183,8 @@ public abstract class SOSConnection {
         }
     }
 
-    public SOSConnection(final String driver, final String url, final String dbuser, final String dbpassword, final SOSLogger logger) throws Exception {
+    public SOSConnection(final String driver, final String url, final String dbuser, final String dbpassword, final SOSLogger logger)
+            throws Exception {
         if (logger == null) {
             throw new Exception(SOSClassUtil.getMethodName() + ": missing logger.");
         }
@@ -200,8 +201,8 @@ public abstract class SOSConnection {
         logger.debug9(".. driver=" + driver + ", url=" + url + ", dbuser=" + dbuser);
     }
 
-    public SOSConnection(final String driver, final String url, final String dbuser, final String dbpassword, final SOSLogger logger, final int compatibility)
-            throws Exception {
+    public SOSConnection(final String driver, final String url, final String dbuser, final String dbpassword, final SOSLogger logger,
+            final int compatibility) throws Exception {
         this(driver, url, dbuser, dbpassword, logger);
         setCompatibility(compatibility);
     }
@@ -211,7 +212,8 @@ public abstract class SOSConnection {
     }
 
     public SOSConnection(final String driver, final String url, final String dbuser, final String dbpassword) throws Exception {
-        this(driver, url, dbuser, dbpassword, new SOSStandardLogger(new NullBufferedWriter(new OutputStreamWriter(System.out)), SOSStandardLogger.DEBUG9));
+        this(driver, url, dbuser, dbpassword, new SOSStandardLogger(new NullBufferedWriter(new OutputStreamWriter(System.out)),
+                SOSStandardLogger.DEBUG9));
     }
 
     private void processPassword() {
@@ -277,14 +279,14 @@ public abstract class SOSConnection {
         return createInstance(className, arguments);
     }
 
-    public static SOSConnection createInstance(final String className, final String driver, final String url, final String dbuser, final String dbpassword)
-            throws Exception {
+    public static SOSConnection createInstance(final String className, final String driver, final String url, final String dbuser,
+            final String dbpassword) throws Exception {
         Object[] arguments = { driver, url, dbuser, dbpassword };
         return createInstance(className, arguments);
     }
 
-    public static SOSConnection createInstance(final String className, final String driver, final String url, final String dbuser, final String dbpassword,
-            final SOSLogger logger) throws Exception {
+    public static SOSConnection createInstance(final String className, final String driver, final String url, final String dbuser,
+            final String dbpassword, final SOSLogger logger) throws Exception {
         Object[] arguments = { driver, url, dbuser, dbpassword, logger };
         return createInstance(className, arguments);
     }
@@ -780,17 +782,12 @@ public abstract class SOSConnection {
                 query.append(tableName);
             }
             if (fieldNameUpperCase) {
-                query.append(" SET \"");
-                query.append(columnName.toUpperCase());
-                query.append("\" = ? ");
+                query.append(" SET \"").append(columnName.toUpperCase()).append("\" = ? ");
             } else {
-                query.append(" SET ");
-                query.append(columnName);
-                query.append(" = ? ");
+                query.append(" SET ").append(columnName).append(" = ? ");
             }
             if (!SOSString.isEmpty(condition)) {
-                query.append(" WHERE ");
-                query.append(condition);
+                query.append(" WHERE ").append(condition);
             }
             theQuery = this.normalizeStatement(query.toString(), getReplacement());
             logger.debug6(SOSClassUtil.getMethodName() + ": " + theQuery);
@@ -837,7 +834,7 @@ public abstract class SOSConnection {
 
     public long updateClob(final String tableName, final String columnName, final String data, final String condition) throws Exception {
         PreparedStatement pstmt = null;
-        StringBuffer query = null;
+        StringBuilder query = null;
         long totalBytesWritten = 0;
         String theQuery = null;
         try {
@@ -855,24 +852,20 @@ public abstract class SOSConnection {
             if (SOSString.isEmpty(data)) {
                 throw new NullPointerException("missing data.");
             }
-            query = new StringBuffer("UPDATE ");
+            query = new StringBuilder();
+            query.append("UPDATE ");
             if (tableNameUpperCase) {
                 query.append(tableName.toUpperCase());
             } else {
                 query.append(tableName);
             }
             if (fieldNameUpperCase) {
-                query.append(" SET \"");
-                query.append(columnName.toUpperCase());
-                query.append("\" = ? ");
+                query.append(" SET \"").append(columnName.toUpperCase()).append("\" = ? ");
             } else {
-                query.append(" SET ");
-                query.append(columnName);
-                query.append(" = ? ");
+                query.append(" SET ").append(columnName).append(" = ? ");
             }
             if (!SOSString.isEmpty(condition)) {
-                query.append(" WHERE ");
-                query.append(condition);
+                query.append(" WHERE ").append(condition);
             }
             theQuery = this.normalizeStatement(query.toString(), getReplacement());
             logger.debug6(SOSClassUtil.getMethodName() + ": " + theQuery);
@@ -1086,22 +1079,17 @@ public abstract class SOSConnection {
             query = new StringBuilder();
             query.append("UPDATE ");
             if (tableNameUpperCase) {
-                query.append(tableName.toUpperCase());
-                query.append(" SET \"");
+                query.append(tableName.toUpperCase()).append(" SET \"");
             } else {
-                query.append(tableName);
-                query.append(" SET ");
+                query.append(tableName).append(" SET ");
             }
             if (fieldNameUpperCase) {
-                query.append(columnName.toUpperCase());
-                query.append("\" = ? ");
+                query.append(columnName.toUpperCase()).append("\" = ? ");
             } else {
-                query.append(columnName);
-                query.append(" = ? ");
+                query.append(columnName).append(" = ? ");
             }
             if (condition != null) {
-                query.append(" WHERE ");
-                query.append(condition);
+                query.append(" WHERE ").append(condition);
             }
             theQuery = this.normalizeStatement(query.toString(), getReplacement());
             logger.debug6(SOSClassUtil.getMethodName() + ": " + theQuery);
@@ -1152,7 +1140,7 @@ public abstract class SOSConnection {
         PreparedStatement pstmt = null;
         long totalBytesRead = 0;
         InputStream in = null;
-        StringBuffer query = null;
+        StringBuilder query = null;
         String theQuery = null;
         try {
             logger.debug9("calling " + SOSClassUtil.getMethodName());
@@ -1174,24 +1162,20 @@ public abstract class SOSConnection {
                 throw new Exception(SOSClassUtil.getMethodName() + ": file doesn't exist.");
             }
             in = new FileInputStream(file);
-            query = new StringBuffer("UPDATE ");
+            query = new StringBuilder();
+            query.append("UPDATE ");
             if (tableNameUpperCase) {
                 query.append(tableName.toUpperCase());
             } else {
                 query.append(tableName);
             }
             if (fieldNameUpperCase) {
-                query.append(" SET \"");
-                query.append(columnName.toUpperCase());
-                query.append("\" = ? ");
+                query.append(" SET \"").append(columnName.toUpperCase()).append("\" = ? ");
             } else {
-                query.append(" SET ");
-                query.append(columnName);
-                query.append(" = ? ");
+                query.append(" SET ").append(columnName).append(" = ? ");
             }
             if (!SOSString.isEmpty(condition)) {
-                query.append(" WHERE ");
-                query.append(condition);
+                query.append(" WHERE ").append(condition);
             }
             theQuery = normalizeStatement(query.toString(), getReplacement());
             logger.debug6(SOSClassUtil.getMethodName() + ": " + theQuery);
@@ -1708,14 +1692,16 @@ public abstract class SOSConnection {
         if (replacement.length < 4) {
             return inputString;
         }
-        StringBuffer aPattern, buffer;
+        StringBuilder aPattern;
+        StringBuffer buffer;
         Pattern pattern;
         Matcher matcher;
         String replaceString;
-        aPattern = new StringBuffer("(%lcase|%ucase|%now|%updlock)|").append("(%timestamp\\('[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{1,4}'\\))|")
-                .append("(%timestamp\\('[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{1,4}[ \t]?[0-9]{2}:[0-9]{2}(?::[0-9]{2}\\.?[0-9]*)?'\\))|")
-                .append("(%timestamp_iso\\('[0-9]{1,4}[-]?[0-9]{1,2}[-]?[0-9]{1,2}'\\))|")
-                .append("(%timestamp_iso\\('[0-9]{1,4}[-]?[0-9]{1,2}[-]?[0-9]{1,2}[ \t]?[0-9]{2}:[0-9]{2}(?::[0-9]{2}\\.?[0-9]*)?'\\))");
+        aPattern = new StringBuilder();
+        aPattern.append("(%lcase|%ucase|%now|%updlock)|").append("(%timestamp\\('[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{1,4}'\\))|").append(
+                "(%timestamp\\('[0-9]{1,2}\\.[0-9]{1,2}\\.[0-9]{1,4}[ \t]?[0-9]{2}:[0-9]{2}(?::[0-9]{2}\\.?[0-9]*)?'\\))|").append(
+                "(%timestamp_iso\\('[0-9]{1,4}[-]?[0-9]{1,2}[-]?[0-9]{1,2}'\\))|").append(
+                "(%timestamp_iso\\('[0-9]{1,4}[-]?[0-9]{1,2}[-]?[0-9]{1,2}[ \t]?[0-9]{2}:[0-9]{2}(?::[0-9]{2}\\.?[0-9]*)?'\\))");
         pattern = Pattern.compile(aPattern.toString());
         matcher = pattern.matcher(inputString);
         buffer = new StringBuffer();
@@ -2013,23 +1999,28 @@ public abstract class SOSConnection {
                     try {
                         int major = Integer.parseInt(version.substring(0, 2));
                         if (this.getMajorVersion() >= major) {
-                            logger.debug9("using sql comment : db major version = " + this.getMajorVersion() + " comment major version = " + major + " ");
+                            logger.debug9("using sql comment : db major version = " + this.getMajorVersion() + " comment major version = " + major
+                                    + " ");
                             int minor = Integer.parseInt(version.substring(2, 4));
                             if (this.getMinorVersion() >= minor) {
                                 isVersionComment = true;
-                                logger.debug9("using sql comment : db minor version = " + this.getMinorVersion() + " comment minor version = " + minor + " ");
+                                logger.debug9("using sql comment : db minor version = " + this.getMinorVersion() + " comment minor version = "
+                                        + minor + " ");
                             } else {
-                                logger.debug9("skip sql comment : db minor version = " + this.getMinorVersion() + " comment minor version = " + minor + " ");
+                                logger.debug9("skip sql comment : db minor version = " + this.getMinorVersion() + " comment minor version = " + minor
+                                        + " ");
                             }
                         } else {
-                            logger.debug9("skip sql comment : db major version = " + this.getMajorVersion() + " comment major version = " + major + " ");
+                            logger.debug9("skip sql comment : db major version = " + this.getMajorVersion() + " comment major version = " + major
+                                    + " ");
                         }
                     } catch (Exception e) {
                         logger.warn("skip sql comment : no numerical major/minor version in comment = " + version + " database major version = "
                                 + this.getMajorVersion() + " minor version = " + this.getMinorVersion());
                     }
                 } else {
-                    logger.warn("skip sql comment : invalid comment major version length = " + contentArr[0] + " db major version = " + this.getMajorVersion());
+                    logger.warn("skip sql comment : invalid comment major version length = " + contentArr[0] + " db major version = "
+                            + this.getMajorVersion());
                 }
                 if (!isVersionComment) {
                     addRow = false;
@@ -2176,8 +2167,8 @@ public abstract class SOSConnection {
         if (executeBatch) {
             executeBatch = supportsBatchUpdates;
         }
-        logger.info(String.format("%s: executeBatch = %s (supportsBatchUpdates = %s, useExecuteBatch = %s, batchSize = %s)", methodName, executeBatch,
-                supportsBatchUpdates, this.getUseExecuteBatch(), this.batchSize));
+        logger.info(String.format("%s: executeBatch = %s (supportsBatchUpdates = %s, useExecuteBatch = %s, batchSize = %s)", methodName,
+                executeBatch, supportsBatchUpdates, this.getUseExecuteBatch(), this.batchSize));
         try {
             statements = this.getStatements(contentOfClobAttribute);
             if (statements == null || statements.isEmpty()) {
@@ -2193,8 +2184,7 @@ public abstract class SOSConnection {
                         String statement = statements.get(i).toString().trim();
                         String sqlToLower = statement.toLowerCase();
                         if (sqlToLower.startsWith("select")
-                                || (sqlToLower.startsWith("exec") && (this.execReturnsResultSet || sqlToLower.contains(EXEC_COMMENT_RETURN_RESULTSET
-                                        .toLowerCase())))) {
+                                || (sqlToLower.startsWith("exec") && (this.execReturnsResultSet || sqlToLower.contains(EXEC_COMMENT_RETURN_RESULTSET.toLowerCase())))) {
                             if (hasOpenResultSet) {
                                 this.closeQuery();
                                 hasOpenResultSet = false;

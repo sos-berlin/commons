@@ -19,19 +19,20 @@ import org.w3c.dom.NodeList;
 public class TestSOSXMLXPath {
 
     private static final Logger LOGGER = Logger.getLogger(TestSOSXMLXPath.class);
-    private static final String XML = "<?xml version='1.0' encoding='UTF-8'?><soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/'>"
-            + "<soapenv:Header><wsa:To xmlns:wsa='http://schemas.xmlsoap.org/ws/2004/08/addressing'>"
-            + "http://localhost:4444/servingxml_xml2flat_service"
-            + "</wsa:To><wsa:ReplyTo xmlns:wsa='http://schemas.xmlsoap.org/ws/2004/08/addressing'><wsa:Address>"
-            + "http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous</wsa:Address></wsa:ReplyTo></soapenv:Header><soapenv:Body>"
-            + "<addOrder xmlns='http://www.sos-berlin.com/scheduler'><title>ServingXML Order</title><param><name>service</name><value>bookReviews</value></param>"
-            + "<param><name>resources</name><value>"
-            + "http://localhost:4444/servingxml/resources/servingxml_xml2flat/bookReviews.xml"
-            + "</value></param><param><name>extension</name><value>.txt</value></param><xml_payload><myns:books xmlns:myns='http://www.mydomain.com/MyNamespace'>"
-            + "<myns:book id='002' categoryCode='F'><myns:title>Kafka on the Shore</myns:title><myns:author>Haruki Murakami</myns:author><myns:price>25.17"
-            + "</myns:price><myns:reviews><myns:review><myns:reviewer>Curley</myns:reviewer><myns:rating>*****</myns:rating></myns:review><myns:review><myns:reviewer>"
-            + "Larry</myns:reviewer><myns:rating>***</myns:rating></myns:review><myns:review><myns:reviewer>Moe</myns:reviewer><myns:rating>*</myns:rating>"
-            + "</myns:review></myns:reviews></myns:book></myns:books></xml_payload></addOrder></soapenv:Body></soapenv:Envelope>";
+    private static final String XML =
+            "<?xml version='1.0' encoding='UTF-8'?><soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/'>"
+                    + "<soapenv:Header><wsa:To xmlns:wsa='http://schemas.xmlsoap.org/ws/2004/08/addressing'>"
+                    + "http://localhost:4444/servingxml_xml2flat_service"
+                    + "</wsa:To><wsa:ReplyTo xmlns:wsa='http://schemas.xmlsoap.org/ws/2004/08/addressing'><wsa:Address>"
+                    + "http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous</wsa:Address></wsa:ReplyTo></soapenv:Header><soapenv:Body>"
+                    + "<addOrder xmlns='http://www.sos-berlin.com/scheduler'><title>ServingXML Order</title><param><name>service</name><value>bookReviews</value></param>"
+                    + "<param><name>resources</name><value>"
+                    + "http://localhost:4444/servingxml/resources/servingxml_xml2flat/bookReviews.xml"
+                    + "</value></param><param><name>extension</name><value>.txt</value></param><xml_payload><myns:books xmlns:myns='http://www.mydomain.com/MyNamespace'>"
+                    + "<myns:book id='002' categoryCode='F'><myns:title>Kafka on the Shore</myns:title><myns:author>Haruki Murakami</myns:author><myns:price>25.17"
+                    + "</myns:price><myns:reviews><myns:review><myns:reviewer>Curley</myns:reviewer><myns:rating>*****</myns:rating></myns:review><myns:review><myns:reviewer>"
+                    + "Larry</myns:reviewer><myns:rating>***</myns:rating></myns:review><myns:review><myns:reviewer>Moe</myns:reviewer><myns:rating>*</myns:rating>"
+                    + "</myns:review></myns:reviews></myns:book></myns:books></xml_payload></addOrder></soapenv:Body></soapenv:Envelope>";
 
     @Test
     private void testXml() {
@@ -54,8 +55,9 @@ public class TestSOSXMLXPath {
             String bstring = xpath.selectSingleNodeValue("//ERROR/@text");
             LOGGER.info("code: " + astring + " text: " + bstring);
             SOSXMLXPath xpath_mo = new SOSXMLXPath("J:/E/java/mo/sos.xml/src/sos/xml/parser/spooler.xml");
-            NodeList n2 = xpath_mo.selectNodeList(xpath_mo.getDocument().getElementsByTagName("*").item(0),
-                    "//spooler//answer//state//remote_schedulers//remote_scheduler");
+            NodeList n2 =
+                    xpath_mo.selectNodeList(xpath_mo.getDocument().getElementsByTagName("*").item(0),
+                            "//spooler//answer//state//remote_schedulers//remote_scheduler");
             for (int i = 0; i < nl.getLength(); i++) {
                 Node n = n2.item(i);
                 LOGGER.info("Tagname: " + n.getNodeName());

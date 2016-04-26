@@ -16,20 +16,6 @@ import sos.util.SOSArguments;
 import sos.util.SOSLogger;
 import sos.util.SOSString;
 
-/** Klasse Configuration
- *
- * In dieser Klassen werden Parametern - entspricht ConfigurationItem Objekte -
- * gemergt.
- *
- * Der Herkunft der ConfigurationItem's sind: - Programmargumente - Scheduler
- * Parameter - Konfigurationsdateien - Datenbank
- *
- * Es existiert eine Meta Datei, in dem folgen Information beiinhaltet sind:
- *
- * 1. gültige Parametername 2. überprüft ob die Parameterwerte zu den
- * Parametername gültig sind 3. Abhängigkeiten der Parameternamen untereinander
- * 4. überprüfen der Abhängigkeiten mit Hilfe der boolean Operationen wie and
- * und or */
 public class SOSConfiguration {
 
     private static final Logger LOGGER = Logger.getLogger(SOSConfiguration.class);
@@ -40,23 +26,19 @@ public class SOSConfiguration {
     private SOSConfigurationItem[] originParameterFromArguments = new SOSConfigurationItem[] {};
     private final SOSString sosString = new SOSString();
     private SOSLogger sosLogger = null;
-    /** Programargumente k&ouml;nnen entweder als String[] oder als Properties
-     * &uuml;bergeben werden */
     private String[] arguments = null;
     private Properties argumentsAsProperties = null;
-    /** Scheduler Parameter */
     private Properties schedulerParams = null;
     private String settingsFile = null;
     private String settingsTablename = null;
     private String settingsApplicationname = null;
     private String settingsProfilename = null;
-    /** SOSConnection Objekt wird verwendet in SOSConnectionSettings */
     private SOSConnection sosConnection = null;
     private String requiredDefaultFile = null;
     private SOSConfigurationRequiredItem ri = null;
 
-    public SOSConfiguration(final String[] arguments_, final Properties schedulerParams_, final String settingsFile_, final String settingsProfilename_,
-            final String requiredDefaultFile_, final SOSLogger sosLogger_) throws Exception {
+    public SOSConfiguration(final String[] arguments_, final Properties schedulerParams_, final String settingsFile_,
+            final String settingsProfilename_, final String requiredDefaultFile_, final SOSLogger sosLogger_) throws Exception {
         try {
             sosLogger = sosLogger_;
             arguments = arguments_;
@@ -68,11 +50,11 @@ public class SOSConfiguration {
         } catch (Exception e) {
             throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.toString());
         }
-
     }
 
-    public SOSConfiguration(final String[] arguments_, final Properties schedulerParams_, final String settingsFile_, final String settingsApplicationname_,
-            final String settingsProfilename_, final String requiredDefaultFile_, final SOSLogger sosLogger_) throws Exception {
+    public SOSConfiguration(final String[] arguments_, final Properties schedulerParams_, final String settingsFile_, 
+            final String settingsApplicationname_, final String settingsProfilename_, final String requiredDefaultFile_, final SOSLogger sosLogger_)
+            throws Exception {
         try {
             sosLogger = sosLogger_;
             arguments = arguments_;
@@ -85,7 +67,6 @@ public class SOSConfiguration {
         } catch (Exception e) {
             throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.toString());
         }
-
     }
 
     public SOSConfiguration(final String[] arguments_, final String settingsFile_, final String settingsProfilename_, final SOSLogger sosLogger_)
@@ -140,8 +121,8 @@ public class SOSConfiguration {
         }
     }
 
-    public SOSConfiguration(final String[] arguments_, final Properties schedulerParams_, final String settingsFile_, final String settingsProfilename_,
-            final SOSLogger sosLogger_) throws Exception {
+    public SOSConfiguration(final String[] arguments_, final Properties schedulerParams_, final String settingsFile_,
+            final String settingsProfilename_, final SOSLogger sosLogger_) throws Exception {
         try {
             sosLogger = sosLogger_;
             arguments = arguments_;
@@ -155,25 +136,21 @@ public class SOSConfiguration {
     }
 
     private void init() throws Exception {
-        // Programm Arguments können vom Typ String[] oder Properties sein
         if (arguments != null) {
             readProgramArguments(arguments);
         } else {
             readProgramArguments(argumentsAsProperties);
         }
-        // scheduler Parameter
         readSchedulerParams(schedulerParams);
-        // SOSSettings bestimmen
         readSettings();
-        // merged die Parameter
         mergeConfigurationItem();
     }
 
     private void readSettings() throws Exception {
         try {
-            if (sosConnection != null && sosString.parseToString(settingsProfilename).length() > 0) {
+            if (sosConnection != null && !sosString.parseToString(settingsProfilename).isEmpty()) {
                 readConnectionSettings();
-            } else if (sosString.parseToString(settingsFile).length() > 0 && sosString.parseToString(settingsProfilename).length() > 0) {
+            } else if (!sosString.parseToString(settingsFile).isEmpty() && !sosString.parseToString(settingsProfilename).isEmpty()) {
                 readProfileSettings();
             } else {
                 originParameterFromSettings = new SOSConfigurationItem[] {};
@@ -183,14 +160,11 @@ public class SOSConfiguration {
         }
     }
 
-    /** Liest Einstellungen aus der Datenbank
-     * 
-     * @throws Exception */
     private void readConnectionSettings() throws Exception {
         try {
-            if (sosConnection != null && sosString.parseToString(settingsProfilename).length() > 0) {
-                SOSConnectionSettings settings = new SOSConnectionSettings(sosConnection, settingsTablename, settingsApplicationname, settingsProfilename,
-                        sosLogger);
+            if (sosConnection != null && !sosString.parseToString(settingsProfilename).isEmpty()) {
+                SOSConnectionSettings settings =
+                        new SOSConnectionSettings(sosConnection, settingsTablename, settingsApplicationname, settingsProfilename, sosLogger);
                 Properties p = settings.getSection();
                 originParameterFromSettings = new SOSConfigurationItem[p.size()];
                 Iterator it = p.keySet().iterator();
@@ -210,12 +184,9 @@ public class SOSConfiguration {
         }
     }
 
-    /** Liest Einstellungen aus der Konfigurationsdatei (*.ini oder *.xml)
-     * 
-     * @throws Exception */
     private void readProfileSettings() throws Exception {
         try {
-            if (sosString.parseToString(settingsFile).length() > 0 && sosString.parseToString(settingsProfilename).length() > 0) {
+            if (!sosString.parseToString(settingsFile).isEmpty() && !sosString.parseToString(settingsProfilename).isEmpty()) {
                 SOSSettings settings = null;
                 Properties p = null;
                 if (new java.io.File(settingsFile).getName().endsWith(".xml")) {
@@ -275,7 +246,8 @@ public class SOSConfiguration {
                 int i = 0;
                 while (keys.hasNext()) {
                     String key = sosString.parseToString(keys.next());
-                    String newKey = key.trim().startsWith("-") && key.trim().endsWith("=") & key.length() > 0 ? key.substring(1, key.length() - 1) : key;
+                    String newKey =
+                            key.trim().startsWith("-") && key.trim().endsWith("=") & !key.isEmpty() ? key.substring(1, key.length() - 1) : key;
                     originParameterFromArguments[i] = new SOSConfigurationItem();
                     originParameterFromArguments[i].setName(newKey);
                     originParameterFromArguments[i].setValue(arguments_.as_string(key.toString()));
@@ -329,23 +301,17 @@ public class SOSConfiguration {
         Properties p = new Properties();
         for (SOSConfigurationItem item : sosConfigurationItem) {
             String strName = item.getName();
-            if (strName != null && strName.length() > 0) {
+            if (strName != null && !strName.isEmpty()) {
                 p.put(pstrPrefix + strName, item.getValue());
             }
         }
         return p;
     }
 
-    /** @param parameter the parameter to set */
     public void setParameter(final SOSConfigurationItem[] parameter) {
         sosConfigurationItem = parameter;
     }
 
-    /** p2 überschreibt die Werte von p1
-     * 
-     * @param p1
-     * @param p2
-     * @return */
     public SOSConfigurationItem[] merge(final SOSConfigurationItem[] p1, final SOSConfigurationItem[] p2) throws Exception {
         SOSConfigurationItem[] retVal = null;
         HashMap hp = new HashMap();
@@ -388,7 +354,6 @@ public class SOSConfiguration {
         try {
             SOSConfigurationItem item = null;
             if (ri != null && ri.getQuickConfigurationsItem() != null && ri.getQuickConfigurationsItem().containsKey(name)) {
-                // das überprüfte ConfigurationItem wird hier übergeben
                 item = (SOSConfigurationItem) ri.getQuickConfigurationsItem().get(name);
             }
             if (item == null) {
@@ -402,7 +367,6 @@ public class SOSConfiguration {
 
     public HashMap getConfigurationsItems() {
         if (ri != null && ri.getQuickConfigurationsItem() != null) {
-            // das überprüfte ConfigurationItem wird hier übergeben
             return ri.getQuickConfigurationsItem();
         } else {
             return new HashMap();
@@ -411,7 +375,6 @@ public class SOSConfiguration {
 
     public ArrayList getPasswordnames() {
         if (ri != null && ri.getPasswordNames() != null) {
-            // alle Passwortnamen werden übergeben
             return ri.getPasswordNames();
         } else {
             return new ArrayList();
@@ -492,11 +455,6 @@ public class SOSConfiguration {
         this.requiredDefaultFile = requiredDefaultFile;
     }
 
-    /** test SOSProfileSettings
-     * 
-     * @param args
-     * @param requiredDefaultFile
-     * @param sosLogger */
     public static void test1(final String[] args, final String requiredDefaultFile, final sos.util.SOSLogger sosLogger) {
         try {
             LOGGER.debug("~~~~~~~~~~~~~~~~~~ testen von SOSProfileSettings ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
@@ -522,11 +480,6 @@ public class SOSConfiguration {
         }
     }
 
-    /** test SOSXMLSettings
-     * 
-     * @param args
-     * @param requiredDefaultFile
-     * @param sosLogger */
     public static void test2(final String[] args, final String requiredDefaultFile, final sos.util.SOSLogger sosLogger) {
         try {
             LOGGER.debug("~~~~~~~~~~~~~~~~~~ testen von SOSXMLSettings ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
@@ -552,13 +505,8 @@ public class SOSConfiguration {
         }
     }
 
-    /** test SOSConnectionSettings
-     * 
-     * @param args
-     * @param iniSOSConnectionFile
-     * @param requiredDefaultFile
-     * @param sosLogger */
-    public static void test3(final String[] args, final String iniSOSConnectionFile, final String requiredDefaultFile, final sos.util.SOSLogger sosLogger) {
+    public static void test3(final String[] args, final String iniSOSConnectionFile, final String requiredDefaultFile,
+            final sos.util.SOSLogger sosLogger) {
         try {
             LOGGER.debug("~~~~~~~~~~~~~~~~~~ testen von SOSConnectionSettings ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             SOSConnection sosConnection = null;
@@ -594,14 +542,6 @@ public class SOSConfiguration {
 
     public static void main(String[] args) throws Exception {
         try {
-            // Folgende dateien werden zum Testen benötigt:
-            // 1. ./testDateien/Configuration.xml
-            // 2. ./testDateien/sos_settings.ini
-            // 3. ./testDateien/ftp_settings.ini
-            // 4. ./testDateien/test_settings.xml
-            // 5. sos.util.configuration.TestJob.java --> liegt temporär da
-            // 6. ./testDateien/TestParams.job.xml -> job für 5.
-            // manuell erzeugte programmargumente soll zum Test dienen
             if (args == null || args.length == 0) {
                 args = new String[] { "-operation=receive", "-remove_files=true", "-user=1234" };
             }
@@ -614,14 +554,8 @@ public class SOSConfiguration {
             }
             String requiredDefaultFile = "./testDateien/Configuration.xml";
             sos.util.SOSLogger sosLogger = new sos.util.SOSStandardLogger(10);
-            // 1- Testen von Programmargumente und SOSProfileSettings mit
-            // Configuration.xml
             test1(args, requiredDefaultFile, sosLogger);
-            // 2- Testen von Programmargumente und SOSXMLSettings mit
-            // Configuration.xml
             test2(args, requiredDefaultFile, sosLogger);
-            // 3- Testen von Programmargumente und SOSConnectionSettings mit
-            // Configuration.xml
             test3(args, "./testDateien/sos_settings.ini", requiredDefaultFile, sosLogger);
         } catch (Exception e) {
             LOGGER.error("error : " + e.toString());

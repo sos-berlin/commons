@@ -381,10 +381,11 @@ public class SOSFileOperations {
         return removeFile(file, fileSpec, flags, fileSpecFlags, "0", "0", "-1", "-1", 0, 0, logger);
     }
 
-    public static boolean removeFile(File file, String fileSpec, int flags, int fileSpecFlags, String minFileAge, String maxFileAge, String minFileSize,
-            String maxFileSize, int skipFirstFiles, int skipLastFiles, SOSLogger logger) throws Exception {
-        int nrOfRemovedObjects = removeFileCnt(file, fileSpec, flags, fileSpecFlags, minFileAge, maxFileAge, minFileSize, maxFileSize, skipFirstFiles,
-                skipLastFiles, logger);
+    public static boolean removeFile(File file, String fileSpec, int flags, int fileSpecFlags, String minFileAge, String maxFileAge,
+            String minFileSize, String maxFileSize, int skipFirstFiles, int skipLastFiles, SOSLogger logger) throws Exception {
+        int nrOfRemovedObjects =
+                removeFileCnt(file, fileSpec, flags, fileSpecFlags, minFileAge, maxFileAge, minFileSize, maxFileSize, skipFirstFiles, skipLastFiles,
+                        logger);
         return nrOfRemovedObjects > 0;
     }
 

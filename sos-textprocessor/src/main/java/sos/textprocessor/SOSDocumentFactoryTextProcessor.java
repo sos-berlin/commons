@@ -38,15 +38,16 @@ public class SOSDocumentFactoryTextProcessor extends SOSTextProcessor {
         this.init();
     }
 
-    public SOSDocumentFactoryTextProcessor(SOSConnectionSettings settings, String templateSectionName, String templateApplicationName) throws Exception {
+    public SOSDocumentFactoryTextProcessor(SOSConnectionSettings settings, String templateSectionName, String templateApplicationName)
+            throws Exception {
         this.setSettings(settings);
         this.setTemplateSectionName(templateSectionName);
         this.setTemplateApplicationName(templateApplicationName);
         this.init();
     }
 
-    public SOSDocumentFactoryTextProcessor(SOSConnectionSettings settings, SOSLogger logger, String templateSectionName, String templateApplicationName)
-            throws Exception {
+    public SOSDocumentFactoryTextProcessor(SOSConnectionSettings settings, SOSLogger logger, String templateSectionName,
+            String templateApplicationName) throws Exception {
         this.setSettings(settings);
         this.setLogger(logger);
         this.setTemplateSectionName(templateSectionName);

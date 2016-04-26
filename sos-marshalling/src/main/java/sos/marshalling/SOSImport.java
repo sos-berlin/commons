@@ -166,11 +166,11 @@ public class SOSImport extends DefaultHandler {
         public Iterator getIterator() {
             return _tables.keySet().iterator();
         }
-        
+
         public boolean isEmpty() {
             return _tables.isEmpty();
         }
-        
+
     }
 
     public SOSImport(SOSConnection conn, String fileName, String packageId, String packageElement, String packageValue, SOSStandardLogger log) {
@@ -332,7 +332,8 @@ public class SOSImport extends DefaultHandler {
                     autoNormalize(field);
                     _autoChecked = true;
                 }
-                _metaKeyRecords.get(_curPackageId).addField(normalizeFieldName(field), atts.getValue("type"), new Integer(atts.getValue("typeID")), new BigInteger(atts.getValue("len")), new Integer(atts.getValue("scale")));
+                _metaKeyRecords.get(_curPackageId).addField(normalizeFieldName(field), atts.getValue("type"), new Integer(atts.getValue("typeID")),
+                        new BigInteger(atts.getValue("len")), new Integer(atts.getValue("scale")));
             } else if ("fields".equalsIgnoreCase(name) && _curMetaOpened) {
                 _curMetaFieldsOpened = true;
             } else if ("field".equalsIgnoreCase(name) && _curMetaFieldsOpened) {
@@ -345,7 +346,8 @@ public class SOSImport extends DefaultHandler {
                     autoNormalize(field);
                     _autoChecked = true;
                 }
-                _metaFieldRecords.get(_curPackageId).addField(normalizeFieldName(field), atts.getValue("type"), new Integer(atts.getValue("typeID")), new BigInteger(atts.getValue("len")), new Integer(atts.getValue("scale")));
+                _metaFieldRecords.get(_curPackageId).addField(normalizeFieldName(field), atts.getValue("type"), new Integer(atts.getValue("typeID")),
+                        new BigInteger(atts.getValue("len")), new Integer(atts.getValue("scale")));
             } else if (name.equalsIgnoreCase(_xmlTagname + "_data") && _curPackageOpened && !_curMetaOpened) {
                 _curDataOpened = true;
             } else if (name.equalsIgnoreCase(_xmlTagname + "_record")) {

@@ -22,5 +22,5 @@ final class SOSNot implements SOSIBoolean {
         buffer.append(")");
         return buffer.toString();
     }
-    
+
 }
