@@ -70,11 +70,7 @@ import org.apache.log4j.Logger;
 
 import com.sos.JSHelper.Options.*;
 
-<<<<<<< HEAD
-
-=======
  
->>>>>>> origin/release/1.9
 @JSOptionClass(name = "<xsl:value-of select="$class_name" />", description = "<xsl:value-of select="$class_name" />")
 public class <xsl:value-of select="$class_name" /> extends JSOptionsClass {
 	private final String					conClassName						= "<xsl:value-of select="$class_name" />";

@@ -132,7 +132,7 @@ public class <xsl:value-of select="$class_name" /> extends JSJobUtilitiesClass &
         logger.debug(String.format(JSMessages.JSJ_I_110.get(), conMethodName ));
 
 		try { 
-			Options().CheckMandatory();
+			getOptions().CheckMandatory();
 			logger.debug(Options().toString());
 		}
 		catch (Exception e) {
