@@ -119,7 +119,7 @@ public class <xsl:value-of select="$class_name" /> extends JSJobUtilitiesClass &
 
  
     @Override
-    public String replaceSchedulerVars(boolean isWindows, String pstrString2Modify) {
+    public String replaceSchedulerVars(String pstrString2Modify) {
         LOGGER.debug("replaceSchedulerVars as Dummy-call executed. No Instance of JobUtilites specified.");
         return pstrString2Modify;
     }

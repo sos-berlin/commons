@@ -106,7 +106,7 @@ public class <xsl:value-of select="$class_name" /> extends JobSchedulerJobAdapte
 		<xsl:value-of select="$WorkerClassName" />Options objO = objR.getOptions();
 
         objO.CurrentNodeName(this.getCurrentNodeName());
-		objO.setAllOptions(getSchedulerParameterAsProperties(getJobOrOrderParameters()));
+		objO.setAllOptions(getSchedulerParameterAsProperties());
 		objO.CheckMandatory();
         objR.setJSJobUtilites(this);
 		objR.Execute();
