@@ -52,30 +52,31 @@ import org.apache.log4j.Logger;
 import com.sos.JSHelper.Exceptions.JobSchedulerException;
 import com.sos.localization.*;
 
-public class <xsl:value-of select="$class_name" /> extends JobSchedulerJobAdapter <!-- extends <xsl:value-of select="$ExtendsClassName" /> --> {
-	private final String					conClassName						= "<xsl:value-of select="$class_name" />";
-	private static Logger		logger			= Logger.getLogger(<xsl:value-of select="$class_name" />.class);
+public class <xsl:value-of select="$class_name" /> extends JobSchedulerJobAdapter <!-- extends <xsl:value-of select="$ExtendsClassName" /> -->
+	{
+	private final String CLASSNAME = "<xsl:value-of select="$class_name" />";
+	private final static Logger LOGGER = Logger.getLogger(<xsl:value-of select="$class_name" />.class);
 
 	public void init() {
 		@SuppressWarnings("unused")
-		final String conMethodName = conClassName + "::init";
+		final String METHODNAME = CLASSNAME + "::init";
 		doInitialize();
 	}
 
 	private void doInitialize() {
-	} // doInitialize
+	}  
 
 	@Override
 	public boolean spooler_init() {
 		@SuppressWarnings("unused")
-		final String conMethodName = conClassName + "::spooler_init";
+		final String METHODNAME = CLASSNAME + "::spooler_init";
 		return super.spooler_init();
 	}
 
 	@Override
 	public boolean spooler_process() throws Exception {
 		@SuppressWarnings("unused")
-		final String conMethodName = conClassName + "::spooler_process";
+		final String METHODNAME = CLASSNAME + "::spooler_process";
 
 		try {
 			super.spooler_process();
@@ -88,18 +89,18 @@ public class <xsl:value-of select="$class_name" /> extends JobSchedulerJobAdapte
 		} // finally
         return signalSuccess();
 
-	} // spooler_process
+	}  
 
 	@Override
 	public void spooler_exit() {
 		@SuppressWarnings("unused")
-		final String conMethodName = conClassName + "::spooler_exit";
+		final String METHODNAME = CLASSNAME + "::spooler_exit";
 		super.spooler_exit();
 	}
 
 	private void doProcessing() throws Exception {
 		@SuppressWarnings("unused")
-		final String conMethodName = conClassName + "::doProcessing";
+		final String METHODNAME = CLASSNAME + "::doProcessing";
 
 		<xsl:value-of select="$WorkerClassName" /> objR = new <xsl:value-of select="$WorkerClassName" />();
 		<xsl:value-of select="$WorkerClassName" />Options objO = objR.getOptions();
@@ -109,7 +110,7 @@ public class <xsl:value-of select="$class_name" /> extends JobSchedulerJobAdapte
 		objO.CheckMandatory();
         objR.setJSJobUtilites(this);
 		objR.Execute();
-	} // doProcessing
+	}  
 
 }
 

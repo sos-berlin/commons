@@ -58,9 +58,9 @@ import com.sos.JSHelper.Listener.JSListenerClass;
 <xsl:copy-of select="//jobdoc:description/documentation[language=$default_lang]" />
  
 public class <xsl:value-of select="$ClassName" /> extends  <xsl:value-of select="$ExtendsClassName"/> {
-	private final String					conClassName						= "<xsl:value-of select="$ClassName" />"; //$NON-NLS-1$
-		@SuppressWarnings("unused") //$NON-NLS-1$
-	private static Logger		logger			= Logger.getLogger(<xsl:value-of select="$ClassName" />.class);
+	private final String CLASSNAME = "<xsl:value-of select="$ClassName" />"; 
+		@SuppressWarnings("unused") 
+	private final static Logger LOGGER = Logger.getLogger(<xsl:value-of select="$ClassName" />.class);
 	private <xsl:value-of select="$WorkerClassName" /> objE = null;
 
 	protected <xsl:value-of select="$WorkerClassName" />Options	objOptions			= null;
@@ -131,19 +131,7 @@ public class <xsl:value-of select="$ClassName" /> extends  <xsl:value-of select=
 	<xsl:template match="text()">
 		<!-- 	<xsl:value-of select="normalize-space(.)"/> -->
 	</xsl:template>
-
-<!-- 
-	<xsl:function name="functx:capitalize-first" as="xs:string">
-		<xsl:param name="arg" as="xs:string" />
-
-  <xsl:sequence select=" 
-   concat(upper-case(substring($arg,1,1)),
-             substring($arg,2))
- " />
-
-	</xsl:function>
--->
-
+ 
 <xsl:template match="jobdoc:param"> 
         <xsl:message>
         <xsl:value-of select="concat('Parameter = ', ./@name)"></xsl:value-of>
@@ -274,17 +262,7 @@ public class <xsl:value-of select="$ClassName" /> extends  <xsl:value-of select=
     	</xsl:otherwise>
     </xsl:choose>
     }
-<!--
-                        <xsl:choose>
-                            <xsl:when test="@Alias and not(@Alias='')">
-    public <xsl:value-of select="concat($datatype,' ')" /> <xsl:value-of select="./@Alias" /> =
-    <xsl:value-of select="concat('(',$datatype,') ')" />  
-    <xsl:value-of select="concat(./@name, '.SetAlias(conClassName + ')" />".<xsl:value-of select="./@Alias"/>"<xsl:value-of select="');'" />
-                            </xsl:when>
-                            <xsl:otherwise>
-                            </xsl:otherwise>
-                        </xsl:choose>
--->
+ 
                 </xsl:when>
                 <xsl:otherwise>
                 </xsl:otherwise>

@@ -53,10 +53,10 @@ import com.sos.JSHelper.Listener.JSListenerClass;
 
 
 public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select="$ExtendsClassName" /> {
-	@SuppressWarnings("unused")	 //$NON-NLS-1$
-	private final static String					conClassName						= "<xsl:value-of select="$class_name" />"; //$NON-NLS-1$
-	@SuppressWarnings("unused")	 //$NON-NLS-1$
-	private static Logger		logger			= Logger.getLogger(<xsl:value-of select="$class_name" />.class);
+	@SuppressWarnings("unused")	
+	private final static String	CLASSNAME = "<xsl:value-of select="$class_name" />"; 
+	@SuppressWarnings("unused")	
+	private static final Logger	LOGGER = Logger.getLogger(<xsl:value-of select="$class_name" />.class);
 
 	protected <xsl:value-of select="$WorkerClassName" />Options	objOptions			= null;
 	private <xsl:value-of select="$WorkerClassName" /> objE = null;
@@ -96,8 +96,8 @@ public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select=
 		
 		objE.Execute();
 		
-//		assertEquals ("auth_file", objOptions.auth_file.Value(),"test"); //$NON-NLS-1$
-//		assertEquals ("user", objOptions.user.Value(),"test"); //$NON-NLS-1$
+//		assertEquals ("auth_file", objOptions.auth_file.Value(),"test"); 
+//		assertEquals ("user", objOptions.user.Value(),"test"); 
 
 
 	}

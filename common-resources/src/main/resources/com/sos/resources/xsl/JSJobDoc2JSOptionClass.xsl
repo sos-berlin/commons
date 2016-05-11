@@ -53,9 +53,9 @@ import org.apache.log4j.Logger;
 @JSOptionClass(name = "<xsl:value-of select="$class_name" />", description = "<xsl:value-of select="$class_title" />")
 public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select="$ExtendsClassName" /> {
 	@SuppressWarnings("unused")
-	private final String					conClassName						= "<xsl:value-of select="$class_name" />";
+	private final String CLASSNAME = "<xsl:value-of select="$class_name" />";
 	@SuppressWarnings("unused")
-	private static Logger		logger			= Logger.getLogger(<xsl:value-of select="$class_name" />.class);
+	private final static Logger LOGGER = Logger.getLogger(<xsl:value-of select="$class_name" />.class);
  
 
 	public <xsl:value-of select="$class_name" />() {
