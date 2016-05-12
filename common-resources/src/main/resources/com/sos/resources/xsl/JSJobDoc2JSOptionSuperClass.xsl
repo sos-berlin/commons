@@ -85,9 +85,13 @@ public class <xsl:value-of select="$class_name" /> extends JSOptionsClass {
 	} 
 
 
-	public <xsl:value-of select="$class_name" /> (HashMap &lt;String, String&gt; JSSettings) throws Exception {
+
+
+	public <xsl:value-of select="$class_name" /> (HashMap &lt;String, String&gt; jsSettings) throws Exception {
 		this();
-		this.setAllOptions(JSSettings);
+		this.setAllOptions(jsSettings);
+	}
+	
 		<xsl:call-template name="CreateDataElements" />
 <!-- <xsl:call-template name="CreateGetterAndSetter" />  -->        
         
@@ -330,8 +334,8 @@ public class <xsl:value-of select="$class_name" /> extends JSOptionsClass {
     }
 
  
-    public void set<xsl:value-of select="concat(./@name, ' (', $datatype, ' p_',./@name, ') {')" /> 
-        this.<xsl:value-of select="concat(./@name, ' = p_', ./@name, ';' )" />
+    public void set<xsl:value-of select="concat(./@name, ' (', $datatype,' ', ./@name, ') {')" /> 
+        this.<xsl:value-of select="concat(./@name, ' = ', ./@name, ';' )" />
     }
 
                         <xsl:choose>

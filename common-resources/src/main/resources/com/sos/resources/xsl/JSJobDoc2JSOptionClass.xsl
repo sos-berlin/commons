@@ -65,8 +65,8 @@ public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select=
 	} 
 
 
-	public <xsl:value-of select="$class_name" /> (HashMap &lt;String, String&gt; JSSettings) throws Exception {
-		super(JSSettings);
+	public <xsl:value-of select="$class_name" /> (HashMap &lt;String, String&gt; jsSettings) throws Exception {
+		super(jsSettings);
 	}  
  
 	@Override   

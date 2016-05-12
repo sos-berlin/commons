@@ -94,10 +94,9 @@ public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select=
 	@Test
 	public void testExecute() throws Exception {
 		
-		objE.Execute();
+		objE.execute();
 		
-//		assertEquals ("auth_file", objOptions.auth_file.Value(),"test"); 
-//		assertEquals ("user", objOptions.user.Value(),"test"); 
+ 
 
 
 	}

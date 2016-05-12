@@ -57,6 +57,8 @@ import com.sos.JSHelper.Listener.JSListenerClass;
 <xsl:copy-of select="//jobdoc:description/documentation[language=$default_lang]" />
  
 public class <xsl:value-of select="$ClassName" /> extends  <xsl:value-of select="$ExtendsClassName"/> {
+	private static final int DEBUG9 = 9;
+	
 	protected <xsl:value-of select="$WorkerClassName" />Options	objOptions			= null;
 
 	private final String CLASSNAME = "<xsl:value-of select="$ClassName" />"; 
@@ -81,7 +83,7 @@ public class <xsl:value-of select="$ClassName" /> extends  <xsl:value-of select=
 		objOptions.registerMessageListener(this);
 		
 		JSListenerClass.bolLogDebugInformation = true;
-		JSListenerClass.intMaxDebugLevel = 9;
+		JSListenerClass.intMaxDebugLevel = DEBUG9;
 	}
 
 	@After
@@ -213,7 +215,7 @@ public class <xsl:value-of select="$ClassName" /> extends  <xsl:value-of select=
                     </xsl:variable>
  
     @Test
-    public void test<xsl:value-of select="./@name" />() {  // <xsl:value-of select="$datatype"/>
+    public void test<xsl:value-of select="./@name" />() { 
     <xsl:choose>
     	<xsl:when test="$datatype = 'SOSOptionString'">
     	 objOptions.<xsl:value-of select="./@name" />.Value("<xsl:value-of select="concat('++', $defaultvalue, '++')" />");
