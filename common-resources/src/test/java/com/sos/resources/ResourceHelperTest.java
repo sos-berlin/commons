@@ -1,15 +1,15 @@
 package com.sos.resources;
 
-import com.google.common.io.Resources;
-import org.junit.Test;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.net.URL;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+import org.junit.Test;
 
-/** Created by schaedi on 10.07.2014. */
+import com.google.common.io.Resources;
+
 public class ResourceHelperTest {
 
     @Test
@@ -23,4 +23,5 @@ public class ResourceHelperTest {
         assertFalse(tempFile.exists());
         assertFalse(tempDir.exists());
     }
+
 }
