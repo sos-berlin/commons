@@ -62,7 +62,7 @@ public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select=
 			<xsl:value-of select="$WorkerClassName" />Options objO = objM.getOptions();
 			
 			objO.CommandLineArgs(pstrArgs);
-			objM.Execute();
+			objM.execute();
 			
 		} catch (Exception e) {
 			System.err.println(METHODNAME + ": " + "Error occured ..." + e.getMessage()); 
