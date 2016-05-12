@@ -54,52 +54,48 @@ import com.sos.localization.*;
 
 public class <xsl:value-of select="$class_name" /> extends JobSchedulerJobAdapter <!-- extends <xsl:value-of select="$ExtendsClassName" /> -->
 	{
-	private final String CLASSNAME = "<xsl:value-of select="$class_name" />";
-	private final static Logger LOGGER = Logger.getLogger(<xsl:value-of select="$class_name" />.class);
+	private static final String CLASSNAME = "<xsl:value-of select="$class_name" />";
+	private static final Logger LOGGER = Logger.getLogger(<xsl:value-of select="$class_name" />.class);
 
 	public void init() {
-		@SuppressWarnings("unused")
 		final String METHODNAME = CLASSNAME + "::init";
+		// TODO: implement method init here if needed
 		doInitialize();
 	}
 
 	private void doInitialize() {
-	}  
+   		// TODO: implement method doInitialize here if needed
+    }  
 
 	@Override
 	public boolean spooler_init() {
-		@SuppressWarnings("unused")
 		final String METHODNAME = CLASSNAME + "::spooler_init";
 		return super.spooler_init();
 	}
 
 	@Override
 	public boolean spooler_process() throws Exception {
-		@SuppressWarnings("unused")
 		final String METHODNAME = CLASSNAME + "::spooler_process";
 
 		try {
 			super.spooler_process();
 			doProcessing();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
             throw new JobSchedulerException("Fatal Error:" + e.getMessage(), e);
-   		}
-		finally {
-		} // finally
+   		} finally {
+   		    // TODO: implement finally block here if needed
+		} 
         return signalSuccess();
-
 	}  
 
 	@Override
 	public void spooler_exit() {
-		@SuppressWarnings("unused")
 		final String METHODNAME = CLASSNAME + "::spooler_exit";
+		// TODO: implement spooler_exit here if needed
 		super.spooler_exit();
 	}
 
 	private void doProcessing() throws Exception {
-		@SuppressWarnings("unused")
 		final String METHODNAME = CLASSNAME + "::doProcessing";
 
 		<xsl:value-of select="$WorkerClassName" /> objR = new <xsl:value-of select="$WorkerClassName" />();
@@ -111,7 +107,6 @@ public class <xsl:value-of select="$class_name" /> extends JobSchedulerJobAdapte
         objR.setJSJobUtilites(this);
 		objR.Execute();
 	}  
-
 }
 
 </xsl:template>

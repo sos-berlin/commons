@@ -54,27 +54,23 @@ import org.junit.Test;
 import com.sos.JSHelper.Basics.JSToolBox;
 import com.sos.JSHelper.Listener.JSListenerClass;
 
- 
 <xsl:copy-of select="//jobdoc:description/documentation[language=$default_lang]" />
  
 public class <xsl:value-of select="$ClassName" /> extends  <xsl:value-of select="$ExtendsClassName"/> {
+	protected <xsl:value-of select="$WorkerClassName" />Options	objOptions			= null;
+
 	private final String CLASSNAME = "<xsl:value-of select="$ClassName" />"; 
-		@SuppressWarnings("unused") 
 	private final static Logger LOGGER = Logger.getLogger(<xsl:value-of select="$ClassName" />.class);
 	private <xsl:value-of select="$WorkerClassName" /> objE = null;
 
-	protected <xsl:value-of select="$WorkerClassName" />Options	objOptions			= null;
-
-	public <xsl:value-of select="$ClassName" />() {
-		//
-	}
-
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+        // TODO: Implement Method setUpBeforeClass here
 	}
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
+        // TODO: Implement Method tearDownAfterClass here
 	}
 
 	@Before
@@ -90,12 +86,12 @@ public class <xsl:value-of select="$ClassName" /> extends  <xsl:value-of select=
 
 	@After
 	public void tearDown() throws Exception {
+        // Implement Method here
 	}
 
-
 		<xsl:call-template name="CreateDataElements" />
-        
-} // public class <xsl:value-of select="$ClassName" />
+		       
+}  
 	</xsl:template>
 
 	<xsl:template match="jobdoc:configuration">

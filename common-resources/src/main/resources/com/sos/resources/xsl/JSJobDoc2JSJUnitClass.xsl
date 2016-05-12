@@ -53,9 +53,7 @@ import com.sos.JSHelper.Listener.JSListenerClass;
 
 
 public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select="$ExtendsClassName" /> {
-	@SuppressWarnings("unused")	
-	private final static String	CLASSNAME = "<xsl:value-of select="$class_name" />"; 
-	@SuppressWarnings("unused")	
+	private static final String	CLASSNAME = "<xsl:value-of select="$class_name" />"; 
 	private static final Logger	LOGGER = Logger.getLogger(<xsl:value-of select="$class_name" />.class);
 
 	protected <xsl:value-of select="$WorkerClassName" />Options	objOptions			= null;
@@ -68,10 +66,12 @@ public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select=
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+        // TODO: Implement Method setUpBeforeClass here
 	}
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
+        // TODO: Implement Method tearDownAfterClass here
 	}
 
 	@Before
@@ -88,11 +88,11 @@ public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select=
 
 	@After
 	public void tearDown() throws Exception {
+        // TODO: Implement Method tearDown here
 	}
 
 	@Test
 	public void testExecute() throws Exception {
-		
 		
 		objE.Execute();
 		
@@ -101,7 +101,7 @@ public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select=
 
 
 	}
-}  // class <xsl:value-of select="$class_name" />
+}   
 
 </xsl:template>
 

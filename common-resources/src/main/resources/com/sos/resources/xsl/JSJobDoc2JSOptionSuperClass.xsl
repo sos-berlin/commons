@@ -60,22 +60,19 @@
 package <xsl:value-of select="$package_name" />;
 
 import java.util.HashMap;
-
 import com.sos.JSHelper.Options.*;
 import com.sos.JSHelper.Annotations.JSOptionClass;
 import com.sos.JSHelper.Annotations.JSOptionDefinition;
 import com.sos.JSHelper.Exceptions.JSExceptionMandatoryOptionMissing;
 import com.sos.JSHelper.Listener.JSListener; 
 import org.apache.log4j.Logger;
-
 import com.sos.JSHelper.Options.*;
 
  
 @JSOptionClass(name = "<xsl:value-of select="$class_name" />", description = "<xsl:value-of select="$class_name" />")
 public class <xsl:value-of select="$class_name" /> extends JSOptionsClass {
-	private final String CLASSNAME = "<xsl:value-of select="$class_name" />";
-		@SuppressWarnings("unused")
-	private final static Logger LOGGER = Logger.getLogger(<xsl:value-of select="$class_name" />.class);
+	private static final String CLASSNAME = "<xsl:value-of select="$class_name" />";
+	private static final Logger LOGGER = Logger.getLogger(<xsl:value-of select="$class_name" />.class);
 
 		<xsl:call-template name="CreateDataElements" />
 <!-- <xsl:call-template name="CreateGetterAndSetter" />  -->        
@@ -97,32 +94,26 @@ public class <xsl:value-of select="$class_name" /> extends JSOptionsClass {
 	}
  
 	private String getAllOptionsAsString() {
-		@SuppressWarnings("unused")
-		final String conMethodName = CLASSNAME + "::getAllOptionsAsString";
+		final String METHODNAME = CLASSNAME + "::getAllOptionsAsString";
 		String strT = CLASSNAME + "\n";
-		final StringBuffer strBuffer = new StringBuffer();
-		strT += this.toString(); // fix
-	 
+		strT += this.toString(); 
 		return strT;
 	} 
  
 	public void setAllOptions(HashMap &lt;String, String&gt; pobjJSSettings)   {
-		@SuppressWarnings("unused")
-		final String conMethodName = CLASSNAME + "::setAllOptions";
+		final String METHODNAME = CLASSNAME + "::setAllOptions";
 		objSettings = pobjJSSettings;
 		super.setAllOptions(pobjJSSettings);
 	} 
  
-		@Override
-	public void CheckMandatory() throws JSExceptionMandatoryOptionMissing //
-		, Exception {
+	@Override
+	public void CheckMandatory() throws JSExceptionMandatoryOptionMissing, Exception {
 		try {
 			super.CheckMandatory();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			throw new JSExceptionMandatoryOptionMissing(e.toString());
 		}
-		} 
+	} 
 
  
 	@Override
@@ -317,12 +308,10 @@ public class <xsl:value-of select="$class_name" /> extends JSOptionsClass {
     type = "<xsl:value-of select="$datatype" />", 
     mandatory = <xsl:value-of select="$mandatory" />)
     
-    public <xsl:value-of select="concat($datatype,' ')" /> <xsl:value-of select="./@name" /> = new <xsl:value-of select="$datatype" />(this, CLASSNAME + ".<xsl:value-of select="./@name" />", // HashMap-Key
-                                                                "<xsl:value-of select="$title" />", // Titel
-                                                                "<xsl:value-of select="$initialvalue" />", // InitValue
-                                                                "<xsl:value-of select="$defaultvalue" />", // DefaultValue
-                                                                <xsl:value-of select="$mandatory" /> // isMandatory
-                    );
+    public <xsl:value-of select="concat($datatype,' ')" /> <xsl:value-of select="./@name" /> = new <xsl:value-of select="$datatype" />(this, CLASSNAME + ".<xsl:value-of select="./@name" />", 
+                                                                "<xsl:value-of select="$title" />",  
+                                                                // InitValue, DefaultValue, isMandatory
+                                                                "<xsl:value-of select="$initialvalue" />", "<xsl:value-of select="$defaultvalue" />", <xsl:value-of select="$mandatory" />   );
 
  
     public <xsl:value-of select="$datatype" /><xsl:text> </xsl:text> get<xsl:value-of select="./@name" />() {
