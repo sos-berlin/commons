@@ -51,14 +51,13 @@ import com.sos.JSHelper.Basics.JSJobUtilities;
 
 
 public class <xsl:value-of select="$class_name" /> extends JSJobUtilitiesClass &lt;<xsl:value-of select="$class_name" />Options&gt;{  
-	private final String CLASSNAME = "<xsl:value-of select="$class_name" />";  
-	private final static Logger LOGGER = Logger.getLogger(<xsl:value-of select="$class_name" />.class);
+	private static final String CLASSNAME = "<xsl:value-of select="$class_name" />";  
+	private static final Logger LOGGER = Logger.getLogger(<xsl:value-of select="$class_name" />.class);
 
-	protected <xsl:value-of select="$class_name"/>Options	objOptions			= null;
-    private JSJobUtilities      objJSJobUtilities   = this;
+	protected <xsl:value-of select="$class_name"/>Options objOptions = null;
+    private JSJobUtilities  objJSJobUtilities  = this;
 
 
- 
 	public <xsl:value-of select="$class_name" />() {
 		super(new <xsl:value-of select="$class_name" />Options());
 	}
@@ -66,8 +65,7 @@ public class <xsl:value-of select="$class_name" /> extends JSJobUtilitiesClass &
  
 	public <xsl:value-of select="$class_name" />Options getOptions() {
 
-		@SuppressWarnings("unused")  
-		final String conMethodName = CLASSNAME + "::Options";  
+		final String METHODNAME = CLASSNAME + "::Options";  
 
 		if (objOptions == null) {
 			objOptions = new <xsl:value-of select="$class_name" />Options();
@@ -77,9 +75,7 @@ public class <xsl:value-of select="$class_name" /> extends JSJobUtilitiesClass &
 
  
 	public <xsl:value-of select="$class_name" />Options getOptions(final <xsl:value-of select="$class_name" />Options pobjOptions) {
-
-		@SuppressWarnings("unused")  
-		final String conMethodName = CLASSNAME + "::Options";  
+		final String METHODNAME = CLASSNAME + "::Options";  
 
 		objOptions = pobjOptions;
 		return objOptions;
@@ -87,33 +83,31 @@ public class <xsl:value-of select="$class_name" /> extends JSJobUtilitiesClass &
 
  
 	public <xsl:value-of select="$class_name" /> Execute() throws Exception {
-		final String conMethodName = CLASSNAME + "::Execute";  
+		final String METHODNAME = CLASSNAME + "::Execute";  
 
-        LOGGER.debug(String.format(JSMessages.JSJ_I_110.get(), conMethodName ));
+        LOGGER.debug(String.format(JSMessages.JSJ_I_110.get(), METHODNAME ));
 
 		try { 
 			getOptions().CheckMandatory();
 			LOGGER.debug(getOptions().toString());
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			LOGGER.error(e.getMessage(),e);
-			LOGGER.error(String.format(JSMessages.JSJ_F_107.get(), conMethodName ),e);
+			LOGGER.error(String.format(JSMessages.JSJ_F_107.get(), METHODNAME ),e);
             throw e;			
-		}
-		finally {
-            LOGGER.debug(String.format(JSMessages.JSJ_I_111.get(), conMethodName ));
+		} finally {
+            LOGGER.debug(String.format(JSMessages.JSJ_I_111.get(), METHODNAME ));
 		}
 		
 		return this;
 	}
 
 	public void init() {
-		@SuppressWarnings("unused")  
-		final String conMethodName = CLASSNAME + "::init";  
+		final String methodName = CLASSNAME + "::init";  
 		doInitialize();
 	}
 
 	private void doInitialize() {
+	    // TODO: Implement Method doInitialize here  
 	}  
   
 
@@ -127,12 +121,12 @@ public class <xsl:value-of select="$class_name" /> extends JSJobUtilitiesClass &
  
     @Override
     public void setJSParam(String pstrKey, String pstrValue) {
-
+        // Implement Method here  
     }
 
     @Override
     public void setJSParam(String pstrKey, StringBuffer pstrValue) {
-
+        // Implement Method here  
     }
 
  
@@ -149,7 +143,7 @@ public class <xsl:value-of select="$class_name" /> extends JSJobUtilitiesClass &
 
 
 
-}  // class <xsl:value-of select="$class_name" />
+}  
 
 </xsl:template>
 

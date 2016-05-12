@@ -60,82 +60,59 @@
 package <xsl:value-of select="$package_name" />;
 
 import java.util.HashMap;
-
 import com.sos.JSHelper.Options.*;
 import com.sos.JSHelper.Annotations.JSOptionClass;
 import com.sos.JSHelper.Annotations.JSOptionDefinition;
 import com.sos.JSHelper.Exceptions.JSExceptionMandatoryOptionMissing;
 import com.sos.JSHelper.Listener.JSListener; 
 import org.apache.log4j.Logger;
-
 import com.sos.JSHelper.Options.*;
 
  
 @JSOptionClass(name = "<xsl:value-of select="$class_name" />", description = "<xsl:value-of select="$class_name" />")
 public class <xsl:value-of select="$class_name" /> extends JSOptionsClass {
-	private final String					conClassName						= "<xsl:value-of select="$class_name" />";
-		@SuppressWarnings("unused")
-	private static Logger		logger			= Logger.getLogger(<xsl:value-of select="$class_name" />.class);
+	private static final String CLASSNAME = "<xsl:value-of select="$class_name" />";
+	private static final Logger LOGGER = Logger.getLogger(<xsl:value-of select="$class_name" />.class);
 
 		<xsl:call-template name="CreateDataElements" />
 <!-- <xsl:call-template name="CreateGetterAndSetter" />  -->        
         
 	public <xsl:value-of select="$class_name" />() {
 		objParentClass = this.getClass();
-	} // public <xsl:value-of select="$class_name" />
+	}
 
 	public <xsl:value-of select="$class_name" />(JSListener pobjListener) {
 		this();
 		this.registerMessageListener(pobjListener);
-	} // public <xsl:value-of select="$class_name" />
+	} 
 
 		//
 
 	public <xsl:value-of select="$class_name" /> (HashMap &lt;String, String&gt; JSSettings) throws Exception {
 		this();
 		this.setAllOptions(JSSettings);
-	} // public <xsl:value-of select="$class_name" /> (HashMap JSSettings)
-/**
- * \brief getAllOptionsAsString - liefert die Werte und Beschreibung aller
- * Optionen als String
- *
- * \details
- * 
- * \see toString 
- * \see toOut
- */
 	private String getAllOptionsAsString() {
-		@SuppressWarnings("unused")
-		final String conMethodName = conClassName + "::getAllOptionsAsString";
-		String strT = conClassName + "\n";
-		final StringBuffer strBuffer = new StringBuffer();
-		strT += this.toString(); // fix
-	 
+		final String METHODNAME = CLASSNAME + "::getAllOptionsAsString";
+		String strT = CLASSNAME + "\n";
+		strT += this.toString(); 
 		return strT;
-	} // private String getAllOptionsAsString ()
+	} 
 
  
 	public void setAllOptions(HashMap &lt;String, String&gt; pobjJSSettings)   {
-		@SuppressWarnings("unused")
-		final String conMethodName = conClassName + "::setAllOptions";
-		flgSetAllOptions = true;
+		final String METHODNAME = CLASSNAME + "::setAllOptions";
 		objSettings = pobjJSSettings;
-		super.Settings(objSettings);
 		super.setAllOptions(pobjJSSettings);
-		flgSetAllOptions = false;
-	} // public void setAllOptions (HashMap &lt;String, String&gt; JSSettings)
 
  
 		@Override
-	public void CheckMandatory() throws JSExceptionMandatoryOptionMissing //
-		, Exception {
+	public void CheckMandatory() throws JSExceptionMandatoryOptionMissing, Exception {
 		try {
 			super.CheckMandatory();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			throw new JSExceptionMandatoryOptionMissing(e.toString());
 		}
-		} // public void CheckMandatory ()
+	} 
 
  
 	@Override
@@ -143,7 +120,7 @@ public class <xsl:value-of select="$class_name" /> extends JSOptionsClass {
 		super.CommandLineArgs(pstrArgs);
 		this.setAllOptions(super.objSettings);
 	}
-} // public class <xsl:value-of select="$class_name" />
+} 
 	</xsl:template>
 
 	<xsl:template match="jobdoc:configuration">
@@ -341,12 +318,10 @@ public class <xsl:value-of select="$class_name" /> extends JSOptionsClass {
     type = "<xsl:value-of select="$datatype" />", 
     mandatory = <xsl:value-of select="$mandatory" />)
     
-    public <xsl:value-of select="concat($datatype,' ')" /> <xsl:value-of select="./@name" /> = new <xsl:value-of select="$datatype" />(this, conClassName + ".<xsl:value-of select="./@name" />", // HashMap-Key
-                                                                "<xsl:value-of select="$title" />", // Titel
-                                                                "<xsl:value-of select="$initialvalue" />", // InitValue
-                                                                "<xsl:value-of select="$defaultvalue" />", // DefaultValue
-                                                                <xsl:value-of select="$mandatory" /> // isMandatory
-                    );
+    public <xsl:value-of select="concat($datatype,' ')" /> <xsl:value-of select="./@name" /> = new <xsl:value-of select="$datatype" />(this, CLASSNAME + ".<xsl:value-of select="./@name" />", 
+                                                                "<xsl:value-of select="$title" />",  
+                                                                // InitValue, DefaultValue, isMandatory
+                                                                "<xsl:value-of select="$initialvalue" />", "<xsl:value-of select="$defaultvalue" />", <xsl:value-of select="$mandatory" />   );
 
  
     public <xsl:value-of select="$datatype" /><xsl:text> </xsl:text> get<xsl:value-of select="./@name" />() {

@@ -40,7 +40,6 @@
 		<xsl:variable name="class_title">
 			<xsl:value-of select="./@title" />
 		</xsl:variable>
-
 package <xsl:value-of select="$package_name" />;
 
 import java.util.HashMap;
@@ -52,35 +51,32 @@ import org.apache.log4j.Logger;
  
 @JSOptionClass(name = "<xsl:value-of select="$class_name" />", description = "<xsl:value-of select="$class_title" />")
 public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select="$ExtendsClassName" /> {
-	@SuppressWarnings("unused")
-	private final String CLASSNAME = "<xsl:value-of select="$class_name" />";
-	@SuppressWarnings("unused")
-	private final static Logger LOGGER = Logger.getLogger(<xsl:value-of select="$class_name" />.class);
+	private static final String CLASSNAME = "<xsl:value-of select="$class_name" />";
+	private static final Logger LOGGER = Logger.getLogger(<xsl:value-of select="$class_name" />.class);
  
 
 	public <xsl:value-of select="$class_name" />() {
-	} // public <xsl:value-of select="$class_name" />
+        // TODO: Implement Constructor here
+	}  
 
 	public <xsl:value-of select="$class_name" />(JSListener pobjListener) {
 		this();
 		this.registerMessageListener(pobjListener);
-	} // public <xsl:value-of select="$class_name" />
+	} 
 
-		//
 
 	public <xsl:value-of select="$class_name" /> (HashMap &lt;String, String&gt; JSSettings) throws Exception {
 		super(JSSettings);
-	} // public <xsl:value-of select="$class_name" /> (HashMap JSSettings)
+	}  
  
-	@Override  // <xsl:value-of select="$ExtendsClassName" />
+	@Override   
 	public void CheckMandatory() {
 		try {
 			super.CheckMandatory();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			throw new JSExceptionMandatoryOptionMissing(e.toString());
 		}
-	} // public void CheckMandatory ()
+	}  
 }
 
 </xsl:template>
