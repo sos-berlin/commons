@@ -105,7 +105,7 @@ public class <xsl:value-of select="$class_name" /> extends JobSchedulerJobAdapte
 		objO.setAllOptions(getSchedulerParameterAsProperties(getJobOrOrderParameters()));
 		objO.CheckMandatory();
         objR.setJSJobUtilites(this);
-		objR.Execute();
+		objR.execute();
 	}  
 }
 

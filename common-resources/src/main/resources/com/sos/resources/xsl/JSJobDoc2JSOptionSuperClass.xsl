@@ -74,12 +74,10 @@ public class <xsl:value-of select="$class_name" /> extends JSOptionsClass {
 	private static final String CLASSNAME = "<xsl:value-of select="$class_name" />";
 	private static final Logger LOGGER = Logger.getLogger(<xsl:value-of select="$class_name" />.class);
 
-		<xsl:call-template name="CreateDataElements" />
-<!-- <xsl:call-template name="CreateGetterAndSetter" />  -->        
-        
 	public <xsl:value-of select="$class_name" />() {
 		objParentClass = this.getClass();
 	}
+
 
 	public <xsl:value-of select="$class_name" />(JSListener pobjListener) {
 		this();
@@ -92,6 +90,12 @@ public class <xsl:value-of select="$class_name" /> extends JSOptionsClass {
 		this();
 		this.setAllOptions(JSSettings);
 	}
+	
+		<xsl:call-template name="CreateDataElements" />
+<!-- <xsl:call-template name="CreateGetterAndSetter" />  -->        
+        
+
+
  
 	private String getAllOptionsAsString() {
 		final String METHODNAME = CLASSNAME + "::getAllOptionsAsString";

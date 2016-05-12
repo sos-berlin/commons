@@ -82,8 +82,8 @@ public class <xsl:value-of select="$class_name" /> extends JSJobUtilitiesClass &
 	}
 
  
-	public <xsl:value-of select="$class_name" /> Execute() throws Exception {
-		final String METHODNAME = CLASSNAME + "::Execute";  
+	public <xsl:value-of select="$class_name" /> execute() throws Exception {
+		final String METHODNAME = CLASSNAME + "::execute";  
 
         LOGGER.debug(String.format(JSMessages.JSJ_I_110.get(), METHODNAME ));
 
