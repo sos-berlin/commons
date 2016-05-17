@@ -37,101 +37,101 @@ public class SOSConfiguration {
     private String requiredDefaultFile = null;
     private SOSConfigurationRequiredItem ri = null;
 
-    public SOSConfiguration(final String[] arguments_, final Properties schedulerParams_, final String settingsFile_,
-            final String settingsProfilename_, final String requiredDefaultFile_, final SOSLogger sosLogger_) throws Exception {
+    public SOSConfiguration(final String[] arguments, final Properties schedulerParams, final String settingsFile,
+            final String settingsProfilename, final String requiredDefaultFile, final SOSLogger sosLogger) throws Exception {
         try {
-            sosLogger = sosLogger_;
-            arguments = arguments_;
-            schedulerParams = schedulerParams_;
-            settingsFile = settingsFile_;
-            settingsProfilename = settingsProfilename_;
-            requiredDefaultFile = requiredDefaultFile_;
+            this.sosLogger = sosLogger;
+            this.arguments = arguments;
+            this.schedulerParams = schedulerParams;
+            this.settingsFile = settingsFile;
+            this.settingsProfilename = settingsProfilename;
+            this.requiredDefaultFile = requiredDefaultFile;
             init();
         } catch (Exception e) {
-            throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.toString());
+            throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.getMessage(), e);
         }
     }
 
-    public SOSConfiguration(final String[] arguments_, final Properties schedulerParams_, final String settingsFile_, 
-            final String settingsApplicationname_, final String settingsProfilename_, final String requiredDefaultFile_, final SOSLogger sosLogger_)
+    public SOSConfiguration(final String[] arguments, final Properties schedulerParams, final String settingsFile,
+            final String settingsApplicationname, final String settingsProfilename, final String requiredDefaultFile, final SOSLogger sosLogger)
             throws Exception {
         try {
-            sosLogger = sosLogger_;
-            arguments = arguments_;
-            schedulerParams = schedulerParams_;
-            settingsFile = settingsFile_;
-            settingsApplicationname = settingsApplicationname_;
-            settingsProfilename = settingsProfilename_;
-            requiredDefaultFile = requiredDefaultFile_;
+            this.sosLogger = sosLogger;
+            this.arguments = arguments;
+            this.schedulerParams = schedulerParams;
+            this.settingsFile = settingsFile;
+            this.settingsApplicationname = settingsApplicationname;
+            this.settingsProfilename = settingsProfilename;
+            this.requiredDefaultFile = requiredDefaultFile;
             init();
         } catch (Exception e) {
-            throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.toString());
+            throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.getMessage(), e);
         }
     }
 
-    public SOSConfiguration(final String[] arguments_, final String settingsFile_, final String settingsProfilename_, final SOSLogger sosLogger_)
+    public SOSConfiguration(final String[] arguments, final String settingsFile, final String settingsProfilename, final SOSLogger sosLogger)
             throws Exception {
         try {
-            sosLogger = sosLogger_;
-            arguments = arguments_;
-            settingsFile = settingsFile_;
-            settingsProfilename = settingsProfilename_;
+            this.sosLogger = sosLogger;
+            this.arguments = arguments;
+            this.settingsFile = settingsFile;
+            this.settingsProfilename = settingsProfilename;
             init();
         } catch (Exception e) {
-            throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.toString());
+            throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.getMessage(), e);
         }
     }
 
-    public SOSConfiguration(final String[] arguments_, final SOSConnection sosConnection_, final String settingsTablename_,
-            final String settingsApplicationname_, final String settingsProfilename_, final SOSLogger sosLogger_) throws Exception {
+    public SOSConfiguration(final String[] arguments, final SOSConnection sosConnection, final String settingsTablename,
+            final String settingsApplicationname, final String settingsProfilename, final SOSLogger sosLogger) throws Exception {
         try {
-            sosLogger = sosLogger_;
-            arguments = arguments_;
-            sosConnection = sosConnection_;
-            settingsTablename = settingsTablename_;
-            settingsApplicationname = settingsApplicationname_;
-            settingsProfilename = settingsProfilename_;
+            this.sosLogger = sosLogger;
+            this.arguments = arguments;
+            this.sosConnection = sosConnection;
+            this.settingsTablename = settingsTablename;
+            this.settingsApplicationname = settingsApplicationname;
+            this.settingsProfilename = settingsProfilename;
             init();
         } catch (Exception e) {
-            throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.toString());
+            throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.getMessage(), e);
         }
     }
 
-    public SOSConfiguration(final Properties arguments_, final String settingsFile_, final String settingsProfilename_, final SOSLogger sosLogger_)
+    public SOSConfiguration(final Properties arguments, final String settingsFile, final String settingsProfilename, final SOSLogger sosLogger)
             throws Exception {
         try {
-            sosLogger = sosLogger_;
-            argumentsAsProperties = arguments_;
-            settingsFile = settingsFile_;
-            settingsProfilename = settingsProfilename_;
+            this.sosLogger = sosLogger;
+            this.argumentsAsProperties = arguments;
+            this.settingsFile = settingsFile;
+            this.settingsProfilename = settingsProfilename;
             init();
         } catch (Exception e) {
-            throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.toString());
+            throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.getMessage(), e);
         }
     }
 
-    public SOSConfiguration(final String settingsFile_, final String settingsProfilename_, final SOSLogger sosLogger_) throws Exception {
+    public SOSConfiguration(final String settingsFile, final String settingsProfilename, final SOSLogger sosLogger) throws Exception {
         try {
-            sosLogger = sosLogger_;
-            settingsFile = settingsFile_;
-            settingsProfilename = settingsProfilename_;
+            this.sosLogger = sosLogger;
+            this.settingsFile = settingsFile;
+            this.settingsProfilename = settingsProfilename;
             init();
         } catch (Exception e) {
-            throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.toString());
+            throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.getMessage(), e);
         }
     }
 
-    public SOSConfiguration(final String[] arguments_, final Properties schedulerParams_, final String settingsFile_,
-            final String settingsProfilename_, final SOSLogger sosLogger_) throws Exception {
+    public SOSConfiguration(final String[] arguments, final Properties schedulerParams, final String settingsFile,
+            final String settingsProfilename, final SOSLogger sosLogger) throws Exception {
         try {
-            sosLogger = sosLogger_;
-            arguments = arguments_;
-            schedulerParams = schedulerParams_;
-            settingsFile = settingsFile_;
-            settingsProfilename = settingsProfilename_;
+            this.sosLogger = sosLogger;
+            this.arguments = arguments;
+            this.schedulerParams = schedulerParams;
+            this.settingsFile = settingsFile;
+            this.settingsProfilename = settingsProfilename;
             init();
         } catch (Exception e) {
-            throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.toString());
+            throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.getMessage(), e);
         }
     }
 
@@ -180,7 +180,7 @@ public class SOSConfiguration {
                 originParameterFromSettings = new SOSConfigurationItem[] {};
             }
         } catch (Exception e) {
-            throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.toString());
+            throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.getMessage(), e);
         }
     }
 
@@ -210,30 +210,30 @@ public class SOSConfiguration {
                 originParameterFromSettings = new SOSConfigurationItem[] {};
             }
         } catch (Exception e) {
-            throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.toString());
+            throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.getMessage(), e);
         }
     }
 
-    private void readSchedulerParams(final Properties schedulerParams_) throws Exception {
+    private void readSchedulerParams(final Properties schedulerParams) throws Exception {
         try {
             originParameterFromScheduler = new SOSConfigurationItem[] {};
-            if (schedulerParams_ != null) {
-                originParameterFromScheduler = new SOSConfigurationItem[schedulerParams_.size()];
-                java.util.Iterator keys = schedulerParams_.keySet().iterator();
+            if (schedulerParams != null) {
+                originParameterFromScheduler = new SOSConfigurationItem[schedulerParams.size()];
+                Iterator keys = schedulerParams.keySet().iterator();
                 int i = 0;
                 while (keys.hasNext()) {
                     String key = sosString.parseToString(keys.next());
                     sosLogger.debug("..scheduler param = " + key);
                     originParameterFromScheduler[i] = new SOSConfigurationItem();
                     originParameterFromScheduler[i].setName(key);
-                    originParameterFromScheduler[i].setValue(schedulerParams_.getProperty(key));
+                    originParameterFromScheduler[i].setValue(schedulerParams.getProperty(key));
                     i++;
                 }
             } else {
                 originParameterFromScheduler = new SOSConfigurationItem[] {};
             }
         } catch (Exception e) {
-            throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.toString());
+            throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.getMessage(), e);
         }
     }
 
@@ -242,7 +242,7 @@ public class SOSConfiguration {
             if (arguments != null) {
                 originParameterFromArguments = new SOSConfigurationItem[arguments.length];
                 SOSArguments arguments_ = new SOSArguments(arguments, true);
-                java.util.Iterator keys = arguments_.get_arguments().keySet().iterator();
+                Iterator keys = arguments_.getArguments().keySet().iterator();
                 int i = 0;
                 while (keys.hasNext()) {
                     String key = sosString.parseToString(keys.next());
@@ -250,14 +250,14 @@ public class SOSConfiguration {
                             key.trim().startsWith("-") && key.trim().endsWith("=") & !key.isEmpty() ? key.substring(1, key.length() - 1) : key;
                     originParameterFromArguments[i] = new SOSConfigurationItem();
                     originParameterFromArguments[i].setName(newKey);
-                    originParameterFromArguments[i].setValue(arguments_.as_string(key.toString()));
+                    originParameterFromArguments[i].setValue(arguments_.asString(key.toString()));
                     i++;
                 }
             } else {
                 originParameterFromArguments = new SOSConfigurationItem[] {};
             }
         } catch (Exception e) {
-            throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.toString());
+            throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.getMessage(), e);
         }
     }
 
@@ -265,7 +265,7 @@ public class SOSConfiguration {
         try {
             if (arguments != null) {
                 originParameterFromArguments = new SOSConfigurationItem[arguments.size()];
-                java.util.Iterator keys = arguments.keySet().iterator();
+                Iterator keys = arguments.keySet().iterator();
                 int i = 0;
                 while (keys.hasNext()) {
                     String key = sosString.parseToString(keys.next());
@@ -278,7 +278,7 @@ public class SOSConfiguration {
                 originParameterFromArguments = new SOSConfigurationItem[] {};
             }
         } catch (Exception e) {
-            throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.toString());
+            throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.getMessage(), e);
         }
     }
 
@@ -346,7 +346,7 @@ public class SOSConfiguration {
             sosConfigurationItem = ri.check(sosConfigurationItem);
             return sosConfigurationItem;
         } catch (Exception e) {
-            throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.toString());
+            throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.getMessage(), e);
         }
     }
 
@@ -361,7 +361,7 @@ public class SOSConfiguration {
             }
             return item;
         } catch (Exception e) {
-            throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.toString());
+            throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.getMessage(), e);
         }
     }
 
@@ -414,7 +414,7 @@ public class SOSConfiguration {
     }
 
     public void setConfigurationItem(final SOSConfigurationItem[] configurationItem) {
-        sosConfigurationItem = configurationItem;
+        this.sosConfigurationItem = configurationItem;
     }
 
     public void setLogger(final SOSLogger sosLogger) {
@@ -426,7 +426,7 @@ public class SOSConfiguration {
         try {
             readProgramArguments(arguments);
         } catch (Exception e) {
-            throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.toString());
+            throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.getMessage(), e);
         }
     }
 
@@ -435,12 +435,12 @@ public class SOSConfiguration {
         try {
             readProgramArguments(argumentsAsProperties);
         } catch (Exception e) {
-            throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.toString());
+            throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.getMessage(), e);
         }
     }
 
-    public void setSchedulerParams(final Properties schedulerParams_) {
-        schedulerParams = schedulerParams_;
+    public void setSchedulerParams(final Properties schedulerParams) {
+        this.schedulerParams = schedulerParams;
     }
 
     public void setSettingsFile(final String settingsFile) {
@@ -558,7 +558,7 @@ public class SOSConfiguration {
             test2(args, requiredDefaultFile, sosLogger);
             test3(args, "./testDateien/sos_settings.ini", requiredDefaultFile, sosLogger);
         } catch (Exception e) {
-            LOGGER.error("error : " + e.toString());
+            LOGGER.error("error : " + e.getMessage(), e);
         }
     }
 

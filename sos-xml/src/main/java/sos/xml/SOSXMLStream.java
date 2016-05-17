@@ -16,10 +16,10 @@ public class SOSXMLStream extends FileInputStream {
     private int cntBytes = 0;
     private StringBuilder resultString = new StringBuilder();
 
-    public SOSXMLStream(int which_, String path) throws FileNotFoundException {
+    public SOSXMLStream(int which, String path) throws FileNotFoundException {
         super(path);
-        which = which_;
-        byte[] last_buff = new byte[4];
+        this.which = which;
+        byte[] lastBuff = new byte[4];
         boolean isStarting = true;
         try {
             DataInputStream fileIn = new DataInputStream(new FileInputStream(path));
@@ -32,27 +32,27 @@ public class SOSXMLStream extends FileInputStream {
                         cntBytes = fileIn.read(buff, 0, cntBytes);
                     } else {
                         cntBytes = fileIn.read(buff, 4, cntBytes);
-                        buff[0] = last_buff[0];
-                        buff[1] = last_buff[1];
-                        buff[2] = last_buff[2];
-                        buff[3] = last_buff[3];
+                        buff[0] = lastBuff[0];
+                        buff[1] = lastBuff[1];
+                        buff[2] = lastBuff[2];
+                        buff[3] = lastBuff[3];
                     }
-                    last_buff = new byte[4];
+                    lastBuff = new byte[4];
                     if (cntBytes <= minBytes) {
-                        java.lang.System.arraycopy(buff, cntBytes, last_buff, 0, 4);
+                        java.lang.System.arraycopy(buff, cntBytes, lastBuff, 0, 4);
                     }
-                    String buff_str = new String(buff);
+                    String buffStr = new String(buff);
                     if (isStarting) {
-                        resultString.append(buff_str.substring(0, cntBytes));
+                        resultString.append(buffStr.substring(0, cntBytes));
                     } else {
                         if (cntBytes < minBytes) {
-                            resultString.append(buff_str.substring(4, cntBytes + 4));
+                            resultString.append(buffStr.substring(4, cntBytes + 4));
                         } else {
-                            resultString.append(buff_str.substring(4, cntBytes + 4));
+                            resultString.append(buffStr.substring(4, cntBytes + 4));
                         }
                     }
                     isStarting = false;
-                    int xmlpos = buff_str.indexOf("<?xml");
+                    int xmlpos = buffStr.indexOf("<?xml");
                     if (xmlpos != -1 && (state == 0 || state == 2)) {
                         state++;
                     } else {
@@ -68,10 +68,10 @@ public class SOSXMLStream extends FileInputStream {
                         state++;
                     }
                     if (state == 3) {
-                        if (which_ == 1) {
+                        if (which == 1) {
                             posEnd = fileSize - ((buff.length - xmlpos) + fileIn.available());
                         } else {
-                            which_--;
+                            which--;
                             state = 2;
                             posBegin = fileSize - ((buff.length - xmlpos) + fileIn.available());
                             posEnd = fileSize;
@@ -79,7 +79,7 @@ public class SOSXMLStream extends FileInputStream {
                     }
                 }
                 fileIn.close();
-                if (which_ > 1) {
+                if (which > 1) {
                     throw new FileNotFoundException();
                 }
                 this.skip(posBegin);

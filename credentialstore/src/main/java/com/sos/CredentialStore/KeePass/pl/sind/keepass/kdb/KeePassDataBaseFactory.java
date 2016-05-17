@@ -82,6 +82,7 @@ public class KeePassDataBaseFactory {
     }
 
     public static void saveDataBase(final KeePassDataBase dataBase, final OutputStream dbFile, final InputStream keyFile, final String password) {
+        //
     }
 
     private static String identifyDataBase(final byte[] data) throws UnsupportedDataBaseException {

@@ -24,7 +24,7 @@ import org.xml.sax.InputSource;
  * @author Titus Meyer */
 public class SOSDate {
 
-    private static String OUTPUT_DATE_TIME_FORMAT = new String("MM/dd/yy HH:mm:ss");
+    private static String outputDateTimeFormat = new String("MM/dd/yy HH:mm:ss");
     private static boolean lenient = false;
     public static String dateFormat = new String("yyyy-MM-dd");
     public static String dateTimeFormat = new String("yyyy-MM-dd HH:mm:ss");
@@ -313,11 +313,11 @@ public class SOSDate {
     }
 
     public static String getOutputDateTimeFormat() {
-        return OUTPUT_DATE_TIME_FORMAT;
+        return outputDateTimeFormat;
     }
 
     public static void setOutputDateTimeFormat(String outputDateTimeFormat) {
-        SOSDate.OUTPUT_DATE_TIME_FORMAT = outputDateTimeFormat;
+        SOSDate.outputDateTimeFormat = outputDateTimeFormat;
     }
 
     public static String getLocaleDateAsString(String datestr) throws Exception {
@@ -347,15 +347,15 @@ public class SOSDate {
     }
 
     public static String getISODateTimeAsString(GregorianCalendar date) throws Exception {
-        SimpleDateFormat iso_format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        iso_format.setLenient(lenient);
-        return iso_format.format(date.getTime());
+        SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        isoFormat.setLenient(lenient);
+        return isoFormat.format(date.getTime());
     }
 
     public static String getISODateAsString(GregorianCalendar date) throws Exception {
-        SimpleDateFormat iso_format = new SimpleDateFormat("yyyy-MM-dd");
-        iso_format.setLenient(lenient);
-        return iso_format.format(date.getTime());
+        SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd");
+        isoFormat.setLenient(lenient);
+        return isoFormat.format(date.getTime());
     }
 
     public static boolean isLenient() {

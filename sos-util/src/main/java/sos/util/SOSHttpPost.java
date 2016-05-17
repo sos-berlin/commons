@@ -56,13 +56,13 @@ public class SOSHttpPost {
         System.out.println(usage);
     }
 
-    private void log_warn(String msg) throws Exception {
+    private void logWarn(String msg) throws Exception {
         if (this.soslogger != null) {
             this.soslogger.warn(msg);
         }
     }
 
-    private void log_info(String msg) throws Exception {
+    private void logInfo(String msg) throws Exception {
         if (this.soslogger != null) {
             this.soslogger.info(msg);
         }
@@ -115,7 +115,7 @@ public class SOSHttpPost {
     }
 
     private void sendFile(File inputFile, String outputFile) throws Exception {
-        this.log_info("sending " + inputFile.getCanonicalPath() + " ...");
+        this.logInfo("sending " + inputFile.getCanonicalPath() + " ...");
         int responseCode = -1;
         try {
             String suffix = null;
@@ -158,7 +158,7 @@ public class SOSHttpPost {
             if (outputFile != null) {
                 writeMsg = this.writeResponse(post.getResponseBodyAsStream(), outputFile);
             }
-            this.log_info(inputFile.getCanonicalPath() + " sent" + writeMsg);
+            this.logInfo(inputFile.getCanonicalPath() + " sent" + writeMsg);
         } catch (UnknownHostException uhx) {
             throw new Exception("UnknownHostException: " + uhx.getMessage(), uhx);
         } catch (FileNotFoundException nfx) {
@@ -195,23 +195,23 @@ public class SOSHttpPost {
 
     public void process(File inputFile, File outputFile) throws Exception {
         try {
-            if (Input_And_Output_Processable(inputFile, outputFile)) {
-                this.log_info("send file(s) to " + this.targetURL.toString());
+            if (inputAndOutputProcessable(inputFile, outputFile)) {
+                this.logInfo("send file(s) to " + this.targetURL.toString());
                 int nrOfSentFiles = 0;
                 if (outputFile != null) {
                     nrOfSentFiles = this.recursiveSend(inputFile, "", outputFile.getAbsolutePath());
                 } else {
                     nrOfSentFiles = this.recursiveSend(inputFile, "", null);
                 }
-                this.log_info(nrOfSentFiles + " file" + ((nrOfSentFiles == 1) ? "" : "s") + " sent");
+                this.logInfo(nrOfSentFiles + " file" + ((nrOfSentFiles == 1) ? "" : "s") + " sent");
             }
         } catch (Exception e) {
-            this.log_warn(e.getMessage());
+            this.logWarn(e.getMessage());
             throw e;
         }
     }
 
-    private boolean Input_And_Output_Processable(File inputFile, File outputFile) throws Exception {
+    private boolean inputAndOutputProcessable(File inputFile, File outputFile) throws Exception {
         boolean outputFileNewCreated = false;
         if (!inputFile.canRead()) {
             throw new Exception(inputFile.getCanonicalPath() + " not found or not readable");

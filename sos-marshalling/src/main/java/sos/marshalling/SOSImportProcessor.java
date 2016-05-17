@@ -1,53 +1,30 @@
 package sos.marshalling;
 
 import java.io.File;
+import java.util.Iterator;
 import java.util.Vector;
-import java.io.BufferedReader;
 
 import sos.connection.SOSConnection;
-import sos.util.SOSArguments;
 import sos.util.SOSFile;
-import sos.marshalling.SOSImport;
-import java.util.Iterator;
 import sos.util.SOSStandardLogger;
-import sos.util.SOSLogger;
 
-/** Title: SOSImportProcessor<br>
- * Description: Kommandozeilentool zum Importieren von Daten im XML-Format<br>
- * 
- * Copyright: Copyright (c) 2005<br>
- * Company: SOS Berlin GmbH<br>
- * 
- * @author <a href="mailto:robert.ehrlich@sos-berlin.com">Robert Ehrlich</a>
- *         Resource sos.connection.jar sos.util.jar xalan.jar xercesImpl.jar
- *         xml-apis.jar
- * @version $Id$ */
+/** @author Robert Ehrlich */
 public class SOSImportProcessor {
 
-    private SOSConnection _sosConnection = null;
-    private SOSStandardLogger _sosLogger = null;
+    private SOSConnection sosConnection = null;
+    private SOSStandardLogger sosLogger = null;
     private boolean update = false;
     private String fileSpec = "^(.*)";
-    private File _configFile = null;
-    private File _inputFile = null;
-    private File _logFile = null;
-    private int _logLevel = 0;
+    private File configFile = null;
+    private File inputFile = null;
+    private File logFile = null;
+    private int logLevel = 0;
 
     public SOSImportProcessor(String settingsFilename, SOSStandardLogger sosLogger) throws Exception {
-
-        _configFile = new File(settingsFilename);
-        _sosLogger = sosLogger;
+        this.configFile = new File(settingsFilename);
+        this.sosLogger = sosLogger;
     }
 
-    /** Konstruktor
-     * 
-     * 
-     * @param configFile Datei, in der die Zugangsdaten zur Datenbank enthalten
-     *            sind
-     * @param logFile Name der Protokolldatei
-     * @param logLevel Log Level für die Protokolldatei
-     * @param inputFile Dateiname für Import
-     * @throws Exception */
     public SOSImportProcessor(File configFile, File logFile, int logLevel, File inputFile) throws Exception {
         if (configFile == null) {
             throw new NullPointerException("Import: Parameter config == null!");
@@ -56,27 +33,24 @@ public class SOSImportProcessor {
             throw new NullPointerException("Import: Parameter input == null!");
         }
         try {
-            _configFile = configFile;
-            _logFile = logFile;
-            _logLevel = logLevel;
-            _inputFile = inputFile;
-            if (_configFile != null && !_configFile.getName().isEmpty() && !_configFile.exists()) {
-                throw new Exception("configuration file not found: " + _configFile);
+            this.configFile = configFile;
+            this.logFile = logFile;
+            this.logLevel = logLevel;
+            this.inputFile = inputFile;
+            if (configFile != null && !configFile.getName().isEmpty() && !configFile.exists()) {
+                throw new Exception("configuration file not found: " + configFile);
             }
-            if (_inputFile != null && !_inputFile.getName().isEmpty() && !_inputFile.exists()) {
-                throw new Exception("input file not found: " + _inputFile);
+            if (inputFile != null && !inputFile.getName().isEmpty() && !inputFile.exists()) {
+                throw new Exception("input file not found: " + inputFile);
             }
-            if (_logLevel != 0 && "".equals(_logFile.toString())) {
+            if (logLevel != 0 && "".equals(logFile.toString())) {
                 throw new Exception("log file is not defined");
             }
         } catch (Exception e) {
-            throw new Exception("error in SOSImportProcessor: " + e.getMessage());
+            throw new Exception("error in SOSImportProcessor: " + e.getMessage(), e);
         }
     }
 
-    /** Konstruktor
-     * 
-     * wird aufgerufen, um die Programm USAGE anzuzeigen */
     public SOSImportProcessor() {
         System.out.println("Syntax");
         System.out.println("Optionen :");
@@ -94,40 +68,38 @@ public class SOSImportProcessor {
         System.out.println("         -config=config/sos_settings.ini -input=sos_import.xml -table=t1");
     }
 
-    /** Import ausf&uuml;hren
-     * 
-     * @throws Exception */
     public void doImport() throws Exception {
         try {
-            if (_logLevel == 0) {
-                _sosLogger = new SOSStandardLogger(SOSStandardLogger.DEBUG);
+            if (logLevel == 0) {
+                sosLogger = new SOSStandardLogger(SOSStandardLogger.DEBUG);
             } else {
-                _sosLogger = new SOSStandardLogger(_logFile.toString(), _logLevel);
+                sosLogger = new SOSStandardLogger(logFile.toString(), logLevel);
             }
-            _sosConnection = SOSConnection.createInstance(_configFile.toString(), _sosLogger);
-            _sosConnection.connect();
-            SOSImport imp = new SOSImport(_sosConnection, _inputFile.toString(), null, null, null, _sosLogger);
+            sosConnection = SOSConnection.createInstance(configFile.toString(), sosLogger);
+            sosConnection.connect();
+            SOSImport imp = new SOSImport(sosConnection, inputFile.toString(), null, null, null, sosLogger);
             imp.doImport();
-            _sosConnection.commit();
+            sosConnection.commit();
             System.out.println("");
             System.out.println("Import erfolgreich beendet.");
         } catch (Exception e) {
-            _sosConnection.rollback();
+            sosConnection.rollback();
             throw new Exception("error in SOSImportProcessor.doImport: " + e.getMessage());
         } finally {
             try {
-                if (_sosConnection != null) {
-                    _sosConnection.disconnect();
+                if (sosConnection != null) {
+                    sosConnection.disconnect();
                 }
             } catch (Exception e) {
+                //
             }
         }
     }
 
     public void process(File inputFile) throws Exception {
         try {
-            _sosConnection = SOSConnection.createInstance(_configFile.toString(), _sosLogger);
-            _sosConnection.connect();
+            sosConnection = SOSConnection.createInstance(configFile.toString(), sosLogger);
+            sosConnection.connect();
             if (inputFile.isDirectory()) {
                 int counter = 0;
                 Vector filelist = SOSFile.getFilelist(inputFile.getAbsolutePath(), this.getFileSpec(), 0);
@@ -136,29 +108,24 @@ public class SOSImportProcessor {
                     this.process((File) iterator.next());
                 }
             } else {
-                SOSImport imp = new SOSImport(_sosConnection, inputFile.toString(), null, null, null, _sosLogger);
+                SOSImport imp = new SOSImport(sosConnection, inputFile.toString(), null, null, null, sosLogger);
                 imp.setUpdate(getUpdate());
                 imp.doImport();
-                _sosConnection.commit();
+                sosConnection.commit();
             }
         } catch (Exception e) {
-            _sosLogger.warn("an error occurred processing file [" + inputFile.getAbsolutePath() + "]: " + e);
+            sosLogger.warn("an error occurred processing file [" + inputFile.getAbsolutePath() + "]: " + e);
         } finally {
             try {
-                if (_sosConnection != null) {
-                    _sosConnection.rollback();
+                if (sosConnection != null) {
+                    sosConnection.rollback();
                 }
             } catch (Exception ex) {
+                //
             }
         }
     }
 
-    /** Programm ausführen<br>
-     * 
-     * @param args Programmargumente<br>
-     * <br>
-     * 
-     * @throws Exception */
     public static void main(String[] args) throws Exception {
         if (args.length < 2) {
             System.out.println("Usage: SOSImportProcessor configuration-file  path  [file-specification] [update] [log-level]");
@@ -186,12 +153,10 @@ public class SOSImportProcessor {
         return this.update;
     }
 
-    /** @param fileSpec The fileSpec to set. */
     public void setFileSpec(String fileSpec) {
         this.fileSpec = fileSpec;
     }
 
-    /** @return Returns the fileSpec. */
     public String getFileSpec() {
         return fileSpec;
     }

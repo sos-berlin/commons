@@ -82,6 +82,7 @@ public class SOSCommandline {
                     try {
                         logger.debug3("command returned exit code: " + p.exitValue());
                     } catch (Exception exc) {
+                        //
                     }
                 }
                 returnValues.add(0, new Integer(p.exitValue()));
@@ -103,6 +104,7 @@ public class SOSCommandline {
                             }
                         }
                     } catch (Exception exc) {
+                        //
                     }
                     returnValues.add(1, stdout);
                 } catch (Exception ex) {
@@ -112,6 +114,7 @@ public class SOSCommandline {
                         try {
                             logger.debug("error occurred processing stdout: " + ex.getMessage());
                         } catch (Exception exc) {
+                            //
                         }
                     }
                 }
@@ -142,6 +145,7 @@ public class SOSCommandline {
                         try {
                             logger.debug("error occurred processing stderr: " + ex.getMessage());
                         } catch (Exception exc) {
+                            //
                         }
                     }
                 }
@@ -159,6 +163,7 @@ public class SOSCommandline {
                     try {
                         logger.debug("error occurred executing command: " + ex.getMessage());
                     } catch (Exception exc) {
+                        //
                     }
                 }
             }
@@ -168,6 +173,7 @@ public class SOSCommandline {
                     logger.debug("Command could not be executed successfully: " + e.getMessage());
                 }
             } catch (Exception ex) {
+                //
             }
             returnValues.add(0, new Integer(1));
             returnValues.add(1, "");
@@ -176,12 +182,10 @@ public class SOSCommandline {
         return returnValues;
     }
 
-    /** Checks if a command needs to be executed to get the password */
     public static String getExternalPassword(final String password) {
         return SOSCommandline.getExternalPassword(password, null);
     }
 
-    /** Checks if an external command needs to be executed to get the password */
     public static String getExternalPassword(final String password, final SOSLogger logger) {
         String returnPassword = password;
         String firstChar = null;
@@ -224,4 +228,5 @@ public class SOSCommandline {
         }
 
     }
+
 }

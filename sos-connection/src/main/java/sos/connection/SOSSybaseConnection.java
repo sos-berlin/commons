@@ -3,6 +3,7 @@ package sos.connection;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.Statement;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Properties;
 import java.util.regex.Matcher;
@@ -17,14 +18,14 @@ import sos.util.SOSString;
 /** @author Andreas Püschel */
 public class SOSSybaseConnection extends sos.connection.SOSConnection {
 
-    private static final String replacement[] = { "LOWER", "UPPER", "GETDATE()", "holdlock" };
-    private static final SOSConnectionVersionLimiter versionLimiter;
+    private static final String REPLACEMENT[] = { "LOWER", "UPPER", "GETDATE()", "holdlock" };
+    private static final SOSConnectionVersionLimiter VERSION_LIMITER;
     private static final Logger LOGGER = Logger.getLogger(SOSSybaseConnection.class);
 
     static {
-        versionLimiter = new SOSConnectionVersionLimiter();
-        versionLimiter.setMinSupportedVersion(12, 0);
-        versionLimiter.setMaxSupportedVersion(15, 0);
+        VERSION_LIMITER = new SOSConnectionVersionLimiter();
+        VERSION_LIMITER.setMinSupportedVersion(12, 0);
+        VERSION_LIMITER.setMaxSupportedVersion(15, 0);
     }
 
     public SOSSybaseConnection(final Connection connection, final SOSLogger logger) throws Exception {
@@ -97,7 +98,7 @@ public class SOSSybaseConnection extends sos.connection.SOSConnection {
             if (connection == null) {
                 throw new Exception("can't connect to database");
             }
-            versionLimiter.check(this, logger);
+            VERSION_LIMITER.check(this, logger);
             logger.debug6(".. successfully connected to " + url);
             prepare(connection);
         } catch (Exception e) {
@@ -109,15 +110,15 @@ public class SOSSybaseConnection extends sos.connection.SOSConnection {
     public void prepare(final Connection connection) throws Exception {
         logger.debug6("calling " + SOSClassUtil.getMethodName());
         Statement stmt = null;
-        String ISOLATION_LEVEL = "set TRANSACTION ISOLATION LEVEL READ COMMITTED";
-        String CHAINED_ON = "set CHAINED ON";
-        String QUOTED_IDENTIFIER = "set QUOTED_IDENTIFIER ON";
-        String LOCK_TIMEOUT = "set LOCK WAIT 3";
-        String CLOSE_ON_ENDTRAN = "set CLOSE ON ENDTRAN ON";
-        String DATEFIRST = "set DATEFIRST 1";
-        String ISO_DATE_FORMAT = "set DATEFORMAT 'ymd'";
-        String DEFAULT_LANGUAGE = "set LANGUAGE us_english";
-        String TEXTSIZE = "set TEXTSIZE 2048000";
+        String isolationLevel = "set TRANSACTION ISOLATION LEVEL READ COMMITTED";
+        String chainedOn = "set CHAINED ON";
+        String quotedIdentifier = "set QUOTED_IDENTIFIER ON";
+        String lockTimeout = "set LOCK WAIT 3";
+        String closeOnEndtran = "set CLOSE ON ENDTRAN ON";
+        String datefirst = "set DATEFIRST 1";
+        String isoDateFormat = "set DATEFORMAT 'ymd'";
+        String defaultLanguage = "set LANGUAGE us_english";
+        String textsize = "set TEXTSIZE 2048000";
         try {
             if (connection == null) {
                 throw new Exception("can't connect to database");
@@ -126,15 +127,15 @@ public class SOSSybaseConnection extends sos.connection.SOSConnection {
             connection.setAutoCommit(false);
             connection.rollback();
             stmt = connection.createStatement();
-            setSessionVariable(stmt, ISOLATION_LEVEL);
-            setSessionVariable(stmt, CHAINED_ON);
-            setSessionVariable(stmt, QUOTED_IDENTIFIER);
-            setSessionVariable(stmt, LOCK_TIMEOUT);
-            setSessionVariable(stmt, CLOSE_ON_ENDTRAN);
-            setSessionVariable(stmt, DATEFIRST);
-            setSessionVariable(stmt, ISO_DATE_FORMAT);
-            setSessionVariable(stmt, DEFAULT_LANGUAGE);
-            setSessionVariable(stmt, TEXTSIZE);
+            setSessionVariable(stmt, isolationLevel);
+            setSessionVariable(stmt, chainedOn);
+            setSessionVariable(stmt, quotedIdentifier);
+            setSessionVariable(stmt, lockTimeout);
+            setSessionVariable(stmt, closeOnEndtran);
+            setSessionVariable(stmt, datefirst);
+            setSessionVariable(stmt, isoDateFormat);
+            setSessionVariable(stmt, defaultLanguage);
+            setSessionVariable(stmt, textsize);
         } catch (Exception e) {
             throw new Exception(SOSClassUtil.getMethodName() + ": " + e.toString(), e);
         } finally {
@@ -143,6 +144,7 @@ public class SOSSybaseConnection extends sos.connection.SOSConnection {
                     stmt.close();
                 }
             } catch (Exception e) {
+                //
             }
         }
     }
@@ -175,7 +177,7 @@ public class SOSSybaseConnection extends sos.connection.SOSConnection {
         if (timestamp.length() > 19) {
             timestamp = timestamp.substring(0, 19);
         }
-        java.util.Date date = sos.util.SOSDate.getDate(timestamp, format);
+        Date date = sos.util.SOSDate.getDate(timestamp, format);
         gc.setTime(date);
         return gc;
     }
@@ -284,6 +286,6 @@ public class SOSSybaseConnection extends sos.connection.SOSConnection {
     }
 
     public String[] getReplacement() {
-        return replacement;
+        return REPLACEMENT;
     }
 }

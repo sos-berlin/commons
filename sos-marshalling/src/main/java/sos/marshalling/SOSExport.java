@@ -23,88 +23,88 @@ import sos.util.SOSStandardLogger;
 /** @author Titus Meyer */
 public class SOSExport {
 
-    private SOSConnection _conn = null;
-    private SOSStandardLogger _log = null;
-    private String _application = null;
-    private String _fileName = null;
-    private String _xmlTagname = "sos_export";
-    private String _xmlEncoding = "iso-8859-1";
-    private String _normalizeFieldName = "strtoupper";
-    private String _normalizeTagName = "strtolower";
-    private String _xmlIndentation = "  ";
-    private int _xmlIndent = 0;
-    private Queries _queries = new Queries();
-    private int _queryCnt = 0;
-    private int _rekursionCnt = 0;
-    private int _lineWrap = 254;
-    private static char[] _hexChar = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+    private static final char[] HEX_CHAR = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+    private SOSConnection connection = null;
+    private SOSStandardLogger logger = null;
+    private String application = null;
+    private String fileName = null;
+    private String xmlTagname = "sos_export";
+    private String xmlEncoding = "iso-8859-1";
+    private String normalizeFieldName = "strtoupper";
+    private String normalizeTagName = "strtolower";
+    private String xmlIndentation = "  ";
+    private int xmlIndent = 0;
+    private Queries queries = new Queries();
+    private int queryCnt = 0;
+    private int rekursionCnt = 0;
+    private int lineWrap = 254;
 
     public SOSExport(SOSConnection conn, String fileName, String application, SOSStandardLogger log) {
         if (conn != null) {
-            _conn = conn;
+            this.connection = conn;
         }
         if (fileName != null) {
-            _fileName = fileName;
+            this.fileName = fileName;
         }
         if (application != null) {
-            _application = application;
+            this.application = application;
         }
         if (log != null) {
-            _log = log;
+            this.logger = log;
         }
         System.setProperty("oracledatabasemetadata.get_lob_precision", "false");
     }
 
     public void setConnection(SOSConnection conn) {
-        _conn = conn;
+        this.connection = conn;
     }
 
     public void setLogger(SOSStandardLogger log) {
-        _log = log;
+        this.logger = log;
     }
 
     public void setApplication(String application) {
-        _application = application;
+        this.application = application;
     }
 
     public void setFileName(String fileName) {
-        _fileName = fileName;
+        this.fileName = fileName;
     }
 
     public void setXMLTagname(String xmlTagname) {
-        _xmlTagname = xmlTagname;
+        this.xmlTagname = xmlTagname;
     }
 
     public void setXMLEncoding(String xmlEncoding) {
-        _xmlEncoding = xmlEncoding;
+        this.xmlEncoding = xmlEncoding;
     }
 
     public void setNormalizeFieldName(String normalizeFieldName) {
         if (!"strtolower".equalsIgnoreCase(normalizeFieldName) || !"strtoupper".equalsIgnoreCase(normalizeFieldName)) {
             throw new IllegalArgumentException("SOSExport.setNormalizeFieldName: normalizeFielName must be \"strtolower\" or \"strtoupper\"");
         }
-        _normalizeFieldName = normalizeFieldName;
+        this.normalizeFieldName = normalizeFieldName;
     }
 
     public void setNormalizeTagName(String normalizeTagName) {
         if (!"strtolower".equalsIgnoreCase(normalizeTagName) || !"strtoupper".equalsIgnoreCase(normalizeTagName)) {
             throw new IllegalArgumentException("SOSExport.setNormalizeTagName: normalizeTagName must be \"strtolower\" or \"strtoupper\"");
         }
-        _normalizeTagName = normalizeTagName;
+        this.normalizeTagName = normalizeTagName;
     }
 
     public void setXMLIndentation(String indentation) {
         if ((indentation.length() & 0x1) != 0) {
             throw new IllegalArgumentException("SOSExport.setXMLIndentation: the indentation string must have an even length");
         }
-        _xmlIndentation = indentation;
+        this.xmlIndentation = indentation;
     }
 
     public void setLineWrap(int lineWrap) {
         if ((lineWrap & 0x1) != 0) {
             throw new IllegalArgumentException("SOSExport.setLineWrap: the line must wrap at an even length");
         }
-        _lineWrap = lineWrap;
+        this.lineWrap = lineWrap;
     }
 
     public int query(String tag, String key, String query, String parameter, int queryId) throws Exception {
@@ -117,18 +117,18 @@ public class SOSExport {
                 if (obj.getParameterCnt() < countStr(query, "?")) {
                     throw new IllegalArgumentException("SOSExport.query: too few fields in parameter for substitution in the query");
                 }
-                if (_log != null) {
-                    _log.debug3("query: tag=" + tag + " key=" + key + " query_id=" + queryId + " query_cnt=" + _queryCnt);
+                if (logger != null) {
+                    logger.debug3("query: tag=" + tag + " key=" + key + " query_id=" + queryId + " query_cnt=" + queryCnt);
                 }
-                if (queryId >= 0 && queryId < _queries.cnt()) {
-                    _queries.get(queryId).addDependRef(new Integer(_queryCnt));
-                } else if (_queryCnt > 0 && (_queryCnt - 1) < _queries.cnt()) {
-                    _queries.get(_queryCnt - 1).addDependRef(new Integer(_queryCnt));
+                if (queryId >= 0 && queryId < queries.cnt()) {
+                    queries.get(queryId).addDependRef(new Integer(queryCnt));
+                } else if (queryCnt > 0 && (queryCnt - 1) < queries.cnt()) {
+                    queries.get(queryCnt - 1).addDependRef(new Integer(queryCnt));
                 } else if (parameter != null) {
                     throw new IllegalArgumentException("SOSExport.query: query_id index out of range: " + queryId);
                 }
-                _queries.add(obj);
-                return _queryCnt++;
+                queries.add(obj);
+                return queryCnt++;
             } else {
                 throw new IllegalArgumentException("SOSExport.query: empty query statement!");
             }
@@ -147,18 +147,18 @@ public class SOSExport {
                 if (obj.getParameterCnt() < countStr(query, "?")) {
                     throw new IllegalArgumentException("SOSExport.query: too few fields in parameter for substitution in the query");
                 }
-                if (_log != null) {
-                    _log.debug3("query: tag=" + tag + " key=" + key + " query_id=" + queryId + " query_cnt=" + _queryCnt);
+                if (logger != null) {
+                    logger.debug3("query: tag=" + tag + " key=" + key + " query_id=" + queryId + " query_cnt=" + queryCnt);
                 }
-                if (queryId >= 0 && queryId < _queries.cnt()) {
-                    _queries.get(queryId).addDependRef(new Integer(_queryCnt));
-                } else if (_queryCnt > 0 && (_queryCnt - 1) < _queries.cnt()) {
-                    _queries.get(_queryCnt - 1).addDependRef(new Integer(_queryCnt));
+                if (queryId >= 0 && queryId < queries.cnt()) {
+                    queries.get(queryId).addDependRef(new Integer(queryCnt));
+                } else if (queryCnt > 0 && (queryCnt - 1) < queries.cnt()) {
+                    queries.get(queryCnt - 1).addDependRef(new Integer(queryCnt));
                 } else if (parameter != null) {
                     throw new IllegalArgumentException("SOSExport.query: query_id index out of range: " + queryId);
                 }
-                _queries.add(obj);
-                return _queryCnt++;
+                queries.add(obj);
+                return queryCnt++;
             } else {
                 throw new IllegalArgumentException("SOSExport.query: empty query statement!");
             }
@@ -178,16 +178,16 @@ public class SOSExport {
                 if (obj.getParameterCnt() < countStr(query, "?")) {
                     throw new IllegalArgumentException("SOSExport.query: too few fields in parameter for substitution in the query");
                 }
-                if (_log != null) {
-                    _log.debug3("add: tag=" + tag + " key=" + key + " query_id=" + queryId + "query_cnt=" + _queryCnt);
+                if (logger != null) {
+                    logger.debug3("add: tag=" + tag + " key=" + key + " query_id=" + queryId + "query_cnt=" + queryCnt);
                 }
-                if (queryId >= 0 && queryId < _queries.cnt()) {
-                    _queries.get(queryId).addIndepdRef(new Integer(_queryCnt));
+                if (queryId >= 0 && queryId < queries.cnt()) {
+                    queries.get(queryId).addIndepdRef(new Integer(queryCnt));
                 } else if (parameter != null) {
                     throw new IllegalArgumentException("SOSExport.add: query_id index out of range: " + queryId);
                 }
-                _queries.add(obj);
-                return _queryCnt++;
+                queries.add(obj);
+                return queryCnt++;
             } else {
                 throw new IllegalArgumentException("SOSExport.query: tag and query must be defined!");
             }
@@ -203,16 +203,16 @@ public class SOSExport {
                 if (obj.getParameterCnt() < countStr(query, "?")) {
                     throw new IllegalArgumentException("SOSExport.query: too few fields in parameter for substitution in the query");
                 }
-                if (_log != null) {
-                    _log.debug3("add: tag=" + tag + " key=" + key + " query_id=" + queryId + "query_cnt=" + _queryCnt);
+                if (logger != null) {
+                    logger.debug3("add: tag=" + tag + " key=" + key + " query_id=" + queryId + "query_cnt=" + queryCnt);
                 }
-                if (queryId >= 0 && queryId < _queries.cnt()) {
-                    _queries.get(queryId).addIndepdRef(new Integer(_queryCnt));
+                if (queryId >= 0 && queryId < queries.cnt()) {
+                    queries.get(queryId).addIndepdRef(new Integer(queryCnt));
                 } else if (parameter != null) {
                     throw new IllegalArgumentException("SOSExport.add: query_id index out of range: " + queryId);
                 }
-                _queries.add(obj);
-                return _queryCnt++;
+                queries.add(obj);
+                return queryCnt++;
             } else {
                 throw new IllegalArgumentException("SOSExport.query: tag and query must be defined!");
             }
@@ -223,64 +223,64 @@ public class SOSExport {
 
     public String doExport() throws Exception, FileNotFoundException {
         try {
-            if ("strtoupper".equalsIgnoreCase(_normalizeFieldName)) {
-                _conn.setKeysToUpperCase();
-                _conn.setFieldNameToUpperCase(true);
+            if ("strtoupper".equalsIgnoreCase(normalizeFieldName)) {
+                connection.setKeysToUpperCase();
+                connection.setFieldNameToUpperCase(true);
             } else {
-                _conn.setKeysToLowerCase();
-                _conn.setFieldNameToUpperCase(false);
+                connection.setKeysToLowerCase();
+                connection.setFieldNameToUpperCase(false);
             }
-            if (_fileName != null && !"".equals(_fileName)) {
-                File file = new File(_fileName);
+            if (fileName != null && !"".equals(fileName)) {
+                File file = new File(fileName);
                 file.createNewFile();
                 if (!file.canWrite()) {
-                    throw new FileNotFoundException("File not writeable: " + _fileName);
+                    throw new FileNotFoundException("File not writeable: " + fileName);
                 }
-                if (_log != null) {
-                    _log.debug2("Starte Export in die Datei...");
+                if (logger != null) {
+                    logger.debug2("Starte Export in die Datei...");
                 }
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                FileOutputStream fos = new FileOutputStream(_fileName);
-                OutputStreamWriter fw = new OutputStreamWriter(fos, _xmlEncoding);
-                fw.write("<?xml version=\"1.0\" encoding=\"" + _xmlEncoding + "\"?>\n");
-                fw.write(indent(1) + "<" + normalizeTagName(_xmlTagname) + " application=\"" + _application + "\" created=\""
+                FileOutputStream fos = new FileOutputStream(fileName);
+                OutputStreamWriter fw = new OutputStreamWriter(fos, xmlEncoding);
+                fw.write("<?xml version=\"1.0\" encoding=\"" + xmlEncoding + "\"?>\n");
+                fw.write(indent(1) + "<" + normalizeTagName(xmlTagname) + " application=\"" + application + "\" created=\""
                         + dateFormat.format(new Date()) + "\">\n");
                 dateFormat = null;
-                for (int i = 0; i < _queries.cnt(); i++) {
-                    if (!_queries.get(i).isDone() && !_queries.get(i).isDependent()) {
-                        if (_queries.get(i).getOperation() != null && "delete".equalsIgnoreCase(_queries.get(i).getOperation())) {
+                for (int i = 0; i < queries.cnt(); i++) {
+                    if (!queries.get(i).isDone() && !queries.get(i).isDependent()) {
+                        if (queries.get(i).getOperation() != null && "delete".equalsIgnoreCase(queries.get(i).getOperation())) {
                             exportQueriesForDelete(i, null, fw);
                         } else {
                             exportQueries(i, fw);
                         }
                     }
                 }
-                fw.write(indent(-1) + "</" + normalizeTagName(_xmlTagname) + ">\n");
+                fw.write(indent(-1) + "</" + normalizeTagName(xmlTagname) + ">\n");
                 fw.close();
                 fos.close();
-                if (_log != null) {
-                    _log.debug2("...Export in die Datei beendet");
+                if (logger != null) {
+                    logger.debug2("...Export in die Datei beendet");
                 }
                 return "";
             } else {
-                if (_log != null) {
-                    _log.debug2("Starte Export...");
+                if (logger != null) {
+                    logger.debug2("Starte Export...");
                 }
                 StringBuilder output = new StringBuilder();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 // XML Header
-                output.append("<?xml version=\"1.0\" encoding=\"" + _xmlEncoding + "\"?>\n");
-                output.append(indent(1) + "<" + normalizeTagName(_xmlTagname) + " application=\"" + _application + "\" created=\""
+                output.append("<?xml version=\"1.0\" encoding=\"" + xmlEncoding + "\"?>\n");
+                output.append(indent(1) + "<" + normalizeTagName(xmlTagname) + " application=\"" + application + "\" created=\""
                         + dateFormat.format(new Date()) + "\">\n");
                 dateFormat = null;
-                for (int i = 0; i < _queries.cnt(); i++) {
-                    if (!_queries.get(i).isDone()) {
+                for (int i = 0; i < queries.cnt(); i++) {
+                    if (!queries.get(i).isDone()) {
                         output.append(exportQueries(i));
                     }
                 }
-                output.append(indent(-1) + "</" + normalizeTagName(_xmlTagname) + ">\n");
-                if (_log != null) {
-                    _log.debug2("...Export beendet");
+                output.append(indent(-1) + "</" + normalizeTagName(xmlTagname) + ">\n");
+                if (logger != null) {
+                    logger.debug2("...Export beendet");
                 }
                 return output.toString();
             }
@@ -290,8 +290,8 @@ public class SOSExport {
     }
 
     public String doExport(SOSConnection conn, String fileName) throws Exception, FileNotFoundException {
-        _conn = conn;
-        _fileName = fileName;
+        this.connection = conn;
+        this.fileName = fileName;
         return doExport();
     }
 
@@ -305,31 +305,31 @@ public class SOSExport {
 
     private String exportQueries(int queryId, ArrayList parameterValues, Writer fw) throws Exception {
         try {
-            if (_log != null) {
-                _log.debug3("export_queries: " + " name=\"" + _queries.get(queryId).getTag() + "\" query_id=\"" + queryId + "\" key=\""
-                        + _queries.get(queryId).keysToStr() + "\" dependend=\"" + _queries.get(queryId).dependRefToStr() + "\" operation=\""
-                        + _queries.get(queryId).getOperation() + "\" independend=\"" + _queries.get(queryId).indepdRefToStr() + "\"");
+            if (logger != null) {
+                logger.debug3("export_queries: " + " name=\"" + queries.get(queryId).getTag() + "\" query_id=\"" + queryId + "\" key=\""
+                        + queries.get(queryId).keysToStr() + "\" dependend=\"" + queries.get(queryId).dependRefToStr() + "\" operation=\""
+                        + queries.get(queryId).getOperation() + "\" independend=\"" + queries.get(queryId).indepdRefToStr() + "\"");
             }
-            _rekursionCnt++;
-            String queryStm = substituteQuery(_queries.get(queryId).getQuery(), parameterValues);
+            rekursionCnt++;
+            String queryStm = substituteQuery(queries.get(queryId).getQuery(), parameterValues);
             HashMap allFieldNames = prepareGetFieldName(queryStm);
             SOSImExportTableFieldTypes fieldTypes = getFieldTypes(queryStm.toString());
             ArrayList result = new ArrayList();
             result = getArray(queryStm.toString());
-            fw.write(indent(1) + "<" + normalizeTagName(_xmlTagname + "_package id=\"") + _queries.get(queryId).getTag() + "\">\n");
+            fw.write(indent(1) + "<" + normalizeTagName(xmlTagname + "_package id=\"") + queries.get(queryId).getTag() + "\">\n");
             if (!result.isEmpty()) {
-                fw.write(indent(1) + "<" + normalizeTagName(_xmlTagname + "_meta") + ">\n");
-                fw.write(indent(0) + "<" + normalizeTagName("table name=\"") + _queries.get(queryId).getTag() + "\" />\n");
+                fw.write(indent(1) + "<" + normalizeTagName(xmlTagname + "_meta") + ">\n");
+                fw.write(indent(0) + "<" + normalizeTagName("table name=\"") + queries.get(queryId).getTag() + "\" />\n");
                 fw.write(indent(1) + "<" + normalizeTagName("key_fields") + ">\n");
-                for (int i = 0; i < _queries.get(queryId).getKeyCnt(); i++) {
-                    if (_log != null) {
-                        _log.debug6("key_field[" + i + "]=\"" + _queries.get(queryId).getKey(i) + "\"");
+                for (int i = 0; i < queries.get(queryId).getKeyCnt(); i++) {
+                    if (logger != null) {
+                        logger.debug6("key_field[" + i + "]=\"" + queries.get(queryId).getKey(i) + "\"");
                     }
-                    fw.write(indent() + "<" + normalizeTagName("field name=\"") + normalizeFieldName(_queries.get(queryId).getKey(i)) + "\"");
-                    fw.write(" type=\"" + fieldTypes.getTypeName(normalizeFieldName(_queries.get(queryId).getKey(i))) + "\"");
-                    fw.write(" typeID=\"" + fieldTypes.getTypeId(normalizeFieldName(_queries.get(queryId).getKey(i))) + "\"");
-                    fw.write(" len=\"" + fieldTypes.getLength(normalizeFieldName(_queries.get(queryId).getKey(i))) + "\"");
-                    fw.write(" scale=\"" + fieldTypes.getScale(normalizeFieldName(_queries.get(queryId).getKey(i))) + "\"");
+                    fw.write(indent() + "<" + normalizeTagName("field name=\"") + normalizeFieldName(queries.get(queryId).getKey(i)) + "\"");
+                    fw.write(" type=\"" + fieldTypes.getTypeName(normalizeFieldName(queries.get(queryId).getKey(i))) + "\"");
+                    fw.write(" typeID=\"" + fieldTypes.getTypeId(normalizeFieldName(queries.get(queryId).getKey(i))) + "\"");
+                    fw.write(" len=\"" + fieldTypes.getLength(normalizeFieldName(queries.get(queryId).getKey(i))) + "\"");
+                    fw.write(" scale=\"" + fieldTypes.getScale(normalizeFieldName(queries.get(queryId).getKey(i))) + "\"");
                     fw.write(" />\n");
                 }
                 fw.write(indent(-1) + normalizeTagName("</key_fields>") + "\n");
@@ -345,19 +345,19 @@ public class SOSExport {
                 }
                 fields = null;
                 fw.write(indent(-1) + normalizeTagName("</fields>") + "\n");
-                fw.write(indent(-1) + "</" + normalizeTagName(_xmlTagname + "_meta") + ">\n");
-                fw.write(indent(1) + "<" + normalizeTagName(_xmlTagname + "_data") + ">\n");
+                fw.write(indent(-1) + "</" + normalizeTagName(xmlTagname + "_meta") + ">\n");
+                fw.write(indent(1) + "<" + normalizeTagName(xmlTagname + "_data") + ">\n");
                 for (int i = 0; i < result.size(); i++) {
                     HashMap record = (HashMap) result.get(i);
-                    if (_log != null) {
-                        _log.debug9("get: " + _queries.get(queryId).getTag() + " query_id=" + queryId);
+                    if (logger != null) {
+                        logger.debug9("get: " + queries.get(queryId).getTag() + " query_id=" + queryId);
                     }
-                    fw.write(indent(1) + "<" + normalizeTagName(_xmlTagname + "_record name=\"") + _queries.get(queryId).getTag() + "\">\n");
+                    fw.write(indent(1) + "<" + normalizeTagName(xmlTagname + "_record name=\"") + queries.get(queryId).getTag() + "\">\n");
                     fw.write(indent(1)
                             + "<"
-                            + normalizeTagName(_xmlTagname + "_fields")
-                            + (_queries.get(queryId).getOperation() != null && !_queries.get(queryId).getOperation().isEmpty() ? " operation=\""
-                                    + _queries.get(queryId).getOperation() + "\" " : "") + ">\n");
+                            + normalizeTagName(xmlTagname + "_fields")
+                            + (queries.get(queryId).getOperation() != null && !queries.get(queryId).getOperation().isEmpty() ? " operation=\""
+                                    + queries.get(queryId).getOperation() + "\" " : "") + ">\n");
                     for (Iterator it = record.keySet().iterator(); it.hasNext();) {
                         String key = it.next().toString();
                         String lobType = null;
@@ -403,24 +403,24 @@ public class SOSExport {
                             }
                             queryBlobStm.append(queryStm.substring(posBegin, posEnd));
                             String and = " WHERE ";
-                            for (int j = 0; j < _queries.get(queryId).getKeyCnt(); j++) {
-                                String keyFieldName = getKeyFieldName(allFieldNames, _queries.get(queryId).getKey(j));
+                            for (int j = 0; j < queries.get(queryId).getKeyCnt(); j++) {
+                                String keyFieldName = getKeyFieldName(allFieldNames, queries.get(queryId).getKey(j));
                                 queryBlobStm.append(and + normalizeFieldName(keyFieldName) + " =");
-                                queryBlobStm.append(quote(fieldTypes.getTypeId(normalizeFieldName(_queries.get(queryId).getKey(j))),
-                                        (String) record.get(normalizeFieldName(_queries.get(queryId).getKey(j)))));
+                                queryBlobStm.append(quote(fieldTypes.getTypeId(normalizeFieldName(queries.get(queryId).getKey(j))),
+                                        (String) record.get(normalizeFieldName(queries.get(queryId).getKey(j)))));
                                 and = " AND ";
                             }
                             byte[] blob = null;
                             if ("blob".equals(lobType)) {
-                                blob = _conn.getBlob(queryBlobStm.toString());
+                                blob = connection.getBlob(queryBlobStm.toString());
                             } else {
-                                blob = str2bin(_conn.getClob(queryBlobStm.toString()));
+                                blob = str2bin(connection.getClob(queryBlobStm.toString()));
                             }
                             fw.write(indent() + "<" + normalizeTagName(key) + " null=");
                             if (blob != null && blob.length > 0) {
                                 indent(1);
                                 fw.write("\"false\">\n");
-                                toHexString(blob, indent(), _lineWrap, fw);
+                                toHexString(blob, indent(), lineWrap, fw);
                                 fw.write("\n" + indent(-1));
                             } else {
                                 fw.write("\"true\">");
@@ -428,32 +428,32 @@ public class SOSExport {
                             fw.write("</" + normalizeTagName(key) + ">\n");
                         }
                     }
-                    fw.write(indent(-1) + "</" + normalizeTagName(_xmlTagname + "_fields") + ">\n");
-                    if (_queries.get(queryId).getIndepdRefCnt() > 0) {
-                        for (int j = 0; j < _queries.get(queryId).getIndepdRefCnt(); j++) {
-                            int recQuery = _queries.get(queryId).getIndepdRef(j).intValue();
-                            if (_log != null) {
-                                _log.debug6("recursive independend query: " + _queries.get(recQuery).getQuery());
+                    fw.write(indent(-1) + "</" + normalizeTagName(xmlTagname + "_fields") + ">\n");
+                    if (queries.get(queryId).getIndepdRefCnt() > 0) {
+                        for (int j = 0; j < queries.get(queryId).getIndepdRefCnt(); j++) {
+                            int recQuery = queries.get(queryId).getIndepdRef(j).intValue();
+                            if (logger != null) {
+                                logger.debug6("recursive independend query: " + queries.get(recQuery).getQuery());
                             }
                             exportQueries(recQuery, queryParams(recQuery, record), fw);
                         }
                     }
                     // Rekursion dependend refs
-                    if (_queries.get(queryId).getDependRefCnt() > 0) {
-                        for (int j = 0; j < _queries.get(queryId).getDependRefCnt(); j++) {
-                            int recQuery = _queries.get(queryId).getDependRef(j).intValue();
-                            if (_log != null) {
-                                _log.debug6("recursive dependend query: " + _queries.get(recQuery).getQuery());
+                    if (queries.get(queryId).getDependRefCnt() > 0) {
+                        for (int j = 0; j < queries.get(queryId).getDependRefCnt(); j++) {
+                            int recQuery = queries.get(queryId).getDependRef(j).intValue();
+                            if (logger != null) {
+                                logger.debug6("recursive dependend query: " + queries.get(recQuery).getQuery());
                             }
                             exportQueries(recQuery, queryParams(recQuery, record), fw);
                         }
                     }
-                    fw.write(indent(-1) + "</" + normalizeTagName(_xmlTagname + "_record") + ">\n");
+                    fw.write(indent(-1) + "</" + normalizeTagName(xmlTagname + "_record") + ">\n");
                 }
-                fw.write(indent(-1) + "</" + normalizeTagName(_xmlTagname + "_data") + ">\n");
+                fw.write(indent(-1) + "</" + normalizeTagName(xmlTagname + "_data") + ">\n");
             }
-            fw.write(indent(-1) + "</" + normalizeTagName(_xmlTagname + "_package") + ">\n");
-            _queries.get(queryId).setDone(true);
+            fw.write(indent(-1) + "</" + normalizeTagName(xmlTagname + "_package") + ">\n");
+            queries.get(queryId).setDone(true);
             return "";
         } catch (Exception e) {
             throw new Exception("SOSExport.exportQueries: " + e.getMessage(), e);
@@ -462,34 +462,34 @@ public class SOSExport {
 
     public String exportQueriesForDelete(int queryId, ArrayList parameterValues, Writer fw) throws Exception {
         try {
-            if (_log != null) {
-                _log.debug3("export_queries: " + " name=\"" + _queries.get(queryId).getTag() + "\" query_id=\"" + queryId + "\" key=\""
-                        + _queries.get(queryId).keysToStr() + "\" dependend=\"" + _queries.get(queryId).dependRefToStr() + "\" operation=\""
-                        + _queries.get(queryId).getOperation() + "\" field_keys=\"" + _queries.get(queryId).getFieldsKeys() + "\" independend=\""
-                        + _queries.get(queryId).indepdRefToStr() + "\"");
+            if (logger != null) {
+                logger.debug3("export_queries: " + " name=\"" + queries.get(queryId).getTag() + "\" query_id=\"" + queryId + "\" key=\""
+                        + queries.get(queryId).keysToStr() + "\" dependend=\"" + queries.get(queryId).dependRefToStr() + "\" operation=\""
+                        + queries.get(queryId).getOperation() + "\" field_keys=\"" + queries.get(queryId).getFieldsKeys() + "\" independend=\""
+                        + queries.get(queryId).indepdRefToStr() + "\"");
             }
-            _rekursionCnt++;
-            String queryStm = substituteQuery(_queries.get(queryId).getQuery(), parameterValues);
+            rekursionCnt++;
+            String queryStm = substituteQuery(queries.get(queryId).getQuery(), parameterValues);
             HashMap allFieldNames = prepareGetFieldName(queryStm);
             SOSImExportTableFieldTypes fieldTypes = getFieldTypes(queryStm.toString());
-            fw.write(indent(1) + "<" + normalizeTagName(_xmlTagname + "_package id=\"") + _queries.get(queryId).getTag() + "\">\n");
-            fw.write(indent(1) + "<" + normalizeTagName(_xmlTagname + "_meta") + ">\n");
-            fw.write(indent(0) + "<" + normalizeTagName("table name=\"") + _queries.get(queryId).getTag() + "\" />\n");
+            fw.write(indent(1) + "<" + normalizeTagName(xmlTagname + "_package id=\"") + queries.get(queryId).getTag() + "\">\n");
+            fw.write(indent(1) + "<" + normalizeTagName(xmlTagname + "_meta") + ">\n");
+            fw.write(indent(0) + "<" + normalizeTagName("table name=\"") + queries.get(queryId).getTag() + "\" />\n");
             fw.write(indent(1) + "<" + normalizeTagName("key_fields") + ">\n");
-            for (int i = 0; i < _queries.get(queryId).getKeyCnt(); i++) {
-                if (_log != null) {
-                    _log.debug6("key_field[" + i + "]=\"" + _queries.get(queryId).getKey(i) + "\"");
+            for (int i = 0; i < queries.get(queryId).getKeyCnt(); i++) {
+                if (logger != null) {
+                    logger.debug6("key_field[" + i + "]=\"" + queries.get(queryId).getKey(i) + "\"");
                 }
-                fw.write(indent() + "<" + normalizeTagName("field name=\"") + normalizeFieldName(_queries.get(queryId).getKey(i)) + "\"");
-                fw.write(" type=\"" + fieldTypes.getTypeName(normalizeFieldName(_queries.get(queryId).getKey(i))) + "\"");
-                fw.write(" typeID=\"" + fieldTypes.getTypeId(normalizeFieldName(_queries.get(queryId).getKey(i))) + "\"");
-                fw.write(" len=\"" + fieldTypes.getLength(normalizeFieldName(_queries.get(queryId).getKey(i))) + "\"");
-                fw.write(" scale=\"" + fieldTypes.getScale(normalizeFieldName(_queries.get(queryId).getKey(i))) + "\"");
+                fw.write(indent() + "<" + normalizeTagName("field name=\"") + normalizeFieldName(queries.get(queryId).getKey(i)) + "\"");
+                fw.write(" type=\"" + fieldTypes.getTypeName(normalizeFieldName(queries.get(queryId).getKey(i))) + "\"");
+                fw.write(" typeID=\"" + fieldTypes.getTypeId(normalizeFieldName(queries.get(queryId).getKey(i))) + "\"");
+                fw.write(" len=\"" + fieldTypes.getLength(normalizeFieldName(queries.get(queryId).getKey(i))) + "\"");
+                fw.write(" scale=\"" + fieldTypes.getScale(normalizeFieldName(queries.get(queryId).getKey(i))) + "\"");
                 fw.write(" />\n");
             }
             fw.write(indent(-1) + normalizeTagName("</key_fields>") + "\n");
             fw.write(indent(1) + normalizeTagName("<fields>") + "\n");
-            Object[] fields = _queries.get(queryId).getFieldsKeys().keySet().toArray();
+            Object[] fields = queries.get(queryId).getFieldsKeys().keySet().toArray();
             for (int i = 0; i < fields.length; i++) {
                 fw.write(indent() + "<" + normalizeTagName("field name=\"") + normalizeFieldName((String) fields[i]) + "\"");
                 fw.write(" type=\"" + fieldTypes.getTypeName(normalizeFieldName((String) fields[i])) + "\"");
@@ -500,18 +500,18 @@ public class SOSExport {
             }
             fields = null;
             fw.write(indent(-1) + normalizeTagName("</fields>") + "\n");
-            fw.write(indent(-1) + "</" + normalizeTagName(_xmlTagname + "_meta") + ">\n");
-            fw.write(indent(1) + "<" + normalizeTagName(_xmlTagname + "_data") + ">\n");
-            HashMap record = _queries.get(queryId).getFieldsKeys();
-            if (_log != null) {
-                _log.debug9("get: " + _queries.get(queryId).getTag() + " query_id=" + queryId);
+            fw.write(indent(-1) + "</" + normalizeTagName(xmlTagname + "_meta") + ">\n");
+            fw.write(indent(1) + "<" + normalizeTagName(xmlTagname + "_data") + ">\n");
+            HashMap record = queries.get(queryId).getFieldsKeys();
+            if (logger != null) {
+                logger.debug9("get: " + queries.get(queryId).getTag() + " query_id=" + queryId);
             }
-            fw.write(indent(1) + "<" + normalizeTagName(_xmlTagname + "_record name=\"") + _queries.get(queryId).getTag() + "\">\n");
+            fw.write(indent(1) + "<" + normalizeTagName(xmlTagname + "_record name=\"") + queries.get(queryId).getTag() + "\">\n");
             fw.write(indent(1)
                     + "<"
-                    + normalizeTagName(_xmlTagname + "_fields")
-                    + (_queries.get(queryId).getOperation() != null && _queries.get(queryId).getOperation().length() > 0 ? " operation=\""
-                            + _queries.get(queryId).getOperation() + "\" " : "") + ">\n");
+                    + normalizeTagName(xmlTagname + "_fields")
+                    + (queries.get(queryId).getOperation() != null && queries.get(queryId).getOperation().length() > 0 ? " operation=\""
+                            + queries.get(queryId).getOperation() + "\" " : "") + ">\n");
             for (Iterator it = record.keySet().iterator(); it.hasNext();) {
                 String key = it.next().toString();
                 if (record.get(key) != null) {
@@ -534,30 +534,30 @@ public class SOSExport {
                     fw.write("</" + normalizeTagName(key) + ">\n");
                 }
             }
-            fw.write(indent(-1) + "</" + normalizeTagName(_xmlTagname + "_fields") + ">\n");
-            if (_queries.get(queryId).getIndepdRefCnt() > 0) {
-                for (int j = 0; j < _queries.get(queryId).getIndepdRefCnt(); j++) {
-                    int recQuery = _queries.get(queryId).getIndepdRef(j).intValue();
-                    if (_log != null) {
-                        _log.debug6("recursive independend query: " + _queries.get(recQuery).getQuery());
+            fw.write(indent(-1) + "</" + normalizeTagName(xmlTagname + "_fields") + ">\n");
+            if (queries.get(queryId).getIndepdRefCnt() > 0) {
+                for (int j = 0; j < queries.get(queryId).getIndepdRefCnt(); j++) {
+                    int recQuery = queries.get(queryId).getIndepdRef(j).intValue();
+                    if (logger != null) {
+                        logger.debug6("recursive independend query: " + queries.get(recQuery).getQuery());
                     }
                     exportQueries(recQuery, queryParams(recQuery, record), fw);
                 }
             }
-            if (_queries.get(queryId).getDependRefCnt() > 0) {
-                for (int j = 0; j < _queries.get(queryId).getDependRefCnt(); j++) {
-                    int recQuery = _queries.get(queryId).getDependRef(j).intValue();
-                    if (_log != null) {
-                        _log.debug6("recursive dependend query: " + _queries.get(recQuery).getQuery());
+            if (queries.get(queryId).getDependRefCnt() > 0) {
+                for (int j = 0; j < queries.get(queryId).getDependRefCnt(); j++) {
+                    int recQuery = queries.get(queryId).getDependRef(j).intValue();
+                    if (logger != null) {
+                        logger.debug6("recursive dependend query: " + queries.get(recQuery).getQuery());
                     }
                     exportQueriesForDelete(recQuery, queryParams(recQuery, record), fw);
                 }
             }
 
-            fw.write(indent(-1) + "</" + normalizeTagName(_xmlTagname + "_record") + ">\n");
-            fw.write(indent(-1) + "</" + normalizeTagName(_xmlTagname + "_data") + ">\n");
-            fw.write(indent(-1) + "</" + normalizeTagName(_xmlTagname + "_package") + ">\n");
-            _queries.get(queryId).setDone(true);
+            fw.write(indent(-1) + "</" + normalizeTagName(xmlTagname + "_record") + ">\n");
+            fw.write(indent(-1) + "</" + normalizeTagName(xmlTagname + "_data") + ">\n");
+            fw.write(indent(-1) + "</" + normalizeTagName(xmlTagname + "_package") + ">\n");
+            queries.get(queryId).setDone(true);
             return "";
         } catch (Exception e) {
             throw new Exception("SOSExport.exportQueries: " + e.getMessage(), e);
@@ -567,33 +567,33 @@ public class SOSExport {
     private String exportQueries(int queryId, ArrayList parameterValues) throws Exception {
         StringBuilder output = new StringBuilder();
         try {
-            if (_log != null) {
-                _log.debug3("export_queries: name=\"" + _queries.get(queryId).getTag() + "\" query_id=\"" + queryId + "\" key=\""
-                        + _queries.get(queryId).keysToStr() + "\" dependend=\"" + _queries.get(queryId).dependRefToStr() + "\" independend=\""
-                        + _queries.get(queryId).indepdRefToStr() + "\"");
+            if (logger != null) {
+                logger.debug3("export_queries: name=\"" + queries.get(queryId).getTag() + "\" query_id=\"" + queryId + "\" key=\""
+                        + queries.get(queryId).keysToStr() + "\" dependend=\"" + queries.get(queryId).dependRefToStr() + "\" independend=\""
+                        + queries.get(queryId).indepdRefToStr() + "\"");
             }
-            _rekursionCnt++;
-            String queryStm = substituteQuery(_queries.get(queryId).getQuery(), parameterValues);
+            rekursionCnt++;
+            String queryStm = substituteQuery(queries.get(queryId).getQuery(), parameterValues);
             HashMap allFieldNames = prepareGetFieldName(queryStm);
             SOSImExportTableFieldTypes fieldTypes = getFieldTypes(queryStm.toString());
             ArrayList result = new ArrayList();
             result = getArray(queryStm.toString());
-            output.append(indent(1) + "<" + normalizeTagName(_xmlTagname + "_package id=\"") + _queries.get(queryId).getTag() + "\">\n");
+            output.append(indent(1) + "<" + normalizeTagName(xmlTagname + "_package id=\"") + queries.get(queryId).getTag() + "\">\n");
             if (!result.isEmpty()) {
-                output.append(indent(1)).append("<").append(normalizeTagName(_xmlTagname + "_meta")).append(">\n");
-                output.append(indent(0)).append("<").append(normalizeTagName("table name=\"")).append(_queries.get(queryId).getTag()).append(
+                output.append(indent(1)).append("<").append(normalizeTagName(xmlTagname + "_meta")).append(">\n");
+                output.append(indent(0)).append("<").append(normalizeTagName("table name=\"")).append(queries.get(queryId).getTag()).append(
                         "\" />\n");
                 output.append(indent(1)).append("<").append(normalizeTagName("key_fields")).append(">\n");
-                for (int i = 0; i < _queries.get(queryId).getKeyCnt(); i++) {
-                    if (_log != null) {
-                        _log.debug6("key_field[" + i + "]=\"" + _queries.get(queryId).getKey(i) + "\"");
+                for (int i = 0; i < queries.get(queryId).getKeyCnt(); i++) {
+                    if (logger != null) {
+                        logger.debug6("key_field[" + i + "]=\"" + queries.get(queryId).getKey(i) + "\"");
                     }
                     output.append(indent()).append("<").append(normalizeTagName("field name=\"")).append(
-                            normalizeFieldName(_queries.get(queryId).getKey(i))).append("\"");
-                    output.append(" type=\"").append(fieldTypes.getTypeName(normalizeFieldName(_queries.get(queryId).getKey(i)))).append("\"");
-                    output.append(" typeID=\"").append(fieldTypes.getTypeId(normalizeFieldName(_queries.get(queryId).getKey(i)))).append("\"");
-                    output.append(" len=\"").append(fieldTypes.getLength(normalizeFieldName(_queries.get(queryId).getKey(i)))).append("\"");
-                    output.append(" scale=\"").append(fieldTypes.getScale(normalizeFieldName(_queries.get(queryId).getKey(i)))).append("\"");
+                            normalizeFieldName(queries.get(queryId).getKey(i))).append("\"");
+                    output.append(" type=\"").append(fieldTypes.getTypeName(normalizeFieldName(queries.get(queryId).getKey(i)))).append("\"");
+                    output.append(" typeID=\"").append(fieldTypes.getTypeId(normalizeFieldName(queries.get(queryId).getKey(i)))).append("\"");
+                    output.append(" len=\"").append(fieldTypes.getLength(normalizeFieldName(queries.get(queryId).getKey(i)))).append("\"");
+                    output.append(" scale=\"").append(fieldTypes.getScale(normalizeFieldName(queries.get(queryId).getKey(i)))).append("\"");
                     output.append(" />\n");
                 }
                 output.append(indent(-1)).append(normalizeTagName("</key_fields>")).append("\n");
@@ -611,16 +611,16 @@ public class SOSExport {
                 }
                 fields = null;
                 output.append(indent(-1)).append(normalizeTagName("</fields>")).append("\n");
-                output.append(indent(-1)).append("</").append(normalizeTagName(_xmlTagname + "_meta")).append(">\n");
-                output.append(indent(1)).append("<").append(normalizeTagName(_xmlTagname + "_data")).append(">\n");
+                output.append(indent(-1)).append("</").append(normalizeTagName(xmlTagname + "_meta")).append(">\n");
+                output.append(indent(1)).append("<").append(normalizeTagName(xmlTagname + "_data")).append(">\n");
                 for (int i = 0; i < result.size(); i++) {
                     HashMap record = (HashMap) result.get(i);
-                    if (_log != null) {
-                        _log.debug9("get: " + _queries.get(queryId).getTag() + " query_id=" + queryId);
+                    if (logger != null) {
+                        logger.debug9("get: " + queries.get(queryId).getTag() + " query_id=" + queryId);
                     }
-                    output.append(indent(1)).append("<").append(normalizeTagName(_xmlTagname + "_record name=\"")).append(
-                            _queries.get(queryId).getTag()).append("\">\n").append(indent(1)).append("<").append(
-                            normalizeTagName(_xmlTagname + "_fields")).append(">\n");
+                    output.append(indent(1)).append("<").append(normalizeTagName(xmlTagname + "_record name=\"")).append(
+                            queries.get(queryId).getTag()).append("\">\n").append(indent(1)).append("<").append(
+                            normalizeTagName(xmlTagname + "_fields")).append(">\n");
                     for (Iterator it = record.keySet().iterator(); it.hasNext();) {
                         String key = it.next().toString();
                         String lobType = null;
@@ -666,54 +666,54 @@ public class SOSExport {
                             }
                             queryBlobStm.append(queryStm.substring(posBegin, posEnd));
                             String and = " WHERE ";
-                            for (int j = 0; j < _queries.get(queryId).getKeyCnt(); j++) {
-                                String keyFieldName = getKeyFieldName(allFieldNames, _queries.get(queryId).getKey(j));
+                            for (int j = 0; j < queries.get(queryId).getKeyCnt(); j++) {
+                                String keyFieldName = getKeyFieldName(allFieldNames, queries.get(queryId).getKey(j));
                                 queryBlobStm.append(and).append(normalizeFieldName(keyFieldName)).append(" =");
-                                queryBlobStm.append(quote(fieldTypes.getTypeId(normalizeFieldName(_queries.get(queryId).getKey(j))),
-                                        (String) record.get(normalizeFieldName(_queries.get(queryId).getKey(j)))));
+                                queryBlobStm.append(quote(fieldTypes.getTypeId(normalizeFieldName(queries.get(queryId).getKey(j))),
+                                        (String) record.get(normalizeFieldName(queries.get(queryId).getKey(j)))));
                                 and = " AND ";
                             }
                             byte[] blob = null;
                             if ("blob".equals(lobType)) {
-                                blob = _conn.getBlob(queryBlobStm.toString());
+                                blob = connection.getBlob(queryBlobStm.toString());
                             } else {
-                                blob = str2bin(_conn.getClob(queryBlobStm.toString()));
+                                blob = str2bin(connection.getClob(queryBlobStm.toString()));
                             }
                             output.append(indent()).append("<").append(normalizeTagName(key)).append(" null=");
                             if (blob != null && blob.length > 0) {
                                 indent(1);
-                                output.append("\"false\">\n").append(toHexString(blob, indent(), _lineWrap)).append("\n").append(indent(-1));
+                                output.append("\"false\">\n").append(toHexString(blob, indent(), lineWrap)).append("\n").append(indent(-1));
                             } else {
                                 output.append("\"true\">");
                             }
                             output.append("</").append(normalizeTagName(key)).append(">\n");
                         }
                     }
-                    output.append(indent(-1)).append("</").append(normalizeTagName(_xmlTagname + "_fields")).append(">\n");
-                    if (_queries.get(queryId).getIndepdRefCnt() > 0) {
-                        for (int j = 0; j < _queries.get(queryId).getIndepdRefCnt(); j++) {
-                            int recQuery = _queries.get(queryId).getIndepdRef(j).intValue();
-                            if (_log != null) {
-                                _log.debug6("recursive independend query: " + _queries.get(recQuery).getQuery());
+                    output.append(indent(-1)).append("</").append(normalizeTagName(xmlTagname + "_fields")).append(">\n");
+                    if (queries.get(queryId).getIndepdRefCnt() > 0) {
+                        for (int j = 0; j < queries.get(queryId).getIndepdRefCnt(); j++) {
+                            int recQuery = queries.get(queryId).getIndepdRef(j).intValue();
+                            if (logger != null) {
+                                logger.debug6("recursive independend query: " + queries.get(recQuery).getQuery());
                             }
                             output.append(exportQueries(recQuery, queryParams(recQuery, record)));
                         }
                     }
-                    if (_queries.get(queryId).getDependRefCnt() > 0) {
-                        for (int j = 0; j < _queries.get(queryId).getDependRefCnt(); j++) {
-                            int recQuery = _queries.get(queryId).getDependRef(j).intValue();
-                            if (_log != null) {
-                                _log.debug6("recursive dependend query: " + _queries.get(recQuery).getQuery());
+                    if (queries.get(queryId).getDependRefCnt() > 0) {
+                        for (int j = 0; j < queries.get(queryId).getDependRefCnt(); j++) {
+                            int recQuery = queries.get(queryId).getDependRef(j).intValue();
+                            if (logger != null) {
+                                logger.debug6("recursive dependend query: " + queries.get(recQuery).getQuery());
                             }
                             output.append(exportQueries(recQuery, queryParams(recQuery, record)));
                         }
                     }
-                    output.append(indent(-1)).append("</").append(normalizeTagName(_xmlTagname + "_record")).append(">\n");
+                    output.append(indent(-1)).append("</").append(normalizeTagName(xmlTagname + "_record")).append(">\n");
                 }
-                output.append(indent(-1)).append("</").append(normalizeTagName(_xmlTagname + "_data")).append(">\n");
+                output.append(indent(-1)).append("</").append(normalizeTagName(xmlTagname + "_data")).append(">\n");
             }
-            output.append(indent(-1)).append("</").append(normalizeTagName(_xmlTagname + "_package")).append(">\n");
-            _queries.get(queryId).setDone(true);
+            output.append(indent(-1)).append("</").append(normalizeTagName(xmlTagname + "_package")).append(">\n");
+            queries.get(queryId).setDone(true);
             return output.toString();
         } catch (Exception e) {
             throw new Exception("SOSExport.exportQueries: " + e.getMessage(), e);
@@ -768,15 +768,15 @@ public class SOSExport {
     public ArrayList queryParams(int queryId, HashMap record) throws Exception {
         ArrayList values = new ArrayList();
         try {
-            if (_log != null) {
-                _log.debug3("query_params: query_id=" + queryId);
+            if (logger != null) {
+                logger.debug3("query_params: query_id=" + queryId);
             }
-            for (int i = 0; i < _queries.get(queryId).getParameterCnt(); i++) {
-                if (_log != null) {
-                    _log.debug6("param_value[" + i + "] = " + _queries.get(queryId).getParameter(i));
+            for (int i = 0; i < queries.get(queryId).getParameterCnt(); i++) {
+                if (logger != null) {
+                    logger.debug6("param_value[" + i + "] = " + queries.get(queryId).getParameter(i));
                 }
-                if (record.containsKey(normalizeFieldName(_queries.get(queryId).getParameter(i)))) {
-                    values.add(record.get(normalizeFieldName(_queries.get(queryId).getParameter(i))));
+                if (record.containsKey(normalizeFieldName(queries.get(queryId).getParameter(i)))) {
+                    values.add(record.get(normalizeFieldName(queries.get(queryId).getParameter(i))));
                 }
             }
             return values;
@@ -821,8 +821,8 @@ public class SOSExport {
 
     private ArrayList getArray(String query) throws Exception {
         try {
-            _conn.executeQuery(query);
-            ResultSet rs = _conn.getResultSet();
+            connection.executeQuery(query);
+            ResultSet rs = connection.getResultSet();
             java.sql.ResultSetMetaData rsmd = rs.getMetaData();
             int i, n = rsmd.getColumnCount();
             ArrayList result = new ArrayList();
@@ -882,17 +882,17 @@ public class SOSExport {
             if (index >= 0) {
                 stm.append(query.substring(index - 1));
             }
-            _conn.executeQuery(stm.toString());
-            ResultSet resultSet = _conn.getResultSet();
+            connection.executeQuery(stm.toString());
+            ResultSet resultSet = connection.getResultSet();
             SOSImExportTableFieldTypes fieldTypes = new SOSImExportTableFieldTypes();
             HashMap fieldDesc = new HashMap();
             for (int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++) {
-                fieldDesc = _conn.fieldDesc(i);
+                fieldDesc = connection.fieldDesc(i);
                 Integer type = new Integer(fieldDesc.get("columnType").toString());
                 BigInteger size = new BigInteger(fieldDesc.get("columnDisplaySize").toString());
                 Integer scale = new Integer(fieldDesc.get("scale").toString());
-                if (_log != null) {
-                    _log.debug9("field_type: name=" + fieldDesc.get("columnName") + " type=" + fieldDesc.get("columnTypeName") + " type_id=" + type
+                if (logger != null) {
+                    logger.debug9("field_type: name=" + fieldDesc.get("columnName") + " type=" + fieldDesc.get("columnTypeName") + " type_id=" + type
                             + " size=" + size + " scale=" + scale);
                 }
                 fieldTypes.addField(normalizeFieldName(normalizeFieldName((String) fieldDesc.get("columnName"))),
@@ -934,7 +934,7 @@ public class SOSExport {
             return "%timestamp_iso('" + val + "')";
         default:
             val = val.replaceAll("'", "''");
-            if (_conn instanceof SOSMySQLConnection) {
+            if (connection instanceof SOSMySQLConnection) {
                 val = val.replaceAll("\\\\", "\\\\\\\\");
             }
             return "'" + val + "'";
@@ -942,16 +942,16 @@ public class SOSExport {
     }
 
     private String indent(int indent) {
-        int curIndent = _xmlIndent;
-        _xmlIndent += indent;
+        int curIndent = xmlIndent;
+        xmlIndent += indent;
         StringBuilder output = new StringBuilder(curIndent);
         if (indent > 0) {
             for (int i = 0; i < curIndent; i++) {
-                output.append(_xmlIndentation);
+                output.append(xmlIndentation);
             }
         } else {
-            for (int i = 0; i < _xmlIndent; i++) {
-                output.append(_xmlIndentation);
+            for (int i = 0; i < xmlIndent; i++) {
+                output.append(xmlIndentation);
             }
         }
         return output.toString();
@@ -962,7 +962,7 @@ public class SOSExport {
     }
 
     private String normalizeTagName(String tag) {
-        if ("strtoupper".equalsIgnoreCase(_normalizeTagName)) {
+        if ("strtoupper".equalsIgnoreCase(normalizeTagName)) {
             return tag.toUpperCase();
         } else {
             return tag.toLowerCase();
@@ -970,7 +970,7 @@ public class SOSExport {
     }
 
     private String normalizeFieldName(String field) {
-        if ("strtoupper".equalsIgnoreCase(_normalizeFieldName)) {
+        if ("strtoupper".equalsIgnoreCase(normalizeFieldName)) {
             return field.toUpperCase();
         } else {
             return field.toLowerCase();
@@ -998,8 +998,8 @@ public class SOSExport {
             fw.write(indent);
         }
         for (int i = 0; i < b.length; i++) {
-            fw.write(_hexChar[(b[i] & 0xf0) >>> 4]);
-            fw.write(_hexChar[b[i] & 0x0f]);
+            fw.write(HEX_CHAR[(b[i] & 0xf0) >>> 4]);
+            fw.write(HEX_CHAR[b[i] & 0x0f]);
             line += 2;
             if (wrap > 0 && line >= wrap && i < (b.length - 1)) {
                 fw.write("\n" + indent);
@@ -1023,8 +1023,8 @@ public class SOSExport {
             sb.append(indent);
         }
         for (int i = 0; i < b.length; i++) {
-            sb.append(_hexChar[(b[i] & 0xf0) >>> 4]);
-            sb.append(_hexChar[b[i] & 0x0f]);
+            sb.append(HEX_CHAR[(b[i] & 0xf0) >>> 4]);
+            sb.append(HEX_CHAR[b[i] & 0x0f]);
             line += 2;
             if (wrap > 0 && line >= wrap && i < (b.length - 1)) {
                 sb.append("\n" + indent);
@@ -1036,66 +1036,66 @@ public class SOSExport {
 
     private class Query {
 
-        private String _tag = null;
-        private ArrayList _key = new ArrayList();
-        private String _query = null;
-        private ArrayList _parameters = new ArrayList();
-        private ArrayList _dependRefs = new ArrayList();
-        private ArrayList _indepdRefs = new ArrayList();
-        private boolean _done = false;
+        private String tag = null;
+        private ArrayList key = new ArrayList();
+        private String query = null;
+        private ArrayList parameters = new ArrayList();
+        private ArrayList dependRefs = new ArrayList();
+        private ArrayList indepdRefs = new ArrayList();
+        private boolean done = false;
         private boolean dependent = false;
-        private String _operation = null;
+        private String operation = null;
         HashMap fieldsKeys = null;
 
         public Query(String tag, String key, String query, String parameters, int dependRef) {
-            _tag = tag;
-            _key.addAll(Arrays.asList(key.split(",")));
-            _query = query;
-            _parameters.addAll(Arrays.asList(parameters.split(",")));
-            _dependRefs.add(new Integer(dependRef));
+            this.tag = tag;
+            this.key.addAll(Arrays.asList(key.split(",")));
+            this.query = query;
+            this.parameters.addAll(Arrays.asList(parameters.split(",")));
+            this.dependRefs.add(new Integer(dependRef));
         }
 
         public Query(String tag, String key, String query, String parameters) throws Exception {
-            _tag = tag;
+            this.tag = tag;
             if (key != null && !"".equals(key)) {
-                _key.addAll(Arrays.asList(key.split(",")));
+                this.key.addAll(Arrays.asList(key.split(",")));
             }
-            _query = query;
+            query = query;
             if (parameters != null) {
-                _parameters.addAll(Arrays.asList(parameters.split(",")));
+                this.parameters.addAll(Arrays.asList(parameters.split(",")));
             }
         }
 
         public Query(String tag, String key, String query, String parameters, String operation, HashMap keys4Delete) throws Exception {
-            _tag = tag;
+            this.tag = tag;
             if (key != null && !"".equals(key)) {
-                _key.addAll(Arrays.asList(key.split(",")));
+                this.key.addAll(Arrays.asList(key.split(",")));
             }
-            _query = query;
-            fieldsKeys = keys4Delete;
-            _operation = operation;
+            this.query = query;
+            this.fieldsKeys = keys4Delete;
+            this.operation = operation;
             if (parameters != null) {
-                _parameters.addAll(Arrays.asList(parameters.split(",")));
+                this.parameters.addAll(Arrays.asList(parameters.split(",")));
             }
         }
 
         public Integer getDependRef(int index) {
-            return (Integer) _dependRefs.get(index);
+            return (Integer) dependRefs.get(index);
         }
 
         public int getDependRefCnt() {
-            return _dependRefs.size();
+            return dependRefs.size();
         }
 
         public void addDependRef(Integer dependRef) {
-            _dependRefs.add(dependRef);
+            dependRefs.add(dependRef);
         }
 
         public String dependRefToStr() {
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < _dependRefs.size(); i++) {
-                sb.append(_dependRefs.get(i).toString());
-                if (i < _dependRefs.size() - 1) {
+            for (int i = 0; i < dependRefs.size(); i++) {
+                sb.append(dependRefs.get(i).toString());
+                if (i < dependRefs.size() - 1) {
                     sb.append(", ");
                 }
             }
@@ -1103,30 +1103,30 @@ public class SOSExport {
         }
 
         public boolean isDone() {
-            return _done;
+            return done;
         }
 
         public void setDone(boolean done) {
-            _done = done;
+            this.done = done;
         }
 
         public Integer getIndepdRef(int index) {
-            return (Integer) _indepdRefs.get(index);
+            return (Integer) indepdRefs.get(index);
         }
 
         public int getIndepdRefCnt() {
-            return _indepdRefs.size();
+            return indepdRefs.size();
         }
 
         public void addIndepdRef(Integer indepdRef) {
-            _indepdRefs.add(indepdRef);
+            this.indepdRefs.add(indepdRef);
         }
 
         public String indepdRefToStr() {
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < _indepdRefs.size(); i++) {
-                sb.append(_indepdRefs.get(i).toString());
-                if (i < _indepdRefs.size() - 1) {
+            for (int i = 0; i < indepdRefs.size(); i++) {
+                sb.append(indepdRefs.get(i).toString());
+                if (i < indepdRefs.size() - 1) {
                     sb.append(", ");
                 }
             }
@@ -1134,22 +1134,22 @@ public class SOSExport {
         }
 
         public String getKey(int index) {
-            return (String) _key.get(index);
+            return (String) key.get(index);
         }
 
         public int getKeyCnt() {
-            return _key.size();
+            return key.size();
         }
 
         public void addKey(String key) {
-            _key.add(key);
+            this.key.add(key);
         }
 
         public String keysToStr() {
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < _key.size(); i++) {
-                sb.append((String) _key.get(i));
-                if (i < _key.size() - 1) {
+            for (int i = 0; i < key.size(); i++) {
+                sb.append((String) key.get(i));
+                if (i < key.size() - 1) {
                     sb.append(", ");
                 }
             }
@@ -1157,22 +1157,22 @@ public class SOSExport {
         }
 
         public String getParameter(int index) {
-            return (String) _parameters.get(index);
+            return (String) parameters.get(index);
         }
 
         public int getParameterCnt() {
-            return _parameters.size();
+            return parameters.size();
         }
 
         public void addParameter(String parameter) {
-            _parameters.add(parameter);
+            this.parameters.add(parameter);
         }
 
         public String parametersToStr() {
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < _parameters.size(); i++) {
-                sb.append((String) _parameters.get(i));
-                if (i < _parameters.size() - 1) {
+            for (int i = 0; i < parameters.size(); i++) {
+                sb.append((String) parameters.get(i));
+                if (i < parameters.size() - 1) {
                     sb.append(", ");
                 }
             }
@@ -1180,19 +1180,19 @@ public class SOSExport {
         }
 
         public String getQuery() {
-            return _query;
+            return query;
         }
 
         public void setQuery(String query) {
-            _query = query;
+            this.query = query;
         }
 
         public String getTag() {
-            return _tag;
+            return tag;
         }
 
         public void setTag(String tag) {
-            _tag = tag;
+            this.tag = tag;
         }
 
         public boolean isDependent() {
@@ -1204,11 +1204,11 @@ public class SOSExport {
         }
 
         public String getOperation() {
-            return _operation;
+            return operation;
         }
 
-        public void setOperation(String _operation) {
-            this._operation = _operation;
+        public void setOperation(String operation) {
+            this.operation = operation;
         }
 
         public HashMap getFieldsKeys() {
@@ -1222,22 +1222,22 @@ public class SOSExport {
 
     private class Queries {
 
-        private ArrayList _list = new ArrayList();
+        private ArrayList list = new ArrayList();
 
         public void add(Query query) throws Exception {
-            _list.add(query);
+            this.list.add(query);
         }
 
         public Query get(int index) throws IndexOutOfBoundsException {
-            return (Query) _list.get(index);
+            return (Query) list.get(index);
         }
 
         public void clear() throws UnsupportedOperationException {
-            _list.clear();
+            this.list.clear();
         }
 
         public int cnt() {
-            return _list.size();
+            return list.size();
         }
     }
 

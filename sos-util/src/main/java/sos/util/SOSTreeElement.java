@@ -5,35 +5,35 @@ import java.util.HashMap;
 /** @author Titus Meyer */
 public class SOSTreeElement {
 
-    private SOSTreeElement _prev = null;
-    private SOSTreeElement _next = null;
-    private SOSTreeElement _list = null;
-    private SOSTreeElement _parent = null;
-    private String _name = null;
-    private String _title = null;
-    private String _url = null;
-    private String _prefix = null;
-    private String _postfix = null;
-    private HashMap _parameters = null;
-    private Object _data = null;
-    private int _id = -1;
-    private int _size = 0;
-    private String _path = null;
-    private boolean _leaf = false;
-    private boolean _new = true;
-    private boolean _open = false;
-    private String _cssClass = null;
-    private String _imgDir = null;
-    private String _imgOpenNode = null;
-    private String _imgCloseNode = null;
-    private String _imgLeaf = null;
-    private String _separating = ";";
-    private String _hrefName = null;
-    private String _hrefAnker = null;
-    private String _activStyle = null;
+    private SOSTreeElement prev = null;
+    private SOSTreeElement next = null;
+    private SOSTreeElement list = null;
+    private SOSTreeElement parent = null;
+    private String name = null;
+    private String title = null;
+    private String url = null;
+    private String prefix = null;
+    private String postfix = null;
+    private HashMap parameters = null;
+    private Object data = null;
+    private int id = -1;
+    private int size = 0;
+    private String path = null;
+    private boolean leaf = false;
+    private boolean newBool = true;
+    private boolean open = false;
+    private String cssClass = null;
+    private String imgDir = null;
+    private String imgOpenNode = null;
+    private String imgCloseNode = null;
+    private String imgLeaf = null;
+    private String separating = ";";
+    private String hrefName = null;
+    private String hrefAnker = null;
+    private String activeStyle = null;
 
     public SOSTreeElement() {
-
+        //
     }
 
     protected void append(SOSTreeElement element) {
@@ -52,11 +52,11 @@ public class SOSTreeElement {
     }
 
     protected void insert(SOSTreeElement element) {
-        if (_leaf) {
+        if (leaf) {
             throw new IllegalArgumentException("This element is set as leaf");
         }
         element.setParent(this);
-        element.setId(_size);
+        element.setId(size);
         SOSTreeElement current = this.getList();
         if (current == null) {
             element.setPrev(null);
@@ -70,93 +70,93 @@ public class SOSTreeElement {
             current.setNext(element);
         }
         element.setPath();
-        _size++;
+        size++;
     }
 
     public void clear() {
-        _list = null;
-        _new = true;
-        _size = 0;
-        _open = false;
+        list = null;
+        newBool = true;
+        size = 0;
+        open = false;
     }
 
     public void setParameter(String name, String val) {
         if (name == null) {
             throw new IllegalArgumentException("setParameter: parameter name is null");
         }
-        if (_parameters == null) {
-            _parameters = new HashMap();
+        if (parameters == null) {
+            parameters = new HashMap();
         }
-        _parameters.put(name, val);
+        parameters.put(name, val);
     }
 
     public void deleteParameter(String name) {
         if (name == null) {
             throw new IllegalArgumentException("deleteParameter: parameter name is null");
         }
-        _parameters.remove(name);
-        if (_parameters.isEmpty()) {
+        parameters.remove(name);
+        if (parameters.isEmpty()) {
             clearParameters();
         }
     }
 
     public void clearParameters() {
-        _parameters.clear();
+        parameters.clear();
     }
 
     protected HashMap getParameters() {
-        return _parameters;
+        return parameters;
     }
 
     protected void setPrev(SOSTreeElement prev) {
-        _prev = prev;
+        this.prev = prev;
     }
 
     protected void setNext(SOSTreeElement next) {
-        _next = next;
+        this.next = next;
     }
 
     protected void setParent(SOSTreeElement parent) {
-        _parent = parent;
+        this.parent = parent;
     }
 
     protected void setList(SOSTreeElement element) {
-        if (_leaf) {
+        if (leaf) {
             throw new IllegalArgumentException("This element is set as leaf");
         }
-        _list = element;
+        list = element;
     }
 
     public void setTitle(String title) {
-        _title = title;
+        this.title = title;
     }
 
     public void setName(String name) {
-        _name = name;
+        this.name = name;
     }
 
     public void setLeaf(boolean leaf) {
         clear();
-        _leaf = leaf;
+        this.leaf = leaf;
     }
 
     public void setOpen(boolean open) {
-        if (_leaf) {
+        if (leaf) {
             throw new IllegalArgumentException("This element is set as leaf");
         }
-        _open = open;
+        this.open = open;
     }
 
     protected void setNew(boolean isNew) {
-        _new = isNew;
+        this.newBool = isNew;
     }
 
     protected void setId(int id) {
-        _id = id;
+        this.id = id;
     }
 
     protected void setSize(int size) {
-        _size = size;
+        this.size = size;
     }
 
     protected void setPath() {
@@ -164,172 +164,172 @@ public class SOSTreeElement {
         SOSTreeElement parent = this.getParent();
         while (parent != null) {
             if (path != null) {
-                path = parent.getId() + _separating + path;
+                path = parent.getId() + separating + path;
             } else {
                 path = String.valueOf(parent.getId());
             }
             parent = parent.getParent();
         }
         if (path == null) {
-            path = String.valueOf(_id);
+            path = String.valueOf(id);
         } else {
-            path = path + _separating + _id;
+            path = path + separating + id;
         }
-        _path = path;
+        this.path = path;
     }
 
     public void setURL(String url) {
-        _url = url;
+        this.url = url;
     }
 
     public void setPrefix(String prefix) {
-        _prefix = prefix;
+        this.prefix = prefix;
     }
 
     public void setPostfix(String postfix) {
-        _postfix = postfix;
+        this.postfix = postfix;
     }
 
     public void setCssClass(String cssClass) {
-        _cssClass = cssClass;
+        this.cssClass = cssClass;
     }
 
     public void setImgDir(String imgDir) {
-        _imgDir = imgDir;
+        this.imgDir = imgDir;
     }
 
     public void setImgOpenNode(String img) {
-        _imgOpenNode = img;
+        this.imgOpenNode = img;
     }
 
     public void setImgCloseNode(String img) {
-        _imgCloseNode = img;
+        this.imgCloseNode = img;
     }
 
     public void setImgLeaf(String img) {
-        _imgLeaf = img;
+        this.imgLeaf = img;
     }
 
     public void setData(Object data) {
-        _data = data;
+        this.data = data;
     }
 
     public SOSTreeElement getPrev() {
-        return _prev;
+        return prev;
     }
 
     public SOSTreeElement getNext() {
-        return _next;
+        return next;
     }
 
     public SOSTreeElement getParent() {
-        return _parent;
+        return parent;
     }
 
     public SOSTreeElement getList() {
-        if (_leaf) {
+        if (leaf) {
             throw new IllegalArgumentException("This element is set as leaf");
         }
-        return _list;
+        return list;
     }
 
     public String getTitle() {
-        return _title;
+        return title;
     }
 
     public String getName() {
-        return _name;
+        return name;
     }
 
     public boolean isLeaf() {
-        return _leaf;
+        return leaf;
     }
 
     public boolean isNode() {
-        return !_leaf;
+        return !leaf;
     }
 
     public boolean isOpen() {
-        return _open;
+        return open;
     }
 
     public boolean isNew() {
-        return _new;
+        return newBool;
     }
 
     public int getId() {
-        return _id;
+        return id;
     }
 
     public int getSize() {
-        return _size;
+        return size;
     }
 
     public String getPath() {
-        if (_path == null) {
+        if (path == null) {
             setPath();
         }
-        return _path;
+        return path;
     }
 
     public String getURL() {
-        return _url;
+        return url;
     }
 
     public String getPrefix() {
-        return _prefix;
+        return prefix;
     }
 
     public String getPostfix() {
-        return _postfix;
+        return postfix;
     }
 
     public String getCssClass() {
-        return _cssClass;
+        return cssClass;
     }
 
     public String getImgDir() {
-        return _imgDir;
+        return imgDir;
     }
 
     public String getImgOpenNode() {
-        return _imgOpenNode;
+        return imgOpenNode;
     }
 
     public String getImgCloseNode() {
-        return _imgCloseNode;
+        return imgCloseNode;
     }
 
     public String getImgLeaf() {
-        return _imgLeaf;
+        return imgLeaf;
     }
 
     public Object getData() {
-        return _data;
+        return data;
     }
 
     public String getHrefAnker() {
-        return _hrefAnker;
+        return hrefAnker;
     }
 
     public void setHrefAnker(String anker) {
-        _hrefAnker = anker;
+        this.hrefAnker = anker;
     }
 
     public String getHrefName() {
-        return _hrefName;
+        return hrefName;
     }
 
     public void setHrefName(String name) {
-        _hrefName = name;
+        this.hrefName = name;
     }
 
     public String getActivStyle() {
-        return _activStyle;
+        return activeStyle;
     }
 
     public void setActivStyle(String style) {
-        _activStyle = style;
+        this.activeStyle = style;
     }
 
 }

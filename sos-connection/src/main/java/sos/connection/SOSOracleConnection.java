@@ -112,19 +112,19 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
             connection.setAutoCommit(false);
             connection.rollback();
             stmt = connection.createStatement();
-            String NLS_NUMERIC_CHARACTERS = "ALTER SESSION SET NLS_NUMERIC_CHARACTERS='.,'";
-            String NLS_DATE_FORMAT = "ALTER SESSION SET NLS_DATE_FORMAT='YYYY-MM-DD HH24:MI:SS'";
-            String NLS_SORT = "ALTER SESSION SET NLS_SORT='BINARY'";
-            stmt.addBatch(NLS_NUMERIC_CHARACTERS);
-            stmt.addBatch(NLS_DATE_FORMAT);
-            stmt.addBatch(NLS_SORT);
+            String nlsNumericCharacters = "ALTER SESSION SET NLS_NUMERIC_CHARACTERS='.,'";
+            String nlsDateFormat = "ALTER SESSION SET NLS_DATE_FORMAT='YYYY-MM-DD HH24:MI:SS'";
+            String nlsSort = "ALTER SESSION SET NLS_SORT='BINARY'";
+            stmt.addBatch(nlsNumericCharacters);
+            stmt.addBatch(nlsDateFormat);
+            stmt.addBatch(nlsSort);
             stmt.executeBatch();
-            logger.debug9(".. " + NLS_NUMERIC_CHARACTERS + " successfully set.");
-            logger.debug9(".. " + NLS_DATE_FORMAT + " successfully set.");
-            logger.debug9(".. " + NLS_SORT + " successfully set.");
-            CallableStatement enable_stmt = null;
-            enable_stmt = this.getConnection().prepareCall("begin dbms_output.enable(10000); end;");
-            enable_stmt.executeUpdate();
+            logger.debug9(".. " + nlsNumericCharacters + " successfully set.");
+            logger.debug9(".. " + nlsDateFormat + " successfully set.");
+            logger.debug9(".. " + nlsSort + " successfully set.");
+            CallableStatement enableStmt = null;
+            enableStmt = this.getConnection().prepareCall("begin dbms_output.enable(10000); end;");
+            enableStmt.executeUpdate();
         } catch (Exception e) {
             throw e;
         } finally {
@@ -133,6 +133,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
                     stmt.close();
                 }
             } catch (Exception e) {
+                //
             }
         }
     }
@@ -238,24 +239,28 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
                     stmt.close();
                 }
             } catch (Exception e) {
+                //
             }
             try {
                 if (rs != null) {
                     rs.close();
                 }
             } catch (Exception e) {
+                //
             }
             try {
                 if (out != null) {
                     out.close();
                 }
             } catch (Exception e) {
+                //
             }
             try {
                 if (in != null) {
                     in.close();
                 }
             } catch (Exception e) {
+                //
             }
         }
         return totalBytesRead;
@@ -364,24 +369,28 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
                     stmt.close();
                 }
             } catch (Exception e) {
+                //
             }
             try {
                 if (rs != null) {
                     rs.close();
                 }
             } catch (Exception e) {
+                //
             }
             try {
                 if (out != null) {
                     out.close();
                 }
             } catch (Exception e) {
+                //
             }
             try {
                 if (in != null) {
                     in.close();
                 }
             } catch (Exception e) {
+                //
             }
         }
         return totalBytesRead;
@@ -405,6 +414,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
                 try {
                     profiler.start(query);
                 } catch (Exception e) {
+                    //
                 }
             }
             stmt = connection.createStatement();
@@ -435,6 +445,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
                 try {
                     profiler.stop("ERROR", e.toString());
                 } catch (Exception ex) {
+                    //
                 }
             }
             throw e;
@@ -443,24 +454,28 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
                 try {
                     out.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (in != null) {
                 try {
                     in.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (stmt != null) {
                 try {
                     stmt.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (profiler != null) {
                 try {
                     profiler.stop("", "");
                 } catch (Exception e) {
+                    //
                 }
             }
         }
@@ -486,6 +501,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
                 try {
                     profiler.start(query);
                 } catch (Exception e) {
+                    //
                 }
             }
             stmt = connection.createStatement();
@@ -515,6 +531,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
                 try {
                     profiler.stop("ERROR", e.toString());
                 } catch (Exception ex) {
+                    //
                 }
             }
             throw e;
@@ -523,30 +540,35 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
                 try {
                     out.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (in != null) {
                 try {
                     in.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (stmt != null) {
                 try {
                     stmt.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (rs != null) {
                 try {
                     rs.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (profiler != null) {
                 try {
                     profiler.stop("", "");
                 } catch (Exception e) {
+                    //
                 }
             }
         }
@@ -593,30 +615,35 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
                 try {
                     out.flush();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (out != null) {
                 try {
                     out.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (stmt != null) {
                 try {
                     stmt.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (in != null) {
                 try {
                     in.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (rs != null) {
                 try {
                     rs.close();
                 } catch (Exception e) {
+                    //
                 }
             }
         }
@@ -657,18 +684,21 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
                 try {
                     stmt.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (in != null) {
                 try {
                     in.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (rs != null) {
                 try {
                     rs.close();
                 } catch (Exception e) {
+                    //
                 }
             }
         }
@@ -770,24 +800,28 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
                 try {
                     out.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (stmt != null) {
                 try {
                     stmt.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (in != null) {
                 try {
                     in.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (rs != null) {
                 try {
                     rs.close();
                 } catch (Exception e) {
+                    //
                 }
             }
         }
@@ -890,24 +924,28 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
                 try {
                     out.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (stmt != null) {
                 try {
                     stmt.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (in != null) {
                 try {
                     in.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (rs != null) {
                 try {
                     rs.close();
                 } catch (Exception e) {
+                    //
                 }
             }
         }

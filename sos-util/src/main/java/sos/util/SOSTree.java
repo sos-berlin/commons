@@ -11,33 +11,33 @@ import javax.servlet.http.HttpServletResponse;
 /** @author Titus Meyer */
 public class SOSTree {
 
-    private HttpServletRequest _request = null;
-    private HttpServletResponse _response = null;
-    private Writer _out = null;
-    private String _site = null;
-    private SOSTreeElement _root = null;
-    private SOSTreeContentHandler _handler = null;
-    private String _indent = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-    private String _space = "&nbsp;&nbsp;";
-    private boolean _showRoot = true;
-    private boolean _textOpenNode = false;
-    private boolean _nodeOpenNode = true;
-    private boolean _postfixOpenNode = false;
-    private boolean _closeLowerNodes = true;
-    private boolean _subTables = false;
-    private String _cssClass = "tree";
-    private boolean _disabled = false;
-    private String _imgDir = "images/";
-    private String _imgOpenNode = "openFolder.gif\" border=\"0";
-    private String _imgCloseNode = "closeFolder.gif\" border=\"0";
-    private String _imgLeaf = "leaf.gif\" border=\"0";
-    private String _separating = ";";
-    private String _tdWidth = "400";
-    private ArrayList _tableHead = null;
-    private String _openNode = null;
-    private String _closeNode = null;
-    private String _activStyle = null;
-    private boolean _autoFlush = true;
+    private HttpServletRequest request = null;
+    private HttpServletResponse response = null;
+    private Writer out = null;
+    private String site = null;
+    private SOSTreeElement root = null;
+    private SOSTreeContentHandler handler = null;
+    private String indent = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+    private String space = "&nbsp;&nbsp;";
+    private boolean showRoot = true;
+    private boolean textOpenNode = false;
+    private boolean nodeOpenNode = true;
+    private boolean postfixOpenNode = false;
+    private boolean closeLowerNodes = true;
+    private boolean subTables = false;
+    private String cssClass = "tree";
+    private boolean disabled = false;
+    private String imgDir = "images/";
+    private String imgOpenNode = "openFolder.gif\" border=\"0";
+    private String imgCloseNode = "closeFolder.gif\" border=\"0";
+    private String imgLeaf = "leaf.gif\" border=\"0";
+    private String separating = ";";
+    private String tdWidth = "400";
+    private ArrayList tableHead = null;
+    private String openNode = null;
+    private String closeNode = null;
+    private String activeStyle = null;
+    private boolean autoFlush = true;
 
     public SOSTree() {
         init();
@@ -45,170 +45,170 @@ public class SOSTree {
 
     public SOSTree(HttpServletRequest request, HttpServletResponse response, Writer out) {
         this();
-        _request = request;
-        _response = response;
-        _out = out;
+        this.request = request;
+        this.response = response;
+        this.out = out;
     }
 
     public void setRequest(HttpServletRequest request) {
         if (request == null) {
             throw new IllegalArgumentException("setRequest: parameter request is null");
         }
-        _request = request;
-        _site = _request.getRequestURI();
+        this.request = request;
+        this.site = request.getRequestURI();
     }
 
     public void setResponse(HttpServletResponse response) {
         if (response == null) {
             throw new IllegalArgumentException("setResponse: parameter response is null");
         }
-        _response = response;
+        this.response = response;
     }
 
     public void setOut(Writer out) {
         if (out == null) {
             throw new IllegalArgumentException("setOut: parameter out is null");
         }
-        _out = out;
+        this.out = out;
     }
 
     public void setContentHandler(SOSTreeContentHandler handler) {
         if (handler == null) {
             throw new IllegalArgumentException("setContentHandler: parameter handler is null");
         }
-        _handler = handler;
+        this.handler = handler;
     }
 
     public void setRootVisible(boolean visible) {
-        _showRoot = visible;
+        this.showRoot = visible;
     }
 
     public boolean isRootVisible() {
-        return _showRoot;
+        return showRoot;
     }
 
     public void setRootName(String name) {
-        _root.setName(name);
+        this.root.setName(name);
     }
 
     public void setRootTitle(String title) {
-        _root.setTitle(title);
+        this.root.setTitle(title);
     }
 
     public void setCssClass(String cssClass) {
-        _cssClass = cssClass;
+        this.cssClass = cssClass;
     }
 
     public String getCssClass() {
-        return _cssClass;
+        return cssClass;
     }
 
     public void setImgDir(String imgDir) {
-        _imgDir = imgDir;
+        this.imgDir = imgDir;
     }
 
     public String getImgDir() {
-        return _imgDir;
+        return imgDir;
     }
 
     public void setImgOpenNode(String img) {
-        _imgOpenNode = img;
+        this.imgOpenNode = img;
     }
 
     public String getImgOpenNode() {
-        return _imgOpenNode;
+        return imgOpenNode;
     }
 
     public void setImgCloseNode(String img) {
-        _imgCloseNode = img;
+        this.imgCloseNode = img;
     }
 
     public String getImgCloseNode() {
-        return _imgCloseNode;
+        return imgCloseNode;
     }
 
     public void setImgLeaf(String img) {
-        _imgLeaf = img;
+        this.imgLeaf = img;
     }
 
     public String getImgLeaf() {
-        return _imgLeaf;
+        return imgLeaf;
     }
 
     public void setTextOpenNode(boolean textOpenNode) {
-        _textOpenNode = textOpenNode;
+        this.textOpenNode = textOpenNode;
     }
 
     public boolean isTextOpenNode() {
-        return _textOpenNode;
+        return textOpenNode;
     }
 
     public void setNodeOpenNode(boolean nodeOpenNode) {
-        _nodeOpenNode = nodeOpenNode;
+        this.nodeOpenNode = nodeOpenNode;
     }
 
     public boolean isNodeOpenNode() {
-        return _nodeOpenNode;
+        return nodeOpenNode;
     }
 
     public void setPostfixOpenNode(boolean postfixOpenNode) {
-        _postfixOpenNode = postfixOpenNode;
+        this.postfixOpenNode = postfixOpenNode;
     }
 
     public boolean isPostfixOpenNode() {
-        return _postfixOpenNode;
+        return postfixOpenNode;
     }
 
     public void setCloseLowerNodes(boolean closeLowerNodes) {
-        _closeLowerNodes = closeLowerNodes;
+        this.closeLowerNodes = closeLowerNodes;
     }
 
     public boolean isCloseLowerNodes() {
-        return _closeLowerNodes;
+        return closeLowerNodes;
     }
 
     public void setTdWidth(String width) {
-        _tdWidth = width;
+        this.tdWidth = width;
     }
 
     public String getTdWidth() {
-        return _tdWidth;
+        return tdWidth;
     }
 
     public void setSubTables(boolean subTables) {
-        _subTables = subTables;
+        this.subTables = subTables;
     }
 
     public boolean isSubTables() {
-        return _subTables;
+        return subTables;
     }
 
     public SOSTreeElement getRootNode() {
-        return _root;
+        return root;
     }
 
     public void setHeadline(ArrayList headline) {
-        _tableHead = headline;
+        this.tableHead = headline;
     }
 
     public ArrayList getHeadline() {
-        return _tableHead;
+        return tableHead;
     }
 
     public void setDisabled(boolean disabled) {
-        _disabled = disabled;
+        this.disabled = disabled;
     }
 
     public boolean isDisabled() {
-        return _disabled;
+        return disabled;
     }
 
     private void init() {
-        _root = new SOSTreeElement();
-        _root.setOpen(true);
-        _root.setId(0);
-        _root.setName("ROOT");
-        _root.setTitle("ROOT");
+        root = new SOSTreeElement();
+        root.setOpen(true);
+        root.setId(0);
+        root.setName("ROOT");
+        root.setTitle("ROOT");
     }
 
     public void clear() {
@@ -216,33 +216,33 @@ public class SOSTree {
     }
 
     public String get() throws Exception {
-        if (_request == null) {
+        if (request == null) {
             throw new NullPointerException("get: request is not set");
         }
-        if (_response == null) {
+        if (response == null) {
             throw new NullPointerException("get: response is not set");
         }
-        if (_handler == null) {
+        if (handler == null) {
             throw new NullPointerException("get: handler is not set");
         }
         try {
             StringBuilder out = new StringBuilder();
-            out.append("<!-- TreeView Start -->\n<table class=\"").append(_disabled ? "dis" : "").append(_cssClass).append("\">\n");
-            if (_tableHead != null) {
-                out.append("<tr class=\"").append(_disabled ? "dis" : "").append(_cssClass).append("_head\">");
-                for (int i = 0; i < _tableHead.size(); i++) {
-                    out.append("<th class=\"").append(_disabled ? "dis" : "").append(_cssClass).append("_head\">").append(_tableHead.get(i)).append(
+            out.append("<!-- TreeView Start -->\n<table class=\"").append(disabled ? "dis" : "").append(cssClass).append("\">\n");
+            if (tableHead != null) {
+                out.append("<tr class=\"").append(disabled ? "dis" : "").append(cssClass).append("_head\">");
+                for (int i = 0; i < tableHead.size(); i++) {
+                    out.append("<th class=\"").append(disabled ? "dis" : "").append(cssClass).append("_head\">").append(tableHead.get(i)).append(
                             "</th>");
                 }
                 out.append("</tr>\n");
             }
             int indent = 0;
-            if (_showRoot) {
-                out.append(formatElement(_root, ""));
+            if (showRoot) {
+                out.append(formatElement(root, ""));
                 indent++;
             }
-            if (_root.isOpen()) {
-                out.append(printNodeContent(_root, indent));
+            if (root.isOpen()) {
+                out.append(printNodeContent(root, indent));
             }
             out.append("</table>\n<!-- TreeView End -->\n");
             return out.toString();
@@ -252,33 +252,33 @@ public class SOSTree {
     }
 
     public void show() throws Exception {
-        if (_out == null) {
+        if (out == null) {
             throw new NullPointerException("show: out is not set");
         }
         process();
-        _out.write(get());
-        if (_autoFlush) {
-            _out.flush();
+        out.write(get());
+        if (autoFlush) {
+            out.flush();
         }
     }
 
     public void print() throws Exception {
-        if (_out == null) {
+        if (out == null) {
             throw new NullPointerException("print: out is not set");
         }
-        _out.write(get());
-        if (_autoFlush) {
-            _out.flush();
+        out.write(get());
+        if (autoFlush) {
+            out.flush();
         }
     }
 
     public void process() throws Exception {
-        _openNode = _request.getParameter("openNode");
-        _closeNode = _request.getParameter("closeNode");
-        if (_showRoot) {
-            toggleNode(_root);
+        openNode = request.getParameter("openNode");
+        closeNode = request.getParameter("closeNode");
+        if (showRoot) {
+            toggleNode(root);
         }
-        process(_root);
+        process(root);
     }
 
     private void process(SOSTreeElement node) throws Exception {
@@ -307,13 +307,13 @@ public class SOSTree {
         try {
             StringBuilder indent = new StringBuilder();
             for (int i = 0; i < level; i++) {
-                indent.append(_indent);
+                indent.append(indent);
             }
             SOSTreeElement current = node.getList();
             StringBuilder out = new StringBuilder();
-            if (_subTables) {
-                out.append("<tr class=\"").append(_disabled ? "dis" : "").append(_cssClass).append("\"><td colspan=\"10\" class=\"").append(
-                        _disabled ? "dis" : "").append(_cssClass).append("\"><table class=\"").append(_disabled ? "dis" : "").append(_cssClass).append(
+            if (subTables) {
+                out.append("<tr class=\"").append(disabled ? "dis" : "").append(cssClass).append("\"><td colspan=\"10\" class=\"").append(
+                        disabled ? "dis" : "").append(cssClass).append("\"><table class=\"").append(disabled ? "dis" : "").append(cssClass).append(
                         "\">");
             }
             while (current != null) {
@@ -323,7 +323,7 @@ public class SOSTree {
                 }
                 current = current.getNext();
             }
-            if (_subTables) {
+            if (subTables) {
                 out.append("</table></td></tr>");
             }
             return out.toString();
@@ -336,11 +336,11 @@ public class SOSTree {
         if (element == null || indent == null) {
             throw new IllegalArgumentException("getElementStr: parameter element or indent is null");
         }
-        String cssClass = (element.getCssClass() != null) ? element.getCssClass() : _cssClass;
-        String imgDir = (element.getImgDir() != null) ? element.getImgDir() : _imgDir;
-        String imgOpenNode = (element.getImgOpenNode() != null) ? element.getImgOpenNode() : _imgOpenNode;
-        String imgCloseNode = (element.getImgCloseNode() != null) ? element.getImgCloseNode() : _imgCloseNode;
-        String imgLeaf = (element.getImgLeaf() != null) ? element.getImgLeaf() : _imgLeaf;
+        String cssClass = (element.getCssClass() != null) ? element.getCssClass() : this.cssClass;
+        String imgDir = (element.getImgDir() != null) ? element.getImgDir() : this.imgDir;
+        String imgOpenNode = (element.getImgOpenNode() != null) ? element.getImgOpenNode() : this.imgOpenNode;
+        String imgCloseNode = (element.getImgCloseNode() != null) ? element.getImgCloseNode() : this.imgCloseNode;
+        String imgLeaf = (element.getImgLeaf() != null) ? element.getImgLeaf() : this.imgLeaf;
         String hrefName = (element.getHrefName() != null) ? element.getHrefName() : "";
         String hrefAnker = (element.getHrefAnker() != null) ? element.getHrefAnker() : "";
         String activStyle = (element.getActivStyle() != null) ? element.getActivStyle() : "";
@@ -357,31 +357,31 @@ public class SOSTree {
         }
         image.append("\">");
         element.setActivStyle(null);
-        str.append("<tr class=\"").append(_disabled ? "dis" : "").append(cssClass).append("\"><td class=\"").append(_disabled ? "dis" : "").append(
-                cssClass).append("\"").append(_tdWidth != null ? " width=\"" + _tdWidth + "\"" : "").append(">").append(indent);
+        str.append("<tr class=\"").append(disabled ? "dis" : "").append(cssClass).append("\"><td class=\"").append(disabled ? "dis" : "").append(
+                cssClass).append("\"").append(tdWidth != null ? " width=\"" + tdWidth + "\"" : "").append(">").append(indent);
         if (element.isLeaf() && (element.getImgLeaf() == null || !"".equals(element.getImgLeaf()))) {
-            str.append(image).append(_space);
+            str.append(image).append(space);
         }
-        if (_nodeOpenNode && element.isNode()) {
-            str.append("<a ").append(hrefName).append(" class=\"").append(_disabled ? "dis" : "").append(cssClass).append("\" href=\"").append(url).append(
-                    hrefAnker).append("\">").append(image).append("</a>").append(_space);
+        if (nodeOpenNode && element.isNode()) {
+            str.append("<a ").append(hrefName).append(" class=\"").append(disabled ? "dis" : "").append(cssClass).append("\" href=\"").append(url).append(
+                    hrefAnker).append("\">").append(image).append("</a>").append(space);
         } else if (element.getURL() != null && element.isNode()) {
-            str.append("<a ").append(hrefName).append(" class=\"").append(_disabled ? "dis" : "").append(cssClass).append("\" href=\"").append(
-                    formatURL(element, false)).append(hrefAnker).append("\">").append(image).append("</a>").append(_space);
+            str.append("<a ").append(hrefName).append(" class=\"").append(disabled ? "dis" : "").append(cssClass).append("\" href=\"").append(
+                    formatURL(element, false)).append(hrefAnker).append("\">").append(image).append("</a>").append(space);
         } else if (element.isNode()) {
-            str.append(image).append(_space);
+            str.append(image).append(space);
         }
         if (element.getPrefix() != null && !"".equals(element.getPrefix())) {
-            str.append(element.getPrefix()).append(_space);
+            str.append(element.getPrefix()).append(space);
         }
-        if (_textOpenNode && element.isNode()) {
-            str.append("<a ").append(activStyle).append(" ").append(hrefName).append(" class=\"").append(_disabled ? "dis" : "").append(cssClass).append(
-                    "\" href=\"").append(url).append(hrefAnker).append("\">").append(element.getTitle()).append("</a>");
+        if (textOpenNode && element.isNode()) {
+            str.append("<a ").append(activStyle).append(" ").append(hrefName).append(" class=\"").append(disabled ? "dis" : "").append(cssClass)
+                .append("\" href=\"").append(url).append(hrefAnker).append("\">").append(element.getTitle()).append("</a>");
         } else if (element.getURL() != null) {
-            str.append("<a ").append(activStyle).append(" ").append(hrefName).append(" class=\"").append(_disabled ? "dis" : "").append(cssClass).append(
-                    "\" href=\"").append(formatURL(element, false)).append(hrefAnker).append("\">").append(element.getTitle()).append("</a>");
+            str.append("<a ").append(activStyle).append(" ").append(hrefName).append(" class=\"").append(disabled ? "dis" : "").append(cssClass)
+                .append("\" href=\"").append(formatURL(element, false)).append(hrefAnker).append("\">").append(element.getTitle()).append("</a>");
         } else {
-            if (activStyle != null && activStyle.length() > 0) {
+            if (activStyle != null && !activStyle.isEmpty()) {
                 str.append("<font ").append(activStyle).append(">").append(element.getTitle()).append("</font>");
             } else {
                 str.append(element.getTitle());
@@ -389,9 +389,9 @@ public class SOSTree {
         }
         str.append("</td>");
         if (element.getPostfix() != null) {
-            str.append("<td class=\"").append(_disabled ? "dis" : "").append(cssClass).append("\">");
-            if (element.isNode() && _postfixOpenNode) {
-                str.append("<a ").append(hrefName).append(" class=\"").append(_disabled ? "dis" : "").append(cssClass).append("\"href=\"").append(url).append(
+            str.append("<td class=\"").append(disabled ? "dis" : "").append(cssClass).append("\">");
+            if (element.isNode() && postfixOpenNode) {
+                str.append("<a ").append(hrefName).append(" class=\"").append(disabled ? "dis" : "").append(cssClass).append("\"href=\"").append(url).append(
                         hrefAnker).append("\">").append(element.getPostfix()).append("</a>");
             } else {
                 str.append(element.getPostfix());
@@ -410,7 +410,7 @@ public class SOSTree {
         StringBuilder url = new StringBuilder();
         String and = "";
         if (openClose) {
-            url.append(_site).append("?").append(element.isOpen() ? "closeNode=" + element.getPath() : "openNode=" + element.getPath());
+            url.append(site).append("?").append(element.isOpen() ? "closeNode=" + element.getPath() : "openNode=" + element.getPath());
             and = "&";
         } else {
             url.append(element.getURL());
@@ -428,7 +428,7 @@ public class SOSTree {
                 and = "&";
             }
         }
-        return _response.encodeURL(url.toString());
+        return response.encodeURL(url.toString());
     }
 
     private void toggleNode(SOSTreeElement node) {
@@ -438,14 +438,14 @@ public class SOSTree {
         if (node.isLeaf()) {
             throw new IllegalArgumentException("toggleNode: parameter node is not set as node");
         }
-        if (node.isNode() && _openNode != null && _openNode.equals(node.getPath())) {
+        if (node.isNode() && openNode != null && openNode.equals(node.getPath())) {
             node.setOpen(true);
-            node.setActivStyle(this._activStyle);
+            node.setActivStyle(this.activeStyle);
         }
-        if (node.isNode() && _closeNode != null && _closeNode.equals(node.getPath())) {
+        if (node.isNode() && closeNode != null && closeNode.equals(node.getPath())) {
             node.setOpen(false);
-            node.setActivStyle(this._activStyle);
-            if (_closeLowerNodes) {
+            node.setActivStyle(this.activeStyle);
+            if (closeLowerNodes) {
                 closeLowerNodes(node);
             }
         }
@@ -458,16 +458,16 @@ public class SOSTree {
         if (node.isLeaf()) {
             throw new IllegalArgumentException("fillNode: parameter node is not set as node");
         }
-        if (_handler == null) {
+        if (handler == null) {
             throw new NullPointerException("fillNode: content handler is null");
         }
         if (node.isNew()) {
-            _handler.startNode(node);
+            handler.startNode(node);
             SOSTreeElement newElement = null;
-            newElement = _handler.newElement(node, newElement);
+            newElement = handler.newElement(node, newElement);
             while (newElement != null) {
                 node.insert(newElement);
-                newElement = _handler.newElement(node, newElement);
+                newElement = handler.newElement(node, newElement);
             }
             node.setNew(false);
         }
@@ -504,11 +504,11 @@ public class SOSTree {
     }
 
     public SOSTreeElement getElementByIdPath(String path) throws Exception {
-        return getElementByPath(_root, path, false);
+        return getElementByPath(root, path, false);
     }
 
     public SOSTreeElement getElementByNamePath(String namePath) throws Exception {
-        return getElementByPath(_root, namePath, true);
+        return getElementByPath(root, namePath, true);
     }
 
     private SOSTreeElement getElementByPath(SOSTreeElement element, String path, boolean names) throws Exception {
@@ -518,7 +518,7 @@ public class SOSTree {
             }
             int id = -1;
             String name = null;
-            String[] paths = path.split(_separating, 3);
+            String[] paths = path.split(separating, 3);
             if (names) {
                 name = paths[0].trim();
             } else {
@@ -557,7 +557,7 @@ public class SOSTree {
                     if (paths.length == 2) {
                         return current;
                     } else {
-                        return getElementByPath(current, paths[1] + _separating + paths[2], names);
+                        return getElementByPath(current, paths[1] + separating + paths[2], names);
                     }
                 }
                 if (!names && id2 < current.getId()) {
@@ -572,7 +572,7 @@ public class SOSTree {
     }
 
     public SOSTreeElement getElementByName(String name) {
-        return getElementByName(_root, name);
+        return getElementByName(root, name);
     }
 
     private SOSTreeElement getElementByName(SOSTreeElement node, String name) {
@@ -599,19 +599,19 @@ public class SOSTree {
     }
 
     public String getActivStyle() {
-        return _activStyle;
+        return activeStyle;
     }
 
     public void setActivStyle(String style) {
-        _activStyle = style;
+        this.activeStyle = style;
     }
 
     public boolean isAutoFlush() {
-        return _autoFlush;
+        return autoFlush;
     }
 
     public void setAutoFlush(boolean flush) {
-        _autoFlush = flush;
+        this.autoFlush = flush;
     }
 
 }

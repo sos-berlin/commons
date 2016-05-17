@@ -35,9 +35,9 @@ public class SOSDOMParserXML {
     private String encoding = "";
     private int depth = 0;
 
-    public SOSDOMParserXML(SOSLogger sosLogger_) throws Exception {
+    public SOSDOMParserXML(SOSLogger sosLogger) throws Exception {
         try {
-            sosLogger = sosLogger_;
+            this.sosLogger = sosLogger;
         } catch (Exception e) {
             throw new Exception("\n ..error in " + SOSClassUtil.getMethodName() + " " + e);
         }
@@ -301,16 +301,16 @@ public class SOSDOMParserXML {
         return tableName;
     }
 
-    public void setTableName(String tableName_) {
-        tableName = tableName_;
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
     }
 
     public int getDepth() {
         return depth;
     }
 
-    public void setDepth(int depth_) {
-        depth = depth_;
+    public void setDepth(int depth) {
+        this.depth = depth;
     }
 
     public ArrayList getInsertStatement() {
@@ -329,8 +329,8 @@ public class SOSDOMParserXML {
         return removeParents;
     }
 
-    public void setRemoveParents(boolean removeParents_) {
-        removeParents = removeParents_;
+    public void setRemoveParents(boolean removeParents) {
+        this.removeParents = removeParents;
     }
 
     public ArrayList getListOfXMLPath() {

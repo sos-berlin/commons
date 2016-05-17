@@ -145,6 +145,7 @@ public class SOSDocumentFactoryTextProcessor extends SOSTextProcessor {
                     this.processor.close();
                     this.processor = null;
                 } catch (Exception ex) {
+                    //
                 }
             }
         }

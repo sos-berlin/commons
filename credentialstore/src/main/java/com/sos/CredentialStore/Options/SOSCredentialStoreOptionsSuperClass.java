@@ -17,189 +17,189 @@ import com.sos.JSHelper.Options.SOSOptionString;
 public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
 
     private static final long serialVersionUID = -4388209310315139254L;
-    private final String conClassName = "SOSCredentialStoreOptionsSuperClass";
+    private static final String CLASSNAME = "SOSCredentialStoreOptionsSuperClass";
 
     @JSOptionDefinition(name = "CredentialStore_AuthenticationMethod", description = "", key = "CredentialStore_AuthenticationMethod",
             type = "SOSOptionString", mandatory = true)
-    public SOSOptionString CredentialStore_AuthenticationMethod = new SOSOptionString(this, conClassName + ".CredentialStore_AuthenticationMethod",
+    public SOSOptionString credentialStoreAuthenticationMethod = new SOSOptionString(this, CLASSNAME + ".CredentialStore_AuthenticationMethod",
             "", "privatekey", "privatekey", true);
-    public SOSOptionString CS_AuthenticationMethod = (SOSOptionString) CredentialStore_AuthenticationMethod.SetAlias(conClassName
+    public SOSOptionString csAuthenticationMethod = (SOSOptionString) credentialStoreAuthenticationMethod.SetAlias(CLASSNAME
             + ".CS_AuthenticationMethod");
 
-    public SOSOptionString getCredentialStore_AuthenticationMethod() {
-        return CredentialStore_AuthenticationMethod;
+    public SOSOptionString getCredentialStoreAuthenticationMethod() {
+        return credentialStoreAuthenticationMethod;
     }
 
-    public void setCredentialStore_AuthenticationMethod(final SOSOptionString p_CredentialStore_AuthenticationMethod) {
-        CredentialStore_AuthenticationMethod = p_CredentialStore_AuthenticationMethod;
+    public void setCredentialStoreAuthenticationMethod(final SOSOptionString pCredentialStoreAuthenticationMethod) {
+        credentialStoreAuthenticationMethod = pCredentialStoreAuthenticationMethod;
     }
 
     @JSOptionDefinition(name = "CredentialStore_DeleteExportedFileOnExit", description = "", key = "CredentialStore_DeleteExportedFileOnExit",
             type = "SOSOptionBoolean", mandatory = false)
-    public SOSOptionBoolean CredentialStore_DeleteExportedFileOnExit = new SOSOptionBoolean(this, conClassName
+    public SOSOptionBoolean credentialStoreDeleteExportedFileOnExit = new SOSOptionBoolean(this, CLASSNAME
             + ".CredentialStore_DeleteExportedFileOnExit", "", "true", "true", false);
-    public SOSOptionBoolean CS_DeleteExportedFileOnExit = (SOSOptionBoolean) CredentialStore_DeleteExportedFileOnExit.SetAlias(conClassName
+    public SOSOptionBoolean csDeleteExportedFileOnExit = (SOSOptionBoolean) credentialStoreDeleteExportedFileOnExit.SetAlias(CLASSNAME
             + ".CS_DeleteExportedFileOnExit");
 
-    public SOSOptionBoolean getCredentialStore_DeleteExportedFileOnExit() {
-        return CredentialStore_DeleteExportedFileOnExit;
+    public SOSOptionBoolean getCredentialStoreDeleteExportedFileOnExit() {
+        return credentialStoreDeleteExportedFileOnExit;
     }
 
-    public void setCredentialStore_DeleteExportedFileOnExit(final SOSOptionBoolean p_CredentialStore_DeleteExportedFileOnExit) {
-        CredentialStore_DeleteExportedFileOnExit = p_CredentialStore_DeleteExportedFileOnExit;
+    public void setCredentialStoreDeleteExportedFileOnExit(final SOSOptionBoolean pCredentialStoreDeleteExportedFileOnExit) {
+        credentialStoreDeleteExportedFileOnExit = pCredentialStoreDeleteExportedFileOnExit;
     }
 
     @JSOptionDefinition(name = "CredentialStore_ExportAttachment", description = "", key = "CredentialStore_ExportAttachment",
             type = "SOSOptionBoolean", mandatory = false)
-    public SOSOptionBoolean CredentialStore_ExportAttachment = new SOSOptionBoolean(this, conClassName + ".CredentialStore_ExportAttachment", "",
+    public SOSOptionBoolean credentialStoreExportAttachment = new SOSOptionBoolean(this, CLASSNAME + ".CredentialStore_ExportAttachment", "",
             "false", "false", false);
-    public SOSOptionBoolean CS_ExportAttachment = (SOSOptionBoolean) CredentialStore_ExportAttachment.SetAlias(conClassName + ".CS_ExportAttachment");
+    public SOSOptionBoolean csExportAttachment = (SOSOptionBoolean) credentialStoreExportAttachment.SetAlias(CLASSNAME + ".CS_ExportAttachment");
 
-    public SOSOptionBoolean getCredentialStore_ExportAttachment() {
-        return CredentialStore_ExportAttachment;
+    public SOSOptionBoolean getCredentialStoreExportAttachment() {
+        return credentialStoreExportAttachment;
     }
 
-    public void setCredentialStore_ExportAttachment(final SOSOptionBoolean p_CredentialStore_ExportAttachment) {
-        CredentialStore_ExportAttachment = p_CredentialStore_ExportAttachment;
+    public void setCredentialStoreExportAttachment(final SOSOptionBoolean pCredentialStoreExportAttachment) {
+        credentialStoreExportAttachment = pCredentialStoreExportAttachment;
     }
 
     @JSOptionDefinition(name = "CredentialStore_ExportAttachment2FileName", description = "", key = "CredentialStore_ExportAttachment2FileName",
             type = "SOSOptionOutFileName", mandatory = false)
-    public SOSOptionOutFileName CredentialStore_ExportAttachment2FileName = new SOSOptionOutFileName(this, conClassName
+    public SOSOptionOutFileName credentialStoreExportAttachment2FileName = new SOSOptionOutFileName(this, CLASSNAME
             + ".CredentialStore_ExportAttachment2FileName", "", " ", " ", false);
-    public SOSOptionOutFileName CS_ExportAttachment2FileName = (SOSOptionOutFileName) CredentialStore_ExportAttachment2FileName.SetAlias(conClassName
+    public SOSOptionOutFileName csExportAttachment2FileName = (SOSOptionOutFileName) credentialStoreExportAttachment2FileName.SetAlias(CLASSNAME
             + ".CS_ExportAttachment2FileName");
 
-    public SOSOptionOutFileName getCredentialStore_ExportAttachment2FileName() {
-        return CredentialStore_ExportAttachment2FileName;
+    public SOSOptionOutFileName getCredentialStoreExportAttachment2FileName() {
+        return credentialStoreExportAttachment2FileName;
     }
 
-    public void setCredentialStore_ExportAttachment2FileName(final SOSOptionOutFileName p_CredentialStore_ExportAttachment2FileName) {
-        CredentialStore_ExportAttachment2FileName = p_CredentialStore_ExportAttachment2FileName;
+    public void setCredentialStoreExportAttachment2FileName(final SOSOptionOutFileName pCredentialStoreExportAttachment2FileName) {
+        credentialStoreExportAttachment2FileName = pCredentialStoreExportAttachment2FileName;
     }
 
     @JSOptionDefinition(name = "CredentialStore_FileName", description = "", key = "CredentialStore_FileName", type = "SOSOptionInFileName",
             mandatory = true)
-    public SOSOptionInFileName CredentialStore_FileName = new SOSOptionInFileName(this, conClassName + ".CredentialStore_FileName", "", " ", " ",
+    public SOSOptionInFileName credentialStoreFileName = new SOSOptionInFileName(this, CLASSNAME + ".CredentialStore_FileName", "", " ", " ",
             true);
-    public SOSOptionInFileName CS_FileName = (SOSOptionInFileName) CredentialStore_FileName.SetAlias(conClassName + ".CS_FileName");
+    public SOSOptionInFileName csFileName = (SOSOptionInFileName) credentialStoreFileName.SetAlias(CLASSNAME + ".CS_FileName");
 
-    public SOSOptionInFileName getCredentialStore_FileName() {
-        return CredentialStore_FileName;
+    public SOSOptionInFileName getCredentialStoreFileName() {
+        return credentialStoreFileName;
     }
 
-    public void setCredentialStore_FileName(final SOSOptionInFileName p_CredentialStore_FileName) {
-        CredentialStore_FileName = p_CredentialStore_FileName;
+    public void setCredentialStoreFileName(final SOSOptionInFileName pCredentialStoreFileName) {
+        credentialStoreFileName = pCredentialStoreFileName;
     }
 
     @JSOptionDefinition(name = "CredentialStore_KeyFileName", description = "", key = "CredentialStore_KeyFileName", type = "SOSOptionInFileName",
             mandatory = false)
-    public SOSOptionInFileName CredentialStore_KeyFileName = new SOSOptionInFileName(this, conClassName + ".CredentialStore_KeyFileName", "", " ",
+    public SOSOptionInFileName credentialStoreKeyFileName = new SOSOptionInFileName(this, CLASSNAME + ".CredentialStore_KeyFileName", "", " ",
             " ", false);
-    public SOSOptionInFileName CS_KeyFileName = (SOSOptionInFileName) CredentialStore_KeyFileName.SetAlias(conClassName + ".CS_KeyFileName");
+    public SOSOptionInFileName csKeyFileName = (SOSOptionInFileName) credentialStoreKeyFileName.SetAlias(CLASSNAME + ".CS_KeyFileName");
 
     public SOSOptionInFileName getCredentialStore_KeyFileName() {
-        return CredentialStore_KeyFileName;
+        return credentialStoreKeyFileName;
     }
 
-    public void setCredentialStore_KeyFileName(final SOSOptionInFileName p_CredentialStore_KeyFileName) {
-        CredentialStore_KeyFileName = p_CredentialStore_KeyFileName;
+    public void setCredentialStoreKeyFileName(final SOSOptionInFileName pCredentialStoreKeyFileName) {
+        credentialStoreKeyFileName = pCredentialStoreKeyFileName;
     }
 
     @JSOptionDefinition(name = "CredentialStore_KeyPath", description = "", key = "CredentialStore_KeyPath", type = "SOSOptionString",
             mandatory = true)
-    public SOSOptionString CredentialStore_KeyPath = new SOSOptionString(this, conClassName + ".CredentialStore_KeyPath", "", " ", " ", true);
-    public SOSOptionString CS_KeyPath = (SOSOptionString) CredentialStore_KeyPath.SetAlias(conClassName + ".CS_KeyPath");
+    public SOSOptionString credentialStoreKeyPath = new SOSOptionString(this, CLASSNAME + ".CredentialStore_KeyPath", "", " ", " ", true);
+    public SOSOptionString csKeyPath = (SOSOptionString) credentialStoreKeyPath.SetAlias(CLASSNAME + ".CS_KeyPath");
 
-    public SOSOptionString getCredentialStore_KeyPath() {
-        return CredentialStore_KeyPath;
+    public SOSOptionString getCredentialStoreKeyPath() {
+        return credentialStoreKeyPath;
     }
 
-    public void setCredentialStore_KeyPath(final SOSOptionString p_CredentialStore_KeyPath) {
-        CredentialStore_KeyPath = p_CredentialStore_KeyPath;
+    public void setCredentialStoreKeyPath(final SOSOptionString pCredentialStoreKeyPath) {
+        credentialStoreKeyPath = pCredentialStoreKeyPath;
     }
 
     @JSOptionDefinition(name = "CredentialStore_OverwriteExportedFile", description = "", key = "CredentialStore_OverwriteExportedFile",
             type = "SOSOptionBoolean", mandatory = false)
-    public SOSOptionBoolean CredentialStore_OverwriteExportedFile = new SOSOptionBoolean(this, 
-            conClassName + ".CredentialStore_OverwriteExportedFile", "", "true", "true", false);
-    public SOSOptionBoolean CS_OverwriteExportedFile = (SOSOptionBoolean) CredentialStore_OverwriteExportedFile.SetAlias(conClassName
+    public SOSOptionBoolean credentialStoreOverwriteExportedFile = new SOSOptionBoolean(this, 
+            CLASSNAME + ".CredentialStore_OverwriteExportedFile", "", "true", "true", false);
+    public SOSOptionBoolean csOverwriteExportedFile = (SOSOptionBoolean) credentialStoreOverwriteExportedFile.SetAlias(CLASSNAME
             + ".CS_OverwriteExportedFile");
 
-    public SOSOptionBoolean getCredentialStore_OverwriteExportedFile() {
-        return CredentialStore_OverwriteExportedFile;
+    public SOSOptionBoolean getCredentialStoreOverwriteExportedFile() {
+        return credentialStoreOverwriteExportedFile;
     }
 
-    public void setCredentialStore_OverwriteExportedFile(final SOSOptionBoolean p_CredentialStore_OverwriteExportedFile) {
-        CredentialStore_OverwriteExportedFile = p_CredentialStore_OverwriteExportedFile;
+    public void setCredentialStoreOverwriteExportedFile(final SOSOptionBoolean pCredentialStoreOverwriteExportedFile) {
+        credentialStoreOverwriteExportedFile = pCredentialStoreOverwriteExportedFile;
     }
 
     @JSOptionDefinition(name = "CredentialStore_Permissions4ExportedFile", description = "", key = "CredentialStore_Permissions4ExportedFile",
             type = "SOSOptionString", mandatory = false)
-    public SOSOptionString CredentialStore_Permissions4ExportedFile = new SOSOptionString(this, conClassName
+    public SOSOptionString credentialStorePermissions4ExportedFile = new SOSOptionString(this, CLASSNAME
             + ".CredentialStore_Permissions4ExportedFile", "", "600", "600", false);
-    public SOSOptionString CS_Permissions4ExportedFile = (SOSOptionString) CredentialStore_Permissions4ExportedFile.SetAlias(conClassName
+    public SOSOptionString csPermissions4ExportedFile = (SOSOptionString) credentialStorePermissions4ExportedFile.SetAlias(CLASSNAME
             + ".CS_Permissions4ExportedFile");
 
-    public SOSOptionString getCredentialStore_Permissions4ExportedFile() {
-        return CredentialStore_Permissions4ExportedFile;
+    public SOSOptionString getCredentialStorePermissions4ExportedFile() {
+        return credentialStorePermissions4ExportedFile;
     }
 
-    public void setCredentialStore_Permissions4ExportedFile(final SOSOptionString p_CredentialStore_Permissions4ExportedFile) {
-        CredentialStore_Permissions4ExportedFile = p_CredentialStore_Permissions4ExportedFile;
+    public void setCredentialStorePermissions4ExportedFile(final SOSOptionString pCredentialStorePermissions4ExportedFile) {
+        credentialStorePermissions4ExportedFile = pCredentialStorePermissions4ExportedFile;
     }
 
     @JSOptionDefinition(name = "CredentialStore_ProcessNotesParams", description = "", key = "CredentialStore_ProcessNotesParams",
             type = "SOSOptionBoolean", mandatory = false)
-    public SOSOptionBoolean CredentialStore_ProcessNotesParams = new SOSOptionBoolean(this, conClassName + ".CredentialStore_ProcessNotesParams",
+    public SOSOptionBoolean credentialStoreProcessNotesParams = new SOSOptionBoolean(this, CLASSNAME + ".CredentialStore_ProcessNotesParams",
             "", "false", "false", false);
-    public SOSOptionBoolean CS_ProcessNotesParams = (SOSOptionBoolean) CredentialStore_ProcessNotesParams.SetAlias(conClassName
+    public SOSOptionBoolean csProcessNotesParams = (SOSOptionBoolean) credentialStoreProcessNotesParams.SetAlias(CLASSNAME
             + ".CS_ProcessNotesParams");
 
-    public SOSOptionBoolean getCredentialStore_ProcessNotesParams() {
-        return CredentialStore_ProcessNotesParams;
+    public SOSOptionBoolean getCredentialStoreProcessNotesParams() {
+        return credentialStoreProcessNotesParams;
     }
 
-    public void setCredentialStore_ProcessNotesParams(final SOSOptionBoolean p_CredentialStore_ProcessNotesParams) {
-        CredentialStore_ProcessNotesParams = p_CredentialStore_ProcessNotesParams;
+    public void setCredentialStoreProcessNotesParams(final SOSOptionBoolean pCredentialStoreProcessNotesParams) {
+        credentialStoreProcessNotesParams = pCredentialStoreProcessNotesParams;
     }
 
     @JSOptionDefinition(name = "CredentialStore_StoreType", description = "", key = "CredentialStore_StoreType", type = "SOSOptionString",
             mandatory = false)
-    public SOSOptionString CredentialStore_StoreType = new SOSOptionString(this, conClassName + ".CredentialStore_StoreType", "", "KeePass",
+    public SOSOptionString credentialStoreStoreType = new SOSOptionString(this, CLASSNAME + ".CredentialStore_StoreType", "", "KeePass",
             "KeePass", false);
-    public SOSOptionString CS_StoreType = (SOSOptionString) CredentialStore_StoreType.SetAlias(conClassName + ".CS_StoreType");
+    public SOSOptionString csStoreType = (SOSOptionString) credentialStoreStoreType.SetAlias(CLASSNAME + ".CS_StoreType");
 
-    public SOSOptionString getCredentialStore_StoreType() {
-        return CredentialStore_StoreType;
+    public SOSOptionString getCredentialStoreStoreType() {
+        return credentialStoreStoreType;
     }
 
-    public void setCredentialStore_StoreType(final SOSOptionString p_CredentialStore_StoreType) {
-        CredentialStore_StoreType = p_CredentialStore_StoreType;
+    public void setCredentialStoreStoreType(final SOSOptionString pCredentialStoreStoreType) {
+        credentialStoreStoreType = pCredentialStoreStoreType;
     }
 
     @JSOptionDefinition(name = "CredentialStore_password", description = "", key = "CredentialStore_password", type = "SOSOptionPassword",
             mandatory = false)
-    public SOSOptionPassword CredentialStore_password = new SOSOptionPassword(this, conClassName + ".CredentialStore_password", "", " ", " ", false);
-    public SOSOptionPassword CS_password = (SOSOptionPassword) CredentialStore_password.SetAlias(conClassName + ".CS_password");
+    public SOSOptionPassword credentialStorePassword = new SOSOptionPassword(this, CLASSNAME + ".CredentialStore_password", "", " ", " ", false);
+    public SOSOptionPassword CS_password = (SOSOptionPassword) credentialStorePassword.SetAlias(CLASSNAME + ".CS_password");
 
-    public SOSOptionPassword getCredentialStore_password() {
-        return CredentialStore_password;
+    public SOSOptionPassword getCredentialStorePassword() {
+        return credentialStorePassword;
     }
 
-    public void setCredentialStore_password(final SOSOptionPassword p_CredentialStore_password) {
-        CredentialStore_password = p_CredentialStore_password;
+    public void setCredentialStorePassword(final SOSOptionPassword pCredentialStorePassword) {
+        credentialStorePassword = pCredentialStorePassword;
     }
 
     @JSOptionDefinition(name = "use_credential_Store", description = "", key = "use_credential_Store", type = "SOSOptionBoolean", mandatory = false)
-    public SOSOptionBoolean use_credential_Store = new SOSOptionBoolean(this, conClassName + ".use_credential_Store", "", "false", "false", false);
+    public SOSOptionBoolean useCredentialStore = new SOSOptionBoolean(this, CLASSNAME + ".use_credential_Store", "", "false", "false", false);
 
-    public SOSOptionBoolean getuse_credential_Store() {
-        return use_credential_Store;
+    public SOSOptionBoolean getUseCredentialStore() {
+        return useCredentialStore;
     }
 
-    public void setuse_credential_Store(final SOSOptionBoolean p_use_credential_Store) {
-        use_credential_Store = p_use_credential_Store;
+    public void setUseCredentialStore(final SOSOptionBoolean pUseCredentialStore) {
+        useCredentialStore = pUseCredentialStore;
     }
 
     public SOSCredentialStoreOptionsSuperClass() {
@@ -226,17 +226,12 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
     }
 
     @Override
-    public void CheckMandatory() throws JSExceptionMandatoryOptionMissing, Exception {
+    public void checkMandatory() throws JSExceptionMandatoryOptionMissing, Exception {
         try {
-            super.CheckMandatory();
+            super.checkMandatory();
         } catch (Exception e) {
             throw new JSExceptionMandatoryOptionMissing(e.toString());
         }
     }
 
-    @Override
-    public void CommandLineArgs(final String[] pstrArgs) {
-        super.CommandLineArgs(pstrArgs);
-    }
-    
 }

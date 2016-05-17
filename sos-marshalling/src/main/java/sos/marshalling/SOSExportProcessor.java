@@ -11,15 +11,15 @@ import sos.util.SOSStandardLogger;
 /** @author Robert Ehrlich */
 public class SOSExportProcessor {
 
-    private SOSConnection _sosConnection = null;
-    private SOSStandardLogger _sosLogger = null;
-    private File _configFile = null;
-    private File _logFile = null;
-    private int _logLevel = 0;
-    private File _outputFile = null;
-    private String _tableNames = null;
-    private String _executeQuery = null;
-    private String _keys = null;
+    private SOSConnection sosConnection = null;
+    private SOSStandardLogger sosLogger = null;
+    private File configFile = null;
+    private File logFile = null;
+    private int logLevel = 0;
+    private File outputFile = null;
+    private String tableNames = null;
+    private String executeQuery = null;
+    private String keys = null;
     private boolean enableTableParametr = true;
     private boolean enableExecuteParametr = true;
 
@@ -32,20 +32,20 @@ public class SOSExportProcessor {
             throw new NullPointerException("Export: Parameter output == null!");
         }
         try {
-            _configFile = configFile;
-            _logFile = logFile;
-            _logLevel = logLevel;
-            _outputFile = outputFile;
-            _tableNames = tableNames;
-            _executeQuery = executeQuery;
-            _keys = keys;
-            if (_configFile != null && !_configFile.getName().isEmpty() && !_configFile.exists()) {
-                throw new Exception("configuration file not found: " + _configFile);
+            this.configFile = configFile;
+            this.logFile = logFile;
+            this.logLevel = logLevel;
+            this.outputFile = outputFile;
+            this.tableNames = tableNames;
+            this.executeQuery = executeQuery;
+            this.keys = keys;
+            if (configFile != null && !configFile.getName().isEmpty() && !configFile.exists()) {
+                throw new Exception("configuration file not found: " + configFile);
             }
-            if ((_tableNames != null && !"".equals(tableNames)) && (_executeQuery != null && !"".equals(_executeQuery))) {
+            if ((tableNames != null && !"".equals(tableNames)) && (executeQuery != null && !"".equals(executeQuery))) {
                 throw new Exception("-tables and -execute may not be indicated together");
             }
-            if (_logLevel != 0 && "".equals(_logFile.toString())) {
+            if (logLevel != 0 && "".equals(logFile.toString())) {
                 throw new Exception("log file is not defined");
             }
         } catch (Exception e) {
@@ -99,18 +99,18 @@ public class SOSExportProcessor {
 
     public void doExport() throws Exception {
         try {
-            if (this.isEnableTableParametr() && this.isEnableExecuteParametr() && (_tableNames == null || "".equals(_tableNames))
-                    && (_executeQuery == null || "".equals(_executeQuery))) {
+            if (this.isEnableTableParametr() && this.isEnableExecuteParametr() && (tableNames == null || "".equals(tableNames))
+                    && (executeQuery == null || "".equals(executeQuery))) {
                 throw new Exception("undefined operation for export. Check please input for your -tables or -execute arguments");
             }
-            if (_logLevel == 0) {
-                _sosLogger = new SOSStandardLogger(SOSStandardLogger.DEBUG);
+            if (logLevel == 0) {
+                sosLogger = new SOSStandardLogger(SOSStandardLogger.DEBUG);
             } else {
-                _sosLogger = new SOSStandardLogger(_logFile.toString(), _logLevel);
+                sosLogger = new SOSStandardLogger(logFile.toString(), logLevel);
             }
-            _sosConnection = SOSConnection.createInstance(_configFile.toString(), _sosLogger);
-            _sosConnection.connect();
-            SOSExport export = new SOSExport(_sosConnection, _outputFile.toString(), "EXPORT", _sosLogger);
+            sosConnection = SOSConnection.createInstance(configFile.toString(), sosLogger);
+            sosConnection.connect();
+            SOSExport export = new SOSExport(sosConnection, outputFile.toString(), "EXPORT", sosLogger);
             prepareExport(export);
             export.doExport();
             System.out.println("");
@@ -119,10 +119,11 @@ public class SOSExportProcessor {
             throw new Exception("error in SOSExportProcessor: " + e.getMessage());
         } finally {
             try {
-                if (_sosConnection != null) {
-                    _sosConnection.disconnect();
+                if (sosConnection != null) {
+                    sosConnection.disconnect();
                 }
             } catch (Exception e) {
+                //
             }
         }
 
@@ -131,12 +132,12 @@ public class SOSExportProcessor {
     public void prepareExport(SOSExport export) throws Exception {
         String keys = "";
         String[] tablesKeys = {};
-        if (_keys != null && !"".equals(_keys.trim())) {
-            keys = _keys.toUpperCase();
+        if (keys != null && !"".equals(keys.trim())) {
+            keys = keys.toUpperCase();
             tablesKeys = keys.split("\\+");
         }
-        if (!"".equals(_tableNames)) {
-            StringTokenizer tables = new StringTokenizer(_tableNames, "+");
+        if (!"".equals(tableNames)) {
+            StringTokenizer tables = new StringTokenizer(tableNames, "+");
             int i = 0;
             while (tables.hasMoreTokens()) {
                 String table = tables.nextToken().toUpperCase();
@@ -146,14 +147,15 @@ public class SOSExportProcessor {
                         try {
                             key = tablesKeys[i];
                         } catch (Exception e) {
+                            //
                         }
                     }
                     export.add(table, key, "select * from " + table, null, i);
                     i++;
                 }
             }
-        } else if (!"".equals(_executeQuery)) {
-            StringTokenizer st = new StringTokenizer(_executeQuery, " ");
+        } else if (!"".equals(executeQuery)) {
+            StringTokenizer st = new StringTokenizer(executeQuery, " ");
             String table = "";
             while (st.hasMoreTokens()) {
                 String token = st.nextToken().toUpperCase();
@@ -162,49 +164,10 @@ public class SOSExportProcessor {
                     break;
                 }
             }
-            export.add(table, keys, _executeQuery, null, 0);
+            export.add(table, keys, executeQuery, null, 0);
         }
     }
 
-    /** TODO: translate javadoc to english only!!! Programm ausführen<br>
-     * 
-     * @param args Programmargumente<br>
-     * <br>
-     * 
-     *            Mit dem Argument "?" bzw "help" kann mann sich Programm Usage
-     *            anzeigen lassen.<br>
-     * <br>
-     * 
-     *            Weitere mögliche Argumente<br>
-     *            -config Datei, in der die Zugangsdaten zur Datenbank enthalten
-     *            sind<br>
-     *            Default : sos_settings.ini<br>
-     *            -log Name der Protokolldatei<br>
-     *            Default : sos_export.log<br>
-     *            -log-level Log Level für die Protokolldatei<br>
-     *            Default : 0 keine Protokollierung<br>
-     *            -output Name der XML-Datei für Export<br>
-     *            Default : sos_export.xml<br>
-     *            -tables Tabellennamen für den Export. <br>
-     *            Es werden alle Daten der jeweiligen Tabelle exportiert <br>
-     *            Mehrere Tabellen durch + Zeichen getrennt.<br>
-     *            Default : Leerstring<br>
-     *            -execute eigene SQL-Statement für eine Tabelle angeben. <br>
-     *            Muß in doppelten Hochkommas angegeben werden<br>
-     *            Default : Leerstring<br>
-     *            -keys Schlüsselfelder für eine bzw mehreren Tabellen. <br>
-     *            Wird im Zusammenhang mit dem Argument -tables berücksichtigt <br>
-     *            Schlüsselfelder sind wichtig, wenn eine Tabelle CLOB bzw BLOB
-     *            enthält. <br>
-     *            mehrere Schlüssel für eine Tabelle - durch Komma getrennt <br>
-     *            für mehreren Tabellen durch + Zeichen getrennt <br>
-     *            für mehreren Tabellen : die Reihenfolge wie bei -tables<br>
-     *            Default : Leerstring<br>
-     * <br>
-     *            -execute und -tables dürfen nicht zusammen angegeben werden.<br>
-     *            eine von beiden Optionen muss angegeben sein<br>
-     * 
-     * @throws Exception */
     public static void main(String[] args) throws Exception {
         boolean isExport = true;
         if (args.length == 1) {
@@ -216,11 +179,14 @@ public class SOSExportProcessor {
         if (isExport) {
             SOSArguments arguments = new SOSArguments(args);
             SOSExportProcessor processor =
-                    new SOSExportProcessor(new File(arguments.as_string("-config=", "sos_settings.ini")), new File(arguments.as_string("-log=",
-                            "sos_export.log")), arguments.as_int("-log-level=", 0), new File(arguments.as_string("-output=", "sos_export.xml")),
-                            new String(arguments.as_string("-tables=", "")), new String(arguments.as_string("-execute=", "")), new String(
-                                    arguments.as_string("-keys=", "")));
-            arguments.check_all_used();
+                    new SOSExportProcessor(
+                            new File(arguments.asString("-config=", "sos_settings.ini")),
+                            new File(arguments.asString("-log=", "sos_export.log")), arguments.asInt("-log-level=", 0),
+                            new File(arguments.asString("-output=", "sos_export.xml")),
+                            new String(arguments.asString("-tables=", "")), 
+                            new String(arguments.asString("-execute=", "")), 
+                            new String(arguments.asString("-keys=", "")));
+            arguments.checkAllUsed();
             processor.doExport();
         }
     }

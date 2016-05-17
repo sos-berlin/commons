@@ -31,6 +31,7 @@ public class SOSXMLValidator implements ContentHandler, ErrorHandler, DTDHandler
     private String schemaFile;
 
     public SOSXMLValidator() {
+        //
     }
 
     public SOSXMLValidator(String[] args) {
@@ -159,24 +160,31 @@ public class SOSXMLValidator implements ContentHandler, ErrorHandler, DTDHandler
     }
 
     public void startDocument() {
+        //
     }
 
     public void endDocument() throws SAXException {
+        //
     }
 
     public void startElement(String string1, String name, String string2, Attributes atts) throws SAXException {
+        //
     }
 
     public void endElement(String string1, String name, String string2) throws SAXException {
+        //
     }
 
     public void characters(char[] cbuf, int start, int len) {
+        //
     }
 
     public void ignorableWhitespace(char[] cbuf, int start, int len) {
+        //
     }
 
     public void processingInstruction(String target, String data) throws SAXException {
+        //
     }
 
     public InputSource resolveEntity(String publicId, String systemId) throws SAXException {
@@ -184,12 +192,15 @@ public class SOSXMLValidator implements ContentHandler, ErrorHandler, DTDHandler
     }
 
     public void notationDecl(String name, String publicId, String systemId) {
+        //
     }
 
     public void unparsedEntityDecl(String name, String publicId, String systemId, String notationName) {
+        //
     }
 
     public void warning(SAXParseException e) throws SAXException {
+        //
     }
 
     public void error(SAXParseException e) throws SAXException {
@@ -201,16 +212,18 @@ public class SOSXMLValidator implements ContentHandler, ErrorHandler, DTDHandler
     }
 
     public void skippedEntity(String string) throws SAXException {
+        //
     }
 
     public void endPrefixMapping(String string) throws SAXException {
+        //
     }
 
     public void startPrefixMapping(String string, String string1) throws SAXException {
+        //
     }
 
     private static URL createURL(String fileName) throws SAXException {
-
         URL url = null;
         try {
             url = new URL(fileName);

@@ -48,11 +48,12 @@ public class SOSSAXParserXML implements ContentHandler, ErrorHandler, DTDHandler
     private static SOSConnection connection = null;
     private static boolean checkValidate = false;
 
-    public SOSSAXParserXML(SOSStandardLogger spooler_log_) {
-        sosLogger = spooler_log_;
+    public SOSSAXParserXML(SOSStandardLogger spoolerLog) {
+        sosLogger = spoolerLog;
     }
 
     public SOSSAXParserXML() {
+        //
     }
 
     public void parseXMLFile(String xmlFileName) throws Exception {
@@ -93,15 +94,15 @@ public class SOSSAXParserXML implements ContentHandler, ErrorHandler, DTDHandler
     }
 
     public void startPrefixMapping(String string, String string1) throws SAXException {
-
+        //
     }
 
     public void endPrefixMapping(String string) throws SAXException {
-
+        //
     }
 
     public void skippedEntity(String string) throws SAXException {
-
+        //
     }
 
     public void startDocument() {
@@ -180,9 +181,11 @@ public class SOSSAXParserXML implements ContentHandler, ErrorHandler, DTDHandler
     }
 
     public void ignorableWhitespace(char[] cbuf, int start, int len) {
+        //
     }
 
     public void processingInstruction(String target, String data) throws SAXException {
+        //
     }
 
     public InputSource resolveEntity(String publicId, String systemId) throws SAXException {
@@ -190,13 +193,15 @@ public class SOSSAXParserXML implements ContentHandler, ErrorHandler, DTDHandler
     }
 
     public void notationDecl(String name, String publicId, String systemId) {
+        //
     }
 
     public void unparsedEntityDecl(String name, String publicId, String systemId, String notationName) {
-
+        //
     }
 
     public void warning(SAXParseException e) throws SAXException {
+        //
     }
 
     public void error(SAXParseException e) throws SAXException {
@@ -322,16 +327,16 @@ public class SOSSAXParserXML implements ContentHandler, ErrorHandler, DTDHandler
         return defaultFields;
     }
 
-    public void setDefaultFields(HashMap defaultFields_) {
-        defaultFields = defaultFields_;
+    public void setDefaultFields(HashMap defaultFields) {
+        this.defaultFields = defaultFields;
     }
 
     public boolean isCounter() {
         return counter;
     }
 
-    public void setCounter(boolean counter_) {
-        counter = counter_;
+    public void setCounter(boolean counter) {
+        this.counter = counter;
     }
 
     public String getOutputScripFilename() {
@@ -353,12 +358,12 @@ public class SOSSAXParserXML implements ContentHandler, ErrorHandler, DTDHandler
         return mappingTagNames;
     }
 
-    public void setMappingTagNames(HashMap mappingTagNames_) throws Exception {
+    public void setMappingTagNames(HashMap mappingTagNames) throws Exception {
         try {
-            Iterator keys = mappingTagNames_.keySet().iterator();
-            Iterator vals = mappingTagNames_.values().iterator();
+            Iterator keys = mappingTagNames.keySet().iterator();
+            Iterator vals = mappingTagNames.values().iterator();
             while (keys.hasNext()) {
-                mappingTagNames.put(keys.next().toString().toLowerCase(), vals.next());
+                this.mappingTagNames.put(keys.next().toString().toLowerCase(), vals.next());
             }
         } catch (Exception e) {
             throw new Exception("\n ->..error in " + SOSClassUtil.getMethodName() + " " + e);
@@ -369,16 +374,16 @@ public class SOSSAXParserXML implements ContentHandler, ErrorHandler, DTDHandler
         return tableName;
     }
 
-    public void setTableName(String tableName_) {
-        tableName = tableName_;
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
     }
 
     public SOSConnection getConnection() {
         return connection;
     }
 
-    public void setConnection(SOSConnection connection_) {
-        connection = connection_;
+    public void setConnection(SOSConnection connection) {
+        this.connection = connection;
     }
 
     public boolean isCheckValidate() {

@@ -197,6 +197,7 @@ public class SOSProfileSettings extends sos.settings.SOSSettings {
             try {
                 outFile.delete();
             } catch (Exception ex) {
+                //
             }
             throw new Exception(SOSClassUtil.getMethodName() + ": " + e.toString());
         } finally {

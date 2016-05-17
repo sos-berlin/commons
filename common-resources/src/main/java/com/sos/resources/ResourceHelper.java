@@ -21,6 +21,7 @@ public class ResourceHelper {
     private static ResourceHelper instance = null;
 
     private ResourceHelper() {
+        //
     }
 
     public static ResourceHelper getInstance() {

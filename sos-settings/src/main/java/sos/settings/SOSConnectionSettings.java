@@ -12,7 +12,7 @@ import sos.util.SOSLogger;
 import sos.util.SOSString;
 
 /** @author Ghassan Beydoun
- * @author Andreas PÃ¼schel */
+ * @author Andreas Püschel */
 public class SOSConnectionSettings extends sos.settings.SOSSettings {
 
     protected String application = "";
@@ -260,25 +260,25 @@ public class SOSConnectionSettings extends sos.settings.SOSSettings {
 
     public int getLockedSequence(String application, String section, String entry) throws Exception {
         StringBuilder query = null;
-        String updlock_from = "";
-        String updlock_where = "";
+        String updlockFrom = "";
+        String updlockWhere = "";
         int sequence = -1;
         try {
             logger.debug6("calling " + SOSClassUtil.getMethodName());
-            updlock_from = (this.sosConnection instanceof SOSMSSQLConnection || this.sosConnection instanceof SOSSybaseConnection) ? "%updlock" : "";
-            updlock_where = "".equals(updlock_from) ? "%updlock" : "";
+            updlockFrom = (this.sosConnection instanceof SOSMSSQLConnection || this.sosConnection instanceof SOSSybaseConnection) ? "%updlock" : "";
+            updlockWhere = "".equals(updlockFrom) ? "%updlock" : "";
             boolean autoCommit = this.sosConnection.getAutoCommit();
             this.sosConnection.setAutoCommit(false);
             query = new StringBuilder();
             if (this.ignoreCase) {
-                query.append("SELECT \"").append(VALUE).append("\" FROM ").append(source).append(" ").append(updlock_from).append(" WHERE %lcase(\"").append(
+                query.append("SELECT \"").append(VALUE).append("\" FROM ").append(source).append(" ").append(updlockFrom).append(" WHERE %lcase(\"").append(
                         APPLICATION).append("\") = '").append(application.toLowerCase()).append("' AND %lcase(\"").append(SECTION).append("\") = '").append(
                         section.toLowerCase()).append("' AND %lcase(\"").append(NAME).append("\") = '").append(entry.toLowerCase()).append("' ").append(
-                        updlock_where);
+                        updlockWhere);
             } else {
-                query.append("SELECT \"").append(VALUE).append("\" FROM ").append(source).append(" ").append(updlock_from).append(" WHERE \"").append(
+                query.append("SELECT \"").append(VALUE).append("\" FROM ").append(source).append(" ").append(updlockFrom).append(" WHERE \"").append(
                         APPLICATION).append("\" = '").append(application).append("' AND \"").append(SECTION).append("\" = '").append(section).append(
-                        "' AND \"").append(NAME).append("\" = '").append(entry).append("' ").append(updlock_where);
+                        "' AND \"").append(NAME).append("\" = '").append(entry).append("' ").append(updlockWhere);
             }
             logger.debug9(SOSClassUtil.getMethodName() + ": get result query: " + query.toString());
             sequence = Integer.valueOf(sosConnection.getSingleValue(query.toString())).intValue() + 1;
@@ -306,25 +306,25 @@ public class SOSConnectionSettings extends sos.settings.SOSSettings {
 
     public String getLockedSequenceAsString(String application, String section, String entry) throws Exception {
         StringBuilder query = null;
-        String updlock_from = "";
-        String updlock_where = "";
+        String updlockFrom = "";
+        String updlockWhere = "";
         String sequence = "";
         try {
             logger.debug6("calling " + SOSClassUtil.getMethodName());
-            updlock_from = (this.sosConnection instanceof SOSMSSQLConnection || this.sosConnection instanceof SOSSybaseConnection) ? "%updlock" : "";
-            updlock_where = "".equals(updlock_from) ? "%updlock" : "";
+            updlockFrom = (this.sosConnection instanceof SOSMSSQLConnection || this.sosConnection instanceof SOSSybaseConnection) ? "%updlock" : "";
+            updlockWhere = "".equals(updlockFrom) ? "%updlock" : "";
             boolean autoCommit = this.sosConnection.getAutoCommit();
             this.sosConnection.setAutoCommit(false);
             query = new StringBuilder();
             if (this.ignoreCase) {
-                query.append("SELECT \"").append(VALUE).append("\" FROM ").append(source).append(" ").append(updlock_from).append(" WHERE %lcase(\"").append(
+                query.append("SELECT \"").append(VALUE).append("\" FROM ").append(source).append(" ").append(updlockFrom).append(" WHERE %lcase(\"").append(
                         APPLICATION).append("\") = '").append(application.toLowerCase()).append("' AND %lcase(\"").append(SECTION).append("\") = '").append(
                         section.toLowerCase()).append("' AND %lcase(\"").append(NAME).append("\") = '").append(entry.toLowerCase()).append("' ").append(
-                        updlock_where);
+                        updlockWhere);
             } else {
-                query.append("SELECT \"").append(VALUE).append("\" FROM ").append(source).append(" ").append(updlock_from).append(" WHERE \"").append(
+                query.append("SELECT \"").append(VALUE).append("\" FROM ").append(source).append(" ").append(updlockFrom).append(" WHERE \"").append(
                         APPLICATION).append("\" = '").append(application).append("' AND \"").append(SECTION).append("\" = '").append(section).append(
-                        "' AND \"").append(NAME).append("\" = '").append(entry).append("' ").append(updlock_where);
+                        "' AND \"").append(NAME).append("\" = '").append(entry).append("' ").append(updlockWhere);
             }
             logger.debug9(SOSClassUtil.getMethodName() + ": get result query: " + query.toString());
             sequence = String.valueOf(Integer.parseInt(sosConnection.getSingleValue(query.toString())) + 1);
