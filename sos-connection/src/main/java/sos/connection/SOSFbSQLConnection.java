@@ -93,6 +93,7 @@ public class SOSFbSQLConnection extends sos.connection.SOSConnection implements 
                     stmt.close();
                 }
             } catch (Exception e) {
+                //
             }
         }
     }

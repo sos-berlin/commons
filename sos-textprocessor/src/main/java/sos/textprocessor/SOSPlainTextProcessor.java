@@ -183,6 +183,7 @@ public class SOSPlainTextProcessor extends SOSTextProcessor {
                             DecimalFormat formatter = new DecimalFormat("#,###.00");
                             content = content.replaceAll("&\\$\\(" + key.toString() + "\\)", formatter.format(doubleValue).toString());
                         } catch (Exception ex) {
+                            //
                         } finally {
                             Locale.setDefault(defaultLocale);
                         }

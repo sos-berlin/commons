@@ -12,7 +12,6 @@ import java.util.zip.GZIPInputStream;
 public class SOSGZip {
 
     public static void compressFile(File inputFile, File outputFile) throws Exception {
-
         BufferedInputStream in = null;
         GZIPOutputStream out = null;
         try {
@@ -29,16 +28,17 @@ public class SOSGZip {
             try {
                 in.close();
             } catch (Exception e) {
+                //
             }
             try {
                 out.close();
             } catch (Exception e) {
+                //
             }
         }
     }
 
     public static void compressFile(FileInputStream fileInputStream, File outputFile) throws Exception {
-
         BufferedInputStream in = null;
         GZIPOutputStream out = null;
         try {
@@ -55,10 +55,12 @@ public class SOSGZip {
             try {
                 in.close();
             } catch (Exception e) {
+                //
             }
             try {
                 out.close();
             } catch (Exception e) {
+                //
             }
         }
     }

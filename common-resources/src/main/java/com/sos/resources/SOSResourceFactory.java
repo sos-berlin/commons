@@ -21,15 +21,15 @@ import java.net.URL;
  * @author Stefan Schädlich */
 public class SOSResourceFactory {
 
-    private static Logger logger = LoggerFactory.getLogger(SOSResourceFactory.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSResourceFactory.class);
 
     public static URL asURL(SOSResource forResource) {
-        logger.info("Try to read resource {}.", forResource.getFullName());
+        LOGGER.info("Try to read resource {}.", forResource.getFullName());
         return Resources.getResource(forResource.getFullName());
     }
 
     public static URL asURL(String forResource) {
-        logger.info("Try to read resource {}.", forResource);
+        LOGGER.info("Try to read resource {}.", forResource);
         return Resources.getResource(normalizePackageName(forResource));
     }
 
@@ -37,7 +37,7 @@ public class SOSResourceFactory {
         try {
             return asURL(forResource).openStream();
         } catch (IOException e) {
-            logger.error("Error reading resource {}.", forResource.getFullName(), e);
+            LOGGER.error("Error reading resource {}.", forResource.getFullName(), e);
             throw new RuntimeException(e);
         }
     }
@@ -46,7 +46,7 @@ public class SOSResourceFactory {
         try {
             return asURL(forResource).openStream();
         } catch (IOException e) {
-            logger.error("Error reading resource {}.", forResource, e);
+            LOGGER.error("Error reading resource {}.", forResource, e);
             throw new RuntimeException(e);
         }
     }

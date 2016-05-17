@@ -120,6 +120,7 @@ public abstract class SOSConnection {
     public static SOSProfiler profiler = null;
 
     public SOSConnection() throws Exception {
+        //
     }
 
     public SOSConnection(final Connection connection, final SOSLogger logger) throws Exception {
@@ -248,6 +249,7 @@ public abstract class SOSConnection {
                 try {
                     in.close();
                 } catch (Exception ignore) {
+                    //
                 }
             }
         }
@@ -319,6 +321,7 @@ public abstract class SOSConnection {
                     profiler.start(query);
                 }
             } catch (Exception e) {
+                //
             }
             stmt = connection.createStatement();
             rs = stmt.executeQuery(query);
@@ -340,6 +343,7 @@ public abstract class SOSConnection {
                 try {
                     profiler.stop("ERROR", e.getMessage());
                 } catch (Exception ex) {
+                    //
                 }
             }
             throw new Exception(SOSClassUtil.getMethodName() + ": query failed: " + query + ": " + e.getMessage(), e);
@@ -348,18 +352,21 @@ public abstract class SOSConnection {
                 try {
                     stmt.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (rs != null) {
                 try {
                     rs.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (profiler != null) {
                 try {
                     profiler.stop("", "");
                 } catch (Exception e) {
+                    //
                 }
             }
         }
@@ -385,6 +392,7 @@ public abstract class SOSConnection {
                 try {
                     profiler.start(query);
                 } catch (Exception e) {
+                    //
                 }
             }
             stmt = connection.createStatement();
@@ -408,6 +416,7 @@ public abstract class SOSConnection {
                 try {
                     profiler.stop("ERROR", e.getMessage());
                 } catch (Exception ex) {
+                    //
                 }
             }
             throw new Exception(SOSClassUtil.getMethodName() + ": query failed: " + query + ": " + e.getMessage(), e);
@@ -416,18 +425,21 @@ public abstract class SOSConnection {
                 try {
                     stmt.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (rs != null) {
                 try {
                     rs.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (profiler != null) {
                 try {
                     profiler.stop("", "");
                 } catch (Exception e) {
+                    //
                 }
             }
         }
@@ -453,6 +465,7 @@ public abstract class SOSConnection {
                 try {
                     profiler.start(query);
                 } catch (Exception e) {
+                    //
                 }
             }
             stmt = connection.createStatement();
@@ -476,6 +489,7 @@ public abstract class SOSConnection {
                 try {
                     profiler.stop("ERROR", e.getMessage());
                 } catch (Exception ex) {
+                    //
                 }
             }
             throw new Exception(SOSClassUtil.getMethodName() + ": query failed: " + query + ": " + e.getMessage(), e);
@@ -484,18 +498,21 @@ public abstract class SOSConnection {
                 try {
                     stmt.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (rs != null) {
                 try {
                     rs.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (profiler != null) {
                 try {
                     profiler.stop("", "");
                 } catch (Exception e) {
+                    //
                 }
             }
         }
@@ -531,6 +548,7 @@ public abstract class SOSConnection {
                 try {
                     profiler.stop("ERROR", e.getMessage());
                 } catch (Exception ex) {
+                    //
                 }
             }
             throw new Exception(SOSClassUtil.getMethodName() + ": query failed: " + query + ": " + e.getMessage(), e);
@@ -539,18 +557,21 @@ public abstract class SOSConnection {
                 try {
                     rs.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (stmt != null) {
                 try {
                     stmt.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (profiler != null) {
                 try {
                     profiler.stop("", "");
                 } catch (Exception e) {
+                    //
                 }
             }
         }
@@ -577,6 +598,7 @@ public abstract class SOSConnection {
                 try {
                     profiler.start(query);
                 } catch (Exception e) {
+                    //
                 }
             }
             stmt = connection.createStatement();
@@ -601,6 +623,7 @@ public abstract class SOSConnection {
                 try {
                     profiler.stop("ERROR", e.getMessage());
                 } catch (Exception ex) {
+                    //
                 }
             }
             throw new Exception(SOSClassUtil.getMethodName() + ": query failed: " + query + ": " + e.getMessage(), e);
@@ -609,18 +632,21 @@ public abstract class SOSConnection {
                 try {
                     rs.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (stmt != null) {
                 try {
                     stmt.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (profiler != null) {
                 try {
                     profiler.stop("", "");
                 } catch (Exception e) {
+                    //
                 }
             }
         }
@@ -647,6 +673,7 @@ public abstract class SOSConnection {
                 try {
                     profiler.start(query);
                 } catch (Exception e) {
+                    //
                 }
             }
             stmt = connection.createStatement();
@@ -671,6 +698,7 @@ public abstract class SOSConnection {
                 try {
                     profiler.stop("ERROR", e.getMessage());
                 } catch (Exception ex) {
+                    //
                 }
             }
             throw new Exception(SOSClassUtil.getMethodName() + ": query failed: " + query + ": " + e.getMessage(), e);
@@ -679,18 +707,21 @@ public abstract class SOSConnection {
                 try {
                     rs.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (stmt != null) {
                 try {
                     stmt.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (profiler != null) {
                 try {
                     profiler.stop("", "");
                 } catch (Exception e) {
+                    //
                 }
             }
         }
@@ -727,6 +758,7 @@ public abstract class SOSConnection {
                 try {
                     profiler.stop("ERROR", e.getMessage());
                 } catch (Exception ex) {
+                    //
                 }
             }
             throw new Exception(SOSClassUtil.getMethodName() + ": query failed: " + query + ": " + e.getMessage(), e);
@@ -735,18 +767,21 @@ public abstract class SOSConnection {
                 try {
                     rs.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (stmt != null) {
                 try {
                     stmt.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (profiler != null) {
                 try {
                     profiler.stop("", "");
                 } catch (Exception e) {
+                    //
                 }
             }
         }
@@ -795,6 +830,7 @@ public abstract class SOSConnection {
                 try {
                     profiler.start(theQuery);
                 } catch (Exception e) {
+                    //
                 }
             }
             pstmt = connection.prepareStatement(theQuery);
@@ -806,6 +842,7 @@ public abstract class SOSConnection {
                 try {
                     profiler.stop("ERROR", e.getMessage());
                 } catch (Exception ex) {
+                    //
                 }
             }
             throw new Exception(SOSClassUtil.getMethodName() + ":" + e.getMessage(), e);
@@ -814,18 +851,21 @@ public abstract class SOSConnection {
                 try {
                     in.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (pstmt != null) {
                 try {
                     pstmt.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (profiler != null) {
                 try {
                     profiler.stop("", "");
                 } catch (Exception e) {
+                    //
                 }
             }
         }
@@ -873,6 +913,7 @@ public abstract class SOSConnection {
                 try {
                     profiler.start(theQuery);
                 } catch (Exception e) {
+                    //
                 }
             }
             pstmt = connection.prepareStatement(theQuery);
@@ -890,12 +931,14 @@ public abstract class SOSConnection {
                 try {
                     pstmt.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (profiler != null) {
                 try {
                     profiler.stop("", "");
                 } catch (Exception e) {
+                    //
                 }
             }
         }
@@ -920,6 +963,7 @@ public abstract class SOSConnection {
                 try {
                     profiler.start(query);
                 } catch (Exception e) {
+                    //
                 }
             }
             stmt = connection.createStatement();
@@ -951,6 +995,7 @@ public abstract class SOSConnection {
                 try {
                     profiler.stop("ERROR", e.getMessage());
                 } catch (Exception ex) {
+                    //
                 }
             }
             throw new Exception(SOSClassUtil.getMethodName() + ":" + e.getMessage(), e);
@@ -959,18 +1004,21 @@ public abstract class SOSConnection {
                 try {
                     stmt.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (in != null) {
                 try {
                     in.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (profiler != null) {
                 try {
                     profiler.stop("", "");
                 } catch (Exception e) {
+                    //
                 }
             }
         }
@@ -1026,29 +1074,34 @@ public abstract class SOSConnection {
             try {
                 out.flush();
             } catch (Exception e) {
+                //
             }
             if (out != null) {
                 try {
                     out.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (stmt != null) {
                 try {
                     stmt.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (in != null) {
                 try {
                     in.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (profiler != null) {
                 try {
                     profiler.stop("", "");
                 } catch (Exception e) {
+                    //
                 }
             }
         }
@@ -1097,6 +1150,7 @@ public abstract class SOSConnection {
                 try {
                     profiler.start(theQuery);
                 } catch (Exception e) {
+                    //
                 }
             }
             pstmt = connection.prepareStatement(theQuery);
@@ -1110,6 +1164,7 @@ public abstract class SOSConnection {
                 try {
                     profiler.stop("ERROR", e.getMessage());
                 } catch (Exception ex) {
+                    //
                 }
             }
             throw new Exception(SOSClassUtil.getMethodName() + ":" + e.getMessage(), e);
@@ -1118,18 +1173,21 @@ public abstract class SOSConnection {
                 try {
                     pstmt.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (profiler != null) {
                 try {
                     profiler.stop("", "");
                 } catch (Exception e) {
+                    //
                 }
             }
             if (in != null) {
                 try {
                     in.close();
                 } catch (Exception e) {
+                    //
                 }
             }
         }
@@ -1193,6 +1251,7 @@ public abstract class SOSConnection {
                 try {
                     profiler.stop("ERROR", e.getMessage());
                 } catch (Exception ex) {
+                    //
                 }
             }
             if (connection != null) {
@@ -1204,18 +1263,21 @@ public abstract class SOSConnection {
                 try {
                     pstmt.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (in != null) {
                 try {
                     in.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (profiler != null) {
                 try {
                     profiler.stop("", "");
                 } catch (Exception e) {
+                    //
                 }
             }
         }
@@ -1241,6 +1303,7 @@ public abstract class SOSConnection {
                 try {
                     profiler.start(query);
                 } catch (Exception e) {
+                    //
                 }
             }
             stmt = connection.createStatement();
@@ -1270,6 +1333,7 @@ public abstract class SOSConnection {
                 try {
                     profiler.stop("ERROR", e.getMessage());
                 } catch (Exception ex) {
+                    //
                 }
             }
             throw new Exception(SOSClassUtil.getMethodName() + ": " + e.getMessage(), e);
@@ -1278,24 +1342,28 @@ public abstract class SOSConnection {
                 try {
                     out.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (in != null) {
                 try {
                     in.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (stmt != null) {
                 try {
                     stmt.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (profiler != null) {
                 try {
                     profiler.stop("", "");
                 } catch (Exception e) {
+                    //
                 }
             }
         }
@@ -1318,6 +1386,7 @@ public abstract class SOSConnection {
                 try {
                     profiler.start(query);
                 } catch (Exception e) {
+                    //
                 }
             }
             stmt = connection.createStatement();
@@ -1335,6 +1404,7 @@ public abstract class SOSConnection {
                 try {
                     profiler.stop("ERROR", e.getMessage());
                 } catch (Exception ex) {
+                    //
                 }
             }
             throw new Exception(SOSClassUtil.getMethodName() + ":" + e.getMessage(), e);
@@ -1343,18 +1413,21 @@ public abstract class SOSConnection {
                 try {
                     stmt.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (rs != null) {
                 try {
                     rs.close();
                 } catch (Exception e) {
+                    //
                 }
             }
             if (profiler != null) {
                 try {
                     profiler.stop("", "");
                 } catch (Exception e) {
+                    //
                 }
             }
         }
@@ -1382,6 +1455,7 @@ public abstract class SOSConnection {
                 try {
                     profiler.start(query);
                 } catch (Exception e) {
+                    //
                 }
             }
             if (statement != null) {
@@ -1402,6 +1476,7 @@ public abstract class SOSConnection {
                 try {
                     profiler.stop("", "");
                 } catch (Exception e) {
+                    //
                 }
             }
         } catch (Exception e) {
@@ -1416,6 +1491,7 @@ public abstract class SOSConnection {
                 try {
                     profiler.stop("ERROR", e.getMessage());
                 } catch (Exception ex) {
+                    //
                 }
             }
             throw new Exception(SOSClassUtil.getMethodName() + ":" + e.getMessage(), e);
@@ -1463,9 +1539,11 @@ public abstract class SOSConnection {
                     try {
                         profiler.stop("", "");
                     } catch (Exception e) {
+                        //
                     }
                 }
             } catch (Exception e) {
+                //
             }
         } catch (Exception e) {
             try {
@@ -1473,9 +1551,11 @@ public abstract class SOSConnection {
                     try {
                         profiler.stop("ERROR", e.getMessage());
                     } catch (Exception ex) {
+                        //
                     }
                 }
             } catch (Exception ex) {
+                //
             }
             throw new Exception(SOSClassUtil.getMethodName() + ":" + e.getMessage(), e);
         } finally {
@@ -1488,9 +1568,11 @@ public abstract class SOSConnection {
                     try {
                         profiler.stop("", "");
                     } catch (Exception e) {
+                        //
                     }
                 }
             } catch (Exception e) {
+                //
             }
         }
         return rowCount;
@@ -1516,6 +1598,7 @@ public abstract class SOSConnection {
                 try {
                     profiler.stop("", "");
                 } catch (Exception e) {
+                    //
                 }
             }
         } catch (Exception e) {
@@ -1523,6 +1606,7 @@ public abstract class SOSConnection {
                 try {
                     profiler.stop("ERROR", e.getMessage());
                 } catch (Exception ex) {
+                    //
                 }
             }
             throw new Exception(SOSClassUtil.getMethodName() + ":" + e.getMessage(), e);
@@ -1582,6 +1666,7 @@ public abstract class SOSConnection {
                 try {
                     profiler.start("");
                 } catch (Exception e) {
+                    //
                 }
             }
             if (resultSet.next()) {
@@ -1608,6 +1693,7 @@ public abstract class SOSConnection {
                 try {
                     profiler.stop("ERROR", e.getMessage());
                 } catch (Exception ex) {
+                    //
                 }
             }
             throw e;
@@ -1616,6 +1702,7 @@ public abstract class SOSConnection {
             try {
                 profiler.stop("", "");
             } catch (Exception e) {
+                //
             }
         }
         return record;
@@ -1755,6 +1842,7 @@ public abstract class SOSConnection {
             try {
                 logger.debug6(SOSClassUtil.getMethodName() + ": successfully disconnected.");
             } catch (Exception e) {
+                //
             }
         }
     }
@@ -1895,15 +1983,15 @@ public abstract class SOSConnection {
         count += 1;
         StringBuffer sub;
         int semicolon = -1;
-        int apostrophe_first = -1;
+        int apostropheFirst = -1;
         if (position == null) {
             semicolon = st.indexOf(";");
-            apostrophe_first = st.indexOf("'");
+            apostropheFirst = st.indexOf("'");
         } else {
             semicolon = st.indexOf(";", position.intValue());
-            apostrophe_first = st.indexOf("'", position.intValue());
+            apostropheFirst = st.indexOf("'", position.intValue());
         }
-        if (apostrophe_first > semicolon || apostrophe_first == -1) {
+        if (apostropheFirst > semicolon || apostropheFirst == -1) {
             String value = "";
             if (semicolon == -1) {
                 value = st.toString().trim();
@@ -1931,11 +2019,11 @@ public abstract class SOSConnection {
                 }
             }
         } else {
-            int apostrophe_second = st.indexOf("'", apostrophe_first + 1);
-            if (apostrophe_second != -1) {
-                this.splitStatements(statements, st, new Integer(apostrophe_second + 1), procedurEnd, returnProcedureBegin, count);
+            int apostropheSecond = st.indexOf("'", apostropheFirst + 1);
+            if (apostropheSecond != -1) {
+                this.splitStatements(statements, st, new Integer(apostropheSecond + 1), procedurEnd, returnProcedureBegin, count);
             } else {
-                throw new Exception("Schliessende Hochkomma nicht gefunden !!!!!!!!!!!!!!!! = " + apostrophe_first + " = " + st);
+                throw new Exception("Schliessende Hochkomma nicht gefunden !!!!!!!!!!!!!!!! = " + apostropheFirst + " = " + st);
             }
         }
     }
@@ -2085,7 +2173,8 @@ public abstract class SOSConnection {
                     }
                     this.executeUpdate("ROLLBACK");
                 } else if (sqlToLower.startsWith("select")
-                        || (sqlToLower.startsWith("exec") && (this.execReturnsResultSet || sqlToLower.contains(EXEC_COMMENT_RETURN_RESULTSET.toLowerCase())))) {
+                        || (sqlToLower.startsWith("exec") && (this.execReturnsResultSet || sqlToLower.contains(EXEC_COMMENT_RETURN_RESULTSET
+                                .toLowerCase())))) {
                     if (countAddBatches > 0) {
                         logger.debug3(String.format("%s: call executeBatch - %s batches", methodName, countAddBatches));
                         st.executeBatch();
@@ -2104,12 +2193,14 @@ public abstract class SOSConnection {
                                 this.resultSet.close();
                             }
                         } catch (Exception e) {
+                            //
                         }
                         try {
                             if (this.statement != null) {
                                 this.statement.close();
                             }
                         } catch (Exception e) {
+                            //
                         }
                         throw ex;
                     }
@@ -2133,6 +2224,7 @@ public abstract class SOSConnection {
                 try {
                     this.executeUpdate("ROLLBACK");
                 } catch (Exception e) {
+                    //
                 }
             }
             if (ex instanceof SQLException) {
@@ -2149,6 +2241,7 @@ public abstract class SOSConnection {
             try {
                 st.close();
             } catch (Exception ex) {
+                //
             }
         }
 
@@ -2184,7 +2277,8 @@ public abstract class SOSConnection {
                         String statement = statements.get(i).toString().trim();
                         String sqlToLower = statement.toLowerCase();
                         if (sqlToLower.startsWith("select")
-                                || (sqlToLower.startsWith("exec") && (this.execReturnsResultSet || sqlToLower.contains(EXEC_COMMENT_RETURN_RESULTSET.toLowerCase())))) {
+                                || (sqlToLower.startsWith("exec") && (this.execReturnsResultSet || sqlToLower.contains(EXEC_COMMENT_RETURN_RESULTSET
+                                        .toLowerCase())))) {
                             if (hasOpenResultSet) {
                                 this.closeQuery();
                                 hasOpenResultSet = false;
@@ -2202,8 +2296,8 @@ public abstract class SOSConnection {
         }
     }
 
-    public void setProfiler(final SOSProfiler profiler_) {
-        profiler = profiler_;
+    public void setProfiler(final SOSProfiler profiler) {
+        this.profiler = profiler;
     }
 
     public void setFieldNameToUpperCase(final boolean value) {

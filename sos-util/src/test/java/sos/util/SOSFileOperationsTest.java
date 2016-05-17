@@ -15,7 +15,6 @@ import static org.junit.Assert.assertEquals;
 public class SOSFileOperationsTest {
 
     private static final Logger LOGGER = Logger.getLogger(SOSFileOperationsTest.class);
-    private final String conClassName = "SOSFileOperationsTest";
     private String strReplaceWhat = "";
     private String strReplaceWith = "";
     private String strStringToWorkOn = "";
@@ -59,7 +58,7 @@ public class SOSFileOperationsTest {
     }
 
     @Test
-    public void VariableFileNameTest() throws Exception {
+    public void variableFileNameTest() throws Exception {
         doTest("FileName uppercase", ".*", "[filename:uppercase]", "1.txt", "1.TXT");
         doTest("FileName lowercase", ".*", "[filename:lowercase]", "1.txt", "1.txt");
     }
@@ -71,7 +70,7 @@ public class SOSFileOperationsTest {
     }
 
     @Test
-    public void ResultListTest() throws Exception {
+    public void resultListTest() throws Exception {
         String file = "c:/temp";
         String fileSpec = "^.*\\.kb$";
         String minFileAge = "0";

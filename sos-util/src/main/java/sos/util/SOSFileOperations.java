@@ -88,9 +88,9 @@ public class SOSFileOperations {
 
     public static boolean canWrite(File file, String fileSpec, int fileSpecFlags, SOSLogger logger) throws Exception {
         try {
-            log_debug1("arguments for canWrite:", logger);
-            log_debug1("argument file=" + file.toString(), logger);
-            log_debug1("argument fileSpec=" + fileSpec, logger);
+            logDebug1("arguments for canWrite:", logger);
+            logDebug1("argument file=" + file.toString(), logger);
+            logDebug1("argument fileSpec=" + fileSpec, logger);
             String msg = "";
             if (has(fileSpecFlags, Pattern.CANON_EQ)) {
                 msg += "CANON_EQ";
@@ -113,7 +113,7 @@ public class SOSFileOperations {
             if (has(fileSpecFlags, Pattern.UNIX_LINES)) {
                 msg += "UNIX_LINES";
             }
-            log_debug1("argument fileSpecFlags=" + msg, logger);
+            logDebug1("argument fileSpecFlags=" + msg, logger);
             String filename = file.getPath();
             filename = substituteAllDate(filename);
             Matcher m = Pattern.compile("\\[[^]]*\\]").matcher(filename);
@@ -132,6 +132,7 @@ public class SOSFileOperations {
                         new RandomAccessFile(file.getAbsolutePath(), "rw");
                         writable = true;
                     } catch (Exception e) {
+                        //
                     }
                     if (!writable) {
                         log("file " + file.getCanonicalPath() + ": cannot be written ", logger);
@@ -159,6 +160,7 @@ public class SOSFileOperations {
                                 new RandomAccessFile(file.getAbsolutePath(), "rw");
                                 writable = true;
                             } catch (Exception e) {
+                                //
                             }
                             if (!writable) {
                                 log("file " + checkFile.getCanonicalPath() + ": cannot be written ", logger);
@@ -228,9 +230,9 @@ public class SOSFileOperations {
         long minSize = -1;
         long maxSize = -1;
         try {
-            log_debug1("arguments for existsFile:", logger);
-            log_debug1("argument file=" + file.toString(), logger);
-            log_debug1("argument fileSpec=" + fileSpec, logger);
+            logDebug1("arguments for existsFile:", logger);
+            logDebug1("argument file=" + file.toString(), logger);
+            logDebug1("argument fileSpec=" + fileSpec, logger);
             String msg = "";
             if (has(fileSpecFlags, Pattern.CANON_EQ)) {
                 msg += "CANON_EQ";
@@ -253,19 +255,19 @@ public class SOSFileOperations {
             if (has(fileSpecFlags, Pattern.UNIX_LINES)) {
                 msg += "UNIX_LINES";
             }
-            log_debug1("argument fileSpecFlags=" + msg, logger);
-            log_debug1("argument minFileAge=" + minFileAge, logger);
-            log_debug1("argument maxFileAge=" + maxFileAge, logger);
+            logDebug1("argument fileSpecFlags=" + msg, logger);
+            logDebug1("argument minFileAge=" + minFileAge, logger);
+            logDebug1("argument maxFileAge=" + maxFileAge, logger);
             minAge = calculateFileAge(minFileAge);
             maxAge = calculateFileAge(maxFileAge);
-            log_debug1("argument minFileSize=" + minFileSize, logger);
-            log_debug1("argument maxFileSize=" + maxFileSize, logger);
+            logDebug1("argument minFileSize=" + minFileSize, logger);
+            logDebug1("argument maxFileSize=" + maxFileSize, logger);
             minSize = calculateFileSize(minFileSize);
             maxSize = calculateFileSize(maxFileSize);
-            log_debug1("argument skipFirstFiles=" + skipFirstFiles, logger);
-            log_debug1("argument skipLastFiles=" + skipLastFiles, logger);
-            log_debug1("argument minNumOfFiles=" + minNumOfFiles, logger);
-            log_debug1("argument maxNumOfFiles=" + maxNumOfFiles, logger);
+            logDebug1("argument skipFirstFiles=" + skipFirstFiles, logger);
+            logDebug1("argument skipLastFiles=" + skipLastFiles, logger);
+            logDebug1("argument minNumOfFiles=" + minNumOfFiles, logger);
+            logDebug1("argument maxNumOfFiles=" + maxNumOfFiles, logger);
             if (skipFirstFiles < 0) {
                 throw new Exception("[" + skipFirstFiles + "] is no valid value for skipFirstFiles");
             }
@@ -393,7 +395,7 @@ public class SOSFileOperations {
             String minFileSize, String maxFileSize, int skipFirstFiles, int skipLastFiles, SOSLogger logger) throws Exception {
         boolean gracious;
         boolean recursive;
-        boolean remove_dir;
+        boolean removeDir;
         boolean wipe;
         int nrOfRemovedFiles = 0;
         int nrOfRemovedDirectories = 0;
@@ -405,10 +407,10 @@ public class SOSFileOperations {
             recursive = has(flags, SOSFileOperations.RECURSIVE);
             gracious = has(flags, SOSFileOperations.GRACIOUS);
             wipe = has(flags, SOSFileOperations.WIPE);
-            remove_dir = has(flags, SOSFileOperations.REMOVE_DIR);
-            log_debug1("arguments for removeFile:", logger);
-            log_debug1("argument file=" + file, logger);
-            log_debug1("argument fileSpec=" + fileSpec, logger);
+            removeDir = has(flags, SOSFileOperations.REMOVE_DIR);
+            logDebug1("arguments for removeFile:", logger);
+            logDebug1("argument file=" + file, logger);
+            logDebug1("argument fileSpec=" + fileSpec, logger);
             String msg = "";
             if (has(flags, SOSFileOperations.GRACIOUS)) {
                 msg += "GRACIOUS ";
@@ -422,7 +424,7 @@ public class SOSFileOperations {
             if (has(flags, SOSFileOperations.WIPE)) {
                 msg += "WIPE ";
             }
-            log_debug1("argument flags=" + msg, logger);
+            logDebug1("argument flags=" + msg, logger);
             msg = "";
             if (has(fileSpecFlags, Pattern.CANON_EQ)) {
                 msg += "CANON_EQ ";
@@ -445,17 +447,17 @@ public class SOSFileOperations {
             if (has(fileSpecFlags, Pattern.UNIX_LINES)) {
                 msg += "UNIX_LINES ";
             }
-            log_debug1("argument fileSpecFlags=" + msg, logger);
-            log_debug1("argument minFileAge=" + minFileAge, logger);
-            log_debug1("argument maxFileAge=" + maxFileAge, logger);
+            logDebug1("argument fileSpecFlags=" + msg, logger);
+            logDebug1("argument minFileAge=" + minFileAge, logger);
+            logDebug1("argument maxFileAge=" + maxFileAge, logger);
             minAge = calculateFileAge(minFileAge);
             maxAge = calculateFileAge(maxFileAge);
-            log_debug1("argument minFileSize=" + minFileSize, logger);
-            log_debug1("argument maxFileSize=" + maxFileSize, logger);
+            logDebug1("argument minFileSize=" + minFileSize, logger);
+            logDebug1("argument maxFileSize=" + maxFileSize, logger);
             minSize = calculateFileSize(minFileSize);
             maxSize = calculateFileSize(maxFileSize);
-            log_debug1("argument skipFirstFiles=" + skipFirstFiles, logger);
-            log_debug1("argument skipLastFiles=" + skipLastFiles, logger);
+            logDebug1("argument skipFirstFiles=" + skipFirstFiles, logger);
+            logDebug1("argument skipLastFiles=" + skipLastFiles, logger);
             if (skipFirstFiles < 0) {
                 throw new Exception("[" + skipFirstFiles + "] is no valid value for skipFirstFiles");
             }
@@ -509,7 +511,7 @@ public class SOSFileOperations {
                 }
                 nrOfRemovedFiles++;
             }
-            if (remove_dir) {
+            if (removeDir) {
                 int firstSize = SOSFile.getFolderlist(file.getPath(), ".*", 0, recursive).size();
                 if (recursive) {
                     recDeleteEmptyDir(file, fileSpec, fileSpecFlags, logger);
@@ -528,12 +530,12 @@ public class SOSFileOperations {
                                 }
                                 log("remove directory " + f.getPath(), logger);
                             } else {
-                                log_debug3("directory [" + f.getCanonicalPath() + "] cannot be removed because it is not empty", logger);
+                                logDebug3("directory [" + f.getCanonicalPath() + "] cannot be removed because it is not empty", logger);
                                 String lst = f.list()[0];
                                 for (int n = 1; n < f.list().length; n++) {
                                     lst += ", " + f.list()[n];
                                 }
-                                log_debug9("          contained files " + f.list().length + ": " + lst, logger);
+                                logDebug9("          contained files " + f.list().length + ": " + lst, logger);
                             }
                         }
                     }
@@ -541,7 +543,7 @@ public class SOSFileOperations {
                 nrOfRemovedDirectories = firstSize - SOSFile.getFolderlist(file.getPath(), ".*", 0, recursive).size();
             }
             msg = "";
-            if (remove_dir) {
+            if (removeDir) {
                 if (nrOfRemovedDirectories == 1) {
                     msg = " + 1 directory removed";
                 } else {
@@ -581,12 +583,12 @@ public class SOSFileOperations {
                 }
             } else {
                 if (f.isDirectory()) {
-                    log_debug3("directory [" + f.getCanonicalPath() + "] cannot be removed because it is not empty", logger);
+                    logDebug3("directory [" + f.getCanonicalPath() + "] cannot be removed because it is not empty", logger);
                     String lst = f.list()[0];
                     for (int n = 1; n < f.list().length; n++) {
                         lst += ", " + f.list()[n];
                     }
-                    log_debug9("          contained files " + f.list().length + ": " + lst, logger);
+                    logDebug9("          contained files " + f.list().length + ": " + lst, logger);
                 }
             }
         }
@@ -858,7 +860,7 @@ public class SOSFileOperations {
             String minFileAge, String maxFileAge, String minFileSize, String maxFileSize, int skipFirstFiles, int skipLastFiles, String mode,
             SOSLogger logger) throws Exception {
         int nrOfTransferedFiles = 0;
-        boolean create_dir;
+        boolean createDir;
         boolean gracious;
         boolean overwrite;
         boolean replace = false;
@@ -877,19 +879,19 @@ public class SOSFileOperations {
             } else {
                 throw new Exception("unsupported mode: " + mode);
             }
-            create_dir = has(flags, SOSFileOperations.CREATE_DIR);
+            createDir = has(flags, SOSFileOperations.CREATE_DIR);
             gracious = has(flags, SOSFileOperations.GRACIOUS);
             overwrite = !has(flags, SOSFileOperations.NOT_OVERWRITE);
             if (copying) {
-                log_debug1("arguments for copyFile:", logger);
+                logDebug1("arguments for copyFile:", logger);
             } else if (renaming) {
-                log_debug1("arguments for renameFile:", logger);
+                logDebug1("arguments for renameFile:", logger);
             }
-            log_debug1("argument source=" + source.toString(), logger);
+            logDebug1("argument source=" + source.toString(), logger);
             if (target != null) {
-                log_debug1("argument target=" + target.toString(), logger);
+                logDebug1("argument target=" + target.toString(), logger);
             }
-            log_debug1("argument fileSpec=" + fileSpec, logger);
+            logDebug1("argument fileSpec=" + fileSpec, logger);
             String msg = "";
             if (has(flags, SOSFileOperations.CREATE_DIR)) {
                 msg += "CREATE_DIR ";
@@ -906,7 +908,7 @@ public class SOSFileOperations {
             if ("".equals(msg)) {
                 msg = "0";
             }
-            log_debug1("argument flags=" + msg, logger);
+            logDebug1("argument flags=" + msg, logger);
             msg = "";
             if (has(fileSpecFlags, Pattern.CANON_EQ)) {
                 msg += "CANON_EQ ";
@@ -932,19 +934,19 @@ public class SOSFileOperations {
             if ("".equals(msg)) {
                 msg = "0";
             }
-            log_debug1("argument fileSpecFlags=" + msg, logger);
-            log_debug1("argument replacing=" + replacing, logger);
-            log_debug1("argument replacement=" + replacement, logger);
-            log_debug1("argument minFileAge=" + minFileAge, logger);
-            log_debug1("argument maxFileAge=" + maxFileAge, logger);
+            logDebug1("argument fileSpecFlags=" + msg, logger);
+            logDebug1("argument replacing=" + replacing, logger);
+            logDebug1("argument replacement=" + replacement, logger);
+            logDebug1("argument minFileAge=" + minFileAge, logger);
+            logDebug1("argument maxFileAge=" + maxFileAge, logger);
             minAge = calculateFileAge(minFileAge);
             maxAge = calculateFileAge(maxFileAge);
-            log_debug1("argument minFileSize=" + minFileSize, logger);
-            log_debug1("argument maxFileSize=" + maxFileSize, logger);
+            logDebug1("argument minFileSize=" + minFileSize, logger);
+            logDebug1("argument maxFileSize=" + maxFileSize, logger);
             minSize = calculateFileSize(minFileSize);
             maxSize = calculateFileSize(maxFileSize);
-            log_debug1("argument skipFirstFiles=" + skipFirstFiles, logger);
-            log_debug1("argument skipLastFiles=" + skipLastFiles, logger);
+            logDebug1("argument skipFirstFiles=" + skipFirstFiles, logger);
+            logDebug1("argument skipLastFiles=" + skipLastFiles, logger);
             if (skipFirstFiles < 0) {
                 throw new Exception("[" + skipFirstFiles + "] is no valid value for skipFirstFiles");
             }
@@ -993,7 +995,7 @@ public class SOSFileOperations {
                 }
                 target = new File(targetFilename);
             }
-            if (create_dir && target != null && !target.exists()) {
+            if (createDir && target != null && !target.exists()) {
                 if (target.mkdirs()) {
                     log("create target directory " + target.getCanonicalPath(), logger);
                 } else {
@@ -1010,9 +1012,8 @@ public class SOSFileOperations {
                         throw new Exception("target is no directory: " + target.getCanonicalPath());
                     }
                 }
-                list =
-                        getFilelist(source.getPath(), fileSpec, fileSpecFlags, has(flags, SOSFileOperations.RECURSIVE), minAge, maxAge, minSize,
-                                maxSize, skipFirstFiles, skipLastFiles);
+                list = getFilelist(source.getPath(), fileSpec, fileSpecFlags, has(flags, SOSFileOperations.RECURSIVE), minAge, maxAge, minSize,
+                            maxSize, skipFirstFiles, skipLastFiles);
             } else {
                 list = new Vector<File>();
                 list.add(source);
@@ -1513,33 +1514,37 @@ public class SOSFileOperations {
                 logger.info(msg);
             }
         } catch (Exception e) {
+            //
         }
     }
 
-    private static void log_debug1(String msg, SOSLogger logger) {
+    private static void logDebug1(String msg, SOSLogger logger) {
         try {
             if (logger != null) {
                 logger.debug1(msg);
             }
         } catch (Exception e) {
+            //
         }
     }
 
-    private static void log_debug3(String msg, SOSLogger logger) {
+    private static void logDebug3(String msg, SOSLogger logger) {
         try {
             if (logger != null) {
                 logger.debug3(msg);
             }
         } catch (Exception e) {
+            //
         }
     }
 
-    private static void log_debug9(String msg, SOSLogger logger) {
+    private static void logDebug9(String msg, SOSLogger logger) {
         try {
             if (logger != null) {
                 logger.debug9(msg);
             }
         } catch (Exception e) {
+            //
         }
     }
 
@@ -1610,6 +1615,7 @@ public class SOSFileOperations {
             try {
                 logger.warn("Failed to wipe file: " + e);
             } catch (Exception ex) {
+                //
             }
             return false;
         }

@@ -79,6 +79,7 @@ public class SOSConnectionPool {
                 initCtx.close();
             }
         } catch (Exception e) {
+            //
         }
     }
 

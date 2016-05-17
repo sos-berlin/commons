@@ -6,35 +6,12 @@ import java.util.zip.*;
 
 import org.apache.log4j.Logger;
 
-/** Komprimiert Dateien.
- * <p>
- * Title: sos.util.SOSZipCompress.java
- * </p>
- * <p>
- * Description: Diese Klasse hat Drei Methoden. <br>
- * 1. Methode compressFile: archiviert eine Liste von Dateien <br>
- * 2. Methode getCompressFileName: Liefert eine ArrayListe von Namen der
- * Dateien, die archiviert wurde. <br>
- * 3. Methide getCompressFiles: Liefert eine ArrayListe. Ein Eintrag in dieser
- * ArrayListe entspricht einen HashMap. HashMap: key = filename und value =
- * Dateiinhalt in String
- * </p>
- * 
- * <p>
- * Copyright: Copyright (c) 25.08.2004
- * </p>
- * <p>
- * Company: SOS GmbH
- * </p>
- * 
- * @author Mürüvet Öksüz
- * @resource */
+/** @author Mürüvet Öksüz */
 public class SOSZipCompress {
 
     private static final Logger LOGGER = Logger.getLogger(SOSZipCompress.class);
     private SOSString sosString = null;
 
-    /** Konstruktor */
     public SOSZipCompress() throws Exception {
         try {
             sosString = new SOSString();
@@ -43,12 +20,6 @@ public class SOSZipCompress {
         }
     }
 
-    /** Hier wird eine achive Datei generiert. Der Parameter filenames
-     * beiinhaltet alle Dokumentenname, die archiviert werden sollen .
-     * 
-     * @param filenames
-     * @param archivename
-     * @throws Exception */
     public void compressFile(ArrayList filenames, String archivename) throws Exception {
         try {
             FileOutputStream f = new FileOutputStream(archivename);
@@ -57,14 +28,14 @@ public class SOSZipCompress {
             for (int i = 0; i < filenames.size(); i++) {
                 out.putNextEntry(new ZipEntry(new File(sosString.parseToString(filenames.get(i))).getName()));
                 int size = (int) (new File(sosString.parseToString(filenames.get(i))).length());
-                int bytes_read = 0;
+                int bytesRead = 0;
                 byte[] data = null;
                 FileInputStream in = null;
                 try {
                     in = new FileInputStream(sosString.parseToString(filenames.get(i)));
                     data = new byte[size];
-                    while (bytes_read < size) {
-                        bytes_read += in.read(data, bytes_read, size - bytes_read);
+                    while (bytesRead < size) {
+                        bytesRead += in.read(data, bytesRead, size - bytesRead);
                     }
                     out.write(data);
                 } finally {
@@ -74,18 +45,11 @@ public class SOSZipCompress {
                 }
             }
             out.close();
-            // Checksum valid only after the file has been closed!
         } catch (Exception e) {
             throw new Exception("error in " + SOSClassUtil.getMethodName() + " " + e);
         }
     }
 
-    /** Hier wird eine achive Datei generiert. Der Parameter filenames
-     * beiinhaltet alle Dokumentenname, die archiviert werden sollen .
-     * 
-     * @param filenames
-     * @param archivename
-     * @throws Exception */
     public void compressFile(HashMap filenames, String archivename) throws Exception {
         try {
             FileOutputStream f = new FileOutputStream(archivename);
@@ -100,14 +64,14 @@ public class SOSZipCompress {
                 val = sosString.parseToString(values.next());
                 out.putNextEntry(new ZipEntry(new File(sosString.parseToString(val)).getName()));
                 int size = (int) (new File(sosString.parseToString(key)).length());
-                int bytes_read = 0;
+                int bytesRead = 0;
                 byte[] data = null;
                 FileInputStream in = null;
                 try {
                     in = new FileInputStream(sosString.parseToString(key));
                     data = new byte[size];
-                    while (bytes_read < size) {
-                        bytes_read += in.read(data, bytes_read, size - bytes_read);
+                    while (bytesRead < size) {
+                        bytesRead += in.read(data, bytesRead, size - bytesRead);
                     }
                     out.write(data);
                 } finally {
@@ -117,17 +81,11 @@ public class SOSZipCompress {
                 }
             }
             out.close();
-            // Checksum valid only after the file has been closed!
         } catch (Exception e) {
             throw new Exception("error in " + SOSClassUtil.getMethodName() + " " + e);
         }
     }
 
-    /** Liefert alle Dateiname, die im "archivename" gezippt sind.
-     * 
-     * @param archivname
-     * @return
-     * @throws Exception */
     public ArrayList getCompressFileName(String archivname) throws Exception {
         ArrayList retVal = null;
         try {
@@ -137,7 +95,6 @@ public class SOSZipCompress {
             while (e.hasMoreElements()) {
                 ZipEntry ze2 = (ZipEntry) e.nextElement();
                 retVal.add(ze2);
-                // ... and extract the data as before
             }
             return retVal;
         } catch (Exception e) {
@@ -145,12 +102,6 @@ public class SOSZipCompress {
         }
     }
 
-    /** Liefert eine HashTabelle, die im "archivename" gezippt sind. key = Name
-     * des Dokumentes value = Inhalt des Dokumentes
-     * 
-     * @param archivname
-     * @return
-     * @throws Exception */
     public ArrayList getCompressFiles(String archivname) throws Exception {
         ArrayList retVal = null;
         String readingFile = "";
@@ -178,9 +129,6 @@ public class SOSZipCompress {
         }
     }
 
-    /** zum Testen
-     *
-     * @param args */
     public static void main(String[] args) {
         String archname = "C:/temp/2.zip";
         int test = 1;
@@ -239,11 +187,6 @@ public class SOSZipCompress {
         out.close();
     }
 
-    /** Decomprimiert die Archivdatei
-     * 
-     * @param archivname
-     * @return
-     * @throws Exception */
     public ArrayList deCompressFile(String archivname) throws Exception {
         ArrayList retVal = null;
         try {

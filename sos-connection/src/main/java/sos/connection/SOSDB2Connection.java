@@ -94,6 +94,7 @@ public class SOSDB2Connection extends sos.connection.SOSConnection implements Se
                     stmt.close();
                 }
             } catch (Exception e) {
+                //
             }
         }
     }

@@ -135,12 +135,14 @@ public class SOSConnectionFileProcessor {
                         try {
                             br.close();
                         } catch (Exception ex) {
+                            //
                         }
                     }
                     if (fr != null) {
                         try {
                             fr.close();
                         } catch (Exception ex) {
+                            //
                         }
                     }
                 }
@@ -169,6 +171,7 @@ public class SOSConnectionFileProcessor {
                     }
                 }
             } catch (Exception ex) {
+                //
             }
         }
     }

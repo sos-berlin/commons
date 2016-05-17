@@ -8,29 +8,29 @@ import sos.connection.SOSConnection;
 /** @author Mueruevet Oeksuez */
 public class SOSProfiler {
 
-    private static String table_settings = "PROFILER_SETTINGS";
-    private static String table_history = "PROFILER_HISTORY";
-    private static String entry_history_id = "profiler_history.id";
-    private static String entry_history_step = "profiler_history.step";
-    private int history_id;
+    private String tableSettings = "PROFILER_SETTINGS";
+    private String tableHistory = "PROFILER_HISTORY";
+    private String entryHistoryId = "profiler_history.id";
+    private String entryHistoryStep = "profiler_history.step";
+    private String application;
+    private int step;
+    private int session;
+    private String scriptname;
+    private String context;
+    private int historyId;
     private long startTimeStamp;
-    private static String application;
-    private static int step;
-    private static int session;
-    public int scope = 100;
-    private static String scriptname;
-    private static String context;
     private String classname = new String();
     private String methodname = new String();
-    public SOSConnection conn;
     public static boolean profilingAllowed = true;
     public static String profilingDepth = "profiling_depth";
     public static int allowedDepth = 100;
+    public SOSConnection conn;
+    public int scope = 100;
 
-    public SOSProfiler(SOSConnection conn_) {
+    public SOSProfiler(SOSConnection conn) {
         try {
-            conn = conn_;
-            step = getSequence(entry_history_step);
+            this.conn = conn;
+            step = getSequence(entryHistoryStep);
         } catch (Exception e) {
             // ignore all errors
         }
@@ -48,13 +48,13 @@ public class SOSProfiler {
             }
             sqlStatement = sqlStatement.replaceAll("'", "''");
             setStartTimeStamp(System.currentTimeMillis());
-            history_id = this.getSequence(entry_history_id);
+            historyId = this.getSequence(entryHistoryId);
             insStr =
-                    " INSERT INTO " + table_history + " ( " + "  \"ID\" " + ", \"APPLICATION\" " + ", \"SESSION\" " + ", \"STEP\" "
-                            + ", \"CONTEXT\" " + ", \"SCOPE\" " + ", \"CLASS\" " + ", \"FUNCTION\" " + ", \"SCRIPT_NAME\" " + ", \"START_TIME\" "
-                            + ", \"START_TIMESTAMP\" " + ", \"STATEMENT\" " + " ) VALUES ( " + history_id + ", '" + application + "'" + ", "
-                            + session + ", " + step + ", '" + context + "'" + ", " + scope + ", '" + classname + "'" + ", '" + methodname + "'"
-                            + ", '" + scriptname + "'" + ", %now " + ", " + getStartTimeStamp() + ", '" + sqlStatement + "'" + " )";
+                    " INSERT INTO " + tableHistory + " ( " + "  \"ID\" " + ", \"APPLICATION\" " + ", \"SESSION\" " + ", \"STEP\" " + ", \"CONTEXT\" "
+                            + ", \"SCOPE\" " + ", \"CLASS\" " + ", \"FUNCTION\" " + ", \"SCRIPT_NAME\" " + ", \"START_TIME\" "
+                            + ", \"START_TIMESTAMP\" " + ", \"STATEMENT\" " + " ) VALUES ( " + historyId + ", '" + application + "'" + ", " + session
+                            + ", " + step + ", '" + context + "'" + ", " + scope + ", '" + classname + "'" + ", '" + methodname + "'" + ", '"
+                            + scriptname + "'" + ", %now " + ", " + getStartTimeStamp() + ", '" + sqlStatement + "'" + " )";
             profilingAllowed = false;
             conn.execute(insStr);
             conn.commit();
@@ -64,34 +64,34 @@ public class SOSProfiler {
         }
     }
 
-    public void stop(String error_code, String error_text) {
+    public void stop(String errorCode, String errorText) {
         try {
             if (!(profilingAllowed)) {
                 return;
             }
             long endTimeStamp = System.currentTimeMillis();
             int error = 0;
-            if ((error_code != null && !error_code.isEmpty()) || (error_text != null && !error_text.isEmpty())) {
+            if ((errorCode != null && !errorCode.isEmpty()) || (errorText != null && !errorText.isEmpty())) {
                 error = 1;
             }
             String updStr =
-                    "UPDATE " + table_history + " SET \"END_TIME\" = %now, " + " \"END_TIMESTAMP\" = " + endTimeStamp + "," + " \"ELAPSED\" = "
+                    "UPDATE " + tableHistory + " SET \"END_TIME\" = %now, " + " \"END_TIMESTAMP\" = " + endTimeStamp + "," + " \"ELAPSED\" = "
                             + endTimeStamp + " - \"START_TIMESTAMP\"," + " \"ERROR\" = " + error;
-            if (error_code != null) {
-                if (error_code.length() > 50) {
-                    updStr = updStr.concat(", \"ERROR_CODE\" = '" + error_code.substring(0, 50) + "'");
+            if (errorCode != null) {
+                if (errorCode.length() > 50) {
+                    updStr = updStr.concat(", \"ERROR_CODE\" = '" + errorCode.substring(0, 50) + "'");
                 } else {
-                    updStr = updStr.concat(", \"ERROR_CODE\" = '" + error_code + "'");
+                    updStr = updStr.concat(", \"ERROR_CODE\" = '" + errorCode + "'");
                 }
             }
-            if (error_text != null) {
-                if (error_text.length() > 250) {
-                    updStr = updStr.concat(", \"ERROR_TEXT\" = '" + error_text.substring(0, 250) + "'");
+            if (errorText != null) {
+                if (errorText.length() > 250) {
+                    updStr = updStr.concat(", \"ERROR_TEXT\" = '" + errorText.substring(0, 250) + "'");
                 } else {
-                    updStr = updStr.concat(", \"ERROR_TEXT\" = '" + error_text + "'");
+                    updStr = updStr.concat(", \"ERROR_TEXT\" = '" + errorText + "'");
                 }
             }
-            updStr = updStr.concat(" WHERE \"ID\" = " + history_id);
+            updStr = updStr.concat(" WHERE \"ID\" = " + historyId);
             profilingAllowed = false;
             conn.execute(updStr);
             conn.commit();
@@ -101,22 +101,22 @@ public class SOSProfiler {
         }
     }
 
-    public static void setProfilingAllowed(boolean profilingAllowed_) throws Exception {
-        profilingAllowed = profilingAllowed_;
+    public static void setProfilingAllowed(boolean profilingAllowed) throws Exception {
+        SOSProfiler.profilingAllowed = profilingAllowed;
     }
 
     public static boolean isProfilingAllowed() {
         return profilingAllowed;
     }
 
-    public static void setDepthAllowed(int allowedDepth_) {
-        allowedDepth = allowedDepth_;
+    public static void setDepthAllowed(int allowedDepth) {
+        SOSProfiler.allowedDepth = allowedDepth;
     }
 
     private int getSequence(String entry) {
         int retVal = 0;
         try {
-            String updStr = " update " + table_settings + " set \"VALUE\"=\"VALUE\"+1 " + " where \"NAME\"='" + entry + "'";
+            String updStr = " update " + tableSettings + " set \"VALUE\"=\"VALUE\"+1 " + " where \"NAME\"='" + entry + "'";
             profilingAllowed = false;
             conn.execute(updStr);
             conn.commit();
@@ -125,7 +125,7 @@ public class SOSProfiler {
             //
         }
         try {
-            String selStr = " select \"VALUE\" from " + table_settings + " where \"NAME\"='" + entry + "'";
+            String selStr = " select \"VALUE\" from " + tableSettings + " where \"NAME\"='" + entry + "'";
             profilingAllowed = false;
             String singleValue = conn.getSingleValue(selStr);
             profilingAllowed = true;
@@ -140,8 +140,8 @@ public class SOSProfiler {
         return startTimeStamp;
     }
 
-    private void setStartTimeStamp(long startTimeStamp_) {
-        startTimeStamp = startTimeStamp_;
+    private void setStartTimeStamp(long startTimeStamp) {
+        this.startTimeStamp = startTimeStamp;
     }
 
     private void getMethodName() {
@@ -180,52 +180,52 @@ public class SOSProfiler {
         }
     }
 
-    public static void setApplication(String application_) {
-        application = application_;
+    public void setApplication(String application) {
+        this.application = application;
     }
 
-    public static void setSession(int session_) {
-        session = session_;
+    public void setSession(int session) {
+        this.session = session;
     }
 
-    public static void setScriptname(String scriptname_) {
-        scriptname = scriptname_;
+    public void setScriptname(String scriptname) {
+        this.scriptname = scriptname;
     }
 
-    public static void setContext(String context_) {
-        context = context_;
+    public void setContext(String context) {
+        this.context = context;
     }
 
-    public void setName4TableSettings(String tableSettings_) {
-        table_settings = tableSettings_;
+    public void setName4TableSettings(String tableSettings) {
+        this.tableSettings = tableSettings;
     }
 
     public String getName4TableSettings() {
-        return table_settings;
+        return tableSettings;
     }
 
     public void setName4TableHistory(String tableHistory) {
-        table_history = tableHistory;
+        this.tableHistory = tableHistory;
     }
 
     public String getName4TableHistory() {
-        return table_history;
+        return tableHistory;
     }
 
     public void setEntryHistoryId(String historyId) {
-        entry_history_id = historyId;
+        this.entryHistoryId = historyId;
     }
 
     public String getEntryHistoryId() {
-        return entry_history_id;
+        return entryHistoryId;
     }
 
     public void setEntryHistoryStep(String entryHistoryStep) {
-        entry_history_step = entryHistoryStep;
+        this.entryHistoryStep = entryHistoryStep;
     }
 
     public String getEntryHistoryStep() {
-        return entry_history_step;
+        return entryHistoryStep;
     }
 
 }

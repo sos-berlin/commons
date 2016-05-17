@@ -131,19 +131,19 @@ public class SOSOrderedHashtable extends Hashtable {
 
     private class Enumerator implements Enumeration, Iterator {
 
-        int COUNT = mSerialOrder.size();
-        int SERIAL = 0;
+        int count = mSerialOrder.size();
+        int serial = 0;
 
         public boolean hasMoreElements() {
-            return SERIAL < COUNT;
+            return serial < count;
         }
 
         public Object nextElement() {
             synchronized (SOSOrderedHashtable.this) {
-                if ((COUNT == 0) || (SERIAL == COUNT)) {
+                if (count == 0 || serial == count) {
                     throw new NoSuchElementException("OrderedHashtable Enumerator");
                 }
-                return mSerialOrder.elementAt(SERIAL++);
+                return mSerialOrder.elementAt(serial++);
             }
         }
 
@@ -156,8 +156,8 @@ public class SOSOrderedHashtable extends Hashtable {
         }
 
         public void remove() {
+            //
         }
-
     }
 
 }

@@ -28,13 +28,13 @@ public class SOSConfigurationRequiredItem {
     private boolean allowOtherParamsNames = false;
     public static String REQUIRED_DEFAULT_PARAMETERS_FILENAME = "configuration.xml";
 
-    public SOSConfigurationRequiredItem(SOSLogger sosLogger_) throws Exception {
-        this.sosLogger = sosLogger_;
+    public SOSConfigurationRequiredItem(SOSLogger sosLogger) throws Exception {
+        this.sosLogger = sosLogger;
         init();
     }
 
-    public SOSConfigurationRequiredItem(String filename, SOSLogger sosLogger_) throws Exception {
-        this.sosLogger = sosLogger_;
+    public SOSConfigurationRequiredItem(String filename, SOSLogger sosLogger) throws Exception {
+        this.sosLogger = sosLogger;
         REQUIRED_DEFAULT_PARAMETERS_FILENAME = filename;
         init();
     }

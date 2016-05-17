@@ -12,18 +12,9 @@ package com.sos.CredentialStore.KeePass.pl.sind.keepass.kdb.v2;
 
 import java.io.InputStream;
 
-import org.apache.log4j.Logger;
-
 import com.sos.CredentialStore.KeePass.pl.sind.keepass.kdb.KeePassDataBase;
 
 public class KeePassDataBaseV2 implements KeePassDataBase {
-
-    @SuppressWarnings("unused")
-    private final String conClassName = this.getClass().getSimpleName();
-    @SuppressWarnings("unused")
-    private static final String conSVNVersion = "$Id$";
-    @SuppressWarnings("unused")
-    private final Logger logger = Logger.getLogger(this.getClass());
 
     public KeePassDataBaseV2(final byte[] data, final InputStream keyFile, final String password) {
         super();
@@ -32,9 +23,11 @@ public class KeePassDataBaseV2 implements KeePassDataBase {
 
     @Override
     public void setKeyFile(final InputStream keyFile) {
+        //
     }
 
     @Override
     public void setPassword(final String password) {
+        //
     }
 }

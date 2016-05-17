@@ -25,14 +25,16 @@ public class TestSOSXMLXPath {
                     + "http://localhost:4444/servingxml_xml2flat_service"
                     + "</wsa:To><wsa:ReplyTo xmlns:wsa='http://schemas.xmlsoap.org/ws/2004/08/addressing'><wsa:Address>"
                     + "http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous</wsa:Address></wsa:ReplyTo></soapenv:Header><soapenv:Body>"
-                    + "<addOrder xmlns='http://www.sos-berlin.com/scheduler'><title>ServingXML Order</title><param><name>service</name><value>bookReviews</value></param>"
-                    + "<param><name>resources</name><value>"
+                    + "<addOrder xmlns='http://www.sos-berlin.com/scheduler'><title>ServingXML Order</title><param><name>service</name>"
+                    + "<value>bookReviews</value></param><param><name>resources</name><value>"
                     + "http://localhost:4444/servingxml/resources/servingxml_xml2flat/bookReviews.xml"
-                    + "</value></param><param><name>extension</name><value>.txt</value></param><xml_payload><myns:books xmlns:myns='http://www.mydomain.com/MyNamespace'>"
-                    + "<myns:book id='002' categoryCode='F'><myns:title>Kafka on the Shore</myns:title><myns:author>Haruki Murakami</myns:author><myns:price>25.17"
-                    + "</myns:price><myns:reviews><myns:review><myns:reviewer>Curley</myns:reviewer><myns:rating>*****</myns:rating></myns:review><myns:review><myns:reviewer>"
-                    + "Larry</myns:reviewer><myns:rating>***</myns:rating></myns:review><myns:review><myns:reviewer>Moe</myns:reviewer><myns:rating>*</myns:rating>"
-                    + "</myns:review></myns:reviews></myns:book></myns:books></xml_payload></addOrder></soapenv:Body></soapenv:Envelope>";
+                    + "</value></param><param><name>extension</name><value>.txt</value></param><xml_payload>"
+                    + "<myns:books xmlns:myns='http://www.mydomain.com/MyNamespace'><myns:book id='002' categoryCode='F'>"
+                    + "<myns:title>Kafka on the Shore</myns:title><myns:author>Haruki Murakami</myns:author><myns:price>25.17</myns:price>"
+                    + "<myns:reviews><myns:review><myns:reviewer>Curley</myns:reviewer><myns:rating>*****</myns:rating></myns:review>"
+                    + "<myns:review><myns:reviewer>Larry</myns:reviewer><myns:rating>***</myns:rating></myns:review><myns:review>"
+                    + "<myns:reviewer>Moe</myns:reviewer><myns:rating>*</myns:rating></myns:review></myns:reviews></myns:book></myns:books>"
+                    + "</xml_payload></addOrder></soapenv:Body></soapenv:Envelope>";
 
     @Test
     private void testXml() {
@@ -49,14 +51,13 @@ public class TestSOSXMLXPath {
             StringWriter out = new StringWriter();
             XMLSerializer serializer = new XMLSerializer(out, new OutputFormat(xDoc));
             serializer.serialize(xDoc);
-            String result = out.toString();
             SOSXMLXPath xpath = new SOSXMLXPath(new StringBuffer("<spooler><answer><ERROR code=\"4711\" text=\"ein Fehler\"/></answer></spooler>"));
             String astring = xpath.selectSingleNodeValue("//ERROR/@code");
             String bstring = xpath.selectSingleNodeValue("//ERROR/@text");
             LOGGER.info("code: " + astring + " text: " + bstring);
-            SOSXMLXPath xpath_mo = new SOSXMLXPath("J:/E/java/mo/sos.xml/src/sos/xml/parser/spooler.xml");
+            SOSXMLXPath xpathMo = new SOSXMLXPath("J:/E/java/mo/sos.xml/src/sos/xml/parser/spooler.xml");
             NodeList n2 =
-                    xpath_mo.selectNodeList(xpath_mo.getDocument().getElementsByTagName("*").item(0),
+                    xpathMo.selectNodeList(xpathMo.getDocument().getElementsByTagName("*").item(0),
                             "//spooler//answer//state//remote_schedulers//remote_scheduler");
             for (int i = 0; i < nl.getLength(); i++) {
                 Node n = n2.item(i);
@@ -74,8 +75,8 @@ public class TestSOSXMLXPath {
     @Test
     private void test2Xml() {
         try {
-            SOSXMLXPath xpath_Xinclude = new SOSXMLXPath(new FileInputStream("C:/temp/a.xml"), true);
-            NodeList nl = xpath_Xinclude.selectNodeList(xpath_Xinclude.getDocument().getElementsByTagName("*").item(0), "//test");
+            SOSXMLXPath xpathXinclude = new SOSXMLXPath(new FileInputStream("C:/temp/a.xml"), true);
+            NodeList nl = xpathXinclude.selectNodeList(xpathXinclude.getDocument().getElementsByTagName("*").item(0), "//test");
             LOGGER.info(nl.getLength());
             for (int i = 0; i < nl.getLength(); i++) {
                 Node n = nl.item(i);
@@ -89,4 +90,5 @@ public class TestSOSXMLXPath {
             LOGGER.error(e.getMessage(), e);
         }
     }
+
 }

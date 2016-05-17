@@ -112,6 +112,7 @@ public class SOSFile {
         File[] files = f.listFiles(new SOSFilelistFilter(regexp, flag));
         for (File file : files) {
             if (file.isDirectory()) {
+                //
             } else if (file.isFile()) {
                 filelist.add(file);
             }
@@ -180,15 +181,15 @@ public class SOSFile {
 
     public static String readFile(final File source) throws Exception {
         int size = (int) source.length();
-        int bytes_read = 0;
+        int bytesRead = 0;
         byte[] data = null;
         FileInputStream in = null;
         String retsVal = "";
         try {
             in = new FileInputStream(source);
             data = new byte[size];
-            while (bytes_read < size) {
-                bytes_read += in.read(data, bytes_read, size - bytes_read);
+            while (bytesRead < size) {
+                bytesRead += in.read(data, bytesRead, size - bytesRead);
             }
             retsVal = retsVal + new String(data);
             return retsVal;

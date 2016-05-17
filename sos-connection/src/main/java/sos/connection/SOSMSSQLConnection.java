@@ -116,9 +116,9 @@ public class SOSMSSQLConnection extends sos.connection.SOSConnection {
     public void prepare(Connection connection) throws Exception {
         logger.debug6("calling " + SOSClassUtil.getMethodName());
         Statement stmt = null;
-        String ISO_DATE_FORMAT = "set DATEFORMAT ymd";
-        String DEFAULT_LANGUAGE = "set LANGUAGE British";
-        String LOCK_TIMEOUT = "set LOCK_TIMEOUT " + getLockTimeout();
+        String isoDateFormat = "set DATEFORMAT ymd";
+        String defaultLanguage = "set LANGUAGE British";
+        String lockTimeout = "set LOCK_TIMEOUT " + getLockTimeout();
         try {
             if (connection == null) {
                 throw new Exception("can't connect to database");
@@ -126,10 +126,10 @@ public class SOSMSSQLConnection extends sos.connection.SOSConnection {
             connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
             connection.setAutoCommit(false);
             stmt = connection.createStatement();
-            stmt.execute(ISO_DATE_FORMAT + ";" + DEFAULT_LANGUAGE + ";" + LOCK_TIMEOUT);
-            logger.debug9(".. " + DEFAULT_LANGUAGE + " successfully set.");
-            logger.debug9(".. " + ISO_DATE_FORMAT + " successfully set.");
-            logger.debug9(".. " + LOCK_TIMEOUT + " successfully set.");
+            stmt.execute(isoDateFormat + ";" + defaultLanguage + ";" + lockTimeout);
+            logger.debug9(".. " + defaultLanguage + " successfully set.");
+            logger.debug9(".. " + isoDateFormat + " successfully set.");
+            logger.debug9(".. " + lockTimeout + " successfully set.");
             connection.rollback();
         } catch (Exception e) {
             throw new Exception(SOSClassUtil.getMethodName() + ": " + e.toString(), e);
@@ -139,6 +139,7 @@ public class SOSMSSQLConnection extends sos.connection.SOSConnection {
                     stmt.close();
                 }
             } catch (Exception e) {
+                //
             }
         }
     }

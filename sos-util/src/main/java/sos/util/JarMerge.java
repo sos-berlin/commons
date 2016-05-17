@@ -489,6 +489,7 @@ public class JarMerge {
             try {
                 manifest = new Manifest(new FileInputStream(file));
             } catch (FileNotFoundException nfx) {
+                //
             } catch (IOException iox) {
                 throw new IOException(identity + "readManifestFile: " + file.getCanonicalPath() + ": " + iox.getMessage(), iox);
             }
@@ -608,10 +609,10 @@ public class JarMerge {
         if (tobeJared.length == 0) {
             throw new Exception("no files to archive");
         }
-        int BUFFER_SIZE = 10240;
+        int bufferSize = 10240;
         String path;
         try {
-            byte buffer[] = new byte[BUFFER_SIZE];
+            byte buffer[] = new byte[bufferSize];
             FileOutputStream stream = new FileOutputStream(jarFile);
             Manifest manifest = readManifestFile(manifestFile);
             if (manifest != null) {
@@ -621,8 +622,8 @@ public class JarMerge {
                 this.logln("\n create new manifest");
                 StringBuilder sb = new StringBuilder();
                 sb.append("Manifest-Version: 1.0\n");
-                sb.append("Created-By: ").append(System.getProperty("java.vm.version")).append(" (").append(System.getProperty("java.vm.vendor")).append(
-                        ")\n");
+                sb.append("Created-By: ").append(System.getProperty("java.vm.version")).append(" (").append(System.getProperty("java.vm.vendor"))
+                    .append(")\n");
                 sb.append("\n");
                 InputStream is = new ByteArrayInputStream(sb.toString().getBytes("UTF-8"));
                 manifest = new Manifest(is);

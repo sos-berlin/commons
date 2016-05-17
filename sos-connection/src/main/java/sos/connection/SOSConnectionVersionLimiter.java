@@ -200,6 +200,7 @@ public class SOSConnectionVersionLimiter {
                     log.info("Error occured checking database version: " + e);
                 }
             } catch (Exception ex) {
+                //
             }
         }
         if (excluded) {

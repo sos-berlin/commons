@@ -46,7 +46,7 @@ public class SOSCredentialStoreImpl extends JSToolBox {
         return objCredentialStoreOptions;
     }
 
-    public SOSCredentialStoreOptions Options() {
+    public SOSCredentialStoreOptions getOptions() {
         if (objCredentialStoreOptions == null) {
             objCredentialStoreOptions = new SOSCredentialStoreOptions();
         }
@@ -54,19 +54,19 @@ public class SOSCredentialStoreImpl extends JSToolBox {
     }
 
     public void checkCredentialStoreOptions() {
-        if (Options().use_credential_Store.isTrue()) {
+        if (getOptions().useCredentialStore.isTrue()) {
             LOGGER.trace("entering checkCredentialStoreOptions ");
-            objCredentialStoreOptions.CredentialStore_FileName.CheckMandatory(true);
-            objCredentialStoreOptions.CredentialStore_KeyPath.CheckMandatory(true);
+            objCredentialStoreOptions.credentialStoreFileName.CheckMandatory(true);
+            objCredentialStoreOptions.credentialStoreKeyPath.CheckMandatory(true);
             String strPassword = null;
             File fleKeyFile = null;
-            if (objCredentialStoreOptions.CredentialStore_KeyFileName.isDirty()) {
-                fleKeyFile = new File(objCredentialStoreOptions.CredentialStore_KeyFileName.Value());
+            if (objCredentialStoreOptions.credentialStoreKeyFileName.isDirty()) {
+                fleKeyFile = new File(objCredentialStoreOptions.credentialStoreKeyFileName.Value());
             }
-            if (objCredentialStoreOptions.CredentialStore_password.isDirty()) {
-                strPassword = objCredentialStoreOptions.CredentialStore_password.Value();
+            if (objCredentialStoreOptions.credentialStorePassword.isDirty()) {
+                strPassword = objCredentialStoreOptions.credentialStorePassword.Value();
             }
-            File fleKeePassDataBase = new File(objCredentialStoreOptions.CredentialStore_FileName.Value());
+            File fleKeePassDataBase = new File(objCredentialStoreOptions.credentialStoreFileName.Value());
             try {
                 keePassDb = KeePassDataBaseManager.openDataBase(fleKeePassDataBase, fleKeyFile, strPassword);
             } catch (Exception e) {
@@ -74,7 +74,7 @@ public class SOSCredentialStoreImpl extends JSToolBox {
                 throw new JobSchedulerException(e);
             }
             kdb1 = (KeePassDataBaseV1) keePassDb;
-            Entry objEntry = kdb1.getEntry(objCredentialStoreOptions.CredentialStore_KeyPath.Value());
+            Entry objEntry = kdb1.getEntry(objCredentialStoreOptions.credentialStoreKeyPath.Value());
             if (objEntry == null) {
                 throw new CredentialStoreKeyNotFound(objCredentialStoreOptions);
             }
@@ -135,14 +135,14 @@ public class SOSCredentialStoreImpl extends JSToolBox {
             if (objOptionsBridge.getHost().isNotDirty()) {
                 objOptionsBridge.getHost().Value(objEntry.getUrl().toString());
             }
-            if (objCredentialStoreOptions.CredentialStore_ExportAttachment.isTrue()) {
-                File fleO = objEntry.saveAttachmentAsFile(objCredentialStoreOptions.CredentialStore_ExportAttachment2FileName.Value());
-                if (objCredentialStoreOptions.CredentialStore_DeleteExportedFileOnExit.isTrue()) {
+            if (objCredentialStoreOptions.credentialStoreExportAttachment.isTrue()) {
+                File fleO = objEntry.saveAttachmentAsFile(objCredentialStoreOptions.credentialStoreExportAttachment2FileName.Value());
+                if (objCredentialStoreOptions.credentialStoreDeleteExportedFileOnExit.isTrue()) {
                     fleO.deleteOnExit();
                 }
             }
-            if (objCredentialStoreOptions.CredentialStore_ProcessNotesParams.isTrue()) {
-                objOptionsBridge.CommandLineArgs(objEntry.getNotesText());
+            if (objCredentialStoreOptions.credentialStoreProcessNotesParams.isTrue()) {
+                objOptionsBridge.commandLineArgs(objEntry.getNotesText());
             }
         }
     }

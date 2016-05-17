@@ -4,97 +4,95 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.sql.Types;
 
+import org.apache.xerces.parsers.SAXParser;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import org.apache.xerces.parsers.SAXParser;
-
 import sos.connection.SOSConnection;
 import sos.connection.SOSMySQLConnection;
-import sos.marshalling.SOSImExportTableFieldTypes;
 import sos.util.SOSStandardLogger;
 
 /** @author Titus Meyer */
 public class SOSImport extends DefaultHandler {
 
-    private SOSConnection _conn = null;
-    private SOSStandardLogger _log = null;
-    private boolean _autoCommit = false;
-    private boolean _enableInsert = true;
-    private boolean _enableUpdate = true;
-    private String _fileName = null;
-    private boolean _restrictMode = true;
-    private String _packageId = null;
-    private String _packageElement = null;
-    private String _packageValue = null;
-    private String _xmlTagname = "sos_export";
-    private String _xmlEncoding = "iso-8859-1";
-    private String _normalizeFieldName = "strtoupper";
-    private boolean _autoNormalizeField = true;
-    private boolean _autoChecked = false;
-    private HashMap _restrictObject = new HashMap();
-    private HashMap _keyHandler = new HashMap();
-    private HashMap _recordHandler = new HashMap();
-    private Tables _tables = new Tables();
-    private MetaRecords _metaKeyRecords = new MetaRecords();
-    private MetaRecords _metaFieldRecords = new MetaRecords();
-    private Records _records = new Records();
-    private int _recordIndex = -1;
-    private HashMap _recordIdentifier = new HashMap();
-    private boolean _curExportOpen = false;
-    private boolean _curPackageOpened = false;
-    private String _curPackageId = null;
-    private boolean _curMetaOpened = false;
-    private String _curMetaTableName = null;
-    private boolean _curMetaKeysOpened = false;
-    private boolean _curMetaFieldsOpened = false;
-    private boolean _curDataOpened = false;
-    private boolean _curDataRecordOpened = false;
-    private String _curDataRecordName = null;
-    private boolean _curDataFieldsOpened = false;
-    private boolean _curDataFieldOpened = false;
-    private String _curDataFieldName = null;
-    private StringBuilder _curDataFieldData = null;
-    private boolean _curDataFieldNull = false;
-    private String _curElement = null;
-    private int _curImportPackage = 1;
-    private int _curImportPackageDepth = 0;
-    private int _curBlockedPackageDepth = 0;
-    private int _curPackageDepth = 0;
-    private String _operation = null;
+    private SOSConnection connection = null;
+    private SOSStandardLogger logger = null;
+    private boolean autoCommit = false;
+    private boolean enableInsert = true;
+    private boolean enableUpdate = true;
+    private String fileName = null;
+    private boolean restrictMode = true;
+    private String packageId = null;
+    private String packageElement = null;
+    private String packageValue = null;
+    private String xmlTagname = "sos_export";
+    private String xmlEncoding = "iso-8859-1";
+    private String normalizeFieldName = "strtoupper";
+    private boolean autoNormalizeField = true;
+    private boolean autoChecked = false;
+    private HashMap restrictObject = new HashMap();
+    private HashMap keyHandler = new HashMap();
+    private HashMap recordHandler = new HashMap();
+    private Tables tables = new Tables();
+    private MetaRecords metaKeyRecords = new MetaRecords();
+    private MetaRecords metaFieldRecords = new MetaRecords();
+    private Records records = new Records();
+    private int recordIndex = -1;
+    private HashMap recordIdentifier = new HashMap();
+    private boolean curExportOpen = false;
+    private boolean curPackageOpened = false;
+    private String curPackageId = null;
+    private boolean curMetaOpened = false;
+    private String curMetaTableName = null;
+    private boolean curMetaKeysOpened = false;
+    private boolean curMetaFieldsOpened = false;
+    private boolean curDataOpened = false;
+    private boolean curDataRecordOpened = false;
+    private String curDataRecordName = null;
+    private boolean curDataFieldsOpened = false;
+    private boolean curDataFieldOpened = false;
+    private String curDataFieldName = null;
+    private StringBuilder curDataFieldData = null;
+    private boolean curDataFieldNull = false;
+    private String curElement = null;
+    private int curImportPackage = 1;
+    private int curImportPackageDepth = 0;
+    private int curBlockedPackageDepth = 0;
+    private int curPackageDepth = 0;
+    private String operation = null;
     private HashMap mappingTablenames = null;
 
     /** @author Titus Meyer */
     private class MetaRecords {
 
-        private HashMap _metaRecords = new HashMap();
+        private HashMap metaRecords = new HashMap();
 
         public SOSImExportTableFieldTypes get(String packageId) {
-            return (SOSImExportTableFieldTypes) _metaRecords.get(packageId);
+            return (SOSImExportTableFieldTypes) metaRecords.get(packageId);
         }
 
         public void add(String packageId) {
-            _metaRecords.put(packageId, new SOSImExportTableFieldTypes());
+            metaRecords.put(packageId, new SOSImExportTableFieldTypes());
         }
     }
 
     /** @author Titus Meyer */
     private class Records {
 
-        private ArrayList _records = new ArrayList();
+        private ArrayList records = new ArrayList();
 
         public int addRecord() {
-            _records.add(new HashMap());
-            return _records.size() - 1;
+            records.add(new HashMap());
+            return records.size() - 1;
         }
 
         public void addValue(int index, String key, String val) {
-            HashMap hash = (HashMap) _records.get(index);
+            HashMap hash = (HashMap) records.get(index);
             if (hash != null) {
                 hash.put(normalizeFieldName(key), val);
             }
@@ -102,21 +100,22 @@ public class SOSImport extends DefaultHandler {
 
         public String getValue(int index, String key) {
             try {
-                HashMap hash = (HashMap) _records.get(index);
+                HashMap hash = (HashMap) records.get(index);
                 if (hash != null) {
                     return (String) hash.get(normalizeFieldName(key));
                 }
             } catch (Exception e) {
+                //
             }
             return null;
         }
 
         public int size() {
-            return _records.size();
+            return records.size();
         }
 
         public Iterator getIterator(int index) {
-            HashMap hash = (HashMap) _records.get(index);
+            HashMap hash = (HashMap) records.get(index);
             if (hash != null) {
                 return hash.keySet().iterator();
             } else {
@@ -128,47 +127,49 @@ public class SOSImport extends DefaultHandler {
     /** @author Titus Meyer */
     private class Tables {
 
-        private HashMap _tables = new HashMap();
+        private HashMap tables = new HashMap();
 
         public void addTable(String table, boolean replace, HashMap restrict) {
             ArrayList array = new ArrayList();
             array.add(new Boolean(replace));
             array.add(restrict);
-            _tables.put(table.toLowerCase(), array);
+            tables.put(table.toLowerCase(), array);
         }
 
         public boolean getReplace(String table) {
             try {
-                ArrayList list = (ArrayList) _tables.get(table.toLowerCase());
+                ArrayList list = (ArrayList) tables.get(table.toLowerCase());
                 if (list != null) {
                     return ((Boolean) list.get(0)).booleanValue();
                 }
             } catch (Exception e) {
+                //
             }
             return false;
         }
 
         public HashMap getRestrict(String table) {
             try {
-                ArrayList list = (ArrayList) _tables.get(table.toLowerCase());
+                ArrayList list = (ArrayList) tables.get(table.toLowerCase());
                 if (list != null) {
                     return (HashMap) list.get(1);
                 }
             } catch (Exception e) {
+                //
             }
             return null;
         }
 
         public int size() {
-            return _tables.size();
+            return tables.size();
         }
 
         public Iterator getIterator() {
-            return _tables.keySet().iterator();
+            return tables.keySet().iterator();
         }
 
         public boolean isEmpty() {
-            return _tables.isEmpty();
+            return tables.isEmpty();
         }
 
     }
@@ -176,22 +177,22 @@ public class SOSImport extends DefaultHandler {
     public SOSImport(SOSConnection conn, String fileName, String packageId, String packageElement, String packageValue, SOSStandardLogger log) {
         super();
         if (conn != null) {
-            _conn = conn;
+            this.connection = conn;
         }
         if (fileName != null) {
-            _fileName = fileName;
+            this.fileName = fileName;
         }
         if (packageId != null) {
-            _packageId = packageId;
+            this.packageId = packageId;
         }
         if (packageElement != null) {
-            _packageElement = packageElement;
+            this.packageElement = packageElement;
         }
         if (packageValue != null) {
-            _packageValue = packageValue;
+            this.packageValue = packageValue;
         }
         if (log != null) {
-            _log = log;
+            this.logger = log;
         }
     }
 
@@ -208,51 +209,51 @@ public class SOSImport extends DefaultHandler {
     }
 
     public void setConnection(SOSConnection conn) {
-        _conn = conn;
+        this.connection = conn;
     }
 
     public void setLogger(SOSStandardLogger log) {
-        _log = log;
+        this.logger = log;
     }
 
     public void setAutoCommit(boolean autoCommit) {
-        _autoCommit = autoCommit;
+        this.autoCommit = autoCommit;
     }
 
     public void setUpdate(boolean update) {
-        _enableUpdate = update;
+        this.enableUpdate = update;
     }
 
     public void setInsert(boolean insert) {
-        _enableInsert = insert;
+        this.enableInsert = insert;
     }
 
     public void setFileName(String fileName) {
-        _fileName = fileName;
+        this.fileName = fileName;
     }
 
     public void setRestrictMode(boolean restrictMode) {
-        _restrictMode = restrictMode;
+        this.restrictMode = restrictMode;
     }
 
     public void setPackageId(String packageId) {
-        _packageId = packageId;
+        this.packageId = packageId;
     }
 
     public void setPackageValue(String packageValue) {
-        _packageValue = packageValue;
+        this.packageValue = packageValue;
     }
 
     public void setPackageElement(String packageElement) {
-        _packageElement = packageElement;
+        this.packageElement = packageElement;
     }
 
     public void setXMLTagname(String xmlTagname) {
-        _xmlTagname = xmlTagname;
+        this.xmlTagname = xmlTagname;
     }
 
     public void setXMLEncoding(String xmlEncoding) {
-        _xmlEncoding = xmlEncoding;
+        this.xmlEncoding = xmlEncoding;
     }
 
     public void setNormalizeFieldName(String normalizeFieldName) throws Exception {
@@ -260,12 +261,12 @@ public class SOSImport extends DefaultHandler {
             throw new IllegalArgumentException("SOSExport.setNormalizeFieldName: normalizeFielName must be \"strtolower\" or \"strtoupper\"");
         }
         try {
-            _normalizeFieldName = normalizeFieldName;
-            _conn.setFieldNameToUpperCase("strtoupper".equalsIgnoreCase(normalizeFieldName));
+            this.normalizeFieldName = normalizeFieldName;
+            this.connection.setFieldNameToUpperCase("strtoupper".equalsIgnoreCase(normalizeFieldName));
             if ("strtoupper".equalsIgnoreCase(normalizeFieldName)) {
-                _conn.setKeysToUpperCase();
+                this.connection.setKeysToUpperCase();
             } else {
-                _conn.setKeysToLowerCase();
+                this.connection.setKeysToLowerCase();
             }
         } catch (Exception e) {
             throw new Exception("SOSImport.setNormalizeFieldName: " + e.getMessage());
@@ -273,14 +274,14 @@ public class SOSImport extends DefaultHandler {
     }
 
     public void setAutoNormalizeField(boolean auto) {
-        _autoNormalizeField = auto;
+        this.autoNormalizeField = auto;
     }
 
     public void startDocument() throws SAXException {
-        _autoChecked = false;
+        autoChecked = false;
         try {
-            if (_log != null) {
-                _log.debug2("Starte Import...");
+            if (logger != null) {
+                logger.debug2("Starte Import...");
             }
         } catch (Exception e) {
             throw new SAXException("SOSImport.startDocument: " + e.getMessage(), e);
@@ -288,87 +289,86 @@ public class SOSImport extends DefaultHandler {
     }
 
     public void endDocument() throws SAXException {
-        _autoChecked = false;
+        autoChecked = false;
         try {
-            _log.debug2("...beende Import");
+            logger.debug2("...beende Import");
         } catch (Exception e) {
             throw new SAXException("SOSImport.endDocument: " + e.getMessage(), e);
         }
     }
 
     public void startElement(String uri, String name, String qName, org.xml.sax.Attributes atts) throws SAXException {
-        _curElement = name;
+        curElement = name;
         try {
-            if (_log != null) {
-                _log.debug9("import startElement: " + name);
+            if (logger != null) {
+                logger.debug9("import startElement: " + name);
             }
-            if (name.equalsIgnoreCase(_xmlTagname)) {
-                _curExportOpen = true;
-            } else if (name.equalsIgnoreCase(_xmlTagname + "_package") && _curExportOpen) {
-                _curPackageOpened = true;
-                _curPackageId = atts.getValue("id");
-            } else if (name.equalsIgnoreCase(_xmlTagname + "_meta") && _curPackageOpened) {
-                _metaKeyRecords.add(_curPackageId);
-                _metaFieldRecords.add(_curPackageId);
-                _curMetaOpened = true;
-            } else if ("table".equalsIgnoreCase(name) && _curMetaOpened) {
-                _curMetaTableName = atts.getValue("name");
-                if (mappingTablenames != null && mappingTablenames.get(_curMetaTableName) != null
-                        && !mappingTablenames.get(_curMetaTableName).toString().isEmpty()) {
-                    _log.debug("import tablename " + _curMetaTableName + " is mapping in " + mappingTablenames.get(_curMetaTableName));
-                    _curMetaTableName = mappingTablenames.get(_curMetaTableName).toString();
+            if (name.equalsIgnoreCase(xmlTagname)) {
+                curExportOpen = true;
+            } else if (name.equalsIgnoreCase(xmlTagname + "_package") && curExportOpen) {
+                curPackageOpened = true;
+                curPackageId = atts.getValue("id");
+            } else if (name.equalsIgnoreCase(xmlTagname + "_meta") && curPackageOpened) {
+                metaKeyRecords.add(curPackageId);
+                metaFieldRecords.add(curPackageId);
+                curMetaOpened = true;
+            } else if ("table".equalsIgnoreCase(name) && curMetaOpened) {
+                curMetaTableName = atts.getValue("name");
+                if (mappingTablenames != null && mappingTablenames.get(curMetaTableName) != null
+                        && !mappingTablenames.get(curMetaTableName).toString().isEmpty()) {
+                    logger.debug("import tablename " + curMetaTableName + " is mapping in " + mappingTablenames.get(curMetaTableName));
+                    curMetaTableName = mappingTablenames.get(curMetaTableName).toString();
                 }
-                _metaKeyRecords.get(_curPackageId).setTable(_curMetaTableName);
-                _metaFieldRecords.get(_curPackageId).setTable(_curMetaTableName);
-            } else if ("key_fields".equalsIgnoreCase(name) && _curMetaOpened) {
-                _curMetaKeysOpened = true;
-            } else if ("field".equalsIgnoreCase(name) && _curMetaKeysOpened) {
-                if (_log != null) {
-                    _log.debug9("add keyfield: name = " + normalizeFieldName(atts.getValue("name")) + " type = " + atts.getValue("type")
+                metaKeyRecords.get(curPackageId).setTable(curMetaTableName);
+                metaFieldRecords.get(curPackageId).setTable(curMetaTableName);
+            } else if ("key_fields".equalsIgnoreCase(name) && curMetaOpened) {
+                curMetaKeysOpened = true;
+            } else if ("field".equalsIgnoreCase(name) && curMetaKeysOpened) {
+                if (logger != null) {
+                    logger.debug9("add keyfield: name = " + normalizeFieldName(atts.getValue("name")) + " type = " + atts.getValue("type")
                             + " typeID = " + atts.getValue("typeID") + " len = " + atts.getValue("len") + " scale = " + atts.getValue("scale"));
                 }
                 String field = atts.getValue("name");
-                if (_autoNormalizeField && !_autoChecked) {
+                if (autoNormalizeField && !autoChecked) {
                     autoNormalize(field);
-                    _autoChecked = true;
+                    autoChecked = true;
                 }
-                _metaKeyRecords.get(_curPackageId).addField(normalizeFieldName(field), atts.getValue("type"), new Integer(atts.getValue("typeID")),
+                metaKeyRecords.get(curPackageId).addField(normalizeFieldName(field), atts.getValue("type"), new Integer(atts.getValue("typeID")),
                         new BigInteger(atts.getValue("len")), new Integer(atts.getValue("scale")));
-            } else if ("fields".equalsIgnoreCase(name) && _curMetaOpened) {
-                _curMetaFieldsOpened = true;
-            } else if ("field".equalsIgnoreCase(name) && _curMetaFieldsOpened) {
-                if (_log != null) {
-                    _log.debug9("add field: name = " + normalizeFieldName(atts.getValue("name")) + " type = " + atts.getValue("type") + " typeID = "
-                            + atts.getValue("typeID") + " len = " + atts.getValue("len") + " scale = " + atts.getValue("scale"));
+            } else if ("fields".equalsIgnoreCase(name) && curMetaOpened) {
+                curMetaFieldsOpened = true;
+            } else if ("field".equalsIgnoreCase(name) && curMetaFieldsOpened) {
+                if (logger != null) {
+                    logger.debug9("add field: name = " + normalizeFieldName(atts.getValue("name")) + " type = " + atts.getValue("type")
+                            + " typeID = " + atts.getValue("typeID") + " len = " + atts.getValue("len") + " scale = " + atts.getValue("scale"));
                 }
                 String field = atts.getValue("name");
-                if (_autoNormalizeField && !_autoChecked) {
+                if (autoNormalizeField && !autoChecked) {
                     autoNormalize(field);
-                    _autoChecked = true;
+                    autoChecked = true;
                 }
-                _metaFieldRecords.get(_curPackageId).addField(normalizeFieldName(field), atts.getValue("type"), new Integer(atts.getValue("typeID")),
+                metaFieldRecords.get(curPackageId).addField(normalizeFieldName(field), atts.getValue("type"), new Integer(atts.getValue("typeID")),
                         new BigInteger(atts.getValue("len")), new Integer(atts.getValue("scale")));
-            } else if (name.equalsIgnoreCase(_xmlTagname + "_data") && _curPackageOpened && !_curMetaOpened) {
-                _curDataOpened = true;
-            } else if (name.equalsIgnoreCase(_xmlTagname + "_record")) {
-                _curDataRecordOpened = true;
-                _curDataRecordName = atts.getValue("name");
-                _curPackageDepth++;
-            } else if (name.equalsIgnoreCase(_xmlTagname + "_fields") && _curDataRecordOpened) {
-                _curDataFieldsOpened = true;
-                // neuen Record beginnen
-                if (_curBlockedPackageDepth <= 0 || _curBlockedPackageDepth > _curPackageDepth) {
-                    _recordIndex = _records.addRecord();
+            } else if (name.equalsIgnoreCase(xmlTagname + "_data") && curPackageOpened && !curMetaOpened) {
+                curDataOpened = true;
+            } else if (name.equalsIgnoreCase(xmlTagname + "_record")) {
+                curDataRecordOpened = true;
+                curDataRecordName = atts.getValue("name");
+                curPackageDepth++;
+            } else if (name.equalsIgnoreCase(xmlTagname + "_fields") && curDataRecordOpened) {
+                curDataFieldsOpened = true;
+                if (curBlockedPackageDepth <= 0 || curBlockedPackageDepth > curPackageDepth) {
+                    recordIndex = records.addRecord();
                 }
                 if (atts.getValue("operation") != null && !atts.getValue("operation").isEmpty()) {
-                    _operation = atts.getValue("operation");
+                    operation = atts.getValue("operation");
                 }
-            } else if (_curDataFieldsOpened) {
-                _curDataFieldOpened = true;
-                _curDataFieldName = normalizeFieldName(name);
-                _curDataFieldData = new StringBuilder();
-                _curDataFieldNull = atts.getValue("null") != null && "true".equalsIgnoreCase(atts.getValue("null"));
-                _records.addValue(_recordIndex, _curDataFieldName, _curDataFieldData.toString());
+            } else if (curDataFieldsOpened) {
+                curDataFieldOpened = true;
+                curDataFieldName = normalizeFieldName(name);
+                curDataFieldData = new StringBuilder();
+                curDataFieldNull = atts.getValue("null") != null && "true".equalsIgnoreCase(atts.getValue("null"));
+                records.addValue(recordIndex, curDataFieldName, curDataFieldData.toString());
             }
         } catch (Exception e) {
             throw new SAXException("SOSImport.startElement: " + e.getMessage(), e);
@@ -377,59 +377,58 @@ public class SOSImport extends DefaultHandler {
 
     public void endElement(String uri, String name, String qName) throws SAXException {
         try {
-            if (_log != null) {
-                _log.debug9("import endElement: " + name);
+            if (logger != null) {
+                logger.debug9("import endElement: " + name);
             }
-            if (name.equalsIgnoreCase(_xmlTagname)) {
-                _curExportOpen = false;
-            } else if (name.equalsIgnoreCase(_xmlTagname + "_package")) {
-                _curPackageOpened = false;
-            } else if (name.equalsIgnoreCase(_xmlTagname + "_meta")) {
-                _curMetaOpened = false;
+            if (name.equalsIgnoreCase(xmlTagname)) {
+                curExportOpen = false;
+            } else if (name.equalsIgnoreCase(xmlTagname + "_package")) {
+                curPackageOpened = false;
+            } else if (name.equalsIgnoreCase(xmlTagname + "_meta")) {
+                curMetaOpened = false;
             } else if ("key_fields".equalsIgnoreCase(name)) {
-                _curMetaKeysOpened = false;
+                curMetaKeysOpened = false;
             } else if ("fields".equalsIgnoreCase(name)) {
-                _curMetaFieldsOpened = false;
-            } else if (name.equalsIgnoreCase(_xmlTagname + "_data")) {
-                _curDataOpened = false;
-            } else if (name.equalsIgnoreCase(_xmlTagname + "_record")) {
-                _curDataRecordOpened = false;
-                if (_packageId != null && _curPackageDepth == _curImportPackageDepth) {
-                    _curImportPackage = 0;
+                curMetaFieldsOpened = false;
+            } else if (name.equalsIgnoreCase(xmlTagname + "_data")) {
+                curDataOpened = false;
+            } else if (name.equalsIgnoreCase(xmlTagname + "_record")) {
+                curDataRecordOpened = false;
+                if (packageId != null && curPackageDepth == curImportPackageDepth) {
+                    curImportPackage = 0;
                 }
-                if (_curBlockedPackageDepth == _curPackageDepth) {
-                    _curBlockedPackageDepth = 0;
+                if (curBlockedPackageDepth == curPackageDepth) {
+                    curBlockedPackageDepth = 0;
                 }
-                _curPackageDepth--;
-            } else if (name.equalsIgnoreCase(_xmlTagname + "_fields")) {
-                _curDataFieldsOpened = false;
-                if (_curImportPackage == 1 && (_curBlockedPackageDepth == 0 || _curPackageDepth == 0)) {
-                    // /// IMPORT des Records ausfuehren /////
-                    if (_operation != null && "insert".equals(_operation)) {
-                        importRecord(_curDataRecordName, _recordIndex, _operation);
-                    } else if (_operation != null && "update".equals(_operation)) {
-                        importRecord(_curDataRecordName, _recordIndex, _operation);
-                    } else if (_operation != null && "delete".equals(_operation)) {
-                        deleteRecord(_curDataRecordName, _recordIndex);
+                curPackageDepth--;
+            } else if (name.equalsIgnoreCase(xmlTagname + "_fields")) {
+                curDataFieldsOpened = false;
+                if (curImportPackage == 1 && (curBlockedPackageDepth == 0 || curPackageDepth == 0)) {
+                    if (operation != null && "insert".equals(operation)) {
+                        importRecord(curDataRecordName, recordIndex, operation);
+                    } else if (operation != null && "update".equals(operation)) {
+                        importRecord(curDataRecordName, recordIndex, operation);
+                    } else if (operation != null && "delete".equals(operation)) {
+                        deleteRecord(curDataRecordName, recordIndex);
                     } else {
-                        importRecord(_curDataRecordName, _recordIndex);
+                        importRecord(curDataRecordName, recordIndex);
                     }
-                    _operation = null;
+                    operation = null;
                 }
-            } else if (_curDataFieldOpened) {
-                if (_curDataFieldNull) {
-                    _records.addValue(_recordIndex, _curDataFieldName, null);
+            } else if (curDataFieldOpened) {
+                if (curDataFieldNull) {
+                    records.addValue(recordIndex, curDataFieldName, null);
                 } else {
-                    _records.addValue(_recordIndex, _curDataFieldName, _curDataFieldData.toString());
+                    records.addValue(recordIndex, curDataFieldName, curDataFieldData.toString());
                 }
-                if (_curImportPackage <= 0 && _curDataRecordName.equalsIgnoreCase(_packageId) && _curElement.equalsIgnoreCase(_packageElement)
-                        && _curDataFieldData.toString().equalsIgnoreCase(_packageValue)) {
-                    _curImportPackage = 1;
-                    _curImportPackageDepth = _curPackageDepth;
+                if (curImportPackage <= 0 && curDataRecordName.equalsIgnoreCase(packageId) && curElement.equalsIgnoreCase(packageElement)
+                        && curDataFieldData.toString().equalsIgnoreCase(packageValue)) {
+                    curImportPackage = 1;
+                    curImportPackageDepth = curPackageDepth;
                 }
-                _curDataFieldOpened = false;
-                _curDataFieldName = null;
-                _curDataFieldData = null;
+                curDataFieldOpened = false;
+                curDataFieldName = null;
+                curDataFieldData = null;
             }
         } catch (Exception e) {
             throw new SAXException("SOSImport.endElement: " + e.getMessage(), e);
@@ -437,10 +436,10 @@ public class SOSImport extends DefaultHandler {
     }
 
     public void characters(char ch[], int start, int length) throws SAXException {
-        if (_curDataFieldOpened) {
+        if (curDataFieldOpened) {
             String str = new String(ch, start, length);
             if (!"".equals(str)) {
-                _curDataFieldData.append(str);
+                curDataFieldData.append(str);
             }
         }
     }
@@ -450,10 +449,10 @@ public class SOSImport extends DefaultHandler {
             if (table == null || "".equals(table)) {
                 throw new IllegalArgumentException("SOSImport.setTable: you have to give a table name");
             }
-            if (_log != null) {
-                _log.debug3("setTable: table=" + table + " replace=" + replace);
+            if (logger != null) {
+                logger.debug3("setTable: table=" + table + " replace=" + replace);
             }
-            _tables.addTable(table, replace, restrict);
+            tables.addTable(table, replace, restrict);
         } catch (Exception e) {
             throw new Exception("SOSImport.setTable: " + e.getMessage(), e);
         }
@@ -464,35 +463,35 @@ public class SOSImport extends DefaultHandler {
             throw new IllegalArgumentException("SOSImport.setHandler: you have to give a table name");
         }
         if (keyHandler != null && !"".equals(keyHandler)) {
-            _keyHandler.put(table.toLowerCase(), keyHandler);
+            this.keyHandler.put(table.toLowerCase(), keyHandler);
         }
         if (recordHandler != null && !"".equals(recordHandler)) {
-            _recordHandler.put(table.toLowerCase(), recordHandler);
+            this.recordHandler.put(table.toLowerCase(), recordHandler);
         }
         if (recordIdentifier != null && !"".equals(recordIdentifier)) {
-            _recordIdentifier.put(table.toLowerCase(), recordIdentifier);
+            this.recordIdentifier.put(table.toLowerCase(), recordIdentifier);
         }
     }
 
     public void doImport() throws Exception, SAXException, FileNotFoundException {
         try {
-            if ("strtoupper".equalsIgnoreCase(_normalizeFieldName)) {
-                _conn.setKeysToUpperCase();
-                _conn.setFieldNameToUpperCase(true);
+            if ("strtoupper".equalsIgnoreCase(normalizeFieldName)) {
+                connection.setKeysToUpperCase();
+                connection.setFieldNameToUpperCase(true);
             } else {
-                _conn.setKeysToLowerCase();
-                _conn.setFieldNameToUpperCase(false);
+                connection.setKeysToLowerCase();
+                connection.setFieldNameToUpperCase(false);
             }
             SAXParser parser = new SAXParser();
             parser.setContentHandler(this);
-            File file = new File(_fileName);
+            File file = new File(fileName);
             if (!file.canRead()) {
-                throw new FileNotFoundException("File not found: " + _fileName);
+                throw new FileNotFoundException("File not found: " + fileName);
             }
-            if (_log != null) {
-                _log.debug3("Using file: " + _fileName);
+            if (logger != null) {
+                logger.debug3("Using file: " + fileName);
             }
-            parser.parse(_fileName);
+            parser.parse(fileName);
         } catch (SAXException e) {
             throw new SAXException("SOSImport.doImport: " + e.getMessage(), e);
         } catch (Exception e) {
@@ -503,13 +502,13 @@ public class SOSImport extends DefaultHandler {
     public void doImport(SOSConnection conn, String fileName) throws Exception, SAXException, FileNotFoundException {
         try {
             if (conn != null) {
-                _conn = conn;
+                this.connection = conn;
             }
             if (fileName != null) {
-                _fileName = fileName;
+                this.fileName = fileName;
             }
-            if (_packageId != null) {
-                _curImportPackage = 0;
+            if (packageId != null) {
+                this.curImportPackage = 0;
             }
             doImport();
         } catch (SAXException e) {
@@ -523,22 +522,22 @@ public class SOSImport extends DefaultHandler {
             SAXException, FileNotFoundException {
         try {
             if (conn != null) {
-                _conn = conn;
+                this.connection = conn;
             }
             if (fileName != null) {
-                _fileName = fileName;
+                this.fileName = fileName;
             }
             if (packageId != null) {
-                _packageId = packageId;
+                this.packageId = packageId;
             }
             if (packageElement != null) {
-                _packageElement = packageElement;
+                this.packageElement = packageElement;
             }
             if (packageValue != null) {
-                _packageValue = packageValue;
+                this.packageValue = packageValue;
             }
-            if (_packageId != null) {
-                _curImportPackage = 0;
+            if (packageId != null) {
+                this.curImportPackage = 0;
             }
             doImport();
         } catch (SAXException e) {
@@ -551,29 +550,29 @@ public class SOSImport extends DefaultHandler {
     private void importRecord(String name, int index, String operation) throws Exception {
         boolean isNewKey = false;
         try {
-            if (_log != null) {
-                _log.debug3("import_record(" + name + ", " + index + "): key_fields="
-                        + normalizeFieldName(_metaKeyRecords.get(name).getKeyString() + " table=" + _metaKeyRecords.get(name).getTable()));
+            if (logger != null) {
+                logger.debug3("import_record(" + name + ", " + index + "): key_fields="
+                        + normalizeFieldName(metaKeyRecords.get(name).getKeyString() + " table=" + metaKeyRecords.get(name).getTable()));
             }
-            if (_conn == null) {
+            if (connection == null) {
                 throw new Exception("No aktive database connection!");
             }
-            boolean restrictMode = _restrictMode;
-            HashMap restrictObject = _restrictObject;
-            if (!_tables.isEmpty()) {
+            boolean restrictMode = this.restrictMode;
+            HashMap restrictObject = this.restrictObject;
+            if (!tables.isEmpty()) {
                 boolean found = false;
-                for (Iterator it = _tables.getIterator(); it.hasNext();) {
+                for (Iterator it = tables.getIterator(); it.hasNext();) {
                     String key = it.next().toString();
                     if (name.equalsIgnoreCase(key)) {
                         found = true;
-                        restrictMode = _tables.getReplace(key);
-                        restrictObject = _tables.getRestrict(key);
+                        restrictMode = tables.getReplace(key);
+                        restrictObject = tables.getRestrict(key);
                         break;
                     }
                 }
                 if (!found) {
-                    if (_log != null) {
-                        _log.debug3("Import denied for table by restriction: " + name);
+                    if (logger != null) {
+                        logger.debug3("Import denied for table by restriction: " + name);
                     }
                     return;
                 }
@@ -582,22 +581,22 @@ public class SOSImport extends DefaultHandler {
                 for (Iterator it = restrictObject.keySet().iterator(); it.hasNext();) {
                     String restrictName = it.next().toString();
                     String restrictValue = (String) restrictObject.get(restrictName);
-                    if (_log != null) {
-                        _log.debug3("checking for element: " + restrictName + "=" + restrictValue);
+                    if (logger != null) {
+                        logger.debug3("checking for element: " + restrictName + "=" + restrictValue);
                     }
-                    if (_records.getValue(index, restrictName) == null) {
-                        _curBlockedPackageDepth = _curPackageDepth;
-                        if (_log != null) {
-                            _log.debug3("import denied for element by restriction at depth " + _curBlockedPackageDepth + ": " + restrictName
+                    if (records.getValue(index, restrictName) == null) {
+                        curBlockedPackageDepth = curPackageDepth;
+                        if (logger != null) {
+                            logger.debug3("import denied for element by restriction at depth " + curBlockedPackageDepth + ": " + restrictName
                                     + " not in record");
                         }
                         return;
                     }
-                    if (_records.getValue(index, restrictName) != null && restrictValue.equalsIgnoreCase(_records.getValue(index, restrictName))) {
-                        _curBlockedPackageDepth = _curPackageDepth;
-                        if (_log != null) {
-                            _log.debug3("import denied for element by restriction at depth " + _curBlockedPackageDepth + ": " + restrictName + ": "
-                                    + restrictValue + " != " + _records.getValue(index, restrictName));
+                    if (records.getValue(index, restrictName) != null && restrictValue.equalsIgnoreCase(records.getValue(index, restrictName))) {
+                        curBlockedPackageDepth = curPackageDepth;
+                        if (logger != null) {
+                            logger.debug3("import denied for element by restriction at depth " + curBlockedPackageDepth + ": " + restrictName + ": "
+                                    + restrictValue + " != " + records.getValue(index, restrictName));
                         }
                         return;
                     }
@@ -605,20 +604,20 @@ public class SOSImport extends DefaultHandler {
                 restrictObject = null;
             }
             HashMap keys = new HashMap();
-            for (Iterator it = _metaKeyRecords.get(name).getIterator(); it.hasNext();) {
+            for (Iterator it = metaKeyRecords.get(name).getIterator(); it.hasNext();) {
                 String key = it.next().toString();
-                if (_log != null) {
-                    _log.debug6("key_fields key [" + key + "] = " + _records.getValue(index, key));
+                if (logger != null) {
+                    logger.debug6("key_fields key [" + key + "] = " + records.getValue(index, key));
                 }
-                keys.put(normalizeFieldName(key), _records.getValue(index, key));
+                keys.put(normalizeFieldName(key), records.getValue(index, key));
             }
-            String keyHandler = _metaKeyRecords.get(name).getTable().toLowerCase();
-            if (_keyHandler.containsKey(keyHandler)) {
-                if (_log != null) {
-                    _log.debug6("key_handler: " + (String) _keyHandler.get(keyHandler));
+            String keyHandler = metaKeyRecords.get(name).getTable().toLowerCase();
+            if (this.keyHandler.containsKey(keyHandler)) {
+                if (logger != null) {
+                    logger.debug6("key_handler: " + (String) this.keyHandler.get(keyHandler));
                 }
                 Class[] params = new Class[] { HashMap.class };
-                Method method = getClass().getMethod((String) _keyHandler.get(keyHandler), params);
+                Method method = getClass().getMethod((String) this.keyHandler.get(keyHandler), params);
                 HashMap[] args = { keys };
                 keys = (HashMap) method.invoke(this, args);
             }
@@ -631,50 +630,51 @@ public class SOSImport extends DefaultHandler {
             } else {
                 if (keys != null && !keys.isEmpty() && restrictMode) {
                     StringBuilder stm = new StringBuilder();
-                    stm.append("SELECT * FROM " + _metaFieldRecords.get(name).getTable());
+                    stm.append("SELECT * FROM " + metaFieldRecords.get(name).getTable());
                     String and = " WHERE ";
                     for (Iterator it = keys.keySet().iterator(); it.hasNext();) {
                         String key = it.next().toString();
                         stm.append(and + "\"" + normalizeFieldName(key) + "\"=" + quote(name, key, (String) keys.get(key)));
                         and = " AND ";
                     }
-                    record = _conn.getSingle(stm.toString());
+                    record = connection.getSingle(stm.toString());
                 }
                 isNew = (record == null || record.isEmpty());
             }
-            if (_log != null) {
-                _log.debug6("is_new: " + isNew);
+            if (logger != null) {
+                logger.debug6("is_new: " + isNew);
             }
             record = new HashMap();
-            for (Iterator it = _records.getIterator(index); it.hasNext();) {
+            for (Iterator it = records.getIterator(index); it.hasNext();) {
                 String key = it.next().toString();
-                String val = _records.getValue(index, key);
-                if (_log != null) {
+                String val = records.getValue(index, key);
+                if (logger != null) {
                     if (val != null) {
-                        _log.debug9("record[" + key + "] = " + (val.length() > 255 ? "(" + val.length() + " Chars)" : val));
+                        logger.debug9("record[" + key + "] = " + (val.length() > 255 ? "(" + val.length() + " Chars)" : val));
                     } else {
-                        _log.debug9("record[" + key + "] = NULL");
+                        logger.debug9("record[" + key + "] = NULL");
                     }
                 }
                 record.put(key, fromXML(val));
             }
-            String record_handler = _metaFieldRecords.get(name).getTable().toLowerCase();
-            if (_recordHandler.containsKey(record_handler)) {
-                String recordIdentifier = _recordIdentifier.containsKey(record_handler) ? (String) _recordIdentifier.get(record_handler) : null;
-                if (_log != null) {
-                    _log.debug6("record_handler: " + (String) _recordHandler.get(record_handler));
+            String recordHandler = metaFieldRecords.get(name).getTable().toLowerCase();
+            if (this.recordHandler.containsKey(recordHandler)) {
+                String recordIdentifier =
+                        this.recordIdentifier.containsKey(recordHandler) ? (String) this.recordIdentifier.get(recordHandler) : null;
+                if (logger != null) {
+                    logger.debug6("recordHandler: " + (String) this.recordHandler.get(recordHandler));
                 }
                 Class[] params = new Class[] { HashMap.class, HashMap.class, String.class };
-                Method method = getClass().getMethod((String) _recordHandler.get(record_handler), params);
+                Method method = getClass().getMethod((String) this.recordHandler.get(recordHandler), params);
                 Object[] args = { keys, record, recordIdentifier };
                 record = (HashMap) method.invoke(this, args);
                 HashMap recordKeys = new HashMap();
-                for (Iterator it = _metaKeyRecords.get(name).getIterator(); it.hasNext();) {
+                for (Iterator it = metaKeyRecords.get(name).getIterator(); it.hasNext();) {
                     String key = it.next().toString();
-                    recordKeys.put(normalizeFieldName(key), _records.getValue(index, key));
+                    recordKeys.put(normalizeFieldName(key), records.getValue(index, key));
                 }
                 if (record != null && !record.isEmpty()) {
-                    for (Iterator it = _metaKeyRecords.get(name).getIterator(); it.hasNext();) {
+                    for (Iterator it = metaKeyRecords.get(name).getIterator(); it.hasNext();) {
                         String key = normalizeFieldName(it.next().toString());
                         if (recordKeys.get(key) != record.get(key)) {
                             isNew = true;
@@ -690,20 +690,20 @@ public class SOSImport extends DefaultHandler {
                 }
             }
             if (record != null && !record.isEmpty()) {
-                if (_keyHandler.containsKey(keyHandler)) {
+                if (this.keyHandler.containsKey(keyHandler)) {
                     if (isNewKey) {
-                        for (Iterator it = _metaKeyRecords.get(name).getIterator(); it.hasNext();) {
+                        for (Iterator it = metaKeyRecords.get(name).getIterator(); it.hasNext();) {
                             String key = normalizeFieldName(it.next().toString());
-                            if (_log != null) {
-                                _log.debug6("updating key_fields key[" + key + "] = " + record.get(key));
+                            if (logger != null) {
+                                logger.debug6("updating key_fields key[" + key + "] = " + record.get(key));
                             }
                             keys.put(key, (String) record.get(key));
                         }
                     } else {
-                        for (Iterator it = _metaKeyRecords.get(name).getIterator(); it.hasNext();) {
+                        for (Iterator it = metaKeyRecords.get(name).getIterator(); it.hasNext();) {
                             String key = normalizeFieldName(it.next().toString());
-                            if (_log != null) {
-                                _log.debug6("updating key_fields record[" + key + "] = " + record.get(key));
+                            if (logger != null) {
+                                logger.debug6("updating key_fields record[" + key + "] = " + record.get(key));
                             }
                             record.put(key, (String) keys.get(key));
                         }
@@ -711,17 +711,17 @@ public class SOSImport extends DefaultHandler {
                 }
                 HashMap blobs = getBlobs(name, record);
                 if (isNew) {
-                    if (!_enableInsert) {
-                        if (_log != null) {
-                            _log.debug1("record skipped: no insert enabled");
+                    if (!enableInsert) {
+                        if (logger != null) {
+                            logger.debug1("record skipped: no insert enabled");
                         }
                     } else {
                         insertRecord(name, record);
                     }
                 } else {
-                    if (!_enableUpdate) {
-                        if (_log != null) {
-                            _log.debug1("record skipped: no update enabled");
+                    if (!enableUpdate) {
+                        if (logger != null) {
+                            logger.debug1("record skipped: no update enabled");
                         }
                     } else {
                         updateRecord(name, keys, record);
@@ -729,47 +729,47 @@ public class SOSImport extends DefaultHandler {
                 }
                 updateBlob(name, blobs, keys, record);
             } else {
-                if (_log != null) {
-                    _log.debug6("record skipped");
+                if (logger != null) {
+                    logger.debug6("record skipped");
                 }
             }
-            if (_autoCommit) {
-                _conn.commit();
+            if (autoCommit) {
+                connection.commit();
             }
         } catch (Exception e) {
-            if (_autoCommit) {
-                _conn.rollback();
+            if (autoCommit) {
+                connection.rollback();
             }
-            _log.error("" + e.getMessage());
+            logger.error("" + e.getMessage());
             throw new Exception("SOSImport.import_record: " + e.getMessage(), e);
         }
     }
 
     private void deleteRecord(String name, int index) throws Exception {
         try {
-            if (_log != null) {
-                _log.debug3("delete_record(" + name + ", " + index + "): key_fields="
-                        + normalizeFieldName(_metaKeyRecords.get(name).getKeyString() + " table=" + _metaKeyRecords.get(name).getTable()));
+            if (logger != null) {
+                logger.debug3("delete_record(" + name + ", " + index + "): key_fields="
+                        + normalizeFieldName(metaKeyRecords.get(name).getKeyString() + " table=" + metaKeyRecords.get(name).getTable()));
             }
-            if (_conn == null) {
+            if (connection == null) {
                 throw new Exception("No aktive database connection!");
             }
-            boolean restrictMode = _restrictMode;
-            HashMap restrictObject = _restrictObject;
-            if (!_tables.isEmpty()) {
+            boolean restrictMode = this.restrictMode;
+            HashMap restrictObject = this.restrictObject;
+            if (!tables.isEmpty()) {
                 boolean found = false;
-                for (Iterator it = _tables.getIterator(); it.hasNext();) {
+                for (Iterator it = tables.getIterator(); it.hasNext();) {
                     String key = it.next().toString();
                     if (name.equalsIgnoreCase(key)) {
                         found = true;
-                        restrictMode = _tables.getReplace(key);
-                        restrictObject = _tables.getRestrict(key);
+                        restrictMode = tables.getReplace(key);
+                        restrictObject = tables.getRestrict(key);
                         break;
                     }
                 }
                 if (!found) {
-                    if (_log != null) {
-                        _log.debug3("Import denied for table by restriction: " + name);
+                    if (logger != null) {
+                        logger.debug3("Import denied for table by restriction: " + name);
                     }
                     return;
                 }
@@ -778,22 +778,22 @@ public class SOSImport extends DefaultHandler {
                 for (Iterator it = restrictObject.keySet().iterator(); it.hasNext();) {
                     String restrictName = it.next().toString();
                     String restrictValue = (String) restrictObject.get(restrictName);
-                    if (_log != null) {
-                        _log.debug3("checking for element: " + restrictName + "=" + restrictValue);
+                    if (logger != null) {
+                        logger.debug3("checking for element: " + restrictName + "=" + restrictValue);
                     }
-                    if (_records.getValue(index, restrictName) == null) {
-                        _curBlockedPackageDepth = _curPackageDepth;
-                        if (_log != null) {
-                            _log.debug3("import denied for element by restriction at depth " + _curBlockedPackageDepth + ": " + restrictName
+                    if (records.getValue(index, restrictName) == null) {
+                        curBlockedPackageDepth = curPackageDepth;
+                        if (logger != null) {
+                            logger.debug3("import denied for element by restriction at depth " + curBlockedPackageDepth + ": " + restrictName
                                     + " not in record");
                         }
                         return;
                     }
-                    if (_records.getValue(index, restrictName) != null && restrictValue.equalsIgnoreCase(_records.getValue(index, restrictName))) {
-                        _curBlockedPackageDepth = _curPackageDepth;
-                        if (_log != null) {
-                            _log.debug3("import denied for element by restriction at depth " + _curBlockedPackageDepth + ": " + restrictName + ": "
-                                    + restrictValue + " != " + _records.getValue(index, restrictName));
+                    if (records.getValue(index, restrictName) != null && restrictValue.equalsIgnoreCase(records.getValue(index, restrictName))) {
+                        curBlockedPackageDepth = curPackageDepth;
+                        if (logger != null) {
+                            logger.debug3("import denied for element by restriction at depth " + curBlockedPackageDepth + ": " + restrictName + ": "
+                                    + restrictValue + " != " + records.getValue(index, restrictName));
                         }
                         return;
                     }
@@ -801,32 +801,32 @@ public class SOSImport extends DefaultHandler {
                 restrictObject = null;
             }
             HashMap keys = new HashMap();
-            for (Iterator it = _metaKeyRecords.get(name).getIterator(); it.hasNext();) {
+            for (Iterator it = metaKeyRecords.get(name).getIterator(); it.hasNext();) {
                 String key = it.next().toString();
-                if (_log != null) {
-                    _log.debug6("key_fields key [" + key + "] = " + _records.getValue(index, key));
+                if (logger != null) {
+                    logger.debug6("key_fields key [" + key + "] = " + records.getValue(index, key));
                 }
-                keys.put(normalizeFieldName(key), _records.getValue(index, key));
+                keys.put(normalizeFieldName(key), records.getValue(index, key));
             }
-            String keyHandler = _metaKeyRecords.get(name).getTable().toLowerCase();
-            if (_keyHandler.containsKey(keyHandler)) {
-                if (_log != null) {
-                    _log.debug6("key_handler: " + (String) _keyHandler.get(keyHandler));
+            String keyHandler = metaKeyRecords.get(name).getTable().toLowerCase();
+            if (this.keyHandler.containsKey(keyHandler)) {
+                if (logger != null) {
+                    logger.debug6("key_handler: " + (String) this.keyHandler.get(keyHandler));
                 }
                 Class[] params = new Class[] { HashMap.class };
-                Method method = getClass().getMethod((String) _keyHandler.get(keyHandler), params);
+                Method method = getClass().getMethod((String) this.keyHandler.get(keyHandler), params);
                 HashMap[] args = { keys };
                 keys = (HashMap) method.invoke(this, args);
             }
             deleteRecord(name, keys);
-            if (_autoCommit) {
-                _conn.commit();
+            if (autoCommit) {
+                connection.commit();
             }
         } catch (Exception e) {
-            if (_autoCommit) {
-                _conn.rollback();
+            if (autoCommit) {
+                connection.rollback();
             }
-            _log.error("" + e.getMessage());
+            logger.error("" + e.getMessage());
             throw new Exception("SOSImport.import_record: " + e.getMessage(), e);
         }
     }
@@ -834,29 +834,29 @@ public class SOSImport extends DefaultHandler {
     private void importRecord(String name, int index) throws Exception {
         boolean isNewKey = false;
         try {
-            if (_log != null) {
-                _log.debug3("import_record(" + name + ", " + index + "): key_fields="
-                        + normalizeFieldName(_metaKeyRecords.get(name).getKeyString() + " table=" + _metaKeyRecords.get(name).getTable()));
+            if (logger != null) {
+                logger.debug3("import_record(" + name + ", " + index + "): key_fields="
+                        + normalizeFieldName(metaKeyRecords.get(name).getKeyString() + " table=" + metaKeyRecords.get(name).getTable()));
             }
-            if (_conn == null) {
+            if (connection == null) {
                 throw new Exception("No aktive database connection!");
             }
-            boolean restrictMode = _restrictMode;
-            HashMap restrictObject = _restrictObject;
-            if (!_tables.isEmpty()) {
+            boolean restrictMode = this.restrictMode;
+            HashMap restrictObject = this.restrictObject;
+            if (!tables.isEmpty()) {
                 boolean found = false;
-                for (Iterator it = _tables.getIterator(); it.hasNext();) {
+                for (Iterator it = tables.getIterator(); it.hasNext();) {
                     String key = it.next().toString();
                     if (name.equalsIgnoreCase(key)) {
                         found = true;
-                        restrictMode = _tables.getReplace(key);
-                        restrictObject = _tables.getRestrict(key);
+                        restrictMode = tables.getReplace(key);
+                        restrictObject = tables.getRestrict(key);
                         break;
                     }
                 }
                 if (!found) {
-                    if (_log != null) {
-                        _log.debug3("Import denied for table by restriction: " + name);
+                    if (logger != null) {
+                        logger.debug3("Import denied for table by restriction: " + name);
                     }
                     return;
                 }
@@ -865,22 +865,22 @@ public class SOSImport extends DefaultHandler {
                 for (Iterator it = restrictObject.keySet().iterator(); it.hasNext();) {
                     String restrictName = it.next().toString();
                     String restrictValue = (String) restrictObject.get(restrictName);
-                    if (_log != null) {
-                        _log.debug3("checking for element: " + restrictName + "=" + restrictValue);
+                    if (logger != null) {
+                        logger.debug3("checking for element: " + restrictName + "=" + restrictValue);
                     }
-                    if (_records.getValue(index, restrictName) == null) {
-                        _curBlockedPackageDepth = _curPackageDepth;
-                        if (_log != null) {
-                            _log.debug3("import denied for element by restriction at depth " + _curBlockedPackageDepth + ": " + restrictName
+                    if (records.getValue(index, restrictName) == null) {
+                        curBlockedPackageDepth = curPackageDepth;
+                        if (logger != null) {
+                            logger.debug3("import denied for element by restriction at depth " + curBlockedPackageDepth + ": " + restrictName
                                     + " not in record");
                         }
                         return;
                     }
-                    if (_records.getValue(index, restrictName) != null && restrictValue.equalsIgnoreCase(_records.getValue(index, restrictName))) {
-                        _curBlockedPackageDepth = _curPackageDepth;
-                        if (_log != null) {
-                            _log.debug3("import denied for element by restriction at depth " + _curBlockedPackageDepth + ": " + restrictName + ": "
-                                    + restrictValue + " != " + _records.getValue(index, restrictName));
+                    if (records.getValue(index, restrictName) != null && restrictValue.equalsIgnoreCase(records.getValue(index, restrictName))) {
+                        curBlockedPackageDepth = curPackageDepth;
+                        if (logger != null) {
+                            logger.debug3("import denied for element by restriction at depth " + curBlockedPackageDepth + ": " + restrictName + ": "
+                                    + restrictValue + " != " + records.getValue(index, restrictName));
                         }
                         return;
                     }
@@ -888,69 +888,70 @@ public class SOSImport extends DefaultHandler {
                 restrictObject = null;
             }
             HashMap keys = new HashMap();
-            for (Iterator it = _metaKeyRecords.get(name).getIterator(); it.hasNext();) {
+            for (Iterator it = metaKeyRecords.get(name).getIterator(); it.hasNext();) {
                 String key = it.next().toString();
-                if (_log != null) {
-                    _log.debug6("key_fields key [" + key + "] = " + _records.getValue(index, key));
+                if (logger != null) {
+                    logger.debug6("key_fields key [" + key + "] = " + records.getValue(index, key));
                 }
-                keys.put(normalizeFieldName(key), _records.getValue(index, key));
+                keys.put(normalizeFieldName(key), records.getValue(index, key));
             }
-            String keyHandler = _metaKeyRecords.get(name).getTable().toLowerCase();
-            if (_keyHandler.containsKey(keyHandler)) {
-                if (_log != null) {
-                    _log.debug6("key_handler: " + (String) _keyHandler.get(keyHandler));
+            String keyHandler = metaKeyRecords.get(name).getTable().toLowerCase();
+            if (this.keyHandler.containsKey(keyHandler)) {
+                if (logger != null) {
+                    logger.debug6("key_handler: " + (String) this.keyHandler.get(keyHandler));
                 }
                 Class[] params = new Class[] { HashMap.class };
-                Method method = getClass().getMethod((String) _keyHandler.get(keyHandler), params);
+                Method method = getClass().getMethod((String) this.keyHandler.get(keyHandler), params);
                 HashMap[] args = { keys };
                 keys = (HashMap) method.invoke(this, args);
             }
             HashMap record = null;
             if (keys != null && !keys.isEmpty() && restrictMode) {
                 StringBuilder stm = new StringBuilder();
-                stm.append("SELECT * FROM " + _metaFieldRecords.get(name).getTable());
+                stm.append("SELECT * FROM " + metaFieldRecords.get(name).getTable());
                 String and = " WHERE ";
                 for (Iterator it = keys.keySet().iterator(); it.hasNext();) {
                     String key = it.next().toString();
                     stm.append(and + "\"" + normalizeFieldName(key) + "\"=" + quote(name, key, (String) keys.get(key)));
                     and = " AND ";
                 }
-                record = _conn.getSingle(stm.toString());
+                record = connection.getSingle(stm.toString());
             }
             boolean isNew = record == null || record.isEmpty();
-            if (_log != null) {
-                _log.debug6("is_new: " + isNew);
+            if (logger != null) {
+                logger.debug6("is_new: " + isNew);
             }
             record = new HashMap();
-            for (Iterator it = _records.getIterator(index); it.hasNext();) {
+            for (Iterator it = records.getIterator(index); it.hasNext();) {
                 String key = it.next().toString();
-                String val = _records.getValue(index, key);
-                if (_log != null) {
+                String val = records.getValue(index, key);
+                if (logger != null) {
                     if (val != null) {
-                        _log.debug9("record[" + key + "] = " + (val.length() > 255 ? "(" + val.length() + " Chars)" : val));
+                        logger.debug9("record[" + key + "] = " + (val.length() > 255 ? "(" + val.length() + " Chars)" : val));
                     } else {
-                        _log.debug9("record[" + key + "] = NULL");
+                        logger.debug9("record[" + key + "] = NULL");
                     }
                 }
                 record.put(key, fromXML(val));
             }
-            String record_handler = _metaFieldRecords.get(name).getTable().toLowerCase();
-            if (_recordHandler.containsKey(record_handler)) {
-                String recordIdentifier = _recordIdentifier.containsKey(record_handler) ? (String) _recordIdentifier.get(record_handler) : null;
-                if (_log != null) {
-                    _log.debug6("record_handler: " + (String) _recordHandler.get(record_handler));
+            String recordHandler = metaFieldRecords.get(name).getTable().toLowerCase();
+            if (this.recordHandler.containsKey(recordHandler)) {
+                String recordIdentifier =
+                        this.recordIdentifier.containsKey(recordHandler) ? (String) this.recordIdentifier.get(recordHandler) : null;
+                if (logger != null) {
+                    logger.debug6("recordHandler: " + (String) this.recordHandler.get(recordHandler));
                 }
                 Class[] params = new Class[] { HashMap.class, HashMap.class, String.class };
-                Method method = getClass().getMethod((String) _recordHandler.get(record_handler), params);
+                Method method = getClass().getMethod((String) this.recordHandler.get(recordHandler), params);
                 Object[] args = { keys, record, recordIdentifier };
                 record = (HashMap) method.invoke(this, args);
                 HashMap recordKeys = new HashMap();
-                for (Iterator it = _metaKeyRecords.get(name).getIterator(); it.hasNext();) {
+                for (Iterator it = metaKeyRecords.get(name).getIterator(); it.hasNext();) {
                     String key = it.next().toString();
-                    recordKeys.put(normalizeFieldName(key), _records.getValue(index, key));
+                    recordKeys.put(normalizeFieldName(key), records.getValue(index, key));
                 }
                 if (record != null && !record.isEmpty()) {
-                    for (Iterator it = _metaKeyRecords.get(name).getIterator(); it.hasNext();) {
+                    for (Iterator it = metaKeyRecords.get(name).getIterator(); it.hasNext();) {
                         String key = normalizeFieldName(it.next().toString());
                         if (recordKeys.get(key) != record.get(key)) {
                             isNew = true;
@@ -966,20 +967,20 @@ public class SOSImport extends DefaultHandler {
                 }
             }
             if (record != null && !record.isEmpty()) {
-                if (_keyHandler.containsKey(keyHandler)) {
+                if (this.keyHandler.containsKey(keyHandler)) {
                     if (isNewKey) {
-                        for (Iterator it = _metaKeyRecords.get(name).getIterator(); it.hasNext();) {
+                        for (Iterator it = metaKeyRecords.get(name).getIterator(); it.hasNext();) {
                             String key = normalizeFieldName(it.next().toString());
-                            if (_log != null) {
-                                _log.debug6("updating key_fields key[" + key + "] = " + record.get(key));
+                            if (logger != null) {
+                                logger.debug6("updating key_fields key[" + key + "] = " + record.get(key));
                             }
                             keys.put(key, (String) record.get(key));
                         }
                     } else {
-                        for (Iterator it = _metaKeyRecords.get(name).getIterator(); it.hasNext();) {
+                        for (Iterator it = metaKeyRecords.get(name).getIterator(); it.hasNext();) {
                             String key = normalizeFieldName(it.next().toString());
-                            if (_log != null) {
-                                _log.debug6("updating key_fields record[" + key + "] = " + record.get(key));
+                            if (logger != null) {
+                                logger.debug6("updating key_fields record[" + key + "] = " + record.get(key));
                             }
                             record.put(key, (String) keys.get(key));
                         }
@@ -987,17 +988,17 @@ public class SOSImport extends DefaultHandler {
                 }
                 HashMap blobs = getBlobs(name, record);
                 if (isNew) {
-                    if (!_enableInsert) {
-                        if (_log != null) {
-                            _log.debug1("record skipped: no insert enabled");
+                    if (!enableInsert) {
+                        if (logger != null) {
+                            logger.debug1("record skipped: no insert enabled");
                         }
                     } else {
                         insertRecord(name, record);
                     }
                 } else {
-                    if (!_enableUpdate) {
-                        if (_log != null) {
-                            _log.debug1("record skipped: no update enabled");
+                    if (!enableUpdate) {
+                        if (logger != null) {
+                            logger.debug1("record skipped: no update enabled");
                         }
                     } else {
                         updateRecord(name, keys, record);
@@ -1005,18 +1006,18 @@ public class SOSImport extends DefaultHandler {
                 }
                 updateBlob(name, blobs, keys, record);
             } else {
-                if (_log != null) {
-                    _log.debug6("record skipped");
+                if (logger != null) {
+                    logger.debug6("record skipped");
                 }
             }
-            if (_autoCommit) {
-                _conn.commit();
+            if (autoCommit) {
+                connection.commit();
             }
         } catch (Exception e) {
-            if (_autoCommit) {
-                _conn.rollback();
+            if (autoCommit) {
+                connection.rollback();
             }
-            _log.error("" + e.getMessage());
+            logger.error("" + e.getMessage());
             throw new Exception("SOSImport.import_record: " + e.getMessage(), e);
         }
     }
@@ -1030,7 +1031,7 @@ public class SOSImport extends DefaultHandler {
                 byte[] val = fromHexString(xmlVal);
                 String blobType = null;
                 ArrayList obj = new ArrayList(2);
-                switch (_metaFieldRecords.get(name).getTypeId(key)) {
+                switch (metaFieldRecords.get(name).getTypeId(key)) {
                 case Types.LONGVARCHAR:
                 case Types.CLOB:
                     blobType = "clob";
@@ -1052,9 +1053,9 @@ public class SOSImport extends DefaultHandler {
                     }
                     break;
                 }
-                if (_log != null) {
-                    _log.debug6("found " + blobType + ": name = " + key + " type = " + _metaFieldRecords.get(name).getTypeName(key) + " typeID = "
-                            + _metaFieldRecords.get(name).getTypeId(key));
+                if (logger != null) {
+                    logger.debug6("found " + blobType + ": name = " + key + " type = " + metaFieldRecords.get(name).getTypeName(key) + " typeID = "
+                            + metaFieldRecords.get(name).getTypeId(key));
                 }
                 obj.add(blobType);
                 blobs.put(key, obj);
@@ -1071,8 +1072,8 @@ public class SOSImport extends DefaultHandler {
             for (Iterator it = blobs.keySet().iterator(); it.hasNext();) {
                 String blobName = it.next().toString();
                 ArrayList blobValue = (ArrayList) blobs.get(blobName);
-                if (_log != null) {
-                    _log.debug6("update " + (String) blobValue.get(0) + ": " + blobName);
+                if (logger != null) {
+                    logger.debug6("update " + (String) blobValue.get(0) + ": " + blobName);
                 }
                 StringBuilder stm = new StringBuilder();
                 String and = "";
@@ -1086,9 +1087,9 @@ public class SOSImport extends DefaultHandler {
                 }
                 if (blobValue.get(1) != null) {
                     if ("blob".equals((String) blobValue.get(0))) {
-                        _conn.updateBlob(_metaFieldRecords.get(name).getTable(), blobName, (byte[]) blobValue.get(1), stm.toString());
+                        connection.updateBlob(metaFieldRecords.get(name).getTable(), blobName, (byte[]) blobValue.get(1), stm.toString());
                     } else {
-                        _conn.updateClob(_metaFieldRecords.get(name).getTable(), blobName, (String) blobValue.get(1), stm.toString());
+                        connection.updateClob(metaFieldRecords.get(name).getTable(), blobName, (String) blobValue.get(1), stm.toString());
                     }
                 }
             }
@@ -1099,8 +1100,8 @@ public class SOSImport extends DefaultHandler {
 
     private void insertRecord(String name, HashMap record) throws Exception {
         try {
-            if (_log != null) {
-                _log.debug6("inserting record");
+            if (logger != null) {
+                logger.debug6("inserting record");
             }
             StringBuilder fields = new StringBuilder();
             StringBuilder values = new StringBuilder();
@@ -1113,7 +1114,7 @@ public class SOSImport extends DefaultHandler {
                     values.append(", ");
                 }
             }
-            _conn.execute("INSERT INTO " + _metaFieldRecords.get(name).getTable() + " (" + fields + ") VALUES(" + values + ")");
+            connection.execute("INSERT INTO " + metaFieldRecords.get(name).getTable() + " (" + fields + ") VALUES(" + values + ")");
         } catch (Exception e) {
             throw new Exception("SOSImport.insertRecord: " + e.getMessage(), e);
         }
@@ -1121,10 +1122,10 @@ public class SOSImport extends DefaultHandler {
 
     private void updateRecord(String name, HashMap keys, HashMap record) throws Exception {
         try {
-            if (_log != null) {
-                _log.debug6("updating record");
+            if (logger != null) {
+                logger.debug6("updating record");
             }
-            StringBuilder stm = new StringBuilder("UPDATE " + _metaFieldRecords.get(name).getTable() + " SET ");
+            StringBuilder stm = new StringBuilder("UPDATE " + metaFieldRecords.get(name).getTable() + " SET ");
             for (Iterator it = record.keySet().iterator(); it.hasNext();) {
                 String key = it.next().toString();
                 stm.append("\"" + normalizeFieldName(key) + "\"=" + quote(name, key, (String) record.get(key)));
@@ -1138,7 +1139,7 @@ public class SOSImport extends DefaultHandler {
                 stm.append(and + "\"" + normalizeFieldName(key) + "\"=" + quote(name, key, (String) keys.get(key)));
                 and = " AND ";
             }
-            _conn.execute(stm.toString());
+            connection.execute(stm.toString());
         } catch (Exception e) {
             throw new Exception("SOSImport.updateRecord: " + e.getMessage(), e);
         }
@@ -1146,10 +1147,10 @@ public class SOSImport extends DefaultHandler {
 
     private void deleteRecord(String name, HashMap keys) throws Exception {
         try {
-            if (_log != null) {
-                _log.debug6("delete record");
+            if (logger != null) {
+                logger.debug6("delete record");
             }
-            StringBuilder stm = new StringBuilder("DELETE FROM " + _metaFieldRecords.get(name).getTable());
+            StringBuilder stm = new StringBuilder("DELETE FROM " + metaFieldRecords.get(name).getTable());
             String and = " WHERE ";
             for (Iterator it = keys.keySet().iterator(); it.hasNext();) {
                 String key = it.next().toString();
@@ -1158,21 +1159,21 @@ public class SOSImport extends DefaultHandler {
                     and = " AND ";
                 }
             }
-            if (_log != null) {
-                _log.debug9("deleted record:" + stm.toString());
+            if (logger != null) {
+                logger.debug9("deleted record:" + stm.toString());
             }
-            _conn.execute(stm.toString());
+            connection.execute(stm.toString());
         } catch (Exception e) {
             throw new Exception("SOSImport.updateRecord: " + e.getMessage(), e);
         }
     }
 
-    private String quote(String package_id, String field, String val) {
+    private String quote(String packageId, String field, String val) {
         if (val == null) {
             return "NULL";
         }
 
-        switch (_metaFieldRecords.get(package_id).getTypeId(field)) {
+        switch (metaFieldRecords.get(packageId).getTypeId(field)) {
         case Types.BIGINT:
         case Types.DECIMAL:
         case Types.DOUBLE:
@@ -1191,7 +1192,7 @@ public class SOSImport extends DefaultHandler {
             return "%timestamp_iso('" + val + "')";
         default:
             val = val.replaceAll("'", "''");
-            if (_conn instanceof SOSMySQLConnection) {
+            if (connection instanceof SOSMySQLConnection) {
                 val = val.replaceAll("\\\\", "\\\\\\\\");
             }
             return "'" + val + "'";
@@ -1202,15 +1203,15 @@ public class SOSImport extends DefaultHandler {
         String copy = new String(field);
         try {
             if (field.equals(copy.toLowerCase())) {
-                if (_log != null) {
-                    _log.debug6("Auto Normalisation: lower case");
+                if (logger != null) {
+                    logger.debug6("Auto Normalisation: lower case");
                 }
                 setNormalizeFieldName("strtolower");
             } else if (field.equals(copy.toUpperCase())) {
-                _log.debug6("Auto Normalisation: upper case");
+                logger.debug6("Auto Normalisation: upper case");
                 setNormalizeFieldName("strtoupper");
             } else {
-                _log.debug6("Auto Normalisation: upper case");
+                logger.debug6("Auto Normalisation: upper case");
                 setNormalizeFieldName("strtoupper");
             }
         } catch (Exception e) {
@@ -1219,7 +1220,7 @@ public class SOSImport extends DefaultHandler {
     }
 
     private String normalizeFieldName(String field) {
-        if ("strtoupper".equalsIgnoreCase(_normalizeFieldName)) {
+        if ("strtoupper".equalsIgnoreCase(normalizeFieldName)) {
             return field.toUpperCase();
         } else {
             return field.toLowerCase();
@@ -1249,18 +1250,18 @@ public class SOSImport extends DefaultHandler {
         }
         length = length / 2;
         byte[] b = new byte[length];
-        char c_low;
-        char c_high;
+        char cLow;
+        char cHigh;
         int i = 0, j = 0;
         while (i < strLength) {
-            c_low = s.charAt(i);
-            if (c_low == ' ' || c_low == '\n' || c_low == '\t') {
+            cLow = s.charAt(i);
+            if (cLow == ' ' || cLow == '\n' || cLow == '\t') {
                 i++;
                 continue;
             }
-            c_high = s.charAt(i + 1);
-            int high = charToNibble(c_low);
-            int low = charToNibble(c_high);
+            cHigh = s.charAt(i + 1);
+            int high = charToNibble(cLow);
+            int low = charToNibble(cHigh);
             b[j] = (byte) ((high << 4) | low);
             j++;
             i += 2;

@@ -90,15 +90,15 @@ public class SOSPgSQLConnection extends sos.connection.SOSConnection implements 
             connection.setAutoCommit(false);
             connection.rollback();
             stmt = connection.createStatement();
-            String NUMERIC_CHARACTERS = "SELECT set_config('lc_numeric', '', true)";
-            String DATE_STYLE = "SELECT set_config('datestyle', 'ISO, YMD', true)";
-            String DEFAULT_TRANSACTION_ISOLATION = "SELECT set_config('default_transaction_isolation', 'repeatable read', true)";
-            stmt.execute(NUMERIC_CHARACTERS);
-            logger.debug9(".. " + NUMERIC_CHARACTERS + " successfully set.");
-            stmt.execute(DATE_STYLE);
-            logger.debug9(".. " + DATE_STYLE + " successfully set.");
-            stmt.execute(DEFAULT_TRANSACTION_ISOLATION);
-            logger.debug9(".. " + DEFAULT_TRANSACTION_ISOLATION + " successfully set.");
+            String numericCharacters = "SELECT set_config('lc_numeric', '', true)";
+            String dateStyle = "SELECT set_config('datestyle', 'ISO, YMD', true)";
+            String defaultTransactionIsolation = "SELECT set_config('default_transaction_isolation', 'repeatable read', true)";
+            stmt.execute(numericCharacters);
+            logger.debug9(".. " + numericCharacters + " successfully set.");
+            stmt.execute(dateStyle);
+            logger.debug9(".. " + dateStyle + " successfully set.");
+            stmt.execute(defaultTransactionIsolation);
+            logger.debug9(".. " + defaultTransactionIsolation + " successfully set.");
         } catch (Exception e) {
             throw e;
         } finally {
@@ -107,6 +107,7 @@ public class SOSPgSQLConnection extends sos.connection.SOSConnection implements 
                     stmt.close();
                 }
             } catch (Exception e) {
+                //
             }
         }
     }

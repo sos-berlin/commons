@@ -7,15 +7,15 @@ import java.util.Map;
 /** @author Joacim Zschimmer */
 public class SOSArguments {
 
-    final Map _arguments = new HashMap();
+    final Map arguments = new HashMap();
 
     static class Argument {
 
-        final String _value;
-        boolean _read = false;
+        final String value;
+        boolean read = false;
 
         Argument(String value) {
-            _value = value;
+            this.value = value;
         }
 
     }
@@ -31,10 +31,10 @@ public class SOSArguments {
             if (equal == -1) {
                 throw new Exception("SOSArguments(): illegal parameter: " + arg);
             }
-            if ((arg.length() > equal + 1) && arg.charAt(equal + 1) == '\'' && arg.charAt(arg.length() - 1) == '\'') {
+            if (arg.length() > equal + 1 && arg.charAt(equal + 1) == '\'' && arg.charAt(arg.length() - 1) == '\'') {
                 arg = arg.substring(0, equal + 1) + arg.substring(equal + 2, arg.length() - 1);
             }
-            _arguments.put(arg.substring(0, equal + 1), new Argument(arg.substring(equal + 1)));
+            arguments.put(arg.substring(0, equal + 1), new Argument(arg.substring(equal + 1)));
         }
     }
 
@@ -49,49 +49,49 @@ public class SOSArguments {
             for (int i = 0; i < args.length; i++) {
                 String arg = args[i];
                 int equal = arg.indexOf("=") > -1 ? arg.indexOf("=") : 0;
-                if ((arg.length() > equal + 1) && arg.charAt(equal + 1) == '\'' && arg.charAt(arg.length() - 1) == '\'') {
+                if (arg.length() > equal + 1 && arg.charAt(equal + 1) == '\'' && arg.charAt(arg.length() - 1) == '\'') {
                     arg = arg.substring(0, equal + 1) + arg.substring(equal + 2, arg.length() - 1);
                 }
-                _arguments.put(arg.substring(0, equal + 1), new Argument(arg.substring(equal + 1)));
+                arguments.put(arg.substring(0, equal + 1), new Argument(arg.substring(equal + 1)));
             }
         }
     }
 
-    public String as_string(String option) throws Exception {
-        return as_string(option, null);
+    public String asString(String option) throws Exception {
+        return asString(option, null);
     }
 
-    public String as_string(String option, String default_) throws Exception {
-        Argument argument = (Argument) _arguments.get(option);
+    public String asString(String option, String defaultString) throws Exception {
+        Argument argument = (Argument) arguments.get(option);
         if (argument == null) {
-            if (default_ == null) {
+            if (defaultString == null) {
                 throw new Exception("SOSArguments.as_string(): parameter is missing: " + option);
             }
-            return default_;
+            return defaultString;
         }
-        argument._read = true;
-        return argument._value;
+        argument.read = true;
+        return argument.value;
     }
 
-    public int as_int(String option) throws Exception {
-        String result = as_string(option);
+    public int asInt(String option) throws Exception {
+        String result = asString(option);
         try {
             return Integer.parseInt(result);
         } catch (Exception x) {
-            throw new Exception("SOSArguments.as_int(): invalid parameter [" + option + "]: " + x.getMessage(), x);
+            throw new Exception("SOSArguments.asInt(): invalid parameter [" + option + "]: " + x.getMessage(), x);
         }
     }
 
-    public int as_int(String option, int default_) throws Exception {
-        String result = as_string(option, "");
+    public int asInt(String option, int defaultInt) throws Exception {
+        String result = asString(option, "");
         if ("".equals(result)) {
-            return default_;
+            return defaultInt;
         }
-        return as_int(option);
+        return asInt(option);
     }
 
-    public boolean as_bool(String option) throws Exception {
-        String result = as_string(option);
+    public boolean asBool(String option) throws Exception {
+        String result = asString(option);
         try {
             boolean ok = false;
             boolean rc = false;
@@ -103,7 +103,6 @@ public class SOSArguments {
                 ok = true;
                 rc = true;
             }
-
             if (!ok && "false".equalsIgnoreCase(result)) {
                 ok = true;
                 rc = false;
@@ -117,24 +116,24 @@ public class SOSArguments {
             }
             return rc;
         } catch (Exception x) {
-            throw new Exception("SOSArguments.as_bool(): invalid parameter [" + option + "]: " + x.getMessage(), x);
+            throw new Exception("SOSArguments.asBool(): invalid parameter [" + option + "]: " + x.getMessage(), x);
         }
     }
 
-    public boolean as_bool(String option, boolean default_) throws Exception {
-        String result = as_string(option, "");
+    public boolean asBool(String option, boolean defaultBoolean) throws Exception {
+        String result = asString(option, "");
         if ("".equals(result)) {
-            return default_;
+            return defaultBoolean;
         }
-        return as_bool(option);
+        return asBool(option);
     }
 
-    public void check_all_used() throws Exception {
-        for (Iterator it = _arguments.entrySet().iterator(); it.hasNext();) {
+    public void checkAllUsed() throws Exception {
+        for (Iterator it = arguments.entrySet().iterator(); it.hasNext();) {
             Map.Entry entry = (Map.Entry) it.next();
             String option = (String) entry.getKey();
             Argument argument = (Argument) entry.getValue();
-            if (!argument._read) {
+            if (!argument.read) {
                 throw new Exception("SOSArguments.check_all_used(): no parameter given for option: " + option);
             }
         }
@@ -150,28 +149,28 @@ public class SOSArguments {
             if (equal == -1) {
                 throw new Exception("SOSArguments(): illegal parameter: " + arg);
             }
-            if ((arg.length() > equal + 1) && arg.charAt(equal + 1) == '\'' && arg.charAt(arg.length() - 1) == '\'') {
+            if (arg.length() > equal + 1 && arg.charAt(equal + 1) == '\'' && arg.charAt(arg.length() - 1) == '\'') {
                 arg = arg.substring(0, equal + 1) + arg.substring(equal + 2, arg.length() - 1);
             }
-            _arguments.put(arg.substring(0, equal + 1), new Argument(arg.substring(equal + 1)));
+            arguments.put(arg.substring(0, equal + 1), new Argument(arg.substring(equal + 1)));
         }
     }
 
     public static void main(String[] args) {
         try {
             SOSArguments arguments = new SOSArguments(args, true);
-            java.util.Iterator keys = arguments._arguments.keySet().iterator();
+            Iterator keys = arguments.arguments.keySet().iterator();
             while (keys.hasNext()) {
                 Object key = keys.next();
-                System.out.println(key + arguments.as_string(key.toString()));
+                System.out.println(key + arguments.asString(key.toString()));
             }
         } catch (Exception e) {
             System.err.println(e.toString());
         }
     }
 
-    public Map get_arguments() {
-        return _arguments;
+    public Map getArguments() {
+        return arguments;
     }
 
 }

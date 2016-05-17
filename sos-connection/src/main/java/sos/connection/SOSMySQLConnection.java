@@ -95,6 +95,7 @@ public class SOSMySQLConnection extends sos.connection.SOSConnection {
                 stmt = connection.createStatement();
                 stmt.execute("SET SESSION SQL_MODE='ANSI_QUOTES'");
             } catch (Exception ex) {
+                //
             } finally {
                 if (stmt != null) {
                     stmt.close();

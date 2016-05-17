@@ -20,33 +20,33 @@ public class SOSCheckSettings {
     private HashMap rules = new HashMap();
     private String operator = " and | or | xor ";
 
-    public SOSCheckSettings(Properties sectionMandatory_, HashMap values_, SOSLogger logger_) throws Exception {
+    public SOSCheckSettings(Properties sectionMandatory, HashMap values, SOSLogger logger) throws Exception {
         try {
-            this.sectionMandatory = sectionMandatory_;
-            this.values = values_;
-            logger = logger_;
-            condition = sosString.parseToString(sectionMandatory, "mandatory");
+            this.sectionMandatory = sectionMandatory;
+            this.values = values;
+            this.logger = logger;
+            this.condition = sosString.parseToString(sectionMandatory, "mandatory");
             init();
         } catch (Exception e) {
             throw new Exception("\n -> error in " + SOSClassUtil.getMethodName() + " " + e);
         }
     }
 
-    public SOSCheckSettings(String condition_, HashMap values_, SOSLogger logger_) throws Exception {
+    public SOSCheckSettings(String condition, HashMap values, SOSLogger logger) throws Exception {
         try {
-            this.values = values_;
-            logger = logger_;
-            condition = condition_;
+            this.values = values;
+            this.logger = logger;
+            this.condition = condition;
             init();
         } catch (Exception e) {
             throw new Exception("\n -> error in " + SOSClassUtil.getMethodName() + " " + e);
         }
     }
 
-    public SOSCheckSettings(String condition_, SOSLogger logger_) throws Exception {
+    public SOSCheckSettings(String condition, SOSLogger logger) throws Exception {
         try {
-            this.condition = condition_;
-            logger = logger_;
+            this.condition = condition;
+            this.logger = logger;
             values = new HashMap();
             values.put("true", "1");
             values.put("1", "1");
@@ -119,9 +119,9 @@ public class SOSCheckSettings {
 
     }
 
-    public void setConditionValues(HashMap values_) throws Exception {
+    public void setConditionValues(HashMap values) throws Exception {
         try {
-            values = values_;
+            this.values = values;
         } catch (Exception e) {
             throw new Exception("\n -> error in " + SOSClassUtil.getMethodName() + " " + e);
         }
@@ -133,33 +133,6 @@ public class SOSCheckSettings {
             key = key.replaceAll("\\)", "");
             key = key.replaceAll("  ", " ");
             return key;
-        } catch (Exception e) {
-            throw new Exception("\n -> error in " + SOSClassUtil.getMethodName() + " " + e);
-        }
-    }
-
-    private String normailzedANDOR(String hCond) throws Exception {
-        try {
-            hCond = hCond.replaceAll(" AND ", " and ");
-            hCond = hCond.replaceAll(" aND ", " and ");
-            hCond = hCond.replaceAll(" anD ", " and ");
-            hCond = hCond.replaceAll(" and ", " and ");
-            hCond = hCond.replaceAll(" AnD ", " and ");
-            hCond = hCond.replaceAll(" aNd ", " and ");
-            hCond = hCond.replaceAll(" ANd ", " and ");
-            hCond = hCond.replaceAll(" And ", " and ");
-            hCond = hCond.replaceAll(" XOR ", " xor ");
-            hCond = hCond.replaceAll(" xOR ", " xor ");
-            hCond = hCond.replaceAll(" xoR ", " xor ");
-            hCond = hCond.replaceAll(" xor ", " xor ");
-            hCond = hCond.replaceAll(" XoR ", " xor ");
-            hCond = hCond.replaceAll(" xOr ", " xor ");
-            hCond = hCond.replaceAll(" XOr ", " xor ");
-            hCond = hCond.replaceAll(" Xor ", " xor ");
-            hCond = hCond.replaceAll(" OR ", " or ");
-            hCond = hCond.replaceAll(" Or ", " or ");
-            hCond = hCond.replaceAll(" oR ", " or ");
-            return hCond;
         } catch (Exception e) {
             throw new Exception("\n -> error in " + SOSClassUtil.getMethodName() + " " + e);
         }
