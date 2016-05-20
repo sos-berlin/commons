@@ -56,17 +56,17 @@ public class SOSCredentialStoreImpl extends JSToolBox {
     public void checkCredentialStoreOptions() {
         if (getOptions().useCredentialStore.isTrue()) {
             LOGGER.trace("entering checkCredentialStoreOptions ");
-            objCredentialStoreOptions.credentialStoreFileName.CheckMandatory(true);
-            objCredentialStoreOptions.credentialStoreKeyPath.CheckMandatory(true);
+            objCredentialStoreOptions.credentialStoreFileName.checkMandatory(true);
+            objCredentialStoreOptions.credentialStoreKeyPath.checkMandatory(true);
             String strPassword = null;
             File fleKeyFile = null;
             if (objCredentialStoreOptions.credentialStoreKeyFileName.isDirty()) {
-                fleKeyFile = new File(objCredentialStoreOptions.credentialStoreKeyFileName.Value());
+                fleKeyFile = new File(objCredentialStoreOptions.credentialStoreKeyFileName.getValue());
             }
             if (objCredentialStoreOptions.credentialStorePassword.isDirty()) {
-                strPassword = objCredentialStoreOptions.credentialStorePassword.Value();
+                strPassword = objCredentialStoreOptions.credentialStorePassword.getValue();
             }
-            File fleKeePassDataBase = new File(objCredentialStoreOptions.credentialStoreFileName.Value());
+            File fleKeePassDataBase = new File(objCredentialStoreOptions.credentialStoreFileName.getValue());
             try {
                 keePassDb = KeePassDataBaseManager.openDataBase(fleKeePassDataBase, fleKeyFile, strPassword);
             } catch (Exception e) {
@@ -74,7 +74,7 @@ public class SOSCredentialStoreImpl extends JSToolBox {
                 throw new JobSchedulerException(e);
             }
             kdb1 = (KeePassDataBaseV1) keePassDb;
-            Entry objEntry = kdb1.getEntry(objCredentialStoreOptions.credentialStoreKeyPath.Value());
+            Entry objEntry = kdb1.getEntry(objCredentialStoreOptions.credentialStoreKeyPath.getValue());
             if (objEntry == null) {
                 throw new CredentialStoreKeyNotFound(objCredentialStoreOptions);
             }
@@ -120,23 +120,23 @@ public class SOSCredentialStoreImpl extends JSToolBox {
                 }
             }
             if (isNotEmpty(objEntry.UserName())) {
-                objOptionsBridge.getUser().Value(objEntry.UserName());
+                objOptionsBridge.getUser().setValue(objEntry.UserName());
                 objOptionsBridge.getUser().setHideValue(flgHideValuesFromCredentialStore);
             }
             if (isNotEmpty(objEntry.Password())) {
-                objOptionsBridge.getPassword().Value(objEntry.Password());
+                objOptionsBridge.getPassword().setValue(objEntry.Password());
                 objOptionsBridge.getPassword().setHideValue(flgHideValuesFromCredentialStore);
             }
             if (isNotEmpty(objEntry.Url())) {
-                objOptionsBridge.getHost().Value(objEntry.Url());
+                objOptionsBridge.getHost().setValue(objEntry.Url());
                 objOptionsBridge.getHost().setHideValue(flgHideValuesFromCredentialStore);
             }
             objEntry.ExpirationDate();
             if (objOptionsBridge.getHost().isNotDirty()) {
-                objOptionsBridge.getHost().Value(objEntry.getUrl().toString());
+                objOptionsBridge.getHost().setValue(objEntry.getUrl().toString());
             }
             if (objCredentialStoreOptions.credentialStoreExportAttachment.isTrue()) {
-                File fleO = objEntry.saveAttachmentAsFile(objCredentialStoreOptions.credentialStoreExportAttachment2FileName.Value());
+                File fleO = objEntry.saveAttachmentAsFile(objCredentialStoreOptions.credentialStoreExportAttachment2FileName.getValue());
                 if (objCredentialStoreOptions.credentialStoreDeleteExportedFileOnExit.isTrue()) {
                     fleO.deleteOnExit();
                 }
@@ -150,7 +150,7 @@ public class SOSCredentialStoreImpl extends JSToolBox {
     private void setIfNotDirty(final SOSOptionElement objOption, final String pstrValue) {
         if (objOption.isNotDirty() && isNotEmpty(pstrValue)) {
             LOGGER.trace("setValue = " + pstrValue);
-            objOption.Value(pstrValue);
+            objOption.setValue(pstrValue);
         }
     }
 }
