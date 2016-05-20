@@ -17,6 +17,6 @@ public class CredentialStoreEntryExpired extends SOSCredentialStoreException {
     public CredentialStoreEntryExpired(final Date objExpDate) {
         super(String.format(String.format("SOSVfsCS_E_001: Entry is expired, valid until %1$s. Processing aborted", objExpDate)));
         gflgStackTracePrinted = true;
-        this.Status(FATAL);
+        this.setStatus(FATAL);
     }
 }
