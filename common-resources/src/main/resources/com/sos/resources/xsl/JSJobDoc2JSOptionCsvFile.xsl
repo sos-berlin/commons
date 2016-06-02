@@ -21,8 +21,7 @@
 <xsl:variable name="timestamp" select="'2010-05-15-14-28-00'" />
  	<xsl:variable name="timestamp3">
 		<xsl:eval>
-			java:new java.text.SimpleDateFormat("HH/dd/yyyy HH:mm:ss").format(new
-			java.util.Date())
+			java:new java.text.SimpleDateFormat("HH/dd/yyyy HH:mm:ss").format(new java.util.Date())
 		</xsl:eval>
 	</xsl:variable>
 	<xsl:variable name="SourceType" select="'options'" />
@@ -107,11 +106,10 @@
 		</xsl:for-each>
 	</xsl:template>
 
-
 	<xsl:template match="text()">
-		<!--
-	<xsl:value-of select="normalize-space(.)"/>
--->
+	<!--
+		<xsl:value-of select="normalize-space(.)"/>
+	-->
 	</xsl:template>
 
 </xsl:stylesheet>

@@ -70,15 +70,15 @@ public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select=
 	}  
  
 	@Override   
-	public void CheckMandatory() {
+	public void checkMandatory() {
 		try {
-			super.CheckMandatory();
+			super.checkMandatory();
 		} catch (Exception e) {
 			throw new JSExceptionMandatoryOptionMissing(e.toString());
 		}
 	}  
-}
 
+}
 </xsl:template>
 
 	<xsl:template match="text()">

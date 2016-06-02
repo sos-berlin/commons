@@ -59,10 +59,10 @@ import com.sos.JSHelper.Listener.JSListenerClass;
 public class <xsl:value-of select="$ClassName" /> extends  <xsl:value-of select="$ExtendsClassName"/> {
 	private static final int DEBUG9 = 9;
 	
-	protected <xsl:value-of select="$WorkerClassName" />Options	objOptions			= null;
+	protected <xsl:value-of select="$WorkerClassName" />Options	objOptions = null;
 
-	private final String CLASSNAME = "<xsl:value-of select="$ClassName" />"; 
-	private final static Logger LOGGER = Logger.getLogger(<xsl:value-of select="$ClassName" />.class);
+	private static final String CLASSNAME = "<xsl:value-of select="$ClassName" />"; 
+	private static final Logger LOGGER = Logger.getLogger(<xsl:value-of select="$ClassName" />.class);
 	private <xsl:value-of select="$WorkerClassName" /> objE = null;
 
 	@BeforeClass
@@ -81,7 +81,6 @@ public class <xsl:value-of select="$ClassName" /> extends  <xsl:value-of select=
 		objE.registerMessageListener(this);
 		objOptions = objE.getOptions();
 		objOptions.registerMessageListener(this);
-		
 		JSListenerClass.bolLogDebugInformation = true;
 		JSListenerClass.intMaxDebugLevel = DEBUG9;
 	}
@@ -91,7 +90,7 @@ public class <xsl:value-of select="$ClassName" /> extends  <xsl:value-of select=
         // Implement Method here
 	}
 
-		<xsl:call-template name="CreateDataElements" />
+	<xsl:call-template name="CreateDataElements" />
 		       
 }  
 	</xsl:template>
@@ -218,45 +217,45 @@ public class <xsl:value-of select="$ClassName" /> extends  <xsl:value-of select=
     public void test<xsl:value-of select="./@name" />() { 
     <xsl:choose>
     	<xsl:when test="$datatype = 'SOSOptionString'">
-    	 objOptions.<xsl:value-of select="./@name" />.Value("<xsl:value-of select="concat('++', $defaultvalue, '++')" />");
-    	 assertEquals ("<xsl:value-of select="$title" />", objOptions.<xsl:value-of select="./@name" />.Value(),"<xsl:value-of select="concat('++', $defaultvalue, '++')" />");
+    	 objOptions.<xsl:value-of select="./@name" />.setValue("<xsl:value-of select="concat('++', $defaultvalue, '++')" />");
+    	 assertEquals ("<xsl:value-of select="$title" />", objOptions.<xsl:value-of select="./@name" />.getValue(),"<xsl:value-of select="concat('++', $defaultvalue, '++')" />");
     	</xsl:when>
     	<xsl:when test="$datatype = 'SOSOptionInteger'">
-    	 objOptions.<xsl:value-of select="./@name" />.Value("12345");
-    	 assertEquals ("<xsl:value-of select="$title" />", objOptions.<xsl:value-of select="./@name" />.Value(),"12345");
+    	 objOptions.<xsl:value-of select="./@name" />.setValue("12345");
+    	 assertEquals ("<xsl:value-of select="$title" />", objOptions.<xsl:value-of select="./@name" />.getValue(),"12345");
     	 assertEquals ("<xsl:value-of select="$title" />", objOptions.<xsl:value-of select="./@name" />.value(),12345);
     	 objOptions.<xsl:value-of select="./@name" />.value(12345);
-    	 assertEquals ("<xsl:value-of select="$title" />", objOptions.<xsl:value-of select="./@name" />.Value(),"12345");
+    	 assertEquals ("<xsl:value-of select="$title" />", objOptions.<xsl:value-of select="./@name" />.getValue(),"12345");
     	 assertEquals ("<xsl:value-of select="$title" />", objOptions.<xsl:value-of select="./@name" />.value(),12345);
     	</xsl:when>
     	<xsl:when test="$datatype = 'SOSOptionFileSize'">
-    	 objOptions.<xsl:value-of select="./@name" />.Value("25KB");
-    	 assertEquals ("<xsl:value-of select="$title" />", objOptions.<xsl:value-of select="./@name" />.Value(),"25KB");
-    	 objOptions.<xsl:value-of select="./@name" />.Value("25MB");
-    	 assertEquals ("<xsl:value-of select="$title" />", objOptions.<xsl:value-of select="./@name" />.Value(),"25MB");
-    	 objOptions.<xsl:value-of select="./@name" />.Value("25GB");
-    	 assertEquals ("<xsl:value-of select="$title" />", objOptions.<xsl:value-of select="./@name" />.Value(),"25GB");
+    	 objOptions.<xsl:value-of select="./@name" />.setValue("25KB");
+    	 assertEquals ("<xsl:value-of select="$title" />", objOptions.<xsl:value-of select="./@name" />.getValue(),"25KB");
+    	 objOptions.<xsl:value-of select="./@name" />.setValue("25MB");
+    	 assertEquals ("<xsl:value-of select="$title" />", objOptions.<xsl:value-of select="./@name" />.getValue(),"25MB");
+    	 objOptions.<xsl:value-of select="./@name" />.setValue("25GB");
+    	 assertEquals ("<xsl:value-of select="$title" />", objOptions.<xsl:value-of select="./@name" />.getValue(),"25GB");
     	</xsl:when>
     	<xsl:when test="$datatype = 'SOSOptionTime'">
-    	 objOptions.<xsl:value-of select="./@name" />.Value("30");
-    	 assertEquals ("<xsl:value-of select="$title" />", objOptions.<xsl:value-of select="./@name" />.Value(),"30");
+    	 objOptions.<xsl:value-of select="./@name" />.setValue("30");
+    	 assertEquals ("<xsl:value-of select="$title" />", objOptions.<xsl:value-of select="./@name" />.getValue(),"30");
     	 assertEquals ("<xsl:value-of select="$title" />", objOptions.<xsl:value-of select="./@name" />.getTimeAsSeconds(),30);
-    	 objOptions.<xsl:value-of select="./@name" />.Value("1:30");
-    	 assertEquals ("<xsl:value-of select="$title" />", objOptions.<xsl:value-of select="./@name" />.Value(),"1:30");
+    	 objOptions.<xsl:value-of select="./@name" />.setValue("1:30");
+    	 assertEquals ("<xsl:value-of select="$title" />", objOptions.<xsl:value-of select="./@name" />.getValue(),"1:30");
     	 assertEquals ("<xsl:value-of select="$title" />", objOptions.<xsl:value-of select="./@name" />.getTimeAsSeconds(),90);
-    	 objOptions.<xsl:value-of select="./@name" />.Value("1:10:30");
-    	 assertEquals ("<xsl:value-of select="$title" />", objOptions.<xsl:value-of select="./@name" />.Value(),"1:10:30");
+    	 objOptions.<xsl:value-of select="./@name" />.setValue("1:10:30");
+    	 assertEquals ("<xsl:value-of select="$title" />", objOptions.<xsl:value-of select="./@name" />.getValue(),"1:10:30");
     	 assertEquals ("<xsl:value-of select="$title" />", objOptions.<xsl:value-of select="./@name" />.getTimeAsSeconds(),30+10*60+60*60);
     	</xsl:when>
     	<xsl:when test="$datatype = 'SOSOptionBoolean'">
-    	 objOptions.<xsl:value-of select="./@name" />.Value("true");
+    	 objOptions.<xsl:value-of select="./@name" />.setValue("true");
     	 assertTrue ("<xsl:value-of select="$title" />", objOptions.<xsl:value-of select="./@name" />.value());
-    	 objOptions.<xsl:value-of select="./@name" />.Value("false");
+    	 objOptions.<xsl:value-of select="./@name" />.setValue("false");
     	 assertFalse ("<xsl:value-of select="$title" />", objOptions.<xsl:value-of select="./@name" />.value());
     	</xsl:when>
     	<xsl:otherwise>
-    	objOptions.<xsl:value-of select="./@name" />.Value("<xsl:value-of select="concat('++', $defaultvalue, '++')" />");
-    	assertEquals ("<xsl:value-of select="$title" />", objOptions.<xsl:value-of select="./@name" />.Value(),"<xsl:value-of select="concat('++', $defaultvalue, '++')" />");
+    	objOptions.<xsl:value-of select="./@name" />.setValue("<xsl:value-of select="concat('++', $defaultvalue, '++')" />");
+    	assertEquals ("<xsl:value-of select="$title" />", objOptions.<xsl:value-of select="./@name" />.getValue(),"<xsl:value-of select="concat('++', $defaultvalue, '++')" />");
     	</xsl:otherwise>
     </xsl:choose>
     }

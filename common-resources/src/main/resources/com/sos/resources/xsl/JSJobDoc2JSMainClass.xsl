@@ -46,37 +46,30 @@ import com.sos.JSHelper.Basics.JSToolBox;
 
 
 public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select="$ExtendsClassName" /> {
-	protected <xsl:value-of select="$WorkerClassName" />Options	objOptions			= null;
-	private final static String CLASSNAME = "<xsl:value-of select="$class_name" />"; 
-	private final static Logger LOGGER = Logger.getLogger(<xsl:value-of select="$class_name" />.class);
+	protected <xsl:value-of select="$WorkerClassName" />Options	objOptions = null;
+	private static final String CLASSNAME = "<xsl:value-of select="$class_name" />"; 
+	private static final Logger LOGGER = Logger.getLogger(<xsl:value-of select="$class_name" />.class);
 
  
 	public final static void main(String[] pstrArgs) {
-
 		final String METHODNAME = CLASSNAME + "::Main"; 
-
 		LOGGER.info("<xsl:value-of select="$WorkerClassName" /> - Main"); 
-
 		try {
 			<xsl:value-of select="$WorkerClassName" /> objM = new <xsl:value-of select="$WorkerClassName" />();
 			<xsl:value-of select="$WorkerClassName" />Options objO = objM.getOptions();
-			
-			objO.CommandLineArgs(pstrArgs);
+			objO.commandLineArgs(pstrArgs);
 			objM.execute();
-			
 		} catch (Exception e) {
 			System.err.println(METHODNAME + ": " + "Error occured ..." + e.getMessage()); 
-			LOGGER.error(e.getMessage(),e);
+			LOGGER.error(e.getMessage(), e);
 			int intExitCode = 99;
 			LOGGER.error(String.format("JSJ-E-105: %1$s - terminated with exit-code %2$d", METHODNAME, intExitCode), e);		
 			System.exit(intExitCode);
 		}
-		
 		LOGGER.info(String.format("JSJ-I-106: %1$s - ended without errors", METHODNAME));		
 	}
 
 }  
-
 </xsl:template>
 
 	<xsl:template match="text()">

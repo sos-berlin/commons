@@ -47,7 +47,7 @@ package <xsl:value-of select="$package_name" />;
 
 import <xsl:value-of select="$package_name" />.<xsl:value-of select="$WorkerClassName" />;
 import <xsl:value-of select="$package_name" />.<xsl:value-of select="$WorkerClassName" />Options;
-import sos.scheduler.job.JobSchedulerJobAdapter;  // Super-Class for JobScheduler Java-API-Jobs
+import sos.scheduler.job.JobSchedulerJobAdapter;
 import org.apache.log4j.Logger;
 import com.sos.JSHelper.Exceptions.JobSchedulerException;
 import com.sos.localization.*;
@@ -56,16 +56,6 @@ public class <xsl:value-of select="$class_name" /> extends JobSchedulerJobAdapte
 	{
 	private static final String CLASSNAME = "<xsl:value-of select="$class_name" />";
 	private static final Logger LOGGER = Logger.getLogger(<xsl:value-of select="$class_name" />.class);
-
-	public void init() {
-		final String METHODNAME = CLASSNAME + "::init";
-		// TODO: implement method init here if needed
-		doInitialize();
-	}
-
-	private void doInitialize() {
-   		// TODO: implement method doInitialize here if needed
-    }  
 
 	@Override
 	public boolean spooler_init() {
@@ -101,9 +91,9 @@ public class <xsl:value-of select="$class_name" /> extends JobSchedulerJobAdapte
 		<xsl:value-of select="$WorkerClassName" /> objR = new <xsl:value-of select="$WorkerClassName" />();
 		<xsl:value-of select="$WorkerClassName" />Options objO = objR.getOptions();
 
-        objO.CurrentNodeName(this.getCurrentNodeName());
+        objO.setCurrentNodeName(this.getCurrentNodeName());
 		objO.setAllOptions(getSchedulerParameterAsProperties(getJobOrOrderParameters()));
-		objO.CheckMandatory();
+		objO.checkMandatory();
         objR.setJSJobUtilites(this);
 		objR.execute();
 	}  
