@@ -53,12 +53,11 @@ import com.sos.JSHelper.Listener.JSListenerClass;
 
 
 public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select="$ExtendsClassName" /> {
+
+	protected <xsl:value-of select="$WorkerClassName" />Options	objOptions = null;
 	private static final String	CLASSNAME = "<xsl:value-of select="$class_name" />"; 
 	private static final Logger	LOGGER = Logger.getLogger(<xsl:value-of select="$class_name" />.class);
-
-	protected <xsl:value-of select="$WorkerClassName" />Options	objOptions			= null;
 	private <xsl:value-of select="$WorkerClassName" /> objE = null;
-	
 	
 	public <xsl:value-of select="$class_name" />() {
 		//
@@ -80,10 +79,8 @@ public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select=
 		objE.registerMessageListener(this);
 		objOptions = objE.getOptions();
 		objOptions.registerMessageListener(this);
-		
 		JSListenerClass.bolLogDebugInformation = true;
 		JSListenerClass.intMaxDebugLevel = 9;
-		
 	}
 
 	@After
@@ -93,15 +90,10 @@ public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select=
 
 	@Test
 	public void testExecute() throws Exception {
-		
 		objE.execute();
-		
- 
-
-
 	}
-}   
 
+}   
 </xsl:template>
 
 	<xsl:template match="text()">

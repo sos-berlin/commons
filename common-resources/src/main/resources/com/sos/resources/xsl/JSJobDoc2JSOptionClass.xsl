@@ -47,14 +47,13 @@ import com.sos.JSHelper.Annotations.JSOptionClass;
 import com.sos.JSHelper.Exceptions.JSExceptionMandatoryOptionMissing;
 import com.sos.JSHelper.Listener.JSListener;
 import org.apache.log4j.Logger;
-
  
 @JSOptionClass(name = "<xsl:value-of select="$class_name" />", description = "<xsl:value-of select="$class_title" />")
 public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select="$ExtendsClassName" /> {
+
 	private static final String CLASSNAME = "<xsl:value-of select="$class_name" />";
 	private static final Logger LOGGER = Logger.getLogger(<xsl:value-of select="$class_name" />.class);
  
-
 	public <xsl:value-of select="$class_name" />() {
         // TODO: Implement Constructor here
 	}  
@@ -64,21 +63,20 @@ public class <xsl:value-of select="$class_name" /> extends <xsl:value-of select=
 		this.registerMessageListener(pobjListener);
 	} 
 
-
 	public <xsl:value-of select="$class_name" /> (HashMap &lt;String, String&gt; jsSettings) throws Exception {
 		super(jsSettings);
 	}  
  
 	@Override   
-	public void CheckMandatory() {
+	public void checkMandatory() {
 		try {
-			super.CheckMandatory();
+			super.checkMandatory();
 		} catch (Exception e) {
 			throw new JSExceptionMandatoryOptionMissing(e.toString());
 		}
 	}  
-}
 
+}
 </xsl:template>
 
 	<xsl:template match="text()">

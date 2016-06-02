@@ -26,7 +26,6 @@
 <xsl:param name="keywords" required="no" as="xs:string"/>
 <xsl:param name="default_lang" required="yes" as="xs:string"/>
 
-
 	<xsl:variable name="nl" select="'&#xa;'" />
 
 	<xsl:template match="//jobdoc:description">
@@ -47,25 +46,14 @@ package <xsl:value-of select="$package_name" />;
 
 import <xsl:value-of select="$package_name" />.<xsl:value-of select="$WorkerClassName" />;
 import <xsl:value-of select="$package_name" />.<xsl:value-of select="$WorkerClassName" />Options;
-import sos.scheduler.job.JobSchedulerJobAdapter;  // Super-Class for JobScheduler Java-API-Jobs
+import sos.scheduler.job.JobSchedulerJobAdapter;
 import org.apache.log4j.Logger;
 import com.sos.JSHelper.Exceptions.JobSchedulerException;
 import com.sos.localization.*;
 
-public class <xsl:value-of select="$class_name" /> extends JobSchedulerJobAdapter <!-- extends <xsl:value-of select="$ExtendsClassName" /> -->
-	{
+public class <xsl:value-of select="$class_name" /> extends JobSchedulerJobAdapter <!-- extends <xsl:value-of select="$ExtendsClassName" /> -->{
 	private static final String CLASSNAME = "<xsl:value-of select="$class_name" />";
 	private static final Logger LOGGER = Logger.getLogger(<xsl:value-of select="$class_name" />.class);
-
-	public void init() {
-		final String METHODNAME = CLASSNAME + "::init";
-		// TODO: implement method init here if needed
-		doInitialize();
-	}
-
-	private void doInitialize() {
-   		// TODO: implement method doInitialize here if needed
-    }  
 
 	@Override
 	public boolean spooler_init() {
@@ -76,7 +64,6 @@ public class <xsl:value-of select="$class_name" /> extends JobSchedulerJobAdapte
 	@Override
 	public boolean spooler_process() throws Exception {
 		final String METHODNAME = CLASSNAME + "::spooler_process";
-
 		try {
 			super.spooler_process();
 			doProcessing();
@@ -97,18 +84,16 @@ public class <xsl:value-of select="$class_name" /> extends JobSchedulerJobAdapte
 
 	private void doProcessing() throws Exception {
 		final String METHODNAME = CLASSNAME + "::doProcessing";
-
 		<xsl:value-of select="$WorkerClassName" /> objR = new <xsl:value-of select="$WorkerClassName" />();
 		<xsl:value-of select="$WorkerClassName" />Options objO = objR.getOptions();
-
-        objO.CurrentNodeName(this.getCurrentNodeName());
+        objO.setCurrentNodeName(this.getCurrentNodeName());
 		objO.setAllOptions(getSchedulerParameterAsProperties());
-		objO.CheckMandatory();
+		objO.checkMandatory();
         objR.setJSJobUtilites(this);
 		objR.execute();
 	}  
-}
 
+}
 </xsl:template>
 
 	<xsl:template match="text()">

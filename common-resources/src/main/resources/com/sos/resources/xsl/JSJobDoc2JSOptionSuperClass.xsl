@@ -78,14 +78,10 @@ public class <xsl:value-of select="$class_name" /> extends JSOptionsClass {
 		objParentClass = this.getClass();
 	}
 
-
 	public <xsl:value-of select="$class_name" />(JSListener pobjListener) {
 		this();
 		this.registerMessageListener(pobjListener);
 	} 
-
-
-
 
 	public <xsl:value-of select="$class_name" /> (HashMap &lt;String, String&gt; jsSettings) throws Exception {
 		this();
@@ -94,9 +90,6 @@ public class <xsl:value-of select="$class_name" /> extends JSOptionsClass {
 	
 		<xsl:call-template name="CreateDataElements" />
 <!-- <xsl:call-template name="CreateGetterAndSetter" />  -->        
-        
-
-
  
 	private String getAllOptionsAsString() {
 		final String METHODNAME = CLASSNAME + "::getAllOptionsAsString";
@@ -104,27 +97,28 @@ public class <xsl:value-of select="$class_name" /> extends JSOptionsClass {
 		strT += this.toString(); 
 		return strT;
 	} 
-
-	public void setAllOptions(HashMap &lt;String, String&gt; pobjJSSettings)   {
+ 
+	public void setAllOptions(HashMap &lt;String, String&gt; pobjJSSettings) {
 		final String METHODNAME = CLASSNAME + "::setAllOptions";
 		objSettings = pobjJSSettings;
 		super.setAllOptions(pobjJSSettings);
-
-		@Override
-	public void CheckMandatory() throws JSExceptionMandatoryOptionMissing, Exception {
+	} 
+ 
+	@Override
+	public void checkMandatory() throws JSExceptionMandatoryOptionMissing, Exception {
 		try {
-			super.CheckMandatory();
+			super.checkMandatory();
 		} catch (Exception e) {
 			throw new JSExceptionMandatoryOptionMissing(e.toString());
 		}
 	} 
-
  
 	@Override
-	public void CommandLineArgs(String[] pstrArgs)   {
-		super.CommandLineArgs(pstrArgs);
+	public void commandLineArgs(String[] pstrArgs)   {
+		super.commandLineArgs(pstrArgs);
 		this.setAllOptions(super.objSettings);
 	}
+
 } 
 	</xsl:template>
 
@@ -317,22 +311,16 @@ public class <xsl:value-of select="$class_name" /> extends JSOptionsClass {
                     </xsl:variable>
 
  
-    @JSOptionDefinition(name = "<xsl:value-of select="./@name" />", 
-    description = "<xsl:value-of select="$title" />", 
-    key = "<xsl:value-of select="./@name" />", 
-    type = "<xsl:value-of select="$datatype" />", 
-    mandatory = <xsl:value-of select="$mandatory" />)
-    
+    @JSOptionDefinition(name = "<xsl:value-of select="./@name" />", description = "<xsl:value-of select="$title" />", 
+    	key = "<xsl:value-of select="./@name" />", type = "<xsl:value-of select="$datatype" />", mandatory = <xsl:value-of select="$mandatory" />)
     public <xsl:value-of select="concat($datatype,' ')" /> <xsl:value-of select="./@name" /> = new <xsl:value-of select="$datatype" />(this, CLASSNAME + ".<xsl:value-of select="./@name" />", 
                                                                 "<xsl:value-of select="$title" />",  
                                                                 // InitValue, DefaultValue, isMandatory
                                                                 "<xsl:value-of select="$initialvalue" />", "<xsl:value-of select="$defaultvalue" />", <xsl:value-of select="$mandatory" />   );
-
  
     public <xsl:value-of select="$datatype" /><xsl:text> </xsl:text> get<xsl:value-of select="./@name" />() {
         return <xsl:value-of select="./@name" />;
     }
-
  
     public void set<xsl:value-of select="concat(./@name, ' (', $datatype,' ', ./@name, ') {')" /> 
         this.<xsl:value-of select="concat(./@name, ' = ', ./@name, ';' )" />
@@ -342,7 +330,7 @@ public class <xsl:value-of select="$class_name" /> extends JSOptionsClass {
                             <xsl:when test="@Alias and not(@Alias='')">
     public <xsl:value-of select="concat($datatype,' ')" /> <xsl:value-of select="./@Alias" /> =
     <xsl:value-of select="concat('(',$datatype,') ')" />  
-    <xsl:value-of select="concat(./@name, '.SetAlias(conClassName + ')" />".<xsl:value-of select="./@Alias"/>"<xsl:value-of select="');'" />
+    <xsl:value-of select="concat(./@name, '.SetAlias(CLASSNAME + ')" />".<xsl:value-of select="./@Alias"/>"<xsl:value-of select="');'" />
                             </xsl:when>
                             <xsl:otherwise>
                             </xsl:otherwise>
