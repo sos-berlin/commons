@@ -14,13 +14,19 @@ import org.w3c.dom.Node;
 import sos.xml.SOSXMLXPath;
 
 public class SOSXmlCommand {
+    private String protocol;
     private String host;
     private Long port;
     private HashMap<String, String> attributes;
     private StringBuilder response;
 
-    public SOSXmlCommand(String host, Long port) {
+    public SOSXmlCommand(String protocol, String host, Long port) {
         super();
+        if (protocol == null || "".equals(protocol)){
+            protocol = "http";
+        }
+        
+        this.protocol = protocol;
         this.host = host;
         this.port = port;
     }
@@ -59,7 +65,7 @@ public class SOSXmlCommand {
 
         HttpURLConnection connection = null;
 
-        String targetURL = String.format("%s://%s:%s", "http", host, port);
+        String targetURL = String.format("%s://%s:%s", protocol, host, port);
 
         try {
             // Create connection
