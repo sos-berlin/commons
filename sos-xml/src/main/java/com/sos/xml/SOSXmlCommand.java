@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 import org.w3c.dom.NamedNodeMap;
@@ -17,18 +19,25 @@ public class SOSXmlCommand {
     private String protocol;
     private String host;
     private Long port;
+    private String url;
     private HashMap<String, String> attributes;
     private StringBuilder response;
+    private Date surveyDate;
 
     public SOSXmlCommand(String protocol, String host, Long port) {
         super();
-        if (protocol == null || "".equals(protocol)){
+        if (protocol == null || "".equals(protocol)) {
             protocol = "http";
         }
-        
+
         this.protocol = protocol;
         this.host = host;
         this.port = port;
+    }
+
+    public SOSXmlCommand(String url) {
+        super();
+        this.url = url;
     }
 
     public SOSXmlCommand(String host, int port) {
@@ -44,7 +53,7 @@ public class SOSXmlCommand {
     public Integer getAttributAsIntegerOr0(String key) {
         try {
             return Integer.parseInt(attributes.get(key));
-        }catch (Exception e){
+        } catch (Exception e) {
             return 0;
         }
     }
@@ -61,11 +70,17 @@ public class SOSXmlCommand {
         }
     }
 
-    public String excutePost(String urlParameters) {
+    public String excutePost(String urlParameters) throws Exception {
 
         HttpURLConnection connection = null;
 
-        String targetURL = String.format("%s://%s:%s", protocol, host, port);
+        String targetURL;
+        if (url != null && !"".equals(url)) {
+            targetURL = url;
+        } else {
+            targetURL = String.format("%s://%s:%s", protocol, host, port);
+            ;
+        }
 
         try {
             // Create connection
@@ -97,15 +112,31 @@ public class SOSXmlCommand {
             }
             rd.close();
 
+            executeXPath("/spooler/answer");
+            try {
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd'T'hh:mm:ss.SSS'Z'");
+                surveyDate = formatter.parse(getAttribut("time"));
+            } catch (Exception e) {
+                try {
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss.SSS'Z'");
+                    surveyDate = formatter.parse(getAttribut("time"));
+                } catch (Exception ee) {
+                }
+
+            }
+
             return response.toString();
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            throw e;
         } finally {
             if (connection != null) {
                 connection.disconnect();
             }
         }
+    }
+
+    public Date getSurveyDate() {
+        return surveyDate;
     }
 
 }
