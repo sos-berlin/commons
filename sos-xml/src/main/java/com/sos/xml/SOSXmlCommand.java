@@ -112,18 +112,7 @@ public class SOSXmlCommand {
             }
             rd.close();
 
-            executeXPath("/spooler/answer");
-            try {
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd'T'hh:mm:ss.SSS'Z'");
-                surveyDate = formatter.parse(getAttribut("time"));
-            } catch (Exception e) {
-                try {
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss.SSS'Z'");
-                    surveyDate = formatter.parse(getAttribut("time"));
-                } catch (Exception ee) {
-                }
-
-            }
+   
 
             return response.toString();
         } catch (Exception e) {
@@ -135,7 +124,19 @@ public class SOSXmlCommand {
         }
     }
 
-    public Date getSurveyDate() {
+    public Date getSurveyDate()   {
+        if ("".equals(surveyDate)){
+            try {executeXPath("/spooler/answer");
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd'T'hh:mm:ss.SSS'Z'");
+                surveyDate = formatter.parse(getAttribut("time"));
+            } catch (Exception e) {
+                try {
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss.SSS'Z'");
+                    surveyDate = formatter.parse(getAttribut("time"));
+                } catch (Exception ee) {
+                }
+            } 
+        }
         return surveyDate;
     }
 
