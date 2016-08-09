@@ -6,23 +6,28 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import sos.xml.SOSXMLXPath;
 
 public class SOSXmlCommand {
+    protected static final String JOBSCHEDULER_DATE_FORMAT = "yyyy-mm-dd hh:mm:ss.SSS'Z'";
+    protected static final String JOBSCHEDULER_DATE_FORMAT2 = "yyyy-mm-dd'T'hh:mm:ss.SSS'Z'";
     private String protocol;
     private String host;
     private Long port;
     private String url;
-    private HashMap<String, String> attributes;
+    protected HashMap<String, String> attributes;
     private StringBuilder response;
-    private Date surveyDate;
+    private SOSXMLXPath sosxml;
 
     public SOSXmlCommand(String protocol, String host, Long port) {
         super();
@@ -57,16 +62,37 @@ public class SOSXmlCommand {
             return 0;
         }
     }
+    
+    public Date getAttributAsDate(String dateAttribute) throws ParseException{
+        SimpleDateFormat formatter = new SimpleDateFormat(JOBSCHEDULER_DATE_FORMAT);
+        SimpleDateFormat formatter2 = new SimpleDateFormat(JOBSCHEDULER_DATE_FORMAT2);
+        Date date;
+        try{
+            date = formatter.parse(getAttribut(dateAttribute));
+        }catch (Exception e){
+            date = formatter2.parse(getAttribut(dateAttribute));
+        }
+        return date;
+    }
 
     public void executeXPath(String xPath) throws Exception {
-        attributes = new HashMap<String, String>();
-        SOSXMLXPath sosxml = new SOSXMLXPath(new StringBuffer(response));
-        Node n = sosxml.selectSingleNode(xPath);
-        if (n != null) {
-            NamedNodeMap map = n.getAttributes();
-            for (int j = 0; j < map.getLength(); j++) {
-                attributes.put(map.item(j).getNodeName(), map.item(j).getNodeValue());
+        if (sosxml != null) {
+            attributes = new HashMap<String, String>();
+            Node n = sosxml.selectSingleNode(xPath);
+            if (n != null) {
+                NamedNodeMap map = n.getAttributes();
+                for (int j = 0; j < map.getLength(); j++) {
+                    attributes.put(map.item(j).getNodeName(), map.item(j).getNodeValue());
+                }
             }
+        }
+    }
+
+    public NodeList selectNodelist(String xPath) throws Exception {
+        if (sosxml != null) {
+            return sosxml.selectNodeList(xPath);
+        } else {
+            return null;
         }
     }
 
@@ -111,8 +137,7 @@ public class SOSXmlCommand {
                 response.append('\r');
             }
             rd.close();
-
-   
+            sosxml = new SOSXMLXPath(new StringBuffer(response));
 
             return response.toString();
         } catch (Exception e) {
@@ -122,22 +147,6 @@ public class SOSXmlCommand {
                 connection.disconnect();
             }
         }
-    }
-
-    public Date getSurveyDate()   {
-        if ("".equals(surveyDate)){
-            try {executeXPath("/spooler/answer");
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd'T'hh:mm:ss.SSS'Z'");
-                surveyDate = formatter.parse(getAttribut("time"));
-            } catch (Exception e) {
-                try {
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss.SSS'Z'");
-                    surveyDate = formatter.parse(getAttribut("time"));
-                } catch (Exception ee) {
-                }
-            } 
-        }
-        return surveyDate;
     }
 
 }
