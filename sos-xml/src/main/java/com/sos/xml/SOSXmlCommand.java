@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -51,11 +50,11 @@ public class SOSXmlCommand {
         this.port = new Long(port);
     }
 
-    public String getAttribut(String key) {
+    public String getAttribute(String key) {
         return attributes.get(key);
     }
 
-    public Integer getAttributAsIntegerOr0(String key) {
+    public Integer getAttributeAsIntegerOr0(String key) {
         try {
             return Integer.parseInt(attributes.get(key));
         } catch (Exception e) {
@@ -63,14 +62,14 @@ public class SOSXmlCommand {
         }
     }
     
-    public Date getAttributAsDate(String dateAttribute) throws ParseException{
+    public Date getAttributeAsDate(String dateAttribute) throws ParseException{
         SimpleDateFormat formatter = new SimpleDateFormat(JOBSCHEDULER_DATE_FORMAT);
         SimpleDateFormat formatter2 = new SimpleDateFormat(JOBSCHEDULER_DATE_FORMAT2);
         Date date;
         try{
-            date = formatter.parse(getAttribut(dateAttribute));
+            date = formatter.parse(getAttribute(dateAttribute));
         }catch (Exception e){
-            date = formatter2.parse(getAttribut(dateAttribute));
+            date = formatter2.parse(getAttribute(dateAttribute));
         }
         return date;
     }

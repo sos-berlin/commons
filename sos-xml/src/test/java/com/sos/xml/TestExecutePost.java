@@ -32,15 +32,15 @@ public class TestExecutePost {
      
 
         sosXmlCommand.executeXPath("//subsystem[@name='job']//file_based.statistics");
-        System.out.println("jobschedulerJobs.setAny: " + Integer.parseInt(sosXmlCommand.getAttribut("count")));
+        System.out.println("jobschedulerJobs.setAny: " + Integer.parseInt(sosXmlCommand.getAttribute("count")));
         sosXmlCommand.executeXPath("//subsystem[@name='job']//job.statistic[@need_process='true']");
-        System.out.println("jobschedulerJobs.setNeedProcess: " + Integer.parseInt(sosXmlCommand.getAttribut("count")));
+        System.out.println("jobschedulerJobs.setNeedProcess: " + Integer.parseInt(sosXmlCommand.getAttribute("count")));
  
         sosXmlCommand.executeXPath("//subsystem[@name='job']//job.statistic[@job_state='running']");
-        System.out.println("jobschedulerJobs.setRunning: " + Integer.parseInt(sosXmlCommand.getAttribut("count")));
+        System.out.println("jobschedulerJobs.setRunning: " + Integer.parseInt(sosXmlCommand.getAttribute("count")));
 
         sosXmlCommand.executeXPath("//subsystem[@name='job']//job.statistic[@job_state='stopped']");
-        System.out.println("jobschedulerJobs.setStopped: " + Integer.parseInt(sosXmlCommand.getAttribut("count")));
+        System.out.println("jobschedulerJobs.setStopped: " + Integer.parseInt(sosXmlCommand.getAttribute("count")));
         
     }
  }
