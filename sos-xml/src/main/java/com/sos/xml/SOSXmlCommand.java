@@ -148,4 +148,9 @@ public class SOSXmlCommand {
         }
     }
 
+    
+    public SOSXMLXPath getSosxml() {
+        return sosxml;
+    }
+
 }
