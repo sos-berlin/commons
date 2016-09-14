@@ -80,15 +80,27 @@ public class SOSXMLXPath extends CachedXPathAPI {
     public String selectSingleNodeValue(String xpathExpression) throws Exception {
         return selectSingleNodeValue(this.document.getDocumentElement(), xpathExpression);
     }
+    
+    public String selectSingleNodeValue(String xpathExpression, String default_) throws Exception {
+        return selectSingleNodeValue(this.document.getDocumentElement(), xpathExpression, default_);
+    }
 
-    public String selectSingleNodeValue(Element element, String xpathExpression) throws Exception {
-        Node node = this.selectSingleNode(element, xpathExpression);
+    public String selectSingleNodeValue(Node context, String xpathExpression) throws Exception {
+        Node node = this.selectSingleNode(context, xpathExpression);
         if (node != null) {
             return this.getNodeText(node);
         }
         return null;
     }
-
+    
+    public String selectSingleNodeValue(Node context, String xpathExpression, String default_) throws Exception {
+        Node node = this.selectSingleNode(context, xpathExpression);
+        if (node != null) {
+            return this.getNodeText(node);
+        }
+        return default_;
+    }
+    
     public NodeList selectNodeList(String xpathExpression) throws Exception {
         return selectNodeList(this.document.getDocumentElement(), xpathExpression);
     }
@@ -97,8 +109,8 @@ public class SOSXMLXPath extends CachedXPathAPI {
         return selectDocumentText(this.document.getDocumentElement(), xpathExpression);
     }
 
-    public String selectDocumentText(Element element, String xpathExpression) throws Exception {
-        Node node = this.selectSingleNode(element, xpathExpression);
+    public String selectDocumentText(Node context, String xpathExpression) throws Exception {
+        Node node = this.selectSingleNode(context, xpathExpression);
         if (node == null) {
             return "";
         }
