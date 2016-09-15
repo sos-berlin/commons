@@ -18,21 +18,24 @@ import org.w3c.dom.NodeList;
 import sos.xml.SOSXMLXPath;
 
 public class SOSXmlCommand {
+    private static final String DEFAULT_PROTOCOL = "http";
     protected static final String JOBSCHEDULER_DATE_FORMAT = "yyyy-mm-dd hh:mm:ss.SSS'Z'";
     protected static final String JOBSCHEDULER_DATE_FORMAT2 = "yyyy-mm-dd'T'hh:mm:ss.SSS'Z'";
     private String protocol;
     private String host;
     private Long port;
     private String url;
-    protected HashMap<String, String> attributes;
+    protected HashMap<String, HashMap<String, String>> attributes;
     private StringBuilder response;
     private SOSXMLXPath sosxml;
 
     public SOSXmlCommand(String protocol, String host, Long port) {
         super();
         if (protocol == null || "".equals(protocol)) {
-            protocol = "http";
+            protocol = DEFAULT_PROTOCOL;
         }
+
+        attributes = new HashMap<String, HashMap<String, String>>();
 
         this.protocol = protocol;
         this.host = host;
@@ -41,50 +44,76 @@ public class SOSXmlCommand {
 
     public SOSXmlCommand(String url) {
         super();
+        attributes = new HashMap<String, HashMap<String, String>>();
         this.url = url;
     }
 
     public SOSXmlCommand(String host, int port) {
         super();
+        attributes = new HashMap<String, HashMap<String, String>>();
         this.host = host;
         this.port = new Long(port);
     }
 
-    public String getAttribute(String key) {
-        return attributes.get(key);
+    public String getAttribute(String key,String attribute) {
+        return attributes.get(key).get(attribute);
     }
 
-    public Integer getAttributeAsIntegerOr0(String key) {
+    public String getAttribute(String attribute) {
+        return attributes.get("").get(attribute);
+    }
+
+    public Integer getAttributeAsIntegerOr0(String key,String attribute) {
         try {
-            return Integer.parseInt(attributes.get(key));
+            return Integer.parseInt(attributes.get(key).get(attribute));
         } catch (Exception e) {
             return 0;
         }
     }
+    public Integer getAttributeAsIntegerOr0(String attribute) {
+        return getAttributeAsIntegerOr0("",attribute);
+    }
     
-    public Date getAttributeAsDate(String dateAttribute) throws ParseException{
+    public Date getAttributeAsDate(String key, String dateAttribute) {
         SimpleDateFormat formatter = new SimpleDateFormat(JOBSCHEDULER_DATE_FORMAT);
         SimpleDateFormat formatter2 = new SimpleDateFormat(JOBSCHEDULER_DATE_FORMAT2);
         Date date;
         try{
-            date = formatter.parse(getAttribute(dateAttribute));
+            if (getAttribute(key,dateAttribute) == null){
+                return null;
+            }
+            date = formatter.parse(getAttribute(key,dateAttribute));
         }catch (Exception e){
-            date = formatter2.parse(getAttribute(dateAttribute));
+            try {
+                date = formatter2.parse(getAttribute(key,dateAttribute));
+            } catch (ParseException e1) {
+               return null;
+            }
+            
         }
         return date;
     }
 
-    public void executeXPath(String xPath) throws Exception {
+    public Date getAttributeAsDate(String dateAttribute) {
+      return getAttributeAsDate("", dateAttribute);
+    }
+
+    public void executeXPath(String key,String xPath) throws Exception {
         if (sosxml != null) {
-            attributes = new HashMap<String, String>();
+            HashMap<String, String> attrs = new HashMap<String,String>();
             Node n = sosxml.selectSingleNode(xPath);
             if (n != null) {
                 NamedNodeMap map = n.getAttributes();
                 for (int j = 0; j < map.getLength(); j++) {
-                    attributes.put(map.item(j).getNodeName(), map.item(j).getNodeValue());
+                    attrs.put(map.item(j).getNodeName(), map.item(j).getNodeValue());
                 }
+                attributes.put(key, attrs);
             }
         }
+    }
+    
+    public void executeXPath(String xPath) throws Exception {
+        executeXPath("",xPath);
     }
 
     public NodeList selectNodelist(String xPath) throws Exception {
