@@ -21,6 +21,7 @@ public class SOSXmlCommand {
     private static final String DEFAULT_PROTOCOL = "http";
     protected static final String JOBSCHEDULER_DATE_FORMAT = "yyyy-mm-dd hh:mm:ss.SSS'Z'";
     protected static final String JOBSCHEDULER_DATE_FORMAT2 = "yyyy-mm-dd'T'hh:mm:ss.SSS'Z'";
+    protected static final String JOBSCHEDULER_DATE_FORMAT3 = "yyyy-mm-dd'T'hh:mm:ss'Z'";
     private String protocol;
     private String host;
     private Long port;
@@ -70,8 +71,21 @@ public class SOSXmlCommand {
             return 0;
         }
     }
+
+    public Integer getAttributeAsInteger(String key,String attribute) {
+        try {
+            return Integer.parseInt(attributes.get(key).get(attribute));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
     public Integer getAttributeAsIntegerOr0(String attribute) {
         return getAttributeAsIntegerOr0("",attribute);
+    }
+
+    public Integer getAttributeAsInteger(String attribute) {
+        return getAttributeAsInteger("",attribute);
     }
     
     public Date getAttributeAsDate(String key, String dateAttribute) {
