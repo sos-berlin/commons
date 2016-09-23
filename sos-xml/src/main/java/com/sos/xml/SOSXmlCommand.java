@@ -22,6 +22,7 @@ public class SOSXmlCommand {
     protected static final String JOBSCHEDULER_DATE_FORMAT = "yyyy-mm-dd hh:mm:ss.SSS'Z'";
     protected static final String JOBSCHEDULER_DATE_FORMAT2 = "yyyy-mm-dd'T'hh:mm:ss.SSS'Z'";
     protected static final String JOBSCHEDULER_DATE_FORMAT3 = "yyyy-mm-dd'T'hh:mm:ss'Z'";
+    protected static final String JOBSCHEDULER_DATE_FORMAT4 = "yyyy-mm-dd hh:mm:ss'Z'";
     private String protocol;
     private String host;
     private Long port;
@@ -56,7 +57,7 @@ public class SOSXmlCommand {
         this.port = new Long(port);
     }
 
-    public String getAttribute(String key,String attribute) {
+    public String getAttribute(String key, String attribute) {
         return attributes.get(key).get(attribute);
     }
 
@@ -64,7 +65,7 @@ public class SOSXmlCommand {
         return attributes.get("").get(attribute);
     }
 
-    public Integer getAttributeAsIntegerOr0(String key,String attribute) {
+    public Integer getAttributeAsIntegerOr0(String key, String attribute) {
         try {
             return Integer.parseInt(attributes.get(key).get(attribute));
         } catch (Exception e) {
@@ -72,49 +73,59 @@ public class SOSXmlCommand {
         }
     }
 
-    public Integer getAttributeAsInteger(String key,String attribute) {
+    public Integer getAttributeAsInteger(String key, String attribute) {
         try {
             return Integer.parseInt(attributes.get(key).get(attribute));
         } catch (Exception e) {
             return null;
         }
     }
-    
+
     public Integer getAttributeAsIntegerOr0(String attribute) {
-        return getAttributeAsIntegerOr0("",attribute);
+        return getAttributeAsIntegerOr0("", attribute);
     }
 
     public Integer getAttributeAsInteger(String attribute) {
-        return getAttributeAsInteger("",attribute);
+        return getAttributeAsInteger("", attribute);
     }
-    
+
     public Date getAttributeAsDate(String key, String dateAttribute) {
         SimpleDateFormat formatter = new SimpleDateFormat(JOBSCHEDULER_DATE_FORMAT);
         SimpleDateFormat formatter2 = new SimpleDateFormat(JOBSCHEDULER_DATE_FORMAT2);
+        SimpleDateFormat formatter3 = new SimpleDateFormat(JOBSCHEDULER_DATE_FORMAT3);
+        SimpleDateFormat formatter4 = new SimpleDateFormat(JOBSCHEDULER_DATE_FORMAT4);
         Date date;
-        try{
-            if (getAttribute(key,dateAttribute) == null){
+        try {
+            if (getAttribute(key, dateAttribute) == null) {
                 return null;
             }
-            date = formatter.parse(getAttribute(key,dateAttribute));
-        }catch (Exception e){
+            date = formatter.parse(getAttribute(key, dateAttribute));
+        } catch (Exception e) {
             try {
-                date = formatter2.parse(getAttribute(key,dateAttribute));
+                date = formatter2.parse(getAttribute(key, dateAttribute));
             } catch (ParseException e1) {
-               return null;
+                try {
+                    date = formatter3.parse(getAttribute(key, dateAttribute));
+                } catch (ParseException e2) {
+                    try {
+                        date = formatter4.parse(getAttribute(key, dateAttribute));
+                    } catch (ParseException e3) {
+                        return null;
+                    }
+                }
             }
-            
+
         }
         return date;
     }
 
     public Date getAttributeAsDate(String dateAttribute) {
-      return getAttributeAsDate("", dateAttribute);
+        return getAttributeAsDate("", dateAttribute);
     }
 
-    public void executeXPath(String key,String xPath) throws Exception {
+    public void executeXPath(String key, String xPath) throws Exception {
         if (sosxml != null) {
-            HashMap<String, String> attrs = new HashMap<String,String>();
+            HashMap<String, String> attrs = new HashMap<String, String>();
             Node n = sosxml.selectSingleNode(xPath);
             if (n != null) {
                 NamedNodeMap map = n.getAttributes();
@@ -123,11 +134,13 @@ public class SOSXmlCommand {
                 }
                 attributes.put(key, attrs);
             }
+        } else {
+            attributes.put(key, new HashMap<String, String>());
         }
     }
-    
+
     public void executeXPath(String xPath) throws Exception {
-        executeXPath("",xPath);
+        executeXPath("", xPath);
     }
 
     public NodeList selectNodelist(String xPath) throws Exception {
@@ -191,7 +204,6 @@ public class SOSXmlCommand {
         }
     }
 
-    
     public SOSXMLXPath getSosxml() {
         return sosxml;
     }
