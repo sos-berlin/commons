@@ -62,7 +62,20 @@ public class SOSXmlCommand {
     }
 
     public String getAttribute(String attribute) {
-        return attributes.get("").get(attribute);
+        return getAttribute("", attribute);
+    }
+
+    public String getAttributeWithDefault(String attribute, String defaultValue) {
+        return getAttributeWithDefault("", attribute, defaultValue);
+    }
+
+    public String getAttributeWithDefault(String key, String attribute, String defaultValue) {
+        String val = attributes.get(key).get(attribute);
+        if (val == null || "".equals("val")) {
+            return defaultValue;
+        } else {
+            return attributes.get(key).get(attribute);
+        }
     }
 
     public Integer getAttributeAsIntegerOr0(String key, String attribute) {
