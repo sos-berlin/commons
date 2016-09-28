@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
+import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -136,11 +137,13 @@ public class SOSXmlCommand {
         return getAttributeAsDate("", dateAttribute);
     }
 
-    public void executeXPath(String key, String xPath) throws Exception {
+    public Element executeXPath(String key, String xPath) throws Exception {
+        Element element = null;
         if (sosxml != null) {
             HashMap<String, String> attrs = new HashMap<String, String>();
             Node n = sosxml.selectSingleNode(xPath);
             if (n != null) {
+                element = (Element) n;
                 NamedNodeMap map = n.getAttributes();
                 for (int j = 0; j < map.getLength(); j++) {
                     attrs.put(map.item(j).getNodeName(), map.item(j).getNodeValue());
@@ -150,10 +153,11 @@ public class SOSXmlCommand {
         } else {
             attributes.put(key, new HashMap<String, String>());
         }
+        return element;    
     }
 
-    public void executeXPath(String xPath) throws Exception {
-        executeXPath("", xPath);
+    public Element executeXPath(String xPath) throws Exception {
+        return executeXPath("", xPath);
     }
 
     public NodeList selectNodelist(String xPath) throws Exception {
