@@ -6,8 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -20,10 +19,6 @@ import sos.xml.SOSXMLXPath;
 
 public class SOSXmlCommand {
     private static final String DEFAULT_PROTOCOL = "http";
-    protected static final String JOBSCHEDULER_DATE_FORMAT = "yyyy-mm-dd hh:mm:ss.SSS'Z'";
-    protected static final String JOBSCHEDULER_DATE_FORMAT2 = "yyyy-mm-dd'T'hh:mm:ss.SSS'Z'";
-    protected static final String JOBSCHEDULER_DATE_FORMAT3 = "yyyy-mm-dd'T'hh:mm:ss'Z'";
-    protected static final String JOBSCHEDULER_DATE_FORMAT4 = "yyyy-mm-dd hh:mm:ss'Z'";
     private String protocol;
     private String host;
     private Long port;
@@ -104,31 +99,16 @@ public class SOSXmlCommand {
     }
 
     public Date getAttributeAsDate(String key, String dateAttribute) {
-        SimpleDateFormat formatter = new SimpleDateFormat(JOBSCHEDULER_DATE_FORMAT);
-        SimpleDateFormat formatter2 = new SimpleDateFormat(JOBSCHEDULER_DATE_FORMAT2);
-        SimpleDateFormat formatter3 = new SimpleDateFormat(JOBSCHEDULER_DATE_FORMAT3);
-        SimpleDateFormat formatter4 = new SimpleDateFormat(JOBSCHEDULER_DATE_FORMAT4);
         Date date;
         try {
-            if (getAttribute(key, dateAttribute) == null) {
+            String dateString = getAttribute(key, dateAttribute);
+            if (dateString == null) {
                 return null;
             }
-            date = formatter.parse(getAttribute(key, dateAttribute));
+            dateString = dateString.trim().replaceFirst("^(\\d{4}-\\d{2}-\\d{2}) ", "$1T");
+            date = Date.from(Instant.parse(dateString));
         } catch (Exception e) {
-            try {
-                date = formatter2.parse(getAttribute(key, dateAttribute));
-            } catch (ParseException e1) {
-                try {
-                    date = formatter3.parse(getAttribute(key, dateAttribute));
-                } catch (ParseException e2) {
-                    try {
-                        date = formatter4.parse(getAttribute(key, dateAttribute));
-                    } catch (ParseException e3) {
-                        return null;
-                    }
-                }
-            }
-
+            return null;
         }
         return date;
     }
@@ -177,7 +157,6 @@ public class SOSXmlCommand {
             targetURL = url;
         } else {
             targetURL = String.format("%s://%s:%s", protocol, host, port);
-            ;
         }
 
         try {
