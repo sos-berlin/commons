@@ -52,6 +52,10 @@ public class SOSXmlCommand {
         this.host = host;
         this.port = new Long(port);
     }
+    
+    protected String getUrl() {
+        return url;
+    }
 
     public String getAttribute(String key, String attribute) {
         return attributes.get(key).get(attribute);
@@ -148,7 +152,7 @@ public class SOSXmlCommand {
         }
     }
 
-    public String excutePost(String urlParameters) throws Exception {
+    public String executePost(String urlParameters) throws Exception {
 
         HttpURLConnection connection = null;
 
@@ -164,10 +168,10 @@ public class SOSXmlCommand {
             URL url = new URL(targetURL);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            connection.setRequestProperty("Content-Type", "application/xml");
 
             connection.setRequestProperty("Content-Length", Integer.toString(urlParameters.getBytes().length));
-            connection.setRequestProperty("Content-Language", "en-US");
+            //connection.setRequestProperty("Content-Language", "en-US");
 
             connection.setUseCaches(false);
             connection.setDoOutput(true);
