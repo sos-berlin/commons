@@ -9,6 +9,7 @@ import java.net.URL;
 import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -28,7 +29,6 @@ public class SOSXmlCommand {
     private SOSXMLXPath sosxml;
 
     public SOSXmlCommand(String protocol, String host, Long port) {
-        super();
         if (protocol == null || "".equals(protocol)) {
             protocol = DEFAULT_PROTOCOL;
         }
@@ -41,13 +41,11 @@ public class SOSXmlCommand {
     }
 
     public SOSXmlCommand(String url) {
-        super();
         attributes = new HashMap<String, HashMap<String, String>>();
         this.url = url;
     }
-
+    
     public SOSXmlCommand(String host, int port) {
-        super();
         attributes = new HashMap<String, HashMap<String, String>>();
         this.host = host;
         this.port = new Long(port);
@@ -151,8 +149,12 @@ public class SOSXmlCommand {
             return null;
         }
     }
-
+    
     public String executePost(String urlParameters) throws Exception {
+        return executePost(urlParameters, UUID.randomUUID().toString());
+    }
+
+    public String executePost(String urlParameters, String csrfToken) throws Exception {
 
         HttpURLConnection connection = null;
 
@@ -172,7 +174,8 @@ public class SOSXmlCommand {
 
             connection.setRequestProperty("Content-Length", Integer.toString(urlParameters.getBytes().length));
             //connection.setRequestProperty("Content-Language", "en-US");
-
+            connection.setRequestProperty("X-CSRF-Token", getCsrfToken(csrfToken));
+            
             connection.setUseCaches(false);
             connection.setDoOutput(true);
 
@@ -207,5 +210,11 @@ public class SOSXmlCommand {
     public SOSXMLXPath getSosxml() {
         return sosxml;
     }
-
+    
+    private String getCsrfToken(String csrfToken) {
+        if (csrfToken == null || csrfToken.isEmpty()) {
+            return UUID.randomUUID().toString();
+        }
+        return csrfToken;
+    }
 }
