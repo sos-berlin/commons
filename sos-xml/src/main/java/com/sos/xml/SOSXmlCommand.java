@@ -9,6 +9,7 @@ import java.net.URL;
 import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import org.w3c.dom.Element;
@@ -17,6 +18,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import sos.xml.SOSXMLXPath;
+import sos.xml.exceptions.ConnectionRefusedException;
+import sos.xml.exceptions.NoResponseException;
 
 public class SOSXmlCommand {
     private static final String DEFAULT_PROTOCOL = "http";
@@ -24,7 +27,7 @@ public class SOSXmlCommand {
     private String host;
     private Long port;
     private String url;
-    protected HashMap<String, HashMap<String, String>> attributes;
+    protected Map<String, Map<String, String>> attributes;
     private StringBuilder response;
     private SOSXMLXPath sosxml;
 
@@ -33,7 +36,7 @@ public class SOSXmlCommand {
             protocol = DEFAULT_PROTOCOL;
         }
 
-        attributes = new HashMap<String, HashMap<String, String>>();
+        attributes = new HashMap<String, Map<String, String>>();
 
         this.protocol = protocol;
         this.host = host;
@@ -41,14 +44,15 @@ public class SOSXmlCommand {
     }
 
     public SOSXmlCommand(String url) {
-        attributes = new HashMap<String, HashMap<String, String>>();
+        attributes = new HashMap<String, Map<String, String>>();
         this.url = url;
     }
     
     public SOSXmlCommand(String host, int port) {
-        attributes = new HashMap<String, HashMap<String, String>>();
+        attributes = new HashMap<String, Map<String, String>>();
         this.host = host;
         this.port = new Long(port);
+        this.protocol = DEFAULT_PROTOCOL;
     }
     
     protected String getUrl() {
@@ -150,11 +154,11 @@ public class SOSXmlCommand {
         }
     }
     
-    public String executePost(String urlParameters) throws Exception {
+    public String executePost(String urlParameters) throws ConnectionRefusedException, NoResponseException {
         return executePost(urlParameters, UUID.randomUUID().toString());
     }
 
-    public String executePost(String urlParameters, String csrfToken) throws Exception {
+    public String executePost(String urlParameters, String csrfToken) throws ConnectionRefusedException, NoResponseException {
 
         HttpURLConnection connection = null;
 
@@ -173,9 +177,9 @@ public class SOSXmlCommand {
             connection.setRequestProperty("Content-Type", "application/xml");
 
             connection.setRequestProperty("Content-Length", Integer.toString(urlParameters.getBytes().length));
-            //connection.setRequestProperty("Content-Language", "en-US");
+            // connection.setRequestProperty("Content-Language", "en-US");
             connection.setRequestProperty("X-CSRF-Token", getCsrfToken(csrfToken));
-            
+
             connection.setUseCaches(false);
             connection.setDoOutput(true);
 
@@ -183,12 +187,20 @@ public class SOSXmlCommand {
             DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
             wr.writeBytes(urlParameters);
             wr.close();
+        } catch (Exception e) {
+            if (connection != null) {
+                connection.disconnect();
+            }
+            throw new ConnectionRefusedException(targetURL, e);
+        }
 
-            // Get Response
-            InputStream is = connection.getInputStream();
-            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-            response = new StringBuilder();
-
+        // Get Response
+        InputStream is = null;
+        response = new StringBuilder();
+        BufferedReader rd = null;
+        try {
+            is = connection.getInputStream();
+            rd = new BufferedReader(new InputStreamReader(is));
             String line;
             while ((line = rd.readLine()) != null) {
                 response.append(line);
@@ -196,15 +208,27 @@ public class SOSXmlCommand {
             }
             rd.close();
             sosxml = new SOSXMLXPath(new StringBuffer(response));
-
             return response.toString();
         } catch (Exception e) {
-            throw e;
+            throw new NoResponseException(targetURL, e);
         } finally {
+            try {
+                if (is != null) {
+                    is.close();
+                }
+            } catch (Exception e) {
+            }
+            try {
+                if (rd != null) {
+                    rd.close();
+                }
+            } catch (Exception e) {
+            }
             if (connection != null) {
                 connection.disconnect();
             }
         }
+
     }
 
     public SOSXMLXPath getSosxml() {

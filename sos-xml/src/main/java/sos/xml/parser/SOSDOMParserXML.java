@@ -1,32 +1,43 @@
 package sos.xml.parser;
 
-import java.net.URL;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.CharArrayReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
-import org.w3c.dom.Node;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.CDATASection;
-import org.xml.sax.InputSource;
-import sos.util.*;
-import java.net.MalformedURLException;
-import java.io.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.w3c.dom.CDATASection;
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+
+import sos.util.SOSClassUtil;
+import sos.util.SOSLogger;
+import sos.util.SOSStandardLogger;
+
 public class SOSDOMParserXML {
 
-    private HashMap hashTag = new HashMap();
-    private ArrayList insertStatement = new ArrayList();
-    private ArrayList listOfTags = new ArrayList();
-    private ArrayList listOfXMLPath = new ArrayList();
-    private HashMap listOfAttribut = new HashMap();
-    private SOSString sosString = null;
+    private Map<String,String> hashTag = new HashMap<String,String>();
+    private List<String> insertStatement = new ArrayList<String>();
+    private List<String> listOfTags = new ArrayList<String>();
+    private List<Map<String,String>> listOfXMLPath = new ArrayList<Map<String,String>>();
+    private Map<String,Map<String,String>> listOfAttribut = new HashMap<String,Map<String,String>>();
     private String tableName = "tabellenname";
-    private HashMap mappingTagNames = new HashMap();
+    private Map<String,String> mappingTagNames = new HashMap<String,String>();
     private boolean removeParents = true;
-    private HashMap defaultFields = new HashMap();
+    private Map<String,String> defaultFields = new HashMap<String,String>();
     private String outputScripFilename = "";
     private BufferedWriter output = null;
     private boolean counter = false;
@@ -71,7 +82,6 @@ public class SOSDOMParserXML {
                 ipSource = new org.xml.sax.InputSource(reader);
                 doc = docBuild.parse(ipSource);
             }
-            sosString = new SOSString();
             parseDocument(doc);
             writeInsertStatement();
             sosLogger.debug4("encoding wurde aus der XML-Datei bestimmt: " + getEncoding(fileName, bytesRead));
@@ -130,7 +140,7 @@ public class SOSDOMParserXML {
     }
 
     public void getAttributs(Node n) throws Exception {
-        HashMap attr = new HashMap();
+        Map<String,String> attr = new HashMap<String,String>();
         try {
             NamedNodeMap nm = n.getAttributes();
             attr.put("tagname", n.getNodeName());
@@ -145,7 +155,7 @@ public class SOSDOMParserXML {
 
     private String getParentName(Node node) throws Exception {
         String retVal = "";
-        ArrayList parentName = new ArrayList();
+        List<String> parentName = new ArrayList<String>();
         try {
             while (node.getParentNode() != null) {
                 parentName.add(node.getParentNode().getNodeName());
@@ -165,7 +175,7 @@ public class SOSDOMParserXML {
         String tags = "";
         try {
             for (int i = 0; i < listOfTags.size(); i++) {
-                tags = sosString.parseToString(listOfTags.get(i));
+                tags = listOfTags.get(i);
                 splitTag = tags.split("=");
                 if (hashTag.containsKey(splitTag[0])) {
                     writeStatement();
@@ -190,7 +200,7 @@ public class SOSDOMParserXML {
         boolean breakOK = true;
         try {
             for (int i = 0; i < listOfTags.size() && breakOK; i++) {
-                split = sosString.parseToString(listOfTags.get(i)).split("=");
+                split = listOfTags.get(i).split("=");
                 if (split[0].equals(tagname)) {
                     for (int j = i; j < position; j++) {
                         listOfTags.remove(i);
@@ -205,20 +215,20 @@ public class SOSDOMParserXML {
 
     private void writeStatement() throws Exception {
         try {
-            HashMap currHash = new HashMap();
-            Iterator keys = hashTag.keySet().iterator();
-            Iterator vals = hashTag.values().iterator();
+            Map<String,String> currHash = new HashMap<String,String>();
+            Iterator<String> keys = hashTag.keySet().iterator();
+            Iterator<String> vals = hashTag.values().iterator();
             String key = "";
             String val = "";
             String insStr = " insert into " + tableName + " ( ";
             String insStr2 = " values ( ";
-            Iterator dkeys = defaultFields.keySet().iterator();
-            Iterator dvals = defaultFields.values().iterator();
+            Iterator<String> dkeys = defaultFields.keySet().iterator();
+            Iterator<String> dvals = defaultFields.values().iterator();
             String dkey = "";
             String dval = "";
             while (dkeys.hasNext()) {
-                dkey = sosString.parseToString(dkeys.next());
-                dval = sosString.parseToString(dvals.next());
+                dkey = dkeys.next();
+                dval = dvals.next();
                 insStr = insStr + dkey;
                 insStr2 = insStr2 + "'" + dval + "'";
                 if (dkeys.hasNext()) {
@@ -243,10 +253,10 @@ public class SOSDOMParserXML {
                 insStr2 = insStr2 + ", ";
             }
             while (keys.hasNext()) {
-                key = sosString.parseToString(keys.next());
-                val = sosString.parseToString(vals.next());
+                key = keys.next();
+                val = vals.next();
                 if (mappingTagNames.containsKey(key)) {
-                    key = sosString.parseToString(mappingTagNames.get(key));
+                    key = mappingTagNames.get(key);
                 }
                 insStr = insStr + key;
                 if ("NULL".equals(val)) {
@@ -268,7 +278,7 @@ public class SOSDOMParserXML {
                 output.write(insStr + ";\n");
             }
             insertStatement.add(insStr);
-            listOfXMLPath.add(currHash.clone());
+            listOfXMLPath.add(currHash);
             hashTag.clear();
         } catch (Exception e) {
             throw new Exception("\n ->..error in " + SOSClassUtil.getMethodName() + " " + e);
@@ -313,15 +323,15 @@ public class SOSDOMParserXML {
         this.depth = depth;
     }
 
-    public ArrayList getInsertStatement() {
+    public List<String> getInsertStatement() {
         return insertStatement;
     }
 
-    public HashMap getMappingTagNames() {
+    public Map<String,String> getMappingTagNames() {
         return mappingTagNames;
     }
 
-    public void setMappingTagNames(HashMap mappingTagNames) {
+    public void setMappingTagNames(Map<String,String> mappingTagNames) {
         this.mappingTagNames = mappingTagNames;
     }
 
@@ -333,43 +343,15 @@ public class SOSDOMParserXML {
         this.removeParents = removeParents;
     }
 
-    public ArrayList getListOfXMLPath() {
+    public List<Map<String,String>> getListOfXMLPath() {
         return listOfXMLPath;
     }
 
-    private URL createURL(String fileName) throws Exception {
-        URL url = null;
-        try {
-            url = new URL(fileName);
-        } catch (MalformedURLException ex) {
-            File f = new File(fileName);
-            try {
-                String path = f.getAbsolutePath();
-                String fs = System.getProperty("file.separator");
-                if (fs.length() == 1) {
-                    char sep = fs.charAt(0);
-                    if (sep != '/') {
-                        path = path.replace(sep, '/');
-                    }
-                    if (path.charAt(0) != '/') {
-                        path = '/' + path;
-                    }
-                }
-                path = "file://" + path;
-                url = new URL(path);
-            } catch (MalformedURLException e) {
-                throw new Exception("\n ..error in " + SOSClassUtil.getMethodName() + " Cannot create url for: " + fileName);
-
-            }
-        }
-        return url;
-    }
-
-    public HashMap getDefaultFields() {
+    public Map<String,String> getDefaultFields() {
         return defaultFields;
     }
 
-    public void setDefaultFields(HashMap defaultFields) {
+    public void setDefaultFields(Map<String,String> defaultFields) {
         this.defaultFields = defaultFields;
     }
 
@@ -396,7 +378,7 @@ public class SOSDOMParserXML {
         }
     }
 
-    public HashMap getListOfAttribut() {
+    public Map<String,Map<String,String>> getListOfAttribut() {
         return listOfAttribut;
     }
 
@@ -408,14 +390,14 @@ public class SOSDOMParserXML {
         String line = "";
         String[] split = null;
         BufferedReader f = null;
-        InputSource ipSource = null;
+//        InputSource ipSource = null;
         try {
 
             if (fileName != null) {
                 f = new BufferedReader(new FileReader(new File(fileName)));
-            } else if (ipSource != null) {
-                sosLogger.warn("..could not read the encoding for InputSource.");
-                return "";
+//            } else if (ipSource != null) {
+//                sosLogger.warn("..could not read the encoding for InputSource.");
+//                return "";
             } else if (bytesRead != null) {
                 Reader readers = (Reader) new CharArrayReader(new String(bytesRead).toCharArray());
                 f = new BufferedReader(readers);
@@ -443,12 +425,12 @@ public class SOSDOMParserXML {
             parser.parse("J:/E/java/mo/sos.stacks/servingxml/samples/sos/resources/mapping.xml");
             System.out.println("-------Ergebnisse-------------------------------------------------");
             System.out.println("-------Alle Tag auslesen:----------------------");
-            HashMap res = null;
-            ArrayList tags = parser.getListOfXMLPath();
+            Map<String,String> res = null;
+            List<Map<String,String>> tags = parser.getListOfXMLPath();
             for (int i = 0; i < tags.size(); i++) {
-                res = (HashMap) tags.get(i);
-                Iterator keys = res.keySet().iterator();
-                Iterator vals = res.values().iterator();
+                res = (Map<String,String>) tags.get(i);
+                Iterator<String> keys = res.keySet().iterator();
+                Iterator<String> vals = res.values().iterator();
                 while (keys.hasNext()) {
                     System.out.println(keys.next() + "=" + vals.next());
                 }
@@ -457,69 +439,4 @@ public class SOSDOMParserXML {
             System.out.println("error: " + e);
         }
     }
-
-    private static HashMap getTestMappingTagNames() throws Exception {
-        try {
-            HashMap mappingTagNames = new HashMap();
-            mappingTagNames.put("Quantity", "myQuantity");
-            mappingTagNames.put("StockLevelTimeStamp", "myStockLevelTimeStamp");
-            mappingTagNames.put("VendorBatchNumber", "myVendorBatchNumber");
-            mappingTagNames.put("Decimal", "myDecimal");
-            mappingTagNames.put("OwningClient", "myOwningClient");
-            mappingTagNames.put(
-                    "#document_LogisticsStocks_LogisticsStock_ReportingClients_ReportingClients2_StockLevelReport_Warehouse_Item_Batch_BatchStatus__"
-                            + "@_StockUsage", "myStockUsage");
-            mappingTagNames.put("#document_LogisticsStocks_LogisticsStock_ReportingClients_ReportingClients2__@_ReportingClient",
-                    "#document_LogisticsStocks_" + "LogisticsStock_ReportingClients_ReportingClients2__@_ReportingClient");
-            mappingTagNames.put("#document_LogisticsStocks_TechnicalInformation__@_DemandID", "myDemandID");
-            mappingTagNames.put(
-                    "#document_LogisticsStocks_LogisticsStock_ReportingClients_ReportingClients2_StockLevelReport_Warehouse_Item__@_UnitOfMeasurement",
-                    "myUnitOfMeasurement");
-            mappingTagNames.put("#document_LogisticsStocks_TechnicalInformation__@_SystemID", "mySystemId");
-            mappingTagNames.put(
-                    "#document_LogisticsStocks_LogisticsStock_ReportingClients_ReportingClients2_StockLevelReport__@_StockLevelTimeStamp",
-                    "myStockLevelTimeStamp");
-            mappingTagNames.put(
-                    "#document_LogisticsStocks_LogisticsStock_ReportingClients_ReportingClients2_StockLevelReport_Warehouse_Item__@_ItemType",
-                    "ItemType");
-            mappingTagNames.put("#document_LogisticsStocks_TechnicalInformation__@_Decimal", "myDecimal");
-            mappingTagNames.put(
-                    "#document_LogisticsStocks_LogisticsStock_ReportingClients_ReportingClients2_StockLevelReport_Warehouse_Item__@_LocalItemNumber",
-                    "myLocalItemNumber");
-            mappingTagNames.put(
-                    "#document_LogisticsStocks_LogisticsStock_ReportingClients_ReportingClients2_StockLevelReport_Warehouse_Item_Batch__@_"
-                            + "VendorBatchNumber", "myVendorBatchNumber");
-            mappingTagNames.put("#document_LogisticsStocks_TechnicalInformation__@_TimeZone", "myTimeZone");
-            mappingTagNames.put(
-                    "#document_LogisticsStocks_LogisticsStock_ReportingClients_ReportingClients2_StockLevelReport_Warehouse_Item_Batch_BatchStatus__"
-                            + "@_Quantity", "myQuantity");
-            mappingTagNames.put(
-                    "#document_LogisticsStocks_LogisticsStock_ReportingClients_ReportingClients2_StockLevelReport_Warehouse_Item_Batch_BatchStatus__"
-                            + "@_QualityControlStatus", "myQualityControlStatus");
-            mappingTagNames.put("#document_LogisticsStocks_TechnicalInformation__@_DeliveryNumber", "myDeliveryNumber");
-            mappingTagNames.put("#document_LogisticsStocks_LogisticsStock_ReportingClients_ReportingClients2_StockLevelReport_Warehouse_Item_Batch__"
-                    + "@_InventoryBatchNumber", "myInventoryBatchNumber");
-            mappingTagNames.put("#document_LogisticsStocks_TechnicalInformation__@_CreationTimeStamp", "myCreationTimeStamp");
-            mappingTagNames.put(
-                    "#document_LogisticsStocks_LogisticsStock_ReportingClients_ReportingClients2_StockLevelReport_Warehouse_Item_Batch__@_OwningClient",
-                    "myOwningClient");
-            mappingTagNames.put("#document_LogisticsStocks_LogisticsStock_ReportingClients_ReportingClients2_StockLevelReport_Warehouse_Item_Batch__"
-                    + "@_PackagingBatchNumber", "myPackagingBatchNumber");
-            return mappingTagNames;
-        } catch (Exception e) {
-            throw new Exception("\n ->..error in" + SOSClassUtil.getMethodName() + " " + e.getMessage(), e);
-        }
-    }
-
-    private static HashMap getTestDefaults() throws Exception {
-        try {
-            HashMap defaults = new HashMap();
-            defaults.put("created", "24.06.2004");
-            defaults.put("createdBy", "mo");
-            return defaults;
-        } catch (Exception e) {
-            throw new Exception("\n ->..error in" + SOSClassUtil.getMethodName() + " " + e.getMessage(), e);
-        }
-    }
-
 }

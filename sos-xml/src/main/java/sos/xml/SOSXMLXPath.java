@@ -7,10 +7,13 @@ import java.io.StringWriter;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.apache.log4j.Logger;
-import org.apache.xml.serialize.OutputFormat;
-import org.apache.xml.serialize.XMLSerializer;
 import org.apache.xpath.CachedXPathAPI;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -108,8 +111,12 @@ public class SOSXMLXPath extends CachedXPathAPI {
     public String selectDocumentText(String xpathExpression) throws Exception {
         return selectDocumentText(this.document.getDocumentElement(), xpathExpression);
     }
-
+    
     public String selectDocumentText(Node context, String xpathExpression) throws Exception {
+        return selectDocumentText(context, xpathExpression, false);
+    }
+
+    public String selectDocumentText(Node context, String xpathExpression, boolean withXMLDeclaration) throws Exception {
         Node node = this.selectSingleNode(context, xpathExpression);
         if (node == null) {
             return "";
@@ -118,10 +125,31 @@ public class SOSXMLXPath extends CachedXPathAPI {
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
         Document document = docBuilder.newDocument();
         document.appendChild(document.importNode(node, true));
-        StringWriter out = new StringWriter();
-        XMLSerializer serializer = new XMLSerializer(out, new OutputFormat(document));
-        serializer.serialize(document);
-        return out.toString();
+        return selectDocumentText(document, withXMLDeclaration);
+    }
+    
+    public String selectDocumentText(Document document, boolean withXMLDeclaration) throws Exception {
+        StringWriter sw = null;
+        try {
+            sw = new StringWriter();
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, (withXMLDeclaration ? "yes" : "no"));
+            transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+            transformer.transform(new DOMSource(document), new StreamResult(sw));
+            return sw.toString();
+        } catch (Exception e) {
+            throw e;
+        }
+        finally {
+            if (sw != null) {
+                try {
+                    sw.close();
+                } catch (Exception e) {}
+            }
+        }
     }
 
     public Document getDocument() throws Exception {
