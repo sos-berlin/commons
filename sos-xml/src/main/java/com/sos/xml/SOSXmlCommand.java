@@ -192,7 +192,7 @@ public class SOSXmlCommand {
             if (connection != null) {
                 connection.disconnect();
             }
-            throw new ConnectionRefusedException(targetURL, e);
+            throw new ConnectionRefusedException(e);
         }
 
         // Get Response
@@ -211,7 +211,7 @@ public class SOSXmlCommand {
             sosxml = new SOSXMLXPath(new StringBuffer(response));
             return response.toString();
         } catch (Exception e) {
-            throw new NoResponseException(targetURL, e);
+            throw new NoResponseException(e);
         } finally {
             try {
                 if (is != null) {
