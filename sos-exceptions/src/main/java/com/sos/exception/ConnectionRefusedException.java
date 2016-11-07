@@ -1,7 +1,7 @@
-package sos.xml.exceptions;
+package com.sos.exception;
 
 
-public class ConnectionRefusedException extends Exception {
+public class ConnectionRefusedException extends SOSException {
 
     private static final long serialVersionUID = 1L;
     

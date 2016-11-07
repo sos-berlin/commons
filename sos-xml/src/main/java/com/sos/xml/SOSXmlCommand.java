@@ -17,9 +17,10 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.sos.exception.ConnectionRefusedException;
+import com.sos.exception.NoResponseException;
+
 import sos.xml.SOSXMLXPath;
-import sos.xml.exceptions.ConnectionRefusedException;
-import sos.xml.exceptions.NoResponseException;
 
 public class SOSXmlCommand {
     private static final String DEFAULT_PROTOCOL = "http";

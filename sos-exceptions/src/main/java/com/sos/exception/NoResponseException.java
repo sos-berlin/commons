@@ -1,7 +1,7 @@
-package sos.xml.exceptions;
+package com.sos.exception;
 
 
-public class NoResponseException extends Exception {
+public class NoResponseException extends SOSException {
 
     private static final long serialVersionUID = 1L;
     
