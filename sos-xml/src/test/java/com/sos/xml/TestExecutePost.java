@@ -13,7 +13,7 @@ public class TestExecutePost {
     @Test
     public void test() throws Exception {
         SOSXmlCommand sosXmlCommand= new SOSXmlCommand("localhost",4410); 
-        String answer = sosXmlCommand.executePost("<subsystem.show what=\"statistics\"/>");
+        String answer = sosXmlCommand.executeXMLPost("<subsystem.show what=\"statistics\"/>");
         System.out.println(answer);
         SOSXMLXPath sosxml = new SOSXMLXPath(new StringBuffer(answer));
         Node n = sosxml.selectSingleNode("//subsystem[@name='job']//job.statistic[@job_state='pending']");

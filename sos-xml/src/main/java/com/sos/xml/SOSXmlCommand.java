@@ -155,11 +155,11 @@ public class SOSXmlCommand {
         }
     }
     
-    public String executePost(String urlParameters) throws ConnectionRefusedException, NoResponseException {
-        return executePost(urlParameters, UUID.randomUUID().toString());
+    public String executeXMLPost(String urlParameters) throws ConnectionRefusedException, NoResponseException {
+        return executeXMLPost(urlParameters, UUID.randomUUID().toString());
     }
 
-    public String executePost(String urlParameters, String csrfToken) throws ConnectionRefusedException, NoResponseException {
+    public String executeXMLPost(String urlParameters, String csrfToken) throws ConnectionRefusedException, NoResponseException {
 
         HttpURLConnection connection = null;
 
