@@ -31,6 +31,8 @@ public class SOSXmlCommand {
     protected Map<String, Map<String, String>> attributes;
     private StringBuilder response;
     private SOSXMLXPath sosxml;
+    private int connectTimeout = 0;
+    private int readTimeout = 0;
 
     public SOSXmlCommand(String protocol, String host, Long port) {
         if (protocol == null || "".equals(protocol)) {
@@ -56,6 +58,14 @@ public class SOSXmlCommand {
         this.protocol = DEFAULT_PROTOCOL;
     }
     
+    public void setConnectTimeout(int connectTimeout) {
+        this.connectTimeout = connectTimeout;
+    }
+
+    public void setReadTimeout(int readTimeout) {
+        this.readTimeout = readTimeout;
+    }
+
     protected String getUrl() {
         return url;
     }
@@ -183,6 +193,8 @@ public class SOSXmlCommand {
 
             connection.setUseCaches(false);
             connection.setDoOutput(true);
+            connection.setConnectTimeout(connectTimeout);
+            connection.setReadTimeout(readTimeout);
 
             // Send request
             DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
