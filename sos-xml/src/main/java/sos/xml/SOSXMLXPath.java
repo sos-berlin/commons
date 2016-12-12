@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.nio.file.Path;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -44,6 +45,16 @@ public class SOSXMLXPath extends CachedXPathAPI {
     public SOSXMLXPath(String filename) throws Exception {
         super();
         InputSource in = new InputSource(new FileInputStream(filename));
+        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+        docFactory.setNamespaceAware(false);
+        docFactory.setValidating(false);
+        this.document = docFactory.newDocumentBuilder().parse(in);
+        this.root = this.document.getDocumentElement();
+    }
+    
+    public SOSXMLXPath(Path filename) throws Exception {
+        super();
+        InputSource in = new InputSource(new FileInputStream(filename.toFile()));
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         docFactory.setNamespaceAware(false);
         docFactory.setValidating(false);
