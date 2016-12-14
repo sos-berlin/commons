@@ -65,6 +65,10 @@ public class SOSXmlCommand {
     public void setReadTimeout(int readTimeout) {
         this.readTimeout = readTimeout;
     }
+    
+    protected void setUrl(String url) {
+        this.url = url;
+    }
 
     protected String getUrl() {
         return url;
