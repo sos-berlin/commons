@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 public enum SOSProductionResource implements SOSResource {
 
     JOB_CHAIN_EXTENSIONS_XSD(basePackage() + "/xsd", "job-chain-extensions-v1.0.xsd"), JOB_DOC_XSD(basePackage() + "/xsd",
-            "scheduler_job_documentation_v1.2.xsd"), JOB_DOC_XSLT(basePackage() + "/xsl/jobdoc", "scheduler_job_documentation_v1.1.xsl"), EVENT_SERVICE_XSD(
+            "scheduler_job_documentation_v1.2.xsd"), JOB_DOC_XSLT(basePackage() + "/xsl", "scheduler_job_documentation_v2.0.xsl"), EVENT_SERVICE_XSD(
             basePackage() + "/xsd", "events2actions.xsd"),
     // the version is determined via the dependency setting in the pom.xml
     SCHEDULER_XSD("com/sos/scheduler/enginedoc/common", "scheduler.xsd");
