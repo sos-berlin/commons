@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2009 Lukasz Wozniak Licensed under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -12,13 +12,8 @@ package com.sos.CredentialStore.KeePass.pl.sind.keepass.kdb;
 
 public final class KeePassConst {
 
-    @SuppressWarnings("unused")
-    private final String conClassName = this.getClass().getSimpleName();
-    @SuppressWarnings("unused")
-    private static final String conSVNVersion = "$Id$";
     // KDB KeePass 1.x
     public static final int KDB_FILE_VERSION = 0x00030002;
-    // public static final int KDB_FILE_VERSION = 0x00030004;
     public static final int KDB_FILE_VERSION_CRITICAL_MASK = 0xFFFFFFFF;
     public static final int KDB_SIG_1 = 0x9AA2D903;
     public static final int KDB_SIG_2 = 0xB54BFB65;

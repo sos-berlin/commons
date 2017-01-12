@@ -36,7 +36,7 @@ public class SOSSchemaInterpreter implements ContentHandler, ErrorHandler, DTDHa
     private static HashMap hashTypes = new HashMap();
     private int content_element_id = 0;
     private ArrayList parent = new ArrayList();
-    private String parentID4TechnicalInformation = new String("");;
+    private String parentID4TechnicalInformation = new String("");
     private boolean bNextParent = false;
     private boolean bParent = false;
     private String error = new String();
@@ -104,10 +104,8 @@ public class SOSSchemaInterpreter implements ContentHandler, ErrorHandler, DTDHa
                 System.err.println("Usage: <Schemafilename.xsd> <Content_id> <scriptname.sql> <db Ini Filename> <Tablename> ");
                 System.exit(1);
             }
-            if (argv[0] != null) {
-                if (argv[0].indexOf(".xsd") == -1) {
-                    System.out.println("There is no XSD-File: " + argv[0]);
-                }
+            if (argv[0] != null && argv[0].indexOf(".xsd") == -1) {
+                System.out.println("There is no XSD-File: " + argv[0]);
             }
             fileName = argv[0].toString();
             if (argv[1] != null) {
@@ -135,11 +133,10 @@ public class SOSSchemaInterpreter implements ContentHandler, ErrorHandler, DTDHa
     public void parse() {
         try {
             try {
-                output = new BufferedWriter((new FileWriter(scriptName)));
+                output = new BufferedWriter(new FileWriter(scriptName));
             } catch (IOException e) {
                 System.out.println("Error by creating insert script " + e);
             }
-
             SAXParser parser = new SAXParser();
             parser.setContentHandler(sample);
             parser.setEntityResolver(sample);
@@ -271,7 +268,7 @@ public class SOSSchemaInterpreter implements ContentHandler, ErrorHandler, DTDHa
                     String stype = value.substring(4, value.length());
                     int itype = 1;
                     if (stype != null && hashTypes.containsKey(stype.toLowerCase())) {
-                        itype = getColumnType((Integer.parseInt(hashTypes.get(stype.toLowerCase()).toString())));
+                        itype = getColumnType(Integer.parseInt(hashTypes.get(stype.toLowerCase()).toString()));
                     }
                     hashContentsElements.put("COLUMN_TYPE", String.valueOf(itype));
                     hashContentsElements.put("TAG_TYPE", hashTypes.get(stype.toLowerCase()));
@@ -488,7 +485,7 @@ public class SOSSchemaInterpreter implements ContentHandler, ErrorHandler, DTDHa
             }
         } catch (Exception e) {
             System.out.println("ERROR in Schema.getTypes()" + e + " Statement called: " + selStr);
-            throw (e);
+            throw e;
         }
     }
 
@@ -505,7 +502,7 @@ public class SOSSchemaInterpreter implements ContentHandler, ErrorHandler, DTDHa
 
         } catch (Exception e) {
             System.out.println("ERROR in Schema.getContentElementId()" + e);
-            throw (e);
+            throw e;
         }
     }
 
@@ -576,7 +573,7 @@ public class SOSSchemaInterpreter implements ContentHandler, ErrorHandler, DTDHa
             }
         } catch (SQLException e) {
             System.out.println("ERROR in Schema.getContentModelID()" + e);
-            throw (e);
+            throw e;
         }
     }
 
@@ -643,15 +640,13 @@ public class SOSSchemaInterpreter implements ContentHandler, ErrorHandler, DTDHa
                 for (int j = 0; j < list.size(); j++) {
                     childHash = (HashMap) list.get(j);
                     childHash2 = new HashMap();
-                    if (childHash.get("parent").equals(parentId)) {
-                        if (!childHash.get("content_element_id").equals(parentId)) {
-                            childHash2.put("TAG_NAME", childHash.get("tag_name"));
-                            childHash2.put("TAG_TYPE", childHash.get("tag_type"));
-                            childHash2.put("GROUPABLE", childHash.get("groupable"));
-                            childHash2.put("CONTENT_ELEMENT_ID", childHash.get("content_element_id"));
-                            childHash.put("PARENT", childHash.get("parent"));
-                            childList.add(childHash2.clone());
-                        }
+                    if (childHash.get("parent").equals(parentId) && !childHash.get("content_element_id").equals(parentId)) {
+                        childHash2.put("TAG_NAME", childHash.get("tag_name"));
+                        childHash2.put("TAG_TYPE", childHash.get("tag_type"));
+                        childHash2.put("GROUPABLE", childHash.get("groupable"));
+                        childHash2.put("CONTENT_ELEMENT_ID", childHash.get("content_element_id"));
+                        childHash.put("PARENT", childHash.get("parent"));
+                        childList.add(childHash2.clone());
                     }
                 }
                 if (allChildrenFromParent.isEmpty()) {

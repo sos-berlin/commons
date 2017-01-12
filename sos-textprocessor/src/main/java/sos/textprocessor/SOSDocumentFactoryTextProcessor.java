@@ -129,10 +129,8 @@ public class SOSDocumentFactoryTextProcessor extends SOSTextProcessor {
                 }
             }
             this.processor.add_parameters();
-            if (this.scripts != null && !this.scripts.isEmpty()) {
-                if (this.scripts.containsKey("start_script." + this.getTemplateScriptLanguage())) {
-                    processor.parse(this.scripts.getProperty("start_script." + this.getTemplateScriptLanguage()));
-                }
+            if (this.scripts != null && !this.scripts.isEmpty() && this.scripts.containsKey("start_script." + this.getTemplateScriptLanguage())) {
+                processor.parse(this.scripts.getProperty("start_script." + this.getTemplateScriptLanguage()));
             }
             this.processor.process();
             this.processor.close_output_file();

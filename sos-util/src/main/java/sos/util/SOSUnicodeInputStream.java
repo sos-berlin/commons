@@ -1,6 +1,3 @@
-/*
- * SOSUnicodeInputStream.java Created on 04.09.2008
- */
 package sos.util;
 
 import java.io.IOException;
@@ -47,7 +44,7 @@ public class SOSUnicodeInputStream extends InputStream {
             unread = n;
         }
         if (unread > 0) {
-            inStr.unread(bom, (n - unread), unread);
+            inStr.unread(bom, n - unread, unread);
         }
         initialized = true;
     }

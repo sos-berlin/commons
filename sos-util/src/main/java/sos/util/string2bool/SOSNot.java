@@ -12,7 +12,7 @@ final class SOSNot implements SOSIBoolean {
     }
 
     public boolean booleanValue() {
-        return (!this.iBoolean.booleanValue());
+        return !this.iBoolean.booleanValue();
     }
 
     public String toString() {
@@ -22,4 +22,5 @@ final class SOSNot implements SOSIBoolean {
         buffer.append(")");
         return buffer.toString();
     }
+    
 }

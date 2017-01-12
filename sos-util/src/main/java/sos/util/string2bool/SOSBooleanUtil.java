@@ -8,15 +8,12 @@ import java.util.regex.Pattern;
 final class SOSBooleanUtil {
 
     static String validAndformat(final String booleanExpression) throws SOSMalformedBooleanException {
-        if (booleanExpression == null || booleanExpression.equals("")) {
+        if (booleanExpression == null || "".equals(booleanExpression)) {
             throw new IllegalArgumentException("Argument: booleanExpression is null or void");
         }
         validRegexp(booleanExpression);
         validParenthesis(booleanExpression);
-
-        String s = booleanExpression.toUpperCase().replaceAll("TRUE", "T").replaceAll("FALSE", "F").replaceAll("\\|\\|", "|").replaceAll("&&", "&");
-        return s;
-
+        return booleanExpression.toUpperCase().replaceAll("TRUE", "T").replaceAll("FALSE", "F").replaceAll("\\|\\|", "|").replaceAll("&&", "&");
     }
 
     private static void validRegexp(final String booleanExpression) throws SOSMalformedBooleanException {

@@ -6,11 +6,8 @@ import java.util.List;
 public final class SOSMalformedBooleanException extends Exception {
 
     private static final long serialVersionUID = 1L;
-
     private List booleanExpressionErrorIndexes;
-
     private String booleanExpression;
-
     private String booleanExpressionErrorMessage;
 
     SOSMalformedBooleanException(final String errorMessage, final int errorIndex, final String newBooleanExpression) {
@@ -43,16 +40,16 @@ public final class SOSMalformedBooleanException extends Exception {
     }
 
     private static String format(final String errorMessage, final List errorIndexes, final String newBooleanExpression) {
-        if (errorMessage == null || errorMessage.equals("")) {
+        if (errorMessage == null || "".equals(errorMessage)) {
             throw new IllegalArgumentException("errorMessage is null or void");
         }
         if (errorIndexes == null || errorIndexes.isEmpty()) {
             throw new IllegalArgumentException("errorIndexes is null or void");
         }
-        if (newBooleanExpression == null || newBooleanExpression.equals("")) {
+        if (newBooleanExpression == null || "".equals(newBooleanExpression)) {
             throw new IllegalArgumentException("newBooleanExpression is null or void");
         }
-        StringBuffer error = new StringBuffer();
+        StringBuilder error = new StringBuilder();
         error.append(errorMessage);
         error.append(" in [ ");
         int size = errorIndexes.size();

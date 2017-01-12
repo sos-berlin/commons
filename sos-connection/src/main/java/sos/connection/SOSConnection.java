@@ -87,7 +87,8 @@ public abstract class SOSConnection {
 
     protected static final String NLS_DE = "DE";
     protected static final String NLS_ISO = "ISO";
-    protected static final String CAST_PATTERN = "(\\s*%cast\\s*)*\\s*(\\()*\\s*(\\s*%cast\\s*)+\\s*(\\(\\s*\\S+\\s*(\\S+?).*?)\\)(\\s*(\\+|\\-)*[0-9]*\\s*\\S*(\\)))*";
+    protected static final String CAST_PATTERN = "(\\s*%cast\\s*)*\\s*(\\()*\\s*(\\s*%cast\\s*)+\\s*(\\(\\s*\\S+\\s*(\\S+?).*?)\\)"
+            + "(\\s*(\\+|\\-)*[0-9]*\\s*\\S*(\\)))*";
     protected Properties configFileProperties = new Properties();
     protected Statement statement;
     protected ResultSet resultSet;
