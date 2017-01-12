@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -33,6 +35,7 @@ public class SOSXmlCommand {
     private SOSXMLXPath sosxml;
     private int connectTimeout = 0;
     private int readTimeout = 0;
+    private boolean allowAllHostnameVerifier = true;
 
     public SOSXmlCommand(String protocol, String host, Long port) {
         if (protocol == null || "".equals(protocol)) {
@@ -64,6 +67,14 @@ public class SOSXmlCommand {
 
     public void setReadTimeout(int readTimeout) {
         this.readTimeout = readTimeout;
+    }
+    
+    public void setAllowAllHostnameVerifier() {
+        allowAllHostnameVerifier = true;
+    }
+    
+    public void setDefaultHostnameVerifier() {
+        allowAllHostnameVerifier = false;
     }
     
     protected void setUrl(String url) {
@@ -187,14 +198,23 @@ public class SOSXmlCommand {
         try {
             // Create connection
             URL url = new URL(targetURL);
-            connection = (HttpURLConnection) url.openConnection();
+            if ("https".equals(url.getProtocol())) {
+                if (allowAllHostnameVerifier) {
+                    HttpsURLConnection.setDefaultHostnameVerifier((hostname, session) -> true);
+                }
+                connection = (HttpsURLConnection) url.openConnection();
+                //TODO here we need the base64 encoded account for basic authorization
+                //connection.setRequestProperty("Authorization", "Basic cm9vdDpzZWNyZXQ=");
+            } else {
+                connection = (HttpURLConnection) url.openConnection(); 
+            }
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/xml");
 
             connection.setRequestProperty("Content-Length", Integer.toString(urlParameters.getBytes().length));
             // connection.setRequestProperty("Content-Language", "en-US");
             connection.setRequestProperty("X-CSRF-Token", getCsrfToken(csrfToken));
-
+            
             connection.setUseCaches(false);
             connection.setDoOutput(true);
             connection.setConnectTimeout(connectTimeout);
