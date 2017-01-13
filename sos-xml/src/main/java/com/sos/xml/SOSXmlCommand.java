@@ -69,12 +69,8 @@ public class SOSXmlCommand {
         this.readTimeout = readTimeout;
     }
     
-    public void setAllowAllHostnameVerifier() {
-        allowAllHostnameVerifier = true;
-    }
-    
-    public void setDefaultHostnameVerifier() {
-        allowAllHostnameVerifier = false;
+    public void setAllowAllHostnameVerifier(boolean flag) {
+        allowAllHostnameVerifier = flag;
     }
     
     protected void setUrl(String url) {
