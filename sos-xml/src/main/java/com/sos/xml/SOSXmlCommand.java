@@ -106,7 +106,7 @@ public class SOSXmlCommand {
 
     public String getAttributeWithDefault(String key, String attribute, String defaultValue) {
         String val = attributes.get(key).get(attribute);
-        if (val == null || "".equals("val")) {
+        if (val == null || "".equals(val)) {
             return defaultValue;
         } else {
             return attributes.get(key).get(attribute);
