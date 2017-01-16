@@ -36,7 +36,8 @@ public class SOSXmlCommand {
     private int connectTimeout = 0;
     private int readTimeout = 0;
     private boolean allowAllHostnameVerifier = true;
-
+    private String basicAuthorization = null;
+    
     public SOSXmlCommand(String protocol, String host, Long port) {
         if (protocol == null || "".equals(protocol)) {
             protocol = DEFAULT_PROTOCOL;
@@ -72,6 +73,16 @@ public class SOSXmlCommand {
     public void setAllowAllHostnameVerifier(boolean flag) {
         allowAllHostnameVerifier = flag;
     }
+    
+    public void setBasicAuthorization(String basicAuthorization) {
+        this.basicAuthorization = basicAuthorization;
+    }
+    
+    public String getBasicAuthorization() {
+        return basicAuthorization;
+    }
+
+    
     
     protected void setUrl(String url) {
         this.url = url;
@@ -199,10 +210,11 @@ public class SOSXmlCommand {
                     HttpsURLConnection.setDefaultHostnameVerifier((hostname, session) -> true);
                 }
                 connection = (HttpsURLConnection) url.openConnection();
-                //TODO here we need the base64 encoded account for basic authorization
-                //connection.setRequestProperty("Authorization", "Basic cm9vdDpzZWNyZXQ=");
             } else {
                 connection = (HttpURLConnection) url.openConnection(); 
+            }
+            if (basicAuthorization != null && !basicAuthorization.isEmpty()) {
+                connection.setRequestProperty("Authorization", "Basic " + basicAuthorization); 
             }
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/xml");
