@@ -256,14 +256,6 @@ public abstract class SOSConnection {
         return className;
     }
 
-    public static SOSConnection createInstance(final String configFileName, final SOSLogger logger) throws Exception {
-        logger.debug6("calling " + SOSClassUtil.getMethodName());
-        String className = SOSConnection.getClassName(configFileName, logger);
-        logger.debug9(".. creating instance for: " + className);
-        Object[] arguments = { configFileName, logger };
-        return createInstance(className, arguments);
-    }
-
     public static SOSConnection createInstance(final String className, final Connection connection, final SOSLogger logger) throws Exception {
         logger.debug6("calling " + SOSClassUtil.getMethodName());
         Object[] arguments = { connection, logger };

@@ -1,15 +1,10 @@
 package sos.configuration;
 
-import java.io.File;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 import org.apache.log4j.Logger;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import sos.util.SOSLogger;
 import sos.util.SOSString;
@@ -23,18 +18,15 @@ public class SOSConfigurationRequiredItem {
     private String msgUnknownParameter = "";
     private ArrayList checkIds = null;
     private HashMap quickConfigurationsItem = null;
-    private SOSLogger sosLogger = null;
-    private ArrayList passwordNames = null;
+   private ArrayList passwordNames = null;
     private boolean allowOtherParamsNames = false;
     public static String REQUIRED_DEFAULT_PARAMETERS_FILENAME = "configuration.xml";
 
-    public SOSConfigurationRequiredItem(SOSLogger sosLogger) throws Exception {
-        this.sosLogger = sosLogger;
+    public SOSConfigurationRequiredItem() throws Exception {
         init();
     }
 
-    public SOSConfigurationRequiredItem(String filename, SOSLogger sosLogger) throws Exception {
-        this.sosLogger = sosLogger;
+    public SOSConfigurationRequiredItem(String filename) throws Exception {
         REQUIRED_DEFAULT_PARAMETERS_FILENAME = filename;
         init();
     }
@@ -56,9 +48,9 @@ public class SOSConfigurationRequiredItem {
                 String name = configurationItem[i].getName();
                 String value = configurationItem[i].getValue();
                 if (configurationItem[i].isPassword()) {
-                    getLogger().debug("check parameter [" + name + "=*****]");
+                    LOGGER.debug("check parameter [" + name + "=*****]");
                 } else {
-                    getLogger().debug("check parameter [" + name + "=" + value + "]");
+                    LOGGER.debug("check parameter [" + name + "=" + value + "]");
                 }
                 String itemId = name + "_id";
                 quickConfigurationsItem.put(itemId, configurationItem[i]);
@@ -85,7 +77,7 @@ public class SOSConfigurationRequiredItem {
                 for (int i = 0; i < listOfMissingItemWithDefaults.size(); i++) {
                     newconfigurationItem[configurationsItem.length + i] = (SOSConfigurationItem) listOfMissingItemWithDefaults.get(i);
                 }
-                getLogger().debug("check again, cause new Defaultvalues change the Conditions");
+                LOGGER.debug("check again, cause new Defaultvalues change the Conditions");
             }
             return newconfigurationItem;
         } catch (Exception e) {
@@ -128,21 +120,13 @@ public class SOSConfigurationRequiredItem {
 
     }
 
-    public SOSLogger getLogger() {
-        return sosLogger;
-    }
-
-    public void setLogger(SOSLogger sosLogger) {
-        this.sosLogger = sosLogger;
-    }
-
     public HashMap getQuickConfigurationsItem() {
         return quickConfigurationsItem;
     }
 
     public static void main(String[] args) {
         try {
-            sos.util.SOSLogger sosLogger = new sos.util.SOSStandardLogger(9);
+            SOSLogger sosLogger = new sos.util.SOSStandardLogger(9);
             SOSConfigurationItem pOperation = new SOSConfigurationItem();
             pOperation.setName("operation");
             pOperation.setValue("send");
@@ -179,7 +163,7 @@ public class SOSConfigurationRequiredItem {
                 sosLogger.debug("");
             }
             sosLogger.debug("**********************************************************************************");
-            SOSConfigurationRequiredItem ri = new SOSConfigurationRequiredItem("J:/E/java/mo/doc/sosftp/Redesign/Configuration.xml", sosLogger);
+            SOSConfigurationRequiredItem ri = new SOSConfigurationRequiredItem("J:/E/java/mo/doc/sosftp/Redesign/Configuration.xml");
             p1 = ri.check(p1);
             sosLogger.debug("***************************Start configuration Item nachher************************");
             for (int i = 0; i < p1.length; i++) {

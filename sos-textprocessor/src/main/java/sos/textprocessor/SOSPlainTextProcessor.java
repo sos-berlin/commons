@@ -217,9 +217,9 @@ public class SOSPlainTextProcessor extends SOSTextProcessor {
             processor.process("Hello World &(datetime)");
             System.out.println(processor.getDocumentContent());
             SOSStandardLogger logger = new SOSStandardLogger(9);
-            SOSConnection connection = SOSConnection.createInstance("/scheduler/config/sos_settings.ini", logger);
+            SOSConnection connection = SOSConnection.createInstance("/scheduler/config/sos_settings.ini");
             connection.connect();
-            SOSConnectionSettings settings = new SOSConnectionSettings(connection, "SETTINGS", logger);
+            SOSConnectionSettings settings = new SOSConnectionSettings(connection, "SETTINGS");
             processor = new SOSPlainTextProcessor(settings, "email_templates", "email_templates");
             processor.setHasLocalizedTemplates(true);
             System.out.println(processor.process(processor.getTemplate("sample_body")));

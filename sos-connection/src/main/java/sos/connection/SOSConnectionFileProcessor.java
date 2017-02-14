@@ -56,7 +56,7 @@ public class SOSConnectionFileProcessor {
                 if (this.getLogger() != null) {
                     this.getLogger().debug3("DB Connecting.. .");
                 }
-                this.setConnection(SOSConnection.createInstance(this.getSettingsFilename(), this.getLogger()));
+                this.setConnection(SOSConnection.createInstance(this.getSettingsFilename()));
                 this.getConnection().connect();
                 if (this.getLogger() != null) {
                     this.getLogger().debug3("DB Connected");

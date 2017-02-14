@@ -75,7 +75,7 @@ public class SOSImportProcessor {
             } else {
                 sosLogger = new SOSStandardLogger(logFile.toString(), logLevel);
             }
-            sosConnection = SOSConnection.createInstance(configFile.toString(), sosLogger);
+            sosConnection = SOSConnection.createInstance(configFile.toString());
             sosConnection.connect();
             SOSImport imp = new SOSImport(sosConnection, inputFile.toString(), null, null, null, sosLogger);
             imp.doImport();
@@ -98,7 +98,7 @@ public class SOSImportProcessor {
 
     public void process(File inputFile) throws Exception {
         try {
-            sosConnection = SOSConnection.createInstance(configFile.toString(), sosLogger);
+            sosConnection = SOSConnection.createInstance(configFile.toString());
             sosConnection.connect();
             if (inputFile.isDirectory()) {
                 int counter = 0;

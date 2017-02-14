@@ -108,7 +108,7 @@ public class SOSExportProcessor {
             } else {
                 sosLogger = new SOSStandardLogger(logFile.toString(), logLevel);
             }
-            sosConnection = SOSConnection.createInstance(configFile.toString(), sosLogger);
+            sosConnection = SOSConnection.createInstance(configFile.toString());
             sosConnection.connect();
             SOSExport export = new SOSExport(sosConnection, outputFile.toString(), "EXPORT", sosLogger);
             prepareExport(export);

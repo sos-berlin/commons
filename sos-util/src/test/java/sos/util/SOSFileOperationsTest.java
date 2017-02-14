@@ -79,10 +79,8 @@ public class SOSFileOperationsTest {
         int skipLastFiles = 0;
         String minFileSize = "-1";
         String maxFileSize = "-1";
-        SOSSchedulerLogger objSOSLogger = null;
-        boolean flgOperationWasSuccessful =
-                SOSFileOperations.existsFile(file, fileSpec, Pattern.CASE_INSENSITIVE, minFileAge, maxFileAge, minFileSize, maxFileSize,
-                        skipFirstFiles, skipLastFiles, objSOSLogger);
+        boolean flgOperationWasSuccessful = SOSFileOperations.existsFile(file, fileSpec, Pattern.CASE_INSENSITIVE, minFileAge, maxFileAge, minFileSize,
+                maxFileSize, skipFirstFiles, skipLastFiles);
         System.out.println("flgOperationWasSuccessful: " + flgOperationWasSuccessful);
         if (flgOperationWasSuccessful) {
             Vector<File> lstR = SOSFileOperations.lstResultList;

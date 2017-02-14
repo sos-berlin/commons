@@ -223,9 +223,9 @@ public class SOSDocumentFactoryTextProcessor extends SOSTextProcessor {
             processor.process("Hello World &(datetime)");
             System.out.println(processor.getDocumentContent());
             SOSStandardLogger logger = new SOSStandardLogger(9);
-            SOSConnection connection = SOSConnection.createInstance("/scheduler/config/sos_settings.ini", logger);
+            SOSConnection connection = SOSConnection.createInstance("/scheduler/config/sos_settings.ini");
             connection.connect();
-            SOSConnectionSettings settings = new SOSConnectionSettings(connection, "SETTINGS", logger);
+            SOSConnectionSettings settings = new SOSConnectionSettings(connection, "SETTINGS");
             processor = new SOSDocumentFactoryTextProcessor(settings, "email_templates", "email_templates");
             processor.setHasLocalizedTemplates(true);
             File outputFile = new File("/tmp/sample.txt");
