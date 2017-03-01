@@ -20,7 +20,13 @@
             <artifactId>sos-util</artifactId>
             <version>${project.version}</version>
         </dependency>
-
+		
+		<dependency>
+            <groupId>com.sos-berlin.commons</groupId>
+            <artifactId>sos-xml</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+	
         <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc6</artifactId>
