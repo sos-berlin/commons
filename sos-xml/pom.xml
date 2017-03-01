@@ -20,20 +20,14 @@
             <artifactId>sos-util</artifactId>
             <version>${project.version}</version>
         </dependency>
-
+    
         <dependency>
-            <groupId>com.sos-berlin.commons</groupId>
-            <artifactId>sos-connection</artifactId>
             <version>${project.version}</version>
         </dependency>
         
         <dependency>
             <groupId>com.sos-berlin.commons</groupId>
             <artifactId>sos-exceptions</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>xerces</groupId>
             <artifactId>xercesImpl</artifactId>
         </dependency>
