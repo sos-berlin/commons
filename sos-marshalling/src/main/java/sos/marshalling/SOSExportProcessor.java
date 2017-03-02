@@ -57,7 +57,7 @@ public class SOSExportProcessor {
         System.out.println("Syntax");
         System.out.println("Optionen :");
         System.out.println("        -config     Namen der Konfigurationsdatei für die DB Verbindung angeben.");
-        System.out.println("                    Default : sos_settings.ini");
+        System.out.println("                    Default : hibernate.cfg.xml");
         System.out.println("        -output     Namen der Export XML-Datei angeben.");
         System.out.println("                    Default : sos_export.xml ");
         System.out.println("        -tables     Tabellennamen für den Export.");
@@ -82,19 +82,19 @@ public class SOSExportProcessor {
         System.out.println("");
         System.out.println("");
         System.out.println("Beispiel 1 : alle Daten der Tabelle t1 exportieren und in die default Log-Datei loggen");
-        System.out.println("         -config=config/sos_settings.ini -tables=t1 -log-level=9");
+        System.out.println("         -config=config/hibernate.cfg.xml -tables=t1 -log-level=9");
         System.out.println("");
         System.out.println("Beispiel 2 : wie Beispiel 1 + Schlüsselfeld ID für die Tabelle t1 definieren");
-        System.out.println("         -config=config/sos_settings.ini -tables=t1 -keys=ID -log-level=9");
+        System.out.println("         -config=config/hibernate.cfg.xml -tables=t1 -keys=ID -log-level=9");
         System.out.println("");
         System.out.println("Beispiel 3 : alle Daten der Tabellen t1 und t2 ohne zu loggen exportieren");
-        System.out.println("         -config=config/sos_settings.ini -tables=t1+t2");
+        System.out.println("         -config=config/hibernate.cfg.xml -tables=t1+t2");
         System.out.println("");
         System.out.println("Beispiel 4 : wie Beispiel 3 + Schlüsselfelder T1_ID und T1_NAME für die Tabelle t1 und Schlüsselfeld T2_ID für die Tabelle t2 definieren");
-        System.out.println("         -config=config/sos_settings.ini -tables=t1+t2 -keys=T1_ID,T1_NAME+T2_ID");
+        System.out.println("         -config=config/hibernate.cfg.xml -tables=t1+t2 -keys=T1_ID,T1_NAME+T2_ID");
         System.out.println("");
         System.out.println("Beispiel 5 : eigene SQL-Statement für die Tabelle t1 definieren");
-        System.out.println("         -config=config/sos_settings.ini -execute=\"select * from t1 where ID=1\"");
+        System.out.println("         -config=config/hibernate.cfg.xml -execute=\"select * from t1 where ID=1\"");
     }
 
     public void doExport() throws Exception {
@@ -180,7 +180,7 @@ public class SOSExportProcessor {
             SOSArguments arguments = new SOSArguments(args);
             SOSExportProcessor processor =
                     new SOSExportProcessor(
-                            new File(arguments.asString("-config=", "sos_settings.ini")),
+                            new File(arguments.asString("-config=", "hibernate.cfg.xml")),
                             new File(arguments.asString("-log=", "sos_export.log")), arguments.asInt("-log-level=", 0),
                             new File(arguments.asString("-output=", "sos_export.xml")),
                             new String(arguments.asString("-tables=", "")), 

@@ -217,7 +217,7 @@ public class SOSPlainTextProcessor extends SOSTextProcessor {
             processor.process("Hello World &(datetime)");
             System.out.println(processor.getDocumentContent());
             SOSStandardLogger logger = new SOSStandardLogger(9);
-            SOSConnection connection = SOSConnection.createInstance("/scheduler/config/sos_settings.ini");
+            SOSConnection connection = SOSConnection.createInstance("/scheduler/config/hibernate.cfg.xml");
             connection.connect();
             SOSConnectionSettings settings = new SOSConnectionSettings(connection, "SETTINGS");
             processor = new SOSPlainTextProcessor(settings, "email_templates", "email_templates");

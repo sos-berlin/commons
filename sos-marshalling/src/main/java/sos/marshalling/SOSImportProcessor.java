@@ -55,7 +55,7 @@ public class SOSImportProcessor {
         System.out.println("Syntax");
         System.out.println("Optionen :");
         System.out.println("        -config     Namen der Konfigurationsdatei für die DB Verbindung angeben.");
-        System.out.println("                    Default : sos_settings.ini");
+        System.out.println("                    Default : hibernate.cfg.xml");
         System.out.println("        -input      Namen der Import XML-Datei angeben.");
         System.out.println("                    Default : sos_export.xml ");
         System.out.println("        -log        Namen der Log-Datei angeben.");
@@ -65,7 +65,7 @@ public class SOSImportProcessor {
         System.out.println("");
         System.out.println("");
         System.out.println("Beispiel 1 : Datei sos_import.xml in die Tabelle t1 importieren");
-        System.out.println("         -config=config/sos_settings.ini -input=sos_import.xml -table=t1");
+        System.out.println("         -config=config/hibernate.cfg.xml -input=sos_import.xml -table=t1");
     }
 
     public void doImport() throws Exception {
