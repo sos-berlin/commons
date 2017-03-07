@@ -2009,7 +2009,8 @@ public abstract class SOSConnection {
             }
             String statement = command.trim();
             if (enableProcedureSearch) {
-                if (statement.toLowerCase().endsWith("end") || statement.toLowerCase().endsWith("end;")) {
+                //if (statement.toLowerCase().endsWith("end") || statement.toLowerCase().endsWith("end;")) {
+                if(endsWithEnd(statement)){
                     if (this.isProcedureSyntax(statement)) {
                         statements.add(statement + endSB.toString());
                         logger.debug6(SOSClassUtil.getMethodName() + " : statement =" + statement + endSB.toString());
@@ -2037,6 +2038,15 @@ public abstract class SOSConnection {
             }
         }
         return statements;
+    }
+    
+    private boolean endsWithEnd(String statement){
+        //END  END; END$$; END MY_PROCEDURE;
+        String patterns = "end[\\s]*[\\S]*[;]*$";
+        Pattern p = Pattern.compile(patterns,Pattern.CASE_INSENSITIVE);
+        
+        Matcher matcher = p.matcher(statement);
+        return matcher.find();
     }
 
     private void splitStatements(final ArrayList statements, final StringBuffer st, final Integer position, final String procedurEnd,
