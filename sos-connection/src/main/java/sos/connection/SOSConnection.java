@@ -2141,6 +2141,8 @@ public abstract class SOSConnection {
         StringTokenizer st = new StringTokenizer(statement, "\n");
         boolean addRow = true;
         boolean isVersionComment = false;
+        boolean isMySQL = this instanceof SOSMySQLConnection;
+        
         while (st.hasMoreTokens()) {
             String row = st.nextToken().trim();
             if (row == null || row.isEmpty()) {
@@ -2149,9 +2151,15 @@ public abstract class SOSConnection {
             if (row.startsWith("--") || row.startsWith("//") || row.startsWith("#")) {
                 continue;
             }
+            if (isMySQL && row.toUpperCase().startsWith("DELIMITER")) {
+                continue;
+            }
             row = row.replaceAll("^[/][*](?s).*?[*][/][\\s]*;*", "");
             if (row.isEmpty()) {
                 continue;
+            }
+            if (isMySQL && row.toUpperCase().startsWith("END$$;")) {
+                row = "END;";
             }
             if (row.startsWith("/*!")) {
                 String[] contentArr = row.substring(3).trim().split(" ");
