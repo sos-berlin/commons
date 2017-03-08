@@ -2151,15 +2151,18 @@ public abstract class SOSConnection {
             if (row.startsWith("--") || row.startsWith("//") || row.startsWith("#")) {
                 continue;
             }
-            if (isMySQL && row.toUpperCase().startsWith("DELIMITER")) {
-                continue;
-            }
             row = row.replaceAll("^[/][*](?s).*?[*][/][\\s]*;*", "");
             if (row.isEmpty()) {
                 continue;
             }
-            if (isMySQL && row.toUpperCase().startsWith("END$$;")) {
-                row = "END;";
+            if (isMySQL){ 
+                String rowUpper = row.toUpperCase();
+                if (rowUpper.startsWith("DELIMITER")) {
+                    continue;
+                }
+                else if(rowUpper.startsWith("END$$;")) {
+                    row = "END;";
+                }
             }
             if (row.startsWith("/*!")) {
                 String[] contentArr = row.substring(3).trim().split(" ");
