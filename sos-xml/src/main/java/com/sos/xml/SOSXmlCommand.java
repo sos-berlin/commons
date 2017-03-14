@@ -141,7 +141,7 @@ public class SOSXmlCommand {
         Date date;
         try {
             String dateString = getAttribute(key, dateAttribute);
-            if (dateString == null) {
+            if (dateString == null || dateString.isEmpty()) {
                 return null;
             }
             dateString = dateString.trim().replaceFirst("^(\\d{4}-\\d{2}-\\d{2}) ", "$1T");
