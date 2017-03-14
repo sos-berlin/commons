@@ -12,61 +12,61 @@ public class SOSSchedulerLogger extends SOSLogger {
         this.spoolerLog = spoolerLog;
     }
 
-    public void warn(String str) throws Exception {
+    public void warn(String str)   {
         log(WARN, str);
         setWarning(str);
     }
 
-    public void error(String str) throws Exception {
+    public void error(String str)  {
         log(ERROR, str);
         setError(str);
     }
 
-    public void info(String str) throws Exception {
+    public void info(String str) {
         log(INFO, str);
     }
 
-    public void debug(String str) throws Exception {
+    public void debug(String str)  {
         log(DEBUG, str);
     }
 
-    public void debug1(String str) throws Exception {
+    public void debug1(String str)  {
         log(DEBUG1, str);
     }
 
-    public void debug2(String str) throws Exception {
+    public void debug2(String str)   {
         log(DEBUG2, str);
     }
 
-    public void debug3(String str) throws Exception {
+    public void debug3(String str)   {
         log(DEBUG3, str);
     }
 
-    public void debug4(String str) throws Exception {
+    public void debug4(String str)  {
         log(DEBUG4, str);
     }
 
-    public void debug5(String str) throws Exception {
+    public void debug5(String str)   {
         log(DEBUG5, str);
     }
 
-    public void debug6(String str) throws Exception {
+    public void debug6(String str) {
         log(DEBUG6, str);
     }
 
-    public void debug7(String str) throws Exception {
+    public void debug7(String str)  {
         log(DEBUG7, str);
     }
 
-    public void debug8(String str) throws Exception {
+    public void debug8(String str)   {
         log(DEBUG8, str);
     }
 
-    public void debug9(String str) throws Exception {
+    public void debug9(String str)   {
         log(DEBUG9, str);
     }
 
-    public void log(int level, String str) throws Exception {
+    public void log(int level, String str)  {
         int logLevel;
         switch (level) {
         case DEBUG:
