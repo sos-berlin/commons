@@ -1,7 +1,7 @@
 package com.sos.exception;
 
 
-public class DBSessionException extends SOSException {
+public class DBSessionException extends DBException {
 
     private static final long serialVersionUID = 1L;
     
