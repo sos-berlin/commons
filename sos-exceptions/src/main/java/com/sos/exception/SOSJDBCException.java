@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SOSJDBCException extends DBException {
+public class SOSJDBCException extends SOSDBException {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SOSJDBCException.class);
     private static final long serialVersionUID = 1L;

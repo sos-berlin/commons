@@ -19,8 +19,8 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.sos.exception.ConnectionRefusedException;
-import com.sos.exception.NoResponseException;
+import com.sos.exception.SOSConnectionRefusedException;
+import com.sos.exception.SOSNoResponseException;
 
 import sos.xml.SOSXMLXPath;
 
@@ -187,11 +187,11 @@ public class SOSXmlCommand {
         }
     }
     
-    public String executeXMLPost(String urlParameters) throws ConnectionRefusedException, NoResponseException {
+    public String executeXMLPost(String urlParameters) throws SOSConnectionRefusedException, SOSNoResponseException {
         return executeXMLPost(urlParameters, UUID.randomUUID().toString());
     }
 
-    public String executeXMLPost(String urlParameters, String csrfToken) throws ConnectionRefusedException, NoResponseException {
+    public String executeXMLPost(String urlParameters, String csrfToken) throws SOSConnectionRefusedException, SOSNoResponseException {
 
         HttpURLConnection connection = null;
 
@@ -236,7 +236,7 @@ public class SOSXmlCommand {
             if (connection != null) {
                 connection.disconnect();
             }
-            throw new ConnectionRefusedException(e);
+            throw new SOSConnectionRefusedException(e);
         }
 
         // Get Response
@@ -255,7 +255,7 @@ public class SOSXmlCommand {
             sosxml = new SOSXMLXPath(new StringBuffer(response));
             return response.toString();
         } catch (Exception e) {
-            throw new NoResponseException(e);
+            throw new SOSNoResponseException(e);
         } finally {
             try {
                 if (is != null) {
