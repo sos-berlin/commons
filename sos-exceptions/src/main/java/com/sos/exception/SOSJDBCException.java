@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Deprecated
 public class SOSJDBCException extends SOSDBException {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SOSJDBCException.class);
