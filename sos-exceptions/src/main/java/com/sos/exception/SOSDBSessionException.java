@@ -1,6 +1,6 @@
 package com.sos.exception;
 
-
+@Deprecated
 public class SOSDBSessionException extends SOSDBException {
 
     private static final long serialVersionUID = 1L;
