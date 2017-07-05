@@ -12,7 +12,7 @@ public class TestExecutePost {
 
     @Test
     public void test() throws Exception {
-        SOSXmlCommand sosXmlCommand= new SOSXmlCommand("localhost",4410); 
+        SOSXmlCommand sosXmlCommand= new SOSXmlCommand("http://localhost:44001/jobscheduler/master/api/command"); 
         String answer = sosXmlCommand.executeXMLPost("<subsystem.show what=\"statistics\"/>");
         System.out.println(answer);
         SOSXMLXPath sosxml = new SOSXMLXPath(new StringBuffer(answer));
