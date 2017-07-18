@@ -54,4 +54,10 @@ public class SOSDurations {
         return (sum / count) ;
     }
 
+    public int size(){
+        if (listOfDurations == null){
+            return 0;
+        }
+        return listOfDurations.size();
+    }
 }
