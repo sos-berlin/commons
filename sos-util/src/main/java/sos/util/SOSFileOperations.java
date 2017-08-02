@@ -1460,9 +1460,7 @@ public class SOSFileOperations {
         }
         if (overwrite || !target.exists()) {
             long modificationDate = source.lastModified();
-            if (logger != null) {
-                SOSFile.setLogger(logger);
-            }
+            
             rc = SOSFile.copyFile(source, target);
             target.setLastModified(modificationDate);
             log("copy " + source.getPath() + " to " + target.getPath(), logger);
