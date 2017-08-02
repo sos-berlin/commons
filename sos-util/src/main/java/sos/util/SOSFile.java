@@ -8,12 +8,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Vector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/** @author Ghassan Beydoun */
-@Deprecated
 public class SOSFile {
 
-    public static SOSLogger logger = null;
+    private static final Logger lOGGER = LoggerFactory.getLogger(SOSFile.class);
     static final int BUFF_SIZE = 100000;
     static final byte[] buffer = new byte[BUFF_SIZE];
 
@@ -51,8 +51,8 @@ public class SOSFile {
         InputStream in = null;
         OutputStream out = null;
         try {
-            if (logger != null) {
-                logger.debug5("Copying file " + source.getAbsolutePath() + " with buffer of " + BUFF_SIZE + " bytes");
+            if (lOGGER != null) {
+                lOGGER.debug("Copying file " + source.getAbsolutePath() + " with buffer of " + BUFF_SIZE + " bytes");
             }
             in = new FileInputStream(source);
             out = new FileOutputStream(dest, append);
@@ -65,8 +65,8 @@ public class SOSFile {
                     out.write(buffer, 0, amountRead);
                 }
             }
-            if (logger != null) {
-                logger.debug5("File " + source.getAbsolutePath() + " with buffer of " + BUFF_SIZE + " bytes");
+            if (lOGGER != null) {
+                lOGGER.debug("File " + source.getAbsolutePath() + " with buffer of " + BUFF_SIZE + " bytes");
             }
             return true;
         } finally {
@@ -175,10 +175,6 @@ public class SOSFile {
         return filelist;
     }
 
-    public static SOSLogger getLogger() {
-        return logger;
-    }
-
     public static String readFile(final File source) throws Exception {
         int size = (int) source.length();
         int bytesRead = 0;
@@ -244,9 +240,6 @@ public class SOSFile {
         return renameTo(new File(source), new File(dest), sosLogger);
     }
 
-    public static void setLogger(final SOSLogger logger) {
-        SOSFile.logger = logger;
-    }
 
     public static String subFileMask(final String filespec, final String substitute) throws IOException {
         if (filespec == null) {
