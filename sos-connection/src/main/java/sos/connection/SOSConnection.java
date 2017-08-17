@@ -292,7 +292,8 @@ public abstract class SOSConnection {
     }
 
     private static String getHibernateConfigurationValue(SOSXMLXPath xpath, String name) throws Exception {
-        return xpath.selectSingleNodeValue("/hibernate-configuration/session-factory/property[@name='" + name + "']");
+        String val = xpath.selectSingleNodeValue("/hibernate-configuration/session-factory/property[@name='" + name + "']"); 
+        return val == null ? "" : val;
     }
 
     private static String getClassNameByHibernateDialect(String dialectClassName) throws Exception {
