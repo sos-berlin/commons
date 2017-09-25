@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 public class SOSFile {
 
-    private static final Logger lOGGER = LoggerFactory.getLogger(SOSFile.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSFile.class);
     static final int BUFF_SIZE = 100000;
     static final byte[] buffer = new byte[BUFF_SIZE];
 
@@ -51,8 +51,8 @@ public class SOSFile {
         InputStream in = null;
         OutputStream out = null;
         try {
-            if (lOGGER != null) {
-                lOGGER.debug("Copying file " + source.getAbsolutePath() + " with buffer of " + BUFF_SIZE + " bytes");
+            if (LOGGER != null) {
+                LOGGER.debug("Copying file " + source.getAbsolutePath() + " with buffer of " + BUFF_SIZE + " bytes");
             }
             in = new FileInputStream(source);
             out = new FileOutputStream(dest, append);
@@ -65,8 +65,8 @@ public class SOSFile {
                     out.write(buffer, 0, amountRead);
                 }
             }
-            if (lOGGER != null) {
-                lOGGER.debug("File " + source.getAbsolutePath() + " with buffer of " + BUFF_SIZE + " bytes");
+            if (LOGGER != null) {
+                LOGGER.debug("File " + source.getAbsolutePath() + " with buffer of " + BUFF_SIZE + " bytes");
             }
             return true;
         } finally {
