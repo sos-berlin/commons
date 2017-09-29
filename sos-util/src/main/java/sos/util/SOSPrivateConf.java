@@ -22,16 +22,20 @@ public class SOSPrivateConf {
         this.filename = filename;
     }
 
-    private void init() {
+    private void init() throws Exception {
         if (config == null) {
             Path path = Paths.get(filename);
             if (Files.exists(path)) {
                 config = ConfigFactory.parseFile(path.toFile());
+            } else {
+                String s = String.format("File %s not found", path);
+                LOGGER.warn(s);
+                throw new Exception(s);
             }
         }
     }
 
-    public String getValue(String key) {
+    public String getValue(String key) throws Exception {
         LOGGER.debug("reading key: " + key);
         init();
         String value = null;
@@ -39,7 +43,7 @@ public class SOSPrivateConf {
         return value;
     }
 
-    public String getValue(String objectId, String key) {
+    public String getValue(String objectId, String key) throws Exception {
         LOGGER.debug("reading key: " + key);
         init();
         Config configClass = null;
@@ -58,25 +62,22 @@ public class SOSPrivateConf {
 
     }
 
-    private String getAuthFromPrivateConf(String schedulerId) {
-        SOSPrivateConf sosPrivateConf = new SOSPrivateConf("./config/private/private.conf");
-        String phrase = null;
-        try {
-            phrase = sosPrivateConf.getValue("jobscheduler.master.auth.users", "schedulerId");
-        } catch (ConfigException e) {
-            LOGGER.warn(
-                    "[inventory] - An credential with the schedulerId as key is missing from configuration item \"jobscheduler.master.auth.users\"!");
-            LOGGER.warn("[inventory] - see https://kb.sos-berlin.com/x/NwgCAQ for further details on how to setup a secure connection");
+    public String getEncodedValue(String objectId, String key) throws Exception {
+        String s = getValue(objectId, key);
+        if (s != null) {
+            return new String(Base64.getDecoder().decode(s.getBytes("UTF-8")), "UTF-8");
+        } else {
+            return null;
         }
-        if (phrase != null && !phrase.isEmpty()) {
-            String[] phraseSplit = phrase.split(":", 2);
-            byte[] upEncoded = Base64.getEncoder().encode((schedulerId + ":" + phraseSplit[1]).getBytes());
-            StringBuilder encoded = new StringBuilder();
-            for (byte me : upEncoded) {
-                encoded.append((char) me);
-            }
-            return encoded.toString();
-        }
-        return phrase;
     }
+
+    public String getEncodedValue(String key) throws Exception {
+        String s = getValue(key);
+        if (s != null) {
+            return new String(Base64.getDecoder().decode(s.getBytes("UTF-8")), "UTF-8");
+        } else {
+            return null;
+        }
+    }
+
 }
