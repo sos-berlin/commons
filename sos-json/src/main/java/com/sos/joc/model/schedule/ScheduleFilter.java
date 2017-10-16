@@ -20,7 +20,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobschedulerId",
-    "schedule"
+    "schedule",
+    "compact"
 })
 public class ScheduleFilter {
 
@@ -40,6 +41,14 @@ public class ScheduleFilter {
      */
     @JsonProperty("schedule")
     private String schedule;
+    /**
+     * compact parameter
+     * <p>
+     * controls if the object view is compact or detailed
+     * 
+     */
+    @JsonProperty("compact")
+    private Boolean compact = false;
 
     /**
      * 
@@ -93,6 +102,32 @@ public class ScheduleFilter {
         this.schedule = schedule;
     }
 
+    /**
+     * compact parameter
+     * <p>
+     * controls if the object view is compact or detailed
+     * 
+     * @return
+     *     The compact
+     */
+    @JsonProperty("compact")
+    public Boolean getCompact() {
+        return compact;
+    }
+
+    /**
+     * compact parameter
+     * <p>
+     * controls if the object view is compact or detailed
+     * 
+     * @param compact
+     *     The compact
+     */
+    @JsonProperty("compact")
+    public void setCompact(Boolean compact) {
+        this.compact = compact;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -100,7 +135,7 @@ public class ScheduleFilter {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(schedule).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(schedule).append(compact).toHashCode();
     }
 
     @Override
@@ -112,7 +147,7 @@ public class ScheduleFilter {
             return false;
         }
         ScheduleFilter rhs = ((ScheduleFilter) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(schedule, rhs.schedule).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(schedule, rhs.schedule).append(compact, rhs.compact).isEquals();
     }
 
 }
