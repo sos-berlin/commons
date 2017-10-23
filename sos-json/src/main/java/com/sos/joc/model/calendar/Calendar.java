@@ -41,18 +41,24 @@ public class Calendar {
      */
     @JsonProperty("id")
     private Long id;
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
     @JsonProperty("path")
     private String path;
     @JsonProperty("name")
     private String name;
     /**
-     * non negative long
+     * path
      * <p>
-     * 
+     * absolute path based on live folder of a JobScheduler object.
      * 
      */
     @JsonProperty("basedOn")
-    private Long basedOn;
+    private String basedOn;
     /**
      * calendar type
      * <p>
@@ -125,6 +131,9 @@ public class Calendar {
     }
 
     /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
      * 
      * @return
      *     The path
@@ -135,6 +144,9 @@ public class Calendar {
     }
 
     /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
      * 
      * @param path
      *     The path
@@ -165,28 +177,28 @@ public class Calendar {
     }
 
     /**
-     * non negative long
+     * path
      * <p>
-     * 
+     * absolute path based on live folder of a JobScheduler object.
      * 
      * @return
      *     The basedOn
      */
     @JsonProperty("basedOn")
-    public Long getBasedOn() {
+    public String getBasedOn() {
         return basedOn;
     }
 
     /**
-     * non negative long
+     * path
      * <p>
-     * 
+     * absolute path based on live folder of a JobScheduler object.
      * 
      * @param basedOn
      *     The basedOn
      */
     @JsonProperty("basedOn")
-    public void setBasedOn(Long basedOn) {
+    public void setBasedOn(String basedOn) {
         this.basedOn = basedOn;
     }
 

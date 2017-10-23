@@ -11,7 +11,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum CalendarType {
 
     WORKING_DAYS("WORKING_DAYS"),
-    NON_WORKING_DAYS("NON_WORKING_DAYS");
+    NON_WORKING_DAYS("NON_WORKING_DAYS"),
+    BASED("BASED");
     private final String value;
     private final static Map<String, CalendarType> CONSTANTS = new HashMap<String, CalendarType>();
 

@@ -1,6 +1,7 @@
 
 package com.sos.joc.model.calendar;
 
+import java.util.Date;
 import java.util.List;
 import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -10,12 +11,17 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
+
+/**
+ * clections of objects which use calendar
+ * <p>
+ * 
+ * 
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
-    "jobschedulerId",
-    "host",
-    "port",
+    "deliveryDate",
     "jobs",
     "orders",
     "schedules"
@@ -23,28 +29,14 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class UsedBy {
 
     /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("jobschedulerId")
-    private String jobschedulerId;
-    /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("host")
-    private String host;
-    /**
-     * port
+     * delivery date
      * <p>
-     * 
+     * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * (Required)
      * 
      */
-    @JsonProperty("port")
-    private Integer port;
+    @JsonProperty("deliveryDate")
+    private Date deliveryDate;
     @JsonProperty("jobs")
     private List<String> jobs = null;
     @JsonProperty("orders")
@@ -53,79 +45,31 @@ public class UsedBy {
     private List<String> schedules = null;
 
     /**
-     * 
-     * (Required)
-     * 
-     * @return
-     *     The jobschedulerId
-     */
-    @JsonProperty("jobschedulerId")
-    public String getJobschedulerId() {
-        return jobschedulerId;
-    }
-
-    /**
-     * 
-     * (Required)
-     * 
-     * @param jobschedulerId
-     *     The jobschedulerId
-     */
-    @JsonProperty("jobschedulerId")
-    public void setJobschedulerId(String jobschedulerId) {
-        this.jobschedulerId = jobschedulerId;
-    }
-
-    /**
-     * 
-     * (Required)
-     * 
-     * @return
-     *     The host
-     */
-    @JsonProperty("host")
-    public String getHost() {
-        return host;
-    }
-
-    /**
-     * 
-     * (Required)
-     * 
-     * @param host
-     *     The host
-     */
-    @JsonProperty("host")
-    public void setHost(String host) {
-        this.host = host;
-    }
-
-    /**
-     * port
+     * delivery date
      * <p>
-     * 
+     * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * (Required)
      * 
      * @return
-     *     The port
+     *     The deliveryDate
      */
-    @JsonProperty("port")
-    public Integer getPort() {
-        return port;
+    @JsonProperty("deliveryDate")
+    public Date getDeliveryDate() {
+        return deliveryDate;
     }
 
     /**
-     * port
+     * delivery date
      * <p>
-     * 
+     * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * (Required)
      * 
-     * @param port
-     *     The port
+     * @param deliveryDate
+     *     The deliveryDate
      */
-    @JsonProperty("port")
-    public void setPort(Integer port) {
-        this.port = port;
+    @JsonProperty("deliveryDate")
+    public void setDeliveryDate(Date deliveryDate) {
+        this.deliveryDate = deliveryDate;
     }
 
     /**
@@ -195,7 +139,7 @@ public class UsedBy {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(host).append(port).append(jobs).append(orders).append(schedules).toHashCode();
+        return new HashCodeBuilder().append(deliveryDate).append(jobs).append(orders).append(schedules).toHashCode();
     }
 
     @Override
@@ -207,7 +151,7 @@ public class UsedBy {
             return false;
         }
         UsedBy rhs = ((UsedBy) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(host, rhs.host).append(port, rhs.port).append(jobs, rhs.jobs).append(orders, rhs.orders).append(schedules, rhs.schedules).isEquals();
+        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(jobs, rhs.jobs).append(orders, rhs.orders).append(schedules, rhs.schedules).isEquals();
     }
 
 }
