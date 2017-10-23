@@ -20,12 +20,20 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
+    "jobschedulerId",
     "path",
     "newPath",
     "auditLog"
 })
 public class CalendarRenameFilter {
 
+    /**
+     * 
+     * (Required)
+     * 
+     */
+    @JsonProperty("jobschedulerId")
+    private String jobschedulerId;
     @JsonProperty("path")
     private String path;
     @JsonProperty("newPath")
@@ -38,6 +46,30 @@ public class CalendarRenameFilter {
      */
     @JsonProperty("auditLog")
     private AuditParams auditLog;
+
+    /**
+     * 
+     * (Required)
+     * 
+     * @return
+     *     The jobschedulerId
+     */
+    @JsonProperty("jobschedulerId")
+    public String getJobschedulerId() {
+        return jobschedulerId;
+    }
+
+    /**
+     * 
+     * (Required)
+     * 
+     * @param jobschedulerId
+     *     The jobschedulerId
+     */
+    @JsonProperty("jobschedulerId")
+    public void setJobschedulerId(String jobschedulerId) {
+        this.jobschedulerId = jobschedulerId;
+    }
 
     /**
      * 
@@ -112,7 +144,7 @@ public class CalendarRenameFilter {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(path).append(newPath).append(auditLog).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(path).append(newPath).append(auditLog).toHashCode();
     }
 
     @Override
@@ -124,7 +156,7 @@ public class CalendarRenameFilter {
             return false;
         }
         CalendarRenameFilter rhs = ((CalendarRenameFilter) other);
-        return new EqualsBuilder().append(path, rhs.path).append(newPath, rhs.newPath).append(auditLog, rhs.auditLog).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(path, rhs.path).append(newPath, rhs.newPath).append(auditLog, rhs.auditLog).isEquals();
     }
 
 }

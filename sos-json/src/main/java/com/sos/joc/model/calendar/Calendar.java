@@ -22,6 +22,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "id",
     "path",
     "name",
+    "basedOn",
     "type",
     "category",
     "title",
@@ -44,6 +45,14 @@ public class Calendar {
     private String path;
     @JsonProperty("name")
     private String name;
+    /**
+     * non negative long
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("basedOn")
+    private Long basedOn;
     /**
      * calendar type
      * <p>
@@ -153,6 +162,32 @@ public class Calendar {
     @JsonProperty("name")
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * non negative long
+     * <p>
+     * 
+     * 
+     * @return
+     *     The basedOn
+     */
+    @JsonProperty("basedOn")
+    public Long getBasedOn() {
+        return basedOn;
+    }
+
+    /**
+     * non negative long
+     * <p>
+     * 
+     * 
+     * @param basedOn
+     *     The basedOn
+     */
+    @JsonProperty("basedOn")
+    public void setBasedOn(Long basedOn) {
+        this.basedOn = basedOn;
     }
 
     /**
@@ -332,7 +367,7 @@ public class Calendar {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(id).append(path).append(name).append(type).append(category).append(title).append(from).append(to).append(includes).append(excludes).toHashCode();
+        return new HashCodeBuilder().append(id).append(path).append(name).append(basedOn).append(type).append(category).append(title).append(from).append(to).append(includes).append(excludes).toHashCode();
     }
 
     @Override
@@ -344,7 +379,7 @@ public class Calendar {
             return false;
         }
         Calendar rhs = ((Calendar) other);
-        return new EqualsBuilder().append(id, rhs.id).append(path, rhs.path).append(name, rhs.name).append(type, rhs.type).append(category, rhs.category).append(title, rhs.title).append(from, rhs.from).append(to, rhs.to).append(includes, rhs.includes).append(excludes, rhs.excludes).isEquals();
+        return new EqualsBuilder().append(id, rhs.id).append(path, rhs.path).append(name, rhs.name).append(basedOn, rhs.basedOn).append(type, rhs.type).append(category, rhs.category).append(title, rhs.title).append(from, rhs.from).append(to, rhs.to).append(includes, rhs.includes).append(excludes, rhs.excludes).isEquals();
     }
 
 }

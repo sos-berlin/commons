@@ -19,6 +19,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
+    "jobschedulerId",
     "calendar",
     "id",
     "path",
@@ -27,6 +28,13 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 })
 public class CalendarDatesFilter {
 
+    /**
+     * 
+     * (Required)
+     * 
+     */
+    @JsonProperty("jobschedulerId")
+    private String jobschedulerId;
     /**
      * calendar
      * <p>
@@ -49,6 +57,30 @@ public class CalendarDatesFilter {
     private String dateFrom;
     @JsonProperty("dateTo")
     private String dateTo;
+
+    /**
+     * 
+     * (Required)
+     * 
+     * @return
+     *     The jobschedulerId
+     */
+    @JsonProperty("jobschedulerId")
+    public String getJobschedulerId() {
+        return jobschedulerId;
+    }
+
+    /**
+     * 
+     * (Required)
+     * 
+     * @param jobschedulerId
+     *     The jobschedulerId
+     */
+    @JsonProperty("jobschedulerId")
+    public void setJobschedulerId(String jobschedulerId) {
+        this.jobschedulerId = jobschedulerId;
+    }
 
     /**
      * calendar
@@ -169,7 +201,7 @@ public class CalendarDatesFilter {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(calendar).append(id).append(path).append(dateFrom).append(dateTo).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(calendar).append(id).append(path).append(dateFrom).append(dateTo).toHashCode();
     }
 
     @Override
@@ -181,7 +213,7 @@ public class CalendarDatesFilter {
             return false;
         }
         CalendarDatesFilter rhs = ((CalendarDatesFilter) other);
-        return new EqualsBuilder().append(calendar, rhs.calendar).append(id, rhs.id).append(path, rhs.path).append(dateFrom, rhs.dateFrom).append(dateTo, rhs.dateTo).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(calendar, rhs.calendar).append(id, rhs.id).append(path, rhs.path).append(dateFrom, rhs.dateFrom).append(dateTo, rhs.dateTo).isEquals();
     }
 
 }

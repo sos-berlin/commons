@@ -20,11 +20,19 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
+    "jobschedulerId",
     "calendar",
     "auditLog"
 })
 public class CalendarObjectFilter {
 
+    /**
+     * 
+     * (Required)
+     * 
+     */
+    @JsonProperty("jobschedulerId")
+    private String jobschedulerId;
     /**
      * calendar
      * <p>
@@ -41,6 +49,30 @@ public class CalendarObjectFilter {
      */
     @JsonProperty("auditLog")
     private AuditParams auditLog;
+
+    /**
+     * 
+     * (Required)
+     * 
+     * @return
+     *     The jobschedulerId
+     */
+    @JsonProperty("jobschedulerId")
+    public String getJobschedulerId() {
+        return jobschedulerId;
+    }
+
+    /**
+     * 
+     * (Required)
+     * 
+     * @param jobschedulerId
+     *     The jobschedulerId
+     */
+    @JsonProperty("jobschedulerId")
+    public void setJobschedulerId(String jobschedulerId) {
+        this.jobschedulerId = jobschedulerId;
+    }
 
     /**
      * calendar
@@ -101,7 +133,7 @@ public class CalendarObjectFilter {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(calendar).append(auditLog).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(calendar).append(auditLog).toHashCode();
     }
 
     @Override
@@ -113,7 +145,7 @@ public class CalendarObjectFilter {
             return false;
         }
         CalendarObjectFilter rhs = ((CalendarObjectFilter) other);
-        return new EqualsBuilder().append(calendar, rhs.calendar).append(auditLog, rhs.auditLog).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(calendar, rhs.calendar).append(auditLog, rhs.auditLog).isEquals();
     }
 
 }

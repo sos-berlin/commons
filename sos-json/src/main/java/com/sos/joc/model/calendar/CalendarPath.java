@@ -19,6 +19,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
+    "jobschedulerId",
     "path"
 })
 public class CalendarPath {
@@ -28,8 +29,39 @@ public class CalendarPath {
      * (Required)
      * 
      */
+    @JsonProperty("jobschedulerId")
+    private String jobschedulerId;
+    /**
+     * 
+     * (Required)
+     * 
+     */
     @JsonProperty("path")
     private String path;
+
+    /**
+     * 
+     * (Required)
+     * 
+     * @return
+     *     The jobschedulerId
+     */
+    @JsonProperty("jobschedulerId")
+    public String getJobschedulerId() {
+        return jobschedulerId;
+    }
+
+    /**
+     * 
+     * (Required)
+     * 
+     * @param jobschedulerId
+     *     The jobschedulerId
+     */
+    @JsonProperty("jobschedulerId")
+    public void setJobschedulerId(String jobschedulerId) {
+        this.jobschedulerId = jobschedulerId;
+    }
 
     /**
      * 
@@ -62,7 +94,7 @@ public class CalendarPath {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(path).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(path).toHashCode();
     }
 
     @Override
@@ -74,7 +106,7 @@ public class CalendarPath {
             return false;
         }
         CalendarPath rhs = ((CalendarPath) other);
-        return new EqualsBuilder().append(path, rhs.path).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(path, rhs.path).isEquals();
     }
 
 }

@@ -22,6 +22,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
+    "jobschedulerId",
     "calendarIds",
     "calendars",
     "compact",
@@ -33,6 +34,13 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 })
 public class CalendarsFilter {
 
+    /**
+     * 
+     * (Required)
+     * 
+     */
+    @JsonProperty("jobschedulerId")
+    private String jobschedulerId;
     @JsonProperty("calendarIds")
     private List<Long> calendarIds = null;
     @JsonProperty("calendars")
@@ -73,6 +81,30 @@ public class CalendarsFilter {
      */
     @JsonProperty("auditLog")
     private AuditParams auditLog;
+
+    /**
+     * 
+     * (Required)
+     * 
+     * @return
+     *     The jobschedulerId
+     */
+    @JsonProperty("jobschedulerId")
+    public String getJobschedulerId() {
+        return jobschedulerId;
+    }
+
+    /**
+     * 
+     * (Required)
+     * 
+     * @param jobschedulerId
+     *     The jobschedulerId
+     */
+    @JsonProperty("jobschedulerId")
+    public void setJobschedulerId(String jobschedulerId) {
+        this.jobschedulerId = jobschedulerId;
+    }
 
     /**
      * 
@@ -265,7 +297,7 @@ public class CalendarsFilter {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(calendarIds).append(calendars).append(compact).append(type).append(categories).append(regex).append(folders).append(auditLog).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(calendarIds).append(calendars).append(compact).append(type).append(categories).append(regex).append(folders).append(auditLog).toHashCode();
     }
 
     @Override
@@ -277,7 +309,7 @@ public class CalendarsFilter {
             return false;
         }
         CalendarsFilter rhs = ((CalendarsFilter) other);
-        return new EqualsBuilder().append(calendarIds, rhs.calendarIds).append(calendars, rhs.calendars).append(compact, rhs.compact).append(type, rhs.type).append(categories, rhs.categories).append(regex, rhs.regex).append(folders, rhs.folders).append(auditLog, rhs.auditLog).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(calendarIds, rhs.calendarIds).append(calendars, rhs.calendars).append(compact, rhs.compact).append(type, rhs.type).append(categories, rhs.categories).append(regex, rhs.regex).append(folders, rhs.folders).append(auditLog, rhs.auditLog).isEquals();
     }
 
 }
