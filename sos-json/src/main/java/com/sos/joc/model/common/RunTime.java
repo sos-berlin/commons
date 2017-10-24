@@ -1,11 +1,14 @@
 
 package com.sos.joc.model.common;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.sos.joc.model.calendar.Calendar;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -23,7 +26,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "surveyDate",
     "runTime",
     "permanentRunTime",
-    "runTimeIsTemporary"
+    "runTimeIsTemporary",
+    "calendars"
 })
 public class RunTime {
 
@@ -56,6 +60,8 @@ public class RunTime {
      */
     @JsonProperty("runTimeIsTemporary")
     private Boolean runTimeIsTemporary = false;
+    @JsonProperty("calendars")
+    private List<Calendar> calendars = new ArrayList<Calendar>();
 
     /**
      * survey date of the JobScheduler Master/Agent
@@ -155,6 +161,26 @@ public class RunTime {
         this.runTimeIsTemporary = runTimeIsTemporary;
     }
 
+    /**
+     * 
+     * @return
+     *     The calendars
+     */
+    @JsonProperty("calendars")
+    public List<Calendar> getCalendars() {
+        return calendars;
+    }
+
+    /**
+     * 
+     * @param calendars
+     *     The calendars
+     */
+    @JsonProperty("calendars")
+    public void setCalendars(List<Calendar> calendars) {
+        this.calendars = calendars;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -162,7 +188,7 @@ public class RunTime {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(surveyDate).append(runTime).append(permanentRunTime).append(runTimeIsTemporary).toHashCode();
+        return new HashCodeBuilder().append(surveyDate).append(runTime).append(permanentRunTime).append(runTimeIsTemporary).append(calendars).toHashCode();
     }
 
     @Override
@@ -174,7 +200,7 @@ public class RunTime {
             return false;
         }
         RunTime rhs = ((RunTime) other);
-        return new EqualsBuilder().append(surveyDate, rhs.surveyDate).append(runTime, rhs.runTime).append(permanentRunTime, rhs.permanentRunTime).append(runTimeIsTemporary, rhs.runTimeIsTemporary).isEquals();
+        return new EqualsBuilder().append(surveyDate, rhs.surveyDate).append(runTime, rhs.runTime).append(permanentRunTime, rhs.permanentRunTime).append(runTimeIsTemporary, rhs.runTimeIsTemporary).append(calendars, rhs.calendars).isEquals();
     }
 
 }
