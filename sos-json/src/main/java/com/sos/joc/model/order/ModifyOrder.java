@@ -7,6 +7,7 @@ import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.sos.joc.model.calendar.Calendar;
 import com.sos.joc.model.common.NameValuePair;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -33,7 +34,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "title",
     "priority",
     "params",
-    "runTime"
+    "runTime",
+    "calendars"
 })
 public class ModifyOrder {
 
@@ -110,6 +112,8 @@ public class ModifyOrder {
      */
     @JsonProperty("runTime")
     private String runTime;
+    @JsonProperty("calendars")
+    private List<Calendar> calendars = new ArrayList<Calendar>();
 
     /**
      * 
@@ -389,6 +393,26 @@ public class ModifyOrder {
         this.runTime = runTime;
     }
 
+    /**
+     * 
+     * @return
+     *     The calendars
+     */
+    @JsonProperty("calendars")
+    public List<Calendar> getCalendars() {
+        return calendars;
+    }
+
+    /**
+     * 
+     * @param calendars
+     *     The calendars
+     */
+    @JsonProperty("calendars")
+    public void setCalendars(List<Calendar> calendars) {
+        this.calendars = calendars;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -396,7 +420,7 @@ public class ModifyOrder {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(orderId).append(jobChain).append(state).append(endState).append(at).append(timeZone).append(resume).append(removeSetback).append(title).append(priority).append(params).append(runTime).toHashCode();
+        return new HashCodeBuilder().append(orderId).append(jobChain).append(state).append(endState).append(at).append(timeZone).append(resume).append(removeSetback).append(title).append(priority).append(params).append(runTime).append(calendars).toHashCode();
     }
 
     @Override
@@ -408,7 +432,7 @@ public class ModifyOrder {
             return false;
         }
         ModifyOrder rhs = ((ModifyOrder) other);
-        return new EqualsBuilder().append(orderId, rhs.orderId).append(jobChain, rhs.jobChain).append(state, rhs.state).append(endState, rhs.endState).append(at, rhs.at).append(timeZone, rhs.timeZone).append(resume, rhs.resume).append(removeSetback, rhs.removeSetback).append(title, rhs.title).append(priority, rhs.priority).append(params, rhs.params).append(runTime, rhs.runTime).isEquals();
+        return new EqualsBuilder().append(orderId, rhs.orderId).append(jobChain, rhs.jobChain).append(state, rhs.state).append(endState, rhs.endState).append(at, rhs.at).append(timeZone, rhs.timeZone).append(resume, rhs.resume).append(removeSetback, rhs.removeSetback).append(title, rhs.title).append(priority, rhs.priority).append(params, rhs.params).append(runTime, rhs.runTime).append(calendars, rhs.calendars).isEquals();
     }
 
 }

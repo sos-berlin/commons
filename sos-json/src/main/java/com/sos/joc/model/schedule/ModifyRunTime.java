@@ -1,11 +1,14 @@
 
 package com.sos.joc.model.schedule;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.sos.joc.model.audit.AuditParams;
+import com.sos.joc.model.calendar.Calendar;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -23,7 +26,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "jobschedulerId",
     "schedule",
     "auditLog",
-    "runTime"
+    "runTime",
+    "calendars"
 })
 public class ModifyRunTime {
 
@@ -58,6 +62,8 @@ public class ModifyRunTime {
      */
     @JsonProperty("runTime")
     private String runTime;
+    @JsonProperty("calendars")
+    private List<Calendar> calendars = new ArrayList<Calendar>();
 
     /**
      * 
@@ -161,6 +167,26 @@ public class ModifyRunTime {
         this.runTime = runTime;
     }
 
+    /**
+     * 
+     * @return
+     *     The calendars
+     */
+    @JsonProperty("calendars")
+    public List<Calendar> getCalendars() {
+        return calendars;
+    }
+
+    /**
+     * 
+     * @param calendars
+     *     The calendars
+     */
+    @JsonProperty("calendars")
+    public void setCalendars(List<Calendar> calendars) {
+        this.calendars = calendars;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -168,7 +194,7 @@ public class ModifyRunTime {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(schedule).append(auditLog).append(runTime).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(schedule).append(auditLog).append(runTime).append(calendars).toHashCode();
     }
 
     @Override
@@ -180,7 +206,7 @@ public class ModifyRunTime {
             return false;
         }
         ModifyRunTime rhs = ((ModifyRunTime) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(schedule, rhs.schedule).append(auditLog, rhs.auditLog).append(runTime, rhs.runTime).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(schedule, rhs.schedule).append(auditLog, rhs.auditLog).append(runTime, rhs.runTime).append(calendars, rhs.calendars).isEquals();
     }
 
 }

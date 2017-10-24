@@ -1,10 +1,13 @@
 
 package com.sos.joc.model.job;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.sos.joc.model.calendar.Calendar;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -20,7 +23,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "job",
-    "runTime"
+    "runTime",
+    "calendars"
 })
 public class ModifyJob {
 
@@ -39,6 +43,8 @@ public class ModifyJob {
      */
     @JsonProperty("runTime")
     private String runTime;
+    @JsonProperty("calendars")
+    private List<Calendar> calendars = new ArrayList<Calendar>();
 
     /**
      * path
@@ -90,6 +96,26 @@ public class ModifyJob {
         this.runTime = runTime;
     }
 
+    /**
+     * 
+     * @return
+     *     The calendars
+     */
+    @JsonProperty("calendars")
+    public List<Calendar> getCalendars() {
+        return calendars;
+    }
+
+    /**
+     * 
+     * @param calendars
+     *     The calendars
+     */
+    @JsonProperty("calendars")
+    public void setCalendars(List<Calendar> calendars) {
+        this.calendars = calendars;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -97,7 +123,7 @@ public class ModifyJob {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(job).append(runTime).toHashCode();
+        return new HashCodeBuilder().append(job).append(runTime).append(calendars).toHashCode();
     }
 
     @Override
@@ -109,7 +135,7 @@ public class ModifyJob {
             return false;
         }
         ModifyJob rhs = ((ModifyJob) other);
-        return new EqualsBuilder().append(job, rhs.job).append(runTime, rhs.runTime).isEquals();
+        return new EqualsBuilder().append(job, rhs.job).append(runTime, rhs.runTime).append(calendars, rhs.calendars).isEquals();
     }
 
 }
