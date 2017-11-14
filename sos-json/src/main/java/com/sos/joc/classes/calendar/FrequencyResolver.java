@@ -152,7 +152,11 @@ public class FrequencyResolver {
                     addRepetitionsRestrictions();
                 }
             }
-            d.getDates().addAll(restrictions);
+            if (restrictions.isEmpty()) {
+                d.getDates().addAll(this.dates.keySet());
+            } else {
+                d.getDates().addAll(restrictions);
+            }
         }
         d.setDeliveryDate(Date.from(Instant.now()));
         return d;
