@@ -144,7 +144,7 @@ public class FrequencyResolver {
                 this.dateTo = getTo(to);
                 if (this.dateFrom.compareTo(this.dateTo) <= 0) {
                     this.includes = calendar.getIncludes();
-                    this.excludes = calendar.getExcludes(); //TODO exists?
+                    //this.excludes = calendar.getExcludes(); //TODO exists?
                     addWeekDaysRestrictions();
                     addMonthDaysRestrictions();
                     addUltimosRestrictions();
@@ -153,10 +153,20 @@ public class FrequencyResolver {
                 }
             }
             if (restrictions.isEmpty()) {
-                d.getDates().addAll(this.dates.keySet());
-            } else {
-                d.getDates().addAll(restrictions);
+                for (Entry<String, Calendar> date : this.dates.entrySet()) {
+                    if (date == null || date.getValue() == null) {
+                        continue;
+                    }
+                    if (date.getValue().after(dateTo)) {
+                        break;
+                    }
+                    if (date.getValue().before(dateFrom)) {
+                        continue;
+                    }
+                    restrictions.add(date.getKey());
+                }
             }
+            d.getDates().addAll(restrictions);
         }
         d.setDeliveryDate(Date.from(Instant.now()));
         return d;
