@@ -13,7 +13,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * clections of objects which use calendar
+ * collections of objects which use calendar
  * <p>
  * 
  * 

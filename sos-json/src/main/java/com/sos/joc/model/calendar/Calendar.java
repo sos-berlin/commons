@@ -1,6 +1,7 @@
 
 package com.sos.joc.model.calendar;
 
+import java.util.List;
 import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -28,6 +29,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "title",
     "from",
     "to",
+    "periods",
     "includes",
     "excludes"
 })
@@ -87,6 +89,14 @@ public class Calendar {
      */
     @JsonProperty("to")
     private String to;
+    /**
+     * periods
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("periods")
+    private List<Period> periods = null;
     /**
      * frequencies
      * <p>
@@ -321,6 +331,32 @@ public class Calendar {
     }
 
     /**
+     * periods
+     * <p>
+     * 
+     * 
+     * @return
+     *     The periods
+     */
+    @JsonProperty("periods")
+    public List<Period> getPeriods() {
+        return periods;
+    }
+
+    /**
+     * periods
+     * <p>
+     * 
+     * 
+     * @param periods
+     *     The periods
+     */
+    @JsonProperty("periods")
+    public void setPeriods(List<Period> periods) {
+        this.periods = periods;
+    }
+
+    /**
      * frequencies
      * <p>
      * 
@@ -379,7 +415,7 @@ public class Calendar {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(id).append(path).append(name).append(basedOn).append(type).append(category).append(title).append(from).append(to).append(includes).append(excludes).toHashCode();
+        return new HashCodeBuilder().append(id).append(path).append(name).append(basedOn).append(type).append(category).append(title).append(from).append(to).append(periods).append(includes).append(excludes).toHashCode();
     }
 
     @Override
@@ -391,7 +427,7 @@ public class Calendar {
             return false;
         }
         Calendar rhs = ((Calendar) other);
-        return new EqualsBuilder().append(id, rhs.id).append(path, rhs.path).append(name, rhs.name).append(basedOn, rhs.basedOn).append(type, rhs.type).append(category, rhs.category).append(title, rhs.title).append(from, rhs.from).append(to, rhs.to).append(includes, rhs.includes).append(excludes, rhs.excludes).isEquals();
+        return new EqualsBuilder().append(id, rhs.id).append(path, rhs.path).append(name, rhs.name).append(basedOn, rhs.basedOn).append(type, rhs.type).append(category, rhs.category).append(title, rhs.title).append(from, rhs.from).append(to, rhs.to).append(periods, rhs.periods).append(includes, rhs.includes).append(excludes, rhs.excludes).isEquals();
     }
 
 }

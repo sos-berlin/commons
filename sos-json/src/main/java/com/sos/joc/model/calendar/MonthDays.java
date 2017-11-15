@@ -23,7 +23,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "from",
     "to",
     "days",
-    "workingDays",
     "weeklyDays"
 })
 public class MonthDays {
@@ -46,8 +45,6 @@ public class MonthDays {
     private String to;
     @JsonProperty("days")
     private List<Integer> days = null;
-    @JsonProperty("workingDays")
-    private List<Integer> workingDays = null;
     @JsonProperty("weeklyDays")
     private List<WeeklyDay> weeklyDays = null;
 
@@ -126,26 +123,6 @@ public class MonthDays {
     /**
      * 
      * @return
-     *     The workingDays
-     */
-    @JsonProperty("workingDays")
-    public List<Integer> getWorkingDays() {
-        return workingDays;
-    }
-
-    /**
-     * 
-     * @param workingDays
-     *     The workingDays
-     */
-    @JsonProperty("workingDays")
-    public void setWorkingDays(List<Integer> workingDays) {
-        this.workingDays = workingDays;
-    }
-
-    /**
-     * 
-     * @return
      *     The weeklyDays
      */
     @JsonProperty("weeklyDays")
@@ -170,7 +147,7 @@ public class MonthDays {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(from).append(to).append(days).append(workingDays).append(weeklyDays).toHashCode();
+        return new HashCodeBuilder().append(from).append(to).append(days).append(weeklyDays).toHashCode();
     }
 
     @Override
@@ -182,7 +159,7 @@ public class MonthDays {
             return false;
         }
         MonthDays rhs = ((MonthDays) other);
-        return new EqualsBuilder().append(from, rhs.from).append(to, rhs.to).append(days, rhs.days).append(workingDays, rhs.workingDays).append(weeklyDays, rhs.weeklyDays).isEquals();
+        return new EqualsBuilder().append(from, rhs.from).append(to, rhs.to).append(days, rhs.days).append(weeklyDays, rhs.weeklyDays).isEquals();
     }
 
 }
