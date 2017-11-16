@@ -19,15 +19,38 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
+    "TYPE",
     "key",
     "variables"
 })
 public class CalendarEvent {
 
+    @JsonProperty("TYPE")
+    private String tYPE = "VariablesCustomEvent";
     @JsonProperty("key")
     private String key;
     @JsonProperty("variables")
     private CalendarVariables variables;
+
+    /**
+     * 
+     * @return
+     *     The tYPE
+     */
+    @JsonProperty("TYPE")
+    public String getTYPE() {
+        return tYPE;
+    }
+
+    /**
+     * 
+     * @param tYPE
+     *     The TYPE
+     */
+    @JsonProperty("TYPE")
+    public void setTYPE(String tYPE) {
+        this.tYPE = tYPE;
+    }
 
     /**
      * 
@@ -76,7 +99,7 @@ public class CalendarEvent {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(key).append(variables).toHashCode();
+        return new HashCodeBuilder().append(tYPE).append(key).append(variables).toHashCode();
     }
 
     @Override
@@ -88,7 +111,7 @@ public class CalendarEvent {
             return false;
         }
         CalendarEvent rhs = ((CalendarEvent) other);
-        return new EqualsBuilder().append(key, rhs.key).append(variables, rhs.variables).isEquals();
+        return new EqualsBuilder().append(tYPE, rhs.tYPE).append(key, rhs.key).append(variables, rhs.variables).isEquals();
     }
 
 }
