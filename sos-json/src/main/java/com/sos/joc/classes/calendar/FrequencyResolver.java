@@ -176,16 +176,16 @@ public class FrequencyResolver {
             SOSInvalidDataException, JsonParseException, JsonMappingException, IOException {
         return resolveRestrictions(basedCalendarJson, calendarJson, df.format(Instant.now()), null);
     }
+    
+    public Dates resolveRestrictionsFromToday(com.sos.joc.model.calendar.Calendar basedCalendar, String calendarJson) throws SOSMissingDataException,
+            SOSInvalidDataException, JsonParseException, JsonMappingException, IOException {
+        return resolveRestrictions(basedCalendar, new ObjectMapper().readValue(calendarJson, com.sos.joc.model.calendar.Calendar.class), df.format(
+                Instant.now()), null);
+    }
 
     public Dates resolveRestrictionsFromToday(com.sos.joc.model.calendar.Calendar basedCalendar,
             com.sos.joc.model.calendar.Calendar calendar) throws SOSMissingDataException, SOSInvalidDataException {
         return resolveRestrictions(basedCalendar, calendar, df.format(Instant.now()), null);
-    }
-
-    public void init(CalendarDatesFilter calendarFilter) throws SOSMissingDataException, SOSInvalidDataException {
-        if (calendarFilter != null) {
-            init(calendarFilter.getCalendar(), calendarFilter.getDateFrom(), calendarFilter.getDateTo());
-        }
     }
 
     public void init(com.sos.joc.model.calendar.Calendar calendar, String from, String to) throws SOSMissingDataException, SOSInvalidDataException {
@@ -194,6 +194,8 @@ public class FrequencyResolver {
             setDateTo(to, calendar.getTo());
             this.includes = calendar.getIncludes();
             this.excludes = calendar.getExcludes();
+        } else {
+            throw new SOSMissingDataException("calendar object is undefined");
         }
     }
 

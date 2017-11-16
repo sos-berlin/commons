@@ -51,7 +51,7 @@ public class FrequencyResolverTest {
         calendarFilter.setDateFrom("2017-01-01");
         calendarFilter.setDateTo("2017-12-31");
         calendarFilter.setCalendar(new ObjectMapper().readValue(json, Calendar.class));
-        fr.init(calendarFilter);
+        fr.init(calendarFilter.getCalendar(), calendarFilter.getDateFrom(), calendarFilter.getDateTo());
     }
     
 //    @Test
