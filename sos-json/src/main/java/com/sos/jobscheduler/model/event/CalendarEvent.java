@@ -21,6 +21,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "TYPE",
     "key",
+    "eventId",
     "variables"
 })
 public class CalendarEvent {
@@ -29,6 +30,8 @@ public class CalendarEvent {
     private String tYPE = "VariablesCustomEvent";
     @JsonProperty("key")
     private String key;
+    @JsonProperty("eventId")
+    private Long eventId;
     @JsonProperty("variables")
     private CalendarVariables variables;
 
@@ -75,6 +78,26 @@ public class CalendarEvent {
     /**
      * 
      * @return
+     *     The eventId
+     */
+    @JsonProperty("eventId")
+    public Long getEventId() {
+        return eventId;
+    }
+
+    /**
+     * 
+     * @param eventId
+     *     The eventId
+     */
+    @JsonProperty("eventId")
+    public void setEventId(Long eventId) {
+        this.eventId = eventId;
+    }
+
+    /**
+     * 
+     * @return
      *     The variables
      */
     @JsonProperty("variables")
@@ -99,7 +122,7 @@ public class CalendarEvent {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(tYPE).append(key).append(variables).toHashCode();
+        return new HashCodeBuilder().append(tYPE).append(key).append(eventId).append(variables).toHashCode();
     }
 
     @Override
@@ -111,7 +134,7 @@ public class CalendarEvent {
             return false;
         }
         CalendarEvent rhs = ((CalendarEvent) other);
-        return new EqualsBuilder().append(tYPE, rhs.tYPE).append(key, rhs.key).append(variables, rhs.variables).isEquals();
+        return new EqualsBuilder().append(tYPE, rhs.tYPE).append(key, rhs.key).append(eventId, rhs.eventId).append(variables, rhs.variables).isEquals();
     }
 
 }
