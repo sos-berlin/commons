@@ -145,6 +145,7 @@ public class FrequencyResolver {
                 if (this.dateFrom.compareTo(this.dateTo) <= 0) {
                     this.includes = calendar.getIncludes();
                     //this.excludes = calendar.getExcludes(); //TODO exists?
+                    addDatesRestrictions();
                     addWeekDaysRestrictions();
                     addMonthDaysRestrictions();
                     addUltimosRestrictions();
@@ -996,6 +997,25 @@ public class FrequencyResolver {
         return cal;
     }
     
+    private void addDatesRestrictions() throws SOSInvalidDataException {
+        if (includes != null && includes.getDates() != null && !includes.getDates().isEmpty()) {
+            for (Entry<String, Calendar> date : this.dates.entrySet()) {
+                if (date == null || date.getValue() == null) {
+                    continue;
+                }
+                if (date.getValue().after(dateTo)) {
+                    break;
+                }
+                if (date.getValue().before(dateFrom)) {
+                    continue;
+                }
+                if (includes.getDates().contains(date.getKey())) {
+                    restrictions.add(date.getKey());
+                }
+            }
+        }
+    }
+
     private void addWeekDaysRestrictions() throws SOSInvalidDataException {
         if (includes != null) {
             addWeekDaysRestrictions(includes.getWeekdays(), dateFrom, dateTo);
