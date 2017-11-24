@@ -11,9 +11,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * job chain end node without a job or a file sink
+ * job chain end node
  * <p>
- * job chain end node of a file sink with 'remove' or 'move' which are exclusivly
+ * 
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
