@@ -9,17 +9,22 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
+
+/**
+ * periods
+ * <p>
+ * 
+ * 
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "singleStart",
     "begin",
     "end",
-    "letRun",
     "repeat",
     "absoluteRepeat",
-    "whenHoliday",
-    "once"
+    "whenHoliday"
 })
 public class Period {
 
@@ -29,16 +34,12 @@ public class Period {
     private String begin;
     @JsonProperty("end")
     private String end;
-    @JsonProperty("letRun")
-    private Boolean letRun;
     @JsonProperty("repeat")
     private String repeat;
     @JsonProperty("absoluteRepeat")
     private String absoluteRepeat;
     @JsonProperty("whenHoliday")
     private String whenHoliday;
-    @JsonProperty("once")
-    private Boolean once;
 
     /**
      * 
@@ -103,26 +104,6 @@ public class Period {
     /**
      * 
      * @return
-     *     The letRun
-     */
-    @JsonProperty("letRun")
-    public Boolean getLetRun() {
-        return letRun;
-    }
-
-    /**
-     * 
-     * @param letRun
-     *     The letRun
-     */
-    @JsonProperty("letRun")
-    public void setLetRun(Boolean letRun) {
-        this.letRun = letRun;
-    }
-
-    /**
-     * 
-     * @return
      *     The repeat
      */
     @JsonProperty("repeat")
@@ -180,26 +161,6 @@ public class Period {
         this.whenHoliday = whenHoliday;
     }
 
-    /**
-     * 
-     * @return
-     *     The once
-     */
-    @JsonProperty("once")
-    public Boolean getOnce() {
-        return once;
-    }
-
-    /**
-     * 
-     * @param once
-     *     The once
-     */
-    @JsonProperty("once")
-    public void setOnce(Boolean once) {
-        this.once = once;
-    }
-
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -207,7 +168,7 @@ public class Period {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(singleStart).append(begin).append(end).append(letRun).append(repeat).append(absoluteRepeat).append(whenHoliday).append(once).toHashCode();
+        return new HashCodeBuilder().append(singleStart).append(begin).append(end).append(repeat).append(absoluteRepeat).append(whenHoliday).toHashCode();
     }
 
     @Override
@@ -219,7 +180,7 @@ public class Period {
             return false;
         }
         Period rhs = ((Period) other);
-        return new EqualsBuilder().append(singleStart, rhs.singleStart).append(begin, rhs.begin).append(end, rhs.end).append(letRun, rhs.letRun).append(repeat, rhs.repeat).append(absoluteRepeat, rhs.absoluteRepeat).append(whenHoliday, rhs.whenHoliday).append(once, rhs.once).isEquals();
+        return new EqualsBuilder().append(singleStart, rhs.singleStart).append(begin, rhs.begin).append(end, rhs.end).append(repeat, rhs.repeat).append(absoluteRepeat, rhs.absoluteRepeat).append(whenHoliday, rhs.whenHoliday).isEquals();
     }
 
 }

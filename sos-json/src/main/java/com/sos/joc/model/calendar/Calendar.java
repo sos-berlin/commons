@@ -89,12 +89,6 @@ public class Calendar {
      */
     @JsonProperty("to")
     private String to;
-    /**
-     * periods
-     * <p>
-     * 
-     * 
-     */
     @JsonProperty("periods")
     private List<Period> periods = null;
     /**
@@ -331,9 +325,6 @@ public class Calendar {
     }
 
     /**
-     * periods
-     * <p>
-     * 
      * 
      * @return
      *     The periods
@@ -344,9 +335,6 @@ public class Calendar {
     }
 
     /**
-     * periods
-     * <p>
-     * 
      * 
      * @param periods
      *     The periods

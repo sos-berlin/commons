@@ -28,6 +28,12 @@
         </dependency>
         
         <dependency>
+            <groupId>com.sos-berlin.commons</groupId>
+            <artifactId>sos-json</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <dependency>
             <groupId>xerces</groupId>
             <artifactId>xercesImpl</artifactId>
         </dependency>
