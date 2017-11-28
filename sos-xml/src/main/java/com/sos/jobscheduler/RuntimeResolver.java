@@ -244,12 +244,13 @@ public class RuntimeResolver {
         if (begin.isEmpty()) {
             begin = "00:00:00";
         }
+        
         p.setBegin(isoFormatter.format(ZonedDateTime.of(LocalDateTime.parse(date + "T" + begin, dateTimeFormatter), runtimeTimezone)));
         String end = periodElem.getAttribute("end");
         if (end.isEmpty()) {
             end = "24:00:00";
         }
-        if ("24:00:00".equals(end)) {
+        if (end.startsWith("24:00")) {
             p.setEnd(isoFormatter.format(ZonedDateTime.of(LocalDateTime.parse(date + "T23:59:59", dateTimeFormatter).plusSeconds(1L),
                     runtimeTimezone)));
         } else {
