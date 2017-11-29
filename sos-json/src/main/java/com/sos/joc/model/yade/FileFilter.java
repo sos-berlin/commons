@@ -20,12 +20,15 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
+    "jobschedulerId",
     "fileId",
     "compact",
     "mime"
 })
 public class FileFilter {
 
+    @JsonProperty("jobschedulerId")
+    private String jobschedulerId;
     /**
      * non negative long
      * <p>
@@ -50,6 +53,26 @@ public class FileFilter {
      */
     @JsonProperty("mime")
     private LogMime mime = LogMime.fromValue("PLAIN");
+
+    /**
+     * 
+     * @return
+     *     The jobschedulerId
+     */
+    @JsonProperty("jobschedulerId")
+    public String getJobschedulerId() {
+        return jobschedulerId;
+    }
+
+    /**
+     * 
+     * @param jobschedulerId
+     *     The jobschedulerId
+     */
+    @JsonProperty("jobschedulerId")
+    public void setJobschedulerId(String jobschedulerId) {
+        this.jobschedulerId = jobschedulerId;
+    }
 
     /**
      * non negative long
@@ -136,7 +159,7 @@ public class FileFilter {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(fileId).append(compact).append(mime).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(fileId).append(compact).append(mime).toHashCode();
     }
 
     @Override
@@ -148,7 +171,7 @@ public class FileFilter {
             return false;
         }
         FileFilter rhs = ((FileFilter) other);
-        return new EqualsBuilder().append(fileId, rhs.fileId).append(compact, rhs.compact).append(mime, rhs.mime).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(fileId, rhs.fileId).append(compact, rhs.compact).append(mime, rhs.mime).isEquals();
     }
 
 }

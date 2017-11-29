@@ -21,6 +21,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
+    "jobschedulerId",
     "fileIds",
     "transferIds",
     "interventionTransferIds",
@@ -32,6 +33,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 })
 public class FilesFilter {
 
+    @JsonProperty("jobschedulerId")
+    private String jobschedulerId;
     @JsonProperty("fileIds")
     private List<Long> fileIds = new ArrayList<Long>();
     @JsonProperty("transferIds")
@@ -60,6 +63,26 @@ public class FilesFilter {
     private List<String> sourceFiles = new ArrayList<String>();
     @JsonProperty("targetFiles")
     private List<String> targetFiles = new ArrayList<String>();
+
+    /**
+     * 
+     * @return
+     *     The jobschedulerId
+     */
+    @JsonProperty("jobschedulerId")
+    public String getJobschedulerId() {
+        return jobschedulerId;
+    }
+
+    /**
+     * 
+     * @param jobschedulerId
+     *     The jobschedulerId
+     */
+    @JsonProperty("jobschedulerId")
+    public void setJobschedulerId(String jobschedulerId) {
+        this.jobschedulerId = jobschedulerId;
+    }
 
     /**
      * 
@@ -240,7 +263,7 @@ public class FilesFilter {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(fileIds).append(transferIds).append(interventionTransferIds).append(compact).append(regex).append(states).append(sourceFiles).append(targetFiles).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(fileIds).append(transferIds).append(interventionTransferIds).append(compact).append(regex).append(states).append(sourceFiles).append(targetFiles).toHashCode();
     }
 
     @Override
@@ -252,7 +275,7 @@ public class FilesFilter {
             return false;
         }
         FilesFilter rhs = ((FilesFilter) other);
-        return new EqualsBuilder().append(fileIds, rhs.fileIds).append(transferIds, rhs.transferIds).append(interventionTransferIds, rhs.interventionTransferIds).append(compact, rhs.compact).append(regex, rhs.regex).append(states, rhs.states).append(sourceFiles, rhs.sourceFiles).append(targetFiles, rhs.targetFiles).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(fileIds, rhs.fileIds).append(transferIds, rhs.transferIds).append(interventionTransferIds, rhs.interventionTransferIds).append(compact, rhs.compact).append(regex, rhs.regex).append(states, rhs.states).append(sourceFiles, rhs.sourceFiles).append(targetFiles, rhs.targetFiles).isEquals();
     }
 
 }

@@ -22,11 +22,19 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
+    "jobschedulerId",
     "transfers",
     "auditLog"
 })
 public class ModifyTransfers {
 
+    /**
+     * 
+     * (Required)
+     * 
+     */
+    @JsonProperty("jobschedulerId")
+    private String jobschedulerId;
     /**
      * 
      * (Required)
@@ -42,6 +50,30 @@ public class ModifyTransfers {
      */
     @JsonProperty("auditLog")
     private AuditParams auditLog;
+
+    /**
+     * 
+     * (Required)
+     * 
+     * @return
+     *     The jobschedulerId
+     */
+    @JsonProperty("jobschedulerId")
+    public String getJobschedulerId() {
+        return jobschedulerId;
+    }
+
+    /**
+     * 
+     * (Required)
+     * 
+     * @param jobschedulerId
+     *     The jobschedulerId
+     */
+    @JsonProperty("jobschedulerId")
+    public void setJobschedulerId(String jobschedulerId) {
+        this.jobschedulerId = jobschedulerId;
+    }
 
     /**
      * 
@@ -100,7 +132,7 @@ public class ModifyTransfers {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(transfers).append(auditLog).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(transfers).append(auditLog).toHashCode();
     }
 
     @Override
@@ -112,7 +144,7 @@ public class ModifyTransfers {
             return false;
         }
         ModifyTransfers rhs = ((ModifyTransfers) other);
-        return new EqualsBuilder().append(transfers, rhs.transfers).append(auditLog, rhs.auditLog).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(transfers, rhs.transfers).append(auditLog, rhs.auditLog).isEquals();
     }
 
 }

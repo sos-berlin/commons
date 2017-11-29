@@ -30,6 +30,7 @@ public class ModifyTransfer {
      * non negative long
      * <p>
      * 
+     * (Required)
      * 
      */
     @JsonProperty("transferId")
@@ -41,6 +42,7 @@ public class ModifyTransfer {
      * non negative long
      * <p>
      * 
+     * (Required)
      * 
      * @return
      *     The transferId
@@ -54,6 +56,7 @@ public class ModifyTransfer {
      * non negative long
      * <p>
      * 
+     * (Required)
      * 
      * @param transferId
      *     The transferId
