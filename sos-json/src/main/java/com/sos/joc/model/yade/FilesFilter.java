@@ -27,8 +27,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "compact",
     "regex",
     "states",
-    "sources",
-    "targets"
+    "sourceFiles",
+    "targetFiles"
 })
 public class FilesFilter {
 
@@ -56,10 +56,10 @@ public class FilesFilter {
     private String regex;
     @JsonProperty("states")
     private List<FileTransferStateText> states = new ArrayList<FileTransferStateText>();
-    @JsonProperty("sources")
-    private List<String> sources = new ArrayList<String>();
-    @JsonProperty("targets")
-    private List<String> targets = new ArrayList<String>();
+    @JsonProperty("sourceFiles")
+    private List<String> sourceFiles = new ArrayList<String>();
+    @JsonProperty("targetFiles")
+    private List<String> targetFiles = new ArrayList<String>();
 
     /**
      * 
@@ -196,41 +196,41 @@ public class FilesFilter {
     /**
      * 
      * @return
-     *     The sources
+     *     The sourceFiles
      */
-    @JsonProperty("sources")
-    public List<String> getSources() {
-        return sources;
+    @JsonProperty("sourceFiles")
+    public List<String> getSourceFiles() {
+        return sourceFiles;
     }
 
     /**
      * 
-     * @param sources
-     *     The sources
+     * @param sourceFiles
+     *     The sourceFiles
      */
-    @JsonProperty("sources")
-    public void setSources(List<String> sources) {
-        this.sources = sources;
+    @JsonProperty("sourceFiles")
+    public void setSourceFiles(List<String> sourceFiles) {
+        this.sourceFiles = sourceFiles;
     }
 
     /**
      * 
      * @return
-     *     The targets
+     *     The targetFiles
      */
-    @JsonProperty("targets")
-    public List<String> getTargets() {
-        return targets;
+    @JsonProperty("targetFiles")
+    public List<String> getTargetFiles() {
+        return targetFiles;
     }
 
     /**
      * 
-     * @param targets
-     *     The targets
+     * @param targetFiles
+     *     The targetFiles
      */
-    @JsonProperty("targets")
-    public void setTargets(List<String> targets) {
-        this.targets = targets;
+    @JsonProperty("targetFiles")
+    public void setTargetFiles(List<String> targetFiles) {
+        this.targetFiles = targetFiles;
     }
 
     @Override
@@ -240,7 +240,7 @@ public class FilesFilter {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(fileIds).append(transferIds).append(interventionTransferIds).append(compact).append(regex).append(states).append(sources).append(targets).toHashCode();
+        return new HashCodeBuilder().append(fileIds).append(transferIds).append(interventionTransferIds).append(compact).append(regex).append(states).append(sourceFiles).append(targetFiles).toHashCode();
     }
 
     @Override
@@ -252,7 +252,7 @@ public class FilesFilter {
             return false;
         }
         FilesFilter rhs = ((FilesFilter) other);
-        return new EqualsBuilder().append(fileIds, rhs.fileIds).append(transferIds, rhs.transferIds).append(interventionTransferIds, rhs.interventionTransferIds).append(compact, rhs.compact).append(regex, rhs.regex).append(states, rhs.states).append(sources, rhs.sources).append(targets, rhs.targets).isEquals();
+        return new EqualsBuilder().append(fileIds, rhs.fileIds).append(transferIds, rhs.transferIds).append(interventionTransferIds, rhs.interventionTransferIds).append(compact, rhs.compact).append(regex, rhs.regex).append(states, rhs.states).append(sourceFiles, rhs.sourceFiles).append(targetFiles, rhs.targetFiles).isEquals();
     }
 
 }

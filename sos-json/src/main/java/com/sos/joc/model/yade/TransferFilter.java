@@ -35,7 +35,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "hasIntervention",
     "isIntervention",
     "sources",
-    "targets"
+    "targets",
+    "sourceFiles",
+    "targetFiles"
 })
 public class TransferFilter {
 
@@ -89,6 +91,10 @@ public class TransferFilter {
     private List<ProtocolFragment> sources = new ArrayList<ProtocolFragment>();
     @JsonProperty("targets")
     private List<ProtocolFragment> targets = new ArrayList<ProtocolFragment>();
+    @JsonProperty("sourceFiles")
+    private List<String> sourceFiles = new ArrayList<String>();
+    @JsonProperty("targetFiles")
+    private List<String> targetFiles = new ArrayList<String>();
 
     /**
      * 
@@ -406,6 +412,46 @@ public class TransferFilter {
         this.targets = targets;
     }
 
+    /**
+     * 
+     * @return
+     *     The sourceFiles
+     */
+    @JsonProperty("sourceFiles")
+    public List<String> getSourceFiles() {
+        return sourceFiles;
+    }
+
+    /**
+     * 
+     * @param sourceFiles
+     *     The sourceFiles
+     */
+    @JsonProperty("sourceFiles")
+    public void setSourceFiles(List<String> sourceFiles) {
+        this.sourceFiles = sourceFiles;
+    }
+
+    /**
+     * 
+     * @return
+     *     The targetFiles
+     */
+    @JsonProperty("targetFiles")
+    public List<String> getTargetFiles() {
+        return targetFiles;
+    }
+
+    /**
+     * 
+     * @param targetFiles
+     *     The targetFiles
+     */
+    @JsonProperty("targetFiles")
+    public void setTargetFiles(List<String> targetFiles) {
+        this.targetFiles = targetFiles;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -413,7 +459,7 @@ public class TransferFilter {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(transferIds).append(compact).append(regex).append(profiles).append(mandator).append(states).append(operations).append(dateFrom).append(dateTo).append(timeZone).append(limit).append(hasIntervention).append(isIntervention).append(sources).append(targets).toHashCode();
+        return new HashCodeBuilder().append(transferIds).append(compact).append(regex).append(profiles).append(mandator).append(states).append(operations).append(dateFrom).append(dateTo).append(timeZone).append(limit).append(hasIntervention).append(isIntervention).append(sources).append(targets).append(sourceFiles).append(targetFiles).toHashCode();
     }
 
     @Override
@@ -425,7 +471,7 @@ public class TransferFilter {
             return false;
         }
         TransferFilter rhs = ((TransferFilter) other);
-        return new EqualsBuilder().append(transferIds, rhs.transferIds).append(compact, rhs.compact).append(regex, rhs.regex).append(profiles, rhs.profiles).append(mandator, rhs.mandator).append(states, rhs.states).append(operations, rhs.operations).append(dateFrom, rhs.dateFrom).append(dateTo, rhs.dateTo).append(timeZone, rhs.timeZone).append(limit, rhs.limit).append(hasIntervention, rhs.hasIntervention).append(isIntervention, rhs.isIntervention).append(sources, rhs.sources).append(targets, rhs.targets).isEquals();
+        return new EqualsBuilder().append(transferIds, rhs.transferIds).append(compact, rhs.compact).append(regex, rhs.regex).append(profiles, rhs.profiles).append(mandator, rhs.mandator).append(states, rhs.states).append(operations, rhs.operations).append(dateFrom, rhs.dateFrom).append(dateTo, rhs.dateTo).append(timeZone, rhs.timeZone).append(limit, rhs.limit).append(hasIntervention, rhs.hasIntervention).append(isIntervention, rhs.isIntervention).append(sources, rhs.sources).append(targets, rhs.targets).append(sourceFiles, rhs.sourceFiles).append(targetFiles, rhs.targetFiles).isEquals();
     }
 
 }

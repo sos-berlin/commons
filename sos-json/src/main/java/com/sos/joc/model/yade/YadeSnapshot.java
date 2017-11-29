@@ -12,7 +12,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * yade files summary
+ * yade overview snapshot
  * <p>
  * 
  * 
@@ -22,9 +22,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "deliveryDate",
     "surveyDate",
-    "files"
+    "transfers"
 })
-public class TransferFilesOverView {
+public class YadeSnapshot {
 
     /**
      * timestamp
@@ -36,19 +36,22 @@ public class TransferFilesOverView {
     @JsonProperty("deliveryDate")
     private Date deliveryDate;
     /**
-     * survey date of the inventory data; last time the inventory job has checked the live folder
+     * survey date of the JobScheduler Master/Agent
      * <p>
-     * Date of the inventory data. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
+     * Current date of the JobScheduler Master/Agent. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * (Required)
      * 
      */
     @JsonProperty("surveyDate")
     private Date surveyDate;
     /**
+     * yade summary
+     * <p>
+     * 
      * 
      */
-    @JsonProperty("files")
-    private TransferFilesSummary files;
+    @JsonProperty("transfers")
+    private TransfersSummary transfers;
 
     /**
      * timestamp
@@ -79,9 +82,9 @@ public class TransferFilesOverView {
     }
 
     /**
-     * survey date of the inventory data; last time the inventory job has checked the live folder
+     * survey date of the JobScheduler Master/Agent
      * <p>
-     * Date of the inventory data. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
+     * Current date of the JobScheduler Master/Agent. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * (Required)
      * 
      * @return
@@ -93,9 +96,9 @@ public class TransferFilesOverView {
     }
 
     /**
-     * survey date of the inventory data; last time the inventory job has checked the live folder
+     * survey date of the JobScheduler Master/Agent
      * <p>
-     * Date of the inventory data. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
+     * Current date of the JobScheduler Master/Agent. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * (Required)
      * 
      * @param surveyDate
@@ -107,23 +110,29 @@ public class TransferFilesOverView {
     }
 
     /**
+     * yade summary
+     * <p>
+     * 
      * 
      * @return
-     *     The files
+     *     The transfers
      */
-    @JsonProperty("files")
-    public TransferFilesSummary getFiles() {
-        return files;
+    @JsonProperty("transfers")
+    public TransfersSummary getTransfers() {
+        return transfers;
     }
 
     /**
+     * yade summary
+     * <p>
      * 
-     * @param files
-     *     The files
+     * 
+     * @param transfers
+     *     The transfers
      */
-    @JsonProperty("files")
-    public void setFiles(TransferFilesSummary files) {
-        this.files = files;
+    @JsonProperty("transfers")
+    public void setTransfers(TransfersSummary transfers) {
+        this.transfers = transfers;
     }
 
     @Override
@@ -133,7 +142,7 @@ public class TransferFilesOverView {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(deliveryDate).append(surveyDate).append(files).toHashCode();
+        return new HashCodeBuilder().append(deliveryDate).append(surveyDate).append(transfers).toHashCode();
     }
 
     @Override
@@ -141,11 +150,11 @@ public class TransferFilesOverView {
         if (other == this) {
             return true;
         }
-        if ((other instanceof TransferFilesOverView) == false) {
+        if ((other instanceof YadeSnapshot) == false) {
             return false;
         }
-        TransferFilesOverView rhs = ((TransferFilesOverView) other);
-        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(surveyDate, rhs.surveyDate).append(files, rhs.files).isEquals();
+        YadeSnapshot rhs = ((YadeSnapshot) other);
+        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(surveyDate, rhs.surveyDate).append(transfers, rhs.transfers).isEquals();
     }
 
 }

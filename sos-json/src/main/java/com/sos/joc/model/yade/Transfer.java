@@ -39,7 +39,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "jobschedulerId",
     "orderId",
     "jobChain",
-    "job"
+    "jobChainNode",
+    "job",
+    "taskId"
 })
 public class Transfer {
 
@@ -160,6 +162,8 @@ public class Transfer {
      */
     @JsonProperty("jobChain")
     private String jobChain;
+    @JsonProperty("jobChainNode")
+    private String jobChainNode;
     /**
      * path
      * <p>
@@ -168,6 +172,14 @@ public class Transfer {
      */
     @JsonProperty("job")
     private String job;
+    /**
+     * non negative long
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("taskId")
+    private Long taskId;
 
     /**
      * survey date of the inventory data; last time the inventory job has checked the live folder
@@ -614,6 +626,26 @@ public class Transfer {
     }
 
     /**
+     * 
+     * @return
+     *     The jobChainNode
+     */
+    @JsonProperty("jobChainNode")
+    public String getJobChainNode() {
+        return jobChainNode;
+    }
+
+    /**
+     * 
+     * @param jobChainNode
+     *     The jobChainNode
+     */
+    @JsonProperty("jobChainNode")
+    public void setJobChainNode(String jobChainNode) {
+        this.jobChainNode = jobChainNode;
+    }
+
+    /**
      * path
      * <p>
      * absolute path based on live folder of a JobScheduler object.
@@ -639,6 +671,32 @@ public class Transfer {
         this.job = job;
     }
 
+    /**
+     * non negative long
+     * <p>
+     * 
+     * 
+     * @return
+     *     The taskId
+     */
+    @JsonProperty("taskId")
+    public Long getTaskId() {
+        return taskId;
+    }
+
+    /**
+     * non negative long
+     * <p>
+     * 
+     * 
+     * @param taskId
+     *     The taskId
+     */
+    @JsonProperty("taskId")
+    public void setTaskId(Long taskId) {
+        this.taskId = taskId;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -646,7 +704,7 @@ public class Transfer {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(surveyDate).append(id).append(parent_id).append(profile).append(mandator).append(state).append(_operation).append(start).append(end).append(error).append(source).append(target).append(jump).append(numOfFiles).append(hasIntervention).append(jobschedulerId).append(orderId).append(jobChain).append(job).toHashCode();
+        return new HashCodeBuilder().append(surveyDate).append(id).append(parent_id).append(profile).append(mandator).append(state).append(_operation).append(start).append(end).append(error).append(source).append(target).append(jump).append(numOfFiles).append(hasIntervention).append(jobschedulerId).append(orderId).append(jobChain).append(jobChainNode).append(job).append(taskId).toHashCode();
     }
 
     @Override
@@ -658,7 +716,7 @@ public class Transfer {
             return false;
         }
         Transfer rhs = ((Transfer) other);
-        return new EqualsBuilder().append(surveyDate, rhs.surveyDate).append(id, rhs.id).append(parent_id, rhs.parent_id).append(profile, rhs.profile).append(mandator, rhs.mandator).append(state, rhs.state).append(_operation, rhs._operation).append(start, rhs.start).append(end, rhs.end).append(error, rhs.error).append(source, rhs.source).append(target, rhs.target).append(jump, rhs.jump).append(numOfFiles, rhs.numOfFiles).append(hasIntervention, rhs.hasIntervention).append(jobschedulerId, rhs.jobschedulerId).append(orderId, rhs.orderId).append(jobChain, rhs.jobChain).append(job, rhs.job).isEquals();
+        return new EqualsBuilder().append(surveyDate, rhs.surveyDate).append(id, rhs.id).append(parent_id, rhs.parent_id).append(profile, rhs.profile).append(mandator, rhs.mandator).append(state, rhs.state).append(_operation, rhs._operation).append(start, rhs.start).append(end, rhs.end).append(error, rhs.error).append(source, rhs.source).append(target, rhs.target).append(jump, rhs.jump).append(numOfFiles, rhs.numOfFiles).append(hasIntervention, rhs.hasIntervention).append(jobschedulerId, rhs.jobschedulerId).append(orderId, rhs.orderId).append(jobChain, rhs.jobChain).append(jobChainNode, rhs.jobChainNode).append(job, rhs.job).append(taskId, rhs.taskId).isEquals();
     }
 
 }
