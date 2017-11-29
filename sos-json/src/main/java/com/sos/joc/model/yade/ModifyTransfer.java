@@ -21,11 +21,19 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
+    "jobschedulerId",
     "transferId",
     "fileIds"
 })
 public class ModifyTransfer {
 
+    /**
+     * 
+     * (Required)
+     * 
+     */
+    @JsonProperty("jobschedulerId")
+    private String jobschedulerId;
     /**
      * non negative long
      * <p>
@@ -37,6 +45,30 @@ public class ModifyTransfer {
     private Long transferId;
     @JsonProperty("fileIds")
     private List<Long> fileIds = new ArrayList<Long>();
+
+    /**
+     * 
+     * (Required)
+     * 
+     * @return
+     *     The jobschedulerId
+     */
+    @JsonProperty("jobschedulerId")
+    public String getJobschedulerId() {
+        return jobschedulerId;
+    }
+
+    /**
+     * 
+     * (Required)
+     * 
+     * @param jobschedulerId
+     *     The jobschedulerId
+     */
+    @JsonProperty("jobschedulerId")
+    public void setJobschedulerId(String jobschedulerId) {
+        this.jobschedulerId = jobschedulerId;
+    }
 
     /**
      * non negative long
@@ -93,7 +125,7 @@ public class ModifyTransfer {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(transferId).append(fileIds).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(transferId).append(fileIds).toHashCode();
     }
 
     @Override
@@ -105,7 +137,7 @@ public class ModifyTransfer {
             return false;
         }
         ModifyTransfer rhs = ((ModifyTransfer) other);
-        return new EqualsBuilder().append(transferId, rhs.transferId).append(fileIds, rhs.fileIds).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(transferId, rhs.transferId).append(fileIds, rhs.fileIds).isEquals();
     }
 
 }
