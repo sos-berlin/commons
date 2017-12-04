@@ -12,7 +12,9 @@ public enum CalendarType {
 
     WORKING_DAYS("WORKING_DAYS"),
     NON_WORKING_DAYS("NON_WORKING_DAYS"),
-    BASED("BASED");
+    JOB("JOB"),
+    JOBCHAIN("JOBCHAIN"),
+    SCHEDULE("SCHEDULE");
     private final String value;
     private final static Map<String, CalendarType> CONSTANTS = new HashMap<String, CalendarType>();
 
