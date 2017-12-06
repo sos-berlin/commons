@@ -21,6 +21,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobschedulerId",
+    "id",
     "eventId",
     "eventClass",
     "exitCode",
@@ -41,6 +42,14 @@ public class Event {
      */
     @JsonProperty("jobschedulerId")
     private String jobschedulerId;
+    /**
+     * non negative long
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("id")
+    private Long id;
     @JsonProperty("eventId")
     private String eventId;
     @JsonProperty("eventClass")
@@ -120,6 +129,32 @@ public class Event {
     @JsonProperty("jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
         this.jobschedulerId = jobschedulerId;
+    }
+
+    /**
+     * non negative long
+     * <p>
+     * 
+     * 
+     * @return
+     *     The id
+     */
+    @JsonProperty("id")
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * non negative long
+     * <p>
+     * 
+     * 
+     * @param id
+     *     The id
+     */
+    @JsonProperty("id")
+    public void setId(Long id) {
+        this.id = id;
     }
 
     /**
@@ -365,7 +400,7 @@ public class Event {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(eventId).append(eventClass).append(exitCode).append(job).append(jobChain).append(orderId).append(created).append(expires).append(remoteJobSchedulerHost).append(remoteJobSchedulerPort).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(id).append(eventId).append(eventClass).append(exitCode).append(job).append(jobChain).append(orderId).append(created).append(expires).append(remoteJobSchedulerHost).append(remoteJobSchedulerPort).toHashCode();
     }
 
     @Override
@@ -377,7 +412,7 @@ public class Event {
             return false;
         }
         Event rhs = ((Event) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(eventId, rhs.eventId).append(eventClass, rhs.eventClass).append(exitCode, rhs.exitCode).append(job, rhs.job).append(jobChain, rhs.jobChain).append(orderId, rhs.orderId).append(created, rhs.created).append(expires, rhs.expires).append(remoteJobSchedulerHost, rhs.remoteJobSchedulerHost).append(remoteJobSchedulerPort, rhs.remoteJobSchedulerPort).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(id, rhs.id).append(eventId, rhs.eventId).append(eventClass, rhs.eventClass).append(exitCode, rhs.exitCode).append(job, rhs.job).append(jobChain, rhs.jobChain).append(orderId, rhs.orderId).append(created, rhs.created).append(expires, rhs.expires).append(remoteJobSchedulerHost, rhs.remoteJobSchedulerHost).append(remoteJobSchedulerPort, rhs.remoteJobSchedulerPort).isEquals();
     }
 
 }
