@@ -29,7 +29,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "regex",
     "states",
     "sourceFiles",
-    "targetFiles"
+    "targetFiles",
+    "limit"
 })
 public class FilesFilter {
 
@@ -63,6 +64,12 @@ public class FilesFilter {
     private List<String> sourceFiles = new ArrayList<String>();
     @JsonProperty("targetFiles")
     private List<String> targetFiles = new ArrayList<String>();
+    /**
+     * only for db history urls to restrict the number of responsed records; -1=unlimited
+     * 
+     */
+    @JsonProperty("limit")
+    private Integer limit = 10000;
 
     /**
      * 
@@ -256,6 +263,28 @@ public class FilesFilter {
         this.targetFiles = targetFiles;
     }
 
+    /**
+     * only for db history urls to restrict the number of responsed records; -1=unlimited
+     * 
+     * @return
+     *     The limit
+     */
+    @JsonProperty("limit")
+    public Integer getLimit() {
+        return limit;
+    }
+
+    /**
+     * only for db history urls to restrict the number of responsed records; -1=unlimited
+     * 
+     * @param limit
+     *     The limit
+     */
+    @JsonProperty("limit")
+    public void setLimit(Integer limit) {
+        this.limit = limit;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -263,7 +292,7 @@ public class FilesFilter {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(fileIds).append(transferIds).append(interventionTransferIds).append(compact).append(regex).append(states).append(sourceFiles).append(targetFiles).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(fileIds).append(transferIds).append(interventionTransferIds).append(compact).append(regex).append(states).append(sourceFiles).append(targetFiles).append(limit).toHashCode();
     }
 
     @Override
@@ -275,7 +304,7 @@ public class FilesFilter {
             return false;
         }
         FilesFilter rhs = ((FilesFilter) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(fileIds, rhs.fileIds).append(transferIds, rhs.transferIds).append(interventionTransferIds, rhs.interventionTransferIds).append(compact, rhs.compact).append(regex, rhs.regex).append(states, rhs.states).append(sourceFiles, rhs.sourceFiles).append(targetFiles, rhs.targetFiles).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(fileIds, rhs.fileIds).append(transferIds, rhs.transferIds).append(interventionTransferIds, rhs.interventionTransferIds).append(compact, rhs.compact).append(regex, rhs.regex).append(states, rhs.states).append(sourceFiles, rhs.sourceFiles).append(targetFiles, rhs.targetFiles).append(limit, rhs.limit).isEquals();
     }
 
 }
