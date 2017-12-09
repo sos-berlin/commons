@@ -10,6 +10,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 @Generated("org.jsonschema2pojo")
 public enum CalendarObjectType {
 
+    WORKINGDAYSCALENDAR("WORKINGDAYSCALENDAR"),
+    NONWORKINGDAYSCALENDAR("NONWORKINGDAYSCALENDAR"),
     JOB("JOB"),
     ORDER("ORDER"),
     SCHEDULE("SCHEDULE");
