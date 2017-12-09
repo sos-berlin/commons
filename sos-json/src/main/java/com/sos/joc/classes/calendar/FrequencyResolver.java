@@ -38,6 +38,7 @@ import com.sos.joc.model.calendar.WeeklyDay;
 public class FrequencyResolver {
 
     private SortedMap<String, Calendar> dates = new TreeMap<String, Calendar>();
+    private SortedMap<String, Calendar> datesWithoutRestrictions = new TreeMap<String, Calendar>();
     private SortedSet<String> restrictions = new TreeSet<String>();
     private SortedSet<String> withExcludes = new TreeSet<String>();
     private Calendar calendarFrom = null;
@@ -142,6 +143,16 @@ public class FrequencyResolver {
             if (calendar != null && !this.dates.isEmpty()) {
                 this.dateFrom = getFrom(from);
                 this.dateTo = getTo(to);
+                //datesWithoutRestrictions = dates.subMap(df.format(dateFrom.toInstant()), df.format(dateTo.toInstant().plusSeconds(24*60*60)));
+                for (Entry<String, Calendar> entry : dates.entrySet()) {
+                    if (entry.getValue().before(dateFrom)) {
+                        continue;
+                    }
+                    if (entry.getValue().after(dateTo)) {
+                        break;
+                    }
+                    datesWithoutRestrictions.put(entry.getKey(), entry.getValue());
+                }
                 if (this.dateFrom.compareTo(this.dateTo) <= 0) {
                     this.includes = calendar.getIncludes();
                     //this.excludes = calendar.getExcludes(); //TODO exists?
@@ -153,20 +164,7 @@ public class FrequencyResolver {
                     addRepetitionsRestrictions();
                 }
             }
-            if (restrictions.isEmpty()) {
-                for (Entry<String, Calendar> date : this.dates.entrySet()) {
-                    if (date == null || date.getValue() == null) {
-                        continue;
-                    }
-                    if (date.getValue().after(dateTo)) {
-                        break;
-                    }
-                    if (date.getValue().before(dateFrom)) {
-                        continue;
-                    }
-                    restrictions.add(date.getKey());
-                }
-            }
+            restrictions.addAll(datesWithoutRestrictions.keySet());
             d.getDates().addAll(restrictions);
         }
         d.setDeliveryDate(Date.from(Instant.now()));
@@ -702,6 +700,13 @@ public class FrequencyResolver {
                 dates.add(date.getKey());
             }
         }
+        Map<String, Calendar> tmpDatesWithoutRestrictions = new HashMap<String, Calendar>(datesWithoutRestrictions);
+        for (Entry<String, Calendar> entry : tmpDatesWithoutRestrictions.entrySet()) {
+            if (entry.getValue().before(from) || entry.getValue().after(to)) {
+                continue;
+            }
+            datesWithoutRestrictions.remove(entry.getKey());
+        }
 
         return dates;
     }
@@ -771,6 +776,13 @@ public class FrequencyResolver {
                     dates.add(date.getKey());
                 }
             }
+        }
+        Map<String, Calendar> tmpDatesWithoutRestrictions = new HashMap<String, Calendar>(datesWithoutRestrictions);
+        for (Entry<String, Calendar> entry : tmpDatesWithoutRestrictions.entrySet()) {
+            if (entry.getValue().before(from) || entry.getValue().after(to)) {
+                continue;
+            }
+            datesWithoutRestrictions.remove(entry.getKey());
         }
         return dates;
     }
@@ -850,6 +862,13 @@ public class FrequencyResolver {
                     dates.add(date.getKey());
                 }
             }
+        }
+        Map<String, Calendar> tmpDatesWithoutRestrictions = new HashMap<String, Calendar>(datesWithoutRestrictions);
+        for (Entry<String, Calendar> entry : tmpDatesWithoutRestrictions.entrySet()) {
+            if (entry.getValue().before(from) || entry.getValue().after(to)) {
+                continue;
+            }
+            datesWithoutRestrictions.remove(entry.getKey());
         }
         return dates;
     }
@@ -983,6 +1002,13 @@ public class FrequencyResolver {
                 break;
             }
         }
+        Map<String, Calendar> tmpDatesWithoutRestrictions = new HashMap<String, Calendar>(datesWithoutRestrictions);
+        for (Entry<String, Calendar> entry : tmpDatesWithoutRestrictions.entrySet()) {
+            if (entry.getValue().before(from) || entry.getValue().after(to)) {
+                continue;
+            }
+            datesWithoutRestrictions.remove(entry.getKey());
+        }
         return dates;
     }
 
@@ -1013,6 +1039,7 @@ public class FrequencyResolver {
                     restrictions.add(date.getKey());
                 }
             }
+            datesWithoutRestrictions.clear();
         }
     }
 
