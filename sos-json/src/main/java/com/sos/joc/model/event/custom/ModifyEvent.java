@@ -7,6 +7,7 @@ import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.sos.joc.model.audit.AuditParams;
 import com.sos.joc.model.common.NameValuePair;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -33,7 +34,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "expires",
     "expirationPeriod",
     "expirationCycle",
-    "params"
+    "params",
+    "auditLog"
 })
 public class ModifyEvent {
 
@@ -91,6 +93,14 @@ public class ModifyEvent {
      */
     @JsonProperty("params")
     private List<NameValuePair> params = new ArrayList<NameValuePair>();
+    /**
+     * auditParams
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("auditLog")
+    private AuditParams auditLog;
 
     /**
      * path
@@ -362,6 +372,32 @@ public class ModifyEvent {
         this.params = params;
     }
 
+    /**
+     * auditParams
+     * <p>
+     * 
+     * 
+     * @return
+     *     The auditLog
+     */
+    @JsonProperty("auditLog")
+    public AuditParams getAuditLog() {
+        return auditLog;
+    }
+
+    /**
+     * auditParams
+     * <p>
+     * 
+     * 
+     * @param auditLog
+     *     The auditLog
+     */
+    @JsonProperty("auditLog")
+    public void setAuditLog(AuditParams auditLog) {
+        this.auditLog = auditLog;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -369,7 +405,7 @@ public class ModifyEvent {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(eventjobChain).append(orderId).append(jobChain).append(job).append(jobschedulerId).append(eventClass).append(eventId).append(exitCode).append(expires).append(expirationPeriod).append(expirationCycle).append(params).toHashCode();
+        return new HashCodeBuilder().append(eventjobChain).append(orderId).append(jobChain).append(job).append(jobschedulerId).append(eventClass).append(eventId).append(exitCode).append(expires).append(expirationPeriod).append(expirationCycle).append(params).append(auditLog).toHashCode();
     }
 
     @Override
@@ -381,7 +417,7 @@ public class ModifyEvent {
             return false;
         }
         ModifyEvent rhs = ((ModifyEvent) other);
-        return new EqualsBuilder().append(eventjobChain, rhs.eventjobChain).append(orderId, rhs.orderId).append(jobChain, rhs.jobChain).append(job, rhs.job).append(jobschedulerId, rhs.jobschedulerId).append(eventClass, rhs.eventClass).append(eventId, rhs.eventId).append(exitCode, rhs.exitCode).append(expires, rhs.expires).append(expirationPeriod, rhs.expirationPeriod).append(expirationCycle, rhs.expirationCycle).append(params, rhs.params).isEquals();
+        return new EqualsBuilder().append(eventjobChain, rhs.eventjobChain).append(orderId, rhs.orderId).append(jobChain, rhs.jobChain).append(job, rhs.job).append(jobschedulerId, rhs.jobschedulerId).append(eventClass, rhs.eventClass).append(eventId, rhs.eventId).append(exitCode, rhs.exitCode).append(expires, rhs.expires).append(expirationPeriod, rhs.expirationPeriod).append(expirationCycle, rhs.expirationCycle).append(params, rhs.params).append(auditLog, rhs.auditLog).isEquals();
     }
 
 }

@@ -7,6 +7,7 @@ import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.sos.joc.model.audit.AuditParams;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -22,7 +23,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobschedulerId",
-    "ids"
+    "ids",
+    "auditLog"
 })
 public class EventIdsFilter {
 
@@ -35,6 +37,14 @@ public class EventIdsFilter {
     private String jobschedulerId;
     @JsonProperty("ids")
     private List<Long> ids = new ArrayList<Long>();
+    /**
+     * auditParams
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("auditLog")
+    private AuditParams auditLog;
 
     /**
      * 
@@ -80,6 +90,32 @@ public class EventIdsFilter {
         this.ids = ids;
     }
 
+    /**
+     * auditParams
+     * <p>
+     * 
+     * 
+     * @return
+     *     The auditLog
+     */
+    @JsonProperty("auditLog")
+    public AuditParams getAuditLog() {
+        return auditLog;
+    }
+
+    /**
+     * auditParams
+     * <p>
+     * 
+     * 
+     * @param auditLog
+     *     The auditLog
+     */
+    @JsonProperty("auditLog")
+    public void setAuditLog(AuditParams auditLog) {
+        this.auditLog = auditLog;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -87,7 +123,7 @@ public class EventIdsFilter {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(ids).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(ids).append(auditLog).toHashCode();
     }
 
     @Override
@@ -99,7 +135,7 @@ public class EventIdsFilter {
             return false;
         }
         EventIdsFilter rhs = ((EventIdsFilter) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(ids, rhs.ids).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(ids, rhs.ids).append(auditLog, rhs.auditLog).isEquals();
     }
 
 }
