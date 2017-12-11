@@ -31,7 +31,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "to",
     "periods",
     "includes",
-    "excludes"
+    "excludes",
+    "usedBy"
 })
 public class Calendar {
 
@@ -107,6 +108,14 @@ public class Calendar {
      */
     @JsonProperty("excludes")
     private Frequencies excludes;
+    /**
+     * collections of objects which use calendar
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("usedBy")
+    private UsedBy usedBy;
 
     /**
      * non negative long
@@ -396,6 +405,32 @@ public class Calendar {
         this.excludes = excludes;
     }
 
+    /**
+     * collections of objects which use calendar
+     * <p>
+     * 
+     * 
+     * @return
+     *     The usedBy
+     */
+    @JsonProperty("usedBy")
+    public UsedBy getUsedBy() {
+        return usedBy;
+    }
+
+    /**
+     * collections of objects which use calendar
+     * <p>
+     * 
+     * 
+     * @param usedBy
+     *     The usedBy
+     */
+    @JsonProperty("usedBy")
+    public void setUsedBy(UsedBy usedBy) {
+        this.usedBy = usedBy;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -403,7 +438,7 @@ public class Calendar {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(id).append(path).append(name).append(basedOn).append(type).append(category).append(title).append(from).append(to).append(periods).append(includes).append(excludes).toHashCode();
+        return new HashCodeBuilder().append(id).append(path).append(name).append(basedOn).append(type).append(category).append(title).append(from).append(to).append(periods).append(includes).append(excludes).append(usedBy).toHashCode();
     }
 
     @Override
@@ -415,7 +450,7 @@ public class Calendar {
             return false;
         }
         Calendar rhs = ((Calendar) other);
-        return new EqualsBuilder().append(id, rhs.id).append(path, rhs.path).append(name, rhs.name).append(basedOn, rhs.basedOn).append(type, rhs.type).append(category, rhs.category).append(title, rhs.title).append(from, rhs.from).append(to, rhs.to).append(periods, rhs.periods).append(includes, rhs.includes).append(excludes, rhs.excludes).isEquals();
+        return new EqualsBuilder().append(id, rhs.id).append(path, rhs.path).append(name, rhs.name).append(basedOn, rhs.basedOn).append(type, rhs.type).append(category, rhs.category).append(title, rhs.title).append(from, rhs.from).append(to, rhs.to).append(periods, rhs.periods).append(includes, rhs.includes).append(excludes, rhs.excludes).append(usedBy, rhs.usedBy).isEquals();
     }
 
 }
