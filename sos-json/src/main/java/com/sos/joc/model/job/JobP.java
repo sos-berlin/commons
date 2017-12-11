@@ -25,6 +25,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "surveyDate",
     "path",
     "isOrderJob",
+    "isShellJob",
     "name",
     "title",
     "estimatedDuration",
@@ -56,6 +57,8 @@ public class JobP {
     private String path;
     @JsonProperty("isOrderJob")
     private Boolean isOrderJob;
+    @JsonProperty("isShellJob")
+    private Boolean isShellJob;
     @JsonProperty("name")
     private String name;
     @JsonProperty("title")
@@ -187,6 +190,26 @@ public class JobP {
     @JsonProperty("isOrderJob")
     public void setIsOrderJob(Boolean isOrderJob) {
         this.isOrderJob = isOrderJob;
+    }
+
+    /**
+     * 
+     * @return
+     *     The isShellJob
+     */
+    @JsonProperty("isShellJob")
+    public Boolean getIsShellJob() {
+        return isShellJob;
+    }
+
+    /**
+     * 
+     * @param isShellJob
+     *     The isShellJob
+     */
+    @JsonProperty("isShellJob")
+    public void setIsShellJob(Boolean isShellJob) {
+        this.isShellJob = isShellJob;
     }
 
     /**
@@ -434,7 +457,7 @@ public class JobP {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(surveyDate).append(path).append(isOrderJob).append(name).append(title).append(estimatedDuration).append(processClass).append(maxTasks).append(locks).append(usedInJobChains).append(jobChains).append(hasDescription).append(configurationDate).toHashCode();
+        return new HashCodeBuilder().append(surveyDate).append(path).append(isOrderJob).append(isShellJob).append(name).append(title).append(estimatedDuration).append(processClass).append(maxTasks).append(locks).append(usedInJobChains).append(jobChains).append(hasDescription).append(configurationDate).toHashCode();
     }
 
     @Override
@@ -446,7 +469,7 @@ public class JobP {
             return false;
         }
         JobP rhs = ((JobP) other);
-        return new EqualsBuilder().append(surveyDate, rhs.surveyDate).append(path, rhs.path).append(isOrderJob, rhs.isOrderJob).append(name, rhs.name).append(title, rhs.title).append(estimatedDuration, rhs.estimatedDuration).append(processClass, rhs.processClass).append(maxTasks, rhs.maxTasks).append(locks, rhs.locks).append(usedInJobChains, rhs.usedInJobChains).append(jobChains, rhs.jobChains).append(hasDescription, rhs.hasDescription).append(configurationDate, rhs.configurationDate).isEquals();
+        return new EqualsBuilder().append(surveyDate, rhs.surveyDate).append(path, rhs.path).append(isOrderJob, rhs.isOrderJob).append(isShellJob, rhs.isShellJob).append(name, rhs.name).append(title, rhs.title).append(estimatedDuration, rhs.estimatedDuration).append(processClass, rhs.processClass).append(maxTasks, rhs.maxTasks).append(locks, rhs.locks).append(usedInJobChains, rhs.usedInJobChains).append(jobChains, rhs.jobChains).append(hasDescription, rhs.hasDescription).append(configurationDate, rhs.configurationDate).isEquals();
     }
 
 }
