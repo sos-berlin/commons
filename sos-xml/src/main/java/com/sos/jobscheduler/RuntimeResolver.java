@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -20,11 +21,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import sos.xml.SOSXMLXPath;
+
 import com.sos.exception.SOSInvalidDataException;
 import com.sos.joc.model.calendar.Period;
 import com.sos.joc.model.plan.RunTime;
-
-import sos.xml.SOSXMLXPath;
 
 public class RuntimeResolver {
 
@@ -267,4 +268,84 @@ public class RuntimeResolver {
         return p;
     }
 
+    public static Node updateCalendarInRuntimes(SOSXMLXPath xPath, Node curObject, List<String> dates, String objectType, String path, String calendarPath, String calendarOldPath)
+            throws Exception {
+        NodeList dateParentList = xPath.selectNodeList(curObject, String.format(".//date[@calendar='%1$s']/parent::*", calendarOldPath));
+        NodeList holidayParentList = xPath.selectNodeList(curObject, String.format(".//holiday[@calendar='%1$s']/parent::*", calendarOldPath));
+        boolean runTimeIsChanged = false;
+
+        for (int i = 0; i < dateParentList.getLength(); i++) {
+            NodeList dateList = xPath.selectNodeList(dateParentList.item(i), String.format("date[@calendar='%1$s']", calendarOldPath));
+            if (updateCalendarInRuntime(dateList, dates, calendarPath)) {
+                runTimeIsChanged = true;
+            }
+        }
+        for (int i = 0; i < holidayParentList.getLength(); i++) {
+            NodeList holidayList = xPath.selectNodeList(holidayParentList.item(i), String.format("holiday[@calendar='%1$s']", calendarOldPath));
+            if (updateCalendarInRuntime(holidayList, dates, calendarPath)) {
+                runTimeIsChanged = true;
+            }
+        }
+        for (int i = 0; i < holidayParentList.getLength(); i++) {
+            NodeList children = holidayParentList.item(i).getChildNodes();
+            if (children.getLength() == 1 && children.item(0).getNodeType() == Node.TEXT_NODE) {
+                holidayParentList.item(i).removeChild(children.item(0));
+            }
+        }
+        for (int i = 0; i < dateParentList.getLength(); i++) {
+            NodeList children = dateParentList.item(i).getChildNodes();
+            if (children.getLength() == 1 && children.item(0).getNodeType() == Node.TEXT_NODE) {
+                dateParentList.item(i).removeChild(children.item(0));
+            }
+        }
+        if (runTimeIsChanged) {
+            return curObject;
+        }
+        return null;
+    }
+    
+    private static boolean updateCalendarInRuntime(NodeList nodeList, List<String> dates, String calendarPath) {
+        Element firstElem = null;
+        Node parentOfFirstElem = null;
+        Node textNode = null;
+        
+        if (nodeList.getLength() > 0) {
+            firstElem = (Element) nodeList.item(0);
+            parentOfFirstElem = firstElem.getParentNode();
+            if (firstElem.getPreviousSibling().getNodeType() == Node.TEXT_NODE) {
+                textNode = firstElem.getPreviousSibling(); 
+            }
+        }
+        if (firstElem != null) {
+            for (int i=1; i < nodeList.getLength(); i++) {
+                if (nodeList.item(i).getPreviousSibling().getNodeType() == Node.TEXT_NODE) {
+                    parentOfFirstElem.removeChild(nodeList.item(i).getPreviousSibling()); 
+                }
+                parentOfFirstElem.removeChild(nodeList.item(i));
+            }
+            if (dates.isEmpty()) {
+                if (textNode != null) {
+                    parentOfFirstElem.removeChild(textNode); 
+                }
+                parentOfFirstElem.removeChild(firstElem);
+            } else {
+                String lastDateOfdates = dates.remove(dates.size()-1);
+                dates.add(0, lastDateOfdates);
+                firstElem.setAttribute("date", dates.get(0));
+                firstElem.setAttribute("calendar", calendarPath);
+                for (int i=1; i < dates.size(); i++) {
+                    Element newElem = (Element) firstElem.cloneNode(true);
+                    newElem.setAttribute("date", dates.get(i));
+                    if (textNode != null) {
+                        parentOfFirstElem.insertBefore(textNode.cloneNode(false), textNode);
+                        parentOfFirstElem.insertBefore(newElem, textNode);
+                    } else {
+                        parentOfFirstElem.insertBefore(newElem, firstElem);
+                    }
+                }
+            }
+        }
+        return firstElem != null;
+    }
+    
 }
