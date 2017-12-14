@@ -24,7 +24,7 @@ public enum FileTransferStateText {
     DELETED("DELETED"),
     RENAMED("RENAMED"),
     IGNORED_DUE_TO_ZEROBYTE_CONSTRAINT("IGNORED_DUE_TO_ZEROBYTE_CONSTRAINT"),
-    SETBACK("SETBACK"),
+    ROLLED_BACK("ROLLED_BACK"),
     POLLING("POLLING");
     private final String value;
     private final static Map<String, FileTransferStateText> CONSTANTS = new HashMap<String, FileTransferStateText>();
