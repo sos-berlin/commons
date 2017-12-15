@@ -11,7 +11,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * jobscheduler custom event for Custom (Classic) Evens
+ * jobscheduler custom event for YADE
  * <p>
  * 
  * 
@@ -24,16 +24,20 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "eventId",
     "variables"
 })
-public class CustomEvent {
+public class YadeEvent {
 
     @JsonProperty("TYPE")
     private String tYPE = "VariablesCustomEvent";
+    /**
+     * YADETransferStarted, YADETransferFinished, YADEFileStateChanged
+     * 
+     */
     @JsonProperty("key")
     private String key;
     @JsonProperty("eventId")
     private String eventId;
     @JsonProperty("variables")
-    private CustomEventVariables variables;
+    private YadeVariables variables;
 
     /**
      * 
@@ -56,6 +60,7 @@ public class CustomEvent {
     }
 
     /**
+     * YADETransferStarted, YADETransferFinished, YADEFileStateChanged
      * 
      * @return
      *     The key
@@ -66,6 +71,7 @@ public class CustomEvent {
     }
 
     /**
+     * YADETransferStarted, YADETransferFinished, YADEFileStateChanged
      * 
      * @param key
      *     The key
@@ -101,7 +107,7 @@ public class CustomEvent {
      *     The variables
      */
     @JsonProperty("variables")
-    public CustomEventVariables getVariables() {
+    public YadeVariables getVariables() {
         return variables;
     }
 
@@ -111,7 +117,7 @@ public class CustomEvent {
      *     The variables
      */
     @JsonProperty("variables")
-    public void setVariables(CustomEventVariables variables) {
+    public void setVariables(YadeVariables variables) {
         this.variables = variables;
     }
 
@@ -130,10 +136,10 @@ public class CustomEvent {
         if (other == this) {
             return true;
         }
-        if ((other instanceof CustomEvent) == false) {
+        if ((other instanceof YadeEvent) == false) {
             return false;
         }
-        CustomEvent rhs = ((CustomEvent) other);
+        YadeEvent rhs = ((YadeEvent) other);
         return new EqualsBuilder().append(tYPE, rhs.tYPE).append(key, rhs.key).append(eventId, rhs.eventId).append(variables, rhs.variables).isEquals();
     }
 
