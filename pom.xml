@@ -23,7 +23,7 @@
         <module>sos-xml</module>
         <module>sos-marshalling</module>
         <module>sos-textprocessor</module>
-        <module>sos-trilead-ssh2</module>
+        <!--module>sos-trilead-ssh2</module-->
         <module>credentialstore</module>
     <module>sos-json</module>
   </modules>
