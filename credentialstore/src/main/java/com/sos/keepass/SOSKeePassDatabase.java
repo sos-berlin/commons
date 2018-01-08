@@ -61,38 +61,38 @@ public class SOSKeePassDatabase {
         }
     }
 
-    public List<? extends Entry<?, ?, ?, ?>> getEntriesByTitle(final String regex) {
+    public List<? extends Entry<?, ?, ?, ?>> getEntriesByTitle(final String match) {
         if (_database == null) {
             return null;
         }
         return _database.findEntries(new Entry.Matcher() {
 
             public boolean matches(@SuppressWarnings("rawtypes") Entry entry) {
-                return entry.getTitle().matches(regex);
+                return entry.getTitle().matches(match == null ? "" : match);
             }
         });
     }
 
-    public List<? extends Entry<?, ?, ?, ?>> getEntriesByUsername(final String regex) {
+    public List<? extends Entry<?, ?, ?, ?>> getEntriesByUsername(final String match) {
         if (_database == null) {
             return null;
         }
         return _database.findEntries(new Entry.Matcher() {
 
             public boolean matches(@SuppressWarnings("rawtypes") Entry entry) {
-                return entry.getUsername().matches(regex);
+                return entry.getUsername().matches(match == null ? "" : match);
             }
         });
     }
 
-    public List<? extends Entry<?, ?, ?, ?>> getEntriesByUrl(final String regex) {
+    public List<? extends Entry<?, ?, ?, ?>> getEntriesByUrl(final String match) {
         if (_database == null) {
             return null;
         }
         return _database.findEntries(new Entry.Matcher() {
 
             public boolean matches(@SuppressWarnings("rawtypes") Entry entry) {
-                return entry.getUrl().matches(regex);
+                return entry.getUrl().matches(match == null ? "" : match);
             }
         });
     }
