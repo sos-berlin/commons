@@ -11,8 +11,6 @@ import org.linguafranca.pwdb.Entry;
 
 import com.sos.CredentialStore.Options.ISOSCredentialStoreOptionsBridge;
 import com.sos.CredentialStore.Options.SOSCredentialStoreOptions;
-import com.sos.CredentialStore.exceptions.CredentialStoreEntryExpired;
-import com.sos.CredentialStore.exceptions.CredentialStoreKeyNotFound;
 import com.sos.JSHelper.Annotations.JSOptionClass;
 import com.sos.JSHelper.Basics.JSToolBox;
 import com.sos.JSHelper.Exceptions.JobSchedulerException;
@@ -70,17 +68,18 @@ public class SOSCredentialStoreImpl extends JSToolBox {
                 kpd = new SOSKeePassDatabase(keePassFile);
                 kpd.load(keePassPassword, Paths.get(keePassKeyFile));
                 entry = kpd.getEntryByPath(options.credentialStoreKeyPath.getValue());
+                if (entry == null) {
+                    throw new Exception(String.format("[%s][%s]entry not found", options.credentialStoreFileName.getValue(),
+                            options.credentialStoreKeyPath.getValue()));
+                }
+                if (entry.getExpires()) {
+                    throw new Exception(String.format("[%s][%s]entry is expired (%s)", options.credentialStoreFileName.getValue(),
+                            options.credentialStoreKeyPath.getValue(), entry.getExpiryTime()));
+                }
             } catch (Exception e) {
                 LOGGER.error(e.getMessage());
                 throw new JobSchedulerException(e);
             }
-            if (entry == null) {
-                throw new CredentialStoreKeyNotFound(options);
-            }
-            if (entry.getExpires()) {
-                throw new CredentialStoreEntryExpired(entry.getExpiryTime());
-            }
-            boolean hideValue = false;
             if (entry.getUrl().length() > 0) {
                 LOGGER.trace(entry.getUrl());
                 // Possible Elements of an URL are:
@@ -115,6 +114,7 @@ public class SOSCredentialStoreImpl extends JSToolBox {
                     // name only
                 }
             }
+            boolean hideValue = false;
             if (isNotEmpty(entry.getUsername())) {
                 optionsBridge.getUser().setValue(entry.getUsername());
                 optionsBridge.getUser().setHideValue(hideValue);

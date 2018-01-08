@@ -25,19 +25,19 @@ public class SOSKeePassDatabase {
     private boolean _isKdbx;
     private Database<?, ?, ?, ?> _database;
 
-    public SOSKeePassDatabase(final Path file) throws Exception {
+    public SOSKeePassDatabase(final Path file) throws SOSKeePassDatabaseException {
         if (file == null) {
-            throw new Exception("file is null");
+            throw new SOSKeePassDatabaseException("KeePass file is null");
         }
         _file = file;
         _isKdbx = file.toString().toLowerCase().endsWith(".kdbx");
     }
 
-    public void load(final String password) throws Exception {
+    public void load(final String password) throws SOSKeePassDatabaseException {
         load(password, null);
     }
 
-    public void load(final String password, final Path keyFile) throws Exception {
+    public void load(final String password, final Path keyFile) throws SOSKeePassDatabaseException {
         if (_isKdbx) {
             _database = getKDBXDatabase(password, keyFile);
         } else {
@@ -97,7 +97,7 @@ public class SOSKeePassDatabase {
         });
     }
 
-    public Entry<?, ?, ?, ?> getEntryByPath(final String path) throws Exception {
+    public Entry<?, ?, ?, ?> getEntryByPath(final String path) {
         if (_database == null || path == null) {
             return null;
         }
@@ -112,114 +112,133 @@ public class SOSKeePassDatabase {
     }
 
     /** V1 KDB - returns the attachment data, V2 KDBX - returns the first attachment data */
-    public byte[] getAttachment(final String entryPath) throws Exception {
+    public byte[] getAttachment(final String entryPath) throws SOSKeePassDatabaseException {
         return getAttachment(getEntryByPath(entryPath), null);
     }
 
     /** V1 KDB - returns the attachment data, V2 KDBX - returns the attachment data of the attachmentName */
-    public byte[] getAttachment(final String entryPath, final String attachmentName) throws Exception {
+    public byte[] getAttachment(final String entryPath, final String attachmentName) throws SOSKeePassDatabaseException {
         return getAttachment(getEntryByPath(entryPath), attachmentName);
     }
 
     /** V1 KDB - returns the attachment data, V2 KDBX - returns the first attachment data */
-    public byte[] getAttachment(final Entry<?, ?, ?, ?> entry) throws Exception {
+    public byte[] getAttachment(final Entry<?, ?, ?, ?> entry) throws SOSKeePassDatabaseException {
         return getAttachment(entry, null);
     }
 
     /** V1 KDB - returns the attachment data, V2 KDBX - returns the attachment data of the attachmentName */
-    public byte[] getAttachment(final Entry<?, ?, ?, ?> entry, final String attachmentName) throws Exception {
+    public byte[] getAttachment(final Entry<?, ?, ?, ?> entry, final String attachmentName) throws SOSKeePassDatabaseException {
         if (entry == null) {
-            throw new Exception("entry is null");
+            throw new SOSKeePassDatabaseException("entry is null");
         }
-        byte[] data = null;
 
-        if (_isKdbx) {
-            if (attachmentName == null) {
-                List<String> l = entry.getBinaryPropertyNames();
-                if (l != null && l.size() > 0) {
-                    data = entry.getBinaryProperty(l.get(0));
+        byte[] data = null;
+        try {
+            if (_isKdbx) {
+                if (attachmentName == null) {
+                    List<String> l = entry.getBinaryPropertyNames();
+                    if (l != null && l.size() > 0) {
+                        data = entry.getBinaryProperty(l.get(0));
+                    }
+                } else {
+                    data = entry.getBinaryProperty(attachmentName);
                 }
             } else {
-                data = entry.getBinaryProperty(attachmentName);
+                data = ((KdbEntry) entry).getBinaryData();
             }
-        } else {
-            data = ((KdbEntry) entry).getBinaryData();
+        } catch (Throwable e) {
+            throw new SOSKeePassDatabaseException(e);
         }
         if (data == null) {
-            throw new Exception(String.format("[%s]not found attachment=%s", entry.getPath(), attachmentName));
+            throw new SOSKeePassDatabaseException(String.format("[%s]not found attachment=%s", entry.getPath(), attachmentName));
         }
         return data;
     }
 
     /** V1 KDB - exports the attachment, V2 KDBX - exports the first attachment */
-    public void exportAttachment2File(final String entryPath, final Path targetFile) throws Exception {
+    public void exportAttachment2File(final String entryPath, final Path targetFile) throws SOSKeePassDatabaseException {
         exportAttachment2File(entryPath, targetFile, null);
     }
 
     /** V1 KDB - exports the attachment, V2 KDBX - exports the attachment of the attachmentName */
-    public void exportAttachment2File(final String entryPath, final Path targetFile, final String attachmentName) throws Exception {
+    public void exportAttachment2File(final String entryPath, final Path targetFile, final String attachmentName) throws SOSKeePassDatabaseException {
         exportAttachment2File(getEntryByPath(entryPath), targetFile, attachmentName);
     }
 
     /** V1 KDB - exports the attachment, V2 KDBX - exports the first attachment */
-    public void exportAttachment2File(final Entry<?, ?, ?, ?> entry, final Path targetFile) throws Exception {
+    public void exportAttachment2File(final Entry<?, ?, ?, ?> entry, final Path targetFile) throws SOSKeePassDatabaseException {
         exportAttachment2File(entry, targetFile, null);
     }
 
     /** V1 KDB - exports the attachment, V2 KDBX - exports the attachment of the attachmentName */
-    public void exportAttachment2File(final Entry<?, ?, ?, ?> entry, final Path targetFile, final String attachmentName) throws Exception {
+    public void exportAttachment2File(final Entry<?, ?, ?, ?> entry, final Path targetFile, final String attachmentName)
+            throws SOSKeePassDatabaseException {
         byte[] data = getAttachment(entry, attachmentName);
 
         try (FileOutputStream fos = new FileOutputStream(targetFile.toFile())) {
             fos.write(data);
-        } catch (Exception e) {
-            throw new Exception(String.format("[%s][%s][%s]can't write attachment to file: %s", entry.getPath(), attachmentName, targetFile, e
-                    .toString()), e);
+        } catch (Throwable e) {
+            throw new SOSKeePassDatabaseException(String.format("[%s][%s][%s]can't write attachment to file: %s", entry.getPath(), attachmentName,
+                    targetFile, e.toString()), e);
         }
     }
 
-    private Credentials getKDBCredentials(final String pass, final Path keyFile) throws Exception {
+    private Credentials getKDBCredentials(final String pass, final Path keyFile) throws SOSKeePassDatabaseException {
         Credentials cred = null;
         String password = pass == null ? "" : pass;
         if (keyFile == null) {
-            cred = new KdbCredentials.Password(password.getBytes());
+            try {
+                cred = new KdbCredentials.Password(password.getBytes());
+            } catch (Throwable e) {
+                throw new SOSKeePassDatabaseException(e);
+            }
         } else {
             InputStream is = null;
             try {
                 is = new FileInputStream(keyFile.toFile());
                 cred = new KdbCredentials.KeyFile(password.getBytes(), is);
-            } catch (Exception e) {
-                throw e;
+            } catch (Throwable e) {
+                throw new SOSKeePassDatabaseException(e);
             } finally {
                 if (is != null) {
-                    is.close();
+                    try {
+                        is.close();
+                    } catch (Throwable te) {
+                    }
                 }
             }
         }
         return cred;
     }
 
-    private KdbDatabase getKDBDatabase(final String pass, final Path keyFile) throws Exception {
+    private KdbDatabase getKDBDatabase(final String pass, final Path keyFile) throws SOSKeePassDatabaseException {
         Credentials cred = getKDBCredentials(pass, keyFile);
         KdbDatabase database = null;
         InputStream is = null;
         try {
             is = new FileInputStream(_file.toFile());
             database = KdbDatabase.load(cred, is);
-        } catch (Exception e) {
-            throw e;
+        } catch (Throwable e) {
+            throw new SOSKeePassDatabaseException(e);
         } finally {
             if (is != null) {
-                is.close();
+                try {
+                    is.close();
+                } catch (Throwable te) {
+                }
             }
         }
         return database;
     }
 
-    private Credentials getKDBXCredentials(final String pass, final Path keyFile) throws Exception {
+    private Credentials getKDBXCredentials(final String pass, final Path keyFile) throws SOSKeePassDatabaseException {
         KdbxCreds cred = null;
         if (keyFile == null) {
-            cred = new KdbxCreds(pass == null ? "".getBytes() : pass.getBytes());
+            try {
+                cred = new KdbxCreds(pass == null ? "".getBytes() : pass.getBytes());
+            } catch (Throwable e) {
+                throw new SOSKeePassDatabaseException(e);
+            }
         } else {
             InputStream is = null;
             try {
@@ -229,29 +248,35 @@ public class SOSKeePassDatabase {
                 } else {
                     cred = new KdbxCreds(pass.getBytes(), is);
                 }
-            } catch (Exception e) {
-                throw e;
+            } catch (Throwable e) {
+                throw new SOSKeePassDatabaseException(e);
             } finally {
                 if (is != null) {
-                    is.close();
+                    try {
+                        is.close();
+                    } catch (Throwable te) {
+                    }
                 }
             }
         }
         return cred;
     }
 
-    private SimpleDatabase getKDBXDatabase(final String pass, final Path keyFile) throws Exception {
+    private SimpleDatabase getKDBXDatabase(final String pass, final Path keyFile) throws SOSKeePassDatabaseException {
         Credentials cred = getKDBXCredentials(pass, keyFile);
         SimpleDatabase database = null;
         InputStream is = null;
         try {
             is = new FileInputStream(_file.toFile());
             database = SimpleDatabase.load(cred, is);
-        } catch (Exception e) {
-            throw e;
+        } catch (Throwable e) {
+            throw new SOSKeePassDatabaseException(e);
         } finally {
             if (is != null) {
-                is.close();
+                try {
+                    is.close();
+                } catch (Throwable te) {
+                }
             }
         }
         return database;
