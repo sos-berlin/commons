@@ -43,6 +43,10 @@
             <artifactId>bcprov-ext-jdk15on</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.linguafranca.pwdb</groupId>
+            <artifactId>KeePassJava2</artifactId>
+        </dependency>
 
     </dependencies>
 </project>
