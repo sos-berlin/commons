@@ -1,17 +1,14 @@
 package com.sos.CredentialStore;
 
-import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Date;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 
 import org.apache.log4j.Logger;
+import org.linguafranca.pwdb.Entry;
 
-import com.sos.CredentialStore.KeePass.pl.sind.keepass.kdb.KeePassDataBase;
-import com.sos.CredentialStore.KeePass.pl.sind.keepass.kdb.KeePassDataBaseManager;
-import com.sos.CredentialStore.KeePass.pl.sind.keepass.kdb.v1.Entry;
-import com.sos.CredentialStore.KeePass.pl.sind.keepass.kdb.v1.KeePassDataBaseV1;
 import com.sos.CredentialStore.Options.ISOSCredentialStoreOptionsBridge;
 import com.sos.CredentialStore.Options.SOSCredentialStoreOptions;
 import com.sos.CredentialStore.exceptions.CredentialStoreEntryExpired;
@@ -20,71 +17,72 @@ import com.sos.JSHelper.Annotations.JSOptionClass;
 import com.sos.JSHelper.Basics.JSToolBox;
 import com.sos.JSHelper.Exceptions.JobSchedulerException;
 import com.sos.JSHelper.Options.SOSOptionElement;
+import com.sos.keepass.SOSKeePassDatabase;
 
 public class SOSCredentialStoreImpl extends JSToolBox {
 
     private static final Logger LOGGER = Logger.getLogger(SOSCredentialStoreImpl.class);
-    private ISOSCredentialStoreOptionsBridge objOptionsBridge = null;
     @JSOptionClass(description = "", name = "SOSCredentialStoreOptions")
-    private SOSCredentialStoreOptions objCredentialStoreOptions = null;
-    private KeePassDataBase keePassDb = null;
-    private KeePassDataBaseV1 kdb1 = null;
+    private SOSCredentialStoreOptions options = null;
+    private ISOSCredentialStoreOptionsBridge optionsBridge = null;
 
-    public SOSCredentialStoreImpl(final ISOSCredentialStoreOptionsBridge pobjOptionsBridge) {
-        objOptionsBridge = pobjOptionsBridge;
+    public SOSCredentialStoreImpl(final ISOSCredentialStoreOptionsBridge ob) {
+        optionsBridge = ob;
     }
 
-    public void setChildClasses(final HashMap<String, String> pobjJSSettings, final String pstrPrefix) throws Exception {
-        getCredentialStore().setAllOptions(pobjJSSettings, pstrPrefix);
+    public void setChildClasses(final HashMap<String, String> settings, final String prefix) throws Exception {
+        getCredentialStore().setAllOptions(settings, prefix);
     }
 
     public SOSCredentialStoreOptions getCredentialStore() {
-        if (objCredentialStoreOptions == null) {
-            objCredentialStoreOptions = new SOSCredentialStoreOptions();
+        if (options == null) {
+            options = new SOSCredentialStoreOptions();
         }
         checkCredentialStoreOptions();
-        return objCredentialStoreOptions;
+        return options;
     }
 
     public SOSCredentialStoreOptions getOptions() {
-        if (objCredentialStoreOptions == null) {
-            objCredentialStoreOptions = new SOSCredentialStoreOptions();
+        if (options == null) {
+            options = new SOSCredentialStoreOptions();
         }
-        return objCredentialStoreOptions;
+        return options;
     }
 
     public void checkCredentialStoreOptions() {
         if (getOptions().useCredentialStore.isTrue()) {
             LOGGER.trace("entering checkCredentialStoreOptions ");
-            objCredentialStoreOptions.credentialStoreFileName.checkMandatory(true);
-            objCredentialStoreOptions.credentialStoreKeyPath.checkMandatory(true);
-            String strPassword = null;
-            File fleKeyFile = null;
-            if (objCredentialStoreOptions.credentialStoreKeyFileName.isDirty()) {
-                fleKeyFile = new File(objCredentialStoreOptions.credentialStoreKeyFileName.getValue());
+            options.credentialStoreFileName.checkMandatory(true);
+            options.credentialStoreKeyPath.checkMandatory(true);
+            String keePassPassword = null;
+            String keePassKeyFile = null;
+            if (options.credentialStorePassword.isDirty()) {
+                keePassPassword = options.credentialStorePassword.getValue();
             }
-            if (objCredentialStoreOptions.credentialStorePassword.isDirty()) {
-                strPassword = objCredentialStoreOptions.credentialStorePassword.getValue();
+            if (options.credentialStoreKeyFileName.isDirty()) {
+                keePassKeyFile = options.credentialStoreKeyFileName.getValue();
             }
-            File fleKeePassDataBase = new File(objCredentialStoreOptions.credentialStoreFileName.getValue());
+
+            Path keePassFile = Paths.get(options.credentialStoreFileName.getValue());
+            SOSKeePassDatabase kpd = null;
+            Entry<?, ?, ?, ?> entry = null;
             try {
-                keePassDb = KeePassDataBaseManager.openDataBase(fleKeePassDataBase, fleKeyFile, strPassword);
+                kpd = new SOSKeePassDatabase(keePassFile);
+                kpd.load(keePassPassword, Paths.get(keePassKeyFile));
+                entry = kpd.getEntryByPath(options.credentialStoreKeyPath.getValue());
             } catch (Exception e) {
-                LOGGER.error(e);
+                LOGGER.error(e.getMessage());
                 throw new JobSchedulerException(e);
             }
-            kdb1 = (KeePassDataBaseV1) keePassDb;
-            Entry objEntry = kdb1.getEntry(objCredentialStoreOptions.credentialStoreKeyPath.getValue());
-            if (objEntry == null) {
-                throw new CredentialStoreKeyNotFound(objCredentialStoreOptions);
+            if (entry == null) {
+                throw new CredentialStoreKeyNotFound(options);
             }
-            Date objExpDate = objEntry.ExpirationDate();
-            if (new Date().after(objExpDate)) {
-                throw new CredentialStoreEntryExpired(objExpDate);
+            if (entry.getExpires()) {
+                throw new CredentialStoreEntryExpired(entry.getExpiryTime());
             }
-            boolean flgHideValuesFromCredentialStore = false;
-            if (objEntry.Url().length() > 0) {
-                LOGGER.trace(objEntry.Url());
+            boolean hideValue = false;
+            if (entry.getUrl().length() > 0) {
+                LOGGER.trace(entry.getUrl());
                 // Possible Elements of an URL are:
                 //
                 // http://hans:geheim@www.example.org:80/demo/example.cgi?land=de&stadt=aa#geschichte
@@ -97,60 +95,63 @@ public class SOSCredentialStoreImpl extends JSToolBox {
                 // ftp://<user>:<password>@<host>:<port>/<url-path>;type=<typecode>
                 // see
                 // http://docs.oracle.com/javase/7/docs/api/java/net/URL.html
-                String strUrl = objEntry.Url();
                 try {
-                    URL objURL = new URL(strUrl);
-                    setIfNotDirty(objOptionsBridge.getHost(), objURL.getHost());
-                    String strPort = String.valueOf(objURL.getPort());
-                    if (isEmpty(strPort) || "-1".equals(strPort)) {
-                        strPort = String.valueOf(objURL.getDefaultPort());
+                    URL url = new URL(entry.getUrl());
+                    setIfNotDirty(optionsBridge.getHost(), url.getHost());
+                    String urlPort = String.valueOf(url.getPort());
+                    if (isEmpty(urlPort) || "-1".equals(urlPort)) {
+                        urlPort = String.valueOf(url.getDefaultPort());
                     }
-                    setIfNotDirty(objOptionsBridge.getPort(), strPort);
-                    setIfNotDirty(objOptionsBridge.getProtocol(), objURL.getProtocol());
-                    String strUserInfo = objURL.getUserInfo();
-                    String[] strU = strUserInfo.split(":");
-                    setIfNotDirty(objOptionsBridge.getUser(), strU[0]);
-                    if (strU.length > 1) {
-                        setIfNotDirty(objOptionsBridge.getPassword(), strU[1]);
+                    setIfNotDirty(optionsBridge.getPort(), urlPort);
+                    setIfNotDirty(optionsBridge.getProtocol(), url.getProtocol());
+                    String urlUserInfo = url.getUserInfo();
+                    String[] ui = urlUserInfo.split(":");
+                    setIfNotDirty(optionsBridge.getUser(), ui[0]);
+                    if (ui.length > 1) {
+                        setIfNotDirty(optionsBridge.getPassword(), ui[1]);
                     }
-                    String strAuthority = objURL.getAuthority();
                 } catch (MalformedURLException e) {
                     // not a valid url. ignore it, because it could be a host
                     // name only
                 }
             }
-            if (isNotEmpty(objEntry.UserName())) {
-                objOptionsBridge.getUser().setValue(objEntry.UserName());
-                objOptionsBridge.getUser().setHideValue(flgHideValuesFromCredentialStore);
+            if (isNotEmpty(entry.getUsername())) {
+                optionsBridge.getUser().setValue(entry.getUsername());
+                optionsBridge.getUser().setHideValue(hideValue);
             }
-            if (isNotEmpty(objEntry.Password())) {
-                objOptionsBridge.getPassword().setValue(objEntry.Password());
-                objOptionsBridge.getPassword().setHideValue(flgHideValuesFromCredentialStore);
+            if (isNotEmpty(entry.getPassword())) {
+                optionsBridge.getPassword().setValue(entry.getPassword());
+                optionsBridge.getPassword().setHideValue(hideValue);
             }
-            if (isNotEmpty(objEntry.Url())) {
-                objOptionsBridge.getHost().setValue(objEntry.Url());
-                objOptionsBridge.getHost().setHideValue(flgHideValuesFromCredentialStore);
+            if (isNotEmpty(entry.getUrl())) {
+                optionsBridge.getHost().setValue(entry.getUrl());
+                optionsBridge.getHost().setHideValue(hideValue);
             }
-            objEntry.ExpirationDate();
-            if (objOptionsBridge.getHost().isNotDirty()) {
-                objOptionsBridge.getHost().setValue(objEntry.getUrl().toString());
+            if (optionsBridge.getHost().isNotDirty()) {
+                optionsBridge.getHost().setValue(entry.getUrl().toString());
             }
-            if (objCredentialStoreOptions.credentialStoreExportAttachment.isTrue()) {
-                File fleO = objEntry.saveAttachmentAsFile(objCredentialStoreOptions.credentialStoreExportAttachment2FileName.getValue());
-                if (objCredentialStoreOptions.credentialStoreDeleteExportedFileOnExit.isTrue()) {
-                    fleO.deleteOnExit();
+            if (options.credentialStoreExportAttachment.isTrue()) {
+                Path attachmentTargetFile = Paths.get(options.credentialStoreExportAttachment2FileName.getValue());
+                try {
+                    kpd.exportAttachment2File(entry, attachmentTargetFile);
+                } catch (Exception e) {
+                    LOGGER.error(e.getMessage());
+                    throw new JobSchedulerException(e);
+                }
+                if (options.credentialStoreDeleteExportedFileOnExit.isTrue()) {
+                    attachmentTargetFile.toFile().deleteOnExit();
                 }
             }
-            if (objCredentialStoreOptions.credentialStoreProcessNotesParams.isTrue()) {
-                objOptionsBridge.commandLineArgs(objEntry.getNotesText());
+            if (options.credentialStoreProcessNotesParams.isTrue()) {
+                optionsBridge.commandLineArgs(entry.getNotes());
             }
         }
     }
 
-    private void setIfNotDirty(final SOSOptionElement objOption, final String pstrValue) {
-        if (objOption.isNotDirty() && isNotEmpty(pstrValue)) {
-            LOGGER.trace("setValue = " + pstrValue);
-            objOption.setValue(pstrValue);
+    private void setIfNotDirty(final SOSOptionElement element, final String value) {
+        if (element.isNotDirty() && isNotEmpty(value)) {
+            LOGGER.trace("setValue = " + value);
+            element.setValue(value);
         }
     }
 }
