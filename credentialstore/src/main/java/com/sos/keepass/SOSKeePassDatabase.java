@@ -14,9 +14,14 @@ import org.linguafranca.pwdb.kdb.KdbDatabase;
 import org.linguafranca.pwdb.kdb.KdbEntry;
 import org.linguafranca.pwdb.kdbx.KdbxCreds;
 import org.linguafranca.pwdb.kdbx.simple.SimpleDatabase;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import sos.util.SOSString;
 
 public class SOSKeePassDatabase {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSKeePassDatabase.class);
     /* see KdbDatabase constructor: KDB files don't have a single root group, this is a synthetic surrogate */
     public static final String KDB_ROOT_GROUP_NAME = "Root";
     public static final String KDB_GROUP_TITLE = "Meta-Info";
@@ -31,6 +36,7 @@ public class SOSKeePassDatabase {
         }
         _file = file;
         _isKdbx = file.toString().toLowerCase().endsWith(".kdbx");
+        LOGGER.debug(String.format("file=%s, isKdbx=%s", _file, _isKdbx));
     }
 
     public void load(final String password) throws SOSKeePassDatabaseException {
@@ -38,6 +44,8 @@ public class SOSKeePassDatabase {
     }
 
     public void load(final String password, final Path keyFile) throws SOSKeePassDatabaseException {
+        LOGGER.debug(String.format("password=********, keyFile=%s", keyFile));
+
         if (_isKdbx) {
             _database = getKDBXDatabase(password, keyFile);
         } else {
@@ -46,6 +54,8 @@ public class SOSKeePassDatabase {
     }
 
     public List<? extends Entry<?, ?, ?, ?>> getEntries() {
+        LOGGER.debug(String.format("getEntries"));
+
         if (_database == null) {
             return null;
         }
@@ -62,6 +72,8 @@ public class SOSKeePassDatabase {
     }
 
     public List<? extends Entry<?, ?, ?, ?>> getEntriesByTitle(final String match) {
+        LOGGER.debug(String.format("match=%s", match));
+
         if (_database == null) {
             return null;
         }
@@ -74,6 +86,8 @@ public class SOSKeePassDatabase {
     }
 
     public List<? extends Entry<?, ?, ?, ?>> getEntriesByUsername(final String match) {
+        LOGGER.debug(String.format("match=%s", match));
+
         if (_database == null) {
             return null;
         }
@@ -86,6 +100,8 @@ public class SOSKeePassDatabase {
     }
 
     public List<? extends Entry<?, ?, ?, ?>> getEntriesByUrl(final String match) {
+        LOGGER.debug(String.format("match=%s", match));
+
         if (_database == null) {
             return null;
         }
@@ -98,6 +114,8 @@ public class SOSKeePassDatabase {
     }
 
     public Entry<?, ?, ?, ?> getEntryByPath(final String path) {
+        LOGGER.debug(String.format("path=%s", path));
+
         if (_database == null || path == null) {
             return null;
         }
@@ -116,9 +134,9 @@ public class SOSKeePassDatabase {
         return getAttachment(getEntryByPath(entryPath), null);
     }
 
-    /** V1 KDB - returns the attachment data, V2 KDBX - returns the attachment data of the attachmentName */
-    public byte[] getAttachment(final String entryPath, final String attachmentName) throws SOSKeePassDatabaseException {
-        return getAttachment(getEntryByPath(entryPath), attachmentName);
+    /** V1 KDB - returns the attachment data, V2 KDBX - returns the attachment data of the propertyName */
+    public byte[] getAttachment(final String entryPath, final String propertyName) throws SOSKeePassDatabaseException {
+        return getAttachment(getEntryByPath(entryPath), propertyName);
     }
 
     /** V1 KDB - returns the attachment data, V2 KDBX - returns the first attachment data */
@@ -126,22 +144,23 @@ public class SOSKeePassDatabase {
         return getAttachment(entry, null);
     }
 
-    /** V1 KDB - returns the attachment data, V2 KDBX - returns the attachment data of the attachmentName */
-    public byte[] getAttachment(final Entry<?, ?, ?, ?> entry, final String attachmentName) throws SOSKeePassDatabaseException {
+    /** V1 KDB - returns the attachment data, V2 KDBX - returns the attachment data of the propertyName */
+    public byte[] getAttachment(final Entry<?, ?, ?, ?> entry, final String propertyName) throws SOSKeePassDatabaseException {
         if (entry == null) {
             throw new SOSKeePassDatabaseException("entry is null");
         }
+        LOGGER.debug(String.format("entryPath=%s, propertyName=%s", entry.getPath(), propertyName));
 
         byte[] data = null;
         try {
             if (_isKdbx) {
-                if (attachmentName == null) {
+                if (propertyName == null) {
                     List<String> l = entry.getBinaryPropertyNames();
                     if (l != null && l.size() > 0) {
                         data = entry.getBinaryProperty(l.get(0));
                     }
                 } else {
-                    data = entry.getBinaryProperty(attachmentName);
+                    data = entry.getBinaryProperty(propertyName);
                 }
             } else {
                 data = ((KdbEntry) entry).getBinaryData();
@@ -149,8 +168,13 @@ public class SOSKeePassDatabase {
         } catch (Throwable e) {
             throw new SOSKeePassDatabaseException(e);
         }
-        if (data == null) {
-            throw new SOSKeePassDatabaseException(String.format("[%s]not found attachment=%s", entry.getPath(), attachmentName));
+        if (data == null || data.length == 0) {
+            if (propertyName == null) {
+                throw new SOSKeePassDatabaseException(String.format("[%s]attachment not found or is 0 bytes", entry.getPath()));
+            } else {
+                throw new SOSKeePassDatabaseException(String.format("[%s]attachment not found or is 0 bytes, property=%s", entry.getPath(),
+                        propertyName));
+            }
         }
         return data;
     }
@@ -160,9 +184,9 @@ public class SOSKeePassDatabase {
         exportAttachment2File(entryPath, targetFile, null);
     }
 
-    /** V1 KDB - exports the attachment, V2 KDBX - exports the attachment of the attachmentName */
-    public void exportAttachment2File(final String entryPath, final Path targetFile, final String attachmentName) throws SOSKeePassDatabaseException {
-        exportAttachment2File(getEntryByPath(entryPath), targetFile, attachmentName);
+    /** V1 KDB - exports the attachment, V2 KDBX - exports the attachment of the propertyName */
+    public void exportAttachment2File(final String entryPath, final Path targetFile, final String propertyName) throws SOSKeePassDatabaseException {
+        exportAttachment2File(getEntryByPath(entryPath), targetFile, propertyName);
     }
 
     /** V1 KDB - exports the attachment, V2 KDBX - exports the first attachment */
@@ -170,16 +194,39 @@ public class SOSKeePassDatabase {
         exportAttachment2File(entry, targetFile, null);
     }
 
-    /** V1 KDB - exports the attachment, V2 KDBX - exports the attachment of the attachmentName */
-    public void exportAttachment2File(final Entry<?, ?, ?, ?> entry, final Path targetFile, final String attachmentName)
+    /** V1 KDB - exports the attachment, V2 KDBX - exports the attachment of the propertyName */
+    public void exportAttachment2File(final Entry<?, ?, ?, ?> entry, final Path targetFile, final String propertyName)
             throws SOSKeePassDatabaseException {
-        byte[] data = getAttachment(entry, attachmentName);
+        LOGGER.debug(String.format("entryPath=%s, targetFile=%s, propertyName=%s", entry.getPath(), targetFile, propertyName));
+
+        byte[] data = getAttachment(entry, propertyName);
 
         try (FileOutputStream fos = new FileOutputStream(targetFile.toFile())) {
             fos.write(data);
         } catch (Throwable e) {
-            throw new SOSKeePassDatabaseException(String.format("[%s][%s][%s]can't write attachment to file: %s", entry.getPath(), attachmentName,
+            throw new SOSKeePassDatabaseException(String.format("[%s][%s][%s]can't write attachment to file: %s", entry.getPath(), propertyName,
                     targetFile, e.toString()), e);
+        }
+    }
+
+    public static String getPropertyName(String propertyName) {
+        if (SOSString.isEmpty(propertyName)) {
+            return propertyName;
+        }
+        switch (propertyName.toLowerCase()) {
+        case "title":
+            return Entry.STANDARD_PROPERTY_NAME_TITLE;
+        case "user":
+        case "username":
+            return Entry.STANDARD_PROPERTY_NAME_USER_NAME;
+        case "password":
+            return Entry.STANDARD_PROPERTY_NAME_PASSWORD;
+        case "url":
+            return Entry.STANDARD_PROPERTY_NAME_URL;
+        case "notes":
+            return Entry.STANDARD_PROPERTY_NAME_NOTES;
+        default:
+            return propertyName;
         }
     }
 
