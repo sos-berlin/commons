@@ -23,6 +23,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "deliveryDate",
+    "main",
     "users",
     "masters"
 })
@@ -37,6 +38,8 @@ public class SecurityConfiguration {
      */
     @JsonProperty("deliveryDate")
     private Date deliveryDate;
+    @JsonProperty("main")
+    private List<SecurityConfigurationMainEntry> main = new ArrayList<SecurityConfigurationMainEntry>();
     @JsonProperty("users")
     private List<SecurityConfigurationUser> users = new ArrayList<SecurityConfigurationUser>();
     @JsonProperty("masters")
@@ -68,6 +71,26 @@ public class SecurityConfiguration {
     @JsonProperty("deliveryDate")
     public void setDeliveryDate(Date deliveryDate) {
         this.deliveryDate = deliveryDate;
+    }
+
+    /**
+     * 
+     * @return
+     *     The main
+     */
+    @JsonProperty("main")
+    public List<SecurityConfigurationMainEntry> getMain() {
+        return main;
+    }
+
+    /**
+     * 
+     * @param main
+     *     The main
+     */
+    @JsonProperty("main")
+    public void setMain(List<SecurityConfigurationMainEntry> main) {
+        this.main = main;
     }
 
     /**
@@ -117,7 +140,7 @@ public class SecurityConfiguration {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(deliveryDate).append(users).append(masters).toHashCode();
+        return new HashCodeBuilder().append(deliveryDate).append(main).append(users).append(masters).toHashCode();
     }
 
     @Override
@@ -129,7 +152,7 @@ public class SecurityConfiguration {
             return false;
         }
         SecurityConfiguration rhs = ((SecurityConfiguration) other);
-        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(users, rhs.users).append(masters, rhs.masters).isEquals();
+        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(main, rhs.main).append(users, rhs.users).append(masters, rhs.masters).isEquals();
     }
 
 }
