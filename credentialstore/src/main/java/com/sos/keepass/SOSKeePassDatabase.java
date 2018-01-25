@@ -25,6 +25,7 @@ public class SOSKeePassDatabase {
     /* see KdbDatabase constructor: KDB files don't have a single root group, this is a synthetic surrogate */
     public static final String KDB_ROOT_GROUP_NAME = "Root";
     public static final String KDB_GROUP_TITLE = "Meta-Info";
+    public static final String STANDARD_PROPERTY_NAME_ATTACHMENT = "Attachment";
 
     private Path _file;
     private boolean _isKdbx;
@@ -44,7 +45,7 @@ public class SOSKeePassDatabase {
     }
 
     public void load(final String password, final Path keyFile) throws SOSKeePassDatabaseException {
-        LOGGER.debug(String.format("password=********, keyFile=%s", keyFile));
+        LOGGER.debug(String.format("password=?, keyFile=%s", keyFile));
 
         if (_isKdbx) {
             _database = getKDBXDatabase(password, keyFile);
@@ -145,12 +146,14 @@ public class SOSKeePassDatabase {
     }
 
     /** V1 KDB - returns the attachment data, V2 KDBX - returns the attachment data of the propertyName */
-    public byte[] getAttachment(final Entry<?, ?, ?, ?> entry, final String propertyName) throws SOSKeePassDatabaseException {
+    public byte[] getAttachment(final Entry<?, ?, ?, ?> entry, String propertyName) throws SOSKeePassDatabaseException {
         if (entry == null) {
             throw new SOSKeePassDatabaseException("entry is null");
         }
         LOGGER.debug(String.format("entryPath=%s, propertyName=%s", entry.getPath(), propertyName));
-
+        if (propertyName != null && propertyName.equalsIgnoreCase(STANDARD_PROPERTY_NAME_ATTACHMENT)) {
+            propertyName = null;
+        }
         byte[] data = null;
         try {
             if (_isKdbx) {
@@ -225,6 +228,9 @@ public class SOSKeePassDatabase {
             return Entry.STANDARD_PROPERTY_NAME_URL;
         case "notes":
             return Entry.STANDARD_PROPERTY_NAME_NOTES;
+        case "attach":
+        case "attachment":
+            return STANDARD_PROPERTY_NAME_ATTACHMENT;
         default:
             return propertyName;
         }
