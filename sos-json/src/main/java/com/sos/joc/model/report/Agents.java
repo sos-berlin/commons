@@ -4,10 +4,12 @@ package com.sos.joc.model.report;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -20,7 +22,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "deliveryDate",
     "agents",
@@ -36,6 +37,8 @@ public class Agents {
      * 
      */
     @JsonProperty("deliveryDate")
+    @JsonPropertyDescription("Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
+    @JacksonXmlProperty(localName = "deliveryDate")
     private Date deliveryDate;
     /**
      * 
@@ -43,6 +46,8 @@ public class Agents {
      * 
      */
     @JsonProperty("agents")
+    @JacksonXmlProperty(localName = "agent")
+    @JacksonXmlElementWrapper(useWrapping = true, localName = "agents")
     private List<Agent> agents = new ArrayList<Agent>();
     /**
      * non negative long
@@ -51,6 +56,7 @@ public class Agents {
      * 
      */
     @JsonProperty("totalNumOfSuccessfulTasks")
+    @JacksonXmlProperty(localName = "totalNumOfSuccessfulTasks")
     private Long totalNumOfSuccessfulTasks;
 
     /**
@@ -59,10 +65,9 @@ public class Agents {
      * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * (Required)
      * 
-     * @return
-     *     The deliveryDate
      */
     @JsonProperty("deliveryDate")
+    @JacksonXmlProperty(localName = "deliveryDate")
     public Date getDeliveryDate() {
         return deliveryDate;
     }
@@ -73,10 +78,9 @@ public class Agents {
      * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * (Required)
      * 
-     * @param deliveryDate
-     *     The deliveryDate
      */
     @JsonProperty("deliveryDate")
+    @JacksonXmlProperty(localName = "deliveryDate")
     public void setDeliveryDate(Date deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
@@ -85,10 +89,9 @@ public class Agents {
      * 
      * (Required)
      * 
-     * @return
-     *     The agents
      */
     @JsonProperty("agents")
+    @JacksonXmlProperty(localName = "agent")
     public List<Agent> getAgents() {
         return agents;
     }
@@ -97,10 +100,9 @@ public class Agents {
      * 
      * (Required)
      * 
-     * @param agents
-     *     The agents
      */
     @JsonProperty("agents")
+    @JacksonXmlProperty(localName = "agent")
     public void setAgents(List<Agent> agents) {
         this.agents = agents;
     }
@@ -110,10 +112,9 @@ public class Agents {
      * <p>
      * 
      * 
-     * @return
-     *     The totalNumOfSuccessfulTasks
      */
     @JsonProperty("totalNumOfSuccessfulTasks")
+    @JacksonXmlProperty(localName = "totalNumOfSuccessfulTasks")
     public Long getTotalNumOfSuccessfulTasks() {
         return totalNumOfSuccessfulTasks;
     }
@@ -123,22 +124,21 @@ public class Agents {
      * <p>
      * 
      * 
-     * @param totalNumOfSuccessfulTasks
-     *     The totalNumOfSuccessfulTasks
      */
     @JsonProperty("totalNumOfSuccessfulTasks")
+    @JacksonXmlProperty(localName = "totalNumOfSuccessfulTasks")
     public void setTotalNumOfSuccessfulTasks(Long totalNumOfSuccessfulTasks) {
         this.totalNumOfSuccessfulTasks = totalNumOfSuccessfulTasks;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("agents", agents).append("totalNumOfSuccessfulTasks", totalNumOfSuccessfulTasks).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(deliveryDate).append(agents).append(totalNumOfSuccessfulTasks).toHashCode();
+        return new HashCodeBuilder().append(totalNumOfSuccessfulTasks).append(deliveryDate).append(agents).toHashCode();
     }
 
     @Override
@@ -150,7 +150,7 @@ public class Agents {
             return false;
         }
         Agents rhs = ((Agents) other);
-        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(agents, rhs.agents).append(totalNumOfSuccessfulTasks, rhs.totalNumOfSuccessfulTasks).isEquals();
+        return new EqualsBuilder().append(totalNumOfSuccessfulTasks, rhs.totalNumOfSuccessfulTasks).append(deliveryDate, rhs.deliveryDate).append(agents, rhs.agents).isEquals();
     }
 
 }

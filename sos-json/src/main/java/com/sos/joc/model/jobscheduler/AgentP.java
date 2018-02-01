@@ -4,10 +4,12 @@ package com.sos.joc.model.jobscheduler;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -20,7 +22,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "surveyDate",
     "version",
@@ -41,6 +42,8 @@ public class AgentP {
      * 
      */
     @JsonProperty("surveyDate")
+    @JsonPropertyDescription("Date of the inventory data. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
+    @JacksonXmlProperty(localName = "surveyDate")
     private Date surveyDate;
     /**
      * 
@@ -48,6 +51,7 @@ public class AgentP {
      * 
      */
     @JsonProperty("version")
+    @JacksonXmlProperty(localName = "version")
     private String version;
     /**
      * 
@@ -55,6 +59,7 @@ public class AgentP {
      * 
      */
     @JsonProperty("host")
+    @JacksonXmlProperty(localName = "host")
     private String host;
     /**
      * url can be different against host/port if agent behind a proxy
@@ -62,6 +67,8 @@ public class AgentP {
      * 
      */
     @JsonProperty("url")
+    @JsonPropertyDescription("url can be different against host/port if agent behind a proxy")
+    @JacksonXmlProperty(localName = "url")
     private String url;
     /**
      * jobscheduler platform
@@ -71,6 +78,7 @@ public class AgentP {
      * 
      */
     @JsonProperty("os")
+    @JacksonXmlProperty(localName = "os")
     private OperatingSystem os;
     /**
      * jobscheduler state
@@ -80,6 +88,7 @@ public class AgentP {
      * 
      */
     @JsonProperty("state")
+    @JacksonXmlProperty(localName = "state")
     private JobSchedulerState state;
     /**
      * timestamp
@@ -89,6 +98,8 @@ public class AgentP {
      * 
      */
     @JsonProperty("startedAt")
+    @JsonPropertyDescription("Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty")
+    @JacksonXmlProperty(localName = "startedAt")
     private Date startedAt;
     /**
      * Collection of process class' paths
@@ -96,6 +107,9 @@ public class AgentP {
      * 
      */
     @JsonProperty("clusters")
+    @JsonPropertyDescription("Collection of process class' paths")
+    @JacksonXmlProperty(localName = "cluster")
+    @JacksonXmlElementWrapper(useWrapping = true, localName = "clusters")
     private List<String> clusters = new ArrayList<String>();
 
     /**
@@ -104,10 +118,9 @@ public class AgentP {
      * Date of the inventory data. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * (Required)
      * 
-     * @return
-     *     The surveyDate
      */
     @JsonProperty("surveyDate")
+    @JacksonXmlProperty(localName = "surveyDate")
     public Date getSurveyDate() {
         return surveyDate;
     }
@@ -118,10 +131,9 @@ public class AgentP {
      * Date of the inventory data. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * (Required)
      * 
-     * @param surveyDate
-     *     The surveyDate
      */
     @JsonProperty("surveyDate")
+    @JacksonXmlProperty(localName = "surveyDate")
     public void setSurveyDate(Date surveyDate) {
         this.surveyDate = surveyDate;
     }
@@ -130,10 +142,9 @@ public class AgentP {
      * 
      * (Required)
      * 
-     * @return
-     *     The version
      */
     @JsonProperty("version")
+    @JacksonXmlProperty(localName = "version")
     public String getVersion() {
         return version;
     }
@@ -142,10 +153,9 @@ public class AgentP {
      * 
      * (Required)
      * 
-     * @param version
-     *     The version
      */
     @JsonProperty("version")
+    @JacksonXmlProperty(localName = "version")
     public void setVersion(String version) {
         this.version = version;
     }
@@ -154,10 +164,9 @@ public class AgentP {
      * 
      * (Required)
      * 
-     * @return
-     *     The host
      */
     @JsonProperty("host")
+    @JacksonXmlProperty(localName = "host")
     public String getHost() {
         return host;
     }
@@ -166,10 +175,9 @@ public class AgentP {
      * 
      * (Required)
      * 
-     * @param host
-     *     The host
      */
     @JsonProperty("host")
+    @JacksonXmlProperty(localName = "host")
     public void setHost(String host) {
         this.host = host;
     }
@@ -178,10 +186,9 @@ public class AgentP {
      * url can be different against host/port if agent behind a proxy
      * (Required)
      * 
-     * @return
-     *     The url
      */
     @JsonProperty("url")
+    @JacksonXmlProperty(localName = "url")
     public String getUrl() {
         return url;
     }
@@ -190,10 +197,9 @@ public class AgentP {
      * url can be different against host/port if agent behind a proxy
      * (Required)
      * 
-     * @param url
-     *     The url
      */
     @JsonProperty("url")
+    @JacksonXmlProperty(localName = "url")
     public void setUrl(String url) {
         this.url = url;
     }
@@ -204,10 +210,9 @@ public class AgentP {
      * 
      * (Required)
      * 
-     * @return
-     *     The os
      */
     @JsonProperty("os")
+    @JacksonXmlProperty(localName = "os")
     public OperatingSystem getOs() {
         return os;
     }
@@ -218,10 +223,9 @@ public class AgentP {
      * 
      * (Required)
      * 
-     * @param os
-     *     The os
      */
     @JsonProperty("os")
+    @JacksonXmlProperty(localName = "os")
     public void setOs(OperatingSystem os) {
         this.os = os;
     }
@@ -232,10 +236,9 @@ public class AgentP {
      * 
      * (Required)
      * 
-     * @return
-     *     The state
      */
     @JsonProperty("state")
+    @JacksonXmlProperty(localName = "state")
     public JobSchedulerState getState() {
         return state;
     }
@@ -246,10 +249,9 @@ public class AgentP {
      * 
      * (Required)
      * 
-     * @param state
-     *     The state
      */
     @JsonProperty("state")
+    @JacksonXmlProperty(localName = "state")
     public void setState(JobSchedulerState state) {
         this.state = state;
     }
@@ -260,10 +262,9 @@ public class AgentP {
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * (Required)
      * 
-     * @return
-     *     The startedAt
      */
     @JsonProperty("startedAt")
+    @JacksonXmlProperty(localName = "startedAt")
     public Date getStartedAt() {
         return startedAt;
     }
@@ -274,10 +275,9 @@ public class AgentP {
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * (Required)
      * 
-     * @param startedAt
-     *     The startedAt
      */
     @JsonProperty("startedAt")
+    @JacksonXmlProperty(localName = "startedAt")
     public void setStartedAt(Date startedAt) {
         this.startedAt = startedAt;
     }
@@ -286,10 +286,9 @@ public class AgentP {
      * Collection of process class' paths
      * (Required)
      * 
-     * @return
-     *     The clusters
      */
     @JsonProperty("clusters")
+    @JacksonXmlProperty(localName = "cluster")
     public List<String> getClusters() {
         return clusters;
     }
@@ -298,22 +297,21 @@ public class AgentP {
      * Collection of process class' paths
      * (Required)
      * 
-     * @param clusters
-     *     The clusters
      */
     @JsonProperty("clusters")
+    @JacksonXmlProperty(localName = "cluster")
     public void setClusters(List<String> clusters) {
         this.clusters = clusters;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("surveyDate", surveyDate).append("version", version).append("host", host).append("url", url).append("os", os).append("state", state).append("startedAt", startedAt).append("clusters", clusters).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(surveyDate).append(version).append(host).append(url).append(os).append(state).append(startedAt).append(clusters).toHashCode();
+        return new HashCodeBuilder().append(surveyDate).append(os).append(host).append(startedAt).append(state).append(version).append(url).append(clusters).toHashCode();
     }
 
     @Override
@@ -325,7 +323,7 @@ public class AgentP {
             return false;
         }
         AgentP rhs = ((AgentP) other);
-        return new EqualsBuilder().append(surveyDate, rhs.surveyDate).append(version, rhs.version).append(host, rhs.host).append(url, rhs.url).append(os, rhs.os).append(state, rhs.state).append(startedAt, rhs.startedAt).append(clusters, rhs.clusters).isEquals();
+        return new EqualsBuilder().append(surveyDate, rhs.surveyDate).append(os, rhs.os).append(host, rhs.host).append(startedAt, rhs.startedAt).append(state, rhs.state).append(version, rhs.version).append(url, rhs.url).append(clusters, rhs.clusters).isEquals();
     }
 
 }

@@ -1,16 +1,16 @@
 
 package com.sos.jobscheduler.model.event;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "transferId",
     "fileId"
@@ -18,30 +18,25 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class YadeVariables {
 
     @JsonProperty("transferId")
+    @JacksonXmlProperty(localName = "transferId")
     private String transferId;
     /**
      * for YADEFileStateChanged
      * 
      */
     @JsonProperty("fileId")
+    @JsonPropertyDescription("for YADEFileStateChanged")
+    @JacksonXmlProperty(localName = "fileId")
     private String fileId;
 
-    /**
-     * 
-     * @return
-     *     The transferId
-     */
     @JsonProperty("transferId")
+    @JacksonXmlProperty(localName = "transferId")
     public String getTransferId() {
         return transferId;
     }
 
-    /**
-     * 
-     * @param transferId
-     *     The transferId
-     */
     @JsonProperty("transferId")
+    @JacksonXmlProperty(localName = "transferId")
     public void setTransferId(String transferId) {
         this.transferId = transferId;
     }
@@ -49,10 +44,9 @@ public class YadeVariables {
     /**
      * for YADEFileStateChanged
      * 
-     * @return
-     *     The fileId
      */
     @JsonProperty("fileId")
+    @JacksonXmlProperty(localName = "fileId")
     public String getFileId() {
         return fileId;
     }
@@ -60,17 +54,16 @@ public class YadeVariables {
     /**
      * for YADEFileStateChanged
      * 
-     * @param fileId
-     *     The fileId
      */
     @JsonProperty("fileId")
+    @JacksonXmlProperty(localName = "fileId")
     public void setFileId(String fileId) {
         this.fileId = fileId;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("transferId", transferId).append("fileId", fileId).toString();
     }
 
     @Override

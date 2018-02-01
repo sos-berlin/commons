@@ -3,10 +3,11 @@ package com.sos.joc.model.jobChain;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.sos.joc.model.audit.AuditParams;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -20,7 +21,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobschedulerId",
     "nodes",
@@ -34,6 +34,7 @@ public class ModifyJobChainNodes {
      * 
      */
     @JsonProperty("jobschedulerId")
+    @JacksonXmlProperty(localName = "jobschedulerId")
     private String jobschedulerId;
     /**
      * 
@@ -41,6 +42,8 @@ public class ModifyJobChainNodes {
      * 
      */
     @JsonProperty("nodes")
+    @JacksonXmlProperty(localName = "node")
+    @JacksonXmlElementWrapper(useWrapping = true, localName = "nodes")
     private List<ModifyJobChainNode> nodes = new ArrayList<ModifyJobChainNode>();
     /**
      * auditParams
@@ -49,16 +52,16 @@ public class ModifyJobChainNodes {
      * 
      */
     @JsonProperty("auditLog")
+    @JacksonXmlProperty(localName = "auditLog")
     private AuditParams auditLog;
 
     /**
      * 
      * (Required)
      * 
-     * @return
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
+    @JacksonXmlProperty(localName = "jobschedulerId")
     public String getJobschedulerId() {
         return jobschedulerId;
     }
@@ -67,10 +70,9 @@ public class ModifyJobChainNodes {
      * 
      * (Required)
      * 
-     * @param jobschedulerId
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
+    @JacksonXmlProperty(localName = "jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
         this.jobschedulerId = jobschedulerId;
     }
@@ -79,10 +81,9 @@ public class ModifyJobChainNodes {
      * 
      * (Required)
      * 
-     * @return
-     *     The nodes
      */
     @JsonProperty("nodes")
+    @JacksonXmlProperty(localName = "node")
     public List<ModifyJobChainNode> getNodes() {
         return nodes;
     }
@@ -91,10 +92,9 @@ public class ModifyJobChainNodes {
      * 
      * (Required)
      * 
-     * @param nodes
-     *     The nodes
      */
     @JsonProperty("nodes")
+    @JacksonXmlProperty(localName = "node")
     public void setNodes(List<ModifyJobChainNode> nodes) {
         this.nodes = nodes;
     }
@@ -104,10 +104,9 @@ public class ModifyJobChainNodes {
      * <p>
      * 
      * 
-     * @return
-     *     The auditLog
      */
     @JsonProperty("auditLog")
+    @JacksonXmlProperty(localName = "auditLog")
     public AuditParams getAuditLog() {
         return auditLog;
     }
@@ -117,22 +116,21 @@ public class ModifyJobChainNodes {
      * <p>
      * 
      * 
-     * @param auditLog
-     *     The auditLog
      */
     @JsonProperty("auditLog")
+    @JacksonXmlProperty(localName = "auditLog")
     public void setAuditLog(AuditParams auditLog) {
         this.auditLog = auditLog;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("nodes", nodes).append("auditLog", auditLog).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(nodes).append(auditLog).toHashCode();
+        return new HashCodeBuilder().append(nodes).append(jobschedulerId).append(auditLog).toHashCode();
     }
 
     @Override
@@ -144,7 +142,7 @@ public class ModifyJobChainNodes {
             return false;
         }
         ModifyJobChainNodes rhs = ((ModifyJobChainNodes) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(nodes, rhs.nodes).append(auditLog, rhs.auditLog).isEquals();
+        return new EqualsBuilder().append(nodes, rhs.nodes).append(jobschedulerId, rhs.jobschedulerId).append(auditLog, rhs.auditLog).isEquals();
     }
 
 }

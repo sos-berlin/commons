@@ -4,10 +4,12 @@ package com.sos.joc.model.security;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -20,7 +22,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "deliveryDate",
     "main",
@@ -37,12 +38,20 @@ public class SecurityConfiguration {
      * 
      */
     @JsonProperty("deliveryDate")
+    @JsonPropertyDescription("Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
+    @JacksonXmlProperty(localName = "deliveryDate")
     private Date deliveryDate;
     @JsonProperty("main")
+    @JacksonXmlProperty(localName = "main")
+    @JacksonXmlElementWrapper(useWrapping = true, localName = "main")
     private List<SecurityConfigurationMainEntry> main = new ArrayList<SecurityConfigurationMainEntry>();
     @JsonProperty("users")
+    @JacksonXmlProperty(localName = "user")
+    @JacksonXmlElementWrapper(useWrapping = true, localName = "users")
     private List<SecurityConfigurationUser> users = new ArrayList<SecurityConfigurationUser>();
     @JsonProperty("masters")
+    @JacksonXmlProperty(localName = "master")
+    @JacksonXmlElementWrapper(useWrapping = true, localName = "masters")
     private List<SecurityConfigurationMaster> masters = new ArrayList<SecurityConfigurationMaster>();
 
     /**
@@ -51,10 +60,9 @@ public class SecurityConfiguration {
      * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * (Required)
      * 
-     * @return
-     *     The deliveryDate
      */
     @JsonProperty("deliveryDate")
+    @JacksonXmlProperty(localName = "deliveryDate")
     public Date getDeliveryDate() {
         return deliveryDate;
     }
@@ -65,82 +73,57 @@ public class SecurityConfiguration {
      * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * (Required)
      * 
-     * @param deliveryDate
-     *     The deliveryDate
      */
     @JsonProperty("deliveryDate")
+    @JacksonXmlProperty(localName = "deliveryDate")
     public void setDeliveryDate(Date deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
 
-    /**
-     * 
-     * @return
-     *     The main
-     */
     @JsonProperty("main")
+    @JacksonXmlProperty(localName = "main")
     public List<SecurityConfigurationMainEntry> getMain() {
         return main;
     }
 
-    /**
-     * 
-     * @param main
-     *     The main
-     */
     @JsonProperty("main")
+    @JacksonXmlProperty(localName = "main")
     public void setMain(List<SecurityConfigurationMainEntry> main) {
         this.main = main;
     }
 
-    /**
-     * 
-     * @return
-     *     The users
-     */
     @JsonProperty("users")
+    @JacksonXmlProperty(localName = "user")
     public List<SecurityConfigurationUser> getUsers() {
         return users;
     }
 
-    /**
-     * 
-     * @param users
-     *     The users
-     */
     @JsonProperty("users")
+    @JacksonXmlProperty(localName = "user")
     public void setUsers(List<SecurityConfigurationUser> users) {
         this.users = users;
     }
 
-    /**
-     * 
-     * @return
-     *     The masters
-     */
     @JsonProperty("masters")
+    @JacksonXmlProperty(localName = "master")
     public List<SecurityConfigurationMaster> getMasters() {
         return masters;
     }
 
-    /**
-     * 
-     * @param masters
-     *     The masters
-     */
     @JsonProperty("masters")
+    @JacksonXmlProperty(localName = "master")
     public void setMasters(List<SecurityConfigurationMaster> masters) {
         this.masters = masters;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("main", main).append("users", users).append("masters", masters).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(deliveryDate).append(main).append(users).append(masters).toHashCode();
+        return new HashCodeBuilder().append(masters).append(main).append(deliveryDate).append(users).toHashCode();
     }
 
     @Override
@@ -152,7 +135,7 @@ public class SecurityConfiguration {
             return false;
         }
         SecurityConfiguration rhs = ((SecurityConfiguration) other);
-        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(main, rhs.main).append(users, rhs.users).append(masters, rhs.masters).isEquals();
+        return new EqualsBuilder().append(masters, rhs.masters).append(main, rhs.main).append(deliveryDate, rhs.deliveryDate).append(users, rhs.users).isEquals();
     }
 
 }

@@ -4,10 +4,12 @@ package com.sos.joc.model.plan;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.sos.joc.model.calendar.Period;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -21,7 +23,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "deliveryDate",
     "timeZone",
@@ -37,6 +38,8 @@ public class RunTime {
      * 
      */
     @JsonProperty("deliveryDate")
+    @JsonPropertyDescription("Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
+    @JacksonXmlProperty(localName = "deliveryDate")
     private Date deliveryDate;
     /**
      * 
@@ -44,6 +47,7 @@ public class RunTime {
      * 
      */
     @JsonProperty("timeZone")
+    @JacksonXmlProperty(localName = "timeZone")
     private String timeZone = "UTC";
     /**
      * 
@@ -51,6 +55,8 @@ public class RunTime {
      * 
      */
     @JsonProperty("periods")
+    @JacksonXmlProperty(localName = "period")
+    @JacksonXmlElementWrapper(useWrapping = true, localName = "periods")
     private List<Period> periods = new ArrayList<Period>();
 
     /**
@@ -59,10 +65,9 @@ public class RunTime {
      * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * (Required)
      * 
-     * @return
-     *     The deliveryDate
      */
     @JsonProperty("deliveryDate")
+    @JacksonXmlProperty(localName = "deliveryDate")
     public Date getDeliveryDate() {
         return deliveryDate;
     }
@@ -73,10 +78,9 @@ public class RunTime {
      * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * (Required)
      * 
-     * @param deliveryDate
-     *     The deliveryDate
      */
     @JsonProperty("deliveryDate")
+    @JacksonXmlProperty(localName = "deliveryDate")
     public void setDeliveryDate(Date deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
@@ -85,10 +89,9 @@ public class RunTime {
      * 
      * (Required)
      * 
-     * @return
-     *     The timeZone
      */
     @JsonProperty("timeZone")
+    @JacksonXmlProperty(localName = "timeZone")
     public String getTimeZone() {
         return timeZone;
     }
@@ -97,10 +100,9 @@ public class RunTime {
      * 
      * (Required)
      * 
-     * @param timeZone
-     *     The timeZone
      */
     @JsonProperty("timeZone")
+    @JacksonXmlProperty(localName = "timeZone")
     public void setTimeZone(String timeZone) {
         this.timeZone = timeZone;
     }
@@ -109,10 +111,9 @@ public class RunTime {
      * 
      * (Required)
      * 
-     * @return
-     *     The periods
      */
     @JsonProperty("periods")
+    @JacksonXmlProperty(localName = "period")
     public List<Period> getPeriods() {
         return periods;
     }
@@ -121,22 +122,21 @@ public class RunTime {
      * 
      * (Required)
      * 
-     * @param periods
-     *     The periods
      */
     @JsonProperty("periods")
+    @JacksonXmlProperty(localName = "period")
     public void setPeriods(List<Period> periods) {
         this.periods = periods;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("timeZone", timeZone).append("periods", periods).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(deliveryDate).append(timeZone).append(periods).toHashCode();
+        return new HashCodeBuilder().append(timeZone).append(periods).append(deliveryDate).toHashCode();
     }
 
     @Override
@@ -148,7 +148,7 @@ public class RunTime {
             return false;
         }
         RunTime rhs = ((RunTime) other);
-        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(timeZone, rhs.timeZone).append(periods, rhs.periods).isEquals();
+        return new EqualsBuilder().append(timeZone, rhs.timeZone).append(periods, rhs.periods).append(deliveryDate, rhs.deliveryDate).isEquals();
     }
 
 }

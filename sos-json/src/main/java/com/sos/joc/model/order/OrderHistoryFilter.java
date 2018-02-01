@@ -1,10 +1,11 @@
 
 package com.sos.joc.model.order;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.sos.joc.model.common.LogMime;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -18,7 +19,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobschedulerId",
     "jobChain",
@@ -34,6 +34,7 @@ public class OrderHistoryFilter {
      * 
      */
     @JsonProperty("jobschedulerId")
+    @JacksonXmlProperty(localName = "jobschedulerId")
     private String jobschedulerId;
     /**
      * path
@@ -43,6 +44,8 @@ public class OrderHistoryFilter {
      * 
      */
     @JsonProperty("jobChain")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
+    @JacksonXmlProperty(localName = "jobChain")
     private String jobChain;
     /**
      * 
@@ -50,6 +53,7 @@ public class OrderHistoryFilter {
      * 
      */
     @JsonProperty("orderId")
+    @JacksonXmlProperty(localName = "orderId")
     private String orderId;
     /**
      * 
@@ -57,6 +61,7 @@ public class OrderHistoryFilter {
      * 
      */
     @JsonProperty("historyId")
+    @JacksonXmlProperty(localName = "historyId")
     private String historyId;
     /**
      * log mime filter
@@ -65,16 +70,17 @@ public class OrderHistoryFilter {
      * 
      */
     @JsonProperty("mime")
+    @JsonPropertyDescription("The log can have a HTML representation where the HTML gets a highlighting via CSS classes.")
+    @JacksonXmlProperty(localName = "mime")
     private LogMime mime = LogMime.fromValue("PLAIN");
 
     /**
      * 
      * (Required)
      * 
-     * @return
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
+    @JacksonXmlProperty(localName = "jobschedulerId")
     public String getJobschedulerId() {
         return jobschedulerId;
     }
@@ -83,10 +89,9 @@ public class OrderHistoryFilter {
      * 
      * (Required)
      * 
-     * @param jobschedulerId
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
+    @JacksonXmlProperty(localName = "jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
         this.jobschedulerId = jobschedulerId;
     }
@@ -97,10 +102,9 @@ public class OrderHistoryFilter {
      * absolute path based on live folder of a JobScheduler object.
      * (Required)
      * 
-     * @return
-     *     The jobChain
      */
     @JsonProperty("jobChain")
+    @JacksonXmlProperty(localName = "jobChain")
     public String getJobChain() {
         return jobChain;
     }
@@ -111,10 +115,9 @@ public class OrderHistoryFilter {
      * absolute path based on live folder of a JobScheduler object.
      * (Required)
      * 
-     * @param jobChain
-     *     The jobChain
      */
     @JsonProperty("jobChain")
+    @JacksonXmlProperty(localName = "jobChain")
     public void setJobChain(String jobChain) {
         this.jobChain = jobChain;
     }
@@ -123,10 +126,9 @@ public class OrderHistoryFilter {
      * 
      * (Required)
      * 
-     * @return
-     *     The orderId
      */
     @JsonProperty("orderId")
+    @JacksonXmlProperty(localName = "orderId")
     public String getOrderId() {
         return orderId;
     }
@@ -135,10 +137,9 @@ public class OrderHistoryFilter {
      * 
      * (Required)
      * 
-     * @param orderId
-     *     The orderId
      */
     @JsonProperty("orderId")
+    @JacksonXmlProperty(localName = "orderId")
     public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
@@ -147,10 +148,9 @@ public class OrderHistoryFilter {
      * 
      * (Required)
      * 
-     * @return
-     *     The historyId
      */
     @JsonProperty("historyId")
+    @JacksonXmlProperty(localName = "historyId")
     public String getHistoryId() {
         return historyId;
     }
@@ -159,10 +159,9 @@ public class OrderHistoryFilter {
      * 
      * (Required)
      * 
-     * @param historyId
-     *     The historyId
      */
     @JsonProperty("historyId")
+    @JacksonXmlProperty(localName = "historyId")
     public void setHistoryId(String historyId) {
         this.historyId = historyId;
     }
@@ -172,10 +171,9 @@ public class OrderHistoryFilter {
      * <p>
      * The log can have a HTML representation where the HTML gets a highlighting via CSS classes.
      * 
-     * @return
-     *     The mime
      */
     @JsonProperty("mime")
+    @JacksonXmlProperty(localName = "mime")
     public LogMime getMime() {
         return mime;
     }
@@ -185,22 +183,21 @@ public class OrderHistoryFilter {
      * <p>
      * The log can have a HTML representation where the HTML gets a highlighting via CSS classes.
      * 
-     * @param mime
-     *     The mime
      */
     @JsonProperty("mime")
+    @JacksonXmlProperty(localName = "mime")
     public void setMime(LogMime mime) {
         this.mime = mime;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("jobChain", jobChain).append("orderId", orderId).append("historyId", historyId).append("mime", mime).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(jobChain).append(orderId).append(historyId).append(mime).toHashCode();
+        return new HashCodeBuilder().append(jobChain).append(jobschedulerId).append(orderId).append(historyId).append(mime).toHashCode();
     }
 
     @Override
@@ -212,7 +209,7 @@ public class OrderHistoryFilter {
             return false;
         }
         OrderHistoryFilter rhs = ((OrderHistoryFilter) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(jobChain, rhs.jobChain).append(orderId, rhs.orderId).append(historyId, rhs.historyId).append(mime, rhs.mime).isEquals();
+        return new EqualsBuilder().append(jobChain, rhs.jobChain).append(jobschedulerId, rhs.jobschedulerId).append(orderId, rhs.orderId).append(historyId, rhs.historyId).append(mime, rhs.mime).isEquals();
     }
 
 }

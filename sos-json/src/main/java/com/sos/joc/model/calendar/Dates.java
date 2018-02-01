@@ -3,10 +3,12 @@ package com.sos.joc.model.calendar;
 
 import java.util.Date;
 import java.util.List;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -19,7 +21,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "deliveryDate",
     "dates",
@@ -35,6 +36,8 @@ public class Dates {
      * 
      */
     @JsonProperty("deliveryDate")
+    @JsonPropertyDescription("Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
+    @JacksonXmlProperty(localName = "deliveryDate")
     private Date deliveryDate;
     /**
      * 
@@ -42,8 +45,12 @@ public class Dates {
      * 
      */
     @JsonProperty("dates")
+    @JacksonXmlProperty(localName = "date")
+    @JacksonXmlElementWrapper(useWrapping = true, localName = "dates")
     private List<String> dates = null;
     @JsonProperty("withExcludes")
+    @JacksonXmlProperty(localName = "withExclude")
+    @JacksonXmlElementWrapper(useWrapping = true, localName = "withExcludes")
     private List<String> withExcludes = null;
 
     /**
@@ -52,10 +59,9 @@ public class Dates {
      * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * (Required)
      * 
-     * @return
-     *     The deliveryDate
      */
     @JsonProperty("deliveryDate")
+    @JacksonXmlProperty(localName = "deliveryDate")
     public Date getDeliveryDate() {
         return deliveryDate;
     }
@@ -66,10 +72,9 @@ public class Dates {
      * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * (Required)
      * 
-     * @param deliveryDate
-     *     The deliveryDate
      */
     @JsonProperty("deliveryDate")
+    @JacksonXmlProperty(localName = "deliveryDate")
     public void setDeliveryDate(Date deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
@@ -78,10 +83,9 @@ public class Dates {
      * 
      * (Required)
      * 
-     * @return
-     *     The dates
      */
     @JsonProperty("dates")
+    @JacksonXmlProperty(localName = "date")
     public List<String> getDates() {
         return dates;
     }
@@ -90,42 +94,33 @@ public class Dates {
      * 
      * (Required)
      * 
-     * @param dates
-     *     The dates
      */
     @JsonProperty("dates")
+    @JacksonXmlProperty(localName = "date")
     public void setDates(List<String> dates) {
         this.dates = dates;
     }
 
-    /**
-     * 
-     * @return
-     *     The withExcludes
-     */
     @JsonProperty("withExcludes")
+    @JacksonXmlProperty(localName = "withExclude")
     public List<String> getWithExcludes() {
         return withExcludes;
     }
 
-    /**
-     * 
-     * @param withExcludes
-     *     The withExcludes
-     */
     @JsonProperty("withExcludes")
+    @JacksonXmlProperty(localName = "withExclude")
     public void setWithExcludes(List<String> withExcludes) {
         this.withExcludes = withExcludes;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("dates", dates).append("withExcludes", withExcludes).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(deliveryDate).append(dates).append(withExcludes).toHashCode();
+        return new HashCodeBuilder().append(dates).append(deliveryDate).append(withExcludes).toHashCode();
     }
 
     @Override
@@ -137,7 +132,7 @@ public class Dates {
             return false;
         }
         Dates rhs = ((Dates) other);
-        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(dates, rhs.dates).append(withExcludes, rhs.withExcludes).isEquals();
+        return new EqualsBuilder().append(dates, rhs.dates).append(deliveryDate, rhs.deliveryDate).append(withExcludes, rhs.withExcludes).isEquals();
     }
 
 }

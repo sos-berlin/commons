@@ -1,10 +1,10 @@
 
 package com.sos.joc.model.audit;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -17,7 +17,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "comment",
     "timeSpent",
@@ -26,6 +25,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class AuditParams {
 
     @JsonProperty("comment")
+    @JacksonXmlProperty(localName = "comment")
     private String comment;
     /**
      * non negative integer
@@ -34,26 +34,20 @@ public class AuditParams {
      * 
      */
     @JsonProperty("timeSpent")
+    @JacksonXmlProperty(localName = "timeSpent")
     private Integer timeSpent;
     @JsonProperty("ticketLink")
+    @JacksonXmlProperty(localName = "ticketLink")
     private String ticketLink;
 
-    /**
-     * 
-     * @return
-     *     The comment
-     */
     @JsonProperty("comment")
+    @JacksonXmlProperty(localName = "comment")
     public String getComment() {
         return comment;
     }
 
-    /**
-     * 
-     * @param comment
-     *     The comment
-     */
     @JsonProperty("comment")
+    @JacksonXmlProperty(localName = "comment")
     public void setComment(String comment) {
         this.comment = comment;
     }
@@ -63,10 +57,9 @@ public class AuditParams {
      * <p>
      * 
      * 
-     * @return
-     *     The timeSpent
      */
     @JsonProperty("timeSpent")
+    @JacksonXmlProperty(localName = "timeSpent")
     public Integer getTimeSpent() {
         return timeSpent;
     }
@@ -76,37 +69,28 @@ public class AuditParams {
      * <p>
      * 
      * 
-     * @param timeSpent
-     *     The timeSpent
      */
     @JsonProperty("timeSpent")
+    @JacksonXmlProperty(localName = "timeSpent")
     public void setTimeSpent(Integer timeSpent) {
         this.timeSpent = timeSpent;
     }
 
-    /**
-     * 
-     * @return
-     *     The ticketLink
-     */
     @JsonProperty("ticketLink")
+    @JacksonXmlProperty(localName = "ticketLink")
     public String getTicketLink() {
         return ticketLink;
     }
 
-    /**
-     * 
-     * @param ticketLink
-     *     The ticketLink
-     */
     @JsonProperty("ticketLink")
+    @JacksonXmlProperty(localName = "ticketLink")
     public void setTicketLink(String ticketLink) {
         this.ticketLink = ticketLink;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("comment", comment).append("timeSpent", timeSpent).append("ticketLink", ticketLink).toString();
     }
 
     @Override

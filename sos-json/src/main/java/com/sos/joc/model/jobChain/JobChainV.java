@@ -4,10 +4,12 @@ package com.sos.joc.model.jobChain;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.sos.joc.model.common.ConfigurationState;
 import com.sos.joc.model.order.OrderV;
 import com.sos.joc.model.order.OrdersSummary;
@@ -23,7 +25,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "surveyDate",
     "path",
@@ -46,6 +47,8 @@ public class JobChainV {
      * 
      */
     @JsonProperty("surveyDate")
+    @JsonPropertyDescription("Current date of the JobScheduler Master/Agent. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
+    @JacksonXmlProperty(localName = "surveyDate")
     private Date surveyDate;
     /**
      * path
@@ -54,8 +57,11 @@ public class JobChainV {
      * 
      */
     @JsonProperty("path")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
+    @JacksonXmlProperty(localName = "path")
     private String path;
     @JsonProperty("name")
+    @JacksonXmlProperty(localName = "name")
     private String name;
     /**
      * jobChain state
@@ -64,6 +70,7 @@ public class JobChainV {
      * 
      */
     @JsonProperty("state")
+    @JacksonXmlProperty(localName = "state")
     private JobChainState state;
     /**
      * non negative integer
@@ -72,12 +79,19 @@ public class JobChainV {
      * 
      */
     @JsonProperty("numOfNodes")
+    @JacksonXmlProperty(localName = "numOfNodes")
     private Integer numOfNodes;
     @JsonProperty("nodes")
+    @JacksonXmlProperty(localName = "node")
+    @JacksonXmlElementWrapper(useWrapping = true, localName = "nodes")
     private List<JobChainNodeV> nodes = new ArrayList<JobChainNodeV>();
     @JsonProperty("fileOrderSources")
+    @JacksonXmlProperty(localName = "fileOrderSource")
+    @JacksonXmlElementWrapper(useWrapping = true, localName = "fileOrderSources")
     private List<FileWatchingNodeV> fileOrderSources = new ArrayList<FileWatchingNodeV>();
     @JsonProperty("blacklist")
+    @JacksonXmlProperty(localName = "blacklist")
+    @JacksonXmlElementWrapper(useWrapping = true, localName = "blacklist")
     private List<OrderV> blacklist = new ArrayList<OrderV>();
     /**
      * non negative integer
@@ -86,6 +100,7 @@ public class JobChainV {
      * 
      */
     @JsonProperty("numOfOrders")
+    @JacksonXmlProperty(localName = "numOfOrders")
     private Integer numOfOrders;
     /**
      * configuration status
@@ -94,6 +109,7 @@ public class JobChainV {
      * 
      */
     @JsonProperty("configurationStatus")
+    @JacksonXmlProperty(localName = "configurationStatus")
     private ConfigurationState configurationStatus;
     /**
      * job chain order summary
@@ -102,6 +118,8 @@ public class JobChainV {
      * 
      */
     @JsonProperty("ordersSummary")
+    @JsonPropertyDescription("only relevant for order jobs and is empty if job's order queue is empty")
+    @JacksonXmlProperty(localName = "ordersSummary")
     private OrdersSummary ordersSummary;
 
     /**
@@ -109,10 +127,9 @@ public class JobChainV {
      * <p>
      * Current date of the JobScheduler Master/Agent. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * 
-     * @return
-     *     The surveyDate
      */
     @JsonProperty("surveyDate")
+    @JacksonXmlProperty(localName = "surveyDate")
     public Date getSurveyDate() {
         return surveyDate;
     }
@@ -122,10 +139,9 @@ public class JobChainV {
      * <p>
      * Current date of the JobScheduler Master/Agent. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * 
-     * @param surveyDate
-     *     The surveyDate
      */
     @JsonProperty("surveyDate")
+    @JacksonXmlProperty(localName = "surveyDate")
     public void setSurveyDate(Date surveyDate) {
         this.surveyDate = surveyDate;
     }
@@ -135,10 +151,9 @@ public class JobChainV {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @return
-     *     The path
      */
     @JsonProperty("path")
+    @JacksonXmlProperty(localName = "path")
     public String getPath() {
         return path;
     }
@@ -148,30 +163,21 @@ public class JobChainV {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @param path
-     *     The path
      */
     @JsonProperty("path")
+    @JacksonXmlProperty(localName = "path")
     public void setPath(String path) {
         this.path = path;
     }
 
-    /**
-     * 
-     * @return
-     *     The name
-     */
     @JsonProperty("name")
+    @JacksonXmlProperty(localName = "name")
     public String getName() {
         return name;
     }
 
-    /**
-     * 
-     * @param name
-     *     The name
-     */
     @JsonProperty("name")
+    @JacksonXmlProperty(localName = "name")
     public void setName(String name) {
         this.name = name;
     }
@@ -181,10 +187,9 @@ public class JobChainV {
      * <p>
      * 
      * 
-     * @return
-     *     The state
      */
     @JsonProperty("state")
+    @JacksonXmlProperty(localName = "state")
     public JobChainState getState() {
         return state;
     }
@@ -194,10 +199,9 @@ public class JobChainV {
      * <p>
      * 
      * 
-     * @param state
-     *     The state
      */
     @JsonProperty("state")
+    @JacksonXmlProperty(localName = "state")
     public void setState(JobChainState state) {
         this.state = state;
     }
@@ -207,10 +211,9 @@ public class JobChainV {
      * <p>
      * 
      * 
-     * @return
-     *     The numOfNodes
      */
     @JsonProperty("numOfNodes")
+    @JacksonXmlProperty(localName = "numOfNodes")
     public Integer getNumOfNodes() {
         return numOfNodes;
     }
@@ -220,70 +223,45 @@ public class JobChainV {
      * <p>
      * 
      * 
-     * @param numOfNodes
-     *     The numOfNodes
      */
     @JsonProperty("numOfNodes")
+    @JacksonXmlProperty(localName = "numOfNodes")
     public void setNumOfNodes(Integer numOfNodes) {
         this.numOfNodes = numOfNodes;
     }
 
-    /**
-     * 
-     * @return
-     *     The nodes
-     */
     @JsonProperty("nodes")
+    @JacksonXmlProperty(localName = "node")
     public List<JobChainNodeV> getNodes() {
         return nodes;
     }
 
-    /**
-     * 
-     * @param nodes
-     *     The nodes
-     */
     @JsonProperty("nodes")
+    @JacksonXmlProperty(localName = "node")
     public void setNodes(List<JobChainNodeV> nodes) {
         this.nodes = nodes;
     }
 
-    /**
-     * 
-     * @return
-     *     The fileOrderSources
-     */
     @JsonProperty("fileOrderSources")
+    @JacksonXmlProperty(localName = "fileOrderSource")
     public List<FileWatchingNodeV> getFileOrderSources() {
         return fileOrderSources;
     }
 
-    /**
-     * 
-     * @param fileOrderSources
-     *     The fileOrderSources
-     */
     @JsonProperty("fileOrderSources")
+    @JacksonXmlProperty(localName = "fileOrderSource")
     public void setFileOrderSources(List<FileWatchingNodeV> fileOrderSources) {
         this.fileOrderSources = fileOrderSources;
     }
 
-    /**
-     * 
-     * @return
-     *     The blacklist
-     */
     @JsonProperty("blacklist")
+    @JacksonXmlProperty(localName = "blacklist")
     public List<OrderV> getBlacklist() {
         return blacklist;
     }
 
-    /**
-     * 
-     * @param blacklist
-     *     The blacklist
-     */
     @JsonProperty("blacklist")
+    @JacksonXmlProperty(localName = "blacklist")
     public void setBlacklist(List<OrderV> blacklist) {
         this.blacklist = blacklist;
     }
@@ -293,10 +271,9 @@ public class JobChainV {
      * <p>
      * 
      * 
-     * @return
-     *     The numOfOrders
      */
     @JsonProperty("numOfOrders")
+    @JacksonXmlProperty(localName = "numOfOrders")
     public Integer getNumOfOrders() {
         return numOfOrders;
     }
@@ -306,10 +283,9 @@ public class JobChainV {
      * <p>
      * 
      * 
-     * @param numOfOrders
-     *     The numOfOrders
      */
     @JsonProperty("numOfOrders")
+    @JacksonXmlProperty(localName = "numOfOrders")
     public void setNumOfOrders(Integer numOfOrders) {
         this.numOfOrders = numOfOrders;
     }
@@ -319,10 +295,9 @@ public class JobChainV {
      * <p>
      * 
      * 
-     * @return
-     *     The configurationStatus
      */
     @JsonProperty("configurationStatus")
+    @JacksonXmlProperty(localName = "configurationStatus")
     public ConfigurationState getConfigurationStatus() {
         return configurationStatus;
     }
@@ -332,10 +307,9 @@ public class JobChainV {
      * <p>
      * 
      * 
-     * @param configurationStatus
-     *     The configurationStatus
      */
     @JsonProperty("configurationStatus")
+    @JacksonXmlProperty(localName = "configurationStatus")
     public void setConfigurationStatus(ConfigurationState configurationStatus) {
         this.configurationStatus = configurationStatus;
     }
@@ -345,10 +319,9 @@ public class JobChainV {
      * <p>
      * only relevant for order jobs and is empty if job's order queue is empty
      * 
-     * @return
-     *     The ordersSummary
      */
     @JsonProperty("ordersSummary")
+    @JacksonXmlProperty(localName = "ordersSummary")
     public OrdersSummary getOrdersSummary() {
         return ordersSummary;
     }
@@ -358,22 +331,21 @@ public class JobChainV {
      * <p>
      * only relevant for order jobs and is empty if job's order queue is empty
      * 
-     * @param ordersSummary
-     *     The ordersSummary
      */
     @JsonProperty("ordersSummary")
+    @JacksonXmlProperty(localName = "ordersSummary")
     public void setOrdersSummary(OrdersSummary ordersSummary) {
         this.ordersSummary = ordersSummary;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("surveyDate", surveyDate).append("path", path).append("name", name).append("state", state).append("numOfNodes", numOfNodes).append("nodes", nodes).append("fileOrderSources", fileOrderSources).append("blacklist", blacklist).append("numOfOrders", numOfOrders).append("configurationStatus", configurationStatus).append("ordersSummary", ordersSummary).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(surveyDate).append(path).append(name).append(state).append(numOfNodes).append(nodes).append(fileOrderSources).append(blacklist).append(numOfOrders).append(configurationStatus).append(ordersSummary).toHashCode();
+        return new HashCodeBuilder().append(path).append(fileOrderSources).append(nodes).append(surveyDate).append(configurationStatus).append(numOfOrders).append(name).append(blacklist).append(state).append(numOfNodes).append(ordersSummary).toHashCode();
     }
 
     @Override
@@ -385,7 +357,7 @@ public class JobChainV {
             return false;
         }
         JobChainV rhs = ((JobChainV) other);
-        return new EqualsBuilder().append(surveyDate, rhs.surveyDate).append(path, rhs.path).append(name, rhs.name).append(state, rhs.state).append(numOfNodes, rhs.numOfNodes).append(nodes, rhs.nodes).append(fileOrderSources, rhs.fileOrderSources).append(blacklist, rhs.blacklist).append(numOfOrders, rhs.numOfOrders).append(configurationStatus, rhs.configurationStatus).append(ordersSummary, rhs.ordersSummary).isEquals();
+        return new EqualsBuilder().append(path, rhs.path).append(fileOrderSources, rhs.fileOrderSources).append(nodes, rhs.nodes).append(surveyDate, rhs.surveyDate).append(configurationStatus, rhs.configurationStatus).append(numOfOrders, rhs.numOfOrders).append(name, rhs.name).append(blacklist, rhs.blacklist).append(state, rhs.state).append(numOfNodes, rhs.numOfNodes).append(ordersSummary, rhs.ordersSummary).isEquals();
     }
 
 }

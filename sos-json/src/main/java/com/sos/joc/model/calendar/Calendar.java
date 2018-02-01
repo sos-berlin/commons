@@ -2,10 +2,12 @@
 package com.sos.joc.model.calendar;
 
 import java.util.List;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -18,7 +20,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "id",
     "path",
@@ -43,6 +44,7 @@ public class Calendar {
      * 
      */
     @JsonProperty("id")
+    @JacksonXmlProperty(localName = "id")
     private Long id;
     /**
      * path
@@ -51,8 +53,11 @@ public class Calendar {
      * 
      */
     @JsonProperty("path")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
+    @JacksonXmlProperty(localName = "path")
     private String path;
     @JsonProperty("name")
+    @JacksonXmlProperty(localName = "name")
     private String name;
     /**
      * path
@@ -61,6 +66,8 @@ public class Calendar {
      * 
      */
     @JsonProperty("basedOn")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
+    @JacksonXmlProperty(localName = "basedOn")
     private String basedOn;
     /**
      * calendar type
@@ -69,10 +76,13 @@ public class Calendar {
      * 
      */
     @JsonProperty("type")
+    @JacksonXmlProperty(localName = "type")
     private CalendarType type = CalendarType.fromValue("WORKING_DAYS");
     @JsonProperty("category")
+    @JacksonXmlProperty(localName = "category")
     private String category;
     @JsonProperty("title")
+    @JacksonXmlProperty(localName = "title")
     private String title;
     /**
      * date
@@ -81,6 +91,8 @@ public class Calendar {
      * 
      */
     @JsonProperty("from")
+    @JsonPropertyDescription("ISO date YYYY-MM-DD")
+    @JacksonXmlProperty(localName = "from")
     private String from;
     /**
      * date
@@ -89,8 +101,12 @@ public class Calendar {
      * 
      */
     @JsonProperty("to")
+    @JsonPropertyDescription("ISO date YYYY-MM-DD")
+    @JacksonXmlProperty(localName = "to")
     private String to;
     @JsonProperty("periods")
+    @JacksonXmlProperty(localName = "period")
+    @JacksonXmlElementWrapper(useWrapping = true, localName = "periods")
     private List<Period> periods = null;
     /**
      * frequencies
@@ -99,6 +115,7 @@ public class Calendar {
      * 
      */
     @JsonProperty("includes")
+    @JacksonXmlProperty(localName = "includes")
     private Frequencies includes;
     /**
      * frequencies
@@ -107,6 +124,7 @@ public class Calendar {
      * 
      */
     @JsonProperty("excludes")
+    @JacksonXmlProperty(localName = "excludes")
     private Frequencies excludes;
     /**
      * collections of objects which use calendar
@@ -115,6 +133,7 @@ public class Calendar {
      * 
      */
     @JsonProperty("usedBy")
+    @JacksonXmlProperty(localName = "usedBy")
     private UsedBy usedBy;
 
     /**
@@ -122,10 +141,9 @@ public class Calendar {
      * <p>
      * 
      * 
-     * @return
-     *     The id
      */
     @JsonProperty("id")
+    @JacksonXmlProperty(localName = "id")
     public Long getId() {
         return id;
     }
@@ -135,10 +153,9 @@ public class Calendar {
      * <p>
      * 
      * 
-     * @param id
-     *     The id
      */
     @JsonProperty("id")
+    @JacksonXmlProperty(localName = "id")
     public void setId(Long id) {
         this.id = id;
     }
@@ -148,10 +165,9 @@ public class Calendar {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @return
-     *     The path
      */
     @JsonProperty("path")
+    @JacksonXmlProperty(localName = "path")
     public String getPath() {
         return path;
     }
@@ -161,30 +177,21 @@ public class Calendar {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @param path
-     *     The path
      */
     @JsonProperty("path")
+    @JacksonXmlProperty(localName = "path")
     public void setPath(String path) {
         this.path = path;
     }
 
-    /**
-     * 
-     * @return
-     *     The name
-     */
     @JsonProperty("name")
+    @JacksonXmlProperty(localName = "name")
     public String getName() {
         return name;
     }
 
-    /**
-     * 
-     * @param name
-     *     The name
-     */
     @JsonProperty("name")
+    @JacksonXmlProperty(localName = "name")
     public void setName(String name) {
         this.name = name;
     }
@@ -194,10 +201,9 @@ public class Calendar {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @return
-     *     The basedOn
      */
     @JsonProperty("basedOn")
+    @JacksonXmlProperty(localName = "basedOn")
     public String getBasedOn() {
         return basedOn;
     }
@@ -207,10 +213,9 @@ public class Calendar {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @param basedOn
-     *     The basedOn
      */
     @JsonProperty("basedOn")
+    @JacksonXmlProperty(localName = "basedOn")
     public void setBasedOn(String basedOn) {
         this.basedOn = basedOn;
     }
@@ -220,10 +225,9 @@ public class Calendar {
      * <p>
      * 
      * 
-     * @return
-     *     The type
      */
     @JsonProperty("type")
+    @JacksonXmlProperty(localName = "type")
     public CalendarType getType() {
         return type;
     }
@@ -233,50 +237,33 @@ public class Calendar {
      * <p>
      * 
      * 
-     * @param type
-     *     The type
      */
     @JsonProperty("type")
+    @JacksonXmlProperty(localName = "type")
     public void setType(CalendarType type) {
         this.type = type;
     }
 
-    /**
-     * 
-     * @return
-     *     The category
-     */
     @JsonProperty("category")
+    @JacksonXmlProperty(localName = "category")
     public String getCategory() {
         return category;
     }
 
-    /**
-     * 
-     * @param category
-     *     The category
-     */
     @JsonProperty("category")
+    @JacksonXmlProperty(localName = "category")
     public void setCategory(String category) {
         this.category = category;
     }
 
-    /**
-     * 
-     * @return
-     *     The title
-     */
     @JsonProperty("title")
+    @JacksonXmlProperty(localName = "title")
     public String getTitle() {
         return title;
     }
 
-    /**
-     * 
-     * @param title
-     *     The title
-     */
     @JsonProperty("title")
+    @JacksonXmlProperty(localName = "title")
     public void setTitle(String title) {
         this.title = title;
     }
@@ -286,10 +273,9 @@ public class Calendar {
      * <p>
      * ISO date YYYY-MM-DD
      * 
-     * @return
-     *     The from
      */
     @JsonProperty("from")
+    @JacksonXmlProperty(localName = "from")
     public String getFrom() {
         return from;
     }
@@ -299,10 +285,9 @@ public class Calendar {
      * <p>
      * ISO date YYYY-MM-DD
      * 
-     * @param from
-     *     The from
      */
     @JsonProperty("from")
+    @JacksonXmlProperty(localName = "from")
     public void setFrom(String from) {
         this.from = from;
     }
@@ -312,10 +297,9 @@ public class Calendar {
      * <p>
      * ISO date YYYY-MM-DD
      * 
-     * @return
-     *     The to
      */
     @JsonProperty("to")
+    @JacksonXmlProperty(localName = "to")
     public String getTo() {
         return to;
     }
@@ -325,30 +309,21 @@ public class Calendar {
      * <p>
      * ISO date YYYY-MM-DD
      * 
-     * @param to
-     *     The to
      */
     @JsonProperty("to")
+    @JacksonXmlProperty(localName = "to")
     public void setTo(String to) {
         this.to = to;
     }
 
-    /**
-     * 
-     * @return
-     *     The periods
-     */
     @JsonProperty("periods")
+    @JacksonXmlProperty(localName = "period")
     public List<Period> getPeriods() {
         return periods;
     }
 
-    /**
-     * 
-     * @param periods
-     *     The periods
-     */
     @JsonProperty("periods")
+    @JacksonXmlProperty(localName = "period")
     public void setPeriods(List<Period> periods) {
         this.periods = periods;
     }
@@ -358,10 +333,9 @@ public class Calendar {
      * <p>
      * 
      * 
-     * @return
-     *     The includes
      */
     @JsonProperty("includes")
+    @JacksonXmlProperty(localName = "includes")
     public Frequencies getIncludes() {
         return includes;
     }
@@ -371,10 +345,9 @@ public class Calendar {
      * <p>
      * 
      * 
-     * @param includes
-     *     The includes
      */
     @JsonProperty("includes")
+    @JacksonXmlProperty(localName = "includes")
     public void setIncludes(Frequencies includes) {
         this.includes = includes;
     }
@@ -384,10 +357,9 @@ public class Calendar {
      * <p>
      * 
      * 
-     * @return
-     *     The excludes
      */
     @JsonProperty("excludes")
+    @JacksonXmlProperty(localName = "excludes")
     public Frequencies getExcludes() {
         return excludes;
     }
@@ -397,10 +369,9 @@ public class Calendar {
      * <p>
      * 
      * 
-     * @param excludes
-     *     The excludes
      */
     @JsonProperty("excludes")
+    @JacksonXmlProperty(localName = "excludes")
     public void setExcludes(Frequencies excludes) {
         this.excludes = excludes;
     }
@@ -410,10 +381,9 @@ public class Calendar {
      * <p>
      * 
      * 
-     * @return
-     *     The usedBy
      */
     @JsonProperty("usedBy")
+    @JacksonXmlProperty(localName = "usedBy")
     public UsedBy getUsedBy() {
         return usedBy;
     }
@@ -423,22 +393,21 @@ public class Calendar {
      * <p>
      * 
      * 
-     * @param usedBy
-     *     The usedBy
      */
     @JsonProperty("usedBy")
+    @JacksonXmlProperty(localName = "usedBy")
     public void setUsedBy(UsedBy usedBy) {
         this.usedBy = usedBy;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("id", id).append("path", path).append("name", name).append("basedOn", basedOn).append("type", type).append("category", category).append("title", title).append("from", from).append("to", to).append("periods", periods).append("includes", includes).append("excludes", excludes).append("usedBy", usedBy).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(id).append(path).append(name).append(basedOn).append(type).append(category).append(title).append(from).append(to).append(periods).append(includes).append(excludes).append(usedBy).toHashCode();
+        return new HashCodeBuilder().append(excludes).append(includes).append(type).append(title).append(path).append(name).append(periods).append(from).append(id).append(to).append(category).append(basedOn).append(usedBy).toHashCode();
     }
 
     @Override
@@ -450,7 +419,7 @@ public class Calendar {
             return false;
         }
         Calendar rhs = ((Calendar) other);
-        return new EqualsBuilder().append(id, rhs.id).append(path, rhs.path).append(name, rhs.name).append(basedOn, rhs.basedOn).append(type, rhs.type).append(category, rhs.category).append(title, rhs.title).append(from, rhs.from).append(to, rhs.to).append(periods, rhs.periods).append(includes, rhs.includes).append(excludes, rhs.excludes).append(usedBy, rhs.usedBy).isEquals();
+        return new EqualsBuilder().append(excludes, rhs.excludes).append(includes, rhs.includes).append(type, rhs.type).append(title, rhs.title).append(path, rhs.path).append(name, rhs.name).append(periods, rhs.periods).append(from, rhs.from).append(id, rhs.id).append(to, rhs.to).append(category, rhs.category).append(basedOn, rhs.basedOn).append(usedBy, rhs.usedBy).isEquals();
     }
 
 }

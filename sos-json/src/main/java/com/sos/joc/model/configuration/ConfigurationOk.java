@@ -2,10 +2,11 @@
 package com.sos.joc.model.configuration;
 
 import java.util.Date;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -18,7 +19,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "deliveryDate",
     "surveyDate",
@@ -34,12 +34,16 @@ public class ConfigurationOk {
      * 
      */
     @JsonProperty("deliveryDate")
+    @JsonPropertyDescription("Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
+    @JacksonXmlProperty(localName = "deliveryDate")
     private Date deliveryDate;
     /**
      * is also required for permanent or volatile requests
      * 
      */
     @JsonProperty("surveyDate")
+    @JsonPropertyDescription("is also required for permanent or volatile requests")
+    @JacksonXmlProperty(localName = "surveyDate")
     private Date surveyDate;
     /**
      * non negative long
@@ -49,6 +53,7 @@ public class ConfigurationOk {
      * 
      */
     @JsonProperty("id")
+    @JacksonXmlProperty(localName = "id")
     private Long id;
 
     /**
@@ -57,10 +62,9 @@ public class ConfigurationOk {
      * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * (Required)
      * 
-     * @return
-     *     The deliveryDate
      */
     @JsonProperty("deliveryDate")
+    @JacksonXmlProperty(localName = "deliveryDate")
     public Date getDeliveryDate() {
         return deliveryDate;
     }
@@ -71,10 +75,9 @@ public class ConfigurationOk {
      * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * (Required)
      * 
-     * @param deliveryDate
-     *     The deliveryDate
      */
     @JsonProperty("deliveryDate")
+    @JacksonXmlProperty(localName = "deliveryDate")
     public void setDeliveryDate(Date deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
@@ -82,10 +85,9 @@ public class ConfigurationOk {
     /**
      * is also required for permanent or volatile requests
      * 
-     * @return
-     *     The surveyDate
      */
     @JsonProperty("surveyDate")
+    @JacksonXmlProperty(localName = "surveyDate")
     public Date getSurveyDate() {
         return surveyDate;
     }
@@ -93,10 +95,9 @@ public class ConfigurationOk {
     /**
      * is also required for permanent or volatile requests
      * 
-     * @param surveyDate
-     *     The surveyDate
      */
     @JsonProperty("surveyDate")
+    @JacksonXmlProperty(localName = "surveyDate")
     public void setSurveyDate(Date surveyDate) {
         this.surveyDate = surveyDate;
     }
@@ -107,10 +108,9 @@ public class ConfigurationOk {
      * 
      * (Required)
      * 
-     * @return
-     *     The id
      */
     @JsonProperty("id")
+    @JacksonXmlProperty(localName = "id")
     public Long getId() {
         return id;
     }
@@ -121,22 +121,21 @@ public class ConfigurationOk {
      * 
      * (Required)
      * 
-     * @param id
-     *     The id
      */
     @JsonProperty("id")
+    @JacksonXmlProperty(localName = "id")
     public void setId(Long id) {
         this.id = id;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("surveyDate", surveyDate).append("id", id).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(deliveryDate).append(surveyDate).append(id).toHashCode();
+        return new HashCodeBuilder().append(id).append(deliveryDate).append(surveyDate).toHashCode();
     }
 
     @Override
@@ -148,7 +147,7 @@ public class ConfigurationOk {
             return false;
         }
         ConfigurationOk rhs = ((ConfigurationOk) other);
-        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(surveyDate, rhs.surveyDate).append(id, rhs.id).isEquals();
+        return new EqualsBuilder().append(id, rhs.id).append(deliveryDate, rhs.deliveryDate).append(surveyDate, rhs.surveyDate).isEquals();
     }
 
 }

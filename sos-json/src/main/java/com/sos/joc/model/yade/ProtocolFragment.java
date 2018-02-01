@@ -1,10 +1,10 @@
 
 package com.sos.joc.model.yade;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -17,7 +17,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "host",
     "protocol",
@@ -32,6 +31,7 @@ public class ProtocolFragment {
      * 
      */
     @JsonProperty("host")
+    @JacksonXmlProperty(localName = "host")
     private String host;
     /**
      * protocol
@@ -41,6 +41,7 @@ public class ProtocolFragment {
      * 
      */
     @JsonProperty("protocol")
+    @JacksonXmlProperty(localName = "protocol")
     private Protocol protocol;
     /**
      * non negative integer
@@ -49,18 +50,19 @@ public class ProtocolFragment {
      * 
      */
     @JsonProperty("port")
+    @JacksonXmlProperty(localName = "port")
     private Integer port;
     @JsonProperty("account")
+    @JacksonXmlProperty(localName = "account")
     private String account;
 
     /**
      * 
      * (Required)
      * 
-     * @return
-     *     The host
      */
     @JsonProperty("host")
+    @JacksonXmlProperty(localName = "host")
     public String getHost() {
         return host;
     }
@@ -69,10 +71,9 @@ public class ProtocolFragment {
      * 
      * (Required)
      * 
-     * @param host
-     *     The host
      */
     @JsonProperty("host")
+    @JacksonXmlProperty(localName = "host")
     public void setHost(String host) {
         this.host = host;
     }
@@ -83,10 +84,9 @@ public class ProtocolFragment {
      * 
      * (Required)
      * 
-     * @return
-     *     The protocol
      */
     @JsonProperty("protocol")
+    @JacksonXmlProperty(localName = "protocol")
     public Protocol getProtocol() {
         return protocol;
     }
@@ -97,10 +97,9 @@ public class ProtocolFragment {
      * 
      * (Required)
      * 
-     * @param protocol
-     *     The protocol
      */
     @JsonProperty("protocol")
+    @JacksonXmlProperty(localName = "protocol")
     public void setProtocol(Protocol protocol) {
         this.protocol = protocol;
     }
@@ -110,10 +109,9 @@ public class ProtocolFragment {
      * <p>
      * 
      * 
-     * @return
-     *     The port
      */
     @JsonProperty("port")
+    @JacksonXmlProperty(localName = "port")
     public Integer getPort() {
         return port;
     }
@@ -123,37 +121,28 @@ public class ProtocolFragment {
      * <p>
      * 
      * 
-     * @param port
-     *     The port
      */
     @JsonProperty("port")
+    @JacksonXmlProperty(localName = "port")
     public void setPort(Integer port) {
         this.port = port;
     }
 
-    /**
-     * 
-     * @return
-     *     The account
-     */
     @JsonProperty("account")
+    @JacksonXmlProperty(localName = "account")
     public String getAccount() {
         return account;
     }
 
-    /**
-     * 
-     * @param account
-     *     The account
-     */
     @JsonProperty("account")
+    @JacksonXmlProperty(localName = "account")
     public void setAccount(String account) {
         this.account = account;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("host", host).append("protocol", protocol).append("port", port).append("account", account).toString();
     }
 
     @Override

@@ -2,10 +2,11 @@
 package com.sos.joc.model.job;
 
 import java.util.Date;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -18,7 +19,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "path",
     "orderId",
@@ -37,6 +37,8 @@ public class OrderOfTask {
      * 
      */
     @JsonProperty("path")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
+    @JacksonXmlProperty(localName = "path")
     private String path;
     /**
      * 
@@ -44,6 +46,7 @@ public class OrderOfTask {
      * 
      */
     @JsonProperty("orderId")
+    @JacksonXmlProperty(localName = "orderId")
     private String orderId;
     /**
      * path
@@ -53,8 +56,11 @@ public class OrderOfTask {
      * 
      */
     @JsonProperty("jobChain")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
+    @JacksonXmlProperty(localName = "jobChain")
     private String jobChain;
     @JsonProperty("title")
+    @JacksonXmlProperty(localName = "title")
     private String title;
     /**
      * name of the current node
@@ -62,6 +68,8 @@ public class OrderOfTask {
      * 
      */
     @JsonProperty("state")
+    @JsonPropertyDescription("name of the current node")
+    @JacksonXmlProperty(localName = "state")
     private String state;
     /**
      * timestamp
@@ -70,6 +78,8 @@ public class OrderOfTask {
      * 
      */
     @JsonProperty("inProcessSince")
+    @JsonPropertyDescription("Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty")
+    @JacksonXmlProperty(localName = "inProcessSince")
     private Date inProcessSince;
 
     /**
@@ -78,10 +88,9 @@ public class OrderOfTask {
      * absolute path based on live folder of a JobScheduler object.
      * (Required)
      * 
-     * @return
-     *     The path
      */
     @JsonProperty("path")
+    @JacksonXmlProperty(localName = "path")
     public String getPath() {
         return path;
     }
@@ -92,10 +101,9 @@ public class OrderOfTask {
      * absolute path based on live folder of a JobScheduler object.
      * (Required)
      * 
-     * @param path
-     *     The path
      */
     @JsonProperty("path")
+    @JacksonXmlProperty(localName = "path")
     public void setPath(String path) {
         this.path = path;
     }
@@ -104,10 +112,9 @@ public class OrderOfTask {
      * 
      * (Required)
      * 
-     * @return
-     *     The orderId
      */
     @JsonProperty("orderId")
+    @JacksonXmlProperty(localName = "orderId")
     public String getOrderId() {
         return orderId;
     }
@@ -116,10 +123,9 @@ public class OrderOfTask {
      * 
      * (Required)
      * 
-     * @param orderId
-     *     The orderId
      */
     @JsonProperty("orderId")
+    @JacksonXmlProperty(localName = "orderId")
     public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
@@ -130,10 +136,9 @@ public class OrderOfTask {
      * absolute path based on live folder of a JobScheduler object.
      * (Required)
      * 
-     * @return
-     *     The jobChain
      */
     @JsonProperty("jobChain")
+    @JacksonXmlProperty(localName = "jobChain")
     public String getJobChain() {
         return jobChain;
     }
@@ -144,30 +149,21 @@ public class OrderOfTask {
      * absolute path based on live folder of a JobScheduler object.
      * (Required)
      * 
-     * @param jobChain
-     *     The jobChain
      */
     @JsonProperty("jobChain")
+    @JacksonXmlProperty(localName = "jobChain")
     public void setJobChain(String jobChain) {
         this.jobChain = jobChain;
     }
 
-    /**
-     * 
-     * @return
-     *     The title
-     */
     @JsonProperty("title")
+    @JacksonXmlProperty(localName = "title")
     public String getTitle() {
         return title;
     }
 
-    /**
-     * 
-     * @param title
-     *     The title
-     */
     @JsonProperty("title")
+    @JacksonXmlProperty(localName = "title")
     public void setTitle(String title) {
         this.title = title;
     }
@@ -176,10 +172,9 @@ public class OrderOfTask {
      * name of the current node
      * (Required)
      * 
-     * @return
-     *     The state
      */
     @JsonProperty("state")
+    @JacksonXmlProperty(localName = "state")
     public String getState() {
         return state;
     }
@@ -188,10 +183,9 @@ public class OrderOfTask {
      * name of the current node
      * (Required)
      * 
-     * @param state
-     *     The state
      */
     @JsonProperty("state")
+    @JacksonXmlProperty(localName = "state")
     public void setState(String state) {
         this.state = state;
     }
@@ -201,10 +195,9 @@ public class OrderOfTask {
      * <p>
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
-     * @return
-     *     The inProcessSince
      */
     @JsonProperty("inProcessSince")
+    @JacksonXmlProperty(localName = "inProcessSince")
     public Date getInProcessSince() {
         return inProcessSince;
     }
@@ -214,22 +207,21 @@ public class OrderOfTask {
      * <p>
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
-     * @param inProcessSince
-     *     The inProcessSince
      */
     @JsonProperty("inProcessSince")
+    @JacksonXmlProperty(localName = "inProcessSince")
     public void setInProcessSince(Date inProcessSince) {
         this.inProcessSince = inProcessSince;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("path", path).append("orderId", orderId).append("jobChain", jobChain).append("title", title).append("state", state).append("inProcessSince", inProcessSince).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(path).append(orderId).append(jobChain).append(title).append(state).append(inProcessSince).toHashCode();
+        return new HashCodeBuilder().append(path).append(inProcessSince).append(orderId).append(jobChain).append(state).append(title).toHashCode();
     }
 
     @Override
@@ -241,7 +233,7 @@ public class OrderOfTask {
             return false;
         }
         OrderOfTask rhs = ((OrderOfTask) other);
-        return new EqualsBuilder().append(path, rhs.path).append(orderId, rhs.orderId).append(jobChain, rhs.jobChain).append(title, rhs.title).append(state, rhs.state).append(inProcessSince, rhs.inProcessSince).isEquals();
+        return new EqualsBuilder().append(path, rhs.path).append(inProcessSince, rhs.inProcessSince).append(orderId, rhs.orderId).append(jobChain, rhs.jobChain).append(state, rhs.state).append(title, rhs.title).isEquals();
     }
 
 }

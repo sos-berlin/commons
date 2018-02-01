@@ -1,16 +1,15 @@
 
 package com.sos.joc.model.common;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "name",
     "value"
@@ -23,6 +22,7 @@ public class NameValuePair {
      * 
      */
     @JsonProperty("name")
+    @JacksonXmlProperty(localName = "name")
     private String name;
     /**
      * 
@@ -30,16 +30,16 @@ public class NameValuePair {
      * 
      */
     @JsonProperty("value")
+    @JacksonXmlProperty(localName = "value")
     private String value;
 
     /**
      * 
      * (Required)
      * 
-     * @return
-     *     The name
      */
     @JsonProperty("name")
+    @JacksonXmlProperty(localName = "name")
     public String getName() {
         return name;
     }
@@ -48,10 +48,9 @@ public class NameValuePair {
      * 
      * (Required)
      * 
-     * @param name
-     *     The name
      */
     @JsonProperty("name")
+    @JacksonXmlProperty(localName = "name")
     public void setName(String name) {
         this.name = name;
     }
@@ -60,10 +59,9 @@ public class NameValuePair {
      * 
      * (Required)
      * 
-     * @return
-     *     The value
      */
     @JsonProperty("value")
+    @JacksonXmlProperty(localName = "value")
     public String getValue() {
         return value;
     }
@@ -72,17 +70,16 @@ public class NameValuePair {
      * 
      * (Required)
      * 
-     * @param value
-     *     The value
      */
     @JsonProperty("value")
+    @JacksonXmlProperty(localName = "value")
     public void setValue(String value) {
         this.value = value;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("name", name).append("value", value).toString();
     }
 
     @Override

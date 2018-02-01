@@ -3,10 +3,11 @@ package com.sos.joc.model.job;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.sos.joc.model.audit.AuditParams;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -20,7 +21,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobschedulerId",
     "jobs",
@@ -35,8 +35,11 @@ public class ModifyTasks {
      * 
      */
     @JsonProperty("jobschedulerId")
+    @JacksonXmlProperty(localName = "jobschedulerId")
     private String jobschedulerId;
     @JsonProperty("jobs")
+    @JacksonXmlProperty(localName = "job")
+    @JacksonXmlElementWrapper(useWrapping = true, localName = "jobs")
     private List<TasksFilter> jobs = new ArrayList<TasksFilter>();
     /**
      * non negative integer
@@ -45,6 +48,7 @@ public class ModifyTasks {
      * 
      */
     @JsonProperty("timeout")
+    @JacksonXmlProperty(localName = "timeout")
     private Integer timeout;
     /**
      * auditParams
@@ -53,16 +57,16 @@ public class ModifyTasks {
      * 
      */
     @JsonProperty("auditLog")
+    @JacksonXmlProperty(localName = "auditLog")
     private AuditParams auditLog;
 
     /**
      * 
      * (Required)
      * 
-     * @return
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
+    @JacksonXmlProperty(localName = "jobschedulerId")
     public String getJobschedulerId() {
         return jobschedulerId;
     }
@@ -71,30 +75,21 @@ public class ModifyTasks {
      * 
      * (Required)
      * 
-     * @param jobschedulerId
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
+    @JacksonXmlProperty(localName = "jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
         this.jobschedulerId = jobschedulerId;
     }
 
-    /**
-     * 
-     * @return
-     *     The jobs
-     */
     @JsonProperty("jobs")
+    @JacksonXmlProperty(localName = "job")
     public List<TasksFilter> getJobs() {
         return jobs;
     }
 
-    /**
-     * 
-     * @param jobs
-     *     The jobs
-     */
     @JsonProperty("jobs")
+    @JacksonXmlProperty(localName = "job")
     public void setJobs(List<TasksFilter> jobs) {
         this.jobs = jobs;
     }
@@ -104,10 +99,9 @@ public class ModifyTasks {
      * <p>
      * 
      * 
-     * @return
-     *     The timeout
      */
     @JsonProperty("timeout")
+    @JacksonXmlProperty(localName = "timeout")
     public Integer getTimeout() {
         return timeout;
     }
@@ -117,10 +111,9 @@ public class ModifyTasks {
      * <p>
      * 
      * 
-     * @param timeout
-     *     The timeout
      */
     @JsonProperty("timeout")
+    @JacksonXmlProperty(localName = "timeout")
     public void setTimeout(Integer timeout) {
         this.timeout = timeout;
     }
@@ -130,10 +123,9 @@ public class ModifyTasks {
      * <p>
      * 
      * 
-     * @return
-     *     The auditLog
      */
     @JsonProperty("auditLog")
+    @JacksonXmlProperty(localName = "auditLog")
     public AuditParams getAuditLog() {
         return auditLog;
     }
@@ -143,22 +135,21 @@ public class ModifyTasks {
      * <p>
      * 
      * 
-     * @param auditLog
-     *     The auditLog
      */
     @JsonProperty("auditLog")
+    @JacksonXmlProperty(localName = "auditLog")
     public void setAuditLog(AuditParams auditLog) {
         this.auditLog = auditLog;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("jobs", jobs).append("timeout", timeout).append("auditLog", auditLog).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(jobs).append(timeout).append(auditLog).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(auditLog).append(timeout).append(jobs).toHashCode();
     }
 
     @Override
@@ -170,7 +161,7 @@ public class ModifyTasks {
             return false;
         }
         ModifyTasks rhs = ((ModifyTasks) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(jobs, rhs.jobs).append(timeout, rhs.timeout).append(auditLog, rhs.auditLog).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(auditLog, rhs.auditLog).append(timeout, rhs.timeout).append(jobs, rhs.jobs).isEquals();
     }
 
 }

@@ -4,10 +4,12 @@ package com.sos.joc.model.job;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -20,7 +22,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "surveyDate",
     "path",
@@ -46,6 +47,8 @@ public class JobP {
      * 
      */
     @JsonProperty("surveyDate")
+    @JsonPropertyDescription("Date of the inventory data. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
+    @JacksonXmlProperty(localName = "surveyDate")
     private Date surveyDate;
     /**
      * path
@@ -54,14 +57,20 @@ public class JobP {
      * 
      */
     @JsonProperty("path")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
+    @JacksonXmlProperty(localName = "path")
     private String path;
     @JsonProperty("isOrderJob")
+    @JacksonXmlProperty(localName = "isOrderJob")
     private Boolean isOrderJob;
     @JsonProperty("isShellJob")
+    @JacksonXmlProperty(localName = "isShellJob")
     private Boolean isShellJob;
     @JsonProperty("name")
+    @JacksonXmlProperty(localName = "name")
     private String name;
     @JsonProperty("title")
+    @JacksonXmlProperty(localName = "title")
     private String title;
     /**
      * non negative integer
@@ -70,6 +79,7 @@ public class JobP {
      * 
      */
     @JsonProperty("estimatedDuration")
+    @JacksonXmlProperty(localName = "estimatedDuration")
     private Integer estimatedDuration;
     /**
      * path
@@ -78,6 +88,8 @@ public class JobP {
      * 
      */
     @JsonProperty("processClass")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
+    @JacksonXmlProperty(localName = "processClass")
     private String processClass;
     /**
      * non negative integer
@@ -86,6 +98,7 @@ public class JobP {
      * 
      */
     @JsonProperty("maxTasks")
+    @JacksonXmlProperty(localName = "maxTasks")
     private Integer maxTasks;
     /**
      * job locks (permanent)
@@ -94,6 +107,8 @@ public class JobP {
      * 
      */
     @JsonProperty("locks")
+    @JacksonXmlProperty(localName = "lock")
+    @JacksonXmlElementWrapper(useWrapping = true, localName = "locks")
     private List<LockUseP> locks = new ArrayList<LockUseP>();
     /**
      * non negative integer
@@ -102,14 +117,19 @@ public class JobP {
      * 
      */
     @JsonProperty("usedInJobChains")
+    @JacksonXmlProperty(localName = "usedInJobChains")
     private Integer usedInJobChains;
     /**
      * Only relevant for order jobs when called /jobs/p/... or job/p/...
      * 
      */
     @JsonProperty("jobChains")
+    @JsonPropertyDescription("Only relevant for order jobs when called /jobs/p/... or job/p/...")
+    @JacksonXmlProperty(localName = "jobChain")
+    @JacksonXmlElementWrapper(useWrapping = true, localName = "jobChains")
     private List<String> jobChains = new ArrayList<String>();
     @JsonProperty("hasDescription")
+    @JacksonXmlProperty(localName = "hasDescription")
     private Boolean hasDescription;
     /**
      * timestamp
@@ -118,6 +138,8 @@ public class JobP {
      * 
      */
     @JsonProperty("configurationDate")
+    @JsonPropertyDescription("Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty")
+    @JacksonXmlProperty(localName = "configurationDate")
     private Date configurationDate;
 
     /**
@@ -125,10 +147,9 @@ public class JobP {
      * <p>
      * Date of the inventory data. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * 
-     * @return
-     *     The surveyDate
      */
     @JsonProperty("surveyDate")
+    @JacksonXmlProperty(localName = "surveyDate")
     public Date getSurveyDate() {
         return surveyDate;
     }
@@ -138,10 +159,9 @@ public class JobP {
      * <p>
      * Date of the inventory data. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * 
-     * @param surveyDate
-     *     The surveyDate
      */
     @JsonProperty("surveyDate")
+    @JacksonXmlProperty(localName = "surveyDate")
     public void setSurveyDate(Date surveyDate) {
         this.surveyDate = surveyDate;
     }
@@ -151,10 +171,9 @@ public class JobP {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @return
-     *     The path
      */
     @JsonProperty("path")
+    @JacksonXmlProperty(localName = "path")
     public String getPath() {
         return path;
     }
@@ -164,90 +183,57 @@ public class JobP {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @param path
-     *     The path
      */
     @JsonProperty("path")
+    @JacksonXmlProperty(localName = "path")
     public void setPath(String path) {
         this.path = path;
     }
 
-    /**
-     * 
-     * @return
-     *     The isOrderJob
-     */
     @JsonProperty("isOrderJob")
+    @JacksonXmlProperty(localName = "isOrderJob")
     public Boolean getIsOrderJob() {
         return isOrderJob;
     }
 
-    /**
-     * 
-     * @param isOrderJob
-     *     The isOrderJob
-     */
     @JsonProperty("isOrderJob")
+    @JacksonXmlProperty(localName = "isOrderJob")
     public void setIsOrderJob(Boolean isOrderJob) {
         this.isOrderJob = isOrderJob;
     }
 
-    /**
-     * 
-     * @return
-     *     The isShellJob
-     */
     @JsonProperty("isShellJob")
+    @JacksonXmlProperty(localName = "isShellJob")
     public Boolean getIsShellJob() {
         return isShellJob;
     }
 
-    /**
-     * 
-     * @param isShellJob
-     *     The isShellJob
-     */
     @JsonProperty("isShellJob")
+    @JacksonXmlProperty(localName = "isShellJob")
     public void setIsShellJob(Boolean isShellJob) {
         this.isShellJob = isShellJob;
     }
 
-    /**
-     * 
-     * @return
-     *     The name
-     */
     @JsonProperty("name")
+    @JacksonXmlProperty(localName = "name")
     public String getName() {
         return name;
     }
 
-    /**
-     * 
-     * @param name
-     *     The name
-     */
     @JsonProperty("name")
+    @JacksonXmlProperty(localName = "name")
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * 
-     * @return
-     *     The title
-     */
     @JsonProperty("title")
+    @JacksonXmlProperty(localName = "title")
     public String getTitle() {
         return title;
     }
 
-    /**
-     * 
-     * @param title
-     *     The title
-     */
     @JsonProperty("title")
+    @JacksonXmlProperty(localName = "title")
     public void setTitle(String title) {
         this.title = title;
     }
@@ -257,10 +243,9 @@ public class JobP {
      * <p>
      * 
      * 
-     * @return
-     *     The estimatedDuration
      */
     @JsonProperty("estimatedDuration")
+    @JacksonXmlProperty(localName = "estimatedDuration")
     public Integer getEstimatedDuration() {
         return estimatedDuration;
     }
@@ -270,10 +255,9 @@ public class JobP {
      * <p>
      * 
      * 
-     * @param estimatedDuration
-     *     The estimatedDuration
      */
     @JsonProperty("estimatedDuration")
+    @JacksonXmlProperty(localName = "estimatedDuration")
     public void setEstimatedDuration(Integer estimatedDuration) {
         this.estimatedDuration = estimatedDuration;
     }
@@ -283,10 +267,9 @@ public class JobP {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @return
-     *     The processClass
      */
     @JsonProperty("processClass")
+    @JacksonXmlProperty(localName = "processClass")
     public String getProcessClass() {
         return processClass;
     }
@@ -296,10 +279,9 @@ public class JobP {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @param processClass
-     *     The processClass
      */
     @JsonProperty("processClass")
+    @JacksonXmlProperty(localName = "processClass")
     public void setProcessClass(String processClass) {
         this.processClass = processClass;
     }
@@ -309,10 +291,9 @@ public class JobP {
      * <p>
      * 
      * 
-     * @return
-     *     The maxTasks
      */
     @JsonProperty("maxTasks")
+    @JacksonXmlProperty(localName = "maxTasks")
     public Integer getMaxTasks() {
         return maxTasks;
     }
@@ -322,10 +303,9 @@ public class JobP {
      * <p>
      * 
      * 
-     * @param maxTasks
-     *     The maxTasks
      */
     @JsonProperty("maxTasks")
+    @JacksonXmlProperty(localName = "maxTasks")
     public void setMaxTasks(Integer maxTasks) {
         this.maxTasks = maxTasks;
     }
@@ -335,10 +315,9 @@ public class JobP {
      * <p>
      * 
      * 
-     * @return
-     *     The locks
      */
     @JsonProperty("locks")
+    @JacksonXmlProperty(localName = "lock")
     public List<LockUseP> getLocks() {
         return locks;
     }
@@ -348,10 +327,9 @@ public class JobP {
      * <p>
      * 
      * 
-     * @param locks
-     *     The locks
      */
     @JsonProperty("locks")
+    @JacksonXmlProperty(localName = "lock")
     public void setLocks(List<LockUseP> locks) {
         this.locks = locks;
     }
@@ -361,10 +339,9 @@ public class JobP {
      * <p>
      * 
      * 
-     * @return
-     *     The usedInJobChains
      */
     @JsonProperty("usedInJobChains")
+    @JacksonXmlProperty(localName = "usedInJobChains")
     public Integer getUsedInJobChains() {
         return usedInJobChains;
     }
@@ -374,10 +351,9 @@ public class JobP {
      * <p>
      * 
      * 
-     * @param usedInJobChains
-     *     The usedInJobChains
      */
     @JsonProperty("usedInJobChains")
+    @JacksonXmlProperty(localName = "usedInJobChains")
     public void setUsedInJobChains(Integer usedInJobChains) {
         this.usedInJobChains = usedInJobChains;
     }
@@ -385,10 +361,9 @@ public class JobP {
     /**
      * Only relevant for order jobs when called /jobs/p/... or job/p/...
      * 
-     * @return
-     *     The jobChains
      */
     @JsonProperty("jobChains")
+    @JacksonXmlProperty(localName = "jobChain")
     public List<String> getJobChains() {
         return jobChains;
     }
@@ -396,30 +371,21 @@ public class JobP {
     /**
      * Only relevant for order jobs when called /jobs/p/... or job/p/...
      * 
-     * @param jobChains
-     *     The jobChains
      */
     @JsonProperty("jobChains")
+    @JacksonXmlProperty(localName = "jobChain")
     public void setJobChains(List<String> jobChains) {
         this.jobChains = jobChains;
     }
 
-    /**
-     * 
-     * @return
-     *     The hasDescription
-     */
     @JsonProperty("hasDescription")
+    @JacksonXmlProperty(localName = "hasDescription")
     public Boolean getHasDescription() {
         return hasDescription;
     }
 
-    /**
-     * 
-     * @param hasDescription
-     *     The hasDescription
-     */
     @JsonProperty("hasDescription")
+    @JacksonXmlProperty(localName = "hasDescription")
     public void setHasDescription(Boolean hasDescription) {
         this.hasDescription = hasDescription;
     }
@@ -429,10 +395,9 @@ public class JobP {
      * <p>
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
-     * @return
-     *     The configurationDate
      */
     @JsonProperty("configurationDate")
+    @JacksonXmlProperty(localName = "configurationDate")
     public Date getConfigurationDate() {
         return configurationDate;
     }
@@ -442,22 +407,21 @@ public class JobP {
      * <p>
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
-     * @param configurationDate
-     *     The configurationDate
      */
     @JsonProperty("configurationDate")
+    @JacksonXmlProperty(localName = "configurationDate")
     public void setConfigurationDate(Date configurationDate) {
         this.configurationDate = configurationDate;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("surveyDate", surveyDate).append("path", path).append("isOrderJob", isOrderJob).append("isShellJob", isShellJob).append("name", name).append("title", title).append("estimatedDuration", estimatedDuration).append("processClass", processClass).append("maxTasks", maxTasks).append("locks", locks).append("usedInJobChains", usedInJobChains).append("jobChains", jobChains).append("hasDescription", hasDescription).append("configurationDate", configurationDate).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(surveyDate).append(path).append(isOrderJob).append(isShellJob).append(name).append(title).append(estimatedDuration).append(processClass).append(maxTasks).append(locks).append(usedInJobChains).append(jobChains).append(hasDescription).append(configurationDate).toHashCode();
+        return new HashCodeBuilder().append(configurationDate).append(usedInJobChains).append(surveyDate).append(maxTasks).append(hasDescription).append(processClass).append(title).append(estimatedDuration).append(locks).append(isOrderJob).append(path).append(isShellJob).append(name).append(jobChains).toHashCode();
     }
 
     @Override
@@ -469,7 +433,7 @@ public class JobP {
             return false;
         }
         JobP rhs = ((JobP) other);
-        return new EqualsBuilder().append(surveyDate, rhs.surveyDate).append(path, rhs.path).append(isOrderJob, rhs.isOrderJob).append(isShellJob, rhs.isShellJob).append(name, rhs.name).append(title, rhs.title).append(estimatedDuration, rhs.estimatedDuration).append(processClass, rhs.processClass).append(maxTasks, rhs.maxTasks).append(locks, rhs.locks).append(usedInJobChains, rhs.usedInJobChains).append(jobChains, rhs.jobChains).append(hasDescription, rhs.hasDescription).append(configurationDate, rhs.configurationDate).isEquals();
+        return new EqualsBuilder().append(configurationDate, rhs.configurationDate).append(usedInJobChains, rhs.usedInJobChains).append(surveyDate, rhs.surveyDate).append(maxTasks, rhs.maxTasks).append(hasDescription, rhs.hasDescription).append(processClass, rhs.processClass).append(title, rhs.title).append(estimatedDuration, rhs.estimatedDuration).append(locks, rhs.locks).append(isOrderJob, rhs.isOrderJob).append(path, rhs.path).append(isShellJob, rhs.isShellJob).append(name, rhs.name).append(jobChains, rhs.jobChains).isEquals();
     }
 
 }

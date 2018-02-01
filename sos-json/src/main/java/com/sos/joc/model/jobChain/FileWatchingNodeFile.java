@@ -2,16 +2,16 @@
 package com.sos.joc.model.jobChain;
 
 import java.util.Date;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "path",
     "modified"
@@ -25,6 +25,8 @@ public class FileWatchingNodeFile {
      * 
      */
     @JsonProperty("path")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
+    @JacksonXmlProperty(localName = "path")
     private String path;
     /**
      * timestamp
@@ -33,6 +35,8 @@ public class FileWatchingNodeFile {
      * 
      */
     @JsonProperty("modified")
+    @JsonPropertyDescription("Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty")
+    @JacksonXmlProperty(localName = "modified")
     private Date modified;
 
     /**
@@ -40,10 +44,9 @@ public class FileWatchingNodeFile {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @return
-     *     The path
      */
     @JsonProperty("path")
+    @JacksonXmlProperty(localName = "path")
     public String getPath() {
         return path;
     }
@@ -53,10 +56,9 @@ public class FileWatchingNodeFile {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @param path
-     *     The path
      */
     @JsonProperty("path")
+    @JacksonXmlProperty(localName = "path")
     public void setPath(String path) {
         this.path = path;
     }
@@ -66,10 +68,9 @@ public class FileWatchingNodeFile {
      * <p>
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
-     * @return
-     *     The modified
      */
     @JsonProperty("modified")
+    @JacksonXmlProperty(localName = "modified")
     public Date getModified() {
         return modified;
     }
@@ -79,17 +80,16 @@ public class FileWatchingNodeFile {
      * <p>
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
-     * @param modified
-     *     The modified
      */
     @JsonProperty("modified")
+    @JacksonXmlProperty(localName = "modified")
     public void setModified(Date modified) {
         this.modified = modified;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("path", path).append("modified", modified).toString();
     }
 
     @Override

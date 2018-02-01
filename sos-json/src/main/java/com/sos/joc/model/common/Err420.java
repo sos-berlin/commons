@@ -2,10 +2,11 @@
 package com.sos.joc.model.common;
 
 import java.util.Date;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -18,7 +19,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "deliveryDate",
     "surveyDate",
@@ -34,12 +34,16 @@ public class Err420 {
      * 
      */
     @JsonProperty("deliveryDate")
+    @JsonPropertyDescription("Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
+    @JacksonXmlProperty(localName = "deliveryDate")
     private Date deliveryDate;
     /**
      * is also required for permanent or volatile requests
      * 
      */
     @JsonProperty("surveyDate")
+    @JsonPropertyDescription("is also required for permanent or volatile requests")
+    @JacksonXmlProperty(localName = "surveyDate")
     private Date surveyDate;
     /**
      * error
@@ -49,6 +53,7 @@ public class Err420 {
      * 
      */
     @JsonProperty("error")
+    @JacksonXmlProperty(localName = "error")
     private Err error;
 
     /**
@@ -57,10 +62,9 @@ public class Err420 {
      * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * (Required)
      * 
-     * @return
-     *     The deliveryDate
      */
     @JsonProperty("deliveryDate")
+    @JacksonXmlProperty(localName = "deliveryDate")
     public Date getDeliveryDate() {
         return deliveryDate;
     }
@@ -71,10 +75,9 @@ public class Err420 {
      * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * (Required)
      * 
-     * @param deliveryDate
-     *     The deliveryDate
      */
     @JsonProperty("deliveryDate")
+    @JacksonXmlProperty(localName = "deliveryDate")
     public void setDeliveryDate(Date deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
@@ -82,10 +85,9 @@ public class Err420 {
     /**
      * is also required for permanent or volatile requests
      * 
-     * @return
-     *     The surveyDate
      */
     @JsonProperty("surveyDate")
+    @JacksonXmlProperty(localName = "surveyDate")
     public Date getSurveyDate() {
         return surveyDate;
     }
@@ -93,10 +95,9 @@ public class Err420 {
     /**
      * is also required for permanent or volatile requests
      * 
-     * @param surveyDate
-     *     The surveyDate
      */
     @JsonProperty("surveyDate")
+    @JacksonXmlProperty(localName = "surveyDate")
     public void setSurveyDate(Date surveyDate) {
         this.surveyDate = surveyDate;
     }
@@ -107,10 +108,9 @@ public class Err420 {
      * 
      * (Required)
      * 
-     * @return
-     *     The error
      */
     @JsonProperty("error")
+    @JacksonXmlProperty(localName = "error")
     public Err getError() {
         return error;
     }
@@ -121,17 +121,16 @@ public class Err420 {
      * 
      * (Required)
      * 
-     * @param error
-     *     The error
      */
     @JsonProperty("error")
+    @JacksonXmlProperty(localName = "error")
     public void setError(Err error) {
         this.error = error;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("surveyDate", surveyDate).append("error", error).toString();
     }
 
     @Override

@@ -1,10 +1,11 @@
 
 package com.sos.joc.model.job;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.sos.joc.model.common.LogMime;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -18,7 +19,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobschedulerId",
     "taskId",
@@ -32,6 +32,7 @@ public class TaskFilter {
      * 
      */
     @JsonProperty("jobschedulerId")
+    @JacksonXmlProperty(localName = "jobschedulerId")
     private String jobschedulerId;
     /**
      * 
@@ -39,6 +40,7 @@ public class TaskFilter {
      * 
      */
     @JsonProperty("taskId")
+    @JacksonXmlProperty(localName = "taskId")
     private String taskId;
     /**
      * log mime filter
@@ -47,16 +49,17 @@ public class TaskFilter {
      * 
      */
     @JsonProperty("mime")
+    @JsonPropertyDescription("The log can have a HTML representation where the HTML gets a highlighting via CSS classes.")
+    @JacksonXmlProperty(localName = "mime")
     private LogMime mime = LogMime.fromValue("PLAIN");
 
     /**
      * 
      * (Required)
      * 
-     * @return
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
+    @JacksonXmlProperty(localName = "jobschedulerId")
     public String getJobschedulerId() {
         return jobschedulerId;
     }
@@ -65,10 +68,9 @@ public class TaskFilter {
      * 
      * (Required)
      * 
-     * @param jobschedulerId
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
+    @JacksonXmlProperty(localName = "jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
         this.jobschedulerId = jobschedulerId;
     }
@@ -77,10 +79,9 @@ public class TaskFilter {
      * 
      * (Required)
      * 
-     * @return
-     *     The taskId
      */
     @JsonProperty("taskId")
+    @JacksonXmlProperty(localName = "taskId")
     public String getTaskId() {
         return taskId;
     }
@@ -89,10 +90,9 @@ public class TaskFilter {
      * 
      * (Required)
      * 
-     * @param taskId
-     *     The taskId
      */
     @JsonProperty("taskId")
+    @JacksonXmlProperty(localName = "taskId")
     public void setTaskId(String taskId) {
         this.taskId = taskId;
     }
@@ -102,10 +102,9 @@ public class TaskFilter {
      * <p>
      * The log can have a HTML representation where the HTML gets a highlighting via CSS classes.
      * 
-     * @return
-     *     The mime
      */
     @JsonProperty("mime")
+    @JacksonXmlProperty(localName = "mime")
     public LogMime getMime() {
         return mime;
     }
@@ -115,17 +114,16 @@ public class TaskFilter {
      * <p>
      * The log can have a HTML representation where the HTML gets a highlighting via CSS classes.
      * 
-     * @param mime
-     *     The mime
      */
     @JsonProperty("mime")
+    @JacksonXmlProperty(localName = "mime")
     public void setMime(LogMime mime) {
         this.mime = mime;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("taskId", taskId).append("mime", mime).toString();
     }
 
     @Override

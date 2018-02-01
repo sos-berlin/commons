@@ -3,16 +3,17 @@ package com.sos.joc.model.job;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "job",
     "taskIds"
@@ -26,8 +27,12 @@ public class TasksFilter {
      * 
      */
     @JsonProperty("job")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
+    @JacksonXmlProperty(localName = "job")
     private String job;
     @JsonProperty("taskIds")
+    @JacksonXmlProperty(localName = "taskId")
+    @JacksonXmlElementWrapper(useWrapping = true, localName = "taskIds")
     private List<TaskId> taskIds = new ArrayList<TaskId>();
 
     /**
@@ -35,10 +40,9 @@ public class TasksFilter {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @return
-     *     The job
      */
     @JsonProperty("job")
+    @JacksonXmlProperty(localName = "job")
     public String getJob() {
         return job;
     }
@@ -48,37 +52,28 @@ public class TasksFilter {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @param job
-     *     The job
      */
     @JsonProperty("job")
+    @JacksonXmlProperty(localName = "job")
     public void setJob(String job) {
         this.job = job;
     }
 
-    /**
-     * 
-     * @return
-     *     The taskIds
-     */
     @JsonProperty("taskIds")
+    @JacksonXmlProperty(localName = "taskId")
     public List<TaskId> getTaskIds() {
         return taskIds;
     }
 
-    /**
-     * 
-     * @param taskIds
-     *     The taskIds
-     */
     @JsonProperty("taskIds")
+    @JacksonXmlProperty(localName = "taskId")
     public void setTaskIds(List<TaskId> taskIds) {
         this.taskIds = taskIds;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("job", job).append("taskIds", taskIds).toString();
     }
 
     @Override

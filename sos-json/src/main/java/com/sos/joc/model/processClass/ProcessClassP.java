@@ -2,10 +2,11 @@
 package com.sos.joc.model.processClass;
 
 import java.util.Date;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -18,7 +19,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "surveyDate",
     "path",
@@ -36,6 +36,8 @@ public class ProcessClassP {
      * 
      */
     @JsonProperty("surveyDate")
+    @JsonPropertyDescription("Date of the inventory data. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
+    @JacksonXmlProperty(localName = "surveyDate")
     private Date surveyDate;
     /**
      * path
@@ -45,6 +47,8 @@ public class ProcessClassP {
      * 
      */
     @JsonProperty("path")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
+    @JacksonXmlProperty(localName = "path")
     private String path;
     /**
      * 
@@ -52,6 +56,7 @@ public class ProcessClassP {
      * 
      */
     @JsonProperty("name")
+    @JacksonXmlProperty(localName = "name")
     private String name;
     /**
      * non negative integer
@@ -61,6 +66,7 @@ public class ProcessClassP {
      * 
      */
     @JsonProperty("maxProcesses")
+    @JacksonXmlProperty(localName = "maxProcesses")
     private Integer maxProcesses;
     /**
      * timestamp
@@ -69,6 +75,8 @@ public class ProcessClassP {
      * 
      */
     @JsonProperty("configurationDate")
+    @JsonPropertyDescription("Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty")
+    @JacksonXmlProperty(localName = "configurationDate")
     private Date configurationDate;
 
     /**
@@ -77,10 +85,9 @@ public class ProcessClassP {
      * Date of the inventory data. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * (Required)
      * 
-     * @return
-     *     The surveyDate
      */
     @JsonProperty("surveyDate")
+    @JacksonXmlProperty(localName = "surveyDate")
     public Date getSurveyDate() {
         return surveyDate;
     }
@@ -91,10 +98,9 @@ public class ProcessClassP {
      * Date of the inventory data. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * (Required)
      * 
-     * @param surveyDate
-     *     The surveyDate
      */
     @JsonProperty("surveyDate")
+    @JacksonXmlProperty(localName = "surveyDate")
     public void setSurveyDate(Date surveyDate) {
         this.surveyDate = surveyDate;
     }
@@ -105,10 +111,9 @@ public class ProcessClassP {
      * absolute path based on live folder of a JobScheduler object.
      * (Required)
      * 
-     * @return
-     *     The path
      */
     @JsonProperty("path")
+    @JacksonXmlProperty(localName = "path")
     public String getPath() {
         return path;
     }
@@ -119,10 +124,9 @@ public class ProcessClassP {
      * absolute path based on live folder of a JobScheduler object.
      * (Required)
      * 
-     * @param path
-     *     The path
      */
     @JsonProperty("path")
+    @JacksonXmlProperty(localName = "path")
     public void setPath(String path) {
         this.path = path;
     }
@@ -131,10 +135,9 @@ public class ProcessClassP {
      * 
      * (Required)
      * 
-     * @return
-     *     The name
      */
     @JsonProperty("name")
+    @JacksonXmlProperty(localName = "name")
     public String getName() {
         return name;
     }
@@ -143,10 +146,9 @@ public class ProcessClassP {
      * 
      * (Required)
      * 
-     * @param name
-     *     The name
      */
     @JsonProperty("name")
+    @JacksonXmlProperty(localName = "name")
     public void setName(String name) {
         this.name = name;
     }
@@ -157,10 +159,9 @@ public class ProcessClassP {
      * 
      * (Required)
      * 
-     * @return
-     *     The maxProcesses
      */
     @JsonProperty("maxProcesses")
+    @JacksonXmlProperty(localName = "maxProcesses")
     public Integer getMaxProcesses() {
         return maxProcesses;
     }
@@ -171,10 +172,9 @@ public class ProcessClassP {
      * 
      * (Required)
      * 
-     * @param maxProcesses
-     *     The maxProcesses
      */
     @JsonProperty("maxProcesses")
+    @JacksonXmlProperty(localName = "maxProcesses")
     public void setMaxProcesses(Integer maxProcesses) {
         this.maxProcesses = maxProcesses;
     }
@@ -184,10 +184,9 @@ public class ProcessClassP {
      * <p>
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
-     * @return
-     *     The configurationDate
      */
     @JsonProperty("configurationDate")
+    @JacksonXmlProperty(localName = "configurationDate")
     public Date getConfigurationDate() {
         return configurationDate;
     }
@@ -197,22 +196,21 @@ public class ProcessClassP {
      * <p>
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
-     * @param configurationDate
-     *     The configurationDate
      */
     @JsonProperty("configurationDate")
+    @JacksonXmlProperty(localName = "configurationDate")
     public void setConfigurationDate(Date configurationDate) {
         this.configurationDate = configurationDate;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("surveyDate", surveyDate).append("path", path).append("name", name).append("maxProcesses", maxProcesses).append("configurationDate", configurationDate).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(surveyDate).append(path).append(name).append(maxProcesses).append(configurationDate).toHashCode();
+        return new HashCodeBuilder().append(name).append(maxProcesses).append(configurationDate).append(path).append(surveyDate).toHashCode();
     }
 
     @Override
@@ -224,7 +222,7 @@ public class ProcessClassP {
             return false;
         }
         ProcessClassP rhs = ((ProcessClassP) other);
-        return new EqualsBuilder().append(surveyDate, rhs.surveyDate).append(path, rhs.path).append(name, rhs.name).append(maxProcesses, rhs.maxProcesses).append(configurationDate, rhs.configurationDate).isEquals();
+        return new EqualsBuilder().append(name, rhs.name).append(maxProcesses, rhs.maxProcesses).append(configurationDate, rhs.configurationDate).append(path, rhs.path).append(surveyDate, rhs.surveyDate).isEquals();
     }
 
 }

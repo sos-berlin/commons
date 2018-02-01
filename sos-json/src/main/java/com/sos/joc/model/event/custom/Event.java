@@ -2,10 +2,11 @@
 package com.sos.joc.model.event.custom;
 
 import java.util.Date;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -18,7 +19,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobschedulerId",
     "id",
@@ -41,6 +41,7 @@ public class Event {
      * 
      */
     @JsonProperty("jobschedulerId")
+    @JacksonXmlProperty(localName = "jobschedulerId")
     private String jobschedulerId;
     /**
      * non negative long
@@ -49,10 +50,13 @@ public class Event {
      * 
      */
     @JsonProperty("id")
+    @JacksonXmlProperty(localName = "id")
     private Long id;
     @JsonProperty("eventId")
+    @JacksonXmlProperty(localName = "eventId")
     private String eventId;
     @JsonProperty("eventClass")
+    @JacksonXmlProperty(localName = "eventClass")
     private String eventClass;
     /**
      * non negative integer
@@ -61,6 +65,7 @@ public class Event {
      * 
      */
     @JsonProperty("exitCode")
+    @JacksonXmlProperty(localName = "exitCode")
     private Integer exitCode;
     /**
      * path
@@ -69,6 +74,8 @@ public class Event {
      * 
      */
     @JsonProperty("job")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
+    @JacksonXmlProperty(localName = "job")
     private String job;
     /**
      * path
@@ -77,8 +84,11 @@ public class Event {
      * 
      */
     @JsonProperty("jobChain")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
+    @JacksonXmlProperty(localName = "jobChain")
     private String jobChain;
     @JsonProperty("orderId")
+    @JacksonXmlProperty(localName = "orderId")
     private String orderId;
     /**
      * timestamp
@@ -87,6 +97,8 @@ public class Event {
      * 
      */
     @JsonProperty("created")
+    @JsonPropertyDescription("Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty")
+    @JacksonXmlProperty(localName = "created")
     private Date created;
     /**
      * timestamp
@@ -95,8 +107,11 @@ public class Event {
      * 
      */
     @JsonProperty("expires")
+    @JsonPropertyDescription("Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty")
+    @JacksonXmlProperty(localName = "expires")
     private Date expires;
     @JsonProperty("remoteJobSchedulerHost")
+    @JacksonXmlProperty(localName = "remoteJobSchedulerHost")
     private String remoteJobSchedulerHost;
     /**
      * port
@@ -105,16 +120,16 @@ public class Event {
      * 
      */
     @JsonProperty("remoteJobSchedulerPort")
+    @JacksonXmlProperty(localName = "remoteJobSchedulerPort")
     private Integer remoteJobSchedulerPort;
 
     /**
      * 
      * (Required)
      * 
-     * @return
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
+    @JacksonXmlProperty(localName = "jobschedulerId")
     public String getJobschedulerId() {
         return jobschedulerId;
     }
@@ -123,10 +138,9 @@ public class Event {
      * 
      * (Required)
      * 
-     * @param jobschedulerId
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
+    @JacksonXmlProperty(localName = "jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
         this.jobschedulerId = jobschedulerId;
     }
@@ -136,10 +150,9 @@ public class Event {
      * <p>
      * 
      * 
-     * @return
-     *     The id
      */
     @JsonProperty("id")
+    @JacksonXmlProperty(localName = "id")
     public Long getId() {
         return id;
     }
@@ -149,50 +162,33 @@ public class Event {
      * <p>
      * 
      * 
-     * @param id
-     *     The id
      */
     @JsonProperty("id")
+    @JacksonXmlProperty(localName = "id")
     public void setId(Long id) {
         this.id = id;
     }
 
-    /**
-     * 
-     * @return
-     *     The eventId
-     */
     @JsonProperty("eventId")
+    @JacksonXmlProperty(localName = "eventId")
     public String getEventId() {
         return eventId;
     }
 
-    /**
-     * 
-     * @param eventId
-     *     The eventId
-     */
     @JsonProperty("eventId")
+    @JacksonXmlProperty(localName = "eventId")
     public void setEventId(String eventId) {
         this.eventId = eventId;
     }
 
-    /**
-     * 
-     * @return
-     *     The eventClass
-     */
     @JsonProperty("eventClass")
+    @JacksonXmlProperty(localName = "eventClass")
     public String getEventClass() {
         return eventClass;
     }
 
-    /**
-     * 
-     * @param eventClass
-     *     The eventClass
-     */
     @JsonProperty("eventClass")
+    @JacksonXmlProperty(localName = "eventClass")
     public void setEventClass(String eventClass) {
         this.eventClass = eventClass;
     }
@@ -202,10 +198,9 @@ public class Event {
      * <p>
      * 
      * 
-     * @return
-     *     The exitCode
      */
     @JsonProperty("exitCode")
+    @JacksonXmlProperty(localName = "exitCode")
     public Integer getExitCode() {
         return exitCode;
     }
@@ -215,10 +210,9 @@ public class Event {
      * <p>
      * 
      * 
-     * @param exitCode
-     *     The exitCode
      */
     @JsonProperty("exitCode")
+    @JacksonXmlProperty(localName = "exitCode")
     public void setExitCode(Integer exitCode) {
         this.exitCode = exitCode;
     }
@@ -228,10 +222,9 @@ public class Event {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @return
-     *     The job
      */
     @JsonProperty("job")
+    @JacksonXmlProperty(localName = "job")
     public String getJob() {
         return job;
     }
@@ -241,10 +234,9 @@ public class Event {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @param job
-     *     The job
      */
     @JsonProperty("job")
+    @JacksonXmlProperty(localName = "job")
     public void setJob(String job) {
         this.job = job;
     }
@@ -254,10 +246,9 @@ public class Event {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @return
-     *     The jobChain
      */
     @JsonProperty("jobChain")
+    @JacksonXmlProperty(localName = "jobChain")
     public String getJobChain() {
         return jobChain;
     }
@@ -267,30 +258,21 @@ public class Event {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @param jobChain
-     *     The jobChain
      */
     @JsonProperty("jobChain")
+    @JacksonXmlProperty(localName = "jobChain")
     public void setJobChain(String jobChain) {
         this.jobChain = jobChain;
     }
 
-    /**
-     * 
-     * @return
-     *     The orderId
-     */
     @JsonProperty("orderId")
+    @JacksonXmlProperty(localName = "orderId")
     public String getOrderId() {
         return orderId;
     }
 
-    /**
-     * 
-     * @param orderId
-     *     The orderId
-     */
     @JsonProperty("orderId")
+    @JacksonXmlProperty(localName = "orderId")
     public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
@@ -300,10 +282,9 @@ public class Event {
      * <p>
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
-     * @return
-     *     The created
      */
     @JsonProperty("created")
+    @JacksonXmlProperty(localName = "created")
     public Date getCreated() {
         return created;
     }
@@ -313,10 +294,9 @@ public class Event {
      * <p>
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
-     * @param created
-     *     The created
      */
     @JsonProperty("created")
+    @JacksonXmlProperty(localName = "created")
     public void setCreated(Date created) {
         this.created = created;
     }
@@ -326,10 +306,9 @@ public class Event {
      * <p>
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
-     * @return
-     *     The expires
      */
     @JsonProperty("expires")
+    @JacksonXmlProperty(localName = "expires")
     public Date getExpires() {
         return expires;
     }
@@ -339,30 +318,21 @@ public class Event {
      * <p>
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
-     * @param expires
-     *     The expires
      */
     @JsonProperty("expires")
+    @JacksonXmlProperty(localName = "expires")
     public void setExpires(Date expires) {
         this.expires = expires;
     }
 
-    /**
-     * 
-     * @return
-     *     The remoteJobSchedulerHost
-     */
     @JsonProperty("remoteJobSchedulerHost")
+    @JacksonXmlProperty(localName = "remoteJobSchedulerHost")
     public String getRemoteJobSchedulerHost() {
         return remoteJobSchedulerHost;
     }
 
-    /**
-     * 
-     * @param remoteJobSchedulerHost
-     *     The remoteJobSchedulerHost
-     */
     @JsonProperty("remoteJobSchedulerHost")
+    @JacksonXmlProperty(localName = "remoteJobSchedulerHost")
     public void setRemoteJobSchedulerHost(String remoteJobSchedulerHost) {
         this.remoteJobSchedulerHost = remoteJobSchedulerHost;
     }
@@ -372,10 +342,9 @@ public class Event {
      * <p>
      * 
      * 
-     * @return
-     *     The remoteJobSchedulerPort
      */
     @JsonProperty("remoteJobSchedulerPort")
+    @JacksonXmlProperty(localName = "remoteJobSchedulerPort")
     public Integer getRemoteJobSchedulerPort() {
         return remoteJobSchedulerPort;
     }
@@ -385,22 +354,21 @@ public class Event {
      * <p>
      * 
      * 
-     * @param remoteJobSchedulerPort
-     *     The remoteJobSchedulerPort
      */
     @JsonProperty("remoteJobSchedulerPort")
+    @JacksonXmlProperty(localName = "remoteJobSchedulerPort")
     public void setRemoteJobSchedulerPort(Integer remoteJobSchedulerPort) {
         this.remoteJobSchedulerPort = remoteJobSchedulerPort;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("id", id).append("eventId", eventId).append("eventClass", eventClass).append("exitCode", exitCode).append("job", job).append("jobChain", jobChain).append("orderId", orderId).append("created", created).append("expires", expires).append("remoteJobSchedulerHost", remoteJobSchedulerHost).append("remoteJobSchedulerPort", remoteJobSchedulerPort).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(id).append(eventId).append(eventClass).append(exitCode).append(job).append(jobChain).append(orderId).append(created).append(expires).append(remoteJobSchedulerHost).append(remoteJobSchedulerPort).toHashCode();
+        return new HashCodeBuilder().append(eventId).append(expires).append(eventClass).append(orderId).append(created).append(jobChain).append(remoteJobSchedulerHost).append(exitCode).append(id).append(remoteJobSchedulerPort).append(jobschedulerId).append(job).toHashCode();
     }
 
     @Override
@@ -412,7 +380,7 @@ public class Event {
             return false;
         }
         Event rhs = ((Event) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(id, rhs.id).append(eventId, rhs.eventId).append(eventClass, rhs.eventClass).append(exitCode, rhs.exitCode).append(job, rhs.job).append(jobChain, rhs.jobChain).append(orderId, rhs.orderId).append(created, rhs.created).append(expires, rhs.expires).append(remoteJobSchedulerHost, rhs.remoteJobSchedulerHost).append(remoteJobSchedulerPort, rhs.remoteJobSchedulerPort).isEquals();
+        return new EqualsBuilder().append(eventId, rhs.eventId).append(expires, rhs.expires).append(eventClass, rhs.eventClass).append(orderId, rhs.orderId).append(created, rhs.created).append(jobChain, rhs.jobChain).append(remoteJobSchedulerHost, rhs.remoteJobSchedulerHost).append(exitCode, rhs.exitCode).append(id, rhs.id).append(remoteJobSchedulerPort, rhs.remoteJobSchedulerPort).append(jobschedulerId, rhs.jobschedulerId).append(job, rhs.job).isEquals();
     }
 
 }

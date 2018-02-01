@@ -1,10 +1,10 @@
 
 package com.sos.jobscheduler.model.event;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -17,7 +17,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "TYPE",
     "key",
@@ -27,102 +26,74 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class CalendarEvent {
 
     @JsonProperty("TYPE")
+    @JacksonXmlProperty(localName = "TYPE")
     private String tYPE = "VariablesCustomEvent";
     @JsonProperty("key")
+    @JacksonXmlProperty(localName = "key")
     private String key;
     @JsonProperty("eventId")
+    @JacksonXmlProperty(localName = "eventId")
     private Long eventId;
     @JsonProperty("variables")
+    @JacksonXmlProperty(localName = "variables")
     private CalendarVariables variables;
 
-    /**
-     * 
-     * @return
-     *     The tYPE
-     */
     @JsonProperty("TYPE")
+    @JacksonXmlProperty(localName = "TYPE")
     public String getTYPE() {
         return tYPE;
     }
 
-    /**
-     * 
-     * @param tYPE
-     *     The TYPE
-     */
     @JsonProperty("TYPE")
+    @JacksonXmlProperty(localName = "TYPE")
     public void setTYPE(String tYPE) {
         this.tYPE = tYPE;
     }
 
-    /**
-     * 
-     * @return
-     *     The key
-     */
     @JsonProperty("key")
+    @JacksonXmlProperty(localName = "key")
     public String getKey() {
         return key;
     }
 
-    /**
-     * 
-     * @param key
-     *     The key
-     */
     @JsonProperty("key")
+    @JacksonXmlProperty(localName = "key")
     public void setKey(String key) {
         this.key = key;
     }
 
-    /**
-     * 
-     * @return
-     *     The eventId
-     */
     @JsonProperty("eventId")
+    @JacksonXmlProperty(localName = "eventId")
     public Long getEventId() {
         return eventId;
     }
 
-    /**
-     * 
-     * @param eventId
-     *     The eventId
-     */
     @JsonProperty("eventId")
+    @JacksonXmlProperty(localName = "eventId")
     public void setEventId(Long eventId) {
         this.eventId = eventId;
     }
 
-    /**
-     * 
-     * @return
-     *     The variables
-     */
     @JsonProperty("variables")
+    @JacksonXmlProperty(localName = "variables")
     public CalendarVariables getVariables() {
         return variables;
     }
 
-    /**
-     * 
-     * @param variables
-     *     The variables
-     */
     @JsonProperty("variables")
+    @JacksonXmlProperty(localName = "variables")
     public void setVariables(CalendarVariables variables) {
         this.variables = variables;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("tYPE", tYPE).append("key", key).append("eventId", eventId).append("variables", variables).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(tYPE).append(key).append(eventId).append(variables).toHashCode();
+        return new HashCodeBuilder().append(eventId).append(variables).append(tYPE).append(key).toHashCode();
     }
 
     @Override
@@ -134,7 +105,7 @@ public class CalendarEvent {
             return false;
         }
         CalendarEvent rhs = ((CalendarEvent) other);
-        return new EqualsBuilder().append(tYPE, rhs.tYPE).append(key, rhs.key).append(eventId, rhs.eventId).append(variables, rhs.variables).isEquals();
+        return new EqualsBuilder().append(eventId, rhs.eventId).append(variables, rhs.variables).append(tYPE, rhs.tYPE).append(key, rhs.key).isEquals();
     }
 
 }

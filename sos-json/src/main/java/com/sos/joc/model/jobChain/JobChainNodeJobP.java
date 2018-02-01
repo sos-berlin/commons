@@ -1,16 +1,16 @@
 
 package com.sos.joc.model.jobChain;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "path",
     "processClass"
@@ -25,6 +25,8 @@ public class JobChainNodeJobP {
      * 
      */
     @JsonProperty("path")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
+    @JacksonXmlProperty(localName = "path")
     private String path;
     /**
      * path
@@ -33,6 +35,8 @@ public class JobChainNodeJobP {
      * 
      */
     @JsonProperty("processClass")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
+    @JacksonXmlProperty(localName = "processClass")
     private String processClass;
 
     /**
@@ -41,10 +45,9 @@ public class JobChainNodeJobP {
      * absolute path based on live folder of a JobScheduler object.
      * (Required)
      * 
-     * @return
-     *     The path
      */
     @JsonProperty("path")
+    @JacksonXmlProperty(localName = "path")
     public String getPath() {
         return path;
     }
@@ -55,10 +58,9 @@ public class JobChainNodeJobP {
      * absolute path based on live folder of a JobScheduler object.
      * (Required)
      * 
-     * @param path
-     *     The path
      */
     @JsonProperty("path")
+    @JacksonXmlProperty(localName = "path")
     public void setPath(String path) {
         this.path = path;
     }
@@ -68,10 +70,9 @@ public class JobChainNodeJobP {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @return
-     *     The processClass
      */
     @JsonProperty("processClass")
+    @JacksonXmlProperty(localName = "processClass")
     public String getProcessClass() {
         return processClass;
     }
@@ -81,17 +82,16 @@ public class JobChainNodeJobP {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @param processClass
-     *     The processClass
      */
     @JsonProperty("processClass")
+    @JacksonXmlProperty(localName = "processClass")
     public void setProcessClass(String processClass) {
         this.processClass = processClass;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("path", path).append("processClass", processClass).toString();
     }
 
     @Override

@@ -1,10 +1,11 @@
 
 package com.sos.joc.model.yade;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -17,7 +18,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "severity",
     "_text"
@@ -30,6 +30,8 @@ public class FileTransferState {
      * 
      */
     @JsonProperty("severity")
+    @JsonPropertyDescription("0=transferred,compressed,remaned,success 1=skipped,ignored_due_to_zerobyte_contraint,not_overwritten, 3=undefined, 2=failed,aborted,deleted, 5=waiting,transferring,in_progress,setback,polling")
+    @JacksonXmlProperty(localName = "severity")
     private Integer severity;
     /**
      * state text for each transferred file
@@ -39,16 +41,16 @@ public class FileTransferState {
      * 
      */
     @JsonProperty("_text")
+    @JacksonXmlProperty(localName = "_text")
     private FileTransferStateText _text;
 
     /**
      *  0=transferred,compressed,remaned,success 1=skipped,ignored_due_to_zerobyte_contraint,not_overwritten, 3=undefined, 2=failed,aborted,deleted, 5=waiting,transferring,in_progress,setback,polling
      * (Required)
      * 
-     * @return
-     *     The severity
      */
     @JsonProperty("severity")
+    @JacksonXmlProperty(localName = "severity")
     public Integer getSeverity() {
         return severity;
     }
@@ -57,10 +59,9 @@ public class FileTransferState {
      *  0=transferred,compressed,remaned,success 1=skipped,ignored_due_to_zerobyte_contraint,not_overwritten, 3=undefined, 2=failed,aborted,deleted, 5=waiting,transferring,in_progress,setback,polling
      * (Required)
      * 
-     * @param severity
-     *     The severity
      */
     @JsonProperty("severity")
+    @JacksonXmlProperty(localName = "severity")
     public void setSeverity(Integer severity) {
         this.severity = severity;
     }
@@ -71,10 +72,9 @@ public class FileTransferState {
      * 
      * (Required)
      * 
-     * @return
-     *     The _text
      */
     @JsonProperty("_text")
+    @JacksonXmlProperty(localName = "_text")
     public FileTransferStateText get_text() {
         return _text;
     }
@@ -85,17 +85,16 @@ public class FileTransferState {
      * 
      * (Required)
      * 
-     * @param _text
-     *     The _text
      */
     @JsonProperty("_text")
+    @JacksonXmlProperty(localName = "_text")
     public void set_text(FileTransferStateText _text) {
         this._text = _text;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("severity", severity).append("_text", _text).toString();
     }
 
     @Override

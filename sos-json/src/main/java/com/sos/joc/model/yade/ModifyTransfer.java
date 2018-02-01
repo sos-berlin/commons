@@ -3,10 +3,11 @@ package com.sos.joc.model.yade;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -19,7 +20,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobschedulerId",
     "transferId",
@@ -33,6 +33,7 @@ public class ModifyTransfer {
      * 
      */
     @JsonProperty("jobschedulerId")
+    @JacksonXmlProperty(localName = "jobschedulerId")
     private String jobschedulerId;
     /**
      * non negative long
@@ -42,18 +43,20 @@ public class ModifyTransfer {
      * 
      */
     @JsonProperty("transferId")
+    @JacksonXmlProperty(localName = "transferId")
     private Long transferId;
     @JsonProperty("fileIds")
+    @JacksonXmlProperty(localName = "fileId")
+    @JacksonXmlElementWrapper(useWrapping = true, localName = "fileIds")
     private List<Long> fileIds = new ArrayList<Long>();
 
     /**
      * 
      * (Required)
      * 
-     * @return
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
+    @JacksonXmlProperty(localName = "jobschedulerId")
     public String getJobschedulerId() {
         return jobschedulerId;
     }
@@ -62,10 +65,9 @@ public class ModifyTransfer {
      * 
      * (Required)
      * 
-     * @param jobschedulerId
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
+    @JacksonXmlProperty(localName = "jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
         this.jobschedulerId = jobschedulerId;
     }
@@ -76,10 +78,9 @@ public class ModifyTransfer {
      * 
      * (Required)
      * 
-     * @return
-     *     The transferId
      */
     @JsonProperty("transferId")
+    @JacksonXmlProperty(localName = "transferId")
     public Long getTransferId() {
         return transferId;
     }
@@ -90,37 +91,28 @@ public class ModifyTransfer {
      * 
      * (Required)
      * 
-     * @param transferId
-     *     The transferId
      */
     @JsonProperty("transferId")
+    @JacksonXmlProperty(localName = "transferId")
     public void setTransferId(Long transferId) {
         this.transferId = transferId;
     }
 
-    /**
-     * 
-     * @return
-     *     The fileIds
-     */
     @JsonProperty("fileIds")
+    @JacksonXmlProperty(localName = "fileId")
     public List<Long> getFileIds() {
         return fileIds;
     }
 
-    /**
-     * 
-     * @param fileIds
-     *     The fileIds
-     */
     @JsonProperty("fileIds")
+    @JacksonXmlProperty(localName = "fileId")
     public void setFileIds(List<Long> fileIds) {
         this.fileIds = fileIds;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("transferId", transferId).append("fileIds", fileIds).toString();
     }
 
     @Override

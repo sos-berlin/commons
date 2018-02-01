@@ -1,10 +1,11 @@
 
 package com.sos.joc.model.schedule;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -17,7 +18,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobschedulerId",
     "schedule",
@@ -31,6 +31,7 @@ public class ScheduleFilter {
      * 
      */
     @JsonProperty("jobschedulerId")
+    @JacksonXmlProperty(localName = "jobschedulerId")
     private String jobschedulerId;
     /**
      * path
@@ -40,6 +41,8 @@ public class ScheduleFilter {
      * 
      */
     @JsonProperty("schedule")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
+    @JacksonXmlProperty(localName = "schedule")
     private String schedule;
     /**
      * compact parameter
@@ -48,16 +51,17 @@ public class ScheduleFilter {
      * 
      */
     @JsonProperty("compact")
+    @JsonPropertyDescription("controls if the object view is compact or detailed")
+    @JacksonXmlProperty(localName = "compact")
     private Boolean compact = false;
 
     /**
      * 
      * (Required)
      * 
-     * @return
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
+    @JacksonXmlProperty(localName = "jobschedulerId")
     public String getJobschedulerId() {
         return jobschedulerId;
     }
@@ -66,10 +70,9 @@ public class ScheduleFilter {
      * 
      * (Required)
      * 
-     * @param jobschedulerId
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
+    @JacksonXmlProperty(localName = "jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
         this.jobschedulerId = jobschedulerId;
     }
@@ -80,10 +83,9 @@ public class ScheduleFilter {
      * absolute path based on live folder of a JobScheduler object.
      * (Required)
      * 
-     * @return
-     *     The schedule
      */
     @JsonProperty("schedule")
+    @JacksonXmlProperty(localName = "schedule")
     public String getSchedule() {
         return schedule;
     }
@@ -94,10 +96,9 @@ public class ScheduleFilter {
      * absolute path based on live folder of a JobScheduler object.
      * (Required)
      * 
-     * @param schedule
-     *     The schedule
      */
     @JsonProperty("schedule")
+    @JacksonXmlProperty(localName = "schedule")
     public void setSchedule(String schedule) {
         this.schedule = schedule;
     }
@@ -107,10 +108,9 @@ public class ScheduleFilter {
      * <p>
      * controls if the object view is compact or detailed
      * 
-     * @return
-     *     The compact
      */
     @JsonProperty("compact")
+    @JacksonXmlProperty(localName = "compact")
     public Boolean getCompact() {
         return compact;
     }
@@ -120,22 +120,21 @@ public class ScheduleFilter {
      * <p>
      * controls if the object view is compact or detailed
      * 
-     * @param compact
-     *     The compact
      */
     @JsonProperty("compact")
+    @JacksonXmlProperty(localName = "compact")
     public void setCompact(Boolean compact) {
         this.compact = compact;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("schedule", schedule).append("compact", compact).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(schedule).append(compact).toHashCode();
+        return new HashCodeBuilder().append(schedule).append(jobschedulerId).append(compact).toHashCode();
     }
 
     @Override
@@ -147,7 +146,7 @@ public class ScheduleFilter {
             return false;
         }
         ScheduleFilter rhs = ((ScheduleFilter) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(schedule, rhs.schedule).append(compact, rhs.compact).isEquals();
+        return new EqualsBuilder().append(schedule, rhs.schedule).append(jobschedulerId, rhs.jobschedulerId).append(compact, rhs.compact).isEquals();
     }
 
 }

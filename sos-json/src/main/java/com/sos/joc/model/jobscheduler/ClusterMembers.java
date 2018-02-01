@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -23,7 +25,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobschedulerId",
     "_type",
@@ -37,6 +38,8 @@ public class ClusterMembers {
      * 
      */
     @JsonProperty("jobschedulerId")
+    @JsonPropertyDescription("JobScheduler id of all cluster member")
+    @JacksonXmlProperty(localName = "jobschedulerId")
     private String jobschedulerId;
     /**
      * Possible values are: 'standalone','active','passive'; JobScheduler doesn't run in a cluster (standalone) or is member of an active (distributed orders) or passive cluster (backup)
@@ -44,6 +47,8 @@ public class ClusterMembers {
      * 
      */
     @JsonProperty("_type")
+    @JsonPropertyDescription("Possible values are: 'standalone','active','passive'; JobScheduler doesn't run in a cluster (standalone) or is member of an active (distributed orders) or passive cluster (backup)")
+    @JacksonXmlProperty(localName = "_type")
     private ClusterMembers._type _type;
     /**
      * 
@@ -51,16 +56,17 @@ public class ClusterMembers {
      * 
      */
     @JsonProperty("members")
+    @JacksonXmlProperty(localName = "member")
+    @JacksonXmlElementWrapper(useWrapping = true, localName = "members")
     private List<ClusterMember> members = new ArrayList<ClusterMember>();
 
     /**
      * JobScheduler id of all cluster member
      * (Required)
      * 
-     * @return
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
+    @JacksonXmlProperty(localName = "jobschedulerId")
     public String getJobschedulerId() {
         return jobschedulerId;
     }
@@ -69,10 +75,9 @@ public class ClusterMembers {
      * JobScheduler id of all cluster member
      * (Required)
      * 
-     * @param jobschedulerId
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
+    @JacksonXmlProperty(localName = "jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
         this.jobschedulerId = jobschedulerId;
     }
@@ -81,10 +86,9 @@ public class ClusterMembers {
      * Possible values are: 'standalone','active','passive'; JobScheduler doesn't run in a cluster (standalone) or is member of an active (distributed orders) or passive cluster (backup)
      * (Required)
      * 
-     * @return
-     *     The _type
      */
     @JsonProperty("_type")
+    @JacksonXmlProperty(localName = "_type")
     public ClusterMembers._type get_type() {
         return _type;
     }
@@ -93,10 +97,9 @@ public class ClusterMembers {
      * Possible values are: 'standalone','active','passive'; JobScheduler doesn't run in a cluster (standalone) or is member of an active (distributed orders) or passive cluster (backup)
      * (Required)
      * 
-     * @param _type
-     *     The _type
      */
     @JsonProperty("_type")
+    @JacksonXmlProperty(localName = "_type")
     public void set_type(ClusterMembers._type _type) {
         this._type = _type;
     }
@@ -105,10 +108,9 @@ public class ClusterMembers {
      * 
      * (Required)
      * 
-     * @return
-     *     The members
      */
     @JsonProperty("members")
+    @JacksonXmlProperty(localName = "member")
     public List<ClusterMember> getMembers() {
         return members;
     }
@@ -117,22 +119,21 @@ public class ClusterMembers {
      * 
      * (Required)
      * 
-     * @param members
-     *     The members
      */
     @JsonProperty("members")
+    @JacksonXmlProperty(localName = "member")
     public void setMembers(List<ClusterMember> members) {
         this.members = members;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("_type", _type).append("members", members).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(_type).append(members).toHashCode();
+        return new HashCodeBuilder().append(_type).append(jobschedulerId).append(members).toHashCode();
     }
 
     @Override
@@ -144,10 +145,9 @@ public class ClusterMembers {
             return false;
         }
         ClusterMembers rhs = ((ClusterMembers) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(_type, rhs._type).append(members, rhs.members).isEquals();
+        return new EqualsBuilder().append(_type, rhs._type).append(jobschedulerId, rhs.jobschedulerId).append(members, rhs.members).isEquals();
     }
 
-    @Generated("org.jsonschema2pojo")
     public enum _type {
 
         STANDALONE("standalone"),
@@ -166,9 +166,13 @@ public class ClusterMembers {
             this.value = value;
         }
 
-        @JsonValue
         @Override
         public String toString() {
+            return this.value;
+        }
+
+        @JsonValue
+        public String value() {
             return this.value;
         }
 

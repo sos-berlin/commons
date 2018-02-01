@@ -2,10 +2,11 @@
 package com.sos.joc.model.job;
 
 import java.util.Date;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -18,7 +19,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "taskId",
     "enqueued",
@@ -32,6 +32,7 @@ public class QueuedTask {
      * 
      */
     @JsonProperty("taskId")
+    @JacksonXmlProperty(localName = "taskId")
     private String taskId;
     /**
      * timestamp
@@ -41,6 +42,8 @@ public class QueuedTask {
      * 
      */
     @JsonProperty("enqueued")
+    @JsonPropertyDescription("Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty")
+    @JacksonXmlProperty(localName = "enqueued")
     private Date enqueued;
     /**
      * timestamp
@@ -49,16 +52,17 @@ public class QueuedTask {
      * 
      */
     @JsonProperty("plannedStart")
+    @JsonPropertyDescription("Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty")
+    @JacksonXmlProperty(localName = "plannedStart")
     private Date plannedStart;
 
     /**
      * 
      * (Required)
      * 
-     * @return
-     *     The taskId
      */
     @JsonProperty("taskId")
+    @JacksonXmlProperty(localName = "taskId")
     public String getTaskId() {
         return taskId;
     }
@@ -67,10 +71,9 @@ public class QueuedTask {
      * 
      * (Required)
      * 
-     * @param taskId
-     *     The taskId
      */
     @JsonProperty("taskId")
+    @JacksonXmlProperty(localName = "taskId")
     public void setTaskId(String taskId) {
         this.taskId = taskId;
     }
@@ -81,10 +84,9 @@ public class QueuedTask {
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * (Required)
      * 
-     * @return
-     *     The enqueued
      */
     @JsonProperty("enqueued")
+    @JacksonXmlProperty(localName = "enqueued")
     public Date getEnqueued() {
         return enqueued;
     }
@@ -95,10 +97,9 @@ public class QueuedTask {
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * (Required)
      * 
-     * @param enqueued
-     *     The enqueued
      */
     @JsonProperty("enqueued")
+    @JacksonXmlProperty(localName = "enqueued")
     public void setEnqueued(Date enqueued) {
         this.enqueued = enqueued;
     }
@@ -108,10 +109,9 @@ public class QueuedTask {
      * <p>
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
-     * @return
-     *     The plannedStart
      */
     @JsonProperty("plannedStart")
+    @JacksonXmlProperty(localName = "plannedStart")
     public Date getPlannedStart() {
         return plannedStart;
     }
@@ -121,22 +121,21 @@ public class QueuedTask {
      * <p>
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
-     * @param plannedStart
-     *     The plannedStart
      */
     @JsonProperty("plannedStart")
+    @JacksonXmlProperty(localName = "plannedStart")
     public void setPlannedStart(Date plannedStart) {
         this.plannedStart = plannedStart;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("taskId", taskId).append("enqueued", enqueued).append("plannedStart", plannedStart).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(taskId).append(enqueued).append(plannedStart).toHashCode();
+        return new HashCodeBuilder().append(enqueued).append(plannedStart).append(taskId).toHashCode();
     }
 
     @Override
@@ -148,7 +147,7 @@ public class QueuedTask {
             return false;
         }
         QueuedTask rhs = ((QueuedTask) other);
-        return new EqualsBuilder().append(taskId, rhs.taskId).append(enqueued, rhs.enqueued).append(plannedStart, rhs.plannedStart).isEquals();
+        return new EqualsBuilder().append(enqueued, rhs.enqueued).append(plannedStart, rhs.plannedStart).append(taskId, rhs.taskId).isEquals();
     }
 
 }

@@ -1,10 +1,11 @@
 
 package com.sos.joc.model.calendar;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -17,7 +18,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "from",
     "to",
@@ -33,6 +33,8 @@ public class Repetition {
      * 
      */
     @JsonProperty("from")
+    @JsonPropertyDescription("ISO date YYYY-MM-DD")
+    @JacksonXmlProperty(localName = "from")
     private String from;
     /**
      * date
@@ -41,6 +43,8 @@ public class Repetition {
      * 
      */
     @JsonProperty("to")
+    @JsonPropertyDescription("ISO date YYYY-MM-DD")
+    @JacksonXmlProperty(localName = "to")
     private String to;
     /**
      * 
@@ -48,8 +52,10 @@ public class Repetition {
      * 
      */
     @JsonProperty("repetition")
+    @JacksonXmlProperty(localName = "repetition")
     private RepetitionText repetition;
     @JsonProperty("step")
+    @JacksonXmlProperty(localName = "step")
     private Integer step = 1;
 
     /**
@@ -57,10 +63,9 @@ public class Repetition {
      * <p>
      * ISO date YYYY-MM-DD
      * 
-     * @return
-     *     The from
      */
     @JsonProperty("from")
+    @JacksonXmlProperty(localName = "from")
     public String getFrom() {
         return from;
     }
@@ -70,10 +75,9 @@ public class Repetition {
      * <p>
      * ISO date YYYY-MM-DD
      * 
-     * @param from
-     *     The from
      */
     @JsonProperty("from")
+    @JacksonXmlProperty(localName = "from")
     public void setFrom(String from) {
         this.from = from;
     }
@@ -83,10 +87,9 @@ public class Repetition {
      * <p>
      * ISO date YYYY-MM-DD
      * 
-     * @return
-     *     The to
      */
     @JsonProperty("to")
+    @JacksonXmlProperty(localName = "to")
     public String getTo() {
         return to;
     }
@@ -96,10 +99,9 @@ public class Repetition {
      * <p>
      * ISO date YYYY-MM-DD
      * 
-     * @param to
-     *     The to
      */
     @JsonProperty("to")
+    @JacksonXmlProperty(localName = "to")
     public void setTo(String to) {
         this.to = to;
     }
@@ -108,10 +110,9 @@ public class Repetition {
      * 
      * (Required)
      * 
-     * @return
-     *     The repetition
      */
     @JsonProperty("repetition")
+    @JacksonXmlProperty(localName = "repetition")
     public RepetitionText getRepetition() {
         return repetition;
     }
@@ -120,42 +121,33 @@ public class Repetition {
      * 
      * (Required)
      * 
-     * @param repetition
-     *     The repetition
      */
     @JsonProperty("repetition")
+    @JacksonXmlProperty(localName = "repetition")
     public void setRepetition(RepetitionText repetition) {
         this.repetition = repetition;
     }
 
-    /**
-     * 
-     * @return
-     *     The step
-     */
     @JsonProperty("step")
+    @JacksonXmlProperty(localName = "step")
     public Integer getStep() {
         return step;
     }
 
-    /**
-     * 
-     * @param step
-     *     The step
-     */
     @JsonProperty("step")
+    @JacksonXmlProperty(localName = "step")
     public void setStep(Integer step) {
         this.step = step;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("from", from).append("to", to).append("repetition", repetition).append("step", step).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(from).append(to).append(repetition).append(step).toHashCode();
+        return new HashCodeBuilder().append(from).append(step).append(to).append(repetition).toHashCode();
     }
 
     @Override
@@ -167,7 +159,7 @@ public class Repetition {
             return false;
         }
         Repetition rhs = ((Repetition) other);
-        return new EqualsBuilder().append(from, rhs.from).append(to, rhs.to).append(repetition, rhs.repetition).append(step, rhs.step).isEquals();
+        return new EqualsBuilder().append(from, rhs.from).append(step, rhs.step).append(to, rhs.to).append(repetition, rhs.repetition).isEquals();
     }
 
 }

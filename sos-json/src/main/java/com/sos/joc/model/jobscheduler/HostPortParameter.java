@@ -1,10 +1,10 @@
 
 package com.sos.joc.model.jobscheduler;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.sos.joc.model.audit.AuditParams;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -18,7 +18,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobschedulerId",
     "host",
@@ -28,8 +27,10 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class HostPortParameter {
 
     @JsonProperty("jobschedulerId")
+    @JacksonXmlProperty(localName = "jobschedulerId")
     private String jobschedulerId;
     @JsonProperty("host")
+    @JacksonXmlProperty(localName = "host")
     private String host;
     /**
      * port
@@ -38,6 +39,7 @@ public class HostPortParameter {
      * 
      */
     @JsonProperty("port")
+    @JacksonXmlProperty(localName = "port")
     private Integer port;
     /**
      * auditParams
@@ -46,44 +48,29 @@ public class HostPortParameter {
      * 
      */
     @JsonProperty("auditLog")
+    @JacksonXmlProperty(localName = "auditLog")
     private AuditParams auditLog;
 
-    /**
-     * 
-     * @return
-     *     The jobschedulerId
-     */
     @JsonProperty("jobschedulerId")
+    @JacksonXmlProperty(localName = "jobschedulerId")
     public String getJobschedulerId() {
         return jobschedulerId;
     }
 
-    /**
-     * 
-     * @param jobschedulerId
-     *     The jobschedulerId
-     */
     @JsonProperty("jobschedulerId")
+    @JacksonXmlProperty(localName = "jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
         this.jobschedulerId = jobschedulerId;
     }
 
-    /**
-     * 
-     * @return
-     *     The host
-     */
     @JsonProperty("host")
+    @JacksonXmlProperty(localName = "host")
     public String getHost() {
         return host;
     }
 
-    /**
-     * 
-     * @param host
-     *     The host
-     */
     @JsonProperty("host")
+    @JacksonXmlProperty(localName = "host")
     public void setHost(String host) {
         this.host = host;
     }
@@ -93,10 +80,9 @@ public class HostPortParameter {
      * <p>
      * 
      * 
-     * @return
-     *     The port
      */
     @JsonProperty("port")
+    @JacksonXmlProperty(localName = "port")
     public Integer getPort() {
         return port;
     }
@@ -106,10 +92,9 @@ public class HostPortParameter {
      * <p>
      * 
      * 
-     * @param port
-     *     The port
      */
     @JsonProperty("port")
+    @JacksonXmlProperty(localName = "port")
     public void setPort(Integer port) {
         this.port = port;
     }
@@ -119,10 +104,9 @@ public class HostPortParameter {
      * <p>
      * 
      * 
-     * @return
-     *     The auditLog
      */
     @JsonProperty("auditLog")
+    @JacksonXmlProperty(localName = "auditLog")
     public AuditParams getAuditLog() {
         return auditLog;
     }
@@ -132,22 +116,21 @@ public class HostPortParameter {
      * <p>
      * 
      * 
-     * @param auditLog
-     *     The auditLog
      */
     @JsonProperty("auditLog")
+    @JacksonXmlProperty(localName = "auditLog")
     public void setAuditLog(AuditParams auditLog) {
         this.auditLog = auditLog;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("host", host).append("port", port).append("auditLog", auditLog).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(host).append(port).append(auditLog).toHashCode();
+        return new HashCodeBuilder().append(host).append(jobschedulerId).append(auditLog).append(port).toHashCode();
     }
 
     @Override
@@ -159,7 +142,7 @@ public class HostPortParameter {
             return false;
         }
         HostPortParameter rhs = ((HostPortParameter) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(host, rhs.host).append(port, rhs.port).append(auditLog, rhs.auditLog).isEquals();
+        return new EqualsBuilder().append(host, rhs.host).append(jobschedulerId, rhs.jobschedulerId).append(auditLog, rhs.auditLog).append(port, rhs.port).isEquals();
     }
 
 }

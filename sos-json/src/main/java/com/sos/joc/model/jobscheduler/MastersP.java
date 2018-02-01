@@ -4,10 +4,12 @@ package com.sos.joc.model.jobscheduler;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -20,7 +22,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "deliveryDate",
     "masters"
@@ -35,6 +36,8 @@ public class MastersP {
      * 
      */
     @JsonProperty("deliveryDate")
+    @JsonPropertyDescription("Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
+    @JacksonXmlProperty(localName = "deliveryDate")
     private Date deliveryDate;
     /**
      * 
@@ -42,6 +45,8 @@ public class MastersP {
      * 
      */
     @JsonProperty("masters")
+    @JacksonXmlProperty(localName = "master")
+    @JacksonXmlElementWrapper(useWrapping = true, localName = "masters")
     private List<JobSchedulerP> masters = new ArrayList<JobSchedulerP>();
 
     /**
@@ -50,10 +55,9 @@ public class MastersP {
      * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * (Required)
      * 
-     * @return
-     *     The deliveryDate
      */
     @JsonProperty("deliveryDate")
+    @JacksonXmlProperty(localName = "deliveryDate")
     public Date getDeliveryDate() {
         return deliveryDate;
     }
@@ -64,10 +68,9 @@ public class MastersP {
      * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * (Required)
      * 
-     * @param deliveryDate
-     *     The deliveryDate
      */
     @JsonProperty("deliveryDate")
+    @JacksonXmlProperty(localName = "deliveryDate")
     public void setDeliveryDate(Date deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
@@ -76,10 +79,9 @@ public class MastersP {
      * 
      * (Required)
      * 
-     * @return
-     *     The masters
      */
     @JsonProperty("masters")
+    @JacksonXmlProperty(localName = "master")
     public List<JobSchedulerP> getMasters() {
         return masters;
     }
@@ -88,17 +90,16 @@ public class MastersP {
      * 
      * (Required)
      * 
-     * @param masters
-     *     The masters
      */
     @JsonProperty("masters")
+    @JacksonXmlProperty(localName = "master")
     public void setMasters(List<JobSchedulerP> masters) {
         this.masters = masters;
     }
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("masters", masters).toString();
     }
 
     @Override
