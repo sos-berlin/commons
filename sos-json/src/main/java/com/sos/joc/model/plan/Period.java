@@ -47,7 +47,7 @@ public class Period {
     @JacksonXmlProperty(localName = "end")
     private Date end;
     /**
-     * non negative integer
+     * non negative long
      * <p>
      * 
      * (Required)
@@ -55,7 +55,7 @@ public class Period {
      */
     @JsonProperty("repeat")
     @JacksonXmlProperty(localName = "repeat")
-    private Integer repeat;
+    private Long repeat;
 
     /**
      * timestamp
@@ -110,7 +110,7 @@ public class Period {
     }
 
     /**
-     * non negative integer
+     * non negative long
      * <p>
      * 
      * (Required)
@@ -118,12 +118,12 @@ public class Period {
      */
     @JsonProperty("repeat")
     @JacksonXmlProperty(localName = "repeat")
-    public Integer getRepeat() {
+    public Long getRepeat() {
         return repeat;
     }
 
     /**
-     * non negative integer
+     * non negative long
      * <p>
      * 
      * (Required)
@@ -131,7 +131,7 @@ public class Period {
      */
     @JsonProperty("repeat")
     @JacksonXmlProperty(localName = "repeat")
-    public void setRepeat(Integer repeat) {
+    public void setRepeat(Long repeat) {
         this.repeat = repeat;
     }
 
