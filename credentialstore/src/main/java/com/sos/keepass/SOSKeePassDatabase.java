@@ -270,6 +270,7 @@ public class SOSKeePassDatabase {
         InputStream is = null;
         try {
             is = new FileInputStream(_file.toFile());
+            LOGGER.debug(String.format("KdbDatabase.load: file=%s", _file));
             database = KdbDatabase.load(cred, is);
         } catch (Throwable e) {
             throw new SOSKeePassDatabaseException(e);
@@ -321,6 +322,7 @@ public class SOSKeePassDatabase {
         InputStream is = null;
         try {
             is = new FileInputStream(_file.toFile());
+            LOGGER.debug(String.format("SimpleDatabase.load: file=%s", _file));
             database = SimpleDatabase.load(cred, is);
         } catch (Throwable e) {
             throw new SOSKeePassDatabaseException(e);
