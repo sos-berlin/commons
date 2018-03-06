@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.linguafranca.pwdb.Credentials;
@@ -17,6 +18,9 @@ import org.linguafranca.pwdb.kdbx.simple.SimpleDatabase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Joiner;
+
+import sos.util.ParameterSubstitutor;
 import sos.util.SOSString;
 
 public class SOSKeePassDatabase {
@@ -52,6 +56,37 @@ public class SOSKeePassDatabase {
         } else {
             _database = getKDBDatabase(password, keyFile);
         }
+    }
+
+    public static boolean hasKeePassVariables(String command) {
+        return command != null && command.contains("${" + SOSKeePassPath.PATH_PREFIX);
+    }
+
+    public String resolveKeePassVariables(String command) throws Exception {
+        ParameterSubstitutor ps = new ParameterSubstitutor();
+        List<String> varNames = ps.getParameterNameFromString(command);
+        List<String> skippedNames = new ArrayList<String>();
+        for (String varName : varNames) {
+            SOSKeePassPath path = new SOSKeePassPath(_isKdbx, varName);
+            if (path.isValid()) {
+                LOGGER.debug(String.format("resolve variable ${%s}", varName));
+                Entry<?, ?, ?, ?> entry = getEntryByPath(path.getEntryPath());
+                if (entry == null) {
+                    throw new Exception(String.format("[%s][%s]entry not found", varName, path.toString()));
+                }
+                String value = entry.getProperty(path.getPropertyName());
+                if (value == null) {
+                    throw new Exception(String.format("[%s][%s]value is null", varName, path.toString()));
+                }
+                ps.addKey(varName, value);
+            } else {
+                skippedNames.add("${"+varName+"}");
+            }
+        }
+        if(skippedNames.size() > 0){
+            LOGGER.debug(String.format("skip resolve variables: %s", Joiner.on(",").join(skippedNames)));
+        }
+        return ps.replace(command);
     }
 
     public List<? extends Entry<?, ?, ?, ?>> getEntries() {
