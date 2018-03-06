@@ -8,8 +8,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import sos.scheduler.misc.ParameterSubstitutor;
-
+ 
 public class TestParameterSubstitutor {
 
     @Test
