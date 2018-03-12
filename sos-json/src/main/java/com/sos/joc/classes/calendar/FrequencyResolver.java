@@ -16,6 +16,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.TimeZone;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -37,6 +38,7 @@ import com.sos.joc.model.calendar.WeeklyDay;
 
 public class FrequencyResolver {
 
+    private static TimeZone UTC = TimeZone.getTimeZone("UTC");
     private SortedMap<String, Calendar> dates = new TreeMap<String, Calendar>();
     private SortedMap<String, Calendar> datesWithoutRestrictions = new TreeMap<String, Calendar>();
     private SortedSet<String> restrictions = new TreeSet<String>();
@@ -344,8 +346,8 @@ public class FrequencyResolver {
             if (!cal.matches("^\\d{4}-\\d{2}-\\d{2}$")) {
                 throw new SOSInvalidDataException(msg);
             }
-            calendar = Calendar.getInstance();
-            calendar.setTime(Date.from(Instant.parse(cal + "T00:00:00Z")));
+            calendar = Calendar.getInstance(UTC);
+            calendar.setTime(Date.from(Instant.parse(cal + "T12:00:00Z")));
         }
         return calendar;
     }
@@ -470,8 +472,8 @@ public class FrequencyResolver {
 
     private void addMonths(List<Months> months) throws SOSInvalidDataException {
         if (months != null) {
-            Calendar monthStart = Calendar.getInstance();
-            Calendar monthEnd = Calendar.getInstance();
+            Calendar monthStart = Calendar.getInstance(UTC);
+            Calendar monthEnd = Calendar.getInstance(UTC);
             for (Months month : months) {
                 if (month.getMonths() != null) {
                     Calendar from = getFrom(month.getFrom());
@@ -496,8 +498,8 @@ public class FrequencyResolver {
 
     private void removeMonths(List<Months> months) throws SOSInvalidDataException {
         if (months != null) {
-            Calendar monthStart = Calendar.getInstance();
-            Calendar monthEnd = Calendar.getInstance();
+            Calendar monthStart = Calendar.getInstance(UTC);
+            Calendar monthEnd = Calendar.getInstance(UTC);
             for (Months month : months) {
                 if (month.getMonths() != null) {
                     Calendar from = getFrom(month.getFrom());
@@ -567,14 +569,14 @@ public class FrequencyResolver {
     }
 
     private Calendar getFrom(String from, Calendar fromRef) throws SOSInvalidDataException {
-        Calendar cal = Calendar.getInstance();
+        Calendar cal = Calendar.getInstance(UTC);
         if (from == null || from.isEmpty()) {
             return (Calendar) fromRef.clone();
         }
         if (!from.matches("^\\d{4}-\\d{2}-\\d{2}$")) {
             throw new SOSInvalidDataException("json field 'from' must have the format YYYY-MM-DD.");
         }
-        cal.setTime(Date.from(Instant.parse(from + "T00:00:00Z")));
+        cal.setTime(Date.from(Instant.parse(from + "T12:00:00Z")));
         if (cal.after(fromRef)) {
             return cal;
         }
@@ -598,8 +600,8 @@ public class FrequencyResolver {
         if (!to.matches("^\\d{4}-\\d{2}-\\d{2}$")) {
             throw new SOSInvalidDataException("json field 'to' must have the format YYYY-MM-DD.");
         }
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(Date.from(Instant.parse(to + "T00:00:00Z")));
+        Calendar cal = Calendar.getInstance(UTC);
+        cal.setTime(Date.from(Instant.parse(to + "T12:00:00Z")));
         if (cal.before(toRef)) {
             return cal;
         }
@@ -1013,10 +1015,10 @@ public class FrequencyResolver {
     }
 
     private Calendar getTodayCalendar() {
-        // use today at 00:00:00.000 as default
-        Calendar cal = Calendar.getInstance();
+        // use today at 12:00:00.000 as default
+        Calendar cal = Calendar.getInstance(UTC);
         cal.setTime(Date.from(Instant.now()));
-        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.HOUR_OF_DAY, 12);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
@@ -1089,8 +1091,8 @@ public class FrequencyResolver {
     
     private void addMonthsRestrictions() throws SOSInvalidDataException {
         if (includes != null && includes.getMonths() != null) {
-            Calendar monthStart = Calendar.getInstance();
-            Calendar monthEnd = Calendar.getInstance();
+            Calendar monthStart = Calendar.getInstance(UTC);
+            Calendar monthEnd = Calendar.getInstance(UTC);
             for (Months month : includes.getMonths()) {
                 if (month.getMonths() != null) {
                     Calendar from = getFrom(month.getFrom());

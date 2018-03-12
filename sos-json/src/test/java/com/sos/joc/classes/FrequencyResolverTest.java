@@ -25,7 +25,8 @@ public class FrequencyResolverTest {
 
     @Before
     public void setUp() throws Exception {
-        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+        //TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+        TimeZone.setDefault(TimeZone.getTimeZone("America/Montevideo"));
         String json = "{\"includes\":{";
         json += "\"dates\":[\"2016-01-01\", \"2017-05-02\", \"2017-04-15\"],";
         json += "\"holidays\":[{\"dates\":[\"2016-01-01\", \"2017-05-01\", \"2017-12-25\"]}],";
