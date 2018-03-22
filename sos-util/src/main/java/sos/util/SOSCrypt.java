@@ -5,20 +5,9 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.security.MessageDigest;
 
-import sun.misc.BASE64Encoder;
 
 /** @author Ghassan Beydoun */
 public class SOSCrypt {
-
-    public static String encrypt(String text, String algName) throws Exception {
-        BASE64Encoder encoder = null;
-        MessageDigest md = null;
-        encoder = new BASE64Encoder();
-        md = MessageDigest.getInstance(algName);
-        md.reset();
-        md.update(text.getBytes());
-        return encoder.encode(md.digest());
-    }
 
     public static String md5encrypt(String str) throws Exception {
         MessageDigest md = null;
