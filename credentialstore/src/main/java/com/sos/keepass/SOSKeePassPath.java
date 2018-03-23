@@ -34,6 +34,10 @@ public class SOSKeePassPath {
         }
     }
 
+    public static boolean hasKeePassVariables(String command) {
+        return command != null && command.contains("${" + PATH_PREFIX);
+    }
+
     private void setEntryPath(final String path, final String entryPath, final boolean isKdbx) {
         if (path.equals("/")) {
             _entry = SOSString.isEmpty(entryPath) ? null : entryPath;
