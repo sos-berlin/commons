@@ -22,6 +22,8 @@ import sos.util.SOSString;
 public class SOSKeePassDatabase {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SOSKeePassDatabase.class);
+    private static final boolean isDebugEnabled = LOGGER.isDebugEnabled();
+    private static final boolean isTraceEnabled = LOGGER.isTraceEnabled();
     /* see KdbDatabase constructor: KDB files don't have a single root group, this is a synthetic surrogate */
     public static final String KDB_ROOT_GROUP_NAME = "Root";
     public static final String KDB_GROUP_TITLE = "Meta-Info";
@@ -37,7 +39,9 @@ public class SOSKeePassDatabase {
         }
         _file = file;
         _isKdbx = file.toString().toLowerCase().endsWith(".kdbx");
-        LOGGER.debug(String.format("file=%s, isKdbx=%s", _file, _isKdbx));
+        if (isDebugEnabled) {
+            LOGGER.debug(String.format("file=%s, isKdbx=%s", _file, _isKdbx));
+        }
     }
 
     public void load(final String password) throws SOSKeePassDatabaseException {
@@ -45,8 +49,10 @@ public class SOSKeePassDatabase {
     }
 
     public void load(final String password, final Path keyFile) throws SOSKeePassDatabaseException {
-        LOGGER.debug(String.format("password=?, keyFile=%s", keyFile));
-
+        if (isTraceEnabled) {
+            String pass = password == null ? "" : "pass=?, ";
+            LOGGER.trace(String.format("%skeyFile=%s", pass, keyFile));
+        }
         if (_isKdbx) {
             _database = getKDBXDatabase(password, keyFile);
         } else {
@@ -55,7 +61,7 @@ public class SOSKeePassDatabase {
     }
 
     public List<? extends Entry<?, ?, ?, ?>> getEntries() {
-        LOGGER.debug(String.format("getEntries"));
+        LOGGER.debug("getEntries");
 
         if (_database == null) {
             return null;
@@ -73,8 +79,9 @@ public class SOSKeePassDatabase {
     }
 
     public List<? extends Entry<?, ?, ?, ?>> getEntriesByTitle(final String match) {
-        LOGGER.debug(String.format("match=%s", match));
-
+        if (isDebugEnabled) {
+            LOGGER.debug(String.format("match=%s", match));
+        }
         if (_database == null) {
             return null;
         }
@@ -87,8 +94,9 @@ public class SOSKeePassDatabase {
     }
 
     public List<? extends Entry<?, ?, ?, ?>> getEntriesByUsername(final String match) {
-        LOGGER.debug(String.format("match=%s", match));
-
+        if (isDebugEnabled) {
+            LOGGER.debug(String.format("match=%s", match));
+        }
         if (_database == null) {
             return null;
         }
@@ -101,8 +109,9 @@ public class SOSKeePassDatabase {
     }
 
     public List<? extends Entry<?, ?, ?, ?>> getEntriesByUrl(final String match) {
-        LOGGER.debug(String.format("match=%s", match));
-
+        if (isDebugEnabled) {
+            LOGGER.debug(String.format("match=%s", match));
+        }
         if (_database == null) {
             return null;
         }
@@ -115,8 +124,9 @@ public class SOSKeePassDatabase {
     }
 
     public Entry<?, ?, ?, ?> getEntryByPath(final String path) {
-        LOGGER.debug(String.format("path=%s", path));
-
+        if (isDebugEnabled) {
+            LOGGER.debug(String.format("path=%s", path));
+        }
         if (_database == null || path == null) {
             return null;
         }
@@ -150,7 +160,9 @@ public class SOSKeePassDatabase {
         if (entry == null) {
             throw new SOSKeePassDatabaseException("entry is null");
         }
-        LOGGER.debug(String.format("entryPath=%s, propertyName=%s", entry.getPath(), propertyName));
+        if (isDebugEnabled) {
+            LOGGER.debug(String.format("entryPath=%s, propertyName=%s", entry.getPath(), propertyName));
+        }
         if (propertyName != null && propertyName.equalsIgnoreCase(STANDARD_PROPERTY_NAME_ATTACHMENT)) {
             propertyName = null;
         }
@@ -269,8 +281,10 @@ public class SOSKeePassDatabase {
         KdbDatabase database = null;
         InputStream is = null;
         try {
+            if (isDebugEnabled) {
+                LOGGER.debug(String.format("KdbDatabase.load: file=%s", _file));
+            }
             is = new FileInputStream(_file.toFile());
-            LOGGER.debug(String.format("KdbDatabase.load: file=%s", _file));
             database = KdbDatabase.load(cred, is);
         } catch (Throwable e) {
             throw new SOSKeePassDatabaseException(e);
@@ -321,8 +335,10 @@ public class SOSKeePassDatabase {
         SimpleDatabase database = null;
         InputStream is = null;
         try {
+            if (isDebugEnabled) {
+                LOGGER.debug(String.format("SimpleDatabase.load: file=%s", _file));
+            }
             is = new FileInputStream(_file.toFile());
-            LOGGER.debug(String.format("SimpleDatabase.load: file=%s", _file));
             database = SimpleDatabase.load(cred, is);
         } catch (Throwable e) {
             throw new SOSKeePassDatabaseException(e);
