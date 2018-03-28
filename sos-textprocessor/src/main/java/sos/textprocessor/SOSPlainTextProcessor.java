@@ -9,6 +9,7 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.Map;
 
 import sos.connection.SOSConnection;
 import sos.settings.SOSConnectionSettings;
@@ -75,26 +76,26 @@ public class SOSPlainTextProcessor extends SOSTextProcessor {
         return this.process(this.getTemplateFile(), this.getTemplateScriptLanguage(), this.getReplacements(), false);
     }
 
-    public File process(File templateFile, HashMap replacements) throws Exception {
+    public File process(File templateFile, Map<String, String> replacements) throws Exception {
         this.setTemplateFile(templateFile);
         this.setReplacements(replacements);
         return this.process(this.getTemplateFile(), this.getTemplateScriptLanguage(), this.getReplacements(), false);
     }
 
-    public File process(File templateFile, String templateScriptLanguage, HashMap replacements) throws Exception {
+    public File process(File templateFile, String templateScriptLanguage, Map<String, String> replacements) throws Exception {
         this.setTemplateFile(templateFile);
         this.setTemplateScriptLanguage(templateScriptLanguage);
         this.setReplacements(replacements);
         return this.process(this.getTemplateFile(), this.getTemplateScriptLanguage(), this.getReplacements(), false);
     }
 
-    public File process(File templateFile, HashMap replacements, boolean nl2br) throws Exception {
+    public File process(File templateFile, Map<String, String> replacements, boolean nl2br) throws Exception {
         this.setTemplateFile(templateFile);
         this.setReplacements(replacements);
         return this.process(this.getTemplateFile(), this.getTemplateScriptLanguage(), this.getReplacements(), nl2br);
     }
 
-    public File process(File templateFile, String templateScriptLanguage, HashMap replacements, boolean nl2br) throws Exception {
+    public File process(File templateFile, String templateScriptLanguage, Map<String, String> replacements, boolean nl2br) throws Exception {
         this.setTemplateFile(templateFile);
         this.setTemplateScriptLanguage(templateScriptLanguage);
         this.setReplacements(replacements);
@@ -121,28 +122,28 @@ public class SOSPlainTextProcessor extends SOSTextProcessor {
         return this.process(this.getTemplateContent(), this.getTemplateScriptLanguage(), this.getReplacements(), false);
     }
 
-    public String process(String templateContent, HashMap replacements) throws Exception {
+    public String process(String templateContent, Map<String, String> replacements) throws Exception {
         this.setTemplateContent(templateContent);
         this.setReplacements(replacements);
         return this.process(this.getTemplateContent(), this.getTemplateScriptLanguage(), this.getReplacements(), false);
     }
 
-    public String process(String templateContent, String templateScriptLanguage, HashMap replacements) throws Exception {
+    public String process(String templateContent, String templateScriptLanguage, Map<String, String> replacements) throws Exception {
         this.setTemplateContent(templateContent);
         this.setTemplateScriptLanguage(templateScriptLanguage);
         this.setReplacements(replacements);
         return this.process(this.getTemplateContent(), this.getTemplateScriptLanguage(), this.getReplacements(), false);
     }
 
-    public String process(String templateContent, HashMap replacements, boolean nl2br) throws Exception {
+    public String process(String templateContent, Map<String, String> replacements, boolean nl2br) throws Exception {
         this.setTemplateContent(templateContent);
         this.setReplacements(replacements);
         return this.process(this.getTemplateContent(), this.getTemplateScriptLanguage(), this.getReplacements(), nl2br);
     }
 
-    public String process(String templateContent, String templateScriptLanguage, HashMap replacements, boolean nl2br) throws Exception {
-        Object key = null;
-        Object value = null;
+    public String process(String templateContent, String templateScriptLanguage, Map<String, String> replacements, boolean nl2br) throws Exception {
+        String key = null;
+        String value = null;
         String content = templateContent;
         this.setTemplateContent(templateContent);
         this.setTemplateScriptLanguage(templateScriptLanguage);
@@ -155,39 +156,39 @@ public class SOSPlainTextProcessor extends SOSTextProcessor {
             content = content.replaceAll("\n", "<br/>");
         }
         if (replacements != null) {
-            Iterator keys = replacements.keySet().iterator();
+            Iterator<String> keys = replacements.keySet().iterator();
             while (keys.hasNext()) {
                 key = keys.next();
                 if (key != null) {
-                    value = replacements.get(key.toString());
+                    value = replacements.get(key);
                     if (value != null) {
                         try {
                             content =
-                                    content.replaceAll("&\\#\\(" + key.toString() + "\\)", SOSDate.getDateAsString(SOSDate.getDate(value.toString()),
+                                    content.replaceAll("&\\#\\(" + key + "\\)", SOSDate.getDateAsString(SOSDate.getDate(value),
                                             this.getDateFormat()));
                             content =
-                                    content.replaceAll("&\\#\\#\\(" + key.toString() + "\\)", SOSDate.getDateTimeAsString(
-                                            SOSDate.getDate(value.toString()), this.getDatetimeFormat()));
+                                    content.replaceAll("&\\#\\#\\(" + key + "\\)", SOSDate.getDateTimeAsString(
+                                            SOSDate.getDate(value), this.getDatetimeFormat()));
                         } catch (Exception ex) {
                             // ignore this error: replacement is not convertible
                             // to date
                         }
                         Locale defaultLocale = Locale.getDefault();
                         try {
-                            double doubleValue = Double.parseDouble(value.toString());
+                            double doubleValue = Double.parseDouble(value);
                             if ("de".equalsIgnoreCase(this.getLanguage())) {
                                 Locale.setDefault(Locale.GERMAN);
                             } else if ("en".equalsIgnoreCase(this.getLanguage())) {
                                 Locale.setDefault(Locale.US);
                             }
                             DecimalFormat formatter = new DecimalFormat("#,###.00");
-                            content = content.replaceAll("&\\$\\(" + key.toString() + "\\)", formatter.format(doubleValue).toString());
+                            content = content.replaceAll("&\\$\\(" + key + "\\)", formatter.format(doubleValue).toString());
                         } catch (Exception ex) {
                             //
                         } finally {
                             Locale.setDefault(defaultLocale);
                         }
-                        content = content.replaceAll("&\\(" + key.toString() + "\\)", value.toString());
+                        content = content.replaceAll("&\\(" + key + "\\)", value);
                     }
                 }
             }
@@ -216,7 +217,6 @@ public class SOSPlainTextProcessor extends SOSTextProcessor {
             SOSPlainTextProcessor processor = new SOSPlainTextProcessor();
             processor.process("Hello World &(datetime)");
             System.out.println(processor.getDocumentContent());
-            SOSStandardLogger logger = new SOSStandardLogger(9);
             SOSConnection connection = SOSConnection.createInstance("/scheduler/config/hibernate.cfg.xml");
             connection.connect();
             SOSConnectionSettings settings = new SOSConnectionSettings(connection, "SETTINGS");

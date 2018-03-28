@@ -6,7 +6,7 @@ import java.util.List;
 public final class SOSMalformedBooleanException extends Exception {
 
     private static final long serialVersionUID = 1L;
-    private List booleanExpressionErrorIndexes;
+    private List<Integer> booleanExpressionErrorIndexes;
     private String booleanExpression;
     private String booleanExpressionErrorMessage;
 
@@ -14,7 +14,7 @@ public final class SOSMalformedBooleanException extends Exception {
         this(errorMessage, toList(errorIndex), newBooleanExpression);
     }
 
-    SOSMalformedBooleanException(final String errorMessage, final List errorIndexes, final String newBooleanExpression) {
+    SOSMalformedBooleanException(final String errorMessage, final List<Integer> errorIndexes, final String newBooleanExpression) {
         super(format(errorMessage, errorIndexes, newBooleanExpression));
         this.booleanExpression = newBooleanExpression;
         this.booleanExpressionErrorIndexes = errorIndexes;
@@ -25,7 +25,7 @@ public final class SOSMalformedBooleanException extends Exception {
         return this.booleanExpression;
     }
 
-    public List getBooleanExpressionErrorIndexes() {
+    public List<Integer> getBooleanExpressionErrorIndexes() {
         return this.booleanExpressionErrorIndexes;
     }
 
@@ -33,13 +33,13 @@ public final class SOSMalformedBooleanException extends Exception {
         return this.booleanExpressionErrorMessage;
     }
 
-    private static List toList(final int errorIndex) {
-        List errorIndexes = new ArrayList();
+    private static List<Integer> toList(final int errorIndex) {
+        List<Integer> errorIndexes = new ArrayList<Integer>();
         errorIndexes.add(new Integer(errorIndex));
         return errorIndexes;
     }
 
-    private static String format(final String errorMessage, final List errorIndexes, final String newBooleanExpression) {
+    private static String format(final String errorMessage, final List<Integer> errorIndexes, final String newBooleanExpression) {
         if (errorMessage == null || "".equals(errorMessage)) {
             throw new IllegalArgumentException("errorMessage is null or void");
         }
@@ -55,7 +55,7 @@ public final class SOSMalformedBooleanException extends Exception {
         int size = errorIndexes.size();
         int lastIndex = 0;
         for (int i = 0; i < size; i++) {
-            int index = ((Integer) errorIndexes.get(i)).intValue();
+            int index = errorIndexes.get(i).intValue();
             error.append(newBooleanExpression.substring(lastIndex, index));
             error.append("_");
             lastIndex = index;

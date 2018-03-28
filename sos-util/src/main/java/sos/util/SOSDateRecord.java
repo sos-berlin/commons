@@ -2,7 +2,7 @@ package sos.util;
 
 import java.util.Date;
 
-public class SOSDateRecord implements Comparable {
+public class SOSDateRecord implements Comparable<SOSDateRecord> {
 
     private Date date = null;
 
@@ -14,11 +14,7 @@ public class SOSDateRecord implements Comparable {
         this.date = date;
     }
 
-    public int compareTo(Object o) {
-        if (!(o instanceof SOSDateRecord)) {
-            throw new RuntimeException("invalid type!");
-        }
-        SOSDateRecord record = (SOSDateRecord) o;
+    public int compareTo(SOSDateRecord record) {
         return this.date.compareTo(record.getDate());
     }
 

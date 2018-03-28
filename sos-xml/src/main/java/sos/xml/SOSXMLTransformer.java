@@ -10,7 +10,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -25,7 +26,7 @@ import javax.xml.transform.stream.StreamSource;
  * @author Andreas Liebert */
 public class SOSXMLTransformer {
 
-    private static final HashMap EMPTY_HASH_MAP = new HashMap();
+    private static final Map<String, String> EMPTY_HASH_MAP = new HashMap<String, String>();
 
     private SOSXMLTransformer() {
 
@@ -36,7 +37,7 @@ public class SOSXMLTransformer {
         transform(data, xslFile, outputFile, EMPTY_HASH_MAP);
     }
 
-    public static void transform(String data, File xslFile, File outputFile, HashMap parameters) throws TransformerException,
+    public static void transform(String data, File xslFile, File outputFile, Map<String, String> parameters) throws TransformerException,
             TransformerConfigurationException, FileNotFoundException, IOException, Exception {
         if (data.isEmpty()) {
             throw new Exception("SOSXMLTransformer: no xml document contained in data.");
@@ -55,7 +56,7 @@ public class SOSXMLTransformer {
         transform(xmlFile, xslFile, outputFile, EMPTY_HASH_MAP);
     }
 
-    public static void transform(File xmlFile, File xslFile, File outputFile, HashMap parameters) throws TransformerException,
+    public static void transform(File xmlFile, File xslFile, File outputFile, Map<String, String> parameters) throws TransformerException,
             TransformerConfigurationException, FileNotFoundException, IOException, Exception {
         if (!xmlFile.exists()) {
             throw new Exception("SOSXMLTransformer: no file found containing xml document.");
@@ -74,7 +75,7 @@ public class SOSXMLTransformer {
         transform(stream, xslFile, outputFile, EMPTY_HASH_MAP);
     }
 
-    public static void transform(StreamSource stream, File xslFile, File outputFile, HashMap parameters) throws TransformerException,
+    public static void transform(StreamSource stream, File xslFile, File outputFile, Map<String, String> parameters) throws TransformerException,
             TransformerConfigurationException, FileNotFoundException, IOException, Exception {
         if (stream == null) {
             throw new Exception("SOSXMLTransformer: no xml document contained in stream.");
@@ -93,7 +94,7 @@ public class SOSXMLTransformer {
         transform(stream, xslFile, outputFile, EMPTY_HASH_MAP);
     }
 
-    public static void transform(FileInputStream stream, File xslFile, File outputFile, HashMap parameters) throws TransformerException,
+    public static void transform(FileInputStream stream, File xslFile, File outputFile, Map<String, String> parameters) throws TransformerException,
             TransformerConfigurationException, FileNotFoundException, IOException, Exception {
         if (stream == null) {
             throw new Exception("SOSXMLTransformer: no xml document contained in stream.");
@@ -112,8 +113,8 @@ public class SOSXMLTransformer {
         transform(inputFile, outputFile, EMPTY_HASH_MAP);
     }
 
-    public static void transform(File inputFile, File outputFile, HashMap parameters) throws TransformerException, TransformerConfigurationException,
-            FileNotFoundException, IOException, Exception {
+    public static void transform(File inputFile, File outputFile, Map<String, String> parameters) throws TransformerException,
+            TransformerConfigurationException, FileNotFoundException, IOException, Exception {
         if (!inputFile.exists()) {
             throw new Exception("SOSXMLTransformer: no file found containing xml document.");
         }
@@ -133,8 +134,8 @@ public class SOSXMLTransformer {
         transform(data, stylesheetStream, outputFile, EMPTY_HASH_MAP);
     }
 
-    public static void transform(String data, StreamSource stylesheetStream, File outputFile, HashMap parameters) throws TransformerException,
-            TransformerConfigurationException, FileNotFoundException, IOException, Exception {
+    public static void transform(String data, StreamSource stylesheetStream, File outputFile, Map<String, String> parameters)
+            throws TransformerException, TransformerConfigurationException, FileNotFoundException, IOException, Exception {
         if (data.isEmpty()) {
             throw new Exception("SOSXMLTransformer: no xml document contained in data.");
         }
@@ -152,7 +153,7 @@ public class SOSXMLTransformer {
         transform(stream, stylesheetStream, outputFile, EMPTY_HASH_MAP);
     }
 
-    public static void transform(StreamSource stream, StreamSource stylesheetStream, File outputFile, HashMap parameters)
+    public static void transform(StreamSource stream, StreamSource stylesheetStream, File outputFile, Map<String, String> parameters)
             throws TransformerException, TransformerConfigurationException, FileNotFoundException, IOException, Exception {
         if (stream == null) {
             throw new Exception("SOSXMLTransformer: no xml document contained in stream.");
@@ -171,7 +172,7 @@ public class SOSXMLTransformer {
         transform(stream, stylesheetStream, outputFile, EMPTY_HASH_MAP);
     }
 
-    public static void transform(FileInputStream stream, FileInputStream stylesheetStream, File outputFile, HashMap parameters)
+    public static void transform(FileInputStream stream, FileInputStream stylesheetStream, File outputFile, Map<String, String> parameters)
             throws TransformerException, TransformerConfigurationException, FileNotFoundException, IOException, Exception {
         if (stylesheetStream == null) {
             throw new Exception("SOSXMLTransformer: no stylesheet contained in stream");
@@ -184,12 +185,12 @@ public class SOSXMLTransformer {
         transformer.transform(inputStream, new StreamResult(new FileOutputStream(outputFile)));
     }
 
-    public static void transform(String data, File xslFile, StreamResult outputStream) throws TransformerException,
-            TransformerConfigurationException, FileNotFoundException, IOException, Exception {
+    public static void transform(String data, File xslFile, StreamResult outputStream) throws TransformerException, TransformerConfigurationException,
+            FileNotFoundException, IOException, Exception {
         transform(data, xslFile, outputStream, EMPTY_HASH_MAP);
     }
 
-    public static void transform(String data, File xslFile, StreamResult outputStream, HashMap parameters) throws TransformerException,
+    public static void transform(String data, File xslFile, StreamResult outputStream, Map<String, String> parameters) throws TransformerException,
             TransformerConfigurationException, FileNotFoundException, IOException, Exception {
         if (data.isEmpty()) {
             throw new Exception("SOSXMLTransformer: no xml document contained in data.");
@@ -208,7 +209,7 @@ public class SOSXMLTransformer {
         transform(xmlFile, xslFile, outputStream, EMPTY_HASH_MAP);
     }
 
-    public static void transform(File xmlFile, File xslFile, StreamResult outputStream, HashMap parameters) throws TransformerException,
+    public static void transform(File xmlFile, File xslFile, StreamResult outputStream, Map<String, String> parameters) throws TransformerException,
             TransformerConfigurationException, FileNotFoundException, IOException, Exception {
         if (!xmlFile.exists()) {
             throw new Exception("SOSXMLTransformer: no file found containing xml document.");
@@ -228,8 +229,8 @@ public class SOSXMLTransformer {
         transform(stream, xslFile, outputStream, EMPTY_HASH_MAP);
     }
 
-    public static void transform(StreamSource stream, File xslFile, StreamResult outputStream, HashMap parameters) throws TransformerException,
-            TransformerConfigurationException, FileNotFoundException, IOException, Exception {
+    public static void transform(StreamSource stream, File xslFile, StreamResult outputStream, Map<String, String> parameters)
+            throws TransformerException, TransformerConfigurationException, FileNotFoundException, IOException, Exception {
         if (stream == null) {
             throw new Exception("SOSXMLTransformer: no xml document contained in stream.");
         }
@@ -247,8 +248,8 @@ public class SOSXMLTransformer {
         transform(stream, xslFile, outputStream, EMPTY_HASH_MAP);
     }
 
-    public static void transform(FileInputStream stream, File xslFile, StreamResult outputStream, HashMap parameters) throws TransformerException,
-            TransformerConfigurationException, FileNotFoundException, IOException, Exception {
+    public static void transform(FileInputStream stream, File xslFile, StreamResult outputStream, Map<String, String> parameters)
+            throws TransformerException, TransformerConfigurationException, FileNotFoundException, IOException, Exception {
         if (stream == null) {
             throw new Exception("SOSXMLTransformer: no xml document contained in stream.");
         }
@@ -266,7 +267,7 @@ public class SOSXMLTransformer {
         transform(inputFile, outputStream, EMPTY_HASH_MAP);
     }
 
-    public static void transform(File inputFile, StreamResult outputStream, HashMap parameters) throws TransformerException,
+    public static void transform(File inputFile, StreamResult outputStream, Map<String, String> parameters) throws TransformerException,
             TransformerConfigurationException, FileNotFoundException, IOException, Exception {
         if (!inputFile.exists()) {
             throw new Exception("SOSXMLTransformer: no file found containing xml document.");
@@ -287,7 +288,7 @@ public class SOSXMLTransformer {
         transform(inputStream, outputStream, EMPTY_HASH_MAP);
     }
 
-    public static void transform(StreamSource inputStream, StreamResult outputStream, HashMap parameters) throws TransformerException,
+    public static void transform(StreamSource inputStream, StreamResult outputStream, Map<String, String> parameters) throws TransformerException,
             TransformerConfigurationException, FileNotFoundException, IOException, Exception {
         TransformerFactory tFactory = TransformerFactory.newInstance();
         ByteArrayOutputStream bAOS = new ByteArrayOutputStream();
@@ -312,7 +313,7 @@ public class SOSXMLTransformer {
         transform(data, stylesheetStream, outputStream, EMPTY_HASH_MAP);
     }
 
-    public static void transform(String data, StreamSource stylesheetStream, StreamResult outputStream, HashMap parameters)
+    public static void transform(String data, StreamSource stylesheetStream, StreamResult outputStream, Map<String, String> parameters)
             throws TransformerException, TransformerConfigurationException, FileNotFoundException, IOException, Exception {
         if (data.isEmpty()) {
             throw new Exception("SOSXMLTransformer: no xml document contained in data.");
@@ -331,7 +332,7 @@ public class SOSXMLTransformer {
         transform(stream, stylesheetStream, outputStream, EMPTY_HASH_MAP);
     }
 
-    public static void transform(StreamSource stream, StreamSource stylesheetStream, StreamResult outputStream, HashMap parameters)
+    public static void transform(StreamSource stream, StreamSource stylesheetStream, StreamResult outputStream, Map<String, String> parameters)
             throws TransformerException, TransformerConfigurationException, FileNotFoundException, IOException, Exception {
         if (stream == null) {
             throw new Exception("SOSXMLTransformer: no xml document contained in stream.");
@@ -351,7 +352,7 @@ public class SOSXMLTransformer {
         transform(stream, stylesheetStream, outputStream, EMPTY_HASH_MAP);
     }
 
-    public static void transform(FileInputStream stream, FileInputStream stylesheetStream, StreamResult outputStream, HashMap parameters)
+    public static void transform(FileInputStream stream, FileInputStream stylesheetStream, StreamResult outputStream, Map<String, String> parameters)
             throws TransformerException, TransformerConfigurationException, FileNotFoundException, IOException, Exception {
         if (stylesheetStream == null) {
             throw new Exception("SOSXMLTransformer: no stylesheet contained in stream");
@@ -364,11 +365,9 @@ public class SOSXMLTransformer {
         transformer.transform(inputStream, outputStream);
     }
 
-    private static void addParameters(Transformer transformer, HashMap parameters) {
-        Iterator iter = parameters.keySet().iterator();
-        while (iter.hasNext()) {
-            String key = iter.next().toString();
-            transformer.setParameter(key, parameters.get(key).toString());
+    private static void addParameters(Transformer transformer, Map<String, String> parameters) {
+        for (Entry<String, String> entry : parameters.entrySet()) {
+            transformer.setParameter(entry.getKey(), entry.getValue());
         }
     }
 

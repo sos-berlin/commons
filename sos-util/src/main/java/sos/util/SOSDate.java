@@ -434,7 +434,7 @@ public class SOSDate {
     public static Date getNextWorkingDay(Date date, Document holidays) throws Exception {
         Date sortedDate = null;
         long dateDiff = -1;
-        Vector dateList = new Vector();
+        Vector<Date> dateList = new Vector<Date>();
         SOSDateRecord dateRecord = null;
         Date nextWorkingDay = getNextWorkingDay(date);
         Element docEle = holidays.getDocumentElement();
@@ -451,7 +451,7 @@ public class SOSDate {
             java.util.Collections.sort(dateList);
             for (int i = 0; i < dateList.size(); i++) {
                 if (dateList.get(i) != null) {
-                    sortedDate = (Date) dateList.get(i);
+                    sortedDate = dateList.get(i);
                     if (sortedDate.before(date)) {
                         continue;
                     }

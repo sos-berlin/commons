@@ -8,6 +8,8 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.xerces.parsers.SAXParser;
 import org.xml.sax.SAXException;
@@ -621,7 +623,7 @@ public class SOSImport extends DefaultHandler {
                 HashMap[] args = { keys };
                 keys = (HashMap) method.invoke(this, args);
             }
-            HashMap record = null;
+            Map<String, String> record = null;
             boolean isNew = false;
             if (operation != null && "insert".equalsIgnoreCase(operation)) {
                 isNew = true;
@@ -709,7 +711,7 @@ public class SOSImport extends DefaultHandler {
                         }
                     }
                 }
-                HashMap blobs = getBlobs(name, record);
+                Map<String, List<Object>> blobs = getBlobs(name, record);
                 if (isNew) {
                     if (!enableInsert) {
                         if (logger != null) {
@@ -905,7 +907,7 @@ public class SOSImport extends DefaultHandler {
                 HashMap[] args = { keys };
                 keys = (HashMap) method.invoke(this, args);
             }
-            HashMap record = null;
+            Map<String, String> record = null;
             if (keys != null && !keys.isEmpty() && restrictMode) {
                 StringBuilder stm = new StringBuilder();
                 stm.append("SELECT * FROM " + metaFieldRecords.get(name).getTable());
@@ -921,7 +923,7 @@ public class SOSImport extends DefaultHandler {
             if (logger != null) {
                 logger.debug6("is_new: " + isNew);
             }
-            record = new HashMap();
+            record = new HashMap<String, String>();
             for (Iterator it = records.getIterator(index); it.hasNext();) {
                 String key = it.next().toString();
                 String val = records.getValue(index, key);
@@ -944,7 +946,7 @@ public class SOSImport extends DefaultHandler {
                 Class[] params = new Class[] { HashMap.class, HashMap.class, String.class };
                 Method method = getClass().getMethod((String) this.recordHandler.get(recordHandler), params);
                 Object[] args = { keys, record, recordIdentifier };
-                record = (HashMap) method.invoke(this, args);
+                record = (HashMap<String, String>) method.invoke(this, args);
                 HashMap recordKeys = new HashMap();
                 for (Iterator it = metaKeyRecords.get(name).getIterator(); it.hasNext();) {
                     String key = it.next().toString();
@@ -986,7 +988,7 @@ public class SOSImport extends DefaultHandler {
                         }
                     }
                 }
-                HashMap blobs = getBlobs(name, record);
+                Map<String,List<Object>> blobs = getBlobs(name, record);
                 if (isNew) {
                     if (!enableInsert) {
                         if (logger != null) {
@@ -1022,15 +1024,15 @@ public class SOSImport extends DefaultHandler {
         }
     }
 
-    private HashMap getBlobs(String name, HashMap record) throws Exception {
+    private Map<String, List<Object>> getBlobs(String name, Map<String, String> record) throws Exception {
         try {
-            HashMap blobs = new HashMap();
-            for (Iterator it = record.keySet().iterator(); it.hasNext();) {
-                String key = it.next().toString();
+            Map<String, List<Object>> blobs = new HashMap<String, List<Object>>();
+            for (Iterator<String> it = record.keySet().iterator(); it.hasNext();) {
+                String key = it.next();
                 String xmlVal = (String) record.get(key);
                 byte[] val = fromHexString(xmlVal);
                 String blobType = null;
-                ArrayList obj = new ArrayList(2);
+                List<Object> obj = new ArrayList<Object>(2);
                 switch (metaFieldRecords.get(name).getTypeId(key)) {
                 case Types.LONGVARCHAR:
                 case Types.CLOB:
@@ -1067,11 +1069,11 @@ public class SOSImport extends DefaultHandler {
         }
     }
 
-    private void updateBlob(String name, HashMap blobs, HashMap keys, HashMap record) throws Exception {
+    private void updateBlob(String name, Map<String,List<Object>> blobs, HashMap keys, Map<String, String> record) throws Exception {
         try {
-            for (Iterator it = blobs.keySet().iterator(); it.hasNext();) {
-                String blobName = it.next().toString();
-                ArrayList blobValue = (ArrayList) blobs.get(blobName);
+            for (Iterator<String> it = blobs.keySet().iterator(); it.hasNext();) {
+                String blobName = it.next();
+                List<Object> blobValue = blobs.get(blobName);
                 if (logger != null) {
                     logger.debug6("update " + (String) blobValue.get(0) + ": " + blobName);
                 }
@@ -1082,7 +1084,7 @@ public class SOSImport extends DefaultHandler {
                     if (!record.containsKey(key)) {
                         throw new Exception("SOSImport.import_record: missing key in record: " + key);
                     }
-                    stm.append(and + " \"" + normalizeFieldName(key) + "\"=" + quote(name, normalizeFieldName(key), (String) record.get(key)));
+                    stm.append(and + " \"" + normalizeFieldName(key) + "\"=" + quote(name, normalizeFieldName(key), record.get(key)));
                     and = " AND ";
                 }
                 if (blobValue.get(1) != null) {
@@ -1098,17 +1100,17 @@ public class SOSImport extends DefaultHandler {
         }
     }
 
-    private void insertRecord(String name, HashMap record) throws Exception {
+    private void insertRecord(String name, Map<String, String> record) throws Exception {
         try {
             if (logger != null) {
                 logger.debug6("inserting record");
             }
             StringBuilder fields = new StringBuilder();
             StringBuilder values = new StringBuilder();
-            for (Iterator it = record.keySet().iterator(); it.hasNext();) {
-                String key = it.next().toString();
+            for (Iterator<String> it = record.keySet().iterator(); it.hasNext();) {
+                String key = it.next();
                 fields.append("\"" + key + "\"");
-                values.append(quote(name, key, (String) record.get(key)));
+                values.append(quote(name, key, record.get(key)));
                 if (it.hasNext()) {
                     fields.append(", ");
                     values.append(", ");
@@ -1120,15 +1122,15 @@ public class SOSImport extends DefaultHandler {
         }
     }
 
-    private void updateRecord(String name, HashMap keys, HashMap record) throws Exception {
+    private void updateRecord(String name, HashMap keys, Map<String, String> record) throws Exception {
         try {
             if (logger != null) {
                 logger.debug6("updating record");
             }
             StringBuilder stm = new StringBuilder("UPDATE " + metaFieldRecords.get(name).getTable() + " SET ");
-            for (Iterator it = record.keySet().iterator(); it.hasNext();) {
-                String key = it.next().toString();
-                stm.append("\"" + normalizeFieldName(key) + "\"=" + quote(name, key, (String) record.get(key)));
+            for (Iterator<String> it = record.keySet().iterator(); it.hasNext();) {
+                String key = it.next();
+                stm.append("\"" + normalizeFieldName(key) + "\"=" + quote(name, key, record.get(key)));
                 if (it.hasNext()) {
                     stm.append(", ");
                 }

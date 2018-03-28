@@ -3,7 +3,6 @@ package sos.xml;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Iterator;
 import java.util.Vector;
 
 import org.apache.xalan.xsltc.cmdline.getopt.GetOpt;
@@ -25,7 +24,6 @@ public class SOSXMLValidator implements ContentHandler, ErrorHandler, DTDHandler
 
     private final static String USAGE = "\nUSAGE: java SOSXMLValidator" + " -i <xml-file> | <dir>" + " [-s schema]" + " [-h]"
             + "\nvalidate the specified xml file or the xml files in the specified directory.";
-    private Locator locator;
     private String[] args;
     private String inputFile;
     private String schemaFile;
@@ -156,7 +154,7 @@ public class SOSXMLValidator implements ContentHandler, ErrorHandler, DTDHandler
     }
 
     public void setDocumentLocator(Locator locator) {
-        this.locator = locator;
+        //
     }
 
     public void startDocument() {
@@ -307,10 +305,8 @@ public class SOSXMLValidator implements ContentHandler, ErrorHandler, DTDHandler
                 }
                 System.out.println("ok");
             } else if (dir.isDirectory()) {
-                Vector filelist = SOSFile.getFilelist(dir.getAbsolutePath(), "\\.xml$", 0);
-                Iterator iterator = filelist.iterator();
-                while (iterator.hasNext()) {
-                    File currentFile = (File) iterator.next();
+                Vector<File> filelist = SOSFile.getFilelist(dir.getAbsolutePath(), "\\.xml$", 0);
+                for (File currentFile : filelist) {
                     System.out.print("\nfile [" + currentFile.getAbsolutePath() + "]: validation in progress ... ");
                     if (validator.schemaFile != null && !validator.schemaFile.isEmpty()) {
                         SOSXMLValidator.validate(currentFile.getAbsolutePath(), validator.schemaFile);

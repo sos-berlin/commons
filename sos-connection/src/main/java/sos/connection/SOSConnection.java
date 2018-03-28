@@ -21,6 +21,8 @@ import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.Vector;
@@ -242,6 +244,7 @@ public abstract class SOSConnection {
                 SOSStandardLogger.DEBUG9));
     }
 
+    @SuppressWarnings("deprecation")
     private void processPassword() {
         dbpassword = SOSCommandline.getExternalPassword(dbpassword, logger);
     }
@@ -363,8 +366,8 @@ public abstract class SOSConnection {
         return connection;
     }
 
-    public HashMap getSingle(String query) throws Exception {
-        HashMap results = new LinkedHashMap();
+    public Map<String, String> getSingle(String query) throws Exception {
+        Map<String, String> results = new LinkedHashMap<String, String>();
         Statement stmt = null;
         ResultSet rs = null;
         ResultSetMetaData meta = null;
@@ -641,9 +644,9 @@ public abstract class SOSConnection {
         return result.trim();
     }
 
-    public ArrayList getArray(String query) throws Exception {
-        ArrayList results = new ArrayList();
-        HashMap record = new LinkedHashMap();
+    public List<Map<String, String>> getArray(String query) throws Exception {
+        List<Map<String, String>> results = new ArrayList<Map<String, String>>();
+        Map<String, String> record = new LinkedHashMap<String, String>();
         Statement stmt = null;
         ResultSet rs = null;
         ResultSetMetaData meta = null;
@@ -678,7 +681,7 @@ public abstract class SOSConnection {
                     record.put(normalizeKey(key), value.trim());
                 }
                 results.add(record);
-                record = new HashMap();
+                record = new HashMap<String, String>();
             }
             logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
         } catch (Exception e) {
@@ -716,9 +719,9 @@ public abstract class SOSConnection {
         return results;
     }
 
-    public Vector getArrayAsVector(String query) throws Exception {
-        Vector results = new Vector();
-        HashMap record = new LinkedHashMap();
+    public Vector<Map<String, String>> getArrayAsVector(String query) throws Exception {
+        Vector<Map<String, String>> results = new Vector<Map<String, String>>();
+        Map<String, String> record = new LinkedHashMap<String, String>();
         Statement stmt = null;
         ResultSet rs = null;
         ResultSetMetaData meta = null;
@@ -753,7 +756,7 @@ public abstract class SOSConnection {
                     record.put(normalizeKey(key), value.trim());
                 }
                 results.add(record);
-                record = new HashMap();
+                record = new HashMap<String, String>();
             }
             logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
         } catch (Exception e) {
@@ -791,8 +794,8 @@ public abstract class SOSConnection {
         return results;
     }
 
-    public ArrayList getArrayValue(String query) throws Exception {
-        ArrayList results = new ArrayList();
+    public List<String> getArrayValue(String query) throws Exception {
+        List<String> results = new ArrayList<String>();
         Statement stmt = null;
         ResultSet rs = null;
         String value;
@@ -1717,8 +1720,8 @@ public abstract class SOSConnection {
         return connection.getAutoCommit();
     }
 
-    public HashMap<String, String> get() throws Exception {
-        HashMap<String, String> record = new LinkedHashMap<String, String>();
+    public Map<String, String> get() throws Exception {
+        Map<String, String> record = new LinkedHashMap<String, String>();
         String columnName, columnValue;
         try {
             if (connection == null) {
@@ -1807,8 +1810,8 @@ public abstract class SOSConnection {
         return resultSet.getMetaData().getColumnName(index);
     }
 
-    public HashMap fieldDesc(final int index) throws Exception {
-        HashMap fieldDesc = new HashMap();
+    public Map<String, String> fieldDesc(final int index) throws Exception {
+        Map<String, String> fieldDesc = new HashMap<String, String>();
         try {
             logger.debug6("calling " + SOSClassUtil.getMethodName());
             if (connection == null) {
@@ -2050,7 +2053,7 @@ public abstract class SOSConnection {
         return matcher.find();
     }
 
-    private void splitStatements(final ArrayList statements, final StringBuffer st, final Integer position, final String procedurEnd,
+    private void splitStatements(final List<String> statements, final StringBuffer st, final Integer position, final String procedurEnd,
             final boolean returnProcedureBegin, int count) throws Exception {
         beginProcedure = "";
         count += 1;
@@ -2379,8 +2382,8 @@ public abstract class SOSConnection {
         }
     }
 
-    public void setProfiler(final SOSProfiler profiler) {
-        this.profiler = profiler;
+    public void setProfiler(final SOSProfiler _profiler) {
+        profiler = _profiler;
     }
 
     public void setFieldNameToUpperCase(final boolean value) {
@@ -2397,10 +2400,6 @@ public abstract class SOSConnection {
 
     public String getUrl() {
         return url;
-    }
-
-    public Vector getOutput() throws Exception {
-        return new Vector();
     }
 
     public GregorianCalendar getTimestamp() throws Exception {

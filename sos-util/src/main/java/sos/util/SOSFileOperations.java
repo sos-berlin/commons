@@ -128,11 +128,18 @@ public class SOSFileOperations {
                 if (!file.isDirectory()) {
                     log("checking the file " + file.getCanonicalPath() + ":: file exists");
                     boolean writable = false;
+                    RandomAccessFile randomAccessFile = null;
                     try {
-                        new RandomAccessFile(file.getAbsolutePath(), "rw");
+                        randomAccessFile = new RandomAccessFile(file.getAbsolutePath(), "rw");
                         writable = true;
                     } catch (Exception e) {
                         //
+                    } finally {
+                        if (randomAccessFile != null) {
+                            try {
+                                randomAccessFile.close();
+                            } catch (Exception e) {} 
+                        }
                     }
                     if (!writable) {
                         log("file " + file.getCanonicalPath() + ": cannot be written ");
@@ -155,11 +162,18 @@ public class SOSFileOperations {
                             File checkFile = (File) fileList.get(i);
                             log("found " + checkFile.getCanonicalPath());
                             boolean writable = false;
+                            RandomAccessFile randomAccessFile = null;
                             try {
-                                new RandomAccessFile(file.getAbsolutePath(), "rw");
+                                randomAccessFile = new RandomAccessFile(file.getAbsolutePath(), "rw");
                                 writable = true;
                             } catch (Exception e) {
                                 //
+                            } finally {
+                                if (randomAccessFile != null) {
+                                    try {
+                                        randomAccessFile.close();
+                                    } catch (Exception e) {} 
+                                }
                             }
                             if (!writable) {
                                 log("file " + checkFile.getCanonicalPath() + ": cannot be written ");
