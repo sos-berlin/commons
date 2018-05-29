@@ -36,6 +36,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "states",
     "limit",
     "historyStates",
+    "taskIds",
+    "historyIds",
     "runTimeIsTemporary"
 })
 public class JobsFilter {
@@ -97,6 +99,10 @@ public class JobsFilter {
     private Integer limit = 10000;
     @JsonProperty("historyStates")
     private List<HistoryStateText> historyStates = new ArrayList<HistoryStateText>();
+    @JsonProperty("taskIds")
+    private List<Long> taskIds = new ArrayList<Long>();
+    @JsonProperty("historyIds")
+    private List<TaskIdOfOrder> historyIds = new ArrayList<TaskIdOfOrder>();
     @JsonProperty("runTimeIsTemporary")
     private Boolean runTimeIsTemporary;
 
@@ -389,6 +395,46 @@ public class JobsFilter {
     /**
      * 
      * @return
+     *     The taskIds
+     */
+    @JsonProperty("taskIds")
+    public List<Long> getTaskIds() {
+        return taskIds;
+    }
+
+    /**
+     * 
+     * @param taskIds
+     *     The taskIds
+     */
+    @JsonProperty("taskIds")
+    public void setTaskIds(List<Long> taskIds) {
+        this.taskIds = taskIds;
+    }
+
+    /**
+     * 
+     * @return
+     *     The historyIds
+     */
+    @JsonProperty("historyIds")
+    public List<TaskIdOfOrder> getHistoryIds() {
+        return historyIds;
+    }
+
+    /**
+     * 
+     * @param historyIds
+     *     The historyIds
+     */
+    @JsonProperty("historyIds")
+    public void setHistoryIds(List<TaskIdOfOrder> historyIds) {
+        this.historyIds = historyIds;
+    }
+
+    /**
+     * 
+     * @return
      *     The runTimeIsTemporary
      */
     @JsonProperty("runTimeIsTemporary")
@@ -413,7 +459,7 @@ public class JobsFilter {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(jobs).append(excludeJobs).append(compact).append(regex).append(isOrderJob).append(dateFrom).append(dateTo).append(timeZone).append(folders).append(states).append(limit).append(historyStates).append(runTimeIsTemporary).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(jobs).append(excludeJobs).append(compact).append(regex).append(isOrderJob).append(dateFrom).append(dateTo).append(timeZone).append(folders).append(states).append(limit).append(historyStates).append(taskIds).append(historyIds).append(runTimeIsTemporary).toHashCode();
     }
 
     @Override
@@ -425,7 +471,7 @@ public class JobsFilter {
             return false;
         }
         JobsFilter rhs = ((JobsFilter) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(jobs, rhs.jobs).append(excludeJobs, rhs.excludeJobs).append(compact, rhs.compact).append(regex, rhs.regex).append(isOrderJob, rhs.isOrderJob).append(dateFrom, rhs.dateFrom).append(dateTo, rhs.dateTo).append(timeZone, rhs.timeZone).append(folders, rhs.folders).append(states, rhs.states).append(limit, rhs.limit).append(historyStates, rhs.historyStates).append(runTimeIsTemporary, rhs.runTimeIsTemporary).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(jobs, rhs.jobs).append(excludeJobs, rhs.excludeJobs).append(compact, rhs.compact).append(regex, rhs.regex).append(isOrderJob, rhs.isOrderJob).append(dateFrom, rhs.dateFrom).append(dateTo, rhs.dateTo).append(timeZone, rhs.timeZone).append(folders, rhs.folders).append(states, rhs.states).append(limit, rhs.limit).append(historyStates, rhs.historyStates).append(taskIds, rhs.taskIds).append(historyIds, rhs.historyIds).append(runTimeIsTemporary, rhs.runTimeIsTemporary).isEquals();
     }
 
 }

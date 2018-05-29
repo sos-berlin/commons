@@ -36,6 +36,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "folders",
     "limit",
     "historyStates",
+    "historyIds",
     "runTimeIsTemporary"
 })
 public class OrdersFilter {
@@ -97,6 +98,8 @@ public class OrdersFilter {
     private Integer limit = 10000;
     @JsonProperty("historyStates")
     private List<HistoryStateText> historyStates = new ArrayList<HistoryStateText>();
+    @JsonProperty("historyIds")
+    private List<Long> historyIds = new ArrayList<Long>();
     @JsonProperty("runTimeIsTemporary")
     private Boolean runTimeIsTemporary;
 
@@ -389,6 +392,26 @@ public class OrdersFilter {
     /**
      * 
      * @return
+     *     The historyIds
+     */
+    @JsonProperty("historyIds")
+    public List<Long> getHistoryIds() {
+        return historyIds;
+    }
+
+    /**
+     * 
+     * @param historyIds
+     *     The historyIds
+     */
+    @JsonProperty("historyIds")
+    public void setHistoryIds(List<Long> historyIds) {
+        this.historyIds = historyIds;
+    }
+
+    /**
+     * 
+     * @return
      *     The runTimeIsTemporary
      */
     @JsonProperty("runTimeIsTemporary")
@@ -413,7 +436,7 @@ public class OrdersFilter {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(orders).append(excludeOrders).append(compact).append(regex).append(processingStates).append(types).append(dateFrom).append(dateTo).append(timeZone).append(folders).append(limit).append(historyStates).append(runTimeIsTemporary).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(orders).append(excludeOrders).append(compact).append(regex).append(processingStates).append(types).append(dateFrom).append(dateTo).append(timeZone).append(folders).append(limit).append(historyStates).append(historyIds).append(runTimeIsTemporary).toHashCode();
     }
 
     @Override
@@ -425,7 +448,7 @@ public class OrdersFilter {
             return false;
         }
         OrdersFilter rhs = ((OrdersFilter) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(orders, rhs.orders).append(excludeOrders, rhs.excludeOrders).append(compact, rhs.compact).append(regex, rhs.regex).append(processingStates, rhs.processingStates).append(types, rhs.types).append(dateFrom, rhs.dateFrom).append(dateTo, rhs.dateTo).append(timeZone, rhs.timeZone).append(folders, rhs.folders).append(limit, rhs.limit).append(historyStates, rhs.historyStates).append(runTimeIsTemporary, rhs.runTimeIsTemporary).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(orders, rhs.orders).append(excludeOrders, rhs.excludeOrders).append(compact, rhs.compact).append(regex, rhs.regex).append(processingStates, rhs.processingStates).append(types, rhs.types).append(dateFrom, rhs.dateFrom).append(dateTo, rhs.dateTo).append(timeZone, rhs.timeZone).append(folders, rhs.folders).append(limit, rhs.limit).append(historyStates, rhs.historyStates).append(historyIds, rhs.historyIds).append(runTimeIsTemporary, rhs.runTimeIsTemporary).isEquals();
     }
 
 }
