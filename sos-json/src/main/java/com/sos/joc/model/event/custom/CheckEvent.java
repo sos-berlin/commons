@@ -23,7 +23,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "eventClass",
     "eventId",
     "exitCode",
-    "xPath"
+    "xPathValue"
 })
 public class CheckEvent {
 
@@ -41,8 +41,8 @@ public class CheckEvent {
      */
     @JsonProperty("exitCode")
     private Integer exitCode;
-    @JsonProperty("xPath")
-    private String xPath;
+    @JsonProperty("xPathValue")
+    private String xPathValue;
 
     /**
      * 
@@ -133,21 +133,21 @@ public class CheckEvent {
     /**
      * 
      * @return
-     *     The xPath
+     *     The xPathValue
      */
-    @JsonProperty("xPath")
-    public String getXPath() {
-        return xPath;
+    @JsonProperty("xPathValue")
+    public String getxPathValue() {
+        return xPathValue;
     }
 
     /**
      * 
-     * @param xPath
-     *     The xPath
+     * @param xPathValue
+     *     The xPathValue
      */
-    @JsonProperty("xPath")
-    public void setXPath(String xPath) {
-        this.xPath = xPath;
+    @JsonProperty("xPathValue")
+    public void setxPathValue(String xPathValue) {
+        this.xPathValue = xPathValue;
     }
 
     @Override
@@ -157,7 +157,7 @@ public class CheckEvent {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(eventClass).append(eventId).append(exitCode).append(xPath).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(eventClass).append(eventId).append(exitCode).append(xPathValue).toHashCode();
     }
 
     @Override
@@ -169,7 +169,7 @@ public class CheckEvent {
             return false;
         }
         CheckEvent rhs = ((CheckEvent) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(eventClass, rhs.eventClass).append(eventId, rhs.eventId).append(exitCode, rhs.exitCode).append(xPath, rhs.xPath).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(eventClass, rhs.eventClass).append(eventId, rhs.eventId).append(exitCode, rhs.exitCode).append(xPathValue, rhs.xPathValue).isEquals();
     }
 
 }
