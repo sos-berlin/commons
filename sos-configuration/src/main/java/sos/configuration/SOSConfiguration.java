@@ -3,6 +3,8 @@ package sos.configuration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
@@ -13,7 +15,6 @@ import sos.settings.SOSProfileSettings;
 import sos.settings.SOSSettings;
 import sos.settings.SOSXMLSettings;
 import sos.util.SOSArguments;
-import sos.util.SOSLogger;
 import sos.util.SOSString;
 
 public class SOSConfiguration {
@@ -156,7 +157,7 @@ public class SOSConfiguration {
                         new SOSConnectionSettings(sosConnection, settingsTablename, settingsApplicationname, settingsProfilename);
                 Properties p = settings.getSection();
                 originParameterFromSettings = new SOSConfigurationItem[p.size()];
-                Iterator it = p.keySet().iterator();
+                Iterator<Object> it = p.keySet().iterator();
                 int i = 0;
                 while (it.hasNext()) {
                     String key = sosString.parseToString(it.next());
@@ -186,7 +187,7 @@ public class SOSConfiguration {
                     p = settings.getSection();
                 }
                 originParameterFromSettings = new SOSConfigurationItem[p.size()];
-                Iterator it = p.keySet().iterator();
+                Iterator<Object> it = p.keySet().iterator();
                 int i = 0;
                 while (it.hasNext()) {
                     String key = sosString.parseToString(it.next());
@@ -208,7 +209,7 @@ public class SOSConfiguration {
             originParameterFromScheduler = new SOSConfigurationItem[] {};
             if (schedulerParams != null) {
                 originParameterFromScheduler = new SOSConfigurationItem[schedulerParams.size()];
-                Iterator keys = schedulerParams.keySet().iterator();
+                Iterator<Object> keys = schedulerParams.keySet().iterator();
                 int i = 0;
                 while (keys.hasNext()) {
                     String key = sosString.parseToString(keys.next());
@@ -231,7 +232,7 @@ public class SOSConfiguration {
             if (arguments != null) {
                 originParameterFromArguments = new SOSConfigurationItem[arguments.length];
                 SOSArguments arguments_ = new SOSArguments(arguments, true);
-                Iterator keys = arguments_.getArguments().keySet().iterator();
+                Iterator<String> keys = arguments_.getArguments().keySet().iterator();
                 int i = 0;
                 while (keys.hasNext()) {
                     String key = sosString.parseToString(keys.next());
@@ -253,7 +254,7 @@ public class SOSConfiguration {
         try {
             if (arguments != null) {
                 originParameterFromArguments = new SOSConfigurationItem[arguments.size()];
-                Iterator keys = arguments.keySet().iterator();
+                Iterator<Object> keys = arguments.keySet().iterator();
                 int i = 0;
                 while (keys.hasNext()) {
                     String key = sosString.parseToString(keys.next());
@@ -302,7 +303,7 @@ public class SOSConfiguration {
 
     public SOSConfigurationItem[] merge(final SOSConfigurationItem[] p1, final SOSConfigurationItem[] p2) throws Exception {
         SOSConfigurationItem[] retVal = null;
-        HashMap hp = new HashMap();
+        Map<String, SOSConfigurationItem> hp = new HashMap<String, SOSConfigurationItem>();
         for (SOSConfigurationItem element : p1) {
             String name = sosString.parseToString(element.getName());
             hp.put(name, element);
@@ -311,7 +312,7 @@ public class SOSConfiguration {
             String name = sosString.parseToString(element.getName());
             hp.put(name, element);
         }
-        Iterator it = hp.keySet().iterator();
+        Iterator<String> it = hp.keySet().iterator();
         retVal = new SOSConfigurationItem[hp.keySet().size()];
         for (int i = 0; it.hasNext(); i++) {
             Object key = it.next();
@@ -353,19 +354,19 @@ public class SOSConfiguration {
         }
     }
 
-    public HashMap getConfigurationsItems() {
+    public Map<String, SOSConfigurationItem> getConfigurationsItems() {
         if (ri != null && ri.getQuickConfigurationsItem() != null) {
             return ri.getQuickConfigurationsItem();
         } else {
-            return new HashMap();
+            return new HashMap<String, SOSConfigurationItem>();
         }
     }
 
-    public ArrayList getPasswordnames() {
+    public List<String> getPasswordnames() {
         if (ri != null && ri.getPasswordNames() != null) {
             return ri.getPasswordNames();
         } else {
-            return new ArrayList();
+            return new ArrayList<String>();
         }
     }
 
