@@ -29,7 +29,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "folders",
     "states",
     "close",
-    "maxOrders"
+    "maxOrders",
+    "job"
 })
 public class JobChainsFilter {
 
@@ -82,6 +83,8 @@ public class JobChainsFilter {
      */
     @JsonProperty("maxOrders")
     private Integer maxOrders;
+    @JsonProperty("job")
+    private JobsFilter job;
 
     /**
      * 
@@ -273,6 +276,26 @@ public class JobChainsFilter {
         this.maxOrders = maxOrders;
     }
 
+    /**
+     * 
+     * @return
+     *     The job
+     */
+    @JsonProperty("job")
+    public JobsFilter getJob() {
+        return job;
+    }
+
+    /**
+     * 
+     * @param job
+     *     The job
+     */
+    @JsonProperty("job")
+    public void setJob(JobsFilter job) {
+        this.job = job;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -280,7 +303,7 @@ public class JobChainsFilter {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(jobChains).append(compact).append(regex).append(folders).append(states).append(close).append(maxOrders).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(jobChains).append(compact).append(regex).append(folders).append(states).append(close).append(maxOrders).append(job).toHashCode();
     }
 
     @Override
@@ -292,7 +315,7 @@ public class JobChainsFilter {
             return false;
         }
         JobChainsFilter rhs = ((JobChainsFilter) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(jobChains, rhs.jobChains).append(compact, rhs.compact).append(regex, rhs.regex).append(folders, rhs.folders).append(states, rhs.states).append(close, rhs.close).append(maxOrders, rhs.maxOrders).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(jobChains, rhs.jobChains).append(compact, rhs.compact).append(regex, rhs.regex).append(folders, rhs.folders).append(states, rhs.states).append(close, rhs.close).append(maxOrders, rhs.maxOrders).append(job, rhs.job).isEquals();
     }
 
 }

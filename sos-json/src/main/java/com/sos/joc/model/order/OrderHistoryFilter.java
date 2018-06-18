@@ -24,6 +24,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "jobChain",
     "orderId",
     "historyId",
+    "filename",
     "mime"
 })
 public class OrderHistoryFilter {
@@ -58,6 +59,8 @@ public class OrderHistoryFilter {
      */
     @JsonProperty("historyId")
     private String historyId;
+    @JsonProperty("filename")
+    private String filename;
     /**
      * log mime filter
      * <p>
@@ -168,6 +171,26 @@ public class OrderHistoryFilter {
     }
 
     /**
+     * 
+     * @return
+     *     The filename
+     */
+    @JsonProperty("filename")
+    public String getFilename() {
+        return filename;
+    }
+
+    /**
+     * 
+     * @param filename
+     *     The filename
+     */
+    @JsonProperty("filename")
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    /**
      * log mime filter
      * <p>
      * The log can have a HTML representation where the HTML gets a highlighting via CSS classes.
@@ -200,7 +223,7 @@ public class OrderHistoryFilter {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(jobChain).append(orderId).append(historyId).append(mime).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(jobChain).append(orderId).append(historyId).append(filename).append(mime).toHashCode();
     }
 
     @Override
@@ -212,7 +235,7 @@ public class OrderHistoryFilter {
             return false;
         }
         OrderHistoryFilter rhs = ((OrderHistoryFilter) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(jobChain, rhs.jobChain).append(orderId, rhs.orderId).append(historyId, rhs.historyId).append(mime, rhs.mime).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(jobChain, rhs.jobChain).append(orderId, rhs.orderId).append(historyId, rhs.historyId).append(filename, rhs.filename).append(mime, rhs.mime).isEquals();
     }
 
 }

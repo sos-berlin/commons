@@ -23,6 +23,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "jobschedulerId",
     "host",
     "port",
+    "filename",
     "auditLog"
 })
 public class HostPortParameter {
@@ -39,6 +40,8 @@ public class HostPortParameter {
      */
     @JsonProperty("port")
     private Integer port;
+    @JsonProperty("filename")
+    private String filename;
     /**
      * auditParams
      * <p>
@@ -115,6 +118,26 @@ public class HostPortParameter {
     }
 
     /**
+     * 
+     * @return
+     *     The filename
+     */
+    @JsonProperty("filename")
+    public String getFilename() {
+        return filename;
+    }
+
+    /**
+     * 
+     * @param filename
+     *     The filename
+     */
+    @JsonProperty("filename")
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    /**
      * auditParams
      * <p>
      * 
@@ -147,7 +170,7 @@ public class HostPortParameter {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(host).append(port).append(auditLog).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(host).append(port).append(filename).append(auditLog).toHashCode();
     }
 
     @Override
@@ -159,7 +182,7 @@ public class HostPortParameter {
             return false;
         }
         HostPortParameter rhs = ((HostPortParameter) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(host, rhs.host).append(port, rhs.port).append(auditLog, rhs.auditLog).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(host, rhs.host).append(port, rhs.port).append(filename, rhs.filename).append(auditLog, rhs.auditLog).isEquals();
     }
 
 }

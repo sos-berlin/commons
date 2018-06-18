@@ -22,6 +22,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "jobschedulerId",
     "taskId",
+    "filename",
     "mime"
 })
 public class TaskFilter {
@@ -40,6 +41,8 @@ public class TaskFilter {
      */
     @JsonProperty("taskId")
     private String taskId;
+    @JsonProperty("filename")
+    private String filename;
     /**
      * log mime filter
      * <p>
@@ -98,6 +101,26 @@ public class TaskFilter {
     }
 
     /**
+     * 
+     * @return
+     *     The filename
+     */
+    @JsonProperty("filename")
+    public String getFilename() {
+        return filename;
+    }
+
+    /**
+     * 
+     * @param filename
+     *     The filename
+     */
+    @JsonProperty("filename")
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    /**
      * log mime filter
      * <p>
      * The log can have a HTML representation where the HTML gets a highlighting via CSS classes.
@@ -130,7 +153,7 @@ public class TaskFilter {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(taskId).append(mime).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(taskId).append(filename).append(mime).toHashCode();
     }
 
     @Override
@@ -142,7 +165,7 @@ public class TaskFilter {
             return false;
         }
         TaskFilter rhs = ((TaskFilter) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(taskId, rhs.taskId).append(mime, rhs.mime).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(taskId, rhs.taskId).append(filename, rhs.filename).append(mime, rhs.mime).isEquals();
     }
 
 }
