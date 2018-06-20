@@ -283,9 +283,6 @@ public class SOSXmlCommand {
                     sosxml = new SOSXMLXPath(is);
                     return null;
                 }
-                if (responseStream == ResponseStream.TO_STRING_AND_SOSXML) {
-                    sosxml = new SOSXMLXPath(is);
-                }
                 rd = new BufferedReader(new InputStreamReader(is));
                 String line;
                 while ((line = rd.readLine()) != null) {
@@ -293,6 +290,9 @@ public class SOSXmlCommand {
                     response.append('\r');
                 }
                 rd.close();
+                if (responseStream == ResponseStream.TO_STRING_AND_SOSXML) {
+                    sosxml = new SOSXMLXPath(new StringBuffer(response));
+                }
                 return response.toString();
             } catch (Exception e) {
                 throw new SOSNoResponseException(e);
