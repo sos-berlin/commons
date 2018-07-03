@@ -57,10 +57,7 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>xerces</groupId>
-			<artifactId>xercesImpl</artifactId>
-		</dependency>
+	 
 
 		<dependency>
 			<groupId>xml-apis</groupId>
