@@ -2,6 +2,7 @@ package sos.settings;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Properties;
 
 import sos.util.SOSClassUtil;
@@ -13,14 +14,15 @@ public class SOSCheckSettings {
 
     private String source = "";
     private SOSLogger logger = null;
+    @SuppressWarnings("unused")
     private Properties sectionMandatory = null;
     private SOSString sosString = new SOSString();
     private String condition = "";
-    private HashMap values = null;
-    private HashMap rules = new HashMap();
+    private Map<String, String> values = null;
+    private Map<String, String> rules = new HashMap<String, String>();
     private String operator = " and | or | xor ";
 
-    public SOSCheckSettings(Properties sectionMandatory, HashMap values, SOSLogger logger) throws Exception {
+    public SOSCheckSettings(Properties sectionMandatory, Map<String, String> values, SOSLogger logger) throws Exception {
         try {
             this.sectionMandatory = sectionMandatory;
             this.values = values;
@@ -32,7 +34,7 @@ public class SOSCheckSettings {
         }
     }
 
-    public SOSCheckSettings(String condition, HashMap values, SOSLogger logger) throws Exception {
+    public SOSCheckSettings(String condition, Map<String, String> values, SOSLogger logger) throws Exception {
         try {
             this.values = values;
             this.logger = logger;
@@ -47,7 +49,7 @@ public class SOSCheckSettings {
         try {
             this.condition = condition;
             this.logger = logger;
-            values = new HashMap();
+            values = new HashMap<String, String>();
             values.put("true", "1");
             values.put("1", "1");
             init();
@@ -58,7 +60,7 @@ public class SOSCheckSettings {
 
     private void init() throws Exception {
         try {
-            rules = new HashMap();
+            rules = new HashMap<String, String>();
             if ((condition.toLowerCase().indexOf(" or ") > -1) || (condition.toLowerCase().indexOf("(or") > -1)
                     || (condition.toLowerCase().indexOf(")or") > -1) || (condition.toLowerCase().indexOf(" or(") > -1)
                     || (condition.toLowerCase().indexOf(" or)") > -1)) {
@@ -119,7 +121,7 @@ public class SOSCheckSettings {
 
     }
 
-    public void setConditionValues(HashMap values) throws Exception {
+    public void setConditionValues(Map<String, String> values) throws Exception {
         try {
             this.values = values;
         } catch (Exception e) {
@@ -142,7 +144,7 @@ public class SOSCheckSettings {
         boolean retVal = false;
         String hCond = "";
         String[] cond = null;
-        String msg = "";
+        //String msg = "";
         try {
             checkCondition();
             checkValues();
@@ -161,14 +163,14 @@ public class SOSCheckSettings {
             hCond = hCond.trim();
             hCond = hCond.replaceAll(" ", "");
             while (hCond.length() != 1) {
-                Iterator keys = rules.keySet().iterator();
-                Iterator vals = rules.values().iterator();
+                Iterator<String> keys = rules.keySet().iterator();
+                Iterator<String> vals = rules.values().iterator();
                 String key = "";
                 String val = "";
                 while (keys.hasNext() && hCond.length() != 1) {
-                    key = keys.next().toString().trim();
-                    val = vals.next().toString().trim();
-                    msg = ".. put rules [" + key + "=" + val + "] to condition = " + hCond;
+                    key = keys.next().trim();
+                    val = vals.next().trim();
+                    //msg = ".. put rules [" + key + "=" + val + "] to condition = " + hCond;
                     hCond = hCond.replaceAll("  ", " ").replaceAll(key, val);
                 }
             }
@@ -237,20 +239,20 @@ public class SOSCheckSettings {
     }
 
     private void checkValues() throws Exception {
-        HashMap hValues = new HashMap();
+        Map<String, String> hValues = new HashMap<String, String>();
         try {
-            Iterator keys = values.keySet().iterator();
-            Iterator vals = values.values().iterator();
+            Iterator<String> keys = values.keySet().iterator();
+            Iterator<String> vals = values.values().iterator();
             String key = "";
-            Object val = "";
+            String val = "";
             while (keys.hasNext()) {
-                key = keys.next().toString().toLowerCase();
+                key = keys.next().toLowerCase();
                 val = vals.next();
                 logger.debug5(".. " + key + "=" + val);
                 hValues.put(key, val);
             }
             if (values == null) {
-                values = new HashMap();
+                values = new HashMap<String, String>();
             } else {
                 values.clear();
             }
@@ -261,12 +263,12 @@ public class SOSCheckSettings {
     }
 
     public static void main(String[] args) {
-        HashMap values4condition = null;
+        Map<String, String> values4condition = null;
         SOSCheckSettings checkSettings = null;
         sos.util.SOSStandardLogger sosLogger = null;
         try {
             sosLogger = new sos.util.SOSStandardLogger(9);
-            values4condition = new HashMap();
+            values4condition = new HashMap<String, String>();
             values4condition.put("vorname", "Hans");
             values4condition.put("name", "ss");
             values4condition.put("adresse", "Giesebrechtstr. 14");

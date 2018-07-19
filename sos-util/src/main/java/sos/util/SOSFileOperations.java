@@ -1150,13 +1150,13 @@ public class SOSFileOperations {
     }
 
     private static Vector<File> filelistSkipFiles(Vector<File> filelist, int skipFirstFiles, int skipLastFiles, String sorting) throws Exception {
-        Object[] oArr = filelist.toArray();
-        class SizeComparator implements Comparator {
+        File[] oArr = filelist.toArray(new File[filelist.size()]);
+        class SizeComparator implements Comparator<File> {
 
-            public int compare(Object o1, Object o2) {
+            public int compare(File o1, File o2) {
                 int ret = 0;
-                long val1 = ((File) o1).length();
-                long val2 = ((File) o2).length();
+                long val1 = o1.length();
+                long val2 = o2.length();
                 if (val1 < val2) {
                     ret = -1;
                 }
@@ -1169,12 +1169,12 @@ public class SOSFileOperations {
                 return ret;
             }
         }
-        class AgeComparator implements Comparator {
+        class AgeComparator implements Comparator<File> {
 
-            public int compare(Object o1, Object o2) {
+            public int compare(File o1, File o2) {
                 int ret = 0;
-                long val1 = ((File) o1).lastModified();
-                long val2 = ((File) o2).lastModified();
+                long val1 = o1.lastModified();
+                long val2 = o2.lastModified();
                 if (val1 > val2) {
                     ret = -1;
                 }
@@ -1195,7 +1195,7 @@ public class SOSFileOperations {
         }
         filelist = new Vector<File>();
         for (int i = 0 + skipFirstFiles; i < oArr.length - skipLastFiles; i++) {
-            filelist.add((File) oArr[i]);
+            filelist.add(oArr[i]);
         }
         return filelist;
     }
@@ -1520,7 +1520,7 @@ public class SOSFileOperations {
         return (flags & f) > 0;
     }
 
-    public static void callMethod(String methodname, Class[] argtypes, Object[] args) throws Exception {
+    public static void callMethod(String methodname, Class<?>[] argtypes, Object[] args) throws Exception {
         Method method = null;
         try {
             if (argtypes.length != args.length) {

@@ -1,10 +1,10 @@
 package sos.settings;
 
-import java.util.Properties;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import sos.util.SOSClassUtil;
 import sos.util.SOSLogger;
@@ -14,7 +14,7 @@ import sos.util.SOSString;
 public class SOSXMLSettings extends SOSSettings {
 
     protected String application = "";
-    private LinkedHashMap applications = new LinkedHashMap();
+    private Map<String,Map<String, Properties>> applications = new LinkedHashMap<String,Map<String, Properties>>();
     protected boolean lowerCase = true;
 
     public SOSXMLSettings(String source) throws Exception {
@@ -52,20 +52,20 @@ public class SOSXMLSettings extends SOSSettings {
     }
 
     private void load() throws Exception {
-        LinkedHashMap sections = null;
+        Map<String, Properties> sections = null;
         Properties entries = null;
         String xpathQueryAttributes = "attribute::name != '' and not (attribute::disabled = 'yes')";
         try {
             sos.xml.SOSXMLXPath xpath = null;
             org.w3c.dom.NodeList nodeListApplications = null;
-            this.applications = new LinkedHashMap();
+            this.applications = new LinkedHashMap<String,Map<String, Properties>>();
             xpath = new sos.xml.SOSXMLXPath(this.source);
             nodeListApplications = xpath.selectNodeList("/settings/application[" + xpathQueryAttributes + "]");
             for (int i = 0; i < nodeListApplications.getLength(); i++) {
                 org.w3c.dom.Node nodeApplication = nodeListApplications.item(i);
                 org.w3c.dom.Element elementApplication = (org.w3c.dom.Element) nodeApplication;
                 String applicationName = elementApplication.getAttribute("name");
-                sections = new LinkedHashMap();
+                sections = new LinkedHashMap<String, Properties>();
                 org.w3c.dom.NodeList nodeListSections = xpath.selectNodeList(nodeApplication, "./sections/section[" + xpathQueryAttributes + "]");
                 for (int j = 0; j < nodeListSections.getLength(); j++) {
                     org.w3c.dom.Node nodeSection = nodeListSections.item(j);
@@ -107,9 +107,9 @@ public class SOSXMLSettings extends SOSSettings {
             logger.debug6("calling " + SOSClassUtil.getMethodName() + " : application = " + application + " section = " + section);
         }
         if (this.applications != null && this.applications.containsKey(application)) {
-            LinkedHashMap sections = (LinkedHashMap) this.applications.get(application);
+            Map<String, Properties> sections = this.applications.get(application);
             if (sections.containsKey(section)) {
-                entries = (Properties) sections.get(section);
+                entries = sections.get(section);
             }
         }
         return entries;
@@ -123,8 +123,8 @@ public class SOSXMLSettings extends SOSSettings {
         return getSection(application, section);
     }
 
-    public ArrayList getSections(String application) throws Exception {
-        ArrayList sections = new ArrayList();
+    public List<String> getSections(String application) throws Exception {
+        List<String> sections = new ArrayList<String>();
         if (SOSString.isEmpty(application)) {
             throw new Exception(SOSClassUtil.getMethodName() + ": application has no value!");
         }
@@ -132,17 +132,15 @@ public class SOSXMLSettings extends SOSSettings {
             logger.debug6("calling " + SOSClassUtil.getMethodName() + " : application = " + application);
         }
         if (this.applications != null && this.applications.containsKey(application)) {
-            LinkedHashMap appSections = (LinkedHashMap) this.applications.get(application);
-            Iterator it = appSections.entrySet().iterator();
-            while (it.hasNext()) {
-                Map.Entry entry = (Map.Entry) it.next();
-                sections.add((String) entry.getKey());
+            Map<String, Properties> appSections = this.applications.get(application);
+            for (Map.Entry<String, Properties> entry : appSections.entrySet()) {
+                sections.add(entry.getKey());
             }
         }
         return sections;
     }
 
-    public ArrayList getSections() throws Exception {
+    public List<String> getSections() throws Exception {
         return this.getSections(this.application);
     }
 
@@ -171,9 +169,9 @@ public class SOSXMLSettings extends SOSSettings {
                         + entry);
             }
             if (this.applications != null && this.applications.containsKey(application)) {
-                LinkedHashMap sections = (LinkedHashMap) this.applications.get(application);
+                Map<String, Properties> sections = this.applications.get(application);
                 if (sections.containsKey(section)) {
-                    Properties entries = (Properties) sections.get(section);
+                    Properties entries = sections.get(section);
                     if (entries.containsKey(entry)) {
                         entryValue = entries.getProperty(entry);
                     }

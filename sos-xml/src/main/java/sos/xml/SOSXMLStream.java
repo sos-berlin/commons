@@ -7,18 +7,16 @@ import java.io.*;
 public class SOSXMLStream extends FileInputStream {
 
     static int minBytes = 512;
-    private int which;
     private int fileSize;
-    private int position = 0;
     private int posBegin = 0;
     private int posEnd = 0;
     private int state = 0;
     private int cntBytes = 0;
     private StringBuilder resultString = new StringBuilder();
 
-    public SOSXMLStream(int which, String path) throws FileNotFoundException {
+    public SOSXMLStream(int _which, String path) throws FileNotFoundException {
         super(path);
-        this.which = which;
+        int which = _which;
         byte[] lastBuff = new byte[4];
         boolean isStarting = true;
         try {
