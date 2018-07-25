@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
@@ -240,6 +241,7 @@ public class SOSConnectionFileProcessor {
             if (args.length > 3) {
                 logLevel = Integer.parseInt(args[3]);
             }
+            logToStdErr =  Arrays.asList(args).contains("-execute-from-setup");
             processor = new SOSConnectionFileProcessor(settingsFile, (SOSLogger) new SOSStandardLogger(logLevel));
             File inputFile = null;
             for (int i = 0; i < args.length; i++) {
@@ -286,6 +288,8 @@ public class SOSConnectionFileProcessor {
             exitCode = 1;
             if (logToStdErr) {
                 e.printStackTrace(System.err);
+            } else {
+                e.printStackTrace(System.out);
             }
             // throw e;
         } finally {
