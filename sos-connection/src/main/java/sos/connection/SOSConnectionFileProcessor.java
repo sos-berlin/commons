@@ -233,7 +233,7 @@ public class SOSConnectionFileProcessor {
 
         SOSConnectionFileProcessor processor = null;
         int exitCode = 0;
-        boolean LogToStdErr = false;
+        boolean logToStdErr = false;
         try {
             String settingsFile = args[0];
             int logLevel = 0;
@@ -267,24 +267,26 @@ public class SOSConnectionFileProcessor {
                         processor.getConnection().setBatchSize(batchSize);
                     } else if ("-execute-from-setup".equalsIgnoreCase(param)) {
                         processor.getConnection().setUseExecuteBatch(true);
-                        LogToStdErr = true;
+                        logToStdErr = true;
                     }
                 }
             }
             processor.process(inputFile);
             if (processor.errorFiles != null) {
                 exitCode = processor.errorFiles.size();
-                if (LogToStdErr && !processor.errorFiles.isEmpty()) {
+                if (logToStdErr && !processor.errorFiles.isEmpty()) {
                     Entry<String, String> entry = processor.errorFiles.entrySet().iterator().next();
                     System.err.println(String.format("%s: %s", entry.getKey(), entry.getValue()));
                 }
             }
-            if (LogToStdErr && processor.successFiles != null && !processor.successFiles.isEmpty()) {
+            if (logToStdErr && processor.successFiles != null && !processor.successFiles.isEmpty()) {
                 System.err.println(String.format("%s successful processed", processor.successFiles.get(0)));
             }
         } catch (Exception e) {
             exitCode = 1;
-            e.printStackTrace(System.err);
+            if (logToStdErr) {
+                e.printStackTrace(System.err);
+            }
             // throw e;
         } finally {
             if (processor != null && processor.getConnection() != null) {
@@ -294,7 +296,6 @@ public class SOSConnectionFileProcessor {
                 }
             }
         }
-        System.out.println("exitCode=" + exitCode);
         System.exit(exitCode);
     }
 
