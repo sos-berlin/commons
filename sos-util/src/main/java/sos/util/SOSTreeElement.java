@@ -1,6 +1,7 @@
 package sos.util;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /** @author Titus Meyer */
 public class SOSTreeElement {
@@ -14,7 +15,7 @@ public class SOSTreeElement {
     private String url = null;
     private String prefix = null;
     private String postfix = null;
-    private HashMap parameters = null;
+    private Map<String, String> parameters = null;
     private Object data = null;
     private int id = -1;
     private int size = 0;
@@ -85,7 +86,7 @@ public class SOSTreeElement {
             throw new IllegalArgumentException("setParameter: parameter name is null");
         }
         if (parameters == null) {
-            parameters = new HashMap();
+            parameters = new HashMap<String, String>();
         }
         parameters.put(name, val);
     }
@@ -104,7 +105,7 @@ public class SOSTreeElement {
         parameters.clear();
     }
 
-    protected HashMap getParameters() {
+    protected Map<String, String> getParameters() {
         return parameters;
     }
 

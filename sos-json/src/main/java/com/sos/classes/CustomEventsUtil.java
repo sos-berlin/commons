@@ -17,7 +17,7 @@ public class CustomEventsUtil {
     private String source;
 
     public CustomEventsUtil(String source) {
-        super();
+        this.source = source;
         objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
         listOfCustomEvents = new ArrayList<CustomEvent>();
     }

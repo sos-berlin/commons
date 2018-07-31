@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
@@ -232,12 +233,15 @@ public class SOSConnectionFileProcessor {
         }
 
         SOSConnectionFileProcessor processor = null;
+        int exitCode = 0;
+        boolean logToStdErr = false;
         try {
             String settingsFile = args[0];
             int logLevel = 0;
             if (args.length > 3) {
                 logLevel = Integer.parseInt(args[3]);
             }
+            logToStdErr =  Arrays.asList(args).contains("-execute-from-setup");
             processor = new SOSConnectionFileProcessor(settingsFile, (SOSLogger) new SOSStandardLogger(logLevel));
             File inputFile = null;
             for (int i = 0; i < args.length; i++) {
@@ -263,12 +267,31 @@ public class SOSConnectionFileProcessor {
                             System.out.println(String.format("          batch-size setted to default value = %s", batchSize));
                         }
                         processor.getConnection().setBatchSize(batchSize);
+                    } else if ("-execute-from-setup".equalsIgnoreCase(param)) {
+                        processor.getConnection().setUseExecuteBatch(true);
+                        logToStdErr = true;
                     }
                 }
             }
             processor.process(inputFile);
+            if (processor.errorFiles != null) {
+                exitCode = processor.errorFiles.size();
+                if (logToStdErr && !processor.errorFiles.isEmpty()) {
+                    Entry<String, String> entry = processor.errorFiles.entrySet().iterator().next();
+                    System.err.println(String.format("%s: %s", entry.getKey(), entry.getValue()));
+                }
+            }
+            if (logToStdErr && processor.successFiles != null && !processor.successFiles.isEmpty()) {
+                System.err.println(String.format("%s successful processed", processor.successFiles.get(0)));
+            }
         } catch (Exception e) {
-            throw e;
+            exitCode = 1;
+            if (logToStdErr) {
+                e.printStackTrace(System.err);
+            } else {
+                e.printStackTrace(System.out);
+            }
+            // throw e;
         } finally {
             if (processor != null && processor.getConnection() != null) {
                 try {
@@ -277,6 +300,7 @@ public class SOSConnectionFileProcessor {
                 }
             }
         }
+        System.exit(exitCode);
     }
 
 }

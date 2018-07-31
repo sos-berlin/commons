@@ -218,7 +218,7 @@ public class SOSXmlCommand {
         return csrfToken;
     }
 
-    private HttpURLConnection requestXMLPost(String urlParameters, String csrfToken) throws SOSConnectionRefusedException {
+    public HttpURLConnection requestXMLPost(String urlParameters, String csrfToken) throws SOSConnectionRefusedException {
 
         HttpURLConnection connection = null;
 

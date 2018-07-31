@@ -1,9 +1,8 @@
 package sos.util;
 
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +16,6 @@ public class SOSTree {
     private String site = null;
     private SOSTreeElement root = null;
     private SOSTreeContentHandler handler = null;
-    private String indent = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
     private String space = "&nbsp;&nbsp;";
     private boolean showRoot = true;
     private boolean textOpenNode = false;
@@ -33,7 +31,7 @@ public class SOSTree {
     private String imgLeaf = "leaf.gif\" border=\"0";
     private String separating = ";";
     private String tdWidth = "400";
-    private ArrayList tableHead = null;
+    private List<String> tableHead = null;
     private String openNode = null;
     private String closeNode = null;
     private String activeStyle = null;
@@ -187,11 +185,11 @@ public class SOSTree {
         return root;
     }
 
-    public void setHeadline(ArrayList headline) {
+    public void setHeadline(List<String> headline) {
         this.tableHead = headline;
     }
 
-    public ArrayList getHeadline() {
+    public List<String> getHeadline() {
         return tableHead;
     }
 
@@ -420,10 +418,9 @@ public class SOSTree {
                 and = "&";
             }
         }
-        HashMap parameters = element.getParameters();
+        Map<String, String> parameters = element.getParameters();
         if (parameters != null) {
-            for (Iterator it = parameters.keySet().iterator(); it.hasNext();) {
-                String name = (String) it.next();
+            for (String name : parameters.keySet()) {
                 url.append(and).append(name).append("=").append((String) parameters.get(name));
                 and = "&";
             }

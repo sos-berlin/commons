@@ -1,11 +1,14 @@
 
 package com.sos.joc.model.event.custom;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.sos.joc.model.common.NameValuePair;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -31,7 +34,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "created",
     "expires",
     "remoteJobSchedulerHost",
-    "remoteJobSchedulerPort"
+    "remoteJobSchedulerPort",
+    "params"
 })
 public class Event {
 
@@ -106,6 +110,14 @@ public class Event {
      */
     @JsonProperty("remoteJobSchedulerPort")
     private Integer remoteJobSchedulerPort;
+    /**
+     * params or environment variables
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("params")
+    private List<NameValuePair> params = new ArrayList<NameValuePair>();
 
     /**
      * 
@@ -393,6 +405,32 @@ public class Event {
         this.remoteJobSchedulerPort = remoteJobSchedulerPort;
     }
 
+    /**
+     * params or environment variables
+     * <p>
+     * 
+     * 
+     * @return
+     *     The params
+     */
+    @JsonProperty("params")
+    public List<NameValuePair> getParams() {
+        return params;
+    }
+
+    /**
+     * params or environment variables
+     * <p>
+     * 
+     * 
+     * @param params
+     *     The params
+     */
+    @JsonProperty("params")
+    public void setParams(List<NameValuePair> params) {
+        this.params = params;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -400,7 +438,7 @@ public class Event {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(id).append(eventId).append(eventClass).append(exitCode).append(job).append(jobChain).append(orderId).append(created).append(expires).append(remoteJobSchedulerHost).append(remoteJobSchedulerPort).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(id).append(eventId).append(eventClass).append(exitCode).append(job).append(jobChain).append(orderId).append(created).append(expires).append(remoteJobSchedulerHost).append(remoteJobSchedulerPort).append(params).toHashCode();
     }
 
     @Override
@@ -412,7 +450,7 @@ public class Event {
             return false;
         }
         Event rhs = ((Event) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(id, rhs.id).append(eventId, rhs.eventId).append(eventClass, rhs.eventClass).append(exitCode, rhs.exitCode).append(job, rhs.job).append(jobChain, rhs.jobChain).append(orderId, rhs.orderId).append(created, rhs.created).append(expires, rhs.expires).append(remoteJobSchedulerHost, rhs.remoteJobSchedulerHost).append(remoteJobSchedulerPort, rhs.remoteJobSchedulerPort).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(id, rhs.id).append(eventId, rhs.eventId).append(eventClass, rhs.eventClass).append(exitCode, rhs.exitCode).append(job, rhs.job).append(jobChain, rhs.jobChain).append(orderId, rhs.orderId).append(created, rhs.created).append(expires, rhs.expires).append(remoteJobSchedulerHost, rhs.remoteJobSchedulerHost).append(remoteJobSchedulerPort, rhs.remoteJobSchedulerPort).append(params, rhs.params).isEquals();
     }
 
 }
