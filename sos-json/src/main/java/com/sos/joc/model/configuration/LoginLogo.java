@@ -20,7 +20,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "name",
-    "width",
     "height",
     "position"
 })
@@ -33,12 +32,10 @@ public class LoginLogo {
      */
     @JsonProperty("name")
     private String name;
-    @JsonProperty("width")
-    private String width;
     @JsonProperty("height")
     private String height;
     @JsonProperty("position")
-    private String position;
+    private LoginLogoPosition position;
 
     /**
      * 
@@ -67,26 +64,6 @@ public class LoginLogo {
     /**
      * 
      * @return
-     *     The width
-     */
-    @JsonProperty("width")
-    public String getWidth() {
-        return width;
-    }
-
-    /**
-     * 
-     * @param width
-     *     The width
-     */
-    @JsonProperty("width")
-    public void setWidth(String width) {
-        this.width = width;
-    }
-
-    /**
-     * 
-     * @return
      *     The height
      */
     @JsonProperty("height")
@@ -110,7 +87,7 @@ public class LoginLogo {
      *     The position
      */
     @JsonProperty("position")
-    public String getPosition() {
+    public LoginLogoPosition getPosition() {
         return position;
     }
 
@@ -120,7 +97,7 @@ public class LoginLogo {
      *     The position
      */
     @JsonProperty("position")
-    public void setPosition(String position) {
+    public void setPosition(LoginLogoPosition position) {
         this.position = position;
     }
 
@@ -131,7 +108,7 @@ public class LoginLogo {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(name).append(width).append(height).append(position).toHashCode();
+        return new HashCodeBuilder().append(name).append(height).append(position).toHashCode();
     }
 
     @Override
@@ -143,7 +120,7 @@ public class LoginLogo {
             return false;
         }
         LoginLogo rhs = ((LoginLogo) other);
-        return new EqualsBuilder().append(name, rhs.name).append(width, rhs.width).append(height, rhs.height).append(position, rhs.position).isEquals();
+        return new EqualsBuilder().append(name, rhs.name).append(height, rhs.height).append(position, rhs.position).isEquals();
     }
 
 }
