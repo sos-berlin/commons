@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.sos.joc.model.common.Folder;
 import com.sos.joc.model.common.HistoryStateText;
+import com.sos.joc.model.order.OrderPath;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -26,6 +27,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "jobschedulerId",
     "jobs",
     "excludeJobs",
+    "orders",
     "compact",
     "regex",
     "isOrderJob",
@@ -53,6 +55,8 @@ public class JobsFilter {
     private List<JobPath> jobs = new ArrayList<JobPath>();
     @JsonProperty("excludeJobs")
     private List<JobPath> excludeJobs = new ArrayList<JobPath>();
+    @JsonProperty("orders")
+    private List<OrderPath> orders = new ArrayList<OrderPath>();
     /**
      * compact parameter
      * <p>
@@ -168,6 +172,26 @@ public class JobsFilter {
     @JsonProperty("excludeJobs")
     public void setExcludeJobs(List<JobPath> excludeJobs) {
         this.excludeJobs = excludeJobs;
+    }
+
+    /**
+     * 
+     * @return
+     *     The orders
+     */
+    @JsonProperty("orders")
+    public List<OrderPath> getOrders() {
+        return orders;
+    }
+
+    /**
+     * 
+     * @param orders
+     *     The orders
+     */
+    @JsonProperty("orders")
+    public void setOrders(List<OrderPath> orders) {
+        this.orders = orders;
     }
 
     /**
@@ -459,7 +483,7 @@ public class JobsFilter {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(jobs).append(excludeJobs).append(compact).append(regex).append(isOrderJob).append(dateFrom).append(dateTo).append(timeZone).append(folders).append(states).append(limit).append(historyStates).append(taskIds).append(historyIds).append(runTimeIsTemporary).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(jobs).append(excludeJobs).append(orders).append(compact).append(regex).append(isOrderJob).append(dateFrom).append(dateTo).append(timeZone).append(folders).append(states).append(limit).append(historyStates).append(taskIds).append(historyIds).append(runTimeIsTemporary).toHashCode();
     }
 
     @Override
@@ -471,7 +495,7 @@ public class JobsFilter {
             return false;
         }
         JobsFilter rhs = ((JobsFilter) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(jobs, rhs.jobs).append(excludeJobs, rhs.excludeJobs).append(compact, rhs.compact).append(regex, rhs.regex).append(isOrderJob, rhs.isOrderJob).append(dateFrom, rhs.dateFrom).append(dateTo, rhs.dateTo).append(timeZone, rhs.timeZone).append(folders, rhs.folders).append(states, rhs.states).append(limit, rhs.limit).append(historyStates, rhs.historyStates).append(taskIds, rhs.taskIds).append(historyIds, rhs.historyIds).append(runTimeIsTemporary, rhs.runTimeIsTemporary).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(jobs, rhs.jobs).append(excludeJobs, rhs.excludeJobs).append(orders, rhs.orders).append(compact, rhs.compact).append(regex, rhs.regex).append(isOrderJob, rhs.isOrderJob).append(dateFrom, rhs.dateFrom).append(dateTo, rhs.dateTo).append(timeZone, rhs.timeZone).append(folders, rhs.folders).append(states, rhs.states).append(limit, rhs.limit).append(historyStates, rhs.historyStates).append(taskIds, rhs.taskIds).append(historyIds, rhs.historyIds).append(runTimeIsTemporary, rhs.runTimeIsTemporary).isEquals();
     }
 
 }
