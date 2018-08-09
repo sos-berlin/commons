@@ -1,7 +1,9 @@
 
 package com.sos.joc.model.order;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -30,7 +32,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "endTime",
     "node",
     "state",
-    "historyId"
+    "historyId",
+    "children"
 })
 public class OrderHistoryItem {
 
@@ -110,6 +113,8 @@ public class OrderHistoryItem {
      */
     @JsonProperty("historyId")
     private String historyId;
+    @JsonProperty("children")
+    private List<OrderHistoryItem> children = new ArrayList<OrderHistoryItem>();
 
     /**
      * survey date of the inventory data; last time the inventory job has checked the live folder
@@ -369,6 +374,26 @@ public class OrderHistoryItem {
         this.historyId = historyId;
     }
 
+    /**
+     * 
+     * @return
+     *     The children
+     */
+    @JsonProperty("children")
+    public List<OrderHistoryItem> getChildren() {
+        return children;
+    }
+
+    /**
+     * 
+     * @param children
+     *     The children
+     */
+    @JsonProperty("children")
+    public void setChildren(List<OrderHistoryItem> children) {
+        this.children = children;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -376,7 +401,7 @@ public class OrderHistoryItem {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(surveyDate).append(jobschedulerId).append(path).append(orderId).append(jobChain).append(startTime).append(endTime).append(node).append(state).append(historyId).toHashCode();
+        return new HashCodeBuilder().append(surveyDate).append(jobschedulerId).append(path).append(orderId).append(jobChain).append(startTime).append(endTime).append(node).append(state).append(historyId).append(children).toHashCode();
     }
 
     @Override
@@ -388,7 +413,7 @@ public class OrderHistoryItem {
             return false;
         }
         OrderHistoryItem rhs = ((OrderHistoryItem) other);
-        return new EqualsBuilder().append(surveyDate, rhs.surveyDate).append(jobschedulerId, rhs.jobschedulerId).append(path, rhs.path).append(orderId, rhs.orderId).append(jobChain, rhs.jobChain).append(startTime, rhs.startTime).append(endTime, rhs.endTime).append(node, rhs.node).append(state, rhs.state).append(historyId, rhs.historyId).isEquals();
+        return new EqualsBuilder().append(surveyDate, rhs.surveyDate).append(jobschedulerId, rhs.jobschedulerId).append(path, rhs.path).append(orderId, rhs.orderId).append(jobChain, rhs.jobChain).append(startTime, rhs.startTime).append(endTime, rhs.endTime).append(node, rhs.node).append(state, rhs.state).append(historyId, rhs.historyId).append(children, rhs.children).isEquals();
     }
 
 }
