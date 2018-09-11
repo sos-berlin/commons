@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.linguafranca.pwdb.Credentials;
@@ -16,6 +17,8 @@ import org.linguafranca.pwdb.kdbx.KdbxCreds;
 import org.linguafranca.pwdb.kdbx.simple.SimpleDatabase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.io.Files;
 
 import sos.util.SOSString;
 
@@ -157,6 +160,10 @@ public class SOSKeePassDatabase {
 
     /** V1 KDB - returns the attachment data, V2 KDBX - returns the attachment data of the propertyName */
     public byte[] getAttachment(final Entry<?, ?, ?, ?> entry, String propertyName) throws SOSKeePassDatabaseException {
+        return getAttachment(_isKdbx, entry, propertyName);
+    }
+
+    private static byte[] getAttachment(boolean isKdbx, final Entry<?, ?, ?, ?> entry, String propertyName) throws SOSKeePassDatabaseException {
         if (entry == null) {
             throw new SOSKeePassDatabaseException("entry is null");
         }
@@ -168,7 +175,7 @@ public class SOSKeePassDatabase {
         }
         byte[] data = null;
         try {
-            if (_isKdbx) {
+            if (isKdbx) {
                 if (propertyName == null) {
                     List<String> l = entry.getBinaryPropertyNames();
                     if (l != null && l.size() > 0) {
@@ -363,6 +370,80 @@ public class SOSKeePassDatabase {
 
     public boolean isKDBX() {
         return _isKdbx;
+    }
+
+    public static String getEntryValue(String uri) throws Exception {
+        SOSKeePassPath path = getPathWithEntry(uri);
+        return path.getDatabaseEntry().getProperty(path.getPropertyName());
+    }
+
+    public static byte[] getEntryAttachment(String uri) throws Exception {
+        SOSKeePassPath path = getPathWithEntry(uri);
+        return getAttachment(path.isKdbx(), path.getDatabaseEntry(), path.getDatabaseEntry().getProperty(path.getPropertyName()));
+    }
+
+    private static SOSKeePassPath getPathWithEntry(String uri) throws Exception {
+        SOSKeePassPath path = new SOSKeePassPath(uri);
+        if (!path.isValid()) {
+            throw new SOSKeePassDatabaseException(String.format("[%s][not valid uri]%s", uri, path.getError()));
+        }
+
+        String queryFile = path.getQueryParameters().get(SOSKeePassPath.QUERY_PARAMETER_FILE);
+        String queryKeyFile = path.getQueryParameters().get(SOSKeePassPath.QUERY_PARAMETER_KEY_FILE);
+        String queryPassword = path.getQueryParameters().get(SOSKeePassPath.QUERY_PARAMETER_PASSWORD);
+
+        Path file = Paths.get(queryFile);
+        Path keyFile = null;
+        if (SOSString.isEmpty(queryKeyFile)) {
+            keyFile = Paths.get(new StringBuilder(Files.getNameWithoutExtension(file.getFileName().toString())).append(".key").toString());
+            if (!keyFile.toFile().exists()) {
+                if (SOSString.isEmpty(queryPassword)) {
+                    throw new SOSKeePassDatabaseException(String.format("[%s][%s]key file not found. password is empty", uri, keyFile.toFile()
+                            .getCanonicalPath()));
+                }
+                keyFile = null;
+            }
+        } else {
+            keyFile = Paths.get(queryKeyFile);
+            if (!keyFile.toFile().exists()) {
+                throw new SOSKeePassDatabaseException(String.format("[%s][%s]key file not found", uri, keyFile.toFile().getCanonicalPath()));
+            }
+        }
+        SOSKeePassDatabase kpd = new SOSKeePassDatabase(file);
+        if (keyFile == null) {
+            kpd.load(queryPassword);
+        } else {
+            kpd.load(queryPassword, keyFile);
+        }
+
+        Entry<?, ?, ?, ?> entry = kpd.getEntryByPath(path.getEntry());
+        if (entry == null) {
+            throw new SOSKeePassDatabaseException(String.format("[%s][%s]entry not found", kpd.getFile(), path.getEntry()));
+        }
+        if (entry.getExpires()) {
+            throw new SOSKeePassDatabaseException(String.format("[%s][%s]entry is expired (%s)", kpd.getFile(), path.getEntry(), entry
+                    .getExpiryTime()));
+        }
+        path.setDatabaseEntry(entry);
+        return path;
+    }
+
+    public static void main(String[] args) {
+        int exitStatus = 0;
+
+        // example: cs://server/SFTP/my_server@user?file=my_file.kdbx&key_file=my_keyfile.key&password=test
+        String uri = null;
+        try {
+            if (args.length > 0) {
+                uri = args[0];
+            }
+            System.out.println(SOSKeePassDatabase.getEntryValue(uri));
+        } catch (Throwable t) {
+            exitStatus = 99;
+            t.printStackTrace();
+        } finally {
+            System.exit(exitStatus);
+        }
     }
 
 }
