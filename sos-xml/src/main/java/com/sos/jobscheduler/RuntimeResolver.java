@@ -8,9 +8,13 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -21,11 +25,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import sos.xml.SOSXMLXPath;
-
 import com.sos.exception.SOSInvalidDataException;
 import com.sos.joc.model.calendar.Period;
 import com.sos.joc.model.plan.RunTime;
+
+import sos.xml.SOSXMLXPath;
 
 public class RuntimeResolver {
 
@@ -266,6 +270,54 @@ public class RuntimeResolver {
             return p;
         }
         return p;
+    }
+    
+    public static Collection<RuntimeCalendar> getCalendarDatesFromToday(SOSXMLXPath xPath, Node curObject, String timeZone)
+            throws TransformerException {
+        NodeList dateList = xPath.selectNodeList(curObject, ".//date[@calendar]/@calendar");
+        NodeList holidayList = xPath.selectNodeList(curObject, ".//holiday[@calendar]/@calendar");
+        String today = DateTimeFormatter.ISO_LOCAL_DATE.withZone(ZoneId.of(timeZone)).format(Instant.now());
+        Map<String, RuntimeCalendar> calendars = new HashMap<String, RuntimeCalendar>();
+        for (int i = 0; i < dateList.getLength(); i++) {
+            String calendarPath = dateList.item(i).getNodeValue();
+            RuntimeCalendar calendar = new RuntimeCalendar();
+            if (!calendars.containsKey(calendarPath)) {
+                calendar.setPath(calendarPath);
+            } else {
+                calendar = calendars.get(calendarPath);
+            }
+            if (calendar.getDates() == null) {
+                calendar.setDates(getCalendarDatesFromToday(xPath.selectNodeList(curObject, String.format(".//date[@calendar='%1$s']/@date",
+                        calendarPath)), today));
+                calendars.put(calendarPath, calendar);
+            }
+        }
+        for (int i = 0; i < holidayList.getLength(); i++) {
+            String calendarPath = holidayList.item(i).getNodeValue();
+            RuntimeCalendar calendar = new RuntimeCalendar();
+            if (!calendars.containsKey(calendarPath)) {
+                calendar.setPath(calendarPath);
+            } else {
+                calendar = calendars.get(calendarPath);
+            }
+            if (calendar.getHolidays() == null) {
+                calendar.setHolidays(getCalendarDatesFromToday(xPath.selectNodeList(curObject, String.format(".//holiday[@calendar='%1$s']/@date",
+                        calendarPath)), today));
+                calendars.put(calendarPath, calendar);
+            }
+        }
+        return calendars.values();
+    }
+    
+    private static Set<String> getCalendarDatesFromToday(NodeList nodeList, String today) {
+        SortedSet<String> dates = new TreeSet<String>();
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            String date = nodeList.item(i).getNodeValue();
+            if (today.compareTo(date) < 1) {
+                dates.add(date);
+            }
+        }
+        return dates;
     }
 
     public static Node updateCalendarInRuntimes(SOSXMLXPath xPath, Node curObject, List<String> dates, String objectType, String path, String calendarPath, String calendarOldPath)
