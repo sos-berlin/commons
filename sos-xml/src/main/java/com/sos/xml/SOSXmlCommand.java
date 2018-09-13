@@ -163,7 +163,7 @@ public class SOSXmlCommand {
     public Element executeXPath(String key, String xPath) throws Exception {
         Element element = null;
         if (sosxml != null) {
-            HashMap<String, String> attrs = new HashMap<String, String>();
+            Map<String, String> attrs = new HashMap<String, String>();
             Node n = sosxml.selectSingleNode(xPath);
             if (n != null) {
                 element = (Element) n;

@@ -8,6 +8,7 @@ import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.sos.joc.model.configuration.Profile;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -25,6 +26,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "deliveryDate",
     "main",
     "users",
+    "profiles",
     "masters"
 })
 public class SecurityConfiguration {
@@ -42,6 +44,8 @@ public class SecurityConfiguration {
     private List<SecurityConfigurationMainEntry> main = new ArrayList<SecurityConfigurationMainEntry>();
     @JsonProperty("users")
     private List<SecurityConfigurationUser> users = new ArrayList<SecurityConfigurationUser>();
+    @JsonProperty("profiles")
+    private List<Profile> profiles = new ArrayList<Profile>();
     @JsonProperty("masters")
     private List<SecurityConfigurationMaster> masters = new ArrayList<SecurityConfigurationMaster>();
 
@@ -116,6 +120,26 @@ public class SecurityConfiguration {
     /**
      * 
      * @return
+     *     The profiles
+     */
+    @JsonProperty("profiles")
+    public List<Profile> getProfiles() {
+        return profiles;
+    }
+
+    /**
+     * 
+     * @param profiles
+     *     The profiles
+     */
+    @JsonProperty("profiles")
+    public void setProfiles(List<Profile> profiles) {
+        this.profiles = profiles;
+    }
+
+    /**
+     * 
+     * @return
      *     The masters
      */
     @JsonProperty("masters")
@@ -140,7 +164,7 @@ public class SecurityConfiguration {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(deliveryDate).append(main).append(users).append(masters).toHashCode();
+        return new HashCodeBuilder().append(deliveryDate).append(main).append(users).append(profiles).append(masters).toHashCode();
     }
 
     @Override
@@ -152,7 +176,7 @@ public class SecurityConfiguration {
             return false;
         }
         SecurityConfiguration rhs = ((SecurityConfiguration) other);
-        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(main, rhs.main).append(users, rhs.users).append(masters, rhs.masters).isEquals();
+        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(main, rhs.main).append(users, rhs.users).append(profiles, rhs.profiles).append(masters, rhs.masters).isEquals();
     }
 
 }
