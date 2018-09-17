@@ -46,6 +46,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "error",
     "ordersSummary",
     "nextStartTime",
+    "nextStartNever",
     "delayUntil",
     "runTimeIsTemporary"
 })
@@ -171,6 +172,8 @@ public class JobV {
      */
     @JsonProperty("nextStartTime")
     private Date nextStartTime;
+    @JsonProperty("nextStartNever")
+    private Boolean nextStartNever;
     /**
      * timestamp
      * <p>
@@ -643,6 +646,26 @@ public class JobV {
     }
 
     /**
+     * 
+     * @return
+     *     The nextStartNever
+     */
+    @JsonProperty("nextStartNever")
+    public Boolean getNextStartNever() {
+        return nextStartNever;
+    }
+
+    /**
+     * 
+     * @param nextStartNever
+     *     The nextStartNever
+     */
+    @JsonProperty("nextStartNever")
+    public void setNextStartNever(Boolean nextStartNever) {
+        this.nextStartNever = nextStartNever;
+    }
+
+    /**
      * timestamp
      * <p>
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
@@ -695,7 +718,7 @@ public class JobV {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(surveyDate).append(path).append(name).append(orderQueue).append(allTasks).append(allSteps).append(state).append(stateText).append(locks).append(temporary).append(numOfRunningTasks).append(runningTasks).append(numOfQueuedTasks).append(taskQueue).append(params).append(configurationStatus).append(error).append(ordersSummary).append(nextStartTime).append(delayUntil).append(runTimeIsTemporary).toHashCode();
+        return new HashCodeBuilder().append(surveyDate).append(path).append(name).append(orderQueue).append(allTasks).append(allSteps).append(state).append(stateText).append(locks).append(temporary).append(numOfRunningTasks).append(runningTasks).append(numOfQueuedTasks).append(taskQueue).append(params).append(configurationStatus).append(error).append(ordersSummary).append(nextStartTime).append(nextStartNever).append(delayUntil).append(runTimeIsTemporary).toHashCode();
     }
 
     @Override
@@ -707,7 +730,7 @@ public class JobV {
             return false;
         }
         JobV rhs = ((JobV) other);
-        return new EqualsBuilder().append(surveyDate, rhs.surveyDate).append(path, rhs.path).append(name, rhs.name).append(orderQueue, rhs.orderQueue).append(allTasks, rhs.allTasks).append(allSteps, rhs.allSteps).append(state, rhs.state).append(stateText, rhs.stateText).append(locks, rhs.locks).append(temporary, rhs.temporary).append(numOfRunningTasks, rhs.numOfRunningTasks).append(runningTasks, rhs.runningTasks).append(numOfQueuedTasks, rhs.numOfQueuedTasks).append(taskQueue, rhs.taskQueue).append(params, rhs.params).append(configurationStatus, rhs.configurationStatus).append(error, rhs.error).append(ordersSummary, rhs.ordersSummary).append(nextStartTime, rhs.nextStartTime).append(delayUntil, rhs.delayUntil).append(runTimeIsTemporary, rhs.runTimeIsTemporary).isEquals();
+        return new EqualsBuilder().append(surveyDate, rhs.surveyDate).append(path, rhs.path).append(name, rhs.name).append(orderQueue, rhs.orderQueue).append(allTasks, rhs.allTasks).append(allSteps, rhs.allSteps).append(state, rhs.state).append(stateText, rhs.stateText).append(locks, rhs.locks).append(temporary, rhs.temporary).append(numOfRunningTasks, rhs.numOfRunningTasks).append(runningTasks, rhs.runningTasks).append(numOfQueuedTasks, rhs.numOfQueuedTasks).append(taskQueue, rhs.taskQueue).append(params, rhs.params).append(configurationStatus, rhs.configurationStatus).append(error, rhs.error).append(ordersSummary, rhs.ordersSummary).append(nextStartTime, rhs.nextStartTime).append(nextStartNever, rhs.nextStartNever).append(delayUntil, rhs.delayUntil).append(runTimeIsTemporary, rhs.runTimeIsTemporary).isEquals();
     }
 
 }

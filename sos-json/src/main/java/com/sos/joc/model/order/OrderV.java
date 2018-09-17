@@ -39,6 +39,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "endState",
     "processingState",
     "nextStartTime",
+    "nextStartNever",
     "historyId",
     "startedAt",
     "processedBy",
@@ -149,6 +150,8 @@ public class OrderV {
      */
     @JsonProperty("nextStartTime")
     private Date nextStartTime;
+    @JsonProperty("nextStartNever")
+    private Boolean nextStartNever;
     /**
      * for all orders except pending orders
      * 
@@ -575,6 +578,26 @@ public class OrderV {
     }
 
     /**
+     * 
+     * @return
+     *     The nextStartNever
+     */
+    @JsonProperty("nextStartNever")
+    public Boolean getNextStartNever() {
+        return nextStartNever;
+    }
+
+    /**
+     * 
+     * @param nextStartNever
+     *     The nextStartNever
+     */
+    @JsonProperty("nextStartNever")
+    public void setNextStartNever(Boolean nextStartNever) {
+        this.nextStartNever = nextStartNever;
+    }
+
+    /**
      * for all orders except pending orders
      * 
      * @return
@@ -797,7 +820,7 @@ public class OrderV {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(path).append(orderId).append(jobChain).append(priority).append(params).append(_type).append(surveyDate).append(state).append(title).append(job).append(stateText).append(configurationStatus).append(endState).append(processingState).append(nextStartTime).append(historyId).append(startedAt).append(processedBy).append(taskId).append(inProcessSince).append(setback).append(lock).append(processClass).append(runTimeIsTemporary).toHashCode();
+        return new HashCodeBuilder().append(path).append(orderId).append(jobChain).append(priority).append(params).append(_type).append(surveyDate).append(state).append(title).append(job).append(stateText).append(configurationStatus).append(endState).append(processingState).append(nextStartTime).append(nextStartNever).append(historyId).append(startedAt).append(processedBy).append(taskId).append(inProcessSince).append(setback).append(lock).append(processClass).append(runTimeIsTemporary).toHashCode();
     }
 
     @Override
@@ -809,7 +832,7 @@ public class OrderV {
             return false;
         }
         OrderV rhs = ((OrderV) other);
-        return new EqualsBuilder().append(path, rhs.path).append(orderId, rhs.orderId).append(jobChain, rhs.jobChain).append(priority, rhs.priority).append(params, rhs.params).append(_type, rhs._type).append(surveyDate, rhs.surveyDate).append(state, rhs.state).append(title, rhs.title).append(job, rhs.job).append(stateText, rhs.stateText).append(configurationStatus, rhs.configurationStatus).append(endState, rhs.endState).append(processingState, rhs.processingState).append(nextStartTime, rhs.nextStartTime).append(historyId, rhs.historyId).append(startedAt, rhs.startedAt).append(processedBy, rhs.processedBy).append(taskId, rhs.taskId).append(inProcessSince, rhs.inProcessSince).append(setback, rhs.setback).append(lock, rhs.lock).append(processClass, rhs.processClass).append(runTimeIsTemporary, rhs.runTimeIsTemporary).isEquals();
+        return new EqualsBuilder().append(path, rhs.path).append(orderId, rhs.orderId).append(jobChain, rhs.jobChain).append(priority, rhs.priority).append(params, rhs.params).append(_type, rhs._type).append(surveyDate, rhs.surveyDate).append(state, rhs.state).append(title, rhs.title).append(job, rhs.job).append(stateText, rhs.stateText).append(configurationStatus, rhs.configurationStatus).append(endState, rhs.endState).append(processingState, rhs.processingState).append(nextStartTime, rhs.nextStartTime).append(nextStartNever, rhs.nextStartNever).append(historyId, rhs.historyId).append(startedAt, rhs.startedAt).append(processedBy, rhs.processedBy).append(taskId, rhs.taskId).append(inProcessSince, rhs.inProcessSince).append(setback, rhs.setback).append(lock, rhs.lock).append(processClass, rhs.processClass).append(runTimeIsTemporary, rhs.runTimeIsTemporary).isEquals();
     }
 
 }
