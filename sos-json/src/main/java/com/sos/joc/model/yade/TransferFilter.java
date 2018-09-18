@@ -37,6 +37,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "isIntervention",
     "sources",
     "targets",
+    "sourceFilesRegex",
+    "targetFilesRegex",
     "sourceFiles",
     "targetFiles"
 })
@@ -94,6 +96,22 @@ public class TransferFilter {
     private List<ProtocolFragment> sources = new ArrayList<ProtocolFragment>();
     @JsonProperty("targets")
     private List<ProtocolFragment> targets = new ArrayList<ProtocolFragment>();
+    /**
+     * filter with regex
+     * <p>
+     * regular expression to filter JobScheduler objects by matching the path
+     * 
+     */
+    @JsonProperty("sourceFilesRegex")
+    private String sourceFilesRegex;
+    /**
+     * filter with regex
+     * <p>
+     * regular expression to filter JobScheduler objects by matching the path
+     * 
+     */
+    @JsonProperty("targetFilesRegex")
+    private String targetFilesRegex;
     @JsonProperty("sourceFiles")
     private List<String> sourceFiles = new ArrayList<String>();
     @JsonProperty("targetFiles")
@@ -436,6 +454,58 @@ public class TransferFilter {
     }
 
     /**
+     * filter with regex
+     * <p>
+     * regular expression to filter JobScheduler objects by matching the path
+     * 
+     * @return
+     *     The sourceFilesRegex
+     */
+    @JsonProperty("sourceFilesRegex")
+    public String getSourceFilesRegex() {
+        return sourceFilesRegex;
+    }
+
+    /**
+     * filter with regex
+     * <p>
+     * regular expression to filter JobScheduler objects by matching the path
+     * 
+     * @param sourceFilesRegex
+     *     The sourceFilesRegex
+     */
+    @JsonProperty("sourceFilesRegex")
+    public void setSourceFilesRegex(String sourceFilesRegex) {
+        this.sourceFilesRegex = sourceFilesRegex;
+    }
+
+    /**
+     * filter with regex
+     * <p>
+     * regular expression to filter JobScheduler objects by matching the path
+     * 
+     * @return
+     *     The targetFilesRegex
+     */
+    @JsonProperty("targetFilesRegex")
+    public String getTargetFilesRegex() {
+        return targetFilesRegex;
+    }
+
+    /**
+     * filter with regex
+     * <p>
+     * regular expression to filter JobScheduler objects by matching the path
+     * 
+     * @param targetFilesRegex
+     *     The targetFilesRegex
+     */
+    @JsonProperty("targetFilesRegex")
+    public void setTargetFilesRegex(String targetFilesRegex) {
+        this.targetFilesRegex = targetFilesRegex;
+    }
+
+    /**
      * 
      * @return
      *     The sourceFiles
@@ -482,7 +552,7 @@ public class TransferFilter {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(transferIds).append(compact).append(regex).append(profiles).append(mandator).append(states).append(operations).append(dateFrom).append(dateTo).append(timeZone).append(limit).append(hasIntervention).append(isIntervention).append(sources).append(targets).append(sourceFiles).append(targetFiles).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(transferIds).append(compact).append(regex).append(profiles).append(mandator).append(states).append(operations).append(dateFrom).append(dateTo).append(timeZone).append(limit).append(hasIntervention).append(isIntervention).append(sources).append(targets).append(sourceFilesRegex).append(targetFilesRegex).append(sourceFiles).append(targetFiles).toHashCode();
     }
 
     @Override
@@ -494,7 +564,7 @@ public class TransferFilter {
             return false;
         }
         TransferFilter rhs = ((TransferFilter) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(transferIds, rhs.transferIds).append(compact, rhs.compact).append(regex, rhs.regex).append(profiles, rhs.profiles).append(mandator, rhs.mandator).append(states, rhs.states).append(operations, rhs.operations).append(dateFrom, rhs.dateFrom).append(dateTo, rhs.dateTo).append(timeZone, rhs.timeZone).append(limit, rhs.limit).append(hasIntervention, rhs.hasIntervention).append(isIntervention, rhs.isIntervention).append(sources, rhs.sources).append(targets, rhs.targets).append(sourceFiles, rhs.sourceFiles).append(targetFiles, rhs.targetFiles).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(transferIds, rhs.transferIds).append(compact, rhs.compact).append(regex, rhs.regex).append(profiles, rhs.profiles).append(mandator, rhs.mandator).append(states, rhs.states).append(operations, rhs.operations).append(dateFrom, rhs.dateFrom).append(dateTo, rhs.dateTo).append(timeZone, rhs.timeZone).append(limit, rhs.limit).append(hasIntervention, rhs.hasIntervention).append(isIntervention, rhs.isIntervention).append(sources, rhs.sources).append(targets, rhs.targets).append(sourceFilesRegex, rhs.sourceFilesRegex).append(targetFilesRegex, rhs.targetFilesRegex).append(sourceFiles, rhs.sourceFiles).append(targetFiles, rhs.targetFiles).isEquals();
     }
 
 }
