@@ -16,7 +16,9 @@ public class SOSKeePassPath {
     public static final String QUERY_PARAMETER_FILE = "file";
     public static final String QUERY_PARAMETER_KEY_FILE = "key_file";
     public static final String QUERY_PARAMETER_PASSWORD = "password";
-    public static final String QUERY_PARAMETER_EXPIRED = "with_expired";
+    // not set or ignore_expired=0 - throwing an entry expired exception if an entry is expired
+    public static final String QUERY_PARAMETER_IGNORE_EXPIRED = "ignore_expired";
+    public static final String QUERY_PARAMETER_ATTACHMENT = "attachment";
 
     private boolean _isKdbx;
     private boolean _valid;
@@ -29,7 +31,7 @@ public class SOSKeePassPath {
     private String _error;
     private Entry<?, ?, ?, ?> _databaseEntry;
 
-    /** @param uri example: cs://server/SFTP/my_server@user?file=my_file.kdbx&key_file=my_keyfile.key&password=test&with_expired=1 */
+    /** @param uri example: cs://server/SFTP/my_server@user?file=my_file.kdbx&key_file=my_keyfile.key&password=test&ignore_expired=1&attachment=1 */
     public SOSKeePassPath(final String uri) {
         if (SOSString.isEmpty(uri)) {
             _error = "missing uri";

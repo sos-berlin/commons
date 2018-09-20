@@ -217,11 +217,12 @@ public class SOSKeePassDatabase {
     }
 
     /** V1 KDB - exports the attachment, V2 KDBX - exports the attachment of the propertyName */
-    public void exportAttachment2File(final Entry<?, ?, ?, ?> entry, final Path targetFile, final String propertyName)
+    public String exportAttachment2File(final Entry<?, ?, ?, ?> entry, final Path targetFile, final String propertyName)
             throws SOSKeePassDatabaseException {
-        LOGGER.debug(String.format("entryPath=%s, targetFile=%s, propertyName=%s", entry.getPath(), targetFile, propertyName));
-
-        byte[] data = getAttachment(entry, propertyName);
+        if (isDebugEnabled) {
+            LOGGER.debug(String.format("entryPath=%s, targetFile=%s, propertyName=%s", entry.getPath(), targetFile, propertyName));
+        }
+        byte[] data = getAttachment(_isKdbx, entry, propertyName);
 
         try (FileOutputStream fos = new FileOutputStream(targetFile.toFile())) {
             fos.write(data);
@@ -229,6 +230,7 @@ public class SOSKeePassDatabase {
             throw new SOSKeePassDatabaseException(String.format("[%s][%s][%s]can't write attachment to file: %s", entry.getPath(), propertyName,
                     targetFile, e.toString()), e);
         }
+        return getFilePath(targetFile);
     }
 
     public static String getPropertyName(String propertyName) {
@@ -374,6 +376,10 @@ public class SOSKeePassDatabase {
 
     public static String getProperty(String uri) throws Exception {
         SOSKeePassPath path = getPathWithEntry(uri);
+        String queryAttachment = path.getQueryParameters().get(SOSKeePassPath.QUERY_PARAMETER_ATTACHMENT);
+        if (!SOSString.isEmpty(queryAttachment) && queryAttachment.equals("1")) {
+            return new String(getAttachment(path.isKdbx(), path.getDatabaseEntry(), path.getPropertyName()));
+        }
         return path.getDatabaseEntry().getProperty(path.getPropertyName());
     }
 
@@ -382,7 +388,7 @@ public class SOSKeePassDatabase {
         return getAttachment(path.isKdbx(), path.getDatabaseEntry(), path.getDatabaseEntry().getProperty(path.getPropertyName()));
     }
 
-    private String getFilePath(Path path) {
+    private static String getFilePath(Path path) {
         String filePath = null;
         try {
             filePath = path.toFile().getCanonicalPath();
@@ -401,7 +407,7 @@ public class SOSKeePassDatabase {
         String queryFile = path.getQueryParameters().get(SOSKeePassPath.QUERY_PARAMETER_FILE);
         String queryKeyFile = path.getQueryParameters().get(SOSKeePassPath.QUERY_PARAMETER_KEY_FILE);
         String queryPassword = path.getQueryParameters().get(SOSKeePassPath.QUERY_PARAMETER_PASSWORD);
-        String queryExpired = path.getQueryParameters().get(SOSKeePassPath.QUERY_PARAMETER_EXPIRED);
+        String queryIgnoreExpired = path.getQueryParameters().get(SOSKeePassPath.QUERY_PARAMETER_IGNORE_EXPIRED);
 
         Path file = Paths.get(queryFile);
         Path keyFile = null;
@@ -431,7 +437,7 @@ public class SOSKeePassDatabase {
         if (entry == null) {
             throw new SOSKeePassDatabaseException(String.format("[%s][%s]entry not found", kpd.getFile(), path.getEntry()));
         }
-        if (entry.getExpires() && (queryExpired == null || queryExpired.equals("0"))) {
+        if (entry.getExpires() && (queryIgnoreExpired == null || queryIgnoreExpired.equals("0"))) {
             throw new SOSKeePassDatabaseException(String.format("[%s][%s]entry is expired (%s)", kpd.getFile(), path.getEntry(), entry
                     .getExpiryTime()));
         }
@@ -442,13 +448,23 @@ public class SOSKeePassDatabase {
     public static void main(String[] args) {
         int exitStatus = 0;
 
-        // example: cs://server/SFTP/my_server@user?file=my_file.kdbx&key_file=my_keyfile.key&password=test&with_expired=1
+        // examples:
+        // cs://server/SFTP/my_server@user?file=my_file.kdbx&password=test
+        // cs://server/SFTP/my_server@user?file=my_file.kdbx&key_file=my_keyfile.key&password=test&ignore_expired=1
+        // cs://server/SFTP/my_server@user?file=my_file.kdbx&key_file=my_keyfile.key&attachment=1
+
         String uri = null;
         try {
             if (args.length > 0) {
                 uri = args[0];
             }
-            System.out.println(SOSKeePassDatabase.getProperty(uri));
+
+            String val = SOSKeePassDatabase.getProperty(uri);
+            if (val == null) {
+                SOSKeePassPath path = new SOSKeePassPath(uri);
+                throw new SOSKeePassDatabaseException(String.format("[%s]property not found", path.toString()));
+            }
+            System.out.println(val);
         } catch (Throwable t) {
             exitStatus = 99;
             t.printStackTrace();
