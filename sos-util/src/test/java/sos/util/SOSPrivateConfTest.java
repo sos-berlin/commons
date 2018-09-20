@@ -14,7 +14,7 @@ public class SOSPrivateConfTest {
         String phrase = sosPrivateConf.getValue("jobscheduler.master.auth.users", "jobscheduler_prod");
         String password = sosPrivateConf.getValue("jobscheduler.master.webserver.https.keystore", "password");
         String jocUrl = sosPrivateConf.getValue("joc.url");
-        String userAccount = sosPrivateConf.getEncodedValue("joc.webservice.jitl","joc.account");
+        String userAccount = sosPrivateConf.getDecodedValue("joc.webservice.jitl","joc.account");
         assertEquals("TestPrivateConf.getValue", userAccount, "api_user:api");
         assertEquals("TestPrivateConf.getValue", phrase, "plain:secret");
         assertEquals("TestPrivateConf.getValue", password, "secret");

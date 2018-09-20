@@ -62,7 +62,7 @@ public class SOSPrivateConf {
 
     }
 
-    public String getEncodedValue(String objectId, String key) throws Exception {
+    public String getDecodedValue(String objectId, String key) throws Exception {
         String s = getValue(objectId, key);
         if (s != null) {
             return new String(Base64.getDecoder().decode(s.getBytes("UTF-8")), "UTF-8");
@@ -71,7 +71,7 @@ public class SOSPrivateConf {
         }
     }
 
-    public String getEncodedValue(String key) throws Exception {
+    public String getDecodedValue(String key) throws Exception {
         String s = getValue(key);
         if (s != null) {
             return new String(Base64.getDecoder().decode(s.getBytes("UTF-8")), "UTF-8");
