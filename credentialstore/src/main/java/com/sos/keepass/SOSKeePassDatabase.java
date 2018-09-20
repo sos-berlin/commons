@@ -270,7 +270,7 @@ public class SOSKeePassDatabase {
                 is = new FileInputStream(keyFile.toFile());
                 cred = new KdbCredentials.KeyFile(password.getBytes(), is);
             } catch (Throwable e) {
-                throw new SOSKeePassDatabaseException(e);
+                throw new SOSKeePassDatabaseException(String.format("[%s]%s", getFilePath(keyFile), e.toString()), e);
             } finally {
                 if (is != null) {
                     try {
@@ -294,7 +294,7 @@ public class SOSKeePassDatabase {
             is = new FileInputStream(_file.toFile());
             database = KdbDatabase.load(cred, is);
         } catch (Throwable e) {
-            throw new SOSKeePassDatabaseException(e);
+            throw new SOSKeePassDatabaseException(String.format("[%s]%s", getFilePath(_file), e.toString()), e);
         } finally {
             if (is != null) {
                 try {
@@ -324,7 +324,7 @@ public class SOSKeePassDatabase {
                     cred = new KdbxCreds(pass.getBytes(), is);
                 }
             } catch (Throwable e) {
-                throw new SOSKeePassDatabaseException(e);
+                throw new SOSKeePassDatabaseException(String.format("[%s]%s", getFilePath(keyFile), e.toString()), e);
             } finally {
                 if (is != null) {
                     try {
@@ -348,7 +348,7 @@ public class SOSKeePassDatabase {
             is = new FileInputStream(_file.toFile());
             database = SimpleDatabase.load(cred, is);
         } catch (Throwable e) {
-            throw new SOSKeePassDatabaseException(e);
+            throw new SOSKeePassDatabaseException(String.format("[%s]%s", getFilePath(_file), e.toString()), e);
         } finally {
             if (is != null) {
                 try {
@@ -372,14 +372,24 @@ public class SOSKeePassDatabase {
         return _isKdbx;
     }
 
-    public static String getEntryValue(String uri) throws Exception {
+    public static String getProperty(String uri) throws Exception {
         SOSKeePassPath path = getPathWithEntry(uri);
         return path.getDatabaseEntry().getProperty(path.getPropertyName());
     }
 
-    public static byte[] getEntryAttachment(String uri) throws Exception {
+    public static byte[] getPropertyAttachment(String uri) throws Exception {
         SOSKeePassPath path = getPathWithEntry(uri);
         return getAttachment(path.isKdbx(), path.getDatabaseEntry(), path.getDatabaseEntry().getProperty(path.getPropertyName()));
+    }
+
+    private String getFilePath(Path path) {
+        String filePath = null;
+        try {
+            filePath = path.toFile().getCanonicalPath();
+        } catch (Exception ex) {
+            filePath = path.toString();
+        }
+        return filePath;
     }
 
     private static SOSKeePassPath getPathWithEntry(String uri) throws Exception {
@@ -391,6 +401,7 @@ public class SOSKeePassDatabase {
         String queryFile = path.getQueryParameters().get(SOSKeePassPath.QUERY_PARAMETER_FILE);
         String queryKeyFile = path.getQueryParameters().get(SOSKeePassPath.QUERY_PARAMETER_KEY_FILE);
         String queryPassword = path.getQueryParameters().get(SOSKeePassPath.QUERY_PARAMETER_PASSWORD);
+        String queryExpired = path.getQueryParameters().get(SOSKeePassPath.QUERY_PARAMETER_EXPIRED);
 
         Path file = Paths.get(queryFile);
         Path keyFile = null;
@@ -420,7 +431,7 @@ public class SOSKeePassDatabase {
         if (entry == null) {
             throw new SOSKeePassDatabaseException(String.format("[%s][%s]entry not found", kpd.getFile(), path.getEntry()));
         }
-        if (entry.getExpires()) {
+        if (entry.getExpires() && (queryExpired == null || queryExpired.equals("0"))) {
             throw new SOSKeePassDatabaseException(String.format("[%s][%s]entry is expired (%s)", kpd.getFile(), path.getEntry(), entry
                     .getExpiryTime()));
         }
@@ -431,13 +442,13 @@ public class SOSKeePassDatabase {
     public static void main(String[] args) {
         int exitStatus = 0;
 
-        // example: cs://server/SFTP/my_server@user?file=my_file.kdbx&key_file=my_keyfile.key&password=test
+        // example: cs://server/SFTP/my_server@user?file=my_file.kdbx&key_file=my_keyfile.key&password=test&with_expired=1
         String uri = null;
         try {
             if (args.length > 0) {
                 uri = args[0];
             }
-            System.out.println(SOSKeePassDatabase.getEntryValue(uri));
+            System.out.println(SOSKeePassDatabase.getProperty(uri));
         } catch (Throwable t) {
             exitStatus = 99;
             t.printStackTrace();
