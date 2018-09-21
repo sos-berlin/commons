@@ -377,13 +377,17 @@ public class SOSKeePassDatabase {
     public static String getProperty(String uri) throws Exception {
         SOSKeePassPath path = getPathWithEntry(uri);
         String queryAttachment = path.getQueryParameters().get(SOSKeePassPath.QUERY_PARAMETER_ATTACHMENT);
-        if (!SOSString.isEmpty(queryAttachment) && queryAttachment.equals("1")) {
+        if (queryAttachment != null && !queryAttachment.equals("0")) {
             return new String(getAttachment(path.isKdbx(), path.getDatabaseEntry(), path.getPropertyName()));
         }
-        return path.getDatabaseEntry().getProperty(path.getPropertyName());
+        String val = path.getDatabaseEntry().getProperty(path.getPropertyName());
+        if (val == null) {
+            throw new SOSKeePassDatabaseException(String.format("[%s]property not found", path.toString()));
+        }
+        return val;
     }
 
-    public static byte[] getPropertyAttachment(String uri) throws Exception {
+    public static byte[] getBinaryProperty(String uri) throws Exception {
         SOSKeePassPath path = getPathWithEntry(uri);
         return getAttachment(path.isKdbx(), path.getDatabaseEntry(), path.getDatabaseEntry().getProperty(path.getPropertyName()));
     }
@@ -459,12 +463,7 @@ public class SOSKeePassDatabase {
                 uri = args[0];
             }
 
-            String val = SOSKeePassDatabase.getProperty(uri);
-            if (val == null) {
-                SOSKeePassPath path = new SOSKeePassPath(uri);
-                throw new SOSKeePassDatabaseException(String.format("[%s]property not found", path.toString()));
-            }
-            System.out.println(val);
+            System.out.println(SOSKeePassDatabase.getProperty(uri));
         } catch (Throwable t) {
             exitStatus = 99;
             t.printStackTrace();
