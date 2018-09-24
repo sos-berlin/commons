@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.junit.Test;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.sos.joc.model.plan.RunTime;
@@ -40,10 +41,13 @@ public class RunTimeResolverTest {
         SOSXMLXPath xPath = new SOSXMLXPath(new StringBuffer(runTime));
         String timeZone = xPath.getRoot().getAttribute("time_zone");
         Collection<RuntimeCalendar> calendars = RuntimeResolver.getCalendarDatesFromToday(xPath, xPath.getRoot(), timeZone);
+        ObjectMapper om = new ObjectMapper();
         calendars.forEach(cal -> {
-            System.out.println(cal.getPath());
-            System.out.println(cal.getDates());
-            System.out.println(cal.getHolidays());
+            try {
+                System.out.println(om.writeValueAsString(cal));
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 

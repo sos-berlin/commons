@@ -48,7 +48,7 @@ public class FrequencyResolver {
     private Calendar dateTo = null;
     private Frequencies includes = null;
     private Frequencies excludes = null;
-    private DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd").withZone(ZoneOffset.UTC);
+    private static DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd").withZone(ZoneOffset.UTC);
 
     public FrequencyResolver() {
     }
