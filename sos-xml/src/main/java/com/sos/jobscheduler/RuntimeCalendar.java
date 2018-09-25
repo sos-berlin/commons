@@ -9,6 +9,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sos.joc.model.calendar.CalendarType;
 import com.sos.joc.model.calendar.Period;
 
 public class RuntimeCalendar {
@@ -17,8 +18,8 @@ public class RuntimeCalendar {
     private String path = null;
     @JsonProperty("dates")
     private List<String> dates = null;
-    @JsonProperty("holidays")
-    private List<String> holidays = null;
+    @JsonProperty("type")
+    private CalendarType type = CalendarType.fromValue("WORKING_DAYS");
     @JsonProperty("periods")
     private List<Period> periods = null;
 
@@ -49,20 +50,16 @@ public class RuntimeCalendar {
         this.dates = new ArrayList<String>(dates);
     }
 
-    @JsonProperty("holidays")
-    public List<String> getHolidays() {
-        return holidays;
+    @JsonProperty("type")
+    public CalendarType getType() {
+        return type;
     }
 
-    @JsonProperty("holidays")
-    public void setHolidays(List<String> holidays) {
-        this.holidays = holidays;
+    @JsonProperty("type")
+    public void setType(CalendarType type) {
+        this.type = type;
     }
     
-    public void setHolidays(Set<String> holidays) {
-        this.holidays = new ArrayList<String>(holidays);
-    }
-
     @JsonProperty("periods")
     public List<Period> getPeriods() {
         return periods;
@@ -80,7 +77,7 @@ public class RuntimeCalendar {
     
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(path).append(dates).append(holidays).append(periods).toHashCode();
+        return new HashCodeBuilder().append(path).append(dates).append(type).append(periods).toHashCode();
     }
 
     @Override
@@ -92,7 +89,7 @@ public class RuntimeCalendar {
             return false;
         }
         RuntimeCalendar rhs = ((RuntimeCalendar) other);
-        return new EqualsBuilder().append(path, rhs.path).append(dates, rhs.dates).append(holidays, rhs.holidays).append(periods, rhs.periods).isEquals();
+        return new EqualsBuilder().append(path, rhs.path).append(dates, rhs.dates).append(type, rhs.type).append(periods, rhs.periods).isEquals();
     }
     
 }

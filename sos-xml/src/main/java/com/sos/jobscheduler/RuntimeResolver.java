@@ -26,6 +26,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.sos.exception.SOSInvalidDataException;
+import com.sos.joc.model.calendar.CalendarType;
 import com.sos.joc.model.calendar.Period;
 import com.sos.joc.model.plan.RunTime;
 
@@ -284,6 +285,7 @@ public class RuntimeResolver {
             if (!calendars.containsKey(calendarPath)) {
                 RuntimeCalendar calendar = new RuntimeCalendar();
                 calendar.setPath(calendarPath);
+                calendar.setType(CalendarType.WORKING_DAYS);
                 calendar.setDates(getCalendarDatesFromToday(xPath.selectNodeList(curObject, String.format(".//date[@calendar='%1$s']/@date",
                         calendarPath)), today));
                 calendars.put(calendarPath, calendar);
@@ -295,7 +297,8 @@ public class RuntimeResolver {
             if (!calendars.containsKey(calendarPath)) {
                 RuntimeCalendar calendar = new RuntimeCalendar();
                 calendar.setPath(calendarPath);
-                calendar.setHolidays(getCalendarDatesFromToday(xPath.selectNodeList(curObject, String.format(".//holiday[@calendar='%1$s']/@date",
+                calendar.setType(CalendarType.NON_WORKING_DAYS);
+                calendar.setDates(getCalendarDatesFromToday(xPath.selectNodeList(curObject, String.format(".//holiday[@calendar='%1$s']/@date",
                         calendarPath)), today));
                 calendars.put(calendarPath, calendar);
             }
