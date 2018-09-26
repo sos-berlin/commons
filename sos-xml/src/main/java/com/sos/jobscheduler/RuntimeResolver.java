@@ -318,6 +318,21 @@ public class RuntimeResolver {
         return calendars.values();
     }
     
+    public static TreeSet<RuntimeCalendar> getCalendarDatesFromToday(org.dom4j.Document doc, String timeZone) throws TransformerException {
+        org.dom4j.Element root = doc.getRootElement();
+        org.dom4j.Element runTime = null;
+        if ("schedule".equals(root.getName())) {
+            runTime = root;
+        } else {
+            runTime = root.element("run_time");
+        }
+        if (runTime == null) {
+           return null; 
+        } else {
+           return getCalendarDatesFromToday(runTime, timeZone); 
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     public static TreeSet<RuntimeCalendar> getCalendarDatesFromToday(org.dom4j.Element curObject, String timeZone) throws TransformerException {
         String tzone = curObject.attributeValue("time_zone");
@@ -497,13 +512,16 @@ public class RuntimeResolver {
         return firstElem != null;
     }
     
+    public static void updateCalendarInRuntimes(String xml, Writer writer, Collection<RuntimeCalendar> calendars) throws IOException, DocumentException {
+        updateCalendarInRuntimes(DocumentHelper.parseText(xml), writer, calendars);
+    }
+    
     public static void updateCalendarInRuntimes(Path xmlFile, Writer writer, Collection<RuntimeCalendar> calendars) throws IOException, DocumentException {
         updateCalendarInRuntimes(new String(Files.readAllBytes(xmlFile)), writer, calendars);
     }
     
     @SuppressWarnings("unchecked")
-    public static void updateCalendarInRuntimes(String xml, Writer writer, Collection<RuntimeCalendar> calendars) throws IOException, DocumentException {
-        org.dom4j.Document doc = DocumentHelper.parseText(xml);
+    public static void updateCalendarInRuntimes(org.dom4j.Document doc, Writer writer, Collection<RuntimeCalendar> calendars) throws IOException, DocumentException {
         org.dom4j.Element root = doc.getRootElement();
         org.dom4j.Element runTime = null;
         if ("schedule".equals(root.getName())) {
