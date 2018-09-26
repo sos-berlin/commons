@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<job tasks="2">
+    <params>
+        <param name="hallo" value="E1b%D9\$h"/>
+		    <param name="jobschedulereventjob.events" value=""/>
+    </params>
+
+    <script language="shell">
+    	<include file="hallo"/><![CDATA[
+echo start
+waitfor SomethingThatIsNeverHappening /t 30 >nul 2>nul
+echo after timeout        
+set SCHEDULER_PARAM_
+echo hallo
+echo %ERRORLEVEL%
+sleep 60
+echo %ERRORLEVEL%
+set SCHEDULER_PARAM_HALLO
+echo %ERRORLEVEL%
+dir hallo
+echo %ERRORLEVEL%
+]]>
+	</script>
+
+    <run_time time_zone="America/Montevideo">
+      <period begin="00:00"/>
+      <date calendar="/test/EachFriday" date="2018-08-03">
+         <period single_start="12:00:00"/>
+      </date>
+      <date calendar="/test/EachFriday" date="2018-08-10">
+         <period single_start="12:00:00"/>
+      </date>
+      <date calendar="/test/EachFriday" date="2018-08-17">
+         <period single_start="12:00:00"/>
+      </date>
+      <date calendar="/test/EachFriday" date="2018-08-24">
+         <period single_start="12:00:00"/>
+      </date>
+      <date calendar="/test/EachFriday" date="2018-08-31">
+         <period single_start="12:00:00"/>
+      </date>
+      <date calendar="/test/EachFriday" date="2018-09-07">
+         <period single_start="12:00:00"/>
+      </date>
+      <date calendar="/test/EachFriday" date="2018-09-14">
+         <period single_start="12:00:00"/>
+      </date>
+      <date calendar="/test/EachFriday" date="2018-09-21">
+         <period single_start="12:00:00"/>
+      </date>
+      <date calendar="/test/EachFriday" date="2018-09-28">
+         <period single_start="12:00:00"/>
+      </date>
+      <date calendar="/test/EachFriday" date="2018-10-05">
+         <period single_start="12:00:00"/>
+      </date>
+      <date calendar="/test/EachFriday" date="2018-10-12">
+         <period single_start="12:00:00"/>
+      </date>
+      <date calendar="/test/EachFriday" date="2018-10-19">
+         <period single_start="12:00:00"/>
+      </date>
+      <date calendar="/test/EachFriday" date="2018-10-26">
+         <period single_start="12:00:00"/>
+      </date>
+      <date calendar="/test/EachFriday" date="2018-11-02">
+         <period single_start="12:00:00"/>
+      </date>
+      <date calendar="/test/EachFriday" date="2018-11-09">
+         <period single_start="12:00:00"/>
+      </date>
+      <date calendar="/test/EachFriday" date="2018-11-16">
+         <period single_start="12:00:00"/>
+      </date>
+      <date calendar="/test/EachFriday" date="2018-11-23">
+         <period single_start="12:00:00"/>
+      </date>
+      <date calendar="/test/EachFriday" date="2018-11-30">
+         <period single_start="12:00:00"/>
+      </date>
+      <weekdays/>
+      <holidays>
+         <holiday calendar="/test/holidays" date="2018-10-03"/>
+         <include file="/test/hallo"/>
+      </holidays>
+   </run_time>
+   <commands/>
+</job>

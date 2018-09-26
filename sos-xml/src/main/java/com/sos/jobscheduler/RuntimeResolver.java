@@ -1,5 +1,9 @@
 package com.sos.jobscheduler;
 
+import java.io.IOException;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -20,6 +24,10 @@ import java.util.TreeSet;
 
 import javax.xml.transform.TransformerException;
 
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.XMLWriter;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -273,11 +281,15 @@ public class RuntimeResolver {
         return p;
     }
     
-    public static Collection<RuntimeCalendar> getCalendarDatesFromToday(SOSXMLXPath xPath, Node curObject, String timeZone)
+    public static Collection<RuntimeCalendar> getCalendarDatesFromToday(SOSXMLXPath xPath, Element curObject, String timeZone)
             throws TransformerException {
+        String tzone = curObject.getAttribute("time_zone");
+        if (tzone == null || tzone.isEmpty()) {
+            tzone = timeZone;
+        }
         NodeList dateList = xPath.selectNodeList(curObject, ".//date[@calendar]");
         NodeList holidayList = xPath.selectNodeList(curObject, ".//holiday[@calendar]/@calendar");
-        String today = DateTimeFormatter.ISO_LOCAL_DATE.withZone(ZoneId.of(timeZone)).format(Instant.now());
+        String today = DateTimeFormatter.ISO_LOCAL_DATE.withZone(ZoneId.of(tzone)).format(Instant.now());
         Map<String, RuntimeCalendar> calendars = new HashMap<String, RuntimeCalendar>();
         for (int i = 0; i < dateList.getLength(); i++) {
             Element dateElem = (Element) dateList.item(i);
@@ -306,10 +318,57 @@ public class RuntimeResolver {
         return calendars.values();
     }
     
+    @SuppressWarnings("unchecked")
+    public static Collection<RuntimeCalendar> getCalendarDatesFromToday(org.dom4j.Element curObject, String timeZone) throws TransformerException {
+        String tzone = curObject.attributeValue("time_zone");
+        if (tzone == null) {
+            tzone = timeZone;  
+        }
+        List<org.dom4j.Element> dateList = curObject.selectNodes(".//date[@calendar]");
+        List<org.dom4j.Attribute> holidayList = curObject.selectNodes(".//holiday[@calendar]/@calendar");
+        String today = DateTimeFormatter.ISO_LOCAL_DATE.withZone(ZoneId.of(tzone)).format(Instant.now());
+        Map<String, RuntimeCalendar> calendars = new HashMap<String, RuntimeCalendar>();
+        for (org.dom4j.Element dateElem : dateList) {
+            String calendarPath = dateElem.attributeValue("calendar");
+            if (!calendars.containsKey(calendarPath)) {
+                RuntimeCalendar calendar = new RuntimeCalendar();
+                calendar.setPath(calendarPath);
+                calendar.setType(CalendarType.WORKING_DAYS);
+                calendar.setDates(getCalendarDatesFromToday(curObject.selectNodes(String.format(".//date[@calendar='%1$s']/@date", calendarPath)),
+                        today));
+                calendars.put(calendarPath, calendar);
+                calendar.setPeriods(getCalendarPeriods(dateElem.selectNodes("period")));
+            }
+        }
+        for (org.dom4j.Attribute holidayNode : holidayList) {
+            String calendarPath = holidayNode.getStringValue();
+            if (!calendars.containsKey(calendarPath)) {
+                RuntimeCalendar calendar = new RuntimeCalendar();
+                calendar.setPath(calendarPath);
+                calendar.setType(CalendarType.NON_WORKING_DAYS);
+                calendar.setDates(getCalendarDatesFromToday(curObject.selectNodes(String.format(".//holiday[@calendar='%1$s']/@date", calendarPath)),
+                        today));
+                calendars.put(calendarPath, calendar);
+            }
+        }
+        return calendars.values();
+    }
+    
     private static Set<String> getCalendarDatesFromToday(NodeList nodeList, String today) {
         SortedSet<String> dates = new TreeSet<String>();
         for (int i = 0; i < nodeList.getLength(); i++) {
             String date = nodeList.item(i).getNodeValue();
+            if (today.compareTo(date) < 1) {
+                dates.add(date);
+            }
+        }
+        return dates;
+    }
+    
+    private static Set<String> getCalendarDatesFromToday(List<org.dom4j.Attribute> nodeList, String today) {
+        SortedSet<String> dates = new TreeSet<String>();
+        for (org.dom4j.Attribute dateNode : nodeList) {
+            String date = dateNode.getStringValue();
             if (today.compareTo(date) < 1) {
                 dates.add(date);
             }
@@ -338,6 +397,21 @@ public class RuntimeResolver {
             if (period.hasAttribute("when_holiday")) {
                 p.setWhenHoliday(period.getAttribute("when_holiday"));
             }
+            periods.add(p);
+        }
+        return periods;
+    }
+    
+    private static List<Period> getCalendarPeriods(List<org.dom4j.Element> nodeList) {
+        List<Period> periods = new ArrayList<Period>();
+        for (org.dom4j.Element period : nodeList) {
+            Period p = new Period();
+            p.setSingleStart(period.attributeValue("single_start"));
+            p.setRepeat(period.attributeValue("repeat"));
+            p.setAbsoluteRepeat(period.attributeValue("absolute_repeat"));
+            p.setBegin(period.attributeValue("begin"));
+            p.setEnd(period.attributeValue("end"));
+            p.setWhenHoliday(period.attributeValue("when_holiday"));
             periods.add(p);
         }
         return periods;
@@ -421,6 +495,114 @@ public class RuntimeResolver {
             }
         }
         return firstElem != null;
+    }
+    
+    public static void updateCalendarInRuntimes(Path xmlFile, Writer writer, Collection<RuntimeCalendar> calendars) throws IOException, DocumentException {
+        updateCalendarInRuntimes(new String(Files.readAllBytes(xmlFile)), writer, calendars);
+    }
+    
+    @SuppressWarnings("unchecked")
+    public static void updateCalendarInRuntimes(String xml, Writer writer, Collection<RuntimeCalendar> calendars) throws IOException, DocumentException {
+        org.dom4j.Document doc = DocumentHelper.parseText(xml);
+        org.dom4j.Element root = doc.getRootElement();
+        org.dom4j.Element runTime = null;
+        if ("schedule".equals(root.getName())) {
+            runTime = root;
+        } else {
+            runTime = root.element("run_time");
+            if (runTime == null) {
+                runTime = DocumentHelper.createElement("run_time");
+                //insert before commands (in a Job) or xml_payload (in an Order)
+                org.dom4j.Node node = root.selectSingleNode("commands|xml_payload");
+                if (node != null) {
+                    root.elements().add(root.elements().size()-1, runTime);
+                } else {
+                    root.elements().add(runTime);
+                }
+            }
+        }
+        
+        //write CDATA 
+        if ("job".equals(root.getName())) {
+            org.dom4j.Element script = root.element("script");
+            if (script != null) {
+                String scriptContent = script.getText();
+                if (!scriptContent.trim().isEmpty()) {
+                    List<org.dom4j.Node> textNodes = script.selectNodes("text()");
+                    for (org.dom4j.Node testNode : textNodes) {
+                        script.remove(testNode);
+                    }
+                    script.add(DocumentHelper.createCDATA("\n" + scriptContent.trim() + "\n"));
+                }
+            }
+        }
+        
+        org.dom4j.Element holidays = runTime.element("holidays");
+        
+        //remove old calendar dates
+        List<org.dom4j.Node> oldRunTimeCalendar = runTime.selectNodes("date[@calendar]");
+        for (org.dom4j.Node child : oldRunTimeCalendar) {
+            runTime.remove(child);
+        }
+        if (holidays != null) {
+            List<org.dom4j.Node> oldHolidaysCalendar = holidays.selectNodes("holiday[@calendar]");
+            for (org.dom4j.Node child : oldHolidaysCalendar) {
+                holidays.remove(child);
+            }
+        }
+        
+        //insert new calendar dates
+        if (calendars != null) {
+            List<org.dom4j.Element> datesList = new ArrayList<org.dom4j.Element>();
+            List<org.dom4j.Element> holidaysList = new ArrayList<org.dom4j.Element>();
+            for (RuntimeCalendar rc : calendars) {
+                if (CalendarType.WORKING_DAYS == rc.getType()) {
+                    org.dom4j.Element dateElem = DocumentHelper.createElement("date");
+                    for (Period p : rc.getPeriods()) {
+                        org.dom4j.Element periodElem = DocumentHelper.createElement("period");
+                        periodElem.addAttribute("single_start", p.getSingleStart()).addAttribute("begin", p.getBegin()).addAttribute("end", p
+                                .getEnd()).addAttribute("repeat", p.getRepeat()).addAttribute("absolute_repeat", p.getAbsoluteRepeat()).addAttribute(
+                                        "when_holiday", p.getWhenHoliday());
+                        dateElem.add(periodElem);
+                    }
+                    for (String date : rc.getDates()) {
+                        datesList.add(dateElem.createCopy().addAttribute("calendar", rc.getPath()).addAttribute("date", date));
+                    }
+                } else {
+                    org.dom4j.Element holidayElem = DocumentHelper.createElement("holiday");
+                    for (String date : rc.getDates()) {
+                        holidaysList.add(holidayElem.createCopy().addAttribute("calendar", rc.getPath()).addAttribute("date", date));
+                    }
+                }
+            }
+            if (!datesList.isEmpty()) {
+                //insert after last element of period|at
+                runTime.elements().addAll(runTime.selectNodes("period|at").size(), datesList);
+            }
+            if (!holidaysList.isEmpty()) {
+                if (holidays == null) {
+                    holidays = DocumentHelper.createElement("holidays");
+                    runTime.add(holidays);
+                }
+                //insert after last weekdays element
+                holidays.elements().addAll(holidays.selectNodes("weekdays").size(), holidaysList);
+            }
+        }
+        //clear empty holidays
+        if (holidays != null && holidays.elements().isEmpty()) {
+            runTime.remove(holidays);  
+        }
+
+        OutputFormat format = OutputFormat.createPrettyPrint();
+        format.setEncoding(doc.getXMLEncoding());
+        format.setXHTML(true);
+        format.setIndentSize(4);
+        format.setExpandEmptyElements(false);
+        //format.setTrimText(false);
+        XMLWriter xmlWriter = new XMLWriter(writer, format);
+        xmlWriter.write(doc);
+        xmlWriter.flush();
+        xmlWriter.close();
     }
     
 }
