@@ -319,7 +319,7 @@ public class RuntimeResolver {
     }
     
     @SuppressWarnings("unchecked")
-    public static Collection<RuntimeCalendar> getCalendarDatesFromToday(org.dom4j.Element curObject, String timeZone) throws TransformerException {
+    public static TreeSet<RuntimeCalendar> getCalendarDatesFromToday(org.dom4j.Element curObject, String timeZone) throws TransformerException {
         String tzone = curObject.attributeValue("time_zone");
         if (tzone == null) {
             tzone = timeZone;  
@@ -351,7 +351,7 @@ public class RuntimeResolver {
                 calendars.put(calendarPath, calendar);
             }
         }
-        return calendars.values();
+        return new TreeSet<RuntimeCalendar>(calendars.values());
     }
     
     private static Set<String> getCalendarDatesFromToday(NodeList nodeList, String today) {

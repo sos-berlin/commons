@@ -12,14 +12,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sos.joc.model.calendar.CalendarType;
 import com.sos.joc.model.calendar.Period;
 
-public class RuntimeCalendar {
+public class RuntimeCalendar implements Comparable<RuntimeCalendar> {
 
     @JsonProperty("path")
     private String path = null;
     @JsonProperty("dates")
     private List<String> dates = null;
     @JsonProperty("type")
-    private CalendarType type = CalendarType.fromValue("WORKING_DAYS");
+    private CalendarType type = CalendarType.WORKING_DAYS;
     @JsonProperty("periods")
     private List<Period> periods = null;
 
@@ -90,6 +90,11 @@ public class RuntimeCalendar {
         }
         RuntimeCalendar rhs = ((RuntimeCalendar) other);
         return new EqualsBuilder().append(path, rhs.path).append(dates, rhs.dates).append(type, rhs.type).append(periods, rhs.periods).isEquals();
+    }
+
+    @Override
+    public int compareTo(RuntimeCalendar o) {
+        return Integer.valueOf(this.hashCode()).compareTo(Integer.valueOf(o.hashCode()));
     }
     
 }

@@ -7,6 +7,10 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
+import javax.xml.transform.TransformerException;
 
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
@@ -76,7 +80,7 @@ public class RunTimeResolverTest {
     }
     
     @Test
-    public void test() throws DocumentException, IOException, URISyntaxException {
+    public void test() throws DocumentException, IOException, URISyntaxException, TransformerException {
         StringWriter writer = new StringWriter();
         
         RuntimeCalendar rc = new RuntimeCalendar();
@@ -99,13 +103,16 @@ public class RunTimeResolverTest {
         rc2.setDates(dates2);
         rc2.setType(CalendarType.NON_WORKING_DAYS);
         
-        List<RuntimeCalendar> calendars = new ArrayList<RuntimeCalendar>();
+        SortedSet<RuntimeCalendar> calendars = new TreeSet<RuntimeCalendar>();
         calendars.add(rc);
         calendars.add(rc2);
         
         RuntimeResolver.updateCalendarInRuntimes(Paths.get(this.getClass().getResource("test.job.xml").toURI()), writer, calendars);
         
         System.out.println(writer.toString());
+        
+        TreeSet<RuntimeCalendar> calendars2 = RuntimeResolver.getCalendarDatesFromToday(DocumentHelper.parseText(writer.toString()).getRootElement(), "Asia/Tokyo");
+        System.out.println(calendars2.equals(calendars));
     }
 
 }
