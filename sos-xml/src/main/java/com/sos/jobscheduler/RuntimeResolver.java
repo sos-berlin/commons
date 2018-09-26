@@ -327,7 +327,7 @@ public class RuntimeResolver {
             runTime = root.element("run_time");
         }
         if (runTime == null) {
-           return null; 
+           return new TreeSet<RuntimeCalendar>(); 
         } else {
            return getCalendarDatesFromToday(runTime, timeZone); 
         }
