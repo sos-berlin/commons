@@ -416,7 +416,9 @@ public class SOSKeePassDatabase {
         Path file = Paths.get(queryFile);
         Path keyFile = null;
         if (SOSString.isEmpty(queryKeyFile)) {
-            keyFile = Paths.get(new StringBuilder(Files.getNameWithoutExtension(file.getFileName().toString())).append(".key").toString());
+            String keyFileName = new StringBuilder(Files.getNameWithoutExtension(file.getFileName().toString())).append(".key").toString();
+            String parentDir = file.toFile().getParent();
+            keyFile = Paths.get(parentDir == null ? "" : parentDir, keyFileName);
             if (!keyFile.toFile().exists()) {
                 if (SOSString.isEmpty(queryPassword)) {
                     throw new SOSKeePassDatabaseException(String.format("[%s][%s]key file not found. password is empty", uri, keyFile.toFile()
