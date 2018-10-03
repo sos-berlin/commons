@@ -314,6 +314,21 @@ public class RuntimeResolver {
         }
         return calendars.values();
     }
+    
+    public static TreeSet<RuntimeCalendar> getCalendarDatesFromUTCYesterday(org.dom4j.Document doc) throws TransformerException {
+        org.dom4j.Element root = doc.getRootElement();
+        org.dom4j.Element runTime = null;
+        if ("schedule".equals(root.getName())) {
+            runTime = root;
+        } else {
+            runTime = root.element("run_time");
+        }
+        if (runTime == null) {
+            return new TreeSet<RuntimeCalendar>();
+        } else {
+            return getCalendarDatesFromUTCYesterday(runTime);
+        }
+    }
 
     public static TreeSet<RuntimeCalendar> getCalendarDatesFromToday(org.dom4j.Document doc, String timeZone) throws TransformerException {
         org.dom4j.Element root = doc.getRootElement();
@@ -329,16 +344,25 @@ public class RuntimeResolver {
             return getCalendarDatesFromToday(runTime, timeZone);
         }
     }
-
-    @SuppressWarnings("unchecked")
+    
+    public static TreeSet<RuntimeCalendar> getCalendarDatesFromUTCYesterday(org.dom4j.Element curObject) throws TransformerException {
+        String yesterday = DateTimeFormatter.ISO_LOCAL_DATE.withZone(ZoneOffset.UTC).format(ZonedDateTime.now(ZoneOffset.UTC).minusDays(1L));
+        return getCalendarDatesFrom(curObject, yesterday);
+    }
+    
     public static TreeSet<RuntimeCalendar> getCalendarDatesFromToday(org.dom4j.Element curObject, String timeZone) throws TransformerException {
         String tzone = curObject.attributeValue("time_zone");
         if (tzone == null) {
             tzone = timeZone;
         }
+        String today = DateTimeFormatter.ISO_LOCAL_DATE.withZone(ZoneId.of(tzone)).format(Instant.now());
+        return getCalendarDatesFrom(curObject, today);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static TreeSet<RuntimeCalendar> getCalendarDatesFrom(org.dom4j.Element curObject, String from) {
         List<org.dom4j.Element> dateList = curObject.selectNodes(".//date[@calendar]");
         List<org.dom4j.Attribute> holidayList = curObject.selectNodes(".//holiday[@calendar]/@calendar");
-        String today = DateTimeFormatter.ISO_LOCAL_DATE.withZone(ZoneId.of(tzone)).format(Instant.now());
         Map<String, RuntimeCalendar> calendars = new HashMap<String, RuntimeCalendar>();
         for (org.dom4j.Element dateElem : dateList) {
             String calendarPath = dateElem.attributeValue("calendar");
@@ -347,7 +371,7 @@ public class RuntimeResolver {
                 calendar.setPath(calendarPath);
                 calendar.setType(CalendarType.WORKING_DAYS);
                 calendar.setDates(getCalendarDatesFromToday(curObject.selectNodes(String.format(".//date[@calendar='%1$s']/@date", calendarPath)),
-                        today));
+                        from));
                 calendars.put(calendarPath, calendar);
                 calendar.setPeriods(getCalendarPeriods(dateElem.selectNodes("period")));
             }
@@ -359,7 +383,7 @@ public class RuntimeResolver {
                 calendar.setPath(calendarPath);
                 calendar.setType(CalendarType.NON_WORKING_DAYS);
                 calendar.setDates(getCalendarDatesFromToday(curObject.selectNodes(String.format(".//holiday[@calendar='%1$s']/@date", calendarPath)),
-                        today));
+                        from));
                 calendars.put(calendarPath, calendar);
             }
         }

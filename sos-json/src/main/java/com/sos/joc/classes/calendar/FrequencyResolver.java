@@ -3,6 +3,7 @@ package com.sos.joc.classes.calendar;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -48,7 +49,7 @@ public class FrequencyResolver {
     private Calendar dateTo = null;
     private Frequencies includes = null;
     private Frequencies excludes = null;
-    private static DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd").withZone(ZoneOffset.UTC);
+    private static DateTimeFormatter df = DateTimeFormatter.ISO_LOCAL_DATE.withZone(ZoneOffset.UTC);
 
     public FrequencyResolver() {
     }
@@ -114,6 +115,15 @@ public class FrequencyResolver {
 
     public Dates resolveFromToday(com.sos.joc.model.calendar.Calendar calendar) throws SOSMissingDataException, SOSInvalidDataException {
         return resolve(calendar, df.format(Instant.now()), null);
+    }
+    
+    public Dates resolveFromUTCYesterday(String calendarJson) throws SOSMissingDataException, SOSInvalidDataException, JsonParseException,
+            JsonMappingException, IOException {
+        return resolve(calendarJson, df.format(ZonedDateTime.now(ZoneOffset.UTC).minusDays(1L)), null);
+    }
+
+    public Dates resolveFromUTCYesterday(com.sos.joc.model.calendar.Calendar calendar) throws SOSMissingDataException, SOSInvalidDataException {
+        return resolve(calendar, df.format(ZonedDateTime.now(ZoneOffset.UTC).minusDays(1L)), null);
     }
 
     public Dates resolveRestrictions(String basedCalendarJson, String calendarJson, String from, String to)
@@ -187,6 +197,22 @@ public class FrequencyResolver {
     public Dates resolveRestrictionsFromToday(com.sos.joc.model.calendar.Calendar basedCalendar,
             com.sos.joc.model.calendar.Calendar calendar) throws SOSMissingDataException, SOSInvalidDataException {
         return resolveRestrictions(basedCalendar, calendar, df.format(Instant.now()), null);
+    }
+    
+    public Dates resolveRestrictionsFromUTCYesterday(String basedCalendarJson, String calendarJson) throws SOSMissingDataException,
+        SOSInvalidDataException, JsonParseException, JsonMappingException, IOException {
+        return resolveRestrictions(basedCalendarJson, calendarJson, df.format(ZonedDateTime.now(ZoneOffset.UTC).minusDays(1L)), null);
+    }
+
+    public Dates resolveRestrictionsFromUTCYesterday(com.sos.joc.model.calendar.Calendar basedCalendar, String calendarJson)
+            throws SOSMissingDataException, SOSInvalidDataException, JsonParseException, JsonMappingException, IOException {
+        return resolveRestrictions(basedCalendar, new ObjectMapper().readValue(calendarJson, com.sos.joc.model.calendar.Calendar.class), df.format(
+                ZonedDateTime.now(ZoneOffset.UTC).minusDays(1L)), null);
+    }
+
+    public Dates resolveRestrictionsFromUTCYesterday(com.sos.joc.model.calendar.Calendar basedCalendar, com.sos.joc.model.calendar.Calendar calendar)
+            throws SOSMissingDataException, SOSInvalidDataException {
+        return resolveRestrictions(basedCalendar, calendar, df.format(ZonedDateTime.now(ZoneOffset.UTC).minusDays(1L)), null);
     }
 
     public void init(com.sos.joc.model.calendar.Calendar calendar, String from, String to) throws SOSMissingDataException, SOSInvalidDataException {

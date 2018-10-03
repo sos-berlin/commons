@@ -282,7 +282,7 @@ public class SOSConnectionFileProcessor {
                 }
             }
             if (logToStdErr && processor.successFiles != null && !processor.successFiles.isEmpty()) {
-                System.err.println(String.format("%s successful processed", processor.successFiles.get(0)));
+                System.err.println(String.format("%s processed successfully", processor.successFiles.get(0)));
             }
         } catch (Exception e) {
             exitCode = 1;
