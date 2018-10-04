@@ -455,8 +455,8 @@ public class SOSKeePassDatabase {
         int exitStatus = 0;
 
         // examples:
-        // cs://server/SFTP/my_server@user?file=my_file.kdbx&password=test
-        // cs://server/SFTP/my_server@user?file=my_file.kdbx&key_file=my_keyfile.key&password=test&ignore_expired=1
+        // cs://server/SFTP/my_server@user?file=my_file.kdbx
+        // cs://server/SFTP/my_server@user?file=my_file.kdbx&key_file=my_keyfile.key&ignore_expired=1
         // cs://server/SFTP/my_server@user?file=my_file.kdbx&key_file=my_keyfile.key&attachment=1
 
         String uri = null;
@@ -468,6 +468,9 @@ public class SOSKeePassDatabase {
             System.out.println(SOSKeePassDatabase.getProperty(uri));
         } catch (Throwable t) {
             exitStatus = 99;
+            if (uri != null) {
+                System.err.println(new StringBuilder(SOSKeePassDatabase.class.getName()).append(" \"").append(uri).append("\""));
+            }
             t.printStackTrace();
         } finally {
             System.exit(exitStatus);
