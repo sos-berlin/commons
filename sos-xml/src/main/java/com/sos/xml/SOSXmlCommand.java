@@ -1,9 +1,9 @@
 package com.sos.xml;
 
-import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.Instant;
@@ -275,23 +275,23 @@ public class SOSXmlCommand {
     private String responseToString(HttpURLConnection connection, ResponseStream responseStream) throws SOSNoResponseException {
         if (connection != null) {
             InputStream is = null;
-            StringBuilder response = new StringBuilder();
-            BufferedReader rd = null;
+            StringBuffer response = new StringBuffer();
+            Reader rd = null;
             try {
                 is = connection.getInputStream();
                 if (responseStream == ResponseStream.TO_SOSXML) {
                     sosxml = new SOSXMLXPath(is);
                     return null;
                 }
-                rd = new BufferedReader(new InputStreamReader(is));
-                String line;
-                while ((line = rd.readLine()) != null) {
-                    response.append(line);
-                    response.append('\r');
+                rd = new InputStreamReader(is);
+                final char[] buffer = new char[4096];
+                int length;
+                while((length = rd.read(buffer)) != -1) {
+                    response.append(buffer, 0, length);
                 }
-                rd.close();
+
                 if (responseStream == ResponseStream.TO_STRING_AND_SOSXML) {
-                    sosxml = new SOSXMLXPath(new StringBuffer(response));
+                    sosxml = new SOSXMLXPath(response);
                 }
                 return response.toString();
             } catch (Exception e) {
