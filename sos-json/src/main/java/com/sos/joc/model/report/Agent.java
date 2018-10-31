@@ -23,7 +23,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "jobschedulerId",
     "agent",
     "cause",
-    "numOfSuccessfulTasks"
+    "numOfSuccessfulTasks",
+    "numOfJobs"
 })
 public class Agent {
 
@@ -54,6 +55,15 @@ public class Agent {
      */
     @JsonProperty("numOfSuccessfulTasks")
     private Long numOfSuccessfulTasks;
+    /**
+     * non negative long
+     * <p>
+     * 
+     * (Required)
+     * 
+     */
+    @JsonProperty("numOfJobs")
+    private Long numOfJobs;
 
     /**
      * 
@@ -155,6 +165,34 @@ public class Agent {
         this.numOfSuccessfulTasks = numOfSuccessfulTasks;
     }
 
+    /**
+     * non negative long
+     * <p>
+     * 
+     * (Required)
+     * 
+     * @return
+     *     The numOfJobs
+     */
+    @JsonProperty("numOfJobs")
+    public Long getNumOfJobs() {
+        return numOfJobs;
+    }
+
+    /**
+     * non negative long
+     * <p>
+     * 
+     * (Required)
+     * 
+     * @param numOfJobs
+     *     The numOfJobs
+     */
+    @JsonProperty("numOfJobs")
+    public void setNumOfJobs(Long numOfJobs) {
+        this.numOfJobs = numOfJobs;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -162,7 +200,7 @@ public class Agent {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(agent).append(cause).append(numOfSuccessfulTasks).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(agent).append(cause).append(numOfSuccessfulTasks).append(numOfJobs).toHashCode();
     }
 
     @Override
@@ -174,7 +212,7 @@ public class Agent {
             return false;
         }
         Agent rhs = ((Agent) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(agent, rhs.agent).append(cause, rhs.cause).append(numOfSuccessfulTasks, rhs.numOfSuccessfulTasks).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(agent, rhs.agent).append(cause, rhs.cause).append(numOfSuccessfulTasks, rhs.numOfSuccessfulTasks).append(numOfJobs, rhs.numOfJobs).isEquals();
     }
 
 }
