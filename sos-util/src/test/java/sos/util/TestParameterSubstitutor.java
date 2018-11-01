@@ -4,7 +4,10 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -28,30 +31,51 @@ public class TestParameterSubstitutor {
         String erg = parameterSubstitutor.replaceSystemProperties(source);
         assertEquals("testReplace failed: ", "The value of user.name is " + System.getProperty("user.name"), erg);
     }
+    
+    private void setNewEnvironmentHack(Map<String, String> newenv) throws Exception
+    {
+      Class<?> processEnvironmentClass = Class.forName("java.lang.ProcessEnvironment");
+      Field theEnvironmentField = processEnvironmentClass.getDeclaredField("theEnvironment");
+      theEnvironmentField.setAccessible(true);
+      Map<String, String> env = (Map<String, String>) theEnvironmentField.get(null);
+      env.clear();
+      env.putAll(newenv);
+      Field theCaseInsensitiveEnvironmentField = processEnvironmentClass.getDeclaredField("theCaseInsensitiveEnvironment");
+      theCaseInsensitiveEnvironmentField.setAccessible(true);
+      Map<String, String> cienv = (Map<String, String>) theCaseInsensitiveEnvironmentField.get(null);
+      cienv.clear();
+      cienv.putAll(newenv);
+    }
 
     @Test
-    public void replaceEnvVars() {
+    public void replaceEnvVars() throws Exception {
+        HashMap<String, String> newenv = new HashMap<String,String>();
+        newenv.put("TEST", "12345");
+        setNewEnvironmentHack(newenv);
         ParameterSubstitutor parameterSubstitutor = new ParameterSubstitutor();
-        String source = "The value of OS is ${OS}";
+        String source = "The value of TEST is ${TEST}";
         String erg = parameterSubstitutor.replaceEnvVars(source);
-        assertEquals("testReplace failed: ", "The value of OS is " + System.getenv("OS"), erg);
+        assertEquals("testReplace failed: ", "The value of TEST is " + System.getenv("TEST"), erg);
     }
 	@Test
 	public void testReplaceInFile() throws IOException {
 		ParameterSubstitutor parameterSubstitutor = new ParameterSubstitutor();
 		parameterSubstitutor.addKey("SCHEDULER_HOME", String.format("SCHEDULER_HOME=%s", "mySchedulerHome"));
 		File in = new File(
-				"C:/development_110/products/jitl/jitl-jobs/src/test/java/com/sos/jitl/agentbatchinstaller/jobscheduler_universal_agent_batch_install/batch_install/jobscheduler_agent_instance_script.txt");
-		File out = new File("C:/temp/1.txt");
+				"src/test/resources/jobscheduler_agent_instance_script.txt");
+		File out = new File("src/test/resources/1.txt");
 		parameterSubstitutor.replaceInFile(in, out);
 	}
 
 	@Test
-	public void testReplaceWithEnv() {
+	public void testReplaceWithEnv() throws Exception {
+	    HashMap<String, String> newenv = new HashMap<String,String>();
+        newenv.put("TEST", "12345");
+        setNewEnvironmentHack(newenv);
 		ParameterSubstitutor parameterSubstitutor = new ParameterSubstitutor();
 
-		String s = parameterSubstitutor.replaceEnvVars("${HOMEDRIVE}");
-		assertEquals("testReplaceWithEnv", "C:", s);
+		String s = parameterSubstitutor.replaceEnvVars("${TEST}");
+		assertEquals("testReplaceWithEnv", "12345", s);
 
 	}
 
