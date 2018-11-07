@@ -11,7 +11,6 @@ import java.util.Map;
 
 import org.junit.Test;
 
- 
 public class TestParameterSubstitutor {
 
     @Test
@@ -31,66 +30,78 @@ public class TestParameterSubstitutor {
         String erg = parameterSubstitutor.replaceSystemProperties(source);
         assertEquals("testReplace failed: ", "The value of user.name is " + System.getProperty("user.name"), erg);
     }
-    
-    private void setNewEnvironmentHack(Map<String, String> newenv) throws Exception
-    {
-      Class<?> processEnvironmentClass = Class.forName("java.lang.ProcessEnvironment");
-      Field theEnvironmentField = processEnvironmentClass.getDeclaredField("theEnvironment");
-      theEnvironmentField.setAccessible(true);
-      Map<String, String> env = (Map<String, String>) theEnvironmentField.get(null);
-      env.clear();
-      env.putAll(newenv);
-      Field theCaseInsensitiveEnvironmentField = processEnvironmentClass.getDeclaredField("theCaseInsensitiveEnvironment");
-      theCaseInsensitiveEnvironmentField.setAccessible(true);
-      Map<String, String> cienv = (Map<String, String>) theCaseInsensitiveEnvironmentField.get(null);
-      cienv.clear();
-      cienv.putAll(newenv);
+
+    private void _setNewEnvironmentHack(Map<String, String> newenv) throws Exception {
+        Class<?> processEnvironmentClass = Class.forName("java.lang.ProcessEnvironment");
+        Field theEnvironmentField = processEnvironmentClass.getDeclaredField("theEnvironment");
+        theEnvironmentField.setAccessible(true);
+        Map<String, String> env = (Map<String, String>) theEnvironmentField.get(null);
+        env.clear();
+        env.putAll(newenv);
+        Field theCaseInsensitiveEnvironmentField = processEnvironmentClass.getDeclaredField("theCaseInsensitiveEnvironment");
+        theCaseInsensitiveEnvironmentField.setAccessible(true);
+        Map<String, String> cienv = (Map<String, String>) theCaseInsensitiveEnvironmentField.get(null);
+        cienv.clear();
+        cienv.putAll(newenv);
+    }
+
+    private void setEnv(String key, String value) {
+        try {
+            Map<String, String> env = System.getenv();
+            Class<?> cl = env.getClass();
+            Field field = cl.getDeclaredField("m");
+            field.setAccessible(true);
+            Map<String, String> writableEnv = (Map<String, String>) field.get(env);
+            writableEnv.put(key, value);
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to set environment variable", e);
+        }
     }
 
     @Test
     public void replaceEnvVars() throws Exception {
-        HashMap<String, String> newenv = new HashMap<String,String>();
-        newenv.put("TEST", "12345");
-        setNewEnvironmentHack(newenv);
+        setEnv("TEST", "12345");
         ParameterSubstitutor parameterSubstitutor = new ParameterSubstitutor();
         String source = "The value of TEST is ${TEST}";
         String erg = parameterSubstitutor.replaceEnvVars(source);
         assertEquals("testReplace failed: ", "The value of TEST is " + System.getenv("TEST"), erg);
     }
-	@Test
-	public void testReplaceInFile() throws IOException {
-		ParameterSubstitutor parameterSubstitutor = new ParameterSubstitutor();
-		parameterSubstitutor.addKey("SCHEDULER_HOME", String.format("SCHEDULER_HOME=%s", "mySchedulerHome"));
-		File in = new File(
-				"src/test/resources/jobscheduler_agent_instance_script.txt");
-		File out = new File("src/test/resources/1.txt");
-		parameterSubstitutor.replaceInFile(in, out);
-	}
 
-	@Test
-	public void testReplaceWithEnv() throws Exception {
-	    HashMap<String, String> newenv = new HashMap<String,String>();
-        newenv.put("TEST", "12345");
-        setNewEnvironmentHack(newenv);
-		ParameterSubstitutor parameterSubstitutor = new ParameterSubstitutor();
+    @Test
+    public void testReplaceInFile() throws IOException {
+        ParameterSubstitutor parameterSubstitutor = new ParameterSubstitutor();
+        parameterSubstitutor.addKey("SCHEDULER_HOME", String.format("SCHEDULER_HOME=%s", "mySchedulerHome"));
+        File in = new File("src/test/resources/jobscheduler_agent_instance_script.txt");
+        File out = new File("src/test/resources/1.txt");
+        parameterSubstitutor.replaceInFile(in, out);
+    }
 
-		String s = parameterSubstitutor.replaceEnvVars("${TEST}");
-		assertEquals("testReplaceWithEnv", "12345", s);
+    @Test
+    public void testReplaceWithEnv() throws Exception {
+        // HashMap<String, String> newenv = new HashMap<String,String>();
+        // newenv.put("TEST", "12345");
+        // setNewEnvironmentHack(newenv);
+        setEnv("TEST", "12345");
 
-	}
+        ParameterSubstitutor parameterSubstitutor = new ParameterSubstitutor();
 
-	@Test
-	public void testGetParameterNameFromString() {
-		ParameterSubstitutor parameterSubstitutor = new ParameterSubstitutor();
+        String s = parameterSubstitutor.replaceEnvVars("${TEST}");
+        assertEquals("testReplaceWithEnv", "12345", s);
 
-		List<String> s = parameterSubstitutor.getParameterNameFromString("ab${param1}12${param2}xyz");
-		assertEquals("testGetParameterNameFromString", "param1", s.get(0));
-		assertEquals("testGetParameterNameFromString", "param2", s.get(1));
-		
-		for (String p: s) {
-			parameterSubstitutor.addKey(p, "value of " + p);
-		}
-		String substituted = parameterSubstitutor.replace("this is ${param1} and ${param2}");
-		assertEquals("testGetParameterNameFromString", "this is value of param1 and value of param2", substituted);
-	}
+    }
+
+    @Test
+    public void testGetParameterNameFromString() {
+        ParameterSubstitutor parameterSubstitutor = new ParameterSubstitutor();
+
+        List<String> s = parameterSubstitutor.getParameterNameFromString("ab${param1}12${param2}xyz");
+        assertEquals("testGetParameterNameFromString", "param1", s.get(0));
+        assertEquals("testGetParameterNameFromString", "param2", s.get(1));
+
+        for (String p : s) {
+            parameterSubstitutor.addKey(p, "value of " + p);
+        }
+        String substituted = parameterSubstitutor.replace("this is ${param1} and ${param2}");
+        assertEquals("testGetParameterNameFromString", "this is value of param1 and value of param2", substituted);
+    }
 }
