@@ -21,6 +21,7 @@ public enum JobSchedulerObjectType {
     NONWORKINGDAYSCALENDAR("NONWORKINGDAYSCALENDAR"),
     FOLDER("FOLDER"),
     JOBSCHEDULER("JOBSCHEDULER"),
+    DOCUMENTATION("DOCUMENTATION"),
     OTHER("OTHER");
     private final String value;
     private final static Map<String, JobSchedulerObjectType> CONSTANTS = new HashMap<String, JobSchedulerObjectType>();
