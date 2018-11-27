@@ -1,6 +1,7 @@
 
 package com.sos.joc.model.docu;
 
+import java.util.Date;
 import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -20,10 +21,11 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "id",
+    "jobschedulerId",
     "path",
     "name",
     "type",
-    "title"
+    "modified"
 })
 public class Documentation {
 
@@ -35,6 +37,8 @@ public class Documentation {
      */
     @JsonProperty("id")
     private Long id;
+    @JsonProperty("jobschedulerId")
+    private String jobschedulerId;
     /**
      * path
      * <p>
@@ -45,16 +49,16 @@ public class Documentation {
     private String path;
     @JsonProperty("name")
     private String name;
+    @JsonProperty("type")
+    private String type;
     /**
-     * Mime Type of the Docu
+     * timestamp
      * <p>
-     * The documentation can be a HTML, XML or MarkDown(MD).
+     * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
      */
-    @JsonProperty("type")
-    private MimeType type;
-    @JsonProperty("title")
-    private String title;
+    @JsonProperty("modified")
+    private Date modified;
 
     /**
      * non negative long
@@ -80,6 +84,26 @@ public class Documentation {
     @JsonProperty("id")
     public void setId(Long id) {
         this.id = id;
+    }
+
+    /**
+     * 
+     * @return
+     *     The jobschedulerId
+     */
+    @JsonProperty("jobschedulerId")
+    public String getJobschedulerId() {
+        return jobschedulerId;
+    }
+
+    /**
+     * 
+     * @param jobschedulerId
+     *     The jobschedulerId
+     */
+    @JsonProperty("jobschedulerId")
+    public void setJobschedulerId(String jobschedulerId) {
+        this.jobschedulerId = jobschedulerId;
     }
 
     /**
@@ -129,49 +153,49 @@ public class Documentation {
     }
 
     /**
-     * Mime Type of the Docu
-     * <p>
-     * The documentation can be a HTML, XML or MarkDown(MD).
      * 
      * @return
      *     The type
      */
     @JsonProperty("type")
-    public MimeType getType() {
+    public String getType() {
         return type;
     }
 
     /**
-     * Mime Type of the Docu
-     * <p>
-     * The documentation can be a HTML, XML or MarkDown(MD).
      * 
      * @param type
      *     The type
      */
     @JsonProperty("type")
-    public void setType(MimeType type) {
+    public void setType(String type) {
         this.type = type;
     }
 
     /**
+     * timestamp
+     * <p>
+     * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
      * @return
-     *     The title
+     *     The modified
      */
-    @JsonProperty("title")
-    public String getTitle() {
-        return title;
+    @JsonProperty("modified")
+    public Date getModified() {
+        return modified;
     }
 
     /**
+     * timestamp
+     * <p>
+     * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
-     * @param title
-     *     The title
+     * @param modified
+     *     The modified
      */
-    @JsonProperty("title")
-    public void setTitle(String title) {
-        this.title = title;
+    @JsonProperty("modified")
+    public void setModified(Date modified) {
+        this.modified = modified;
     }
 
     @Override
@@ -181,7 +205,7 @@ public class Documentation {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(id).append(path).append(name).append(type).append(title).toHashCode();
+        return new HashCodeBuilder().append(id).append(jobschedulerId).append(path).append(name).append(type).append(modified).toHashCode();
     }
 
     @Override
@@ -193,7 +217,7 @@ public class Documentation {
             return false;
         }
         Documentation rhs = ((Documentation) other);
-        return new EqualsBuilder().append(id, rhs.id).append(path, rhs.path).append(name, rhs.name).append(type, rhs.type).append(title, rhs.title).isEquals();
+        return new EqualsBuilder().append(id, rhs.id).append(jobschedulerId, rhs.jobschedulerId).append(path, rhs.path).append(name, rhs.name).append(type, rhs.type).append(modified, rhs.modified).isEquals();
     }
 
 }
