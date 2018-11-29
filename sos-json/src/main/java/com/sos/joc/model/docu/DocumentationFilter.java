@@ -11,7 +11,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * DocumentationId
+ * DocumentationFilter
  * <p>
  * 
  * 
@@ -20,31 +20,30 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobschedulerId",
-    "id",
-    "path"
+    "documentation"
 })
-public class DocumentationId {
+public class DocumentationFilter {
 
-    @JsonProperty("jobschedulerId")
-    private String jobschedulerId;
     /**
-     * non negative long
-     * <p>
      * 
+     * (Required)
      * 
      */
-    @JsonProperty("id")
-    private Long id;
+    @JsonProperty("jobschedulerId")
+    private String jobschedulerId;
     /**
      * path
      * <p>
      * absolute path based on live folder of a JobScheduler object.
+     * (Required)
      * 
      */
-    @JsonProperty("path")
-    private String path;
+    @JsonProperty("documentation")
+    private String documentation;
 
     /**
+     * 
+     * (Required)
      * 
      * @return
      *     The jobschedulerId
@@ -56,6 +55,8 @@ public class DocumentationId {
 
     /**
      * 
+     * (Required)
+     * 
      * @param jobschedulerId
      *     The jobschedulerId
      */
@@ -65,55 +66,31 @@ public class DocumentationId {
     }
 
     /**
-     * non negative long
+     * path
      * <p>
-     * 
+     * absolute path based on live folder of a JobScheduler object.
+     * (Required)
      * 
      * @return
-     *     The id
+     *     The documentation
      */
-    @JsonProperty("id")
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * non negative long
-     * <p>
-     * 
-     * 
-     * @param id
-     *     The id
-     */
-    @JsonProperty("id")
-    public void setId(Long id) {
-        this.id = id;
+    @JsonProperty("documentation")
+    public String getDocumentation() {
+        return documentation;
     }
 
     /**
      * path
      * <p>
      * absolute path based on live folder of a JobScheduler object.
+     * (Required)
      * 
-     * @return
-     *     The path
+     * @param documentation
+     *     The documentation
      */
-    @JsonProperty("path")
-    public String getPath() {
-        return path;
-    }
-
-    /**
-     * path
-     * <p>
-     * absolute path based on live folder of a JobScheduler object.
-     * 
-     * @param path
-     *     The path
-     */
-    @JsonProperty("path")
-    public void setPath(String path) {
-        this.path = path;
+    @JsonProperty("documentation")
+    public void setDocumentation(String documentation) {
+        this.documentation = documentation;
     }
 
     @Override
@@ -123,7 +100,7 @@ public class DocumentationId {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(id).append(path).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(documentation).toHashCode();
     }
 
     @Override
@@ -131,11 +108,11 @@ public class DocumentationId {
         if (other == this) {
             return true;
         }
-        if ((other instanceof DocumentationId) == false) {
+        if ((other instanceof DocumentationFilter) == false) {
             return false;
         }
-        DocumentationId rhs = ((DocumentationId) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(id, rhs.id).append(path, rhs.path).isEquals();
+        DocumentationFilter rhs = ((DocumentationFilter) other);
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(documentation, rhs.documentation).isEquals();
     }
 
 }
