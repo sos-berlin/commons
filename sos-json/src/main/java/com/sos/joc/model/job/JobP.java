@@ -34,7 +34,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "locks",
     "usedInJobChains",
     "jobChains",
-    "hasDescription",
+    "documentation",
     "configurationDate"
 })
 public class JobP {
@@ -109,8 +109,14 @@ public class JobP {
      */
     @JsonProperty("jobChains")
     private List<String> jobChains = new ArrayList<String>();
-    @JsonProperty("hasDescription")
-    private Boolean hasDescription;
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
+    @JsonProperty("documentation")
+    private String documentation;
     /**
      * timestamp
      * <p>
@@ -405,23 +411,29 @@ public class JobP {
     }
 
     /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
      * 
      * @return
-     *     The hasDescription
+     *     The documentation
      */
-    @JsonProperty("hasDescription")
-    public Boolean getHasDescription() {
-        return hasDescription;
+    @JsonProperty("documentation")
+    public String getDocumentation() {
+        return documentation;
     }
 
     /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
      * 
-     * @param hasDescription
-     *     The hasDescription
+     * @param documentation
+     *     The documentation
      */
-    @JsonProperty("hasDescription")
-    public void setHasDescription(Boolean hasDescription) {
-        this.hasDescription = hasDescription;
+    @JsonProperty("documentation")
+    public void setDocumentation(String documentation) {
+        this.documentation = documentation;
     }
 
     /**
@@ -457,7 +469,7 @@ public class JobP {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(surveyDate).append(path).append(isOrderJob).append(isShellJob).append(name).append(title).append(estimatedDuration).append(processClass).append(maxTasks).append(locks).append(usedInJobChains).append(jobChains).append(hasDescription).append(configurationDate).toHashCode();
+        return new HashCodeBuilder().append(surveyDate).append(path).append(isOrderJob).append(isShellJob).append(name).append(title).append(estimatedDuration).append(processClass).append(maxTasks).append(locks).append(usedInJobChains).append(jobChains).append(documentation).append(configurationDate).toHashCode();
     }
 
     @Override
@@ -469,7 +481,7 @@ public class JobP {
             return false;
         }
         JobP rhs = ((JobP) other);
-        return new EqualsBuilder().append(surveyDate, rhs.surveyDate).append(path, rhs.path).append(isOrderJob, rhs.isOrderJob).append(isShellJob, rhs.isShellJob).append(name, rhs.name).append(title, rhs.title).append(estimatedDuration, rhs.estimatedDuration).append(processClass, rhs.processClass).append(maxTasks, rhs.maxTasks).append(locks, rhs.locks).append(usedInJobChains, rhs.usedInJobChains).append(jobChains, rhs.jobChains).append(hasDescription, rhs.hasDescription).append(configurationDate, rhs.configurationDate).isEquals();
+        return new EqualsBuilder().append(surveyDate, rhs.surveyDate).append(path, rhs.path).append(isOrderJob, rhs.isOrderJob).append(isShellJob, rhs.isShellJob).append(name, rhs.name).append(title, rhs.title).append(estimatedDuration, rhs.estimatedDuration).append(processClass, rhs.processClass).append(maxTasks, rhs.maxTasks).append(locks, rhs.locks).append(usedInJobChains, rhs.usedInJobChains).append(jobChains, rhs.jobChains).append(documentation, rhs.documentation).append(configurationDate, rhs.configurationDate).isEquals();
     }
 
 }

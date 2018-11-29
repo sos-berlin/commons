@@ -24,7 +24,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "path",
     "name",
     "maxNonExclusive",
-    "configurationDate"
+    "configurationDate",
+    "documentation"
 })
 public class LockP {
 
@@ -69,6 +70,14 @@ public class LockP {
      */
     @JsonProperty("configurationDate")
     private Date configurationDate;
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
+    @JsonProperty("documentation")
+    private String documentation;
 
     /**
      * survey date of the inventory data; last time the inventory job has checked the live folder
@@ -202,6 +211,32 @@ public class LockP {
         this.configurationDate = configurationDate;
     }
 
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     * @return
+     *     The documentation
+     */
+    @JsonProperty("documentation")
+    public String getDocumentation() {
+        return documentation;
+    }
+
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     * @param documentation
+     *     The documentation
+     */
+    @JsonProperty("documentation")
+    public void setDocumentation(String documentation) {
+        this.documentation = documentation;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -209,7 +244,7 @@ public class LockP {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(surveyDate).append(path).append(name).append(maxNonExclusive).append(configurationDate).toHashCode();
+        return new HashCodeBuilder().append(surveyDate).append(path).append(name).append(maxNonExclusive).append(configurationDate).append(documentation).toHashCode();
     }
 
     @Override
@@ -221,7 +256,7 @@ public class LockP {
             return false;
         }
         LockP rhs = ((LockP) other);
-        return new EqualsBuilder().append(surveyDate, rhs.surveyDate).append(path, rhs.path).append(name, rhs.name).append(maxNonExclusive, rhs.maxNonExclusive).append(configurationDate, rhs.configurationDate).isEquals();
+        return new EqualsBuilder().append(surveyDate, rhs.surveyDate).append(path, rhs.path).append(name, rhs.name).append(maxNonExclusive, rhs.maxNonExclusive).append(configurationDate, rhs.configurationDate).append(documentation, rhs.documentation).isEquals();
     }
 
 }

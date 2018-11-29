@@ -34,7 +34,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "nodes",
     "fileOrderSources",
     "endNodes",
-    "configurationDate"
+    "configurationDate",
+    "documentation"
 })
 public class JobChainP {
 
@@ -98,6 +99,14 @@ public class JobChainP {
      */
     @JsonProperty("configurationDate")
     private Date configurationDate;
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
+    @JsonProperty("documentation")
+    private String documentation;
 
     /**
      * survey date of the inventory data; last time the inventory job has checked the live folder
@@ -391,6 +400,32 @@ public class JobChainP {
         this.configurationDate = configurationDate;
     }
 
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     * @return
+     *     The documentation
+     */
+    @JsonProperty("documentation")
+    public String getDocumentation() {
+        return documentation;
+    }
+
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     * @param documentation
+     *     The documentation
+     */
+    @JsonProperty("documentation")
+    public void setDocumentation(String documentation) {
+        this.documentation = documentation;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -398,7 +433,7 @@ public class JobChainP {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(surveyDate).append(path).append(name).append(title).append(maxOrders).append(distributed).append(processClass).append(fileWatchingProcessClass).append(numOfNodes).append(nodes).append(fileOrderSources).append(endNodes).append(configurationDate).toHashCode();
+        return new HashCodeBuilder().append(surveyDate).append(path).append(name).append(title).append(maxOrders).append(distributed).append(processClass).append(fileWatchingProcessClass).append(numOfNodes).append(nodes).append(fileOrderSources).append(endNodes).append(configurationDate).append(documentation).toHashCode();
     }
 
     @Override
@@ -410,7 +445,7 @@ public class JobChainP {
             return false;
         }
         JobChainP rhs = ((JobChainP) other);
-        return new EqualsBuilder().append(surveyDate, rhs.surveyDate).append(path, rhs.path).append(name, rhs.name).append(title, rhs.title).append(maxOrders, rhs.maxOrders).append(distributed, rhs.distributed).append(processClass, rhs.processClass).append(fileWatchingProcessClass, rhs.fileWatchingProcessClass).append(numOfNodes, rhs.numOfNodes).append(nodes, rhs.nodes).append(fileOrderSources, rhs.fileOrderSources).append(endNodes, rhs.endNodes).append(configurationDate, rhs.configurationDate).isEquals();
+        return new EqualsBuilder().append(surveyDate, rhs.surveyDate).append(path, rhs.path).append(name, rhs.name).append(title, rhs.title).append(maxOrders, rhs.maxOrders).append(distributed, rhs.distributed).append(processClass, rhs.processClass).append(fileWatchingProcessClass, rhs.fileWatchingProcessClass).append(numOfNodes, rhs.numOfNodes).append(nodes, rhs.nodes).append(fileOrderSources, rhs.fileOrderSources).append(endNodes, rhs.endNodes).append(configurationDate, rhs.configurationDate).append(documentation, rhs.documentation).isEquals();
     }
 
 }

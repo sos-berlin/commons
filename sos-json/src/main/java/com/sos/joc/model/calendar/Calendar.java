@@ -24,6 +24,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "path",
     "name",
     "basedOn",
+    "documentation",
     "type",
     "category",
     "title",
@@ -62,6 +63,14 @@ public class Calendar {
      */
     @JsonProperty("basedOn")
     private String basedOn;
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
+    @JsonProperty("documentation")
+    private String documentation;
     /**
      * calendar type
      * <p>
@@ -213,6 +222,32 @@ public class Calendar {
     @JsonProperty("basedOn")
     public void setBasedOn(String basedOn) {
         this.basedOn = basedOn;
+    }
+
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     * @return
+     *     The documentation
+     */
+    @JsonProperty("documentation")
+    public String getDocumentation() {
+        return documentation;
+    }
+
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     * @param documentation
+     *     The documentation
+     */
+    @JsonProperty("documentation")
+    public void setDocumentation(String documentation) {
+        this.documentation = documentation;
     }
 
     /**
@@ -438,7 +473,7 @@ public class Calendar {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(id).append(path).append(name).append(basedOn).append(type).append(category).append(title).append(from).append(to).append(periods).append(includes).append(excludes).append(usedBy).toHashCode();
+        return new HashCodeBuilder().append(id).append(path).append(name).append(basedOn).append(documentation).append(type).append(category).append(title).append(from).append(to).append(periods).append(includes).append(excludes).append(usedBy).toHashCode();
     }
 
     @Override
@@ -450,7 +485,7 @@ public class Calendar {
             return false;
         }
         Calendar rhs = ((Calendar) other);
-        return new EqualsBuilder().append(id, rhs.id).append(path, rhs.path).append(name, rhs.name).append(basedOn, rhs.basedOn).append(type, rhs.type).append(category, rhs.category).append(title, rhs.title).append(from, rhs.from).append(to, rhs.to).append(periods, rhs.periods).append(includes, rhs.includes).append(excludes, rhs.excludes).append(usedBy, rhs.usedBy).isEquals();
+        return new EqualsBuilder().append(id, rhs.id).append(path, rhs.path).append(name, rhs.name).append(basedOn, rhs.basedOn).append(documentation, rhs.documentation).append(type, rhs.type).append(category, rhs.category).append(title, rhs.title).append(from, rhs.from).append(to, rhs.to).append(periods, rhs.periods).append(includes, rhs.includes).append(excludes, rhs.excludes).append(usedBy, rhs.usedBy).isEquals();
     }
 
 }

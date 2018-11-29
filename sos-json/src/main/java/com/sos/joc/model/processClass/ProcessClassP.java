@@ -24,7 +24,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "path",
     "name",
     "maxProcesses",
-    "configurationDate"
+    "configurationDate",
+    "documentation"
 })
 public class ProcessClassP {
 
@@ -70,6 +71,14 @@ public class ProcessClassP {
      */
     @JsonProperty("configurationDate")
     private Date configurationDate;
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
+    @JsonProperty("documentation")
+    private String documentation;
 
     /**
      * survey date of the inventory data; last time the inventory job has checked the live folder
@@ -205,6 +214,32 @@ public class ProcessClassP {
         this.configurationDate = configurationDate;
     }
 
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     * @return
+     *     The documentation
+     */
+    @JsonProperty("documentation")
+    public String getDocumentation() {
+        return documentation;
+    }
+
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     * @param documentation
+     *     The documentation
+     */
+    @JsonProperty("documentation")
+    public void setDocumentation(String documentation) {
+        this.documentation = documentation;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -212,7 +247,7 @@ public class ProcessClassP {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(surveyDate).append(path).append(name).append(maxProcesses).append(configurationDate).toHashCode();
+        return new HashCodeBuilder().append(surveyDate).append(path).append(name).append(maxProcesses).append(configurationDate).append(documentation).toHashCode();
     }
 
     @Override
@@ -224,7 +259,7 @@ public class ProcessClassP {
             return false;
         }
         ProcessClassP rhs = ((ProcessClassP) other);
-        return new EqualsBuilder().append(surveyDate, rhs.surveyDate).append(path, rhs.path).append(name, rhs.name).append(maxProcesses, rhs.maxProcesses).append(configurationDate, rhs.configurationDate).isEquals();
+        return new EqualsBuilder().append(surveyDate, rhs.surveyDate).append(path, rhs.path).append(name, rhs.name).append(maxProcesses, rhs.maxProcesses).append(configurationDate, rhs.configurationDate).append(documentation, rhs.documentation).isEquals();
     }
 
 }

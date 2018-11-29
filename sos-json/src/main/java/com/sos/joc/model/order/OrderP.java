@@ -30,7 +30,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "initialState",
     "endState",
     "estimatedDuration",
-    "configurationDate"
+    "configurationDate",
+    "documentation"
 })
 public class OrderP {
 
@@ -115,6 +116,14 @@ public class OrderP {
      */
     @JsonProperty("configurationDate")
     private Date configurationDate;
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
+    @JsonProperty("documentation")
+    private String documentation;
 
     /**
      * survey date of the inventory data; last time the inventory job has checked the live folder
@@ -394,6 +403,32 @@ public class OrderP {
         this.configurationDate = configurationDate;
     }
 
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     * @return
+     *     The documentation
+     */
+    @JsonProperty("documentation")
+    public String getDocumentation() {
+        return documentation;
+    }
+
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     * @param documentation
+     *     The documentation
+     */
+    @JsonProperty("documentation")
+    public void setDocumentation(String documentation) {
+        this.documentation = documentation;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -401,7 +436,7 @@ public class OrderP {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(surveyDate).append(path).append(orderId).append(jobChain).append(priority).append(_type).append(title).append(initialState).append(endState).append(estimatedDuration).append(configurationDate).toHashCode();
+        return new HashCodeBuilder().append(surveyDate).append(path).append(orderId).append(jobChain).append(priority).append(_type).append(title).append(initialState).append(endState).append(estimatedDuration).append(configurationDate).append(documentation).toHashCode();
     }
 
     @Override
@@ -413,7 +448,7 @@ public class OrderP {
             return false;
         }
         OrderP rhs = ((OrderP) other);
-        return new EqualsBuilder().append(surveyDate, rhs.surveyDate).append(path, rhs.path).append(orderId, rhs.orderId).append(jobChain, rhs.jobChain).append(priority, rhs.priority).append(_type, rhs._type).append(title, rhs.title).append(initialState, rhs.initialState).append(endState, rhs.endState).append(estimatedDuration, rhs.estimatedDuration).append(configurationDate, rhs.configurationDate).isEquals();
+        return new EqualsBuilder().append(surveyDate, rhs.surveyDate).append(path, rhs.path).append(orderId, rhs.orderId).append(jobChain, rhs.jobChain).append(priority, rhs.priority).append(_type, rhs._type).append(title, rhs.title).append(initialState, rhs.initialState).append(endState, rhs.endState).append(estimatedDuration, rhs.estimatedDuration).append(configurationDate, rhs.configurationDate).append(documentation, rhs.documentation).isEquals();
     }
 
 }
