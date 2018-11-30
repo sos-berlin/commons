@@ -28,6 +28,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "compact",
     "regex",
     "folders",
+    "types",
     "auditLog"
 })
 public class DocumentationsFilter {
@@ -65,6 +66,8 @@ public class DocumentationsFilter {
      */
     @JsonProperty("folders")
     private List<Folder> folders = new ArrayList<Folder>();
+    @JsonProperty("types")
+    private List<String> types = new ArrayList<String>();
     /**
      * auditParams
      * <p>
@@ -197,6 +200,26 @@ public class DocumentationsFilter {
     }
 
     /**
+     * 
+     * @return
+     *     The types
+     */
+    @JsonProperty("types")
+    public List<String> getTypes() {
+        return types;
+    }
+
+    /**
+     * 
+     * @param types
+     *     The types
+     */
+    @JsonProperty("types")
+    public void setTypes(List<String> types) {
+        this.types = types;
+    }
+
+    /**
      * auditParams
      * <p>
      * 
@@ -229,7 +252,7 @@ public class DocumentationsFilter {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(documentations).append(compact).append(regex).append(folders).append(auditLog).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(documentations).append(compact).append(regex).append(folders).append(types).append(auditLog).toHashCode();
     }
 
     @Override
@@ -241,7 +264,7 @@ public class DocumentationsFilter {
             return false;
         }
         DocumentationsFilter rhs = ((DocumentationsFilter) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(documentations, rhs.documentations).append(compact, rhs.compact).append(regex, rhs.regex).append(folders, rhs.folders).append(auditLog, rhs.auditLog).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(documentations, rhs.documentations).append(compact, rhs.compact).append(regex, rhs.regex).append(folders, rhs.folders).append(types, rhs.types).append(auditLog, rhs.auditLog).isEquals();
     }
 
 }
