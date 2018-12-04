@@ -25,6 +25,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "jobschedulerId",
     "jobChains",
     "compact",
+    "compactView",
     "regex",
     "folders",
     "states",
@@ -51,6 +52,8 @@ public class JobChainsFilter {
      */
     @JsonProperty("compact")
     private Boolean compact = false;
+    @JsonProperty("compactView")
+    private Boolean compactView = false;
     /**
      * filter with regex
      * <p>
@@ -154,6 +157,26 @@ public class JobChainsFilter {
     @JsonProperty("compact")
     public void setCompact(Boolean compact) {
         this.compact = compact;
+    }
+
+    /**
+     * 
+     * @return
+     *     The compactView
+     */
+    @JsonProperty("compactView")
+    public Boolean getCompactView() {
+        return compactView;
+    }
+
+    /**
+     * 
+     * @param compactView
+     *     The compactView
+     */
+    @JsonProperty("compactView")
+    public void setCompactView(Boolean compactView) {
+        this.compactView = compactView;
     }
 
     /**
@@ -303,7 +326,7 @@ public class JobChainsFilter {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(jobChains).append(compact).append(regex).append(folders).append(states).append(close).append(maxOrders).append(job).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(jobChains).append(compact).append(compactView).append(regex).append(folders).append(states).append(close).append(maxOrders).append(job).toHashCode();
     }
 
     @Override
@@ -315,7 +338,7 @@ public class JobChainsFilter {
             return false;
         }
         JobChainsFilter rhs = ((JobChainsFilter) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(jobChains, rhs.jobChains).append(compact, rhs.compact).append(regex, rhs.regex).append(folders, rhs.folders).append(states, rhs.states).append(close, rhs.close).append(maxOrders, rhs.maxOrders).append(job, rhs.job).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(jobChains, rhs.jobChains).append(compact, rhs.compact).append(compactView, rhs.compactView).append(regex, rhs.regex).append(folders, rhs.folders).append(states, rhs.states).append(close, rhs.close).append(maxOrders, rhs.maxOrders).append(job, rhs.job).isEquals();
     }
 
 }

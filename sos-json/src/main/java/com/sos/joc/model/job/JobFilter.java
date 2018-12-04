@@ -21,7 +21,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "jobschedulerId",
     "job",
-    "compact"
+    "compact",
+    "compactView"
 })
 public class JobFilter {
 
@@ -49,6 +50,8 @@ public class JobFilter {
      */
     @JsonProperty("compact")
     private Boolean compact = false;
+    @JsonProperty("compactView")
+    private Boolean compactView = false;
 
     /**
      * 
@@ -128,6 +131,26 @@ public class JobFilter {
         this.compact = compact;
     }
 
+    /**
+     * 
+     * @return
+     *     The compactView
+     */
+    @JsonProperty("compactView")
+    public Boolean getCompactView() {
+        return compactView;
+    }
+
+    /**
+     * 
+     * @param compactView
+     *     The compactView
+     */
+    @JsonProperty("compactView")
+    public void setCompactView(Boolean compactView) {
+        this.compactView = compactView;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -135,7 +158,7 @@ public class JobFilter {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(job).append(compact).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(job).append(compact).append(compactView).toHashCode();
     }
 
     @Override
@@ -147,7 +170,7 @@ public class JobFilter {
             return false;
         }
         JobFilter rhs = ((JobFilter) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(job, rhs.job).append(compact, rhs.compact).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(job, rhs.job).append(compact, rhs.compact).append(compactView, rhs.compactView).isEquals();
     }
 
 }

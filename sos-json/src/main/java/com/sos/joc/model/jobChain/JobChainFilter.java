@@ -22,6 +22,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "jobschedulerId",
     "jobChain",
     "compact",
+    "compactView",
     "maxOrders"
 })
 public class JobChainFilter {
@@ -50,6 +51,8 @@ public class JobChainFilter {
      */
     @JsonProperty("compact")
     private Boolean compact = false;
+    @JsonProperty("compactView")
+    private Boolean compactView = false;
     /**
      * non negative integer
      * <p>
@@ -138,6 +141,26 @@ public class JobChainFilter {
     }
 
     /**
+     * 
+     * @return
+     *     The compactView
+     */
+    @JsonProperty("compactView")
+    public Boolean getCompactView() {
+        return compactView;
+    }
+
+    /**
+     * 
+     * @param compactView
+     *     The compactView
+     */
+    @JsonProperty("compactView")
+    public void setCompactView(Boolean compactView) {
+        this.compactView = compactView;
+    }
+
+    /**
      * non negative integer
      * <p>
      * 
@@ -170,7 +193,7 @@ public class JobChainFilter {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(jobChain).append(compact).append(maxOrders).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(jobChain).append(compact).append(compactView).append(maxOrders).toHashCode();
     }
 
     @Override
@@ -182,7 +205,7 @@ public class JobChainFilter {
             return false;
         }
         JobChainFilter rhs = ((JobChainFilter) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(jobChain, rhs.jobChain).append(compact, rhs.compact).append(maxOrders, rhs.maxOrders).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(jobChain, rhs.jobChain).append(compact, rhs.compact).append(compactView, rhs.compactView).append(maxOrders, rhs.maxOrders).isEquals();
     }
 
 }
