@@ -13,7 +13,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "path",
-    "processClass"
+    "processClass",
+    "documentation"
 })
 public class JobChainNodeJobP {
 
@@ -34,6 +35,14 @@ public class JobChainNodeJobP {
      */
     @JsonProperty("processClass")
     private String processClass;
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
+    @JsonProperty("documentation")
+    private String documentation;
 
     /**
      * path
@@ -89,6 +98,32 @@ public class JobChainNodeJobP {
         this.processClass = processClass;
     }
 
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     * @return
+     *     The documentation
+     */
+    @JsonProperty("documentation")
+    public String getDocumentation() {
+        return documentation;
+    }
+
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     * @param documentation
+     *     The documentation
+     */
+    @JsonProperty("documentation")
+    public void setDocumentation(String documentation) {
+        this.documentation = documentation;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -96,7 +131,7 @@ public class JobChainNodeJobP {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(path).append(processClass).toHashCode();
+        return new HashCodeBuilder().append(path).append(processClass).append(documentation).toHashCode();
     }
 
     @Override
@@ -108,7 +143,7 @@ public class JobChainNodeJobP {
             return false;
         }
         JobChainNodeJobP rhs = ((JobChainNodeJobP) other);
-        return new EqualsBuilder().append(path, rhs.path).append(processClass, rhs.processClass).isEquals();
+        return new EqualsBuilder().append(path, rhs.path).append(processClass, rhs.processClass).append(documentation, rhs.documentation).isEquals();
     }
 
 }

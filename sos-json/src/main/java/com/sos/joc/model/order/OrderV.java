@@ -48,7 +48,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "setback",
     "lock",
     "processClass",
-    "runTimeIsTemporary"
+    "runTimeIsTemporary",
+    "documentation"
 })
 public class OrderV {
 
@@ -212,6 +213,14 @@ public class OrderV {
     private String processClass;
     @JsonProperty("runTimeIsTemporary")
     private Boolean runTimeIsTemporary = false;
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
+    @JsonProperty("documentation")
+    private String documentation;
 
     /**
      * path
@@ -813,6 +822,32 @@ public class OrderV {
         this.runTimeIsTemporary = runTimeIsTemporary;
     }
 
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     * @return
+     *     The documentation
+     */
+    @JsonProperty("documentation")
+    public String getDocumentation() {
+        return documentation;
+    }
+
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     * @param documentation
+     *     The documentation
+     */
+    @JsonProperty("documentation")
+    public void setDocumentation(String documentation) {
+        this.documentation = documentation;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -820,7 +855,7 @@ public class OrderV {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(path).append(orderId).append(jobChain).append(priority).append(params).append(_type).append(surveyDate).append(state).append(title).append(job).append(stateText).append(configurationStatus).append(endState).append(processingState).append(nextStartTime).append(nextStartNever).append(historyId).append(startedAt).append(processedBy).append(taskId).append(inProcessSince).append(setback).append(lock).append(processClass).append(runTimeIsTemporary).toHashCode();
+        return new HashCodeBuilder().append(path).append(orderId).append(jobChain).append(priority).append(params).append(_type).append(surveyDate).append(state).append(title).append(job).append(stateText).append(configurationStatus).append(endState).append(processingState).append(nextStartTime).append(nextStartNever).append(historyId).append(startedAt).append(processedBy).append(taskId).append(inProcessSince).append(setback).append(lock).append(processClass).append(runTimeIsTemporary).append(documentation).toHashCode();
     }
 
     @Override
@@ -832,7 +867,7 @@ public class OrderV {
             return false;
         }
         OrderV rhs = ((OrderV) other);
-        return new EqualsBuilder().append(path, rhs.path).append(orderId, rhs.orderId).append(jobChain, rhs.jobChain).append(priority, rhs.priority).append(params, rhs.params).append(_type, rhs._type).append(surveyDate, rhs.surveyDate).append(state, rhs.state).append(title, rhs.title).append(job, rhs.job).append(stateText, rhs.stateText).append(configurationStatus, rhs.configurationStatus).append(endState, rhs.endState).append(processingState, rhs.processingState).append(nextStartTime, rhs.nextStartTime).append(nextStartNever, rhs.nextStartNever).append(historyId, rhs.historyId).append(startedAt, rhs.startedAt).append(processedBy, rhs.processedBy).append(taskId, rhs.taskId).append(inProcessSince, rhs.inProcessSince).append(setback, rhs.setback).append(lock, rhs.lock).append(processClass, rhs.processClass).append(runTimeIsTemporary, rhs.runTimeIsTemporary).isEquals();
+        return new EqualsBuilder().append(path, rhs.path).append(orderId, rhs.orderId).append(jobChain, rhs.jobChain).append(priority, rhs.priority).append(params, rhs.params).append(_type, rhs._type).append(surveyDate, rhs.surveyDate).append(state, rhs.state).append(title, rhs.title).append(job, rhs.job).append(stateText, rhs.stateText).append(configurationStatus, rhs.configurationStatus).append(endState, rhs.endState).append(processingState, rhs.processingState).append(nextStartTime, rhs.nextStartTime).append(nextStartNever, rhs.nextStartNever).append(historyId, rhs.historyId).append(startedAt, rhs.startedAt).append(processedBy, rhs.processedBy).append(taskId, rhs.taskId).append(inProcessSince, rhs.inProcessSince).append(setback, rhs.setback).append(lock, rhs.lock).append(processClass, rhs.processClass).append(runTimeIsTemporary, rhs.runTimeIsTemporary).append(documentation, rhs.documentation).isEquals();
     }
 
 }

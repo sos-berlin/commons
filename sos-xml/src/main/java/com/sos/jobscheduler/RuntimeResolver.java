@@ -58,12 +58,12 @@ public class RuntimeResolver {
         }
     });
     private SortedSet<String> holidays = new TreeSet<String>();
-    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-    private DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_LOCAL_DATE.withZone(ZoneOffset.UTC);
-    private DateTimeFormatter isoFormatter = DateTimeFormatter.ISO_INSTANT;
+    private static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+    private static DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_LOCAL_DATE.withZone(ZoneOffset.UTC);
+    private static DateTimeFormatter isoFormatter = DateTimeFormatter.ISO_INSTANT;
     private ZoneId runtimeTimezone = ZoneOffset.UTC;
-    private String[] weekDaysMap = { "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday" };
-    private String[] monthsMap = { "january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november",
+    private static String[] weekDaysMap = { "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday" };
+    private static String[] monthsMap = { "january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november",
             "december" };
 
     public RuntimeResolver() {

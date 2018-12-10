@@ -16,7 +16,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "path",
     "state",
-    "configurationStatus"
+    "configurationStatus",
+    "documentation"
 })
 public class JobChainNodeJobV {
 
@@ -45,6 +46,14 @@ public class JobChainNodeJobV {
      */
     @JsonProperty("configurationStatus")
     private ConfigurationState configurationStatus;
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
+    @JsonProperty("documentation")
+    private String documentation;
 
     /**
      * path
@@ -126,6 +135,32 @@ public class JobChainNodeJobV {
         this.configurationStatus = configurationStatus;
     }
 
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     * @return
+     *     The documentation
+     */
+    @JsonProperty("documentation")
+    public String getDocumentation() {
+        return documentation;
+    }
+
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     * @param documentation
+     *     The documentation
+     */
+    @JsonProperty("documentation")
+    public void setDocumentation(String documentation) {
+        this.documentation = documentation;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -133,7 +168,7 @@ public class JobChainNodeJobV {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(path).append(state).append(configurationStatus).toHashCode();
+        return new HashCodeBuilder().append(path).append(state).append(configurationStatus).append(documentation).toHashCode();
     }
 
     @Override
@@ -145,7 +180,7 @@ public class JobChainNodeJobV {
             return false;
         }
         JobChainNodeJobV rhs = ((JobChainNodeJobV) other);
-        return new EqualsBuilder().append(path, rhs.path).append(state, rhs.state).append(configurationStatus, rhs.configurationStatus).isEquals();
+        return new EqualsBuilder().append(path, rhs.path).append(state, rhs.state).append(configurationStatus, rhs.configurationStatus).append(documentation, rhs.documentation).isEquals();
     }
 
 }

@@ -17,7 +17,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
-    "path"
+    "path",
+    "documentation"
 })
 public class JobChainNodeJobChainV {
 
@@ -30,6 +31,14 @@ public class JobChainNodeJobChainV {
      */
     @JsonProperty("path")
     private String path;
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
+    @JsonProperty("documentation")
+    private String documentation;
 
     /**
      * path
@@ -59,6 +68,32 @@ public class JobChainNodeJobChainV {
         this.path = path;
     }
 
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     * @return
+     *     The documentation
+     */
+    @JsonProperty("documentation")
+    public String getDocumentation() {
+        return documentation;
+    }
+
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     * @param documentation
+     *     The documentation
+     */
+    @JsonProperty("documentation")
+    public void setDocumentation(String documentation) {
+        this.documentation = documentation;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -66,7 +101,7 @@ public class JobChainNodeJobChainV {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(path).toHashCode();
+        return new HashCodeBuilder().append(path).append(documentation).toHashCode();
     }
 
     @Override
@@ -78,7 +113,7 @@ public class JobChainNodeJobChainV {
             return false;
         }
         JobChainNodeJobChainV rhs = ((JobChainNodeJobChainV) other);
-        return new EqualsBuilder().append(path, rhs.path).isEquals();
+        return new EqualsBuilder().append(path, rhs.path).append(documentation, rhs.documentation).isEquals();
     }
 
 }
