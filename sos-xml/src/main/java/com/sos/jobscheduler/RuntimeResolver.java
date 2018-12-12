@@ -63,8 +63,8 @@ public class RuntimeResolver {
     private static DateTimeFormatter isoFormatter = DateTimeFormatter.ISO_INSTANT;
     private ZoneId runtimeTimezone = ZoneOffset.UTC;
     private static String[] weekDaysMap = { "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday" };
-    private static String[] monthsMap = { "january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november",
-            "december" };
+    private static String[] monthsMap = { "january", "february", "march", "april", "may", "june", "july", "august", "september", "october",
+            "november", "december" };
 
     public RuntimeResolver() {
     }
@@ -132,11 +132,11 @@ public class RuntimeResolver {
                 addPeriods(date, xpath.selectNodeList(runtime, xPathMonthExpr + xPathExpr));
             }
             xPathExpr = "monthdays/day[contains(@day, '" + dayOfMonth + "')]/period";
-            addPeriods(date, xpath.selectNodeList(runtime, xPathExpr));
-            addPeriods(date, xpath.selectNodeList(runtime, xPathMonthExpr + xPathExpr));
+            addPeriods(date, xpath.selectNodeList(runtime, xPathExpr), dayOfMonth);
+            addPeriods(date, xpath.selectNodeList(runtime, xPathMonthExpr + xPathExpr), dayOfMonth);
             xPathExpr = "ultimos/day[contains(@day, '" + ultimoOfMonth + "')]/period";
-            addPeriods(date, xpath.selectNodeList(runtime, xPathExpr));
-            addPeriods(date, xpath.selectNodeList(runtime, xPathMonthExpr + xPathExpr));
+            addPeriods(date, xpath.selectNodeList(runtime, xPathExpr), ultimoOfMonth);
+            addPeriods(date, xpath.selectNodeList(runtime, xPathMonthExpr + xPathExpr), ultimoOfMonth);
             xPathExpr = "monthdays/weekday[@day='" + weekDaysMap[dayOfWeek] + "' and (@which='" + which + "' or which='" + ultimoWhich + "')]/period";
             addPeriods(date, xpath.selectNodeList(runtime, xPathExpr));
             addPeriods(date, xpath.selectNodeList(runtime, xPathMonthExpr + xPathExpr));
@@ -196,6 +196,23 @@ public class RuntimeResolver {
             Period p = getPeriod((Element) periodList.item(j), date);
             if (p != null) {
                 periods.add(p);
+            }
+        }
+    }
+
+    private void addPeriods(String date, NodeList periodList, int dayOfMonth) throws Exception {
+        if (dayOfMonth > 9) {
+            addPeriods(date, periodList);
+        } else {
+            for (int j = 0; j < periodList.getLength(); j++) {
+                Element periodElem = (Element) periodList.item(j);
+                Element dateElem = (Element) periodElem.getParentNode();
+                if ((" " + dateElem.getAttribute("day").replaceAll("\\D", " ") + " ").contains(" " + dayOfMonth + " ")) {
+                    Period p = getPeriod(periodElem, date);
+                    if (p != null) {
+                        periods.add(p);
+                    }
+                }
             }
         }
     }
@@ -314,7 +331,7 @@ public class RuntimeResolver {
         }
         return calendars.values();
     }
-    
+
     public static TreeSet<RuntimeCalendar> getCalendarDatesFromUTCYesterday(org.dom4j.Document doc) throws TransformerException {
         org.dom4j.Element root = doc.getRootElement();
         org.dom4j.Element runTime = null;
@@ -344,12 +361,12 @@ public class RuntimeResolver {
             return getCalendarDatesFromToday(runTime, timeZone);
         }
     }
-    
+
     public static TreeSet<RuntimeCalendar> getCalendarDatesFromUTCYesterday(org.dom4j.Element curObject) throws TransformerException {
         String yesterday = DateTimeFormatter.ISO_LOCAL_DATE.withZone(ZoneOffset.UTC).format(ZonedDateTime.now(ZoneOffset.UTC).minusDays(1L));
         return getCalendarDatesFrom(curObject, yesterday);
     }
-    
+
     public static TreeSet<RuntimeCalendar> getCalendarDatesFromToday(org.dom4j.Element curObject, String timeZone) throws TransformerException {
         String tzone = curObject.attributeValue("time_zone");
         if (tzone == null) {
