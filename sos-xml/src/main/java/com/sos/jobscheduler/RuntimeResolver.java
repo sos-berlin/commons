@@ -206,8 +206,7 @@ public class RuntimeResolver {
         } else {
             for (int j = 0; j < periodList.getLength(); j++) {
                 Element periodElem = (Element) periodList.item(j);
-                Element dateElem = (Element) periodElem.getParentNode();
-                if ((" " + dateElem.getAttribute("day").replaceAll("\\D", " ") + " ").contains(" " + dayOfMonth + " ")) {
+                if (((Element) periodElem.getParentNode()).getAttribute("day").replaceAll("\\d{2,}", "").contains(dayOfMonth+"")) {
                     Period p = getPeriod(periodElem, date);
                     if (p != null) {
                         periods.add(p);
