@@ -1,5 +1,5 @@
 
-package com.sos.joc.model.agent;
+package com.sos.joc.model.processClass;
 
 import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -13,7 +13,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * agent modify
+ * processClass modify
  * <p>
  * 
  * 
@@ -25,7 +25,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "folder",
     "processClass"
 })
-public class ModifyAgent {
+public class ModifyProcessClass {
 
     /**
      * path
@@ -38,7 +38,7 @@ public class ModifyAgent {
     @JacksonXmlProperty(localName = "folder", isAttribute = true)
     private String folder;
     /**
-     * agent configuration
+     * processClass configuration
      * <p>
      * 
      * (Required)
@@ -46,7 +46,7 @@ public class ModifyAgent {
      */
     @JsonProperty("processClass")
     @JacksonXmlProperty(localName = "process_class", isAttribute = true)
-    private AgentConfiguration processClass;
+    private Configuration processClass;
 
     /**
      * path
@@ -79,7 +79,7 @@ public class ModifyAgent {
     }
 
     /**
-     * agent configuration
+     * processClass configuration
      * <p>
      * 
      * (Required)
@@ -89,12 +89,12 @@ public class ModifyAgent {
      */
     @JsonProperty("processClass")
     @JacksonXmlProperty(localName = "process_class", isAttribute = true)
-    public AgentConfiguration getProcessClass() {
+    public Configuration getProcessClass() {
         return processClass;
     }
 
     /**
-     * agent configuration
+     * processClass configuration
      * <p>
      * 
      * (Required)
@@ -104,7 +104,7 @@ public class ModifyAgent {
      */
     @JsonProperty("processClass")
     @JacksonXmlProperty(localName = "process_class", isAttribute = true)
-    public void setProcessClass(AgentConfiguration processClass) {
+    public void setProcessClass(Configuration processClass) {
         this.processClass = processClass;
     }
 
@@ -123,10 +123,10 @@ public class ModifyAgent {
         if (other == this) {
             return true;
         }
-        if ((other instanceof ModifyAgent) == false) {
+        if ((other instanceof ModifyProcessClass) == false) {
             return false;
         }
-        ModifyAgent rhs = ((ModifyAgent) other);
+        ModifyProcessClass rhs = ((ModifyProcessClass) other);
         return new EqualsBuilder().append(folder, rhs.folder).append(processClass, rhs.processClass).isEquals();
     }
 

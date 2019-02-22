@@ -1,5 +1,5 @@
 
-package com.sos.joc.model.agent;
+package com.sos.joc.model.processClass;
 
 import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;

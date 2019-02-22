@@ -1,5 +1,5 @@
 
-package com.sos.joc.model.agent;
+package com.sos.joc.model.processClass;
 
 import java.util.Date;
 import javax.annotation.Generated;
@@ -8,28 +8,30 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.sos.joc.model.audit.AuditParams;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * agent configuration
+ * edit processClass configuration
  * <p>
  * 
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JacksonXmlRootElement(localName = "agent_configuration200")
+@JacksonXmlRootElement(localName = "configuration_edit")
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "deliveryDate",
     "configurationDate",
     "jobschedulerId",
-    "path",
-    "configuration"
+    "processClass",
+    "configuration",
+    "auditLog"
 })
-public class AgentConfiguration200 {
+public class ConfigurationEdit {
 
     /**
      * delivery date
@@ -64,11 +66,11 @@ public class AgentConfiguration200 {
      * (Required)
      * 
      */
-    @JsonProperty("path")
-    @JacksonXmlProperty(localName = "path", isAttribute = true)
-    private String path;
+    @JsonProperty("processClass")
+    @JacksonXmlProperty(localName = "process_class", isAttribute = true)
+    private String processClass;
     /**
-     * agent configuration
+     * processClass configuration
      * <p>
      * 
      * (Required)
@@ -76,7 +78,16 @@ public class AgentConfiguration200 {
      */
     @JsonProperty("configuration")
     @JacksonXmlProperty(localName = "configuration", isAttribute = true)
-    private AgentConfiguration configuration;
+    private Configuration configuration;
+    /**
+     * auditParams
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("auditLog")
+    @JacksonXmlProperty(localName = "audit_log", isAttribute = true)
+    private AuditParams auditLog;
 
     /**
      * delivery date
@@ -167,12 +178,12 @@ public class AgentConfiguration200 {
      * (Required)
      * 
      * @return
-     *     The path
+     *     The processClass
      */
-    @JsonProperty("path")
-    @JacksonXmlProperty(localName = "path", isAttribute = true)
-    public String getPath() {
-        return path;
+    @JsonProperty("processClass")
+    @JacksonXmlProperty(localName = "process_class", isAttribute = true)
+    public String getProcessClass() {
+        return processClass;
     }
 
     /**
@@ -181,17 +192,17 @@ public class AgentConfiguration200 {
      * absolute path based on live folder of a JobScheduler object.
      * (Required)
      * 
-     * @param path
-     *     The path
+     * @param processClass
+     *     The processClass
      */
-    @JsonProperty("path")
-    @JacksonXmlProperty(localName = "path", isAttribute = true)
-    public void setPath(String path) {
-        this.path = path;
+    @JsonProperty("processClass")
+    @JacksonXmlProperty(localName = "process_class", isAttribute = true)
+    public void setProcessClass(String processClass) {
+        this.processClass = processClass;
     }
 
     /**
-     * agent configuration
+     * processClass configuration
      * <p>
      * 
      * (Required)
@@ -201,12 +212,12 @@ public class AgentConfiguration200 {
      */
     @JsonProperty("configuration")
     @JacksonXmlProperty(localName = "configuration", isAttribute = true)
-    public AgentConfiguration getConfiguration() {
+    public Configuration getConfiguration() {
         return configuration;
     }
 
     /**
-     * agent configuration
+     * processClass configuration
      * <p>
      * 
      * (Required)
@@ -216,8 +227,36 @@ public class AgentConfiguration200 {
      */
     @JsonProperty("configuration")
     @JacksonXmlProperty(localName = "configuration", isAttribute = true)
-    public void setConfiguration(AgentConfiguration configuration) {
+    public void setConfiguration(Configuration configuration) {
         this.configuration = configuration;
+    }
+
+    /**
+     * auditParams
+     * <p>
+     * 
+     * 
+     * @return
+     *     The auditLog
+     */
+    @JsonProperty("auditLog")
+    @JacksonXmlProperty(localName = "audit_log", isAttribute = true)
+    public AuditParams getAuditLog() {
+        return auditLog;
+    }
+
+    /**
+     * auditParams
+     * <p>
+     * 
+     * 
+     * @param auditLog
+     *     The auditLog
+     */
+    @JsonProperty("auditLog")
+    @JacksonXmlProperty(localName = "audit_log", isAttribute = true)
+    public void setAuditLog(AuditParams auditLog) {
+        this.auditLog = auditLog;
     }
 
     @Override
@@ -227,7 +266,7 @@ public class AgentConfiguration200 {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(deliveryDate).append(configurationDate).append(jobschedulerId).append(path).append(configuration).toHashCode();
+        return new HashCodeBuilder().append(deliveryDate).append(configurationDate).append(jobschedulerId).append(processClass).append(configuration).append(auditLog).toHashCode();
     }
 
     @Override
@@ -235,11 +274,11 @@ public class AgentConfiguration200 {
         if (other == this) {
             return true;
         }
-        if ((other instanceof AgentConfiguration200) == false) {
+        if ((other instanceof ConfigurationEdit) == false) {
             return false;
         }
-        AgentConfiguration200 rhs = ((AgentConfiguration200) other);
-        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(configurationDate, rhs.configurationDate).append(jobschedulerId, rhs.jobschedulerId).append(path, rhs.path).append(configuration, rhs.configuration).isEquals();
+        ConfigurationEdit rhs = ((ConfigurationEdit) other);
+        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(configurationDate, rhs.configurationDate).append(jobschedulerId, rhs.jobschedulerId).append(processClass, rhs.processClass).append(configuration, rhs.configuration).append(auditLog, rhs.auditLog).isEquals();
     }
 
 }

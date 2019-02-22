@@ -1,5 +1,5 @@
 
-package com.sos.joc.model.agent;
+package com.sos.joc.model.processClass;
 
 import java.util.List;
 import javax.annotation.Generated;
@@ -15,7 +15,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * agent configuration
+ * processClass configuration
  * <p>
  * 
  * 
@@ -30,7 +30,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "remoteScheduler",
     "remoteSchedulers"
 })
-public class AgentConfiguration {
+public class Configuration {
 
     @JsonProperty("name")
     @JacksonXmlProperty(localName = "name", isAttribute = true)
@@ -195,10 +195,10 @@ public class AgentConfiguration {
         if (other == this) {
             return true;
         }
-        if ((other instanceof AgentConfiguration) == false) {
+        if ((other instanceof Configuration) == false) {
             return false;
         }
-        AgentConfiguration rhs = ((AgentConfiguration) other);
+        Configuration rhs = ((Configuration) other);
         return new EqualsBuilder().append(name, rhs.name).append(maxProcesses, rhs.maxProcesses).append(select, rhs.select).append(remoteScheduler, rhs.remoteScheduler).append(remoteSchedulers, rhs.remoteSchedulers).isEquals();
     }
 
