@@ -45,7 +45,7 @@ public class ModifyProcessClass {
      * 
      */
     @JsonProperty("processClass")
-    @JacksonXmlProperty(localName = "process_class", isAttribute = true)
+    @JacksonXmlProperty(localName = "process_class", isAttribute = false)
     private Configuration processClass;
 
     /**
@@ -88,7 +88,7 @@ public class ModifyProcessClass {
      *     The processClass
      */
     @JsonProperty("processClass")
-    @JacksonXmlProperty(localName = "process_class", isAttribute = true)
+    @JacksonXmlProperty(localName = "process_class", isAttribute = false)
     public Configuration getProcessClass() {
         return processClass;
     }
@@ -103,7 +103,7 @@ public class ModifyProcessClass {
      *     The processClass
      */
     @JsonProperty("processClass")
-    @JacksonXmlProperty(localName = "process_class", isAttribute = true)
+    @JacksonXmlProperty(localName = "process_class", isAttribute = false)
     public void setProcessClass(Configuration processClass) {
         this.processClass = processClass;
     }

@@ -1,12 +1,10 @@
 
 package com.sos.joc.model.processClass;
 
-import java.util.List;
 import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -26,7 +24,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "name",
     "maxProcesses",
-    "select",
+    "timeout",
     "remoteScheduler",
     "remoteSchedulers"
 })
@@ -46,19 +44,23 @@ public class Configuration {
     @JacksonXmlProperty(localName = "max_processes", isAttribute = true)
     private Integer maxProcesses;
     /**
-     * first, next
+     * non negative integer
+     * <p>
+     * 
      * 
      */
-    @JsonProperty("select")
-    @JacksonXmlProperty(localName = "select", isAttribute = true)
-    private String select;
+    @JsonProperty("timeout")
+    @JacksonXmlProperty(localName = "timeout", isAttribute = true)
+    private Integer timeout;
     @JsonProperty("remoteScheduler")
     @JacksonXmlProperty(localName = "remote_scheduler", isAttribute = true)
     private String remoteScheduler;
+    /**
+     * 
+     */
     @JsonProperty("remoteSchedulers")
-    @JacksonXmlProperty(localName = "remote_schedulers")
-    @JacksonXmlElementWrapper(useWrapping = true, localName = "remote_schedulers")
-    private List<RemoteScheduler> remoteSchedulers = null;
+    @JacksonXmlProperty(localName = "remote_schedulers", isAttribute = false)
+    private RemoteSchedulers remoteSchedulers;
 
     /**
      * 
@@ -113,27 +115,31 @@ public class Configuration {
     }
 
     /**
-     * first, next
+     * non negative integer
+     * <p>
+     * 
      * 
      * @return
-     *     The select
+     *     The timeout
      */
-    @JsonProperty("select")
-    @JacksonXmlProperty(localName = "select", isAttribute = true)
-    public String getSelect() {
-        return select;
+    @JsonProperty("timeout")
+    @JacksonXmlProperty(localName = "timeout", isAttribute = true)
+    public Integer getTimeout() {
+        return timeout;
     }
 
     /**
-     * first, next
+     * non negative integer
+     * <p>
      * 
-     * @param select
-     *     The select
+     * 
+     * @param timeout
+     *     The timeout
      */
-    @JsonProperty("select")
-    @JacksonXmlProperty(localName = "select", isAttribute = true)
-    public void setSelect(String select) {
-        this.select = select;
+    @JsonProperty("timeout")
+    @JacksonXmlProperty(localName = "timeout", isAttribute = true)
+    public void setTimeout(Integer timeout) {
+        this.timeout = timeout;
     }
 
     /**
@@ -164,8 +170,8 @@ public class Configuration {
      *     The remoteSchedulers
      */
     @JsonProperty("remoteSchedulers")
-    @JacksonXmlProperty(localName = "remote_schedulers")
-    public List<RemoteScheduler> getRemoteSchedulers() {
+    @JacksonXmlProperty(localName = "remote_schedulers", isAttribute = false)
+    public RemoteSchedulers getRemoteSchedulers() {
         return remoteSchedulers;
     }
 
@@ -175,8 +181,8 @@ public class Configuration {
      *     The remoteSchedulers
      */
     @JsonProperty("remoteSchedulers")
-    @JacksonXmlProperty(localName = "remote_schedulers")
-    public void setRemoteSchedulers(List<RemoteScheduler> remoteSchedulers) {
+    @JacksonXmlProperty(localName = "remote_schedulers", isAttribute = false)
+    public void setRemoteSchedulers(RemoteSchedulers remoteSchedulers) {
         this.remoteSchedulers = remoteSchedulers;
     }
 
@@ -187,7 +193,7 @@ public class Configuration {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(name).append(maxProcesses).append(select).append(remoteScheduler).append(remoteSchedulers).toHashCode();
+        return new HashCodeBuilder().append(name).append(maxProcesses).append(timeout).append(remoteScheduler).append(remoteSchedulers).toHashCode();
     }
 
     @Override
@@ -199,7 +205,7 @@ public class Configuration {
             return false;
         }
         Configuration rhs = ((Configuration) other);
-        return new EqualsBuilder().append(name, rhs.name).append(maxProcesses, rhs.maxProcesses).append(select, rhs.select).append(remoteScheduler, rhs.remoteScheduler).append(remoteSchedulers, rhs.remoteSchedulers).isEquals();
+        return new EqualsBuilder().append(name, rhs.name).append(maxProcesses, rhs.maxProcesses).append(timeout, rhs.timeout).append(remoteScheduler, rhs.remoteScheduler).append(remoteSchedulers, rhs.remoteSchedulers).isEquals();
     }
 
 }

@@ -77,7 +77,7 @@ public class ConfigurationEdit {
      * 
      */
     @JsonProperty("configuration")
-    @JacksonXmlProperty(localName = "configuration", isAttribute = true)
+    @JacksonXmlProperty(localName = "configuration", isAttribute = false)
     private Configuration configuration;
     /**
      * auditParams
@@ -86,7 +86,7 @@ public class ConfigurationEdit {
      * 
      */
     @JsonProperty("auditLog")
-    @JacksonXmlProperty(localName = "audit_log", isAttribute = true)
+    @JacksonXmlProperty(localName = "audit_log", isAttribute = false)
     private AuditParams auditLog;
 
     /**
@@ -211,7 +211,7 @@ public class ConfigurationEdit {
      *     The configuration
      */
     @JsonProperty("configuration")
-    @JacksonXmlProperty(localName = "configuration", isAttribute = true)
+    @JacksonXmlProperty(localName = "configuration", isAttribute = false)
     public Configuration getConfiguration() {
         return configuration;
     }
@@ -226,7 +226,7 @@ public class ConfigurationEdit {
      *     The configuration
      */
     @JsonProperty("configuration")
-    @JacksonXmlProperty(localName = "configuration", isAttribute = true)
+    @JacksonXmlProperty(localName = "configuration", isAttribute = false)
     public void setConfiguration(Configuration configuration) {
         this.configuration = configuration;
     }
@@ -240,7 +240,7 @@ public class ConfigurationEdit {
      *     The auditLog
      */
     @JsonProperty("auditLog")
-    @JacksonXmlProperty(localName = "audit_log", isAttribute = true)
+    @JacksonXmlProperty(localName = "audit_log", isAttribute = false)
     public AuditParams getAuditLog() {
         return auditLog;
     }
@@ -254,7 +254,7 @@ public class ConfigurationEdit {
      *     The auditLog
      */
     @JsonProperty("auditLog")
-    @JacksonXmlProperty(localName = "audit_log", isAttribute = true)
+    @JacksonXmlProperty(localName = "audit_log", isAttribute = false)
     public void setAuditLog(AuditParams auditLog) {
         this.auditLog = auditLog;
     }
