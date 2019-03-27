@@ -619,12 +619,14 @@ public class RuntimeResolver {
                     if (rc.getDates() != null && !rc.getDates().isEmpty()) {
                         if (CalendarType.WORKING_DAYS == rc.getType()) {
                             org.dom4j.Element dateElem = DocumentHelper.createElement("date");
-                            for (Period p : rc.getPeriods()) {
-                                org.dom4j.Element periodElem = DocumentHelper.createElement("period");
-                                periodElem.addAttribute("single_start", p.getSingleStart()).addAttribute("begin", p.getBegin()).addAttribute("end", p
-                                        .getEnd()).addAttribute("repeat", p.getRepeat()).addAttribute("absolute_repeat", p.getAbsoluteRepeat())
-                                        .addAttribute("when_holiday", p.getWhenHoliday());
-                                dateElem.add(periodElem);
+                            if (rc.getPeriods() != null) {
+                                for (Period p : rc.getPeriods()) {
+                                    org.dom4j.Element periodElem = DocumentHelper.createElement("period");
+                                    periodElem.addAttribute("single_start", p.getSingleStart()).addAttribute("begin", p.getBegin()).addAttribute(
+                                            "end", p.getEnd()).addAttribute("repeat", p.getRepeat()).addAttribute("absolute_repeat", p
+                                                    .getAbsoluteRepeat()).addAttribute("when_holiday", p.getWhenHoliday());
+                                    dateElem.add(periodElem);
+                                }
                             }
                             for (String date : rc.getDates()) {
                                 datesList.add(dateElem.createCopy().addAttribute("calendar", rc.getPath()).addAttribute("date", date));
