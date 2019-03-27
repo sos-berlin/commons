@@ -7,6 +7,7 @@ import java.nio.channels.FileChannel;
 import java.nio.file.Path;
 import java.security.MessageDigest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.linguafranca.pwdb.Credentials;
 import org.linguafranca.pwdb.kdbx.KdbxCreds;
@@ -65,11 +66,13 @@ public class SOSKdbxCreds implements Credentials {
     private boolean isXmlKey(@NotNull FileInputStream is) throws Exception {
         FileChannel fc = null;
         try {
-            ByteBuffer buffer = ByteBuffer.allocate(5);
+            ByteBuffer buffer = ByteBuffer.allocate(50);
 
             fc = is.getChannel();
             fc.read(buffer, 0);
-            return new String(buffer.array()).trim().toLowerCase().startsWith("<?xml");
+
+            String preview = StringUtils.normalizeSpace(new String(buffer.array())).trim();
+            return preview.equalsIgnoreCase("<?xml version=\"1.0\" encoding=\"utf-8\"?> <KeyFile>");
         } catch (Exception e) {
             throw e;
         } finally {
