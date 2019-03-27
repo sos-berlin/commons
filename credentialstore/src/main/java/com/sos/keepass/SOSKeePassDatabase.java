@@ -13,7 +13,6 @@ import org.linguafranca.pwdb.Entry;
 import org.linguafranca.pwdb.kdb.KdbCredentials;
 import org.linguafranca.pwdb.kdb.KdbDatabase;
 import org.linguafranca.pwdb.kdb.KdbEntry;
-import org.linguafranca.pwdb.kdbx.KdbxCreds;
 import org.linguafranca.pwdb.kdbx.simple.SimpleDatabase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -309,33 +308,9 @@ public class SOSKeePassDatabase {
     }
 
     private Credentials getKDBXCredentials(final String pass, final Path keyFile) throws SOSKeePassDatabaseException {
-        KdbxCreds cred = null;
-        if (keyFile == null) {
-            try {
-                cred = new KdbxCreds(pass == null ? "".getBytes() : pass.getBytes());
-            } catch (Throwable e) {
-                throw new SOSKeePassDatabaseException(e);
-            }
-        } else {
-            InputStream is = null;
-            try {
-                is = new FileInputStream(keyFile.toFile());
-                if (pass == null) {
-                    cred = new KdbxCreds(is);
-                } else {
-                    cred = new KdbxCreds(pass.getBytes(), is);
-                }
-            } catch (Throwable e) {
-                throw new SOSKeePassDatabaseException(String.format("[%s]%s", getFilePath(keyFile), e.toString()), e);
-            } finally {
-                if (is != null) {
-                    try {
-                        is.close();
-                    } catch (Throwable te) {
-                    }
-                }
-            }
-        }
+        SOSKdbxCreds cred = new SOSKdbxCreds();
+        cred.load(pass, keyFile);
+
         return cred;
     }
 
@@ -392,7 +367,7 @@ public class SOSKeePassDatabase {
         return getAttachment(path.isKdbx(), path.getDatabaseEntry(), path.getDatabaseEntry().getProperty(path.getPropertyName()));
     }
 
-    private static String getFilePath(Path path) {
+    public static String getFilePath(Path path) {
         String filePath = null;
         try {
             filePath = path.toFile().getCanonicalPath();
@@ -458,8 +433,10 @@ public class SOSKeePassDatabase {
         // cs://server/SFTP/my_server@user?file=my_file.kdbx
         // cs://server/SFTP/my_server@user?file=my_file.kdbx&key_file=my_keyfile.key&ignore_expired=1
         // cs://server/SFTP/my_server@user?file=my_file.kdbx&key_file=my_keyfile.key&attachment=1
+        // cs://server/SFTP/my_server@user?file=my_file.kdbx&key_file=my_keyfile.png
 
         String uri = null;
+
         try {
             if (args.length > 0) {
                 uri = args[0];
