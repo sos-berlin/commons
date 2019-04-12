@@ -22,6 +22,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "id",
+    "workflow",
     "conditionExpression",
     "outconditionEvents"
 })
@@ -35,6 +36,8 @@ public class OutCondition {
      */
     @JsonProperty("id")
     private Long id;
+    @JsonProperty("workflow")
+    private String workflow;
     /**
      * Expression
      * <p>
@@ -70,6 +73,26 @@ public class OutCondition {
     @JsonProperty("id")
     public void setId(Long id) {
         this.id = id;
+    }
+
+    /**
+     * 
+     * @return
+     *     The workflow
+     */
+    @JsonProperty("workflow")
+    public String getWorkflow() {
+        return workflow;
+    }
+
+    /**
+     * 
+     * @param workflow
+     *     The workflow
+     */
+    @JsonProperty("workflow")
+    public void setWorkflow(String workflow) {
+        this.workflow = workflow;
     }
 
     /**
@@ -125,7 +148,7 @@ public class OutCondition {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(id).append(conditionExpression).append(outconditionEvents).toHashCode();
+        return new HashCodeBuilder().append(id).append(workflow).append(conditionExpression).append(outconditionEvents).toHashCode();
     }
 
     @Override
@@ -137,7 +160,7 @@ public class OutCondition {
             return false;
         }
         OutCondition rhs = ((OutCondition) other);
-        return new EqualsBuilder().append(id, rhs.id).append(conditionExpression, rhs.conditionExpression).append(outconditionEvents, rhs.outconditionEvents).isEquals();
+        return new EqualsBuilder().append(id, rhs.id).append(workflow, rhs.workflow).append(conditionExpression, rhs.conditionExpression).append(outconditionEvents, rhs.outconditionEvents).isEquals();
     }
 
 }
