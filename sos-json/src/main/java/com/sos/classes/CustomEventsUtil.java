@@ -44,7 +44,7 @@ public class CustomEventsUtil {
         CustomEvent customEvent = new CustomEvent();
         customEvent.setKey(key);
         CustomEventVariables customEventVariables = new CustomEventVariables();
-        customEventVariables.setSource(source);
+        customEventVariables.setAdditionalProperty("source", source);
         customEvent.setVariables(customEventVariables);
         listOfCustomEvents.add(customEvent);
     }
