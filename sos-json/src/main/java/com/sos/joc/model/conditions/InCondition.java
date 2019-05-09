@@ -23,6 +23,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "id",
     "workflow",
+    "consumed",
     "conditionExpression",
     "inconditionCommands"
 })
@@ -38,6 +39,8 @@ public class InCondition {
     private Long id;
     @JsonProperty("workflow")
     private String workflow;
+    @JsonProperty("consumed")
+    private Boolean consumed;
     /**
      * Expression
      * <p>
@@ -96,6 +99,26 @@ public class InCondition {
     }
 
     /**
+     * 
+     * @return
+     *     The consumed
+     */
+    @JsonProperty("consumed")
+    public Boolean getConsumed() {
+        return consumed;
+    }
+
+    /**
+     * 
+     * @param consumed
+     *     The consumed
+     */
+    @JsonProperty("consumed")
+    public void setConsumed(Boolean consumed) {
+        this.consumed = consumed;
+    }
+
+    /**
      * Expression
      * <p>
      * Expression for Condition
@@ -148,7 +171,7 @@ public class InCondition {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(id).append(workflow).append(conditionExpression).append(inconditionCommands).toHashCode();
+        return new HashCodeBuilder().append(id).append(workflow).append(consumed).append(conditionExpression).append(inconditionCommands).toHashCode();
     }
 
     @Override
@@ -160,7 +183,7 @@ public class InCondition {
             return false;
         }
         InCondition rhs = ((InCondition) other);
-        return new EqualsBuilder().append(id, rhs.id).append(workflow, rhs.workflow).append(conditionExpression, rhs.conditionExpression).append(inconditionCommands, rhs.inconditionCommands).isEquals();
+        return new EqualsBuilder().append(id, rhs.id).append(workflow, rhs.workflow).append(consumed, rhs.consumed).append(conditionExpression, rhs.conditionExpression).append(inconditionCommands, rhs.inconditionCommands).isEquals();
     }
 
 }
