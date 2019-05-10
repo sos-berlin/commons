@@ -1,8 +1,8 @@
 package com.sos.keepass;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
-
-import org.linguafranca.pwdb.Entry;
 
 import com.google.common.base.Splitter;
 
@@ -15,10 +15,21 @@ public class SOSKeePassPath {
 
     public static final String QUERY_PARAMETER_FILE = "file";
     public static final String QUERY_PARAMETER_KEY_FILE = "key_file";
-    public static final String QUERY_PARAMETER_PASSWORD = "password";
+    public static final String QUERY_PARAMETER_PASSWORD = "password";// '&' and '=' characters not allowed
     // not set or ignore_expired=0 - throwing an entry expired exception if an entry is expired
     public static final String QUERY_PARAMETER_IGNORE_EXPIRED = "ignore_expired";
     public static final String QUERY_PARAMETER_ATTACHMENT = "attachment";
+    public static final String QUERY_PARAMETER_CREATE_ENTRY = "create_entry";
+    public static final String QUERY_PARAMETER_SET_PROPERTY = "set_property"; // '&' and '=' characters not allowed
+    public static final String QUERY_PARAMETER_STDOUT_ON_SET_BINARY_PROPERTY = "stdout_on_set_binary_property";
+
+    // if a query param value contains the & or = character, this characters must be masked to avoid an query split exception
+    // example: ...&set_property=X '&' Y
+    // will be evaluated to ...&set_property=X & Y
+    private static final String MASK_QUERY_PARAMETERS_REGEX_SPLITTER = "'&'";
+    private static final String MASK_QUERY_PARAMETERS_REGEX_KEY_VALUE_SEPARATOR = "'='";
+    private static final String MASK_QUERY_PARAMETERS_REPLACEMENT_SPLITTER = "_XXX_";
+    private static final String MASK_QUERY_PARAMETERS_REPLACEMENT_KEY_VALUE_SEPARATOR = "_YYY_";
 
     private boolean _isKdbx;
     private boolean _valid;
@@ -29,9 +40,14 @@ public class SOSKeePassPath {
     private String _query;
     private Map<String, String> _queryParameters;
     private String _error;
-    private Entry<?, ?, ?, ?> _databaseEntry;
 
-    /** @param uri example: cs://server/SFTP/my_server@user?file=my_file.kdbx&key_file=my_keyfile.key&password=test&ignore_expired=1&attachment=1 */
+    /** uri example read:
+     * 
+     * cs://server/SFTP/my_server@file.txt?file=my_file.kdbx&key_file=my_keyfile.key&password=test&ignore_expired=1&attachment=1
+     * 
+     * uri example set @user property and create "server/SFTP/my_server" entry if not exists:
+     * 
+     * cs://server/SFTP/my_server@user?file=my_file.kdbx&key_file=my_keyfile.key&password=test&set_property=my name&create_entry=1 */
     public SOSKeePassPath(final String uri) {
         if (SOSString.isEmpty(uri)) {
             _error = "missing uri";
@@ -42,14 +58,31 @@ public class SOSKeePassPath {
             _error = "missing query parameters";
             return;
         }
+
         _query = uri.substring(t + 1, uri.length());
-        _queryParameters = Splitter.on('&').trimResults().withKeyValueSeparator("=").split(_query);
+        Map<String, String> maskedMap = Splitter.on('&').trimResults().withKeyValueSeparator("=").split(mask(_query));
+        Map<String, String> unmaskedMap = new LinkedHashMap<String, String>();
+        maskedMap.forEach((k, v) -> {
+            unmaskedMap.put(k, unmask(v));
+        });
+        _queryParameters = Collections.unmodifiableMap(unmaskedMap);
+
         String file = _queryParameters.get(QUERY_PARAMETER_FILE);
         if (SOSString.isEmpty(file)) {
             _error = String.format("missing query parameter '%s'", QUERY_PARAMETER_FILE);
         } else {
             parse(file.toLowerCase().endsWith(".kdbx"), uri.substring(0, t), null);
         }
+    }
+
+    private String mask(String val) {
+        return val.replaceAll(MASK_QUERY_PARAMETERS_REGEX_SPLITTER, MASK_QUERY_PARAMETERS_REPLACEMENT_SPLITTER).replaceAll(
+                MASK_QUERY_PARAMETERS_REGEX_KEY_VALUE_SEPARATOR, MASK_QUERY_PARAMETERS_REPLACEMENT_KEY_VALUE_SEPARATOR);
+    }
+
+    private String unmask(String val) {
+        return val.replaceAll(MASK_QUERY_PARAMETERS_REPLACEMENT_SPLITTER, MASK_QUERY_PARAMETERS_REGEX_SPLITTER).replaceAll(
+                MASK_QUERY_PARAMETERS_REPLACEMENT_KEY_VALUE_SEPARATOR, MASK_QUERY_PARAMETERS_REGEX_KEY_VALUE_SEPARATOR);
     }
 
     public SOSKeePassPath(final boolean isKdbx, final String path) {
@@ -135,12 +168,30 @@ public class SOSKeePassPath {
         return _error;
     }
 
-    public void setDatabaseEntry(Entry<?, ?, ?, ?> val) {
-        _databaseEntry = val;
+    public boolean isIgnoreExpired() {
+        return getBooleanValue(QUERY_PARAMETER_IGNORE_EXPIRED);
     }
 
-    public Entry<?, ?, ?, ?> getDatabaseEntry() {
-        return _databaseEntry;
+    public boolean isCreateEntry() {
+        return getBooleanValue(QUERY_PARAMETER_CREATE_ENTRY);
+    }
+
+    public boolean isAttachment() {
+        return getBooleanValue(QUERY_PARAMETER_ATTACHMENT);
+    }
+
+    public boolean isStdoutOnSetBinaryProperty() {
+        return getBooleanValue(QUERY_PARAMETER_STDOUT_ON_SET_BINARY_PROPERTY);
+    }
+
+    private boolean getBooleanValue(String paramName) {
+        if (_queryParameters != null) {
+            String val = _queryParameters.get(paramName);
+            if (val != null && (val.equals("1") || val.equals("true"))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
