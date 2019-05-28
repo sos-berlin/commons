@@ -39,12 +39,27 @@ public class CustomEventsUtil {
         }
         return xmlCommand;
     }
+    
+    public void addEvent(CustomEvent customEvent) {
+        listOfCustomEvents.add(customEvent);
+    }
+    
+    public CustomEvent createEvent(String key) {
+        CustomEvent customEvent = new CustomEvent();
+        customEvent.setKey(key);
+        CustomEventVariables customEventVariables = new CustomEventVariables();
+        customEventVariables.setAdditionalProperty("source", source);
+        customEvent.setVariables(customEventVariables);
+        return customEvent;
+
+    }
+    
 
     public void addEvent(String key) throws JsonProcessingException {
         CustomEvent customEvent = new CustomEvent();
         customEvent.setKey(key);
         CustomEventVariables customEventVariables = new CustomEventVariables();
-        customEventVariables.setSource(source);
+        customEventVariables.setAdditionalProperty("source", source);
         customEvent.setVariables(customEventVariables);
         listOfCustomEvents.add(customEvent);
     }

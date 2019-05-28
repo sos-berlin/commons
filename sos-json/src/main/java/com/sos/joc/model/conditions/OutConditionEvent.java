@@ -20,7 +20,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "id",
-    "event"
+    "event",
+    "exists",
+    "workflow"
 })
 public class OutConditionEvent {
 
@@ -34,6 +36,10 @@ public class OutConditionEvent {
     private Long id;
     @JsonProperty("event")
     private String event;
+    @JsonProperty("exists")
+    private Boolean exists;
+    @JsonProperty("workflow")
+    private String workflow;
 
     /**
      * non negative long
@@ -81,6 +87,46 @@ public class OutConditionEvent {
         this.event = event;
     }
 
+    /**
+     * 
+     * @return
+     *     The exists
+     */
+    @JsonProperty("exists")
+    public Boolean getExists() {
+        return exists;
+    }
+
+    /**
+     * 
+     * @param exists
+     *     The exists
+     */
+    @JsonProperty("exists")
+    public void setExists(Boolean exists) {
+        this.exists = exists;
+    }
+
+    /**
+     * 
+     * @return
+     *     The workflow
+     */
+    @JsonProperty("workflow")
+    public String getWorkflow() {
+        return workflow;
+    }
+
+    /**
+     * 
+     * @param workflow
+     *     The workflow
+     */
+    @JsonProperty("workflow")
+    public void setWorkflow(String workflow) {
+        this.workflow = workflow;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -88,7 +134,7 @@ public class OutConditionEvent {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(id).append(event).toHashCode();
+        return new HashCodeBuilder().append(id).append(event).append(exists).append(workflow).toHashCode();
     }
 
     @Override
@@ -100,7 +146,7 @@ public class OutConditionEvent {
             return false;
         }
         OutConditionEvent rhs = ((OutConditionEvent) other);
-        return new EqualsBuilder().append(id, rhs.id).append(event, rhs.event).isEquals();
+        return new EqualsBuilder().append(id, rhs.id).append(event, rhs.event).append(exists, rhs.exists).append(workflow, rhs.workflow).isEquals();
     }
 
 }

@@ -1,9 +1,13 @@
 
 package com.sos.jobscheduler.model.event;
 
+import java.util.HashMap;
+import java.util.Map;
 import javax.annotation.Generated;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -12,41 +16,31 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
-    "source"
+
 })
 public class CustomEventVariables {
 
-    @JsonProperty("source")
-    private String source;
-
-    /**
-     * 
-     * @return
-     *     The source
-     */
-    @JsonProperty("source")
-    public String getSource() {
-        return source;
-    }
-
-    /**
-     * 
-     * @param source
-     *     The source
-     */
-    @JsonProperty("source")
-    public void setSource(String source) {
-        this.source = source;
-    }
+    @JsonIgnore
+    private Map<String, String> additionalProperties = new HashMap<String, String>();
 
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
     }
 
+    @JsonAnyGetter
+    public Map<String, String> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    @JsonAnySetter
+    public void setAdditionalProperty(String name, String value) {
+        this.additionalProperties.put(name, value);
+    }
+
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(source).toHashCode();
+        return new HashCodeBuilder().append(additionalProperties).toHashCode();
     }
 
     @Override
@@ -58,7 +52,7 @@ public class CustomEventVariables {
             return false;
         }
         CustomEventVariables rhs = ((CustomEventVariables) other);
-        return new EqualsBuilder().append(source, rhs.source).isEquals();
+        return new EqualsBuilder().append(additionalProperties, rhs.additionalProperties).isEquals();
     }
 
 }

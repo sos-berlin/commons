@@ -1,4 +1,4 @@
-package com.sos.keepass;
+package com.sos.keepass.extensions.credentials;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -15,6 +15,9 @@ import org.linguafranca.pwdb.security.Encryption;
 
 import com.google.common.io.ByteStreams;
 import com.google.common.primitives.Bytes;
+import com.sos.keepass.SOSKeePassDatabase;
+import com.sos.keepass.exceptions.SOSKeePassCredentialException;
+import com.sos.keepass.exceptions.SOSKeePassDatabaseException;
 
 public class SOSKdbxCreds implements Credentials {
 
@@ -28,7 +31,7 @@ public class SOSKdbxCreds implements Credentials {
             try {
                 handlePassword(password);
             } catch (Throwable e) {
-                throw new SOSKeePassDatabaseException(e);
+                throw new SOSKeePassCredentialException(e);
             }
         } else {
             FileInputStream is = null;
@@ -51,7 +54,7 @@ public class SOSKdbxCreds implements Credentials {
                 }
 
             } catch (Throwable e) {
-                throw new SOSKeePassDatabaseException(String.format("[%s]%s", SOSKeePassDatabase.getFilePath(keyFile), e.toString()), e);
+                throw new SOSKeePassCredentialException(String.format("[%s]%s", SOSKeePassDatabase.getFilePath(keyFile), e.toString()), e);
             } finally {
                 if (is != null) {
                     try {
