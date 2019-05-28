@@ -4,11 +4,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.linguafranca.pwdb.Credentials;
 import org.linguafranca.pwdb.Database;
 import org.linguafranca.pwdb.Entry;
@@ -19,6 +23,7 @@ import org.linguafranca.pwdb.kdbx.simple.SimpleDatabase;
 import org.linguafranca.pwdb.kdbx.simple.SimpleEntry;
 import org.linguafranca.pwdb.kdbx.simple.SimpleGroup;
 import org.linguafranca.pwdb.kdbx.simple.SimpleIcon;
+import org.linguafranca.pwdb.kdbx.simple.model.Times;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -392,7 +397,7 @@ public class SOSKeePassDatabase {
     public Entry<?, ?, ?, ?> createEntry(String entryPath) throws SOSKeePassDatabaseException {
         String method = "createEntry";
         if (isDebugEnabled) {
-            LOGGER.debug(String.format("[%s]%s", method, entryPath));
+            LOGGER.debug(String.format("[%s][entryPath]%s", method, entryPath));
         }
         if (!_isKdbx) {
             throw new SOSKeePassDatabaseException(".kdx format is not yet supported");
@@ -416,7 +421,7 @@ public class SOSKeePassDatabase {
                     LOGGER.debug(String.format("[%s][addEntry]%s", method, name));
                 }
 
-                entry = lastGroup.addEntry(sd.newEntry(name));
+                entry = addEntry(sd, lastGroup, name);
                 _changed = true;
             } else {
                 List<? extends SimpleGroup> result = lastGroup.findGroups(name);
@@ -424,10 +429,8 @@ public class SOSKeePassDatabase {
                     if (isDebugEnabled) {
                         LOGGER.debug(String.format("[%s][addGroup]%s", method, name));
                     }
-                    SimpleGroup ng = sd.newGroup(name);
-                    ng.setIcon(new SimpleIcon(ICON_NEW_GROUP_INDEX));
-                    lastGroup = lastGroup.addGroup(ng);
 
+                    lastGroup = addGroup(sd, lastGroup, name);
                     _changed = true;
                 } else {
                     if (isDebugEnabled) {
@@ -441,6 +444,50 @@ public class SOSKeePassDatabase {
         _database = sd;
 
         return entry;
+    }
+
+    private SimpleEntry addEntry(SimpleDatabase sd, SimpleGroup parentGroup, String entryName) {
+        SimpleEntry se = sd.newEntry(entryName);
+        setEntryTimesAsUTC(se);
+
+        SimpleEntry entry = parentGroup.addEntry(se);
+        setEntryLastModificationTimeAsUTC(parentGroup);
+
+        return entry;
+    }
+
+    private SimpleGroup addGroup(SimpleDatabase sd, SimpleGroup parentGroup, String groupName) {
+        SimpleGroup sg = sd.newGroup(groupName);
+        sg.setIcon(new SimpleIcon(ICON_NEW_GROUP_INDEX));
+        setEntryTimesAsUTC(sg);
+
+        SimpleGroup group = parentGroup.addGroup(sg);
+        setEntryLastModificationTimeAsUTC(parentGroup);
+
+        return group;
+    }
+
+    private Date getNowAsUTC() {
+        LocalDateTime localDateTime = LocalDateTime.now(ZoneId.of("UTC"));
+        return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+    }
+
+    private void setEntryTimesAsUTC(Object obj) {
+        Field f = FieldUtils.getField(obj.getClass(), "times", true);
+        try {
+            Times t = new Times(getNowAsUTC());
+            f.set(obj, t);
+        } catch (Throwable e) {
+        }
+    }
+
+    private void setEntryLastModificationTimeAsUTC(Object obj) {
+        Field f = FieldUtils.getField(obj.getClass(), "times", true);
+        try {
+            Times t = (Times) f.get(obj);
+            t.setLastModificationTime(getNowAsUTC());
+        } catch (Throwable e) {
+        }
     }
 
     public Entry<?, ?, ?, ?> getEntry(SOSKeePassPath path) throws SOSKeePassDatabaseException {
@@ -477,7 +524,16 @@ public class SOSKeePassDatabase {
         } catch (Throwable t) {
             throw new SOSKeePassAttachmentException(t);
         }
+
+        setEntryLastModificationTimeAsUTC(entry);
+
         _changed = true;
+        return entry;
+    }
+
+    private Entry<?, ?, ?, ?> setProperty(Entry<?, ?, ?, ?> entry, String name, String value) {
+        entry.setProperty(name, value);
+        setEntryLastModificationTimeAsUTC(entry);
         return entry;
     }
 
@@ -537,7 +593,7 @@ public class SOSKeePassDatabase {
                     val = "";
                 }
             } else {
-                entry.setProperty(path.getPropertyName(), queryParamSetProperty);
+                kpd.setProperty(entry, path.getPropertyName(), queryParamSetProperty);
                 val = queryParamSetProperty;
             }
             kpd.setChanged(true);
@@ -651,20 +707,16 @@ public class SOSKeePassDatabase {
         // cs://server/SFTP/my_server@user?file=my_file.kdbx&key_file=my_keyfile.png
 
         String uri = null;
-        String timezone = TimeZone.getDefault().getID();
         try {
             if (args.length > 0) {
                 uri = args[0];
             }
-            TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 
             System.out.println(SOSKeePassDatabase.getProperty(uri));
         } catch (Throwable t) {
             exitStatus = 99;
             t.printStackTrace();
         } finally {
-            TimeZone.setDefault(TimeZone.getTimeZone(timezone));
-
             System.exit(exitStatus);
         }
     }
