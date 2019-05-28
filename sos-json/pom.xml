@@ -43,18 +43,6 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>com.sos-berlin.commons</groupId>
-			<artifactId>sos-json</artifactId>
-			<version>${project.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>javax.servlet</groupId>
-					<artifactId>servlet-api</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		
-		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
 			<exclusions>
