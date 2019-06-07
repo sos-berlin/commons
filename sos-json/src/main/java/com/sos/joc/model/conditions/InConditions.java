@@ -24,8 +24,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "deliveryDate",
     "masterId",
-    "job",
-    "inconditions"
+    "jobsInconditions"
 })
 public class InConditions {
 
@@ -40,16 +39,8 @@ public class InConditions {
     private Date deliveryDate;
     @JsonProperty("masterId")
     private String masterId;
-    /**
-     * path
-     * <p>
-     * absolute path based on live folder of a JobScheduler object.
-     * 
-     */
-    @JsonProperty("job")
-    private String job;
-    @JsonProperty("inconditions")
-    private List<InCondition> inconditions = new ArrayList<InCondition>();
+    @JsonProperty("jobsInconditions")
+    private List<JobInCondition> jobsInconditions = new ArrayList<JobInCondition>();
 
     /**
      * delivery date
@@ -100,49 +91,23 @@ public class InConditions {
     }
 
     /**
-     * path
-     * <p>
-     * absolute path based on live folder of a JobScheduler object.
      * 
      * @return
-     *     The job
+     *     The jobsInconditions
      */
-    @JsonProperty("job")
-    public String getJob() {
-        return job;
-    }
-
-    /**
-     * path
-     * <p>
-     * absolute path based on live folder of a JobScheduler object.
-     * 
-     * @param job
-     *     The job
-     */
-    @JsonProperty("job")
-    public void setJob(String job) {
-        this.job = job;
+    @JsonProperty("jobsInconditions")
+    public List<JobInCondition> getJobsInconditions() {
+        return jobsInconditions;
     }
 
     /**
      * 
-     * @return
-     *     The inconditions
+     * @param jobsInconditions
+     *     The jobsInconditions
      */
-    @JsonProperty("inconditions")
-    public List<InCondition> getInconditions() {
-        return inconditions;
-    }
-
-    /**
-     * 
-     * @param inconditions
-     *     The inconditions
-     */
-    @JsonProperty("inconditions")
-    public void setInconditions(List<InCondition> inconditions) {
-        this.inconditions = inconditions;
+    @JsonProperty("jobsInconditions")
+    public void setJobsInconditions(List<JobInCondition> jobsInconditions) {
+        this.jobsInconditions = jobsInconditions;
     }
 
     @Override
@@ -152,7 +117,7 @@ public class InConditions {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(deliveryDate).append(masterId).append(job).append(inconditions).toHashCode();
+        return new HashCodeBuilder().append(deliveryDate).append(masterId).append(jobsInconditions).toHashCode();
     }
 
     @Override
@@ -164,7 +129,7 @@ public class InConditions {
             return false;
         }
         InConditions rhs = ((InConditions) other);
-        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(masterId, rhs.masterId).append(job, rhs.job).append(inconditions, rhs.inconditions).isEquals();
+        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(masterId, rhs.masterId).append(jobsInconditions, rhs.jobsInconditions).isEquals();
     }
 
 }
