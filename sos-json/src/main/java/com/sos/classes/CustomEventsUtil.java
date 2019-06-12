@@ -2,11 +2,11 @@ package com.sos.classes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-
 import com.sos.jobscheduler.model.event.CustomEvent;
 import com.sos.jobscheduler.model.event.CustomEventVariables;
 
@@ -51,9 +51,20 @@ public class CustomEventsUtil {
         customEventVariables.setAdditionalProperty("source", source);
         customEvent.setVariables(customEventVariables);
         return customEvent;
-
     }
     
+    public void addEvent(String key,Map<String,String> parameters) throws JsonProcessingException {
+        CustomEvent customEvent = new CustomEvent();
+        customEvent.setKey(key);
+        CustomEventVariables customEventVariables = new CustomEventVariables();
+        customEventVariables.setAdditionalProperty("source", source);
+        for (Map.Entry<String, String> entry : parameters.entrySet()) {
+            customEventVariables.setAdditionalProperty(entry.getKey(), entry.getValue());
+        }
+         
+        customEvent.setVariables(customEventVariables);
+        listOfCustomEvents.add(customEvent);
+    }    
 
     public void addEvent(String key) throws JsonProcessingException {
         CustomEvent customEvent = new CustomEvent();
