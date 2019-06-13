@@ -22,6 +22,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "id",
     "event",
     "exists",
+    "existsInWorkflow",
     "workflow"
 })
 public class OutConditionEvent {
@@ -38,6 +39,8 @@ public class OutConditionEvent {
     private String event;
     @JsonProperty("exists")
     private Boolean exists;
+    @JsonProperty("existsInWorkflow")
+    private Boolean existsInWorkflow;
     @JsonProperty("workflow")
     private String workflow;
 
@@ -110,6 +113,26 @@ public class OutConditionEvent {
     /**
      * 
      * @return
+     *     The existsInWorkflow
+     */
+    @JsonProperty("existsInWorkflow")
+    public Boolean getExistsInWorkflow() {
+        return existsInWorkflow;
+    }
+
+    /**
+     * 
+     * @param existsInWorkflow
+     *     The existsInWorkflow
+     */
+    @JsonProperty("existsInWorkflow")
+    public void setExistsInWorkflow(Boolean existsInWorkflow) {
+        this.existsInWorkflow = existsInWorkflow;
+    }
+
+    /**
+     * 
+     * @return
      *     The workflow
      */
     @JsonProperty("workflow")
@@ -134,7 +157,7 @@ public class OutConditionEvent {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(id).append(event).append(exists).append(workflow).toHashCode();
+        return new HashCodeBuilder().append(id).append(event).append(exists).append(existsInWorkflow).append(workflow).toHashCode();
     }
 
     @Override
@@ -146,7 +169,7 @@ public class OutConditionEvent {
             return false;
         }
         OutConditionEvent rhs = ((OutConditionEvent) other);
-        return new EqualsBuilder().append(id, rhs.id).append(event, rhs.event).append(exists, rhs.exists).append(workflow, rhs.workflow).isEquals();
+        return new EqualsBuilder().append(id, rhs.id).append(event, rhs.event).append(exists, rhs.exists).append(existsInWorkflow, rhs.existsInWorkflow).append(workflow, rhs.workflow).isEquals();
     }
 
 }
