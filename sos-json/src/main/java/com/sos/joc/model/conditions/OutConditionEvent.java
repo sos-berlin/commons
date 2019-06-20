@@ -20,6 +20,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "id",
+    "command",
     "event",
     "exists",
     "existsInWorkflow",
@@ -35,6 +36,8 @@ public class OutConditionEvent {
      */
     @JsonProperty("id")
     private Long id;
+    @JsonProperty("command")
+    private String command;
     @JsonProperty("event")
     private String event;
     @JsonProperty("exists")
@@ -68,6 +71,26 @@ public class OutConditionEvent {
     @JsonProperty("id")
     public void setId(Long id) {
         this.id = id;
+    }
+
+    /**
+     * 
+     * @return
+     *     The command
+     */
+    @JsonProperty("command")
+    public String getCommand() {
+        return command;
+    }
+
+    /**
+     * 
+     * @param command
+     *     The command
+     */
+    @JsonProperty("command")
+    public void setCommand(String command) {
+        this.command = command;
     }
 
     /**
@@ -157,7 +180,7 @@ public class OutConditionEvent {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(id).append(event).append(exists).append(existsInWorkflow).append(workflow).toHashCode();
+        return new HashCodeBuilder().append(id).append(command).append(event).append(exists).append(existsInWorkflow).append(workflow).toHashCode();
     }
 
     @Override
@@ -169,7 +192,7 @@ public class OutConditionEvent {
             return false;
         }
         OutConditionEvent rhs = ((OutConditionEvent) other);
-        return new EqualsBuilder().append(id, rhs.id).append(event, rhs.event).append(exists, rhs.exists).append(existsInWorkflow, rhs.existsInWorkflow).append(workflow, rhs.workflow).isEquals();
+        return new EqualsBuilder().append(id, rhs.id).append(command, rhs.command).append(event, rhs.event).append(exists, rhs.exists).append(existsInWorkflow, rhs.existsInWorkflow).append(workflow, rhs.workflow).isEquals();
     }
 
 }
