@@ -21,6 +21,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "masterId",
     "event",
+    "path",
     "workflow",
     "session",
     "outConditionId"
@@ -31,6 +32,8 @@ public class ConditionEvent {
     private String masterId;
     @JsonProperty("event")
     private String event;
+    @JsonProperty("path")
+    private String path;
     @JsonProperty("workflow")
     private String workflow;
     @JsonProperty("session")
@@ -82,6 +85,26 @@ public class ConditionEvent {
     @JsonProperty("event")
     public void setEvent(String event) {
         this.event = event;
+    }
+
+    /**
+     * 
+     * @return
+     *     The path
+     */
+    @JsonProperty("path")
+    public String getPath() {
+        return path;
+    }
+
+    /**
+     * 
+     * @param path
+     *     The path
+     */
+    @JsonProperty("path")
+    public void setPath(String path) {
+        this.path = path;
     }
 
     /**
@@ -157,7 +180,7 @@ public class ConditionEvent {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(masterId).append(event).append(workflow).append(session).append(outConditionId).toHashCode();
+        return new HashCodeBuilder().append(masterId).append(event).append(path).append(workflow).append(session).append(outConditionId).toHashCode();
     }
 
     @Override
@@ -169,7 +192,7 @@ public class ConditionEvent {
             return false;
         }
         ConditionEvent rhs = ((ConditionEvent) other);
-        return new EqualsBuilder().append(masterId, rhs.masterId).append(event, rhs.event).append(workflow, rhs.workflow).append(session, rhs.session).append(outConditionId, rhs.outConditionId).isEquals();
+        return new EqualsBuilder().append(masterId, rhs.masterId).append(event, rhs.event).append(path, rhs.path).append(workflow, rhs.workflow).append(session, rhs.session).append(outConditionId, rhs.outConditionId).isEquals();
     }
 
 }
