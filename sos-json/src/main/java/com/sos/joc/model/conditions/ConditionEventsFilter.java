@@ -21,6 +21,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "masterId",
     "session",
+    "path",
     "workflow",
     "outConditionId",
     "limit"
@@ -36,6 +37,8 @@ public class ConditionEventsFilter {
     private String masterId;
     @JsonProperty("session")
     private String session;
+    @JsonProperty("path")
+    private String path;
     @JsonProperty("workflow")
     private String workflow;
     /**
@@ -95,6 +98,26 @@ public class ConditionEventsFilter {
     @JsonProperty("session")
     public void setSession(String session) {
         this.session = session;
+    }
+
+    /**
+     * 
+     * @return
+     *     The path
+     */
+    @JsonProperty("path")
+    public String getPath() {
+        return path;
+    }
+
+    /**
+     * 
+     * @param path
+     *     The path
+     */
+    @JsonProperty("path")
+    public void setPath(String path) {
+        this.path = path;
     }
 
     /**
@@ -172,7 +195,7 @@ public class ConditionEventsFilter {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(masterId).append(session).append(workflow).append(outConditionId).append(limit).toHashCode();
+        return new HashCodeBuilder().append(masterId).append(session).append(path).append(workflow).append(outConditionId).append(limit).toHashCode();
     }
 
     @Override
@@ -184,7 +207,7 @@ public class ConditionEventsFilter {
             return false;
         }
         ConditionEventsFilter rhs = ((ConditionEventsFilter) other);
-        return new EqualsBuilder().append(masterId, rhs.masterId).append(session, rhs.session).append(workflow, rhs.workflow).append(outConditionId, rhs.outConditionId).append(limit, rhs.limit).isEquals();
+        return new EqualsBuilder().append(masterId, rhs.masterId).append(session, rhs.session).append(path, rhs.path).append(workflow, rhs.workflow).append(outConditionId, rhs.outConditionId).append(limit, rhs.limit).isEquals();
     }
 
 }
