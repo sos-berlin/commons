@@ -532,9 +532,8 @@ public class SOSDate {
         }
 
         Long result = new Long(0);
-        String[] arr = age.trim().split(" ");
+        String[] arr = age.trim().toLowerCase().split(" ");
         for (String s : arr) {
-            s = s.trim().toLowerCase();
             if (!SOSString.isEmpty(s)) {
                 String sub = s;
                 try {
