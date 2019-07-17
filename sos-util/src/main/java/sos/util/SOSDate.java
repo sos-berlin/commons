@@ -14,6 +14,8 @@ import java.util.Vector;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -24,6 +26,7 @@ import org.xml.sax.InputSource;
  * @author Titus Meyer */
 public class SOSDate {
 
+    private static Logger LOGGER = LoggerFactory.getLogger(SOSDate.class);
     private static String outputDateTimeFormat = new String("MM/dd/yy HH:mm:ss");
     private static boolean lenient = false;
     public static String dateFormat = new String("yyyy-MM-dd");
@@ -500,8 +503,81 @@ public class SOSDate {
         return getNextWorkingDayAsString(SOSDate.getDate(dateStr), holidays);
     }
 
+    /** @param range, e.g.: m,s,ms
+     * @param age , e.g.: 1w 2h 45s
+     * @return
+     * @throws Exception */
+    public static Long resolveAge(String range, String age) throws Exception {
+        if (SOSString.isEmpty(age)) {
+            throw new Exception("age is empty");
+        }
+
+        int multiplicatorSeconds = -1;
+        int multiplicatorMilliseconds = -1;
+
+        switch (range) {
+        case "ms": // milliseconds
+            multiplicatorSeconds = 60;
+            multiplicatorMilliseconds = 1_000;
+            break;
+        case "s": // seconds
+            multiplicatorSeconds = 60;
+            multiplicatorMilliseconds = 1;
+            break;
+        default: // minutes
+            range = "m";
+            multiplicatorSeconds = 1;
+            multiplicatorMilliseconds = 1;
+            break;
+        }
+
+        Long result = new Long(0);
+        String[] arr = age.trim().split(" ");
+        for (String s : arr) {
+            s = s.trim().toLowerCase();
+            if (!SOSString.isEmpty(s)) {
+                String sub = s;
+                try {
+                    String last = s.substring(s.length() - 1);
+                    sub = s.substring(0, s.length() - 1);
+                    switch (last) {
+                    case "w":
+                        result += multiplicatorMilliseconds * multiplicatorSeconds * 60 * 24 * 7 * Long.parseLong(sub);
+                        break;
+                    case "d":
+                        result += multiplicatorMilliseconds * multiplicatorSeconds * 60 * 24 * Long.parseLong(sub);
+                        break;
+                    case "h":
+                        result += multiplicatorMilliseconds * multiplicatorSeconds * 60 * Long.parseLong(sub);
+                        break;
+                    case "m":
+                        result += multiplicatorMilliseconds * multiplicatorSeconds * Long.parseLong(sub);
+                        break;
+                    case "s":
+                        if (range.equals("m")) {
+                            LOGGER.warn("[ignored][" + s + "]");
+                            continue;
+                        }
+                        result += multiplicatorMilliseconds * Long.parseLong(sub);
+                        break;
+                    default:
+                        result += Long.parseLong(s);
+                        break;
+                    }
+                } catch (Exception ex) {
+                    throw new Exception(String.format("[invalid numeric value][%s][%s][%s]%s", age, s, sub, ex.toString()), ex);
+                }
+            }
+        }
+        return result;
+    }
+
     public static void main(String[] args) {
         try {
+            System.out.println(String.valueOf(SOSDate.resolveAge("m", "2w 3d")));
+            System.out.println(String.valueOf(SOSDate.resolveAge("s", "1d")));
+            System.out.println(String.valueOf(SOSDate.resolveAge("ms", "1")));
+
             System.out.println(SOSDate.getDateAsString(SOSDate.getDate("01.19.2008", "dd.MM.yyyy"), "yyyy-MM-dd"));
         } catch (Exception e) {
             System.err.println("..error: " + e.getMessage());
