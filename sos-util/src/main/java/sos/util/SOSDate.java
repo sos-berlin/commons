@@ -503,9 +503,9 @@ public class SOSDate {
         return getNextWorkingDayAsString(SOSDate.getDate(dateStr), holidays);
     }
 
-    /** @param range, e.g.: m,s,ms
+    /** @param range e.g.: m - minutes,s -seconds, ms - milliseconds
      * @param age , e.g.: 1w 2h 45s
-     * @return
+     * @return age in minutes, seconds or milliseconds
      * @throws Exception */
     public static Long resolveAge(String range, String age) throws Exception {
         if (SOSString.isEmpty(age)) {
@@ -532,39 +532,40 @@ public class SOSDate {
         }
 
         Long result = new Long(0);
-        String[] arr = age.trim().toLowerCase().split(" ");
-        for (String s : arr) {
-            if (!SOSString.isEmpty(s)) {
-                String sub = s;
+        String[] parts = age.trim().toLowerCase().split(" ");
+        for (String part : parts) {
+            if (!SOSString.isEmpty(part)) {
+                String numericalPart = part;
                 try {
-                    String last = s.substring(s.length() - 1);
-                    sub = s.substring(0, s.length() - 1);
-                    switch (last) {
+                    int len = part.length() - 1;
+                    String lastCharacter = part.substring(len);
+                    numericalPart = part.substring(0, len);
+                    switch (lastCharacter) {
                     case "w":
-                        result += multiplicatorMilliseconds * multiplicatorSeconds * 60 * 24 * 7 * Long.parseLong(sub);
+                        result += multiplicatorMilliseconds * multiplicatorSeconds * 60 * 24 * 7 * Long.parseLong(numericalPart);
                         break;
                     case "d":
-                        result += multiplicatorMilliseconds * multiplicatorSeconds * 60 * 24 * Long.parseLong(sub);
+                        result += multiplicatorMilliseconds * multiplicatorSeconds * 60 * 24 * Long.parseLong(numericalPart);
                         break;
                     case "h":
-                        result += multiplicatorMilliseconds * multiplicatorSeconds * 60 * Long.parseLong(sub);
+                        result += multiplicatorMilliseconds * multiplicatorSeconds * 60 * Long.parseLong(numericalPart);
                         break;
                     case "m":
-                        result += multiplicatorMilliseconds * multiplicatorSeconds * Long.parseLong(sub);
+                        result += multiplicatorMilliseconds * multiplicatorSeconds * Long.parseLong(numericalPart);
                         break;
                     case "s":
                         if (range.equals("m")) {
-                            LOGGER.warn("[ignored][" + s + "]");
+                            LOGGER.warn("[ignored][" + part + "]");
                             continue;
                         }
-                        result += multiplicatorMilliseconds * Long.parseLong(sub);
+                        result += multiplicatorMilliseconds * Long.parseLong(numericalPart);
                         break;
                     default:
-                        result += Long.parseLong(s);
+                        result += Long.parseLong(part);
                         break;
                     }
                 } catch (Exception ex) {
-                    throw new Exception(String.format("[invalid numeric value][%s][%s][%s]%s", age, s, sub, ex.toString()), ex);
+                    throw new Exception(String.format("[invalid numeric value][%s][%s][%s]%s", age, part, numericalPart, ex.toString()), ex);
                 }
             }
         }
