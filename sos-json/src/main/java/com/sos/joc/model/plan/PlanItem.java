@@ -36,7 +36,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "startMode",
     "period",
     "late",
-    "state"
+    "state",
+    "auditLogId"
 })
 public class PlanItem {
 
@@ -144,6 +145,14 @@ public class PlanItem {
      */
     @JsonProperty("state")
     private PlanState state;
+    /**
+     * non negative long
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("auditLogId")
+    private Long auditLogId;
 
     /**
      * survey date of the inventory data; last time the inventory job has checked the live folder
@@ -531,6 +540,32 @@ public class PlanItem {
         this.state = state;
     }
 
+    /**
+     * non negative long
+     * <p>
+     * 
+     * 
+     * @return
+     *     The auditLogId
+     */
+    @JsonProperty("auditLogId")
+    public Long getAuditLogId() {
+        return auditLogId;
+    }
+
+    /**
+     * non negative long
+     * <p>
+     * 
+     * 
+     * @param auditLogId
+     *     The auditLogId
+     */
+    @JsonProperty("auditLogId")
+    public void setAuditLogId(Long auditLogId) {
+        this.auditLogId = auditLogId;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -538,7 +573,7 @@ public class PlanItem {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(surveyDate).append(job).append(jobChain).append(orderId).append(plannedStartTime).append(expectedEndTime).append(startTime).append(endTime).append(historyId).append(node).append(exitCode).append(error).append(startMode).append(period).append(late).append(state).toHashCode();
+        return new HashCodeBuilder().append(surveyDate).append(job).append(jobChain).append(orderId).append(plannedStartTime).append(expectedEndTime).append(startTime).append(endTime).append(historyId).append(node).append(exitCode).append(error).append(startMode).append(period).append(late).append(state).append(auditLogId).toHashCode();
     }
 
     @Override
@@ -550,7 +585,7 @@ public class PlanItem {
             return false;
         }
         PlanItem rhs = ((PlanItem) other);
-        return new EqualsBuilder().append(surveyDate, rhs.surveyDate).append(job, rhs.job).append(jobChain, rhs.jobChain).append(orderId, rhs.orderId).append(plannedStartTime, rhs.plannedStartTime).append(expectedEndTime, rhs.expectedEndTime).append(startTime, rhs.startTime).append(endTime, rhs.endTime).append(historyId, rhs.historyId).append(node, rhs.node).append(exitCode, rhs.exitCode).append(error, rhs.error).append(startMode, rhs.startMode).append(period, rhs.period).append(late, rhs.late).append(state, rhs.state).isEquals();
+        return new EqualsBuilder().append(surveyDate, rhs.surveyDate).append(job, rhs.job).append(jobChain, rhs.jobChain).append(orderId, rhs.orderId).append(plannedStartTime, rhs.plannedStartTime).append(expectedEndTime, rhs.expectedEndTime).append(startTime, rhs.startTime).append(endTime, rhs.endTime).append(historyId, rhs.historyId).append(node, rhs.node).append(exitCode, rhs.exitCode).append(error, rhs.error).append(startMode, rhs.startMode).append(period, rhs.period).append(late, rhs.late).append(state, rhs.state).append(auditLogId, rhs.auditLogId).isEquals();
     }
 
 }
