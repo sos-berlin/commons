@@ -23,7 +23,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "deliveryDate",
-    "masterId",
+    "jobSchedulerId",
     "jobsInconditions"
 })
 public class InConditions {
@@ -37,8 +37,8 @@ public class InConditions {
      */
     @JsonProperty("deliveryDate")
     private Date deliveryDate;
-    @JsonProperty("masterId")
-    private String masterId;
+    @JsonProperty("jobSchedulerId")
+    private String jobSchedulerId;
     @JsonProperty("jobsInconditions")
     private List<JobInCondition> jobsInconditions = new ArrayList<JobInCondition>();
 
@@ -73,21 +73,21 @@ public class InConditions {
     /**
      * 
      * @return
-     *     The masterId
+     *     The jobSchedulerId
      */
-    @JsonProperty("masterId")
-    public String getMasterId() {
-        return masterId;
+    @JsonProperty("jobSchedulerId")
+    public String getJobSchedulerId() {
+        return jobSchedulerId;
     }
 
     /**
      * 
-     * @param masterId
-     *     The masterId
+     * @param jobSchedulerId
+     *     The jobSchedulerId
      */
-    @JsonProperty("masterId")
-    public void setMasterId(String masterId) {
-        this.masterId = masterId;
+    @JsonProperty("jobSchedulerId")
+    public void setJobSchedulerId(String jobSchedulerId) {
+        this.jobSchedulerId = jobSchedulerId;
     }
 
     /**
@@ -117,7 +117,7 @@ public class InConditions {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(deliveryDate).append(masterId).append(jobsInconditions).toHashCode();
+        return new HashCodeBuilder().append(deliveryDate).append(jobSchedulerId).append(jobsInconditions).toHashCode();
     }
 
     @Override
@@ -129,7 +129,7 @@ public class InConditions {
             return false;
         }
         InConditions rhs = ((InConditions) other);
-        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(masterId, rhs.masterId).append(jobsInconditions, rhs.jobsInconditions).isEquals();
+        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(jobSchedulerId, rhs.jobSchedulerId).append(jobsInconditions, rhs.jobsInconditions).isEquals();
     }
 
 }

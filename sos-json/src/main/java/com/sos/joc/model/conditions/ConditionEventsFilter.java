@@ -19,7 +19,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
-    "masterId",
+    "jobSchedulerId",
     "session",
     "path",
     "workflow",
@@ -28,13 +28,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 })
 public class ConditionEventsFilter {
 
-    /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("masterId")
-    private String masterId;
+    @JsonProperty("jobSchedulerId")
+    private String jobSchedulerId;
     @JsonProperty("session")
     private String session;
     @JsonProperty("path")
@@ -58,26 +53,22 @@ public class ConditionEventsFilter {
 
     /**
      * 
-     * (Required)
-     * 
      * @return
-     *     The masterId
+     *     The jobSchedulerId
      */
-    @JsonProperty("masterId")
-    public String getMasterId() {
-        return masterId;
+    @JsonProperty("jobSchedulerId")
+    public String getJobSchedulerId() {
+        return jobSchedulerId;
     }
 
     /**
      * 
-     * (Required)
-     * 
-     * @param masterId
-     *     The masterId
+     * @param jobSchedulerId
+     *     The jobSchedulerId
      */
-    @JsonProperty("masterId")
-    public void setMasterId(String masterId) {
-        this.masterId = masterId;
+    @JsonProperty("jobSchedulerId")
+    public void setJobSchedulerId(String jobSchedulerId) {
+        this.jobSchedulerId = jobSchedulerId;
     }
 
     /**
@@ -195,7 +186,7 @@ public class ConditionEventsFilter {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(masterId).append(session).append(path).append(workflow).append(outConditionId).append(limit).toHashCode();
+        return new HashCodeBuilder().append(jobSchedulerId).append(session).append(path).append(workflow).append(outConditionId).append(limit).toHashCode();
     }
 
     @Override
@@ -207,7 +198,7 @@ public class ConditionEventsFilter {
             return false;
         }
         ConditionEventsFilter rhs = ((ConditionEventsFilter) other);
-        return new EqualsBuilder().append(masterId, rhs.masterId).append(session, rhs.session).append(path, rhs.path).append(workflow, rhs.workflow).append(outConditionId, rhs.outConditionId).append(limit, rhs.limit).isEquals();
+        return new EqualsBuilder().append(jobSchedulerId, rhs.jobSchedulerId).append(session, rhs.session).append(path, rhs.path).append(workflow, rhs.workflow).append(outConditionId, rhs.outConditionId).append(limit, rhs.limit).isEquals();
     }
 
 }

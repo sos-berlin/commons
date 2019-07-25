@@ -21,7 +21,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "deliveryDate",
-    "masterId"
+    "jobSchedulerId"
 })
 public class StartResolver {
 
@@ -34,8 +34,8 @@ public class StartResolver {
      */
     @JsonProperty("deliveryDate")
     private Date deliveryDate;
-    @JsonProperty("masterId")
-    private String masterId;
+    @JsonProperty("jobSchedulerId")
+    private String jobSchedulerId;
 
     /**
      * delivery date
@@ -68,21 +68,21 @@ public class StartResolver {
     /**
      * 
      * @return
-     *     The masterId
+     *     The jobSchedulerId
      */
-    @JsonProperty("masterId")
-    public String getMasterId() {
-        return masterId;
+    @JsonProperty("jobSchedulerId")
+    public String getJobSchedulerId() {
+        return jobSchedulerId;
     }
 
     /**
      * 
-     * @param masterId
-     *     The masterId
+     * @param jobSchedulerId
+     *     The jobSchedulerId
      */
-    @JsonProperty("masterId")
-    public void setMasterId(String masterId) {
-        this.masterId = masterId;
+    @JsonProperty("jobSchedulerId")
+    public void setJobSchedulerId(String jobSchedulerId) {
+        this.jobSchedulerId = jobSchedulerId;
     }
 
     @Override
@@ -92,7 +92,7 @@ public class StartResolver {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(deliveryDate).append(masterId).toHashCode();
+        return new HashCodeBuilder().append(deliveryDate).append(jobSchedulerId).toHashCode();
     }
 
     @Override
@@ -104,7 +104,7 @@ public class StartResolver {
             return false;
         }
         StartResolver rhs = ((StartResolver) other);
-        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(masterId, rhs.masterId).isEquals();
+        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(jobSchedulerId, rhs.jobSchedulerId).isEquals();
     }
 
 }

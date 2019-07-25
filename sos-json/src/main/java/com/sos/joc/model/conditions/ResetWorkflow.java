@@ -21,7 +21,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "deliveryDate",
-    "masterId",
+    "jobSchedulerId",
     "job",
     "workflow"
 })
@@ -36,8 +36,8 @@ public class ResetWorkflow {
      */
     @JsonProperty("deliveryDate")
     private Date deliveryDate;
-    @JsonProperty("masterId")
-    private String masterId;
+    @JsonProperty("jobSchedulerId")
+    private String jobSchedulerId;
     /**
      * path
      * <p>
@@ -80,21 +80,21 @@ public class ResetWorkflow {
     /**
      * 
      * @return
-     *     The masterId
+     *     The jobSchedulerId
      */
-    @JsonProperty("masterId")
-    public String getMasterId() {
-        return masterId;
+    @JsonProperty("jobSchedulerId")
+    public String getJobSchedulerId() {
+        return jobSchedulerId;
     }
 
     /**
      * 
-     * @param masterId
-     *     The masterId
+     * @param jobSchedulerId
+     *     The jobSchedulerId
      */
-    @JsonProperty("masterId")
-    public void setMasterId(String masterId) {
-        this.masterId = masterId;
+    @JsonProperty("jobSchedulerId")
+    public void setJobSchedulerId(String jobSchedulerId) {
+        this.jobSchedulerId = jobSchedulerId;
     }
 
     /**
@@ -150,7 +150,7 @@ public class ResetWorkflow {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(deliveryDate).append(masterId).append(job).append(workflow).toHashCode();
+        return new HashCodeBuilder().append(deliveryDate).append(jobSchedulerId).append(job).append(workflow).toHashCode();
     }
 
     @Override
@@ -162,7 +162,7 @@ public class ResetWorkflow {
             return false;
         }
         ResetWorkflow rhs = ((ResetWorkflow) other);
-        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(masterId, rhs.masterId).append(job, rhs.job).append(workflow, rhs.workflow).isEquals();
+        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(jobSchedulerId, rhs.jobSchedulerId).append(job, rhs.job).append(workflow, rhs.workflow).isEquals();
     }
 
 }
