@@ -20,7 +20,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "fileTransfers",
     "resources",
     "history",
-    "auditLog"
+    "auditLog",
+    "conditions"
 })
 public class ShowViewProperties {
 
@@ -42,6 +43,8 @@ public class ShowViewProperties {
     private Boolean history;
     @JsonProperty("auditLog")
     private Boolean auditLog;
+    @JsonProperty("conditions")
+    private Boolean conditions;
 
     /**
      * 
@@ -223,6 +226,26 @@ public class ShowViewProperties {
         this.auditLog = auditLog;
     }
 
+    /**
+     * 
+     * @return
+     *     The conditions
+     */
+    @JsonProperty("conditions")
+    public Boolean getConditions() {
+        return conditions;
+    }
+
+    /**
+     * 
+     * @param conditions
+     *     The conditions
+     */
+    @JsonProperty("conditions")
+    public void setConditions(Boolean conditions) {
+        this.conditions = conditions;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -230,7 +253,7 @@ public class ShowViewProperties {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(dashboard).append(dailyPlan).append(jobChains).append(orders).append(jobs).append(fileTransfers).append(resources).append(history).append(auditLog).toHashCode();
+        return new HashCodeBuilder().append(dashboard).append(dailyPlan).append(jobChains).append(orders).append(jobs).append(fileTransfers).append(resources).append(history).append(auditLog).append(conditions).toHashCode();
     }
 
     @Override
@@ -242,7 +265,7 @@ public class ShowViewProperties {
             return false;
         }
         ShowViewProperties rhs = ((ShowViewProperties) other);
-        return new EqualsBuilder().append(dashboard, rhs.dashboard).append(dailyPlan, rhs.dailyPlan).append(jobChains, rhs.jobChains).append(orders, rhs.orders).append(jobs, rhs.jobs).append(fileTransfers, rhs.fileTransfers).append(resources, rhs.resources).append(history, rhs.history).append(auditLog, rhs.auditLog).isEquals();
+        return new EqualsBuilder().append(dashboard, rhs.dashboard).append(dailyPlan, rhs.dailyPlan).append(jobChains, rhs.jobChains).append(orders, rhs.orders).append(jobs, rhs.jobs).append(fileTransfers, rhs.fileTransfers).append(resources, rhs.resources).append(history, rhs.history).append(auditLog, rhs.auditLog).append(conditions, rhs.conditions).isEquals();
     }
 
 }
