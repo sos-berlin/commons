@@ -25,7 +25,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "workflow",
     "consumed",
     "conditionExpression",
-    "inconditionCommands"
+    "inconditionCommands",
+    "outconditions"
 })
 public class InCondition {
 
@@ -51,6 +52,8 @@ public class InCondition {
     private ConditionExpression conditionExpression;
     @JsonProperty("inconditionCommands")
     private List<InConditionCommand> inconditionCommands = new ArrayList<InConditionCommand>();
+    @JsonProperty("outconditions")
+    private List<JobOutCondition> outconditions = new ArrayList<JobOutCondition>();
 
     /**
      * non negative long
@@ -164,6 +167,26 @@ public class InCondition {
         this.inconditionCommands = inconditionCommands;
     }
 
+    /**
+     * 
+     * @return
+     *     The outconditions
+     */
+    @JsonProperty("outconditions")
+    public List<JobOutCondition> getOutconditions() {
+        return outconditions;
+    }
+
+    /**
+     * 
+     * @param outconditions
+     *     The outconditions
+     */
+    @JsonProperty("outconditions")
+    public void setOutconditions(List<JobOutCondition> outconditions) {
+        this.outconditions = outconditions;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -171,7 +194,7 @@ public class InCondition {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(id).append(workflow).append(consumed).append(conditionExpression).append(inconditionCommands).toHashCode();
+        return new HashCodeBuilder().append(id).append(workflow).append(consumed).append(conditionExpression).append(inconditionCommands).append(outconditions).toHashCode();
     }
 
     @Override
@@ -183,7 +206,7 @@ public class InCondition {
             return false;
         }
         InCondition rhs = ((InCondition) other);
-        return new EqualsBuilder().append(id, rhs.id).append(workflow, rhs.workflow).append(consumed, rhs.consumed).append(conditionExpression, rhs.conditionExpression).append(inconditionCommands, rhs.inconditionCommands).isEquals();
+        return new EqualsBuilder().append(id, rhs.id).append(workflow, rhs.workflow).append(consumed, rhs.consumed).append(conditionExpression, rhs.conditionExpression).append(inconditionCommands, rhs.inconditionCommands).append(outconditions, rhs.outconditions).isEquals();
     }
 
 }
