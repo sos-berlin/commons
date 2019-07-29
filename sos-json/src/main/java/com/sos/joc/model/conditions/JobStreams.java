@@ -14,9 +14,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * workflowFolders
+ * jobStreamFolders
  * <p>
- * List of all In Conditions
+ * List of all jobStreams and their folders
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -24,10 +24,10 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "deliveryDate",
     "jobschedulerId",
-    "workflow",
-    "workflowFolders"
+    "jobStreamFilter",
+    "jobStreamFolders"
 })
-public class WorkflowFolders {
+public class JobStreams {
 
     /**
      * delivery date
@@ -40,10 +40,10 @@ public class WorkflowFolders {
     private Date deliveryDate;
     @JsonProperty("jobschedulerId")
     private String jobschedulerId;
-    @JsonProperty("workflow")
-    private String workflow;
-    @JsonProperty("workflowFolders")
-    private List<String> workflowFolders = new ArrayList<String>();
+    @JsonProperty("jobStreamFilter")
+    private String jobStreamFilter;
+    @JsonProperty("jobStreamFolders")
+    private List<Folders2Jobstream> jobStreamFolders = new ArrayList<Folders2Jobstream>();
 
     /**
      * delivery date
@@ -96,41 +96,41 @@ public class WorkflowFolders {
     /**
      * 
      * @return
-     *     The workflow
+     *     The jobStreamFilter
      */
-    @JsonProperty("workflow")
-    public String getWorkflow() {
-        return workflow;
+    @JsonProperty("jobStreamFilter")
+    public String getJobStreamFilter() {
+        return jobStreamFilter;
     }
 
     /**
      * 
-     * @param workflow
-     *     The workflow
+     * @param jobStreamFilter
+     *     The jobStreamFilter
      */
-    @JsonProperty("workflow")
-    public void setWorkflow(String workflow) {
-        this.workflow = workflow;
+    @JsonProperty("jobStreamFilter")
+    public void setJobStreamFilter(String jobStreamFilter) {
+        this.jobStreamFilter = jobStreamFilter;
     }
 
     /**
      * 
      * @return
-     *     The workflowFolders
+     *     The jobStreamFolders
      */
-    @JsonProperty("workflowFolders")
-    public List<String> getWorkflowFolders() {
-        return workflowFolders;
+    @JsonProperty("jobStreamFolders")
+    public List<Folders2Jobstream> getJobStreamFolders() {
+        return jobStreamFolders;
     }
 
     /**
      * 
-     * @param workflowFolders
-     *     The workflowFolders
+     * @param jobStreamFolders
+     *     The jobStreamFolders
      */
-    @JsonProperty("workflowFolders")
-    public void setWorkflowFolders(List<String> workflowFolders) {
-        this.workflowFolders = workflowFolders;
+    @JsonProperty("jobStreamFolders")
+    public void setJobStreamFolders(List<Folders2Jobstream> jobStreamFolders) {
+        this.jobStreamFolders = jobStreamFolders;
     }
 
     @Override
@@ -140,7 +140,7 @@ public class WorkflowFolders {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(deliveryDate).append(jobschedulerId).append(workflow).append(workflowFolders).toHashCode();
+        return new HashCodeBuilder().append(deliveryDate).append(jobschedulerId).append(jobStreamFilter).append(jobStreamFolders).toHashCode();
     }
 
     @Override
@@ -148,11 +148,11 @@ public class WorkflowFolders {
         if (other == this) {
             return true;
         }
-        if ((other instanceof WorkflowFolders) == false) {
+        if ((other instanceof JobStreams) == false) {
             return false;
         }
-        WorkflowFolders rhs = ((WorkflowFolders) other);
-        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(jobschedulerId, rhs.jobschedulerId).append(workflow, rhs.workflow).append(workflowFolders, rhs.workflowFolders).isEquals();
+        JobStreams rhs = ((JobStreams) other);
+        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(jobschedulerId, rhs.jobschedulerId).append(jobStreamFilter, rhs.jobStreamFilter).append(jobStreamFolders, rhs.jobStreamFolders).isEquals();
     }
 
 }

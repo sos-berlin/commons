@@ -22,7 +22,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "jobSchedulerId",
     "session",
     "path",
-    "workflow",
+    "jobStream",
     "outConditionId",
     "limit"
 })
@@ -34,8 +34,8 @@ public class ConditionEventsFilter {
     private String session;
     @JsonProperty("path")
     private String path;
-    @JsonProperty("workflow")
-    private String workflow;
+    @JsonProperty("jobStream")
+    private String jobStream;
     /**
      * non negative long
      * <p>
@@ -114,21 +114,21 @@ public class ConditionEventsFilter {
     /**
      * 
      * @return
-     *     The workflow
+     *     The jobStream
      */
-    @JsonProperty("workflow")
-    public String getWorkflow() {
-        return workflow;
+    @JsonProperty("jobStream")
+    public String getJobStream() {
+        return jobStream;
     }
 
     /**
      * 
-     * @param workflow
-     *     The workflow
+     * @param jobStream
+     *     The jobStream
      */
-    @JsonProperty("workflow")
-    public void setWorkflow(String workflow) {
-        this.workflow = workflow;
+    @JsonProperty("jobStream")
+    public void setJobStream(String jobStream) {
+        this.jobStream = jobStream;
     }
 
     /**
@@ -186,7 +186,7 @@ public class ConditionEventsFilter {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobSchedulerId).append(session).append(path).append(workflow).append(outConditionId).append(limit).toHashCode();
+        return new HashCodeBuilder().append(jobSchedulerId).append(session).append(path).append(jobStream).append(outConditionId).append(limit).toHashCode();
     }
 
     @Override
@@ -198,7 +198,7 @@ public class ConditionEventsFilter {
             return false;
         }
         ConditionEventsFilter rhs = ((ConditionEventsFilter) other);
-        return new EqualsBuilder().append(jobSchedulerId, rhs.jobSchedulerId).append(session, rhs.session).append(path, rhs.path).append(workflow, rhs.workflow).append(outConditionId, rhs.outConditionId).append(limit, rhs.limit).isEquals();
+        return new EqualsBuilder().append(jobSchedulerId, rhs.jobSchedulerId).append(session, rhs.session).append(path, rhs.path).append(jobStream, rhs.jobStream).append(outConditionId, rhs.outConditionId).append(limit, rhs.limit).isEquals();
     }
 
 }

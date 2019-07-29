@@ -22,7 +22,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "jobSchedulerId",
     "event",
     "path",
-    "workflow",
+    "jobStream",
     "session",
     "outConditionId"
 })
@@ -34,8 +34,8 @@ public class ConditionEvent {
     private String event;
     @JsonProperty("path")
     private String path;
-    @JsonProperty("workflow")
-    private String workflow;
+    @JsonProperty("jobStream")
+    private String jobStream;
     @JsonProperty("session")
     private String session;
     /**
@@ -110,21 +110,21 @@ public class ConditionEvent {
     /**
      * 
      * @return
-     *     The workflow
+     *     The jobStream
      */
-    @JsonProperty("workflow")
-    public String getWorkflow() {
-        return workflow;
+    @JsonProperty("jobStream")
+    public String getJobStream() {
+        return jobStream;
     }
 
     /**
      * 
-     * @param workflow
-     *     The workflow
+     * @param jobStream
+     *     The jobStream
      */
-    @JsonProperty("workflow")
-    public void setWorkflow(String workflow) {
-        this.workflow = workflow;
+    @JsonProperty("jobStream")
+    public void setJobStream(String jobStream) {
+        this.jobStream = jobStream;
     }
 
     /**
@@ -180,7 +180,7 @@ public class ConditionEvent {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobSchedulerId).append(event).append(path).append(workflow).append(session).append(outConditionId).toHashCode();
+        return new HashCodeBuilder().append(jobSchedulerId).append(event).append(path).append(jobStream).append(session).append(outConditionId).toHashCode();
     }
 
     @Override
@@ -192,7 +192,7 @@ public class ConditionEvent {
             return false;
         }
         ConditionEvent rhs = ((ConditionEvent) other);
-        return new EqualsBuilder().append(jobSchedulerId, rhs.jobSchedulerId).append(event, rhs.event).append(path, rhs.path).append(workflow, rhs.workflow).append(session, rhs.session).append(outConditionId, rhs.outConditionId).isEquals();
+        return new EqualsBuilder().append(jobSchedulerId, rhs.jobSchedulerId).append(event, rhs.event).append(path, rhs.path).append(jobStream, rhs.jobStream).append(session, rhs.session).append(outConditionId, rhs.outConditionId).isEquals();
     }
 
 }

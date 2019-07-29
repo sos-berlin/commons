@@ -23,8 +23,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "command",
     "event",
     "exists",
-    "existsInWorkflow",
-    "workflow"
+    "existsInJobStream",
+    "jobStream"
 })
 public class OutConditionEvent {
 
@@ -42,10 +42,10 @@ public class OutConditionEvent {
     private String event;
     @JsonProperty("exists")
     private Boolean exists;
-    @JsonProperty("existsInWorkflow")
-    private Boolean existsInWorkflow;
-    @JsonProperty("workflow")
-    private String workflow;
+    @JsonProperty("existsInJobStream")
+    private Boolean existsInJobStream;
+    @JsonProperty("jobStream")
+    private String jobStream;
 
     /**
      * non negative long
@@ -136,41 +136,41 @@ public class OutConditionEvent {
     /**
      * 
      * @return
-     *     The existsInWorkflow
+     *     The existsInJobStream
      */
-    @JsonProperty("existsInWorkflow")
-    public Boolean getExistsInWorkflow() {
-        return existsInWorkflow;
+    @JsonProperty("existsInJobStream")
+    public Boolean getExistsInJobStream() {
+        return existsInJobStream;
     }
 
     /**
      * 
-     * @param existsInWorkflow
-     *     The existsInWorkflow
+     * @param existsInJobStream
+     *     The existsInJobStream
      */
-    @JsonProperty("existsInWorkflow")
-    public void setExistsInWorkflow(Boolean existsInWorkflow) {
-        this.existsInWorkflow = existsInWorkflow;
+    @JsonProperty("existsInJobStream")
+    public void setExistsInJobStream(Boolean existsInJobStream) {
+        this.existsInJobStream = existsInJobStream;
     }
 
     /**
      * 
      * @return
-     *     The workflow
+     *     The jobStream
      */
-    @JsonProperty("workflow")
-    public String getWorkflow() {
-        return workflow;
+    @JsonProperty("jobStream")
+    public String getJobStream() {
+        return jobStream;
     }
 
     /**
      * 
-     * @param workflow
-     *     The workflow
+     * @param jobStream
+     *     The jobStream
      */
-    @JsonProperty("workflow")
-    public void setWorkflow(String workflow) {
-        this.workflow = workflow;
+    @JsonProperty("jobStream")
+    public void setJobStream(String jobStream) {
+        this.jobStream = jobStream;
     }
 
     @Override
@@ -180,7 +180,7 @@ public class OutConditionEvent {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(id).append(command).append(event).append(exists).append(existsInWorkflow).append(workflow).toHashCode();
+        return new HashCodeBuilder().append(id).append(command).append(event).append(exists).append(existsInJobStream).append(jobStream).toHashCode();
     }
 
     @Override
@@ -192,7 +192,7 @@ public class OutConditionEvent {
             return false;
         }
         OutConditionEvent rhs = ((OutConditionEvent) other);
-        return new EqualsBuilder().append(id, rhs.id).append(command, rhs.command).append(event, rhs.event).append(exists, rhs.exists).append(existsInWorkflow, rhs.existsInWorkflow).append(workflow, rhs.workflow).isEquals();
+        return new EqualsBuilder().append(id, rhs.id).append(command, rhs.command).append(event, rhs.event).append(exists, rhs.exists).append(existsInJobStream, rhs.existsInJobStream).append(jobStream, rhs.jobStream).isEquals();
     }
 
 }

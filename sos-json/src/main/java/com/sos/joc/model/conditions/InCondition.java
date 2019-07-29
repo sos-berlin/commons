@@ -22,7 +22,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "id",
-    "workflow",
+    "jobStream",
     "consumed",
     "conditionExpression",
     "inconditionCommands",
@@ -38,8 +38,8 @@ public class InCondition {
      */
     @JsonProperty("id")
     private Long id;
-    @JsonProperty("workflow")
-    private String workflow;
+    @JsonProperty("jobStream")
+    private String jobStream;
     @JsonProperty("consumed")
     private Boolean consumed;
     /**
@@ -84,21 +84,21 @@ public class InCondition {
     /**
      * 
      * @return
-     *     The workflow
+     *     The jobStream
      */
-    @JsonProperty("workflow")
-    public String getWorkflow() {
-        return workflow;
+    @JsonProperty("jobStream")
+    public String getJobStream() {
+        return jobStream;
     }
 
     /**
      * 
-     * @param workflow
-     *     The workflow
+     * @param jobStream
+     *     The jobStream
      */
-    @JsonProperty("workflow")
-    public void setWorkflow(String workflow) {
-        this.workflow = workflow;
+    @JsonProperty("jobStream")
+    public void setJobStream(String jobStream) {
+        this.jobStream = jobStream;
     }
 
     /**
@@ -194,7 +194,7 @@ public class InCondition {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(id).append(workflow).append(consumed).append(conditionExpression).append(inconditionCommands).append(outconditions).toHashCode();
+        return new HashCodeBuilder().append(id).append(jobStream).append(consumed).append(conditionExpression).append(inconditionCommands).append(outconditions).toHashCode();
     }
 
     @Override
@@ -206,7 +206,7 @@ public class InCondition {
             return false;
         }
         InCondition rhs = ((InCondition) other);
-        return new EqualsBuilder().append(id, rhs.id).append(workflow, rhs.workflow).append(consumed, rhs.consumed).append(conditionExpression, rhs.conditionExpression).append(inconditionCommands, rhs.inconditionCommands).append(outconditions, rhs.outconditions).isEquals();
+        return new EqualsBuilder().append(id, rhs.id).append(jobStream, rhs.jobStream).append(consumed, rhs.consumed).append(conditionExpression, rhs.conditionExpression).append(inconditionCommands, rhs.inconditionCommands).append(outconditions, rhs.outconditions).isEquals();
     }
 
 }

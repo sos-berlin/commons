@@ -22,7 +22,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "id",
-    "workflow",
+    "jobStream",
     "conditionExpression",
     "outconditionEvents"
 })
@@ -36,8 +36,8 @@ public class OutCondition {
      */
     @JsonProperty("id")
     private Long id;
-    @JsonProperty("workflow")
-    private String workflow;
+    @JsonProperty("jobStream")
+    private String jobStream;
     /**
      * Expression
      * <p>
@@ -78,21 +78,21 @@ public class OutCondition {
     /**
      * 
      * @return
-     *     The workflow
+     *     The jobStream
      */
-    @JsonProperty("workflow")
-    public String getWorkflow() {
-        return workflow;
+    @JsonProperty("jobStream")
+    public String getJobStream() {
+        return jobStream;
     }
 
     /**
      * 
-     * @param workflow
-     *     The workflow
+     * @param jobStream
+     *     The jobStream
      */
-    @JsonProperty("workflow")
-    public void setWorkflow(String workflow) {
-        this.workflow = workflow;
+    @JsonProperty("jobStream")
+    public void setJobStream(String jobStream) {
+        this.jobStream = jobStream;
     }
 
     /**
@@ -148,7 +148,7 @@ public class OutCondition {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(id).append(workflow).append(conditionExpression).append(outconditionEvents).toHashCode();
+        return new HashCodeBuilder().append(id).append(jobStream).append(conditionExpression).append(outconditionEvents).toHashCode();
     }
 
     @Override
@@ -160,7 +160,7 @@ public class OutCondition {
             return false;
         }
         OutCondition rhs = ((OutCondition) other);
-        return new EqualsBuilder().append(id, rhs.id).append(workflow, rhs.workflow).append(conditionExpression, rhs.conditionExpression).append(outconditionEvents, rhs.outconditionEvents).isEquals();
+        return new EqualsBuilder().append(id, rhs.id).append(jobStream, rhs.jobStream).append(conditionExpression, rhs.conditionExpression).append(outconditionEvents, rhs.outconditionEvents).isEquals();
     }
 
 }

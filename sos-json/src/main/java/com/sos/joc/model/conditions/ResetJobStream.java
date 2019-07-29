@@ -12,7 +12,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * Reset Workflow
+ * Reset JobStream
  * <p>
  * Reset Workflow, unconsume expressions
  * 
@@ -23,9 +23,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "deliveryDate",
     "jobSchedulerId",
     "job",
-    "workflow"
+    "jobStream"
 })
-public class ResetWorkflow {
+public class ResetJobStream {
 
     /**
      * delivery date
@@ -46,8 +46,8 @@ public class ResetWorkflow {
      */
     @JsonProperty("job")
     private String job;
-    @JsonProperty("workflow")
-    private String workflow;
+    @JsonProperty("jobStream")
+    private String jobStream;
 
     /**
      * delivery date
@@ -126,21 +126,21 @@ public class ResetWorkflow {
     /**
      * 
      * @return
-     *     The workflow
+     *     The jobStream
      */
-    @JsonProperty("workflow")
-    public String getWorkflow() {
-        return workflow;
+    @JsonProperty("jobStream")
+    public String getJobStream() {
+        return jobStream;
     }
 
     /**
      * 
-     * @param workflow
-     *     The workflow
+     * @param jobStream
+     *     The jobStream
      */
-    @JsonProperty("workflow")
-    public void setWorkflow(String workflow) {
-        this.workflow = workflow;
+    @JsonProperty("jobStream")
+    public void setJobStream(String jobStream) {
+        this.jobStream = jobStream;
     }
 
     @Override
@@ -150,7 +150,7 @@ public class ResetWorkflow {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(deliveryDate).append(jobSchedulerId).append(job).append(workflow).toHashCode();
+        return new HashCodeBuilder().append(deliveryDate).append(jobSchedulerId).append(job).append(jobStream).toHashCode();
     }
 
     @Override
@@ -158,11 +158,11 @@ public class ResetWorkflow {
         if (other == this) {
             return true;
         }
-        if ((other instanceof ResetWorkflow) == false) {
+        if ((other instanceof ResetJobStream) == false) {
             return false;
         }
-        ResetWorkflow rhs = ((ResetWorkflow) other);
-        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(jobSchedulerId, rhs.jobSchedulerId).append(job, rhs.job).append(workflow, rhs.workflow).isEquals();
+        ResetJobStream rhs = ((ResetJobStream) other);
+        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(jobSchedulerId, rhs.jobSchedulerId).append(job, rhs.job).append(jobStream, rhs.jobStream).isEquals();
     }
 
 }
