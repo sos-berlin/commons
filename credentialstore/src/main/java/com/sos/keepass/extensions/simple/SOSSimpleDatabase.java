@@ -2,10 +2,14 @@ package com.sos.keepass.extensions.simple;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.linguafranca.pwdb.Credentials;
@@ -15,9 +19,11 @@ import org.linguafranca.pwdb.kdbx.simple.SimpleGroup;
 import org.linguafranca.pwdb.kdbx.simple.converter.EmptyStringConverter;
 import org.linguafranca.pwdb.kdbx.simple.model.EntryClasses;
 import org.linguafranca.pwdb.kdbx.simple.model.KeePassFile;
+import org.linguafranca.pwdb.kdbx.simple.transformer.KdbxInputTransformer;
 import org.linguafranca.pwdb.kdbx.stream_3_1.KdbxHeader;
 import org.linguafranca.pwdb.kdbx.stream_3_1.KdbxSerializer;
 import org.linguafranca.pwdb.kdbx.stream_3_1.Salsa20StreamEncryptor;
+import org.linguafranca.xml.XmlInputStreamFilter;
 import org.linguafranca.xml.XmlOutputStreamFilter;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.convert.AnnotationStrategy;
@@ -34,6 +40,34 @@ public class SOSSimpleDatabase extends SimpleDatabase {
     KeePassFile _keePassFileModel;
 
     public SOSSimpleDatabase() {
+    }
+
+    /** Override SimpleDatabase.load method. Read KeePassFile with strict=false to avoid the org.simpleframework.xml exceptions e.g. when the CustomData element
+     * is not empty */
+    public static SimpleDatabase load(Credentials credentials, InputStream inputStream) throws Exception {
+        // load the KDBX header and get the inner Kdbx stream
+        KdbxHeader kdbxHeader = new KdbxHeader();
+        InputStream kdbxInnerStream = KdbxSerializer.createUnencryptedInputStream(credentials, kdbxHeader, inputStream);
+
+        // decrypt the encrypted fields in the inner XML stream
+        InputStream plainTextXmlStream = new XmlInputStreamFilter(kdbxInnerStream, new KdbxInputTransformer(new Salsa20StreamEncryptor(kdbxHeader
+                .getProtectedStreamKey())));
+
+        // read the now entirely decrypted stream into database
+        KeePassFile result = getSerializer().read(KeePassFile.class, plainTextXmlStream, false);
+        if (!Arrays.equals(result.meta.headerHash.getContent(), kdbxHeader.getHeaderHash())) {
+            throw new IllegalStateException("Header Hash Mismatch");
+        }
+
+        Optional<Constructor<?>> ocn = Arrays.stream(SimpleDatabase.class.getDeclaredConstructors()).filter(m -> m.getParameterCount() == 1)
+                .findFirst();
+
+        if (ocn.isPresent()) {
+            Constructor<?> cn = ocn.get();
+            cn.setAccessible(true);
+            return (SimpleDatabase) cn.newInstance(result);
+        }
+        return null;
     }
 
     public void saveAs(SimpleDatabase sd, Credentials credentials, Path file) throws SOSKeePassDatabaseException {

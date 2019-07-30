@@ -360,7 +360,7 @@ public class SOSKeePassDatabase {
         InputStream is = null;
         try {
             is = new FileInputStream(_file.toFile());
-            database = SimpleDatabase.load(cred, is);
+            database = SOSSimpleDatabase.load(cred, is);
         } catch (Throwable e) {
             throw new SOSKeePassDatabaseException(String.format("[%s]%s", getFilePath(_file), e.toString()), e);
         } finally {
