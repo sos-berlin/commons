@@ -24,6 +24,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "id",
     "jobStream",
     "consumed",
+    "markExpression",
     "conditionExpression",
     "inconditionCommands",
     "outconditions"
@@ -42,6 +43,8 @@ public class InCondition {
     private String jobStream;
     @JsonProperty("consumed")
     private Boolean consumed;
+    @JsonProperty("markExpression")
+    private Boolean markExpression;
     /**
      * Expression
      * <p>
@@ -122,6 +125,26 @@ public class InCondition {
     }
 
     /**
+     * 
+     * @return
+     *     The markExpression
+     */
+    @JsonProperty("markExpression")
+    public Boolean getMarkExpression() {
+        return markExpression;
+    }
+
+    /**
+     * 
+     * @param markExpression
+     *     The markExpression
+     */
+    @JsonProperty("markExpression")
+    public void setMarkExpression(Boolean markExpression) {
+        this.markExpression = markExpression;
+    }
+
+    /**
      * Expression
      * <p>
      * Expression for Condition
@@ -194,7 +217,7 @@ public class InCondition {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(id).append(jobStream).append(consumed).append(conditionExpression).append(inconditionCommands).append(outconditions).toHashCode();
+        return new HashCodeBuilder().append(id).append(jobStream).append(consumed).append(markExpression).append(conditionExpression).append(inconditionCommands).append(outconditions).toHashCode();
     }
 
     @Override
@@ -206,7 +229,7 @@ public class InCondition {
             return false;
         }
         InCondition rhs = ((InCondition) other);
-        return new EqualsBuilder().append(id, rhs.id).append(jobStream, rhs.jobStream).append(consumed, rhs.consumed).append(conditionExpression, rhs.conditionExpression).append(inconditionCommands, rhs.inconditionCommands).append(outconditions, rhs.outconditions).isEquals();
+        return new EqualsBuilder().append(id, rhs.id).append(jobStream, rhs.jobStream).append(consumed, rhs.consumed).append(markExpression, rhs.markExpression).append(conditionExpression, rhs.conditionExpression).append(inconditionCommands, rhs.inconditionCommands).append(outconditions, rhs.outconditions).isEquals();
     }
 
 }

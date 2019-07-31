@@ -19,7 +19,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
-    "jobSchedulerId",
+    "jobschedulerId",
     "session",
     "path",
     "jobStream",
@@ -28,8 +28,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 })
 public class ConditionEventsFilter {
 
-    @JsonProperty("jobSchedulerId")
-    private String jobSchedulerId;
+    @JsonProperty("jobschedulerId")
+    private String jobschedulerId;
     @JsonProperty("session")
     private String session;
     @JsonProperty("path")
@@ -54,21 +54,21 @@ public class ConditionEventsFilter {
     /**
      * 
      * @return
-     *     The jobSchedulerId
+     *     The jobschedulerId
      */
-    @JsonProperty("jobSchedulerId")
-    public String getJobSchedulerId() {
-        return jobSchedulerId;
+    @JsonProperty("jobschedulerId")
+    public String getJobschedulerId() {
+        return jobschedulerId;
     }
 
     /**
      * 
-     * @param jobSchedulerId
-     *     The jobSchedulerId
+     * @param jobschedulerId
+     *     The jobschedulerId
      */
-    @JsonProperty("jobSchedulerId")
-    public void setJobSchedulerId(String jobSchedulerId) {
-        this.jobSchedulerId = jobSchedulerId;
+    @JsonProperty("jobschedulerId")
+    public void setJobschedulerId(String jobschedulerId) {
+        this.jobschedulerId = jobschedulerId;
     }
 
     /**
@@ -186,7 +186,7 @@ public class ConditionEventsFilter {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobSchedulerId).append(session).append(path).append(jobStream).append(outConditionId).append(limit).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(session).append(path).append(jobStream).append(outConditionId).append(limit).toHashCode();
     }
 
     @Override
@@ -198,7 +198,7 @@ public class ConditionEventsFilter {
             return false;
         }
         ConditionEventsFilter rhs = ((ConditionEventsFilter) other);
-        return new EqualsBuilder().append(jobSchedulerId, rhs.jobSchedulerId).append(session, rhs.session).append(path, rhs.path).append(jobStream, rhs.jobStream).append(outConditionId, rhs.outConditionId).append(limit, rhs.limit).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(session, rhs.session).append(path, rhs.path).append(jobStream, rhs.jobStream).append(outConditionId, rhs.outConditionId).append(limit, rhs.limit).isEquals();
     }
 
 }

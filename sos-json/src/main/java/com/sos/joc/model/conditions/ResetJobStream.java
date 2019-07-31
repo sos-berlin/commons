@@ -21,7 +21,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "deliveryDate",
-    "jobSchedulerId",
+    "jobschedulerId",
     "job",
     "jobStream"
 })
@@ -36,8 +36,8 @@ public class ResetJobStream {
      */
     @JsonProperty("deliveryDate")
     private Date deliveryDate;
-    @JsonProperty("jobSchedulerId")
-    private String jobSchedulerId;
+    @JsonProperty("jobschedulerId")
+    private String jobschedulerId;
     /**
      * path
      * <p>
@@ -80,21 +80,21 @@ public class ResetJobStream {
     /**
      * 
      * @return
-     *     The jobSchedulerId
+     *     The jobschedulerId
      */
-    @JsonProperty("jobSchedulerId")
-    public String getJobSchedulerId() {
-        return jobSchedulerId;
+    @JsonProperty("jobschedulerId")
+    public String getJobschedulerId() {
+        return jobschedulerId;
     }
 
     /**
      * 
-     * @param jobSchedulerId
-     *     The jobSchedulerId
+     * @param jobschedulerId
+     *     The jobschedulerId
      */
-    @JsonProperty("jobSchedulerId")
-    public void setJobSchedulerId(String jobSchedulerId) {
-        this.jobSchedulerId = jobSchedulerId;
+    @JsonProperty("jobschedulerId")
+    public void setJobschedulerId(String jobschedulerId) {
+        this.jobschedulerId = jobschedulerId;
     }
 
     /**
@@ -150,7 +150,7 @@ public class ResetJobStream {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(deliveryDate).append(jobSchedulerId).append(job).append(jobStream).toHashCode();
+        return new HashCodeBuilder().append(deliveryDate).append(jobschedulerId).append(job).append(jobStream).toHashCode();
     }
 
     @Override
@@ -162,7 +162,7 @@ public class ResetJobStream {
             return false;
         }
         ResetJobStream rhs = ((ResetJobStream) other);
-        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(jobSchedulerId, rhs.jobSchedulerId).append(job, rhs.job).append(jobStream, rhs.jobStream).isEquals();
+        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(jobschedulerId, rhs.jobschedulerId).append(job, rhs.job).append(jobStream, rhs.jobStream).isEquals();
     }
 
 }

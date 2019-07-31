@@ -21,7 +21,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "deliveryDate",
-    "jobSchedulerId"
+    "jobschedulerId"
 })
 public class StartResolver {
 
@@ -34,8 +34,8 @@ public class StartResolver {
      */
     @JsonProperty("deliveryDate")
     private Date deliveryDate;
-    @JsonProperty("jobSchedulerId")
-    private String jobSchedulerId;
+    @JsonProperty("jobschedulerId")
+    private String jobschedulerId;
 
     /**
      * delivery date
@@ -68,21 +68,21 @@ public class StartResolver {
     /**
      * 
      * @return
-     *     The jobSchedulerId
+     *     The jobschedulerId
      */
-    @JsonProperty("jobSchedulerId")
-    public String getJobSchedulerId() {
-        return jobSchedulerId;
+    @JsonProperty("jobschedulerId")
+    public String getJobschedulerId() {
+        return jobschedulerId;
     }
 
     /**
      * 
-     * @param jobSchedulerId
-     *     The jobSchedulerId
+     * @param jobschedulerId
+     *     The jobschedulerId
      */
-    @JsonProperty("jobSchedulerId")
-    public void setJobSchedulerId(String jobSchedulerId) {
-        this.jobSchedulerId = jobSchedulerId;
+    @JsonProperty("jobschedulerId")
+    public void setJobschedulerId(String jobschedulerId) {
+        this.jobschedulerId = jobschedulerId;
     }
 
     @Override
@@ -92,7 +92,7 @@ public class StartResolver {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(deliveryDate).append(jobSchedulerId).toHashCode();
+        return new HashCodeBuilder().append(deliveryDate).append(jobschedulerId).toHashCode();
     }
 
     @Override
@@ -104,7 +104,7 @@ public class StartResolver {
             return false;
         }
         StartResolver rhs = ((StartResolver) other);
-        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(jobSchedulerId, rhs.jobSchedulerId).isEquals();
+        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(jobschedulerId, rhs.jobschedulerId).isEquals();
     }
 
 }
