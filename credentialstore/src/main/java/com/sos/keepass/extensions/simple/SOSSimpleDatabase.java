@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
@@ -31,12 +32,16 @@ import org.simpleframework.xml.convert.Registry;
 import org.simpleframework.xml.convert.RegistryStrategy;
 import org.simpleframework.xml.core.Persister;
 import org.simpleframework.xml.strategy.Strategy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.sos.keepass.SOSKeePassDatabase;
 import com.sos.keepass.exceptions.SOSKeePassDatabaseException;
 import com.sos.keepass.extensions.simple.transformer.SOSKdbxOutputTransformer;
 
 public class SOSSimpleDatabase extends SimpleDatabase {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSSimpleDatabase.class);
     KeePassFile _keePassFileModel;
 
     public SOSSimpleDatabase() {
@@ -44,30 +49,59 @@ public class SOSSimpleDatabase extends SimpleDatabase {
 
     /** Override SimpleDatabase.load method. Read KeePassFile with strict=false to avoid the org.simpleframework.xml exceptions e.g. when the CustomData element
      * is not empty */
-    public static SimpleDatabase load(Credentials credentials, InputStream inputStream) throws Exception {
-        // load the KDBX header and get the inner Kdbx stream
-        KdbxHeader kdbxHeader = new KdbxHeader();
-        InputStream kdbxInnerStream = KdbxSerializer.createUnencryptedInputStream(credentials, kdbxHeader, inputStream);
+    public static SimpleDatabase load(Credentials credentials, Path keePassFile) throws SOSKeePassDatabaseException {
+        InputStream is = null;
+        try {
+            is = Files.newInputStream(keePassFile);
+            // load the KDBX header and get the inner Kdbx stream
+            KdbxHeader kdbxHeader = new KdbxHeader();
+            InputStream kdbxInnerStream = KdbxSerializer.createUnencryptedInputStream(credentials, kdbxHeader, is);
 
-        // decrypt the encrypted fields in the inner XML stream
-        InputStream plainTextXmlStream = new XmlInputStreamFilter(kdbxInnerStream, new KdbxInputTransformer(new Salsa20StreamEncryptor(kdbxHeader
-                .getProtectedStreamKey())));
+            // decrypt the encrypted fields in the inner XML stream
+            InputStream plainTextXmlStream = new XmlInputStreamFilter(kdbxInnerStream, new KdbxInputTransformer(new Salsa20StreamEncryptor(kdbxHeader
+                    .getProtectedStreamKey())));
 
-        // read the now entirely decrypted stream into database
-        KeePassFile result = getSerializer().read(KeePassFile.class, plainTextXmlStream, false);
-        if (!Arrays.equals(result.meta.headerHash.getContent(), kdbxHeader.getHeaderHash())) {
-            throw new IllegalStateException("Header Hash Mismatch");
+            // read the now entirely decrypted stream into database
+            KeePassFile result = getSerializer().read(KeePassFile.class, plainTextXmlStream, false);
+
+            if (!Arrays.equals(result.meta.headerHash.getContent(), kdbxHeader.getHeaderHash())) {
+                throw new IllegalStateException("Header Hash Mismatch");
+            }
+
+            Optional<Constructor<?>> ocn = Arrays.stream(SimpleDatabase.class.getDeclaredConstructors()).filter(m -> m.getParameterCount() == 1)
+                    .findFirst();
+
+            if (ocn.isPresent()) {
+                Constructor<?> cn = ocn.get();
+                cn.setAccessible(true);
+                return (SimpleDatabase) cn.newInstance(result);
+            }
+        } catch (Throwable ex) {
+            LOGGER.error(String.format("[%s]%s", SOSKeePassDatabase.getFilePath(keePassFile), ex.toString()), ex);
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (Throwable te) {
+                }
+            }
+            is = null;
         }
 
-        Optional<Constructor<?>> ocn = Arrays.stream(SimpleDatabase.class.getDeclaredConstructors()).filter(m -> m.getParameterCount() == 1)
-                .findFirst();
-
-        if (ocn.isPresent()) {
-            Constructor<?> cn = ocn.get();
-            cn.setAccessible(true);
-            return (SimpleDatabase) cn.newInstance(result);
+        try {
+            is = Files.newInputStream(keePassFile);
+            return SimpleDatabase.load(credentials, is);
+        } catch (Throwable ex) {
+            throw new SOSKeePassDatabaseException(String.format("[%s]%s", SOSKeePassDatabase.getFilePath(keePassFile), ex.toString()), ex);
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (Throwable te) {
+                }
+            }
+            is = null;
         }
-        return null;
     }
 
     public void saveAs(SimpleDatabase sd, Credentials credentials, Path file) throws SOSKeePassDatabaseException {

@@ -355,23 +355,7 @@ public class SOSKeePassDatabase {
         if (isDebugEnabled) {
             LOGGER.debug(String.format("[getKDBXDatabase]%s", _file));
         }
-
-        SimpleDatabase database = null;
-        InputStream is = null;
-        try {
-            is = new FileInputStream(_file.toFile());
-            database = SOSSimpleDatabase.load(cred, is);
-        } catch (Throwable e) {
-            throw new SOSKeePassDatabaseException(String.format("[%s]%s", getFilePath(_file), e.toString()), e);
-        } finally {
-            if (is != null) {
-                try {
-                    is.close();
-                } catch (Throwable te) {
-                }
-            }
-        }
-        return database;
+        return SOSSimpleDatabase.load(cred, _file);
     }
 
     public Path getFile() {
