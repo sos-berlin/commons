@@ -56,7 +56,7 @@ public class InCondition {
     @JsonProperty("inconditionCommands")
     private List<InConditionCommand> inconditionCommands = new ArrayList<InConditionCommand>();
     @JsonProperty("outconditions")
-    private List<JobOutCondition> outconditions = new ArrayList<JobOutCondition>();
+    private List<JobstreamOutConditions> outconditions = new ArrayList<JobstreamOutConditions>();
 
     /**
      * non negative long
@@ -196,7 +196,7 @@ public class InCondition {
      *     The outconditions
      */
     @JsonProperty("outconditions")
-    public List<JobOutCondition> getOutconditions() {
+    public List<JobstreamOutConditions> getOutconditions() {
         return outconditions;
     }
 
@@ -206,7 +206,7 @@ public class InCondition {
      *     The outconditions
      */
     @JsonProperty("outconditions")
-    public void setOutconditions(List<JobOutCondition> outconditions) {
+    public void setOutconditions(List<JobstreamOutConditions> outconditions) {
         this.outconditions = outconditions;
     }
 
