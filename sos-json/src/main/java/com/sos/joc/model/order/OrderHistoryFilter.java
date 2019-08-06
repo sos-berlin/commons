@@ -5,6 +5,7 @@ import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.sos.classes.Latin1ToUtf8;
 import com.sos.joc.model.common.LogMime;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -119,7 +120,7 @@ public class OrderHistoryFilter {
      */
     @JsonProperty("jobChain")
     public void setJobChain(String jobChain) {
-        this.jobChain = jobChain;
+        this.jobChain = Latin1ToUtf8.convert(jobChain);
     }
 
     /**
@@ -143,7 +144,7 @@ public class OrderHistoryFilter {
      */
     @JsonProperty("orderId")
     public void setOrderId(String orderId) {
-        this.orderId = orderId;
+        this.orderId = Latin1ToUtf8.convert(orderId);
     }
 
     /**

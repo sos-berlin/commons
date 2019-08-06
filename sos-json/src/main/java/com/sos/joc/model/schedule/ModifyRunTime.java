@@ -7,6 +7,7 @@ import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.sos.classes.Latin1ToUtf8;
 import com.sos.joc.model.audit.AuditParams;
 import com.sos.joc.model.calendar.Calendar;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -114,7 +115,7 @@ public class ModifyRunTime {
      */
     @JsonProperty("schedule")
     public void setSchedule(String schedule) {
-        this.schedule = schedule;
+        this.schedule = Latin1ToUtf8.convert(schedule);
     }
 
     /**

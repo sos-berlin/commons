@@ -5,6 +5,7 @@ import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.sos.classes.Latin1ToUtf8;
 import com.sos.joc.model.common.JobSchedulerObjectType;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -129,7 +130,7 @@ public class DocumentationShowFilter {
      */
     @JsonProperty("path")
     public void setPath(String path) {
-        this.path = path;
+        this.path = Latin1ToUtf8.convert(path);
     }
 
     @Override
