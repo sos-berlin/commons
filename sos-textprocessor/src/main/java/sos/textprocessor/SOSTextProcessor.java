@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Properties;
 
 import sos.settings.SOSConnectionSettings;
@@ -17,13 +18,13 @@ public abstract class SOSTextProcessor {
     protected SOSLogger logger = null;
     protected String language = "de";
     protected boolean hasLocalizedTemplates = false;
-    protected HashMap scriptLanguages = new HashMap();
+    protected Map<String, String> scriptLanguages = new HashMap<String, String>();
     protected String scriptLanguage = "javascript";
     protected String dateFormat = "dd.MM.yyyy";
     protected String datetimeFormat = "dd.MM.yyyy HH:mm";
-    protected HashMap dateFormats = new HashMap();
-    protected HashMap datetimeFormats = new HashMap();
-    protected HashMap replacements = new HashMap();
+    protected Map<String, String> dateFormats = new HashMap<String, String>();
+    protected Map<String, String> datetimeFormats = new HashMap<String, String>();
+    protected Map<String, String> replacements = new HashMap<String, String>();
     protected String templateApplicationName = "";
     protected String templateSectionName = "";
     protected String templateName = "";
@@ -80,7 +81,7 @@ public abstract class SOSTextProcessor {
         this.dateFormats.put("en", "MM/dd/yyyy");
         this.datetimeFormats.put("de", "dd.MM.yyyy HH:mm");
         this.datetimeFormats.put("en", "MM/dd/yyyy HH:mm");
-        this.scriptLanguages = new HashMap();
+        this.scriptLanguages = new HashMap<String, String>();
         this.scriptLanguages.put("javascript", "Javascript");
         this.scriptLanguages.put("perlscript", "PerlScript");
         this.scriptLanguages.put("vbscript", "VBScript");
@@ -153,7 +154,7 @@ public abstract class SOSTextProcessor {
         if (this.templates == null || this.templates.isEmpty()) {
             return this.templates;
         }
-        Iterator keys = this.templates.keySet().iterator();
+        Iterator<Object> keys = this.templates.keySet().iterator();
         while (keys.hasNext()) {
             key = keys.next();
             if (key != null) {
@@ -357,7 +358,7 @@ public abstract class SOSTextProcessor {
         if (this.scripts == null || this.scripts.isEmpty()) {
             return this.scripts;
         }
-        Iterator keys = this.scripts.keySet().iterator();
+        Iterator<Object> keys = this.scripts.keySet().iterator();
         while (keys.hasNext()) {
             key = keys.next();
             if (key != null) {
@@ -391,17 +392,17 @@ public abstract class SOSTextProcessor {
 
     public abstract File process(File templateFile, String scriptLanguage) throws Exception;
 
-    public abstract File process(File templateFile, HashMap replacements) throws Exception;
+    public abstract File process(File templateFile, Map<String, String> replacements) throws Exception;
 
-    public abstract File process(File templateFile, String scriptLanguage, HashMap replacements) throws Exception;
+    public abstract File process(File templateFile, String scriptLanguage, Map<String, String> replacements) throws Exception;
 
     public abstract String process(String templateContent) throws Exception;
 
     public abstract String process(String templateContent, String scriptLanguage) throws Exception;
 
-    public abstract String process(String templateContent, HashMap replacements) throws Exception;
+    public abstract String process(String templateContent, Map<String, String> replacements) throws Exception;
 
-    public abstract String process(String templateContent, String scriptLanguage, HashMap replacements) throws Exception;
+    public abstract String process(String templateContent, String scriptLanguage, Map<String, String> replacements) throws Exception;
 
     public String getDateFormat() {
         return dateFormat;
@@ -411,11 +412,11 @@ public abstract class SOSTextProcessor {
         this.dateFormat = dateFormat;
     }
 
-    public HashMap getDateFormats() {
+    public Map<String, String> getDateFormats() {
         return dateFormats;
     }
 
-    protected void setDateFormats(HashMap dateFormats) {
+    protected void setDateFormats(Map<String, String> dateFormats) {
         this.dateFormats = dateFormats;
     }
 
@@ -427,11 +428,11 @@ public abstract class SOSTextProcessor {
         this.datetimeFormat = datetimeFormat;
     }
 
-    public HashMap getDatetimeFormats() {
+    public Map<String, String> getDatetimeFormats() {
         return datetimeFormats;
     }
 
-    protected void setDatetimeFormats(HashMap datetimeFormats) {
+    protected void setDatetimeFormats(Map<String, String> datetimeFormats) {
         this.datetimeFormats = datetimeFormats;
     }
 
@@ -444,11 +445,11 @@ public abstract class SOSTextProcessor {
         this.initLanguage();
     }
 
-    public HashMap getReplacements() {
+    public Map<String, String> getReplacements() {
         return replacements;
     }
 
-    public void setReplacements(HashMap replacements) {
+    public void setReplacements(Map<String, String> replacements) {
         this.replacements = replacements;
     }
 
@@ -542,7 +543,7 @@ public abstract class SOSTextProcessor {
         this.scriptLanguage = scriptLanguage;
     }
 
-    public HashMap getScriptLanguages() {
+    public Map<String, String> getScriptLanguages() {
         return scriptLanguages;
     }
 

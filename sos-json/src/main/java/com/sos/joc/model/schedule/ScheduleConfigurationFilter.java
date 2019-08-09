@@ -1,11 +1,11 @@
 
 package com.sos.joc.model.schedule;
 
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.sos.classes.Latin1ToUtf8;
 import com.sos.joc.model.common.ConfigurationMime;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -19,6 +19,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobschedulerId",
     "schedule",
@@ -32,7 +33,6 @@ public class ScheduleConfigurationFilter {
      * 
      */
     @JsonProperty("jobschedulerId")
-    @JacksonXmlProperty(localName = "jobschedulerId")
     private String jobschedulerId;
     /**
      * path
@@ -42,8 +42,6 @@ public class ScheduleConfigurationFilter {
      * 
      */
     @JsonProperty("schedule")
-    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
-    @JacksonXmlProperty(localName = "schedule")
     private String schedule;
     /**
      * configuration mime filter
@@ -52,17 +50,16 @@ public class ScheduleConfigurationFilter {
      * 
      */
     @JsonProperty("mime")
-    @JsonPropertyDescription("The configuration can have a HTML representation where the HTML gets a highlighting via CSS classes.")
-    @JacksonXmlProperty(localName = "mime")
     private ConfigurationMime mime = ConfigurationMime.fromValue("XML");
 
     /**
      * 
      * (Required)
      * 
+     * @return
+     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
-    @JacksonXmlProperty(localName = "jobschedulerId")
     public String getJobschedulerId() {
         return jobschedulerId;
     }
@@ -71,9 +68,10 @@ public class ScheduleConfigurationFilter {
      * 
      * (Required)
      * 
+     * @param jobschedulerId
+     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
-    @JacksonXmlProperty(localName = "jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
         this.jobschedulerId = jobschedulerId;
     }
@@ -84,9 +82,10 @@ public class ScheduleConfigurationFilter {
      * absolute path based on live folder of a JobScheduler object.
      * (Required)
      * 
+     * @return
+     *     The schedule
      */
     @JsonProperty("schedule")
-    @JacksonXmlProperty(localName = "schedule")
     public String getSchedule() {
         return schedule;
     }
@@ -97,11 +96,12 @@ public class ScheduleConfigurationFilter {
      * absolute path based on live folder of a JobScheduler object.
      * (Required)
      * 
+     * @param schedule
+     *     The schedule
      */
     @JsonProperty("schedule")
-    @JacksonXmlProperty(localName = "schedule")
     public void setSchedule(String schedule) {
-        this.schedule = schedule;
+        this.schedule = Latin1ToUtf8.convert(schedule);
     }
 
     /**
@@ -109,9 +109,10 @@ public class ScheduleConfigurationFilter {
      * <p>
      * The configuration can have a HTML representation where the HTML gets a highlighting via CSS classes.
      * 
+     * @return
+     *     The mime
      */
     @JsonProperty("mime")
-    @JacksonXmlProperty(localName = "mime")
     public ConfigurationMime getMime() {
         return mime;
     }
@@ -121,21 +122,22 @@ public class ScheduleConfigurationFilter {
      * <p>
      * The configuration can have a HTML representation where the HTML gets a highlighting via CSS classes.
      * 
+     * @param mime
+     *     The mime
      */
     @JsonProperty("mime")
-    @JacksonXmlProperty(localName = "mime")
     public void setMime(ConfigurationMime mime) {
         this.mime = mime;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("schedule", schedule).append("mime", mime).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(schedule).append(jobschedulerId).append(mime).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(schedule).append(mime).toHashCode();
     }
 
     @Override
@@ -147,7 +149,7 @@ public class ScheduleConfigurationFilter {
             return false;
         }
         ScheduleConfigurationFilter rhs = ((ScheduleConfigurationFilter) other);
-        return new EqualsBuilder().append(schedule, rhs.schedule).append(jobschedulerId, rhs.jobschedulerId).append(mime, rhs.mime).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(schedule, rhs.schedule).append(mime, rhs.mime).isEquals();
     }
 
 }

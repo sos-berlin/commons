@@ -1,5 +1,7 @@
 package sos.util;
 
+import java.util.Map;
+
 /** @author Ghassan Beydoun */
 public class SOSString {
 
@@ -19,10 +21,10 @@ public class SOSString {
         }
     }
 
-    public String parseToString(java.util.HashMap hash, String key) throws Exception {
+    public String parseToString(Map<String, String> hash, String key) throws Exception {
         try {
             if (hash != null && hash.get(key) != null) {
-                return hash.get(key).toString();
+                return hash.get(key);
             } else {
                 return "";
             }

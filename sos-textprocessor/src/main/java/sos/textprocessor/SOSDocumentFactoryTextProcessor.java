@@ -5,14 +5,13 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import sos.connection.SOSConnection;
 import sos.hostware.Factory_processor;
 import sos.settings.SOSConnectionSettings;
 import sos.util.SOSLogger;
-import sos.util.SOSStandardLogger;
 
 public class SOSDocumentFactoryTextProcessor extends SOSTextProcessor {
 
@@ -81,28 +80,28 @@ public class SOSDocumentFactoryTextProcessor extends SOSTextProcessor {
         return this.process(this.getTemplateFile(), this.getTemplateScriptLanguage(), this.getReplacements(), false);
     }
 
-    public File process(File templateFile, HashMap replacements) throws Exception {
+    public File process(File templateFile, Map<String, String> replacements) throws Exception {
         this.setTemplateFile(templateFile);
         this.setReplacements(replacements);
         return this.process(this.getTemplateFile(), this.getTemplateScriptLanguage(), this.getReplacements(), false);
     }
 
-    public File process(File templateFile, String templateScriptLanguage, HashMap replacements) throws Exception {
+    public File process(File templateFile, String templateScriptLanguage, Map<String, String> replacements) throws Exception {
         this.setTemplateFile(templateFile);
         this.setTemplateScriptLanguage(templateScriptLanguage);
         this.setReplacements(replacements);
         return this.process(this.getTemplateFile(), this.getTemplateScriptLanguage(), this.getReplacements(), false);
     }
 
-    public File process(File templateFile, HashMap replacements, boolean nl2br) throws Exception {
+    public File process(File templateFile, Map<String, String> replacements, boolean nl2br) throws Exception {
         this.setTemplateFile(templateFile);
         this.setReplacements(replacements);
         return this.process(templateFile, this.getTemplateScriptLanguage(), this.getReplacements(), nl2br);
     }
 
-    public File process(File templateFile, String templateScriptLanguage, HashMap replacements, boolean nl2br) throws Exception {
-        Object key = null;
-        Object value = null;
+    public File process(File templateFile, String templateScriptLanguage, Map<String, String> replacements, boolean nl2br) throws Exception {
+        String key = null;
+        String value = null;
         this.setTemplateFile(templateFile);
         this.setTemplateScriptLanguage(templateScriptLanguage);
         this.setReplacements(replacements);
@@ -119,13 +118,13 @@ public class SOSDocumentFactoryTextProcessor extends SOSTextProcessor {
                 this.processor.add_obj(this, "document_factory");
             }
             this.processor.set_template_filename(templateFile.getAbsolutePath());
-            Iterator keys = replacements.keySet().iterator();
+            Iterator<String> keys = replacements.keySet().iterator();
             while (keys.hasNext()) {
                 key = keys.next();
                 if (key != null) {
-                    value = replacements.get(key.toString());
+                    value = replacements.get(key);
                     if (value != null) {
-                        this.processor.set_parameter(key.toString(), value.toString());
+                        this.processor.set_parameter(key, value);
                     }
                 }
             }
@@ -162,26 +161,26 @@ public class SOSDocumentFactoryTextProcessor extends SOSTextProcessor {
         return this.process(this.getTemplateContent(), this.getTemplateScriptLanguage(), this.getReplacements());
     }
 
-    public String process(String templateContent, HashMap replacements) throws Exception {
+    public String process(String templateContent, Map<String, String> replacements) throws Exception {
         this.setTemplateContent(templateContent);
         this.setReplacements(replacements);
         return this.process(this.getTemplateContent(), this.getTemplateScriptLanguage(), this.getReplacements(), false);
     }
 
-    public String process(String templateContent, String templateScriptLanguage, HashMap replacements) throws Exception {
+    public String process(String templateContent, String templateScriptLanguage, Map<String, String> replacements) throws Exception {
         this.setTemplateContent(templateContent);
         this.setTemplateScriptLanguage(templateScriptLanguage);
         this.setReplacements(replacements);
         return this.process(this.getTemplateContent(), this.getTemplateScriptLanguage(), this.getReplacements(), false);
     }
 
-    public String process(String templateContent, HashMap replacements, boolean nl2br) throws Exception {
+    public String process(String templateContent, Map<String, String> replacements, boolean nl2br) throws Exception {
         this.setTemplateContent(templateContent);
         this.setReplacements(replacements);
         return this.process(this.getTemplateContent(), this.getTemplateScriptLanguage(), this.getReplacements(), nl2br);
     }
 
-    public String process(String templateContent, String templateScriptLanguage, HashMap replacements, boolean nl2br) throws Exception {
+    public String process(String templateContent, String templateScriptLanguage, Map<String, String> replacements, boolean nl2br) throws Exception {
         this.setTemplateContent(templateContent);
         this.setTemplateScriptLanguage(templateScriptLanguage);
         this.setReplacements(replacements);
@@ -222,7 +221,6 @@ public class SOSDocumentFactoryTextProcessor extends SOSTextProcessor {
             SOSDocumentFactoryTextProcessor processor = new SOSDocumentFactoryTextProcessor();
             processor.process("Hello World &(datetime)");
             System.out.println(processor.getDocumentContent());
-            SOSStandardLogger logger = new SOSStandardLogger(9);
             SOSConnection connection = SOSConnection.createInstance("/scheduler/config/hibernate.cfg.xml");
             connection.connect();
             SOSConnectionSettings settings = new SOSConnectionSettings(connection, "SETTINGS");

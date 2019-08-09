@@ -1,27 +1,7 @@
 package sos.settings;
 
-/** <p>
- * Title:
- * </p>
- * <p>
- * Description:
- * </p>
- * <p>
- * Copyright: Copyright (c) 2003
- * </p>
- * <p>
- * Company: SOS GmbH
- * </p>
- * 
- * @author <a href="mailto:ghassan.beydoun@sos-berlin.com">Ghassan Beydoun</a>
- * @resource sos.util.jar
- * @version 1.0
- * @author <a href="mailto:andreas.pueschel@sos-berlin.com">Andreas Püschel</a>
- * @since 2005-01-25
- * @version 1.1 */
-
-import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Properties;
 
 import sos.util.SOSClassUtil;
@@ -93,7 +73,7 @@ public abstract class SOSSettings {
 
     public abstract Properties getSection(String application, String section) throws Exception;
 
-    public abstract ArrayList getSections() throws Exception;
+    public abstract List<String> getSections() throws Exception;
 
     public abstract String getSectionEntry(String entry) throws Exception;
 

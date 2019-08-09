@@ -2,23 +2,24 @@ package sos.configuration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.w3c.dom.Node;
 
 import sos.util.SOSLogger;
-import sos.util.SOSString;
 import sos.xml.SOSXMLXPath;
 
 public class SOSConfigurationRequiredItem {
 
     private static final Logger LOGGER = Logger.getLogger(SOSConfigurationRequiredItem.class);
-    private SOSString sosString = new SOSString();
     private SOSXMLXPath xPath = null;
     private String msgUnknownParameter = "";
-    private ArrayList checkIds = null;
-    private HashMap quickConfigurationsItem = null;
-   private ArrayList passwordNames = null;
+    private List<String> checkIds = null;
+    private Map<String, SOSConfigurationItem> quickConfigurationsItem = null;
+    private List<String> passwordNames = null;
+    @SuppressWarnings("unused")
     private boolean allowOtherParamsNames = false;
     public static String REQUIRED_DEFAULT_PARAMETERS_FILENAME = "configuration.xml";
 
@@ -33,8 +34,8 @@ public class SOSConfigurationRequiredItem {
 
     private void init() throws Exception {
         try {
-            checkIds = new ArrayList();
-            quickConfigurationsItem = new HashMap();
+            checkIds = new ArrayList<String>();
+            quickConfigurationsItem = new HashMap<String, SOSConfigurationItem>();
         } catch (Exception e) {
             throw new Exception("error in " + sos.util.SOSClassUtil.getMethodName() + ": cause: " + e.toString());
         }
@@ -65,7 +66,7 @@ public class SOSConfigurationRequiredItem {
         }
     }
 
-    private SOSConfigurationItem[] mergeListOfMissingItemWithDefaults(ArrayList listOfMissingItemWithDefaults,
+    private SOSConfigurationItem[] mergeListOfMissingItemWithDefaults(List<SOSConfigurationItem> listOfMissingItemWithDefaults,
             SOSConfigurationItem[] configurationsItem) throws Exception {
         SOSConfigurationItem[] newconfigurationItem = configurationsItem;
         try {
@@ -120,7 +121,7 @@ public class SOSConfigurationRequiredItem {
 
     }
 
-    public HashMap getQuickConfigurationsItem() {
+    public Map<String, SOSConfigurationItem> getQuickConfigurationsItem() {
         return quickConfigurationsItem;
     }
 
@@ -180,7 +181,7 @@ public class SOSConfigurationRequiredItem {
         }
     }
 
-    public ArrayList getPasswordNames() {
+    public List<String> getPasswordNames() {
         return passwordNames;
     }
 

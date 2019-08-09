@@ -1,13 +1,13 @@
 package sos.util;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /** @author Joacim Zschimmer */
 public class SOSArguments {
 
-    final Map arguments = new HashMap();
+    final Map<String, Argument> arguments = new HashMap<String, Argument>();
 
     static class Argument {
 
@@ -129,12 +129,9 @@ public class SOSArguments {
     }
 
     public void checkAllUsed() throws Exception {
-        for (Iterator it = arguments.entrySet().iterator(); it.hasNext();) {
-            Map.Entry entry = (Map.Entry) it.next();
-            String option = (String) entry.getKey();
-            Argument argument = (Argument) entry.getValue();
-            if (!argument.read) {
-                throw new Exception("SOSArguments.check_all_used(): no parameter given for option: " + option);
+        for (Entry<String, Argument> entry : arguments.entrySet()) {
+            if (!entry.getValue().read) {
+                throw new Exception("SOSArguments.check_all_used(): no parameter given for option: " + entry.getKey());
             }
         }
     }
@@ -159,17 +156,15 @@ public class SOSArguments {
     public static void main(String[] args) {
         try {
             SOSArguments arguments = new SOSArguments(args, true);
-            Iterator keys = arguments.arguments.keySet().iterator();
-            while (keys.hasNext()) {
-                Object key = keys.next();
-                System.out.println(key + arguments.asString(key.toString()));
+            for (String key : arguments.arguments.keySet()) {
+                System.out.println(key + arguments.asString(key));
             }
         } catch (Exception e) {
             System.err.println(e.toString());
         }
     }
 
-    public Map getArguments() {
+    public Map<String, Argument> getArguments() {
         return arguments;
     }
 

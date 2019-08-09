@@ -17,7 +17,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "path"
+    "path",
+    "documentation"
 })
 public class JobChainNodeJobChainP {
 
@@ -32,6 +33,14 @@ public class JobChainNodeJobChainP {
     @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
     @JacksonXmlProperty(localName = "path")
     private String path;
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
+    @JsonProperty("documentation")
+    private String documentation;
 
     /**
      * path
@@ -59,6 +68,32 @@ public class JobChainNodeJobChainP {
         this.path = path;
     }
 
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     * @return
+     *     The documentation
+     */
+    @JsonProperty("documentation")
+    public String getDocumentation() {
+        return documentation;
+    }
+
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     * @param documentation
+     *     The documentation
+     */
+    @JsonProperty("documentation")
+    public void setDocumentation(String documentation) {
+        this.documentation = documentation;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this).append("path", path).toString();
@@ -66,7 +101,7 @@ public class JobChainNodeJobChainP {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(path).toHashCode();
+        return new HashCodeBuilder().append(path).append(documentation).toHashCode();
     }
 
     @Override
@@ -78,7 +113,7 @@ public class JobChainNodeJobChainP {
             return false;
         }
         JobChainNodeJobChainP rhs = ((JobChainNodeJobChainP) other);
-        return new EqualsBuilder().append(path, rhs.path).isEquals();
+        return new EqualsBuilder().append(path, rhs.path).append(documentation, rhs.documentation).isEquals();
     }
 
 }

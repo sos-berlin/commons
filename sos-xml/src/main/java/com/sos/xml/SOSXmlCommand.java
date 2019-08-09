@@ -1,9 +1,9 @@
 package com.sos.xml;
 
-import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.Instant;
@@ -25,19 +25,25 @@ import com.sos.exception.SOSNoResponseException;
 import sos.xml.SOSXMLXPath;
 
 public class SOSXmlCommand {
+
     private static final String DEFAULT_PROTOCOL = "http";
     private String protocol;
     private String host;
     private Long port;
     private String url;
     protected Map<String, Map<String, String>> attributes;
-    private StringBuilder response;
     private SOSXMLXPath sosxml;
     private int connectTimeout = 0;
     private int readTimeout = 0;
     private boolean allowAllHostnameVerifier = true;
     private String basicAuthorization = null;
     
+    public enum ResponseStream {
+        TO_STRING,
+        TO_SOSXML,
+        TO_STRING_AND_SOSXML;
+    }
+
     public SOSXmlCommand(String protocol, String host, Long port) {
         if (protocol == null || "".equals(protocol)) {
             protocol = DEFAULT_PROTOCOL;
@@ -54,14 +60,14 @@ public class SOSXmlCommand {
         attributes = new HashMap<String, Map<String, String>>();
         this.url = url;
     }
-    
+
     public SOSXmlCommand(String host, int port) {
         attributes = new HashMap<String, Map<String, String>>();
         this.host = host;
         this.port = new Long(port);
         this.protocol = DEFAULT_PROTOCOL;
     }
-    
+
     public void setConnectTimeout(int connectTimeout) {
         this.connectTimeout = connectTimeout;
     }
@@ -69,21 +75,19 @@ public class SOSXmlCommand {
     public void setReadTimeout(int readTimeout) {
         this.readTimeout = readTimeout;
     }
-    
+
     public void setAllowAllHostnameVerifier(boolean flag) {
         allowAllHostnameVerifier = flag;
     }
-    
+
     public void setBasicAuthorization(String basicAuthorization) {
         this.basicAuthorization = basicAuthorization;
     }
-    
+
     public String getBasicAuthorization() {
         return basicAuthorization;
     }
 
-    
-    
     protected void setUrl(String url) {
         this.url = url;
     }
@@ -159,7 +163,7 @@ public class SOSXmlCommand {
     public Element executeXPath(String key, String xPath) throws Exception {
         Element element = null;
         if (sosxml != null) {
-            HashMap<String, String> attrs = new HashMap<String, String>();
+            Map<String, String> attrs = new HashMap<String, String>();
             Node n = sosxml.selectSingleNode(xPath);
             if (n != null) {
                 element = (Element) n;
@@ -172,7 +176,7 @@ public class SOSXmlCommand {
         } else {
             attributes.put(key, new HashMap<String, String>());
         }
-        return element;    
+        return element;
     }
 
     public Element executeXPath(String xPath) throws Exception {
@@ -186,12 +190,35 @@ public class SOSXmlCommand {
             return null;
         }
     }
-    
+
     public String executeXMLPost(String urlParameters) throws SOSConnectionRefusedException, SOSNoResponseException {
         return executeXMLPost(urlParameters, UUID.randomUUID().toString());
     }
 
     public String executeXMLPost(String urlParameters, String csrfToken) throws SOSConnectionRefusedException, SOSNoResponseException {
+        return responseToString(requestXMLPost(urlParameters, csrfToken));
+    }
+    
+    public String executeXMLPost(String urlParameters, ResponseStream responseStream) throws SOSConnectionRefusedException, SOSNoResponseException {
+        return executeXMLPost(urlParameters, responseStream, UUID.randomUUID().toString());
+    }
+
+    public String executeXMLPost(String urlParameters, ResponseStream responseStream, String csrfToken) throws SOSConnectionRefusedException, SOSNoResponseException {
+        return responseToString(requestXMLPost(urlParameters, csrfToken), responseStream);
+    }
+
+    public SOSXMLXPath getSosxml() {
+        return sosxml;
+    }
+
+    private String getCsrfToken(String csrfToken) {
+        if (csrfToken == null || csrfToken.isEmpty()) {
+            return UUID.randomUUID().toString();
+        }
+        return csrfToken;
+    }
+
+    public HttpURLConnection requestXMLPost(String urlParameters, String csrfToken) throws SOSConnectionRefusedException {
 
         HttpURLConnection connection = null;
 
@@ -211,10 +238,10 @@ public class SOSXmlCommand {
                 }
                 connection = (HttpsURLConnection) url.openConnection();
             } else {
-                connection = (HttpURLConnection) url.openConnection(); 
+                connection = (HttpURLConnection) url.openConnection();
             }
             if (basicAuthorization != null && !basicAuthorization.isEmpty()) {
-                connection.setRequestProperty("Authorization", "Basic " + basicAuthorization); 
+                connection.setRequestProperty("Authorization", "Basic " + basicAuthorization);
             }
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/xml");
@@ -222,7 +249,7 @@ public class SOSXmlCommand {
             connection.setRequestProperty("Content-Length", Integer.toString(urlParameters.getBytes().length));
             // connection.setRequestProperty("Content-Language", "en-US");
             connection.setRequestProperty("X-CSRF-Token", getCsrfToken(csrfToken));
-            
+
             connection.setUseCaches(false);
             connection.setDoOutput(true);
             connection.setConnectTimeout(connectTimeout);
@@ -232,58 +259,62 @@ public class SOSXmlCommand {
             DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
             wr.writeBytes(urlParameters);
             wr.close();
+            return connection;
         } catch (Exception e) {
             if (connection != null) {
                 connection.disconnect();
             }
             throw new SOSConnectionRefusedException(e);
         }
-
-        // Get Response
-        InputStream is = null;
-        response = new StringBuilder();
-        BufferedReader rd = null;
-        try {
-            is = connection.getInputStream();
-            rd = new BufferedReader(new InputStreamReader(is));
-            String line;
-            while ((line = rd.readLine()) != null) {
-                response.append(line);
-                response.append('\r');
-            }
-            rd.close();
-            sosxml = new SOSXMLXPath(new StringBuffer(response));
-            return response.toString();
-        } catch (Exception e) {
-            throw new SOSNoResponseException(e);
-        } finally {
-            try {
-                if (is != null) {
-                    is.close();
-                }
-            } catch (Exception e) {
-            }
-            try {
-                if (rd != null) {
-                    rd.close();
-                }
-            } catch (Exception e) {
-            }
-            if (connection != null) {
-                connection.disconnect();
-            }
-        }
-
-    }
-
-    public SOSXMLXPath getSosxml() {
-        return sosxml;
     }
     
-    private String getCsrfToken(String csrfToken) {
-        if (csrfToken == null || csrfToken.isEmpty()) {
-            return UUID.randomUUID().toString();
+    private String responseToString(HttpURLConnection connection) throws SOSNoResponseException {
+        return responseToString(connection, ResponseStream.TO_STRING_AND_SOSXML);
+    }
+
+    private String responseToString(HttpURLConnection connection, ResponseStream responseStream) throws SOSNoResponseException {
+        if (connection != null) {
+            InputStream is = null;
+            StringBuffer response = new StringBuffer();
+            Reader rd = null;
+            try {
+                is = connection.getInputStream();
+                if (responseStream == ResponseStream.TO_SOSXML) {
+                    sosxml = new SOSXMLXPath(is);
+                    return null;
+                }
+                rd = new InputStreamReader(is);
+                final char[] buffer = new char[4096];
+                int length;
+                while((length = rd.read(buffer)) != -1) {
+                    response.append(buffer, 0, length);
+                }
+
+                if (responseStream == ResponseStream.TO_STRING_AND_SOSXML) {
+                    sosxml = new SOSXMLXPath(response);
+                }
+                return response.toString();
+            } catch (Exception e) {
+                throw new SOSNoResponseException(e);
+            } finally {
+                try {
+                    if (is != null) {
+                        is.close();
+                    }
+                } catch (Exception e) {
+                }
+                try {
+                    if (rd != null) {
+                        rd.close();
+                    }
+                } catch (Exception e) {
+                }
+                if (connection != null) {
+                    connection.disconnect();
+                }
+            }
+        } else {
+            return "";
         }
-        return csrfToken;
     }
 }

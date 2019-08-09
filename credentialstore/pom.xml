@@ -26,6 +26,12 @@
             <artifactId>jobscheduler-helper</artifactId>
             <version>${project.version}</version>
         </dependency>
+        
+        <dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<scope>test</scope>
+		</dependency>
 
         <dependency>
             <groupId>log4j</groupId>
@@ -40,7 +46,7 @@
 
         <dependency>
             <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-ext-jdk15on</artifactId>
+            <artifactId>bcprov-jdk15on</artifactId>
         </dependency>
 
         <dependency>

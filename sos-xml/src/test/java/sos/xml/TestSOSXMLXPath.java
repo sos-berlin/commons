@@ -1,17 +1,10 @@
 package sos.xml;
 
 import java.io.FileInputStream;
-import java.io.StringWriter;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.log4j.Logger;
-import org.apache.xml.serialize.OutputFormat;
-import org.apache.xml.serialize.XMLSerializer;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -43,14 +36,6 @@ public class TestSOSXMLXPath {
             NodeList nl = myxpath.selectNodeList(myxpath.getDocument().getElementsByTagName("*").item(0), "//test");
             String xstring = myxpath.selectSingleNodeValue("//param[name[text()='service']]/value");
             LOGGER.info("param:" + xstring + "\n\n");
-            Node xNode = myxpath.selectSingleNode("//xml_payload");
-            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-            Document xDoc = docBuilder.newDocument();
-            xDoc.appendChild(xDoc.importNode(xNode, true));
-            StringWriter out = new StringWriter();
-            XMLSerializer serializer = new XMLSerializer(out, new OutputFormat(xDoc));
-            serializer.serialize(xDoc);
             SOSXMLXPath xpath = new SOSXMLXPath(new StringBuffer("<spooler><answer><ERROR code=\"4711\" text=\"ein Fehler\"/></answer></spooler>"));
             String astring = xpath.selectSingleNodeValue("//ERROR/@code");
             String bstring = xpath.selectSingleNodeValue("//ERROR/@text");

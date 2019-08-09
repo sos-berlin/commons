@@ -9,7 +9,7 @@ import java.util.ResourceBundle;
 /** @author Robert Ehrlich */
 public class SOSResourceBundle {
 
-    private final static Hashtable bundles = new Hashtable();
+    private final static Hashtable<String, ResourceBundle> bundles = new Hashtable<String, ResourceBundle>();
     private ResourceBundle bundle = null;
     private Locale locale = Locale.UK;
 
@@ -37,7 +37,7 @@ public class SOSResourceBundle {
         }
         String bundleKey = name + "_" + this.locale.toString();
         if (bundles.containsKey(bundleKey)) {
-            this.bundle = (ResourceBundle) bundles.get(bundleKey);
+            this.bundle = bundles.get(bundleKey);
         } else {
             try {
                 this.bundle = ResourceBundle.getBundle(name, this.locale);
@@ -73,7 +73,7 @@ public class SOSResourceBundle {
         return this.getMessage(name, new String[] { arg0, arg1 });
     }
 
-    public String getMessage(String name, String[] args) throws Exception {
+    public String getMessage(String name, Object[] args) throws Exception {
         try {
             String pattern = bundle.getString(name);
             return MessageFormat.format(pattern, args);

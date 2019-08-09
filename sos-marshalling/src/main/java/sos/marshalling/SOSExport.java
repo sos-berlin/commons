@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -885,18 +886,18 @@ public class SOSExport {
             connection.executeQuery(stm.toString());
             ResultSet resultSet = connection.getResultSet();
             SOSImExportTableFieldTypes fieldTypes = new SOSImExportTableFieldTypes();
-            HashMap fieldDesc = new HashMap();
+            Map<String, String> fieldDesc = new HashMap<String, String>();
             for (int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++) {
                 fieldDesc = connection.fieldDesc(i);
-                Integer type = new Integer(fieldDesc.get("columnType").toString());
-                BigInteger size = new BigInteger(fieldDesc.get("columnDisplaySize").toString());
-                Integer scale = new Integer(fieldDesc.get("scale").toString());
+                Integer type = new Integer(fieldDesc.get("columnType"));
+                BigInteger size = new BigInteger(fieldDesc.get("columnDisplaySize"));
+                Integer scale = new Integer(fieldDesc.get("scale"));
                 if (logger != null) {
                     logger.debug9("field_type: name=" + fieldDesc.get("columnName") + " type=" + fieldDesc.get("columnTypeName") + " type_id=" + type
                             + " size=" + size + " scale=" + scale);
                 }
-                fieldTypes.addField(normalizeFieldName(normalizeFieldName((String) fieldDesc.get("columnName"))),
-                        (String) fieldDesc.get("columnTypeName"), type, size, scale);
+                fieldTypes.addField(normalizeFieldName(normalizeFieldName(fieldDesc.get("columnName"))),
+                        fieldDesc.get("columnTypeName"), type, size, scale);
             }
             resultSet.close();
             return fieldTypes;

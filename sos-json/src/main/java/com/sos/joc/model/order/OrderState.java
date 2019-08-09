@@ -20,7 +20,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "severity",
-    "_text"
+    "_text",
+    "manually"
 })
 public class OrderState {
 
@@ -43,6 +44,8 @@ public class OrderState {
     @JsonProperty("_text")
     @JacksonXmlProperty(localName = "_text")
     private OrderStateText _text;
+    @JsonProperty("manually")
+    private Boolean manually;
 
     /**
      *  0=running, 4=active, 3=initialized, 2=under_construction/stopped/not_initialized
@@ -92,6 +95,26 @@ public class OrderState {
         this._text = _text;
     }
 
+    /**
+     * 
+     * @return
+     *     The manually
+     */
+    @JsonProperty("manually")
+    public Boolean getManually() {
+        return manually;
+    }
+
+    /**
+     * 
+     * @param manually
+     *     The manually
+     */
+    @JsonProperty("manually")
+    public void setManually(Boolean manually) {
+        this.manually = manually;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this).append("severity", severity).append("_text", _text).toString();
@@ -99,7 +122,7 @@ public class OrderState {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(severity).append(_text).toHashCode();
+        return new HashCodeBuilder().append(severity).append(_text).append(manually).toHashCode();
     }
 
     @Override
@@ -111,7 +134,7 @@ public class OrderState {
             return false;
         }
         OrderState rhs = ((OrderState) other);
-        return new EqualsBuilder().append(severity, rhs.severity).append(_text, rhs._text).isEquals();
+        return new EqualsBuilder().append(severity, rhs.severity).append(_text, rhs._text).append(manually, rhs.manually).isEquals();
     }
 
 }

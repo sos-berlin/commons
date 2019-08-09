@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
@@ -83,8 +84,8 @@ public class SOSConnectionFileProcessor {
         try {
             if (inputFile.isDirectory()) {
                 if (this.getLogger() != null) {
-                    this.getLogger().info(
-                            String.format("%s: process directory %s, fileSpec = %s", methodName, inputFile.getAbsolutePath(), this.getFileSpec()));
+                    this.getLogger().info(String.format("%s: process directory %s, fileSpec = %s", methodName, inputFile.getAbsolutePath(), this
+                            .getFileSpec()));
                 }
                 this.hasDirectory = true;
                 this.initCounters();
@@ -95,9 +96,8 @@ public class SOSConnectionFileProcessor {
                 }
                 isEnd = true;
                 if (this.getLogger() != null) {
-                    this.getLogger().info(
-                            String.format("%s: directory proccessed (total = %s, success = %s, error = %s) %s", methodName, filelist.size(),
-                                    this.successFiles.size(), this.errorFiles.size(), inputFile.getAbsolutePath()));
+                    this.getLogger().info(String.format("%s: directory proccessed (total = %s, success = %s, error = %s) %s", methodName, filelist
+                            .size(), this.successFiles.size(), this.errorFiles.size(), inputFile.getAbsolutePath()));
                     if (!this.successFiles.isEmpty()) {
                         this.getLogger().info(String.format("%s:   success:", methodName));
                         for (int i = 0; i < this.successFiles.size(); i++) {
@@ -158,8 +158,8 @@ public class SOSConnectionFileProcessor {
         } catch (Exception e) {
             this.errorFiles.put(inputFile.getAbsolutePath(), e.getMessage());
             if (this.getLogger() != null) {
-                this.getLogger().warn(
-                        String.format("%s: an error occurred processing file [%s]: %s", methodName, inputFile.getAbsolutePath(), e.getMessage()));
+                this.getLogger().warn(String.format("%s: an error occurred processing file [%s]: %s", methodName, inputFile.getAbsolutePath(), e
+                        .getMessage()));
             }
         } finally {
             try {
@@ -231,40 +231,76 @@ public class SOSConnectionFileProcessor {
                     + "[-commit-at-end|-auto-commit|-execute-batch|batch-size=xxx]");
             return;
         }
-        String settingsFile = args[0];
-        int logLevel = 0;
-        if (args.length > 3) {
-            logLevel = Integer.parseInt(args[3]);
-        }
-        SOSConnectionFileProcessor processor = new SOSConnectionFileProcessor(settingsFile, (SOSLogger) new SOSStandardLogger(logLevel));
-        File inputFile = null;
-        for (int i = 0; i < args.length; i++) {
-            String param = args[i].trim();
-            System.out.println(String.format("  %s) %s", i + 1, param));
-            if (i == 1) {
-                inputFile = new File(param);
-            } else if (i == 2) {
-                processor.setFileSpec(param);
-            } else if (i > 3) {
-                if ("-commit-at-end".equalsIgnoreCase(param)) {
-                    processor.setCommitAtEnd(true);
-                } else if ("-auto-commit".equalsIgnoreCase(param)) {
-                    processor.getConnection().setAutoCommit(true);
-                } else if ("-execute-batch".equalsIgnoreCase(param)) {
-                    processor.getConnection().setUseExecuteBatch(true);
-                } else if (param.startsWith("batch-size")) {
-                    int batchSize = processor.getConnection().getBatchSize();
-                    try {
-                        batchSize = Integer.parseInt(processor.getParamValue(param));
-                    } catch (Exception ex) {
-                        System.out.println(String.format("   error: invalid value of the param %s", param));
-                        System.out.println(String.format("          batch-size setted to default value = %s", batchSize));
+
+        SOSConnectionFileProcessor processor = null;
+        int exitCode = 0;
+        boolean logToStdErr = false;
+        try {
+            String settingsFile = args[0];
+            int logLevel = 0;
+            if (args.length > 3) {
+                logLevel = Integer.parseInt(args[3]);
+            }
+            logToStdErr =  Arrays.asList(args).contains("-execute-from-setup");
+            processor = new SOSConnectionFileProcessor(settingsFile, (SOSLogger) new SOSStandardLogger(logLevel));
+            File inputFile = null;
+            for (int i = 0; i < args.length; i++) {
+                String param = args[i].trim();
+                System.out.println(String.format("  %s) %s", i + 1, param));
+                if (i == 1) {
+                    inputFile = new File(param);
+                } else if (i == 2) {
+                    processor.setFileSpec(param);
+                } else if (i > 3) {
+                    if ("-commit-at-end".equalsIgnoreCase(param)) {
+                        processor.setCommitAtEnd(true);
+                    } else if ("-auto-commit".equalsIgnoreCase(param)) {
+                        processor.getConnection().setAutoCommit(true);
+                    } else if ("-execute-batch".equalsIgnoreCase(param)) {
+                        processor.getConnection().setUseExecuteBatch(true);
+                    } else if (param.startsWith("batch-size")) {
+                        int batchSize = processor.getConnection().getBatchSize();
+                        try {
+                            batchSize = Integer.parseInt(processor.getParamValue(param));
+                        } catch (Exception ex) {
+                            System.out.println(String.format("   error: invalid value of the param %s", param));
+                            System.out.println(String.format("          batch-size setted to default value = %s", batchSize));
+                        }
+                        processor.getConnection().setBatchSize(batchSize);
+                    } else if ("-execute-from-setup".equalsIgnoreCase(param)) {
+                        processor.getConnection().setUseExecuteBatch(true);
+                        logToStdErr = true;
                     }
-                    processor.getConnection().setBatchSize(batchSize);
+                }
+            }
+            processor.process(inputFile);
+            if (processor.errorFiles != null) {
+                exitCode = processor.errorFiles.size();
+                if (logToStdErr && !processor.errorFiles.isEmpty()) {
+                    Entry<String, String> entry = processor.errorFiles.entrySet().iterator().next();
+                    System.err.println(String.format("%s: %s", entry.getKey(), entry.getValue()));
+                }
+            }
+            if (logToStdErr && processor.successFiles != null && !processor.successFiles.isEmpty()) {
+                System.err.println(String.format("%s processed successfully", processor.successFiles.get(0)));
+            }
+        } catch (Exception e) {
+            exitCode = 1;
+            if (logToStdErr) {
+                e.printStackTrace(System.err);
+            } else {
+                e.printStackTrace(System.out);
+            }
+            // throw e;
+        } finally {
+            if (processor != null && processor.getConnection() != null) {
+                try {
+                    processor.getConnection().disconnect();
+                } catch (Exception ex) {
                 }
             }
         }
-        processor.process(inputFile);
+        System.exit(exitCode);
     }
 
 }

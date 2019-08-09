@@ -316,7 +316,7 @@ public class JarMerge {
 
     private void executeCheck() throws Exception {
         JarFile jar;
-        Enumeration content;
+        Enumeration<JarEntry> content;
         JarEntry entry;
         String classFile;
         long lDate;
@@ -334,14 +334,14 @@ public class JarMerge {
             this.logln("\n no jar/zip archives found");
             return;
         }
-        Hashtable inventory = new Hashtable();
+        Hashtable<String, String> inventory = new Hashtable<String, String>();
         try {
             int i = 0;
             for (i = 0; i < list.length; i++) {
                 jar = new JarFile(source + list[i]);
                 content = jar.entries();
                 while (content.hasMoreElements()) {
-                    entry = (JarEntry) content.nextElement();
+                    entry = content.nextElement();
                     classFile = entry.getName();
                     lDate = entry.getTime();
                     size = entry.getSize();
@@ -677,11 +677,11 @@ public class JarMerge {
             throw new Exception("no files to archive");
         }
         JarFile jar = new JarFile(jarFile);
-        Enumeration jarEnum = jar.entries();
-        Hashtable jarContent = new Hashtable();
+        Enumeration<JarEntry> jarEnum = jar.entries();
+        Hashtable<String, String> jarContent = new Hashtable<String, String>();
         String elem;
         while (jarEnum.hasMoreElements()) {
-            elem = ((JarEntry) jarEnum.nextElement()).getName();
+            elem = jarEnum.nextElement().getName();
             jarContent.put(elem, "notnull");
         }
         jar.close();
@@ -712,7 +712,7 @@ public class JarMerge {
         byte[] buffer = new byte[4096];
         JarEntry entry;
         String path;
-        Hashtable inventory = new Hashtable();
+        Hashtable<String, String> inventory = new Hashtable<String, String>();
         int nrOfWrittenFiles = 0;
         for (int i = 0; i < tobeJared.length; i++) {
             if (tobeJared[i] == null) {

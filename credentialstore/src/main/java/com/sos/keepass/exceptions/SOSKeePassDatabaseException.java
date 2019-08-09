@@ -1,4 +1,4 @@
-package com.sos.keepass;
+package com.sos.keepass.exceptions;
 
 public class SOSKeePassDatabaseException extends Exception {
 

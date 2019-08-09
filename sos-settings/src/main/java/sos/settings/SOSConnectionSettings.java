@@ -1,7 +1,8 @@
 package sos.settings;
 
-import java.util.Properties;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
@@ -9,7 +10,6 @@ import sos.connection.SOSConnection;
 import sos.connection.SOSMSSQLConnection;
 import sos.connection.SOSSybaseConnection;
 import sos.util.SOSClassUtil;
-import sos.util.SOSLogger;
 import sos.util.SOSString;
 
 /** @author Ghassan Beydoun
@@ -115,8 +115,8 @@ public class SOSConnectionSettings extends sos.settings.SOSSettings {
         return getSection(application, section);
     }
 
-    public ArrayList getSections(String application) throws Exception {
-        ArrayList sections = new ArrayList();
+    public List<String> getSections(String application) throws Exception {
+        List<String> sections = new ArrayList<String>();
         StringBuilder query = null;
         if (SOSString.isEmpty(application)) {
             throw new Exception(SOSClassUtil.getMethodName() + ": application has no value!");
@@ -140,7 +140,7 @@ public class SOSConnectionSettings extends sos.settings.SOSSettings {
         return sections;
     }
 
-    public ArrayList getSections() throws Exception {
+    public List<String> getSections() throws Exception {
         if (SOSString.isEmpty(application)) {
             throw new Exception(SOSClassUtil.getMethodName() + ": application has no value!");
         }

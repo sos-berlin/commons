@@ -22,7 +22,8 @@ public enum ConfigurationObjectType {
     ORDER_HISTORY("ORDER_HISTORY"),
     YADE("YADE"),
     YADE_HISTORY("YADE_HISTORY"),
-    EVENT("EVENT");
+    EVENT("EVENT"),
+    AUDITLOG("AUDITLOG");
     private final String value;
     private final static Map<String, ConfigurationObjectType> CONSTANTS = new HashMap<String, ConfigurationObjectType>();
 

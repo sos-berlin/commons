@@ -1,20 +1,20 @@
 /*
- * Created on 28.04.2004 To change the template for this generated file go to
- * Window - Preferences - Java - Code Generation - Code and Comments
+ * Created on 28.04.2004 To change the template for this generated file go to Window - Preferences - Java - Code Generation - Code and Comments
  */
 package sos.util;
 
-import javax.print.PrintService;
 import java.awt.print.PrinterJob;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.print.PrintService;
 
 /** @author mo
  *
- *         To change the template for this generated type comment go to Window -
- *         Preferences - Java - Code Generation - Code and Comments */
+ *         To change the template for this generated type comment go to Window - Preferences - Java - Code Generation - Code and Comments */
 public class SOSPrinterName {
 
-    /** Schreibt alle Namen der Drucker auf standard output. Manche Namen
-     * differenzieren sich im Gegensatz zu dem, was im Druckerdialog steht. */
+    /** Schreibt alle Namen der Drucker auf standard output. Manche Namen differenzieren sich im Gegensatz zu dem, was im Druckerdialog steht. */
     public static void getPrinterName() {
         try {
             System.out.println("");
@@ -45,8 +45,8 @@ public class SOSPrinterName {
     /** Liefert alle Namen der Drucker in einer ArrayListe
      * 
      * @return String */
-    public static java.util.ArrayList getAllPrinterName() throws Exception {
-        java.util.ArrayList retVal = new java.util.ArrayList();
+    public static List<String> getAllPrinterName() throws Exception {
+        List<String> retVal = new ArrayList<String>();
         try {
             PrintService[] printService = PrinterJob.lookupPrintServices();
             for (int i = 0; i < printService.length; i++) {

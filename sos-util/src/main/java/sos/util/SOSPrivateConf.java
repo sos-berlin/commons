@@ -1,10 +1,12 @@
 package sos.util;
 
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Base64;
 
+import com.sos.exception.SOSMissingDataException;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigException;
 import com.typesafe.config.ConfigFactory;
@@ -22,7 +24,7 @@ public class SOSPrivateConf {
         this.filename = filename;
     }
 
-    private void init() throws Exception {
+    private void init() throws SOSMissingDataException  {
         if (config == null) {
             Path path = Paths.get(filename);
             if (Files.exists(path)) {
@@ -30,12 +32,12 @@ public class SOSPrivateConf {
             } else {
                 String s = String.format("File %s not found", path);
                 LOGGER.warn(s);
-                throw new Exception(s);
+                throw new SOSMissingDataException(s);
             }
         }
     }
 
-    public String getValue(String key) throws Exception {
+    public String getValue(String key) throws SOSMissingDataException {
         LOGGER.debug("reading key: " + key);
         init();
         String value = null;
@@ -43,7 +45,7 @@ public class SOSPrivateConf {
         return value;
     }
 
-    public String getValue(String objectId, String key) throws Exception {
+    public String getValue(String objectId, String key) throws SOSMissingDataException  {
         LOGGER.debug("reading key: " + key);
         init();
         Config configClass = null;
@@ -62,7 +64,7 @@ public class SOSPrivateConf {
 
     }
 
-    public String getEncodedValue(String objectId, String key) throws Exception {
+    public String getDecodedValue(String objectId, String key) throws UnsupportedEncodingException, SOSMissingDataException {
         String s = getValue(objectId, key);
         if (s != null) {
             return new String(Base64.getDecoder().decode(s.getBytes("UTF-8")), "UTF-8");
@@ -71,7 +73,7 @@ public class SOSPrivateConf {
         }
     }
 
-    public String getEncodedValue(String key) throws Exception {
+    public String getDecodedValue(String key) throws SOSMissingDataException, UnsupportedEncodingException  {
         String s = getValue(key);
         if (s != null) {
             return new String(Base64.getDecoder().decode(s.getBytes("UTF-8")), "UTF-8");

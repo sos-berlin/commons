@@ -149,7 +149,7 @@ public class SOSCertificate {
         try {
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
             InputStream certStream = getStream(fileName);
-            Collection c = cf.generateCertificates(certStream);
+            Collection<? extends Certificate> c = cf.generateCertificates(certStream);
             Certificate[] certs = new Certificate[c.toArray().length];
             if (c.size() == 1) {
                 certStream = getStream(fileName);
@@ -178,7 +178,7 @@ public class SOSCertificate {
         try {
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
             InputStream certStream = getStream(bArray);
-            Collection c = cf.generateCertificates(certStream);
+            Collection<? extends Certificate> c = cf.generateCertificates(certStream);
             Certificate[] certs = new Certificate[c.toArray().length];
             if (c.size() == 1) {
                 certStream = getStream(bArray);
@@ -204,12 +204,27 @@ public class SOSCertificate {
      * @param fileName
      * @return @throws IOException */
     private static InputStream getStream(String fileName) throws Exception {
-        FileInputStream fis = new FileInputStream(fileName);
-        DataInputStream dis = new DataInputStream(fis);
-        byte[] bytes = new byte[dis.available()];
-        dis.readFully(bytes);
-        ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
-        return bais;
+        FileInputStream fis = null;
+        DataInputStream dis = null;
+        try {
+            fis = new FileInputStream(fileName);
+            dis = new DataInputStream(fis);
+            byte[] bytes = new byte[dis.available()];
+            dis.readFully(bytes);
+            ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+            return bais;
+        } finally {
+            if(fis != null) {
+                try {
+                    fis.close();
+                } catch (Exception e) {}
+            }
+            if(dis != null) {
+                try {
+                    dis.close();
+                } catch (Exception e) {}
+            }
+        }
     }
 
     /** Input Stream aus einem Byte Array erzeugen

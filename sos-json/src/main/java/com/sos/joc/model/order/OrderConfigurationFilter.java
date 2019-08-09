@@ -1,11 +1,11 @@
 
 package com.sos.joc.model.order;
 
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.sos.classes.Latin1ToUtf8;
 import com.sos.joc.model.common.ConfigurationMime;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -19,6 +19,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobschedulerId",
     "jobChain",
@@ -33,7 +34,6 @@ public class OrderConfigurationFilter {
      * 
      */
     @JsonProperty("jobschedulerId")
-    @JacksonXmlProperty(localName = "jobschedulerId")
     private String jobschedulerId;
     /**
      * path
@@ -43,8 +43,6 @@ public class OrderConfigurationFilter {
      * 
      */
     @JsonProperty("jobChain")
-    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
-    @JacksonXmlProperty(localName = "jobChain")
     private String jobChain;
     /**
      * 
@@ -52,7 +50,6 @@ public class OrderConfigurationFilter {
      * 
      */
     @JsonProperty("orderId")
-    @JacksonXmlProperty(localName = "orderId")
     private String orderId;
     /**
      * configuration mime filter
@@ -61,17 +58,16 @@ public class OrderConfigurationFilter {
      * 
      */
     @JsonProperty("mime")
-    @JsonPropertyDescription("The configuration can have a HTML representation where the HTML gets a highlighting via CSS classes.")
-    @JacksonXmlProperty(localName = "mime")
     private ConfigurationMime mime = ConfigurationMime.fromValue("XML");
 
     /**
      * 
      * (Required)
      * 
+     * @return
+     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
-    @JacksonXmlProperty(localName = "jobschedulerId")
     public String getJobschedulerId() {
         return jobschedulerId;
     }
@@ -80,9 +76,10 @@ public class OrderConfigurationFilter {
      * 
      * (Required)
      * 
+     * @param jobschedulerId
+     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
-    @JacksonXmlProperty(localName = "jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
         this.jobschedulerId = jobschedulerId;
     }
@@ -93,9 +90,10 @@ public class OrderConfigurationFilter {
      * absolute path based on live folder of a JobScheduler object.
      * (Required)
      * 
+     * @return
+     *     The jobChain
      */
     @JsonProperty("jobChain")
-    @JacksonXmlProperty(localName = "jobChain")
     public String getJobChain() {
         return jobChain;
     }
@@ -106,20 +104,22 @@ public class OrderConfigurationFilter {
      * absolute path based on live folder of a JobScheduler object.
      * (Required)
      * 
+     * @param jobChain
+     *     The jobChain
      */
     @JsonProperty("jobChain")
-    @JacksonXmlProperty(localName = "jobChain")
     public void setJobChain(String jobChain) {
-        this.jobChain = jobChain;
+        this.jobChain = Latin1ToUtf8.convert(jobChain);
     }
 
     /**
      * 
      * (Required)
      * 
+     * @return
+     *     The orderId
      */
     @JsonProperty("orderId")
-    @JacksonXmlProperty(localName = "orderId")
     public String getOrderId() {
         return orderId;
     }
@@ -128,11 +128,12 @@ public class OrderConfigurationFilter {
      * 
      * (Required)
      * 
+     * @param orderId
+     *     The orderId
      */
     @JsonProperty("orderId")
-    @JacksonXmlProperty(localName = "orderId")
     public void setOrderId(String orderId) {
-        this.orderId = orderId;
+        this.orderId = Latin1ToUtf8.convert(orderId);
     }
 
     /**
@@ -140,9 +141,10 @@ public class OrderConfigurationFilter {
      * <p>
      * The configuration can have a HTML representation where the HTML gets a highlighting via CSS classes.
      * 
+     * @return
+     *     The mime
      */
     @JsonProperty("mime")
-    @JacksonXmlProperty(localName = "mime")
     public ConfigurationMime getMime() {
         return mime;
     }
@@ -152,21 +154,22 @@ public class OrderConfigurationFilter {
      * <p>
      * The configuration can have a HTML representation where the HTML gets a highlighting via CSS classes.
      * 
+     * @param mime
+     *     The mime
      */
     @JsonProperty("mime")
-    @JacksonXmlProperty(localName = "mime")
     public void setMime(ConfigurationMime mime) {
         this.mime = mime;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("jobChain", jobChain).append("orderId", orderId).append("mime", mime).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobChain).append(jobschedulerId).append(orderId).append(mime).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(jobChain).append(orderId).append(mime).toHashCode();
     }
 
     @Override
@@ -178,7 +181,7 @@ public class OrderConfigurationFilter {
             return false;
         }
         OrderConfigurationFilter rhs = ((OrderConfigurationFilter) other);
-        return new EqualsBuilder().append(jobChain, rhs.jobChain).append(jobschedulerId, rhs.jobschedulerId).append(orderId, rhs.orderId).append(mime, rhs.mime).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(jobChain, rhs.jobChain).append(orderId, rhs.orderId).append(mime, rhs.mime).isEquals();
     }
 
 }
