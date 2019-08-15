@@ -1,5 +1,5 @@
 
-package com.sos.joc.model.conditions;
+package com.sos.joc.model.jobstreams;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "id",
     "jobStream",
     "conditionExpression",
-    "outconditionEvents"
+    "outconditionEvents",
+    "inconditions"
 })
 public class OutCondition {
 
@@ -48,6 +49,8 @@ public class OutCondition {
     private ConditionExpression conditionExpression;
     @JsonProperty("outconditionEvents")
     private List<OutConditionEvent> outconditionEvents = new ArrayList<OutConditionEvent>();
+    @JsonProperty("inconditions")
+    private List<JobstreamConditions> inconditions = new ArrayList<JobstreamConditions>();
 
     /**
      * non negative long
@@ -141,6 +144,26 @@ public class OutCondition {
         this.outconditionEvents = outconditionEvents;
     }
 
+    /**
+     * 
+     * @return
+     *     The inconditions
+     */
+    @JsonProperty("inconditions")
+    public List<JobstreamConditions> getInconditions() {
+        return inconditions;
+    }
+
+    /**
+     * 
+     * @param inconditions
+     *     The inconditions
+     */
+    @JsonProperty("inconditions")
+    public void setInconditions(List<JobstreamConditions> inconditions) {
+        this.inconditions = inconditions;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -148,7 +171,7 @@ public class OutCondition {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(id).append(jobStream).append(conditionExpression).append(outconditionEvents).toHashCode();
+        return new HashCodeBuilder().append(id).append(jobStream).append(conditionExpression).append(outconditionEvents).append(inconditions).toHashCode();
     }
 
     @Override
@@ -160,7 +183,7 @@ public class OutCondition {
             return false;
         }
         OutCondition rhs = ((OutCondition) other);
-        return new EqualsBuilder().append(id, rhs.id).append(jobStream, rhs.jobStream).append(conditionExpression, rhs.conditionExpression).append(outconditionEvents, rhs.outconditionEvents).isEquals();
+        return new EqualsBuilder().append(id, rhs.id).append(jobStream, rhs.jobStream).append(conditionExpression, rhs.conditionExpression).append(outconditionEvents, rhs.outconditionEvents).append(inconditions, rhs.inconditions).isEquals();
     }
 
 }

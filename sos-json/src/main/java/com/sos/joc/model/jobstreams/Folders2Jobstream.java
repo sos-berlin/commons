@@ -1,5 +1,5 @@
 
-package com.sos.joc.model.conditions;
+package com.sos.joc.model.jobstreams;
 
 import java.util.ArrayList;
 import java.util.List;

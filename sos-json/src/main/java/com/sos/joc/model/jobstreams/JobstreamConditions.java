@@ -1,5 +1,5 @@
 
-package com.sos.joc.model.conditions;
+package com.sos.joc.model.jobstreams;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +13,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * JobStream Outconditions
+ * JobStream Conditions
  * <p>
- * List of all In Conditions
+ * List of all Conditions using an event
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -24,12 +24,12 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "jobStream",
     "jobs"
 })
-public class JobstreamOutConditions {
+public class JobstreamConditions {
 
     @JsonProperty("jobStream")
     private String jobStream;
     @JsonProperty("jobs")
-    private List<OutConditionRef> jobs = new ArrayList<OutConditionRef>();
+    private List<ConditionRef> jobs = new ArrayList<ConditionRef>();
 
     /**
      * 
@@ -57,7 +57,7 @@ public class JobstreamOutConditions {
      *     The jobs
      */
     @JsonProperty("jobs")
-    public List<OutConditionRef> getJobs() {
+    public List<ConditionRef> getJobs() {
         return jobs;
     }
 
@@ -67,7 +67,7 @@ public class JobstreamOutConditions {
      *     The jobs
      */
     @JsonProperty("jobs")
-    public void setJobs(List<OutConditionRef> jobs) {
+    public void setJobs(List<ConditionRef> jobs) {
         this.jobs = jobs;
     }
 
@@ -86,10 +86,10 @@ public class JobstreamOutConditions {
         if (other == this) {
             return true;
         }
-        if ((other instanceof JobstreamOutConditions) == false) {
+        if ((other instanceof JobstreamConditions) == false) {
             return false;
         }
-        JobstreamOutConditions rhs = ((JobstreamOutConditions) other);
+        JobstreamConditions rhs = ((JobstreamConditions) other);
         return new EqualsBuilder().append(jobStream, rhs.jobStream).append(jobs, rhs.jobs).isEquals();
     }
 

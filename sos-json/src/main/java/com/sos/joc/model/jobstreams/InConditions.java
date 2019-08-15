@@ -1,7 +1,9 @@
 
-package com.sos.joc.model.conditions;
+package com.sos.joc.model.jobstreams;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,18 +14,19 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * Start Resolver
+ * In-Conditions
  * <p>
- * Start Resolver
+ * List of all In Conditions
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "deliveryDate",
-    "jobschedulerId"
+    "jobschedulerId",
+    "jobsInconditions"
 })
-public class StartResolver {
+public class InConditions {
 
     /**
      * delivery date
@@ -36,6 +39,8 @@ public class StartResolver {
     private Date deliveryDate;
     @JsonProperty("jobschedulerId")
     private String jobschedulerId;
+    @JsonProperty("jobsInconditions")
+    private List<JobInCondition> jobsInconditions = new ArrayList<JobInCondition>();
 
     /**
      * delivery date
@@ -85,6 +90,26 @@ public class StartResolver {
         this.jobschedulerId = jobschedulerId;
     }
 
+    /**
+     * 
+     * @return
+     *     The jobsInconditions
+     */
+    @JsonProperty("jobsInconditions")
+    public List<JobInCondition> getJobsInconditions() {
+        return jobsInconditions;
+    }
+
+    /**
+     * 
+     * @param jobsInconditions
+     *     The jobsInconditions
+     */
+    @JsonProperty("jobsInconditions")
+    public void setJobsInconditions(List<JobInCondition> jobsInconditions) {
+        this.jobsInconditions = jobsInconditions;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -92,7 +117,7 @@ public class StartResolver {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(deliveryDate).append(jobschedulerId).toHashCode();
+        return new HashCodeBuilder().append(deliveryDate).append(jobschedulerId).append(jobsInconditions).toHashCode();
     }
 
     @Override
@@ -100,11 +125,11 @@ public class StartResolver {
         if (other == this) {
             return true;
         }
-        if ((other instanceof StartResolver) == false) {
+        if ((other instanceof InConditions) == false) {
             return false;
         }
-        StartResolver rhs = ((StartResolver) other);
-        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(jobschedulerId, rhs.jobschedulerId).isEquals();
+        InConditions rhs = ((InConditions) other);
+        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(jobschedulerId, rhs.jobschedulerId).append(jobsInconditions, rhs.jobsInconditions).isEquals();
     }
 
 }

@@ -1,5 +1,5 @@
 
-package com.sos.joc.model.conditions;
+package com.sos.joc.model.jobstreams;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,18 +13,18 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * Out-ConditionRef
+ * job In-Condition
  * <p>
- * In Condition
+ * job In Condition
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "job",
-    "expressions"
+    "inconditions"
 })
-public class OutConditionRef {
+public class JobInCondition {
 
     /**
      * path
@@ -34,8 +34,8 @@ public class OutConditionRef {
      */
     @JsonProperty("job")
     private String job;
-    @JsonProperty("expressions")
-    private List<String> expressions = new ArrayList<String>();
+    @JsonProperty("inconditions")
+    private List<InCondition> inconditions = new ArrayList<InCondition>();
 
     /**
      * path
@@ -66,21 +66,21 @@ public class OutConditionRef {
     /**
      * 
      * @return
-     *     The expressions
+     *     The inconditions
      */
-    @JsonProperty("expressions")
-    public List<String> getExpressions() {
-        return expressions;
+    @JsonProperty("inconditions")
+    public List<InCondition> getInconditions() {
+        return inconditions;
     }
 
     /**
      * 
-     * @param expressions
-     *     The expressions
+     * @param inconditions
+     *     The inconditions
      */
-    @JsonProperty("expressions")
-    public void setExpressions(List<String> expressions) {
-        this.expressions = expressions;
+    @JsonProperty("inconditions")
+    public void setInconditions(List<InCondition> inconditions) {
+        this.inconditions = inconditions;
     }
 
     @Override
@@ -90,7 +90,7 @@ public class OutConditionRef {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(job).append(expressions).toHashCode();
+        return new HashCodeBuilder().append(job).append(inconditions).toHashCode();
     }
 
     @Override
@@ -98,11 +98,11 @@ public class OutConditionRef {
         if (other == this) {
             return true;
         }
-        if ((other instanceof OutConditionRef) == false) {
+        if ((other instanceof JobInCondition) == false) {
             return false;
         }
-        OutConditionRef rhs = ((OutConditionRef) other);
-        return new EqualsBuilder().append(job, rhs.job).append(expressions, rhs.expressions).isEquals();
+        JobInCondition rhs = ((JobInCondition) other);
+        return new EqualsBuilder().append(job, rhs.job).append(inconditions, rhs.inconditions).isEquals();
     }
 
 }

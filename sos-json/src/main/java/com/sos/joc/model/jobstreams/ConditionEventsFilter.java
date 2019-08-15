@@ -1,5 +1,5 @@
 
-package com.sos.joc.model.conditions;
+package com.sos.joc.model.jobstreams;
 
 import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;

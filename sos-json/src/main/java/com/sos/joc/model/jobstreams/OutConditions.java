@@ -1,5 +1,5 @@
 
-package com.sos.joc.model.conditions;
+package com.sos.joc.model.jobstreams;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,9 +14,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * jobStreamFolders
+ * Out-Conditions
  * <p>
- * List of all jobStreams and their folders
+ * List of all Out Conditions
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -24,10 +24,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "deliveryDate",
     "jobschedulerId",
-    "jobStreamFilter",
-    "jobStreamFolders"
+    "jobsOutconditions"
 })
-public class JobStreams {
+public class OutConditions {
 
     /**
      * delivery date
@@ -40,10 +39,8 @@ public class JobStreams {
     private Date deliveryDate;
     @JsonProperty("jobschedulerId")
     private String jobschedulerId;
-    @JsonProperty("jobStreamFilter")
-    private String jobStreamFilter;
-    @JsonProperty("jobStreamFolders")
-    private List<Folders2Jobstream> jobStreamFolders = new ArrayList<Folders2Jobstream>();
+    @JsonProperty("jobsOutconditions")
+    private List<JobOutCondition> jobsOutconditions = new ArrayList<JobOutCondition>();
 
     /**
      * delivery date
@@ -96,41 +93,21 @@ public class JobStreams {
     /**
      * 
      * @return
-     *     The jobStreamFilter
+     *     The jobsOutconditions
      */
-    @JsonProperty("jobStreamFilter")
-    public String getJobStreamFilter() {
-        return jobStreamFilter;
+    @JsonProperty("jobsOutconditions")
+    public List<JobOutCondition> getJobsOutconditions() {
+        return jobsOutconditions;
     }
 
     /**
      * 
-     * @param jobStreamFilter
-     *     The jobStreamFilter
+     * @param jobsOutconditions
+     *     The jobsOutconditions
      */
-    @JsonProperty("jobStreamFilter")
-    public void setJobStreamFilter(String jobStreamFilter) {
-        this.jobStreamFilter = jobStreamFilter;
-    }
-
-    /**
-     * 
-     * @return
-     *     The jobStreamFolders
-     */
-    @JsonProperty("jobStreamFolders")
-    public List<Folders2Jobstream> getJobStreamFolders() {
-        return jobStreamFolders;
-    }
-
-    /**
-     * 
-     * @param jobStreamFolders
-     *     The jobStreamFolders
-     */
-    @JsonProperty("jobStreamFolders")
-    public void setJobStreamFolders(List<Folders2Jobstream> jobStreamFolders) {
-        this.jobStreamFolders = jobStreamFolders;
+    @JsonProperty("jobsOutconditions")
+    public void setJobsOutconditions(List<JobOutCondition> jobsOutconditions) {
+        this.jobsOutconditions = jobsOutconditions;
     }
 
     @Override
@@ -140,7 +117,7 @@ public class JobStreams {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(deliveryDate).append(jobschedulerId).append(jobStreamFilter).append(jobStreamFolders).toHashCode();
+        return new HashCodeBuilder().append(deliveryDate).append(jobschedulerId).append(jobsOutconditions).toHashCode();
     }
 
     @Override
@@ -148,11 +125,11 @@ public class JobStreams {
         if (other == this) {
             return true;
         }
-        if ((other instanceof JobStreams) == false) {
+        if ((other instanceof OutConditions) == false) {
             return false;
         }
-        JobStreams rhs = ((JobStreams) other);
-        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(jobschedulerId, rhs.jobschedulerId).append(jobStreamFilter, rhs.jobStreamFilter).append(jobStreamFolders, rhs.jobStreamFolders).isEquals();
+        OutConditions rhs = ((OutConditions) other);
+        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(jobschedulerId, rhs.jobschedulerId).append(jobsOutconditions, rhs.jobsOutconditions).isEquals();
     }
 
 }

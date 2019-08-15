@@ -1,5 +1,5 @@
 
-package com.sos.joc.model.conditions;
+package com.sos.joc.model.jobstreams;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,18 +13,18 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * job In-Condition
+ * job Out-Condition
  * <p>
- * job In Condition
+ * job Out Condition
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "job",
-    "inconditions"
+    "outconditions"
 })
-public class JobInCondition {
+public class JobOutCondition {
 
     /**
      * path
@@ -34,8 +34,8 @@ public class JobInCondition {
      */
     @JsonProperty("job")
     private String job;
-    @JsonProperty("inconditions")
-    private List<InCondition> inconditions = new ArrayList<InCondition>();
+    @JsonProperty("outconditions")
+    private List<OutCondition> outconditions = new ArrayList<OutCondition>();
 
     /**
      * path
@@ -66,21 +66,21 @@ public class JobInCondition {
     /**
      * 
      * @return
-     *     The inconditions
+     *     The outconditions
      */
-    @JsonProperty("inconditions")
-    public List<InCondition> getInconditions() {
-        return inconditions;
+    @JsonProperty("outconditions")
+    public List<OutCondition> getOutconditions() {
+        return outconditions;
     }
 
     /**
      * 
-     * @param inconditions
-     *     The inconditions
+     * @param outconditions
+     *     The outconditions
      */
-    @JsonProperty("inconditions")
-    public void setInconditions(List<InCondition> inconditions) {
-        this.inconditions = inconditions;
+    @JsonProperty("outconditions")
+    public void setOutconditions(List<OutCondition> outconditions) {
+        this.outconditions = outconditions;
     }
 
     @Override
@@ -90,7 +90,7 @@ public class JobInCondition {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(job).append(inconditions).toHashCode();
+        return new HashCodeBuilder().append(job).append(outconditions).toHashCode();
     }
 
     @Override
@@ -98,11 +98,11 @@ public class JobInCondition {
         if (other == this) {
             return true;
         }
-        if ((other instanceof JobInCondition) == false) {
+        if ((other instanceof JobOutCondition) == false) {
             return false;
         }
-        JobInCondition rhs = ((JobInCondition) other);
-        return new EqualsBuilder().append(job, rhs.job).append(inconditions, rhs.inconditions).isEquals();
+        JobOutCondition rhs = ((JobOutCondition) other);
+        return new EqualsBuilder().append(job, rhs.job).append(outconditions, rhs.outconditions).isEquals();
     }
 
 }

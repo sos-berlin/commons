@@ -1,5 +1,5 @@
 
-package com.sos.joc.model.conditions;
+package com.sos.joc.model.jobstreams;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +56,7 @@ public class InCondition {
     @JsonProperty("inconditionCommands")
     private List<InConditionCommand> inconditionCommands = new ArrayList<InConditionCommand>();
     @JsonProperty("outconditions")
-    private List<JobstreamOutConditions> outconditions = new ArrayList<JobstreamOutConditions>();
+    private List<JobstreamConditions> outconditions = new ArrayList<JobstreamConditions>();
 
     /**
      * non negative long
@@ -196,7 +196,7 @@ public class InCondition {
      *     The outconditions
      */
     @JsonProperty("outconditions")
-    public List<JobstreamOutConditions> getOutconditions() {
+    public List<JobstreamConditions> getOutconditions() {
         return outconditions;
     }
 
@@ -206,7 +206,7 @@ public class InCondition {
      *     The outconditions
      */
     @JsonProperty("outconditions")
-    public void setOutconditions(List<JobstreamOutConditions> outconditions) {
+    public void setOutconditions(List<JobstreamConditions> outconditions) {
         this.outconditions = outconditions;
     }
 
