@@ -199,11 +199,17 @@ public class SOSKeePassDatabase {
         try {
             if (isKdbx) {
                 if (propertyName == null) {
+                    if (isDebugEnabled) {
+                        LOGGER.debug(String.format("[getAttachment][%s]get first BinaryProperty", entry.getPath()));
+                    }
                     List<String> l = entry.getBinaryPropertyNames();
                     if (l != null && l.size() > 0) {
                         data = entry.getBinaryProperty(l.get(0));
                     }
                 } else {
+                    if (isDebugEnabled) {
+                        LOGGER.debug(String.format("[getAttachment][%s][%s]get BinaryProperty", entry.getPath(), propertyName));
+                    }
                     data = entry.getBinaryProperty(propertyName);
                 }
             } else {
