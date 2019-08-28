@@ -5,6 +5,10 @@ import java.io.StringReader;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.temporal.IsoFields;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -570,6 +574,50 @@ public class SOSDate {
             }
         }
         return result;
+    }
+
+    public static Long getMinutes(Date d) {
+        return d.getTime() / 1000 / 60;
+    }
+
+    public static Long getSeconds(Date d) {
+        return d.getTime() / 1000;
+    }
+
+    /** @TODO */
+    public static int getWeek(Date d) {
+        return d.toInstant().atZone(ZoneId.systemDefault()).get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
+    }
+
+    /** @TODO */
+    public static int getMonth(Date d) {
+        return d.toInstant().atZone(ZoneId.systemDefault()).getMonthValue();
+    }
+
+    /** @TODO */
+    public static int getQuarter(Date d) {
+        return d.toInstant().atZone(ZoneId.systemDefault()).get(IsoFields.QUARTER_OF_YEAR);
+    }
+
+    /** @TODO */
+    public static int getYear(Date d) {
+        return d.toInstant().atZone(ZoneId.systemDefault()).get(IsoFields.WEEK_BASED_YEAR);
+    }
+
+    public static String getTime(Instant it) {
+        try {
+            return it.toString().split("T")[1].replace("Z", "");
+        } catch (Throwable t) {
+            return it.toString();
+        }
+    }
+
+    public static String getDuration(Instant start, Instant end) {
+        return getDuration(Duration.between(start, end));
+    }
+
+    public static String getDuration(Duration duration) {
+        return duration == null ? null : duration.toString().replace("PT", "").toLowerCase();
     }
 
     public static void main(String[] args) {
