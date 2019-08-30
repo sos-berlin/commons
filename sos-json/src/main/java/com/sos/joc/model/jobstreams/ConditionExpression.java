@@ -1,6 +1,8 @@
 
 package com.sos.joc.model.jobstreams;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -21,7 +23,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "expression",
     "validatedExpression",
-    "value"
+    "value",
+    "jobStreamEvents"
 })
 public class ConditionExpression {
 
@@ -31,6 +34,8 @@ public class ConditionExpression {
     private String validatedExpression;
     @JsonProperty("value")
     private Boolean value;
+    @JsonProperty("jobStreamEvents")
+    private List<String> jobStreamEvents = new ArrayList<String>();
 
     /**
      * 
@@ -92,6 +97,26 @@ public class ConditionExpression {
         this.value = value;
     }
 
+    /**
+     * 
+     * @return
+     *     The jobStreamEvents
+     */
+    @JsonProperty("jobStreamEvents")
+    public List<String> getJobStreamEvents() {
+        return jobStreamEvents;
+    }
+
+    /**
+     * 
+     * @param jobStreamEvents
+     *     The jobStreamEvents
+     */
+    @JsonProperty("jobStreamEvents")
+    public void setJobStreamEvents(List<String> jobStreamEvents) {
+        this.jobStreamEvents = jobStreamEvents;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -99,7 +124,7 @@ public class ConditionExpression {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(expression).append(validatedExpression).append(value).toHashCode();
+        return new HashCodeBuilder().append(expression).append(validatedExpression).append(value).append(jobStreamEvents).toHashCode();
     }
 
     @Override
@@ -111,7 +136,7 @@ public class ConditionExpression {
             return false;
         }
         ConditionExpression rhs = ((ConditionExpression) other);
-        return new EqualsBuilder().append(expression, rhs.expression).append(validatedExpression, rhs.validatedExpression).append(value, rhs.value).isEquals();
+        return new EqualsBuilder().append(expression, rhs.expression).append(validatedExpression, rhs.validatedExpression).append(value, rhs.value).append(jobStreamEvents, rhs.jobStreamEvents).isEquals();
     }
 
 }
