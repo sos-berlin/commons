@@ -1,5 +1,5 @@
 
-package com.sos.joc.model.joe.job;
+package com.sos.joc.model.joe.processClass;
 
 import java.util.Date;
 import javax.annotation.Generated;
@@ -15,23 +15,23 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * edit job configuration
+ * edit process_class configuration
  * <p>
  * 
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JacksonXmlRootElement(localName = "job_edit")
+@JacksonXmlRootElement(localName = "process_class_edit")
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "deliveryDate",
     "configurationDate",
     "jobschedulerId",
-    "job",
+    "processClass",
     "configuration",
     "auditLog"
 })
-public class JobEdit {
+public class ProcessClassEdit {
 
     /**
      * delivery date
@@ -66,11 +66,11 @@ public class JobEdit {
      * (Required)
      * 
      */
-    @JsonProperty("job")
-    @JacksonXmlProperty(localName = "job", isAttribute = true)
-    private String job;
+    @JsonProperty("processClass")
+    @JacksonXmlProperty(localName = "process_class", isAttribute = true)
+    private String processClass;
     /**
-     * job without name, visible, temporary, spooler_id, log_append, separate_process, mail_xslt_stylesheet attributes
+     * processClass configuration
      * <p>
      * 
      * (Required)
@@ -78,7 +78,7 @@ public class JobEdit {
      */
     @JsonProperty("configuration")
     @JacksonXmlProperty(localName = "configuration", isAttribute = false)
-    private Job configuration;
+    private ProcessClass configuration;
     /**
      * auditParams
      * <p>
@@ -178,12 +178,12 @@ public class JobEdit {
      * (Required)
      * 
      * @return
-     *     The job
+     *     The processClass
      */
-    @JsonProperty("job")
-    @JacksonXmlProperty(localName = "job", isAttribute = true)
-    public String getJob() {
-        return job;
+    @JsonProperty("processClass")
+    @JacksonXmlProperty(localName = "process_class", isAttribute = true)
+    public String getProcessClass() {
+        return processClass;
     }
 
     /**
@@ -192,17 +192,17 @@ public class JobEdit {
      * absolute path based on live folder of a JobScheduler object.
      * (Required)
      * 
-     * @param job
-     *     The job
+     * @param processClass
+     *     The processClass
      */
-    @JsonProperty("job")
-    @JacksonXmlProperty(localName = "job", isAttribute = true)
-    public void setJob(String job) {
-        this.job = job;
+    @JsonProperty("processClass")
+    @JacksonXmlProperty(localName = "process_class", isAttribute = true)
+    public void setProcessClass(String processClass) {
+        this.processClass = processClass;
     }
 
     /**
-     * job without name, visible, temporary, spooler_id, log_append, separate_process, mail_xslt_stylesheet attributes
+     * processClass configuration
      * <p>
      * 
      * (Required)
@@ -212,12 +212,12 @@ public class JobEdit {
      */
     @JsonProperty("configuration")
     @JacksonXmlProperty(localName = "configuration", isAttribute = false)
-    public Job getConfiguration() {
+    public ProcessClass getConfiguration() {
         return configuration;
     }
 
     /**
-     * job without name, visible, temporary, spooler_id, log_append, separate_process, mail_xslt_stylesheet attributes
+     * processClass configuration
      * <p>
      * 
      * (Required)
@@ -227,7 +227,7 @@ public class JobEdit {
      */
     @JsonProperty("configuration")
     @JacksonXmlProperty(localName = "configuration", isAttribute = false)
-    public void setConfiguration(Job configuration) {
+    public void setConfiguration(ProcessClass configuration) {
         this.configuration = configuration;
     }
 
@@ -266,7 +266,7 @@ public class JobEdit {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(deliveryDate).append(configurationDate).append(jobschedulerId).append(job).append(configuration).append(auditLog).toHashCode();
+        return new HashCodeBuilder().append(deliveryDate).append(configurationDate).append(jobschedulerId).append(processClass).append(configuration).append(auditLog).toHashCode();
     }
 
     @Override
@@ -274,11 +274,11 @@ public class JobEdit {
         if (other == this) {
             return true;
         }
-        if ((other instanceof JobEdit) == false) {
+        if ((other instanceof ProcessClassEdit) == false) {
             return false;
         }
-        JobEdit rhs = ((JobEdit) other);
-        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(configurationDate, rhs.configurationDate).append(jobschedulerId, rhs.jobschedulerId).append(job, rhs.job).append(configuration, rhs.configuration).append(auditLog, rhs.auditLog).isEquals();
+        ProcessClassEdit rhs = ((ProcessClassEdit) other);
+        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(configurationDate, rhs.configurationDate).append(jobschedulerId, rhs.jobschedulerId).append(processClass, rhs.processClass).append(configuration, rhs.configuration).append(auditLog, rhs.auditLog).isEquals();
     }
 
 }

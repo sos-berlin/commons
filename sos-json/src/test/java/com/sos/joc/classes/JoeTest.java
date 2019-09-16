@@ -1,26 +1,33 @@
 package com.sos.joc.classes;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 import org.junit.Test;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.sos.joc.model.joe.common.Param;
 import com.sos.joc.model.joe.common.Params;
+import com.sos.joc.model.joe.job.Commands;
 import com.sos.joc.model.joe.job.EnviromentVariable;
 import com.sos.joc.model.joe.job.EnviromentVariables;
 import com.sos.joc.model.joe.job.Job;
 import com.sos.joc.model.joe.job.Login;
 import com.sos.joc.model.joe.job.Script;
 import com.sos.joc.model.joe.job.Settings;
+import com.sos.joc.model.joe.job.StartJob;
 
 public class JoeTest {
 
     private ObjectMapper xmlMapper = new XmlMapper().configure(SerializationFeature.INDENT_OUTPUT, true).configure(
+            DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    private ObjectMapper objMapper = new ObjectMapper().configure(SerializationFeature.INDENT_OUTPUT, true).configure(
             DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     @Test
@@ -45,7 +52,7 @@ public class JoeTest {
         Param param2 = new Param();
         param2.setName("myParam2");
         param2.setValue("myParamVal2");
-        params.setParams(Arrays.asList(param, param2));
+        params.setParamList(Arrays.asList(param, param2));
         job.setParams(params);
         Login login = new Login();
         login.setUser("me");
@@ -55,6 +62,54 @@ public class JoeTest {
         script.setLanguage("shell");
         script.setContent("\necho hallo\necho welt\n");
         job.setScript(script);
+        //job.setRunTime("<period from=\"00:00\" to=\"24:00\"/>");
+        Commands commands = new Commands();
+        StartJob startJob = new StartJob();
+        startJob.setAt("now");
+        startJob.setJob("/path/to/myOtherJob");
+        StartJob startJob2 = new StartJob();
+        startJob2.setAt("now");
+        startJob2.setJob("/path/to/myOtherJob2");
+        commands.setStartJobs(Arrays.asList(startJob, startJob2));
+        job.setCommands(commands);
+        writeValueAsString(job);
+    }
+    
+    @Test
+    public void testJob2() throws JsonParseException, JsonMappingException, IOException {
+        StringBuilder json = new StringBuilder()
+                .append("{")
+                .append("  \"title\" : \"myJob\",")
+                .append("  \"order\" : \"yes\",")
+                .append("  \"stopOnError\" : \"no\",")
+                .append("  \"settings\" : {")
+                .append("    \"logLevel\" : \"debug9\"")
+                .append("  },")
+                .append("  \"params\" : {")
+                .append("    \"paramList\" : [ {")
+                .append("      \"name\" : \"myParam\",")
+                .append("      \"value\" : \"myParamVal\"")
+                .append("    }, {")
+                .append("      \"name\" : \"myParam2\",")
+                .append("      \"value\" : \"myParamVal2\"")
+                .append("    } ]")
+                .append("  },")
+                .append("  \"environment\" : {")
+                .append("    \"variables\" : [ {")
+                .append("      \"name\" : \"myEnv\",")
+                .append("     \"value\" : \"myEnvVal\"")
+                .append("   } ]")
+                .append("  },")
+                .append("  \"login\" : {")
+                .append("    \"user\" : \"me\",")
+                .append("    \"password\" : \"secret\"")
+                .append("  },")
+                .append("  \"script\" : {")
+                .append("    \"language\" : \"shell\",")
+                .append("    \"content\" : \"\\necho hallo\\necho welt\\n\"")
+                .append("  }")
+                .append("}");
+        Job job = objMapper.readValue(json.toString(), Job.class);
         writeValueAsString(job);
     }
     

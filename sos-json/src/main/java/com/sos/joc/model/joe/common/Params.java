@@ -24,16 +24,16 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JacksonXmlRootElement(localName = "params")
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
-    "params",
+    "paramList",
     "copyParams",
     "includes"
 })
 public class Params {
 
-    @JsonProperty("params")
+    @JsonProperty("paramList")
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "param", isAttribute = false)
-    private List<Param> params = null;
+    private List<Param> paramList = null;
     /**
      * 
      */
@@ -48,23 +48,23 @@ public class Params {
     /**
      * 
      * @return
-     *     The params
+     *     The paramList
      */
-    @JsonProperty("params")
+    @JsonProperty("paramList")
     @JacksonXmlProperty(localName = "param", isAttribute = false)
-    public List<Param> getParams() {
-        return params;
+    public List<Param> getParamList() {
+        return paramList;
     }
 
     /**
      * 
-     * @param params
-     *     The params
+     * @param paramList
+     *     The paramList
      */
-    @JsonProperty("params")
+    @JsonProperty("paramList")
     @JacksonXmlProperty(localName = "param", isAttribute = false)
-    public void setParams(List<Param> params) {
-        this.params = params;
+    public void setParamList(List<Param> paramList) {
+        this.paramList = paramList;
     }
 
     /**
@@ -118,7 +118,7 @@ public class Params {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(params).append(copyParams).append(includes).toHashCode();
+        return new HashCodeBuilder().append(paramList).append(copyParams).append(includes).toHashCode();
     }
 
     @Override
@@ -130,7 +130,7 @@ public class Params {
             return false;
         }
         Params rhs = ((Params) other);
-        return new EqualsBuilder().append(params, rhs.params).append(copyParams, rhs.copyParams).append(includes, rhs.includes).isEquals();
+        return new EqualsBuilder().append(paramList, rhs.paramList).append(copyParams, rhs.copyParams).append(includes, rhs.includes).isEquals();
     }
 
 }

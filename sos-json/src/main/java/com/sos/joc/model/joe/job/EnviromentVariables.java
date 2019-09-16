@@ -13,6 +13,13 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
+
+/**
+ * environment
+ * <p>
+ * 
+ * 
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "environment")
 @Generated("org.jsonschema2pojo")

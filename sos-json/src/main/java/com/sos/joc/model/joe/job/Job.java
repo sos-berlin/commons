@@ -16,7 +16,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * job without name, visible, temporary, spooler_id, log_append, separate_process, mail_xslt_stylesheet attributes and TODO: commands, run_time Element
+ * job without name, visible, temporary, spooler_id, log_append, separate_process, mail_xslt_stylesheet attributes
  * <p>
  * 
  * 
@@ -46,7 +46,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "monitorUses",
     "startWhenDirectoriesChanged",
     "delayAfterErrors",
-    "delayOrderAfterSetbacks"
+    "delayOrderAfterSetbacks",
+    "runTime",
+    "commands"
 })
 public class Job {
 
@@ -133,6 +135,12 @@ public class Job {
     @JsonProperty("params")
     @JacksonXmlProperty(localName = "params", isAttribute = false)
     private Params params;
+    /**
+     * environment
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("environment")
     @JacksonXmlProperty(localName = "environment", isAttribute = false)
     private EnviromentVariables environment;
@@ -171,6 +179,12 @@ public class Job {
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "delay_order_after_setback", isAttribute = false)
     private List<DelayOrderAfterSetback> delayOrderAfterSetbacks = null;
+    @JsonProperty("runTime")
+    @JacksonXmlProperty(localName = "run_time", isAttribute = false)
+    private String runTime = "";
+    @JsonProperty("commands")
+    @JacksonXmlProperty(localName = "commands", isAttribute = false)
+    private Commands commands;
 
     /**
      * 
@@ -513,6 +527,9 @@ public class Job {
     }
 
     /**
+     * environment
+     * <p>
+     * 
      * 
      * @return
      *     The environment
@@ -524,6 +541,9 @@ public class Job {
     }
 
     /**
+     * environment
+     * <p>
+     * 
      * 
      * @param environment
      *     The environment
@@ -694,6 +714,50 @@ public class Job {
         this.delayOrderAfterSetbacks = delayOrderAfterSetbacks;
     }
 
+    /**
+     * 
+     * @return
+     *     The runTime
+     */
+    @JsonProperty("runTime")
+    @JacksonXmlProperty(localName = "run_time", isAttribute = false)
+    public String getRunTime() {
+        return runTime;
+    }
+
+    /**
+     * 
+     * @param runTime
+     *     The runTime
+     */
+    @JsonProperty("runTime")
+    @JacksonXmlProperty(localName = "run_time", isAttribute = false)
+    public void setRunTime(String runTime) {
+        this.runTime = runTime;
+    }
+
+    /**
+     * 
+     * @return
+     *     The commands
+     */
+    @JsonProperty("commands")
+    @JacksonXmlProperty(localName = "commands", isAttribute = false)
+    public Commands getCommands() {
+        return commands;
+    }
+
+    /**
+     * 
+     * @param commands
+     *     The commands
+     */
+    @JsonProperty("commands")
+    @JacksonXmlProperty(localName = "commands", isAttribute = false)
+    public void setCommands(Commands commands) {
+        this.commands = commands;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -701,7 +765,7 @@ public class Job {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(priority).append(title).append(order).append(tasks).append(minTasks).append(timeout).append(idleTimeout).append(forceIdleTimeout).append(processClass).append(javaOptions).append(stopOnError).append(settings).append(lockUses).append(params).append(environment).append(login).append(script).append(monitors).append(monitorUses).append(startWhenDirectoriesChanged).append(delayAfterErrors).append(delayOrderAfterSetbacks).toHashCode();
+        return new HashCodeBuilder().append(priority).append(title).append(order).append(tasks).append(minTasks).append(timeout).append(idleTimeout).append(forceIdleTimeout).append(processClass).append(javaOptions).append(stopOnError).append(settings).append(lockUses).append(params).append(environment).append(login).append(script).append(monitors).append(monitorUses).append(startWhenDirectoriesChanged).append(delayAfterErrors).append(delayOrderAfterSetbacks).append(runTime).append(commands).toHashCode();
     }
 
     @Override
@@ -713,7 +777,7 @@ public class Job {
             return false;
         }
         Job rhs = ((Job) other);
-        return new EqualsBuilder().append(priority, rhs.priority).append(title, rhs.title).append(order, rhs.order).append(tasks, rhs.tasks).append(minTasks, rhs.minTasks).append(timeout, rhs.timeout).append(idleTimeout, rhs.idleTimeout).append(forceIdleTimeout, rhs.forceIdleTimeout).append(processClass, rhs.processClass).append(javaOptions, rhs.javaOptions).append(stopOnError, rhs.stopOnError).append(settings, rhs.settings).append(lockUses, rhs.lockUses).append(params, rhs.params).append(environment, rhs.environment).append(login, rhs.login).append(script, rhs.script).append(monitors, rhs.monitors).append(monitorUses, rhs.monitorUses).append(startWhenDirectoriesChanged, rhs.startWhenDirectoriesChanged).append(delayAfterErrors, rhs.delayAfterErrors).append(delayOrderAfterSetbacks, rhs.delayOrderAfterSetbacks).isEquals();
+        return new EqualsBuilder().append(priority, rhs.priority).append(title, rhs.title).append(order, rhs.order).append(tasks, rhs.tasks).append(minTasks, rhs.minTasks).append(timeout, rhs.timeout).append(idleTimeout, rhs.idleTimeout).append(forceIdleTimeout, rhs.forceIdleTimeout).append(processClass, rhs.processClass).append(javaOptions, rhs.javaOptions).append(stopOnError, rhs.stopOnError).append(settings, rhs.settings).append(lockUses, rhs.lockUses).append(params, rhs.params).append(environment, rhs.environment).append(login, rhs.login).append(script, rhs.script).append(monitors, rhs.monitors).append(monitorUses, rhs.monitorUses).append(startWhenDirectoriesChanged, rhs.startWhenDirectoriesChanged).append(delayAfterErrors, rhs.delayAfterErrors).append(delayOrderAfterSetbacks, rhs.delayOrderAfterSetbacks).append(runTime, rhs.runTime).append(commands, rhs.commands).isEquals();
     }
 
 }

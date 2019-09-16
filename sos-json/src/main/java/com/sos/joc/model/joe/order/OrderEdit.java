@@ -1,5 +1,5 @@
 
-package com.sos.joc.model.joe.job;
+package com.sos.joc.model.joe.order;
 
 import java.util.Date;
 import javax.annotation.Generated;
@@ -15,23 +15,23 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * edit job configuration
+ * edit order configuration
  * <p>
  * 
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JacksonXmlRootElement(localName = "job_edit")
+@JacksonXmlRootElement(localName = "order_edit")
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "deliveryDate",
     "configurationDate",
     "jobschedulerId",
-    "job",
+    "order",
     "configuration",
     "auditLog"
 })
-public class JobEdit {
+public class OrderEdit {
 
     /**
      * delivery date
@@ -66,11 +66,11 @@ public class JobEdit {
      * (Required)
      * 
      */
-    @JsonProperty("job")
-    @JacksonXmlProperty(localName = "job", isAttribute = true)
-    private String job;
+    @JsonProperty("order")
+    @JacksonXmlProperty(localName = "order", isAttribute = true)
+    private String order;
     /**
-     * job without name, visible, temporary, spooler_id, log_append, separate_process, mail_xslt_stylesheet attributes
+     * order TODO
      * <p>
      * 
      * (Required)
@@ -78,7 +78,7 @@ public class JobEdit {
      */
     @JsonProperty("configuration")
     @JacksonXmlProperty(localName = "configuration", isAttribute = false)
-    private Job configuration;
+    private Order configuration;
     /**
      * auditParams
      * <p>
@@ -178,12 +178,12 @@ public class JobEdit {
      * (Required)
      * 
      * @return
-     *     The job
+     *     The order
      */
-    @JsonProperty("job")
-    @JacksonXmlProperty(localName = "job", isAttribute = true)
-    public String getJob() {
-        return job;
+    @JsonProperty("order")
+    @JacksonXmlProperty(localName = "order", isAttribute = true)
+    public String getOrder() {
+        return order;
     }
 
     /**
@@ -192,17 +192,17 @@ public class JobEdit {
      * absolute path based on live folder of a JobScheduler object.
      * (Required)
      * 
-     * @param job
-     *     The job
+     * @param order
+     *     The order
      */
-    @JsonProperty("job")
-    @JacksonXmlProperty(localName = "job", isAttribute = true)
-    public void setJob(String job) {
-        this.job = job;
+    @JsonProperty("order")
+    @JacksonXmlProperty(localName = "order", isAttribute = true)
+    public void setOrder(String order) {
+        this.order = order;
     }
 
     /**
-     * job without name, visible, temporary, spooler_id, log_append, separate_process, mail_xslt_stylesheet attributes
+     * order TODO
      * <p>
      * 
      * (Required)
@@ -212,12 +212,12 @@ public class JobEdit {
      */
     @JsonProperty("configuration")
     @JacksonXmlProperty(localName = "configuration", isAttribute = false)
-    public Job getConfiguration() {
+    public Order getConfiguration() {
         return configuration;
     }
 
     /**
-     * job without name, visible, temporary, spooler_id, log_append, separate_process, mail_xslt_stylesheet attributes
+     * order TODO
      * <p>
      * 
      * (Required)
@@ -227,7 +227,7 @@ public class JobEdit {
      */
     @JsonProperty("configuration")
     @JacksonXmlProperty(localName = "configuration", isAttribute = false)
-    public void setConfiguration(Job configuration) {
+    public void setConfiguration(Order configuration) {
         this.configuration = configuration;
     }
 
@@ -266,7 +266,7 @@ public class JobEdit {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(deliveryDate).append(configurationDate).append(jobschedulerId).append(job).append(configuration).append(auditLog).toHashCode();
+        return new HashCodeBuilder().append(deliveryDate).append(configurationDate).append(jobschedulerId).append(order).append(configuration).append(auditLog).toHashCode();
     }
 
     @Override
@@ -274,11 +274,11 @@ public class JobEdit {
         if (other == this) {
             return true;
         }
-        if ((other instanceof JobEdit) == false) {
+        if ((other instanceof OrderEdit) == false) {
             return false;
         }
-        JobEdit rhs = ((JobEdit) other);
-        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(configurationDate, rhs.configurationDate).append(jobschedulerId, rhs.jobschedulerId).append(job, rhs.job).append(configuration, rhs.configuration).append(auditLog, rhs.auditLog).isEquals();
+        OrderEdit rhs = ((OrderEdit) other);
+        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(configurationDate, rhs.configurationDate).append(jobschedulerId, rhs.jobschedulerId).append(order, rhs.order).append(configuration, rhs.configuration).append(auditLog, rhs.auditLog).isEquals();
     }
 
 }

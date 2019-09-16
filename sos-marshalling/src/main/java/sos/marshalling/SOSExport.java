@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -37,6 +38,7 @@ public class SOSExport {
     private int xmlIndent = 0;
     private Queries queries = new Queries();
     private int queryCnt = 0;
+    @SuppressWarnings("unused")
     private int rekursionCnt = 0;
     private int lineWrap = 254;
 
@@ -138,7 +140,7 @@ public class SOSExport {
         }
     }
 
-    public int query(String tag, String key, String query, String parameter, String operation, HashMap keys4Delete, int queryId) throws Exception {
+    public int query(String tag, String key, String query, String parameter, String operation, Map<String, String> keys4Delete, int queryId) throws Exception {
         try {
             if (query != null && !"".equals(query) && tag != null && !"".equals(tag)) {
                 Query obj = new Query(tag, key, query, parameter, operation, keys4Delete);
@@ -197,7 +199,7 @@ public class SOSExport {
         }
     }
 
-    public int add(String tag, String key, String query, String parameter, String operation, HashMap keys4Delete, int queryId) throws Exception {
+    public int add(String tag, String key, String query, String parameter, String operation, Map<String, String> keys4Delete, int queryId) throws Exception {
         try {
             if (query != null && !"".equals(query) && tag != null && !"".equals(tag)) {
                 Query obj = new Query(tag, key, query, parameter, operation, keys4Delete);
@@ -297,14 +299,14 @@ public class SOSExport {
     }
 
     private String exportQueries(int queryId) throws Exception {
-        return exportQueries(queryId, new ArrayList());
+        return exportQueries(queryId, new ArrayList<String>());
     }
 
     private String exportQueries(int queryId, Writer fw) throws Exception {
-        return exportQueries(queryId, new ArrayList(), fw);
+        return exportQueries(queryId, new ArrayList<String>(), fw);
     }
 
-    private String exportQueries(int queryId, ArrayList parameterValues, Writer fw) throws Exception {
+    private String exportQueries(int queryId, List<String> parameterValues, Writer fw) throws Exception {
         try {
             if (logger != null) {
                 logger.debug3("export_queries: " + " name=\"" + queries.get(queryId).getTag() + "\" query_id=\"" + queryId + "\" key=\""
@@ -313,9 +315,9 @@ public class SOSExport {
             }
             rekursionCnt++;
             String queryStm = substituteQuery(queries.get(queryId).getQuery(), parameterValues);
-            HashMap allFieldNames = prepareGetFieldName(queryStm);
+            Map<String, String> allFieldNames = prepareGetFieldName(queryStm);
             SOSImExportTableFieldTypes fieldTypes = getFieldTypes(queryStm.toString());
-            ArrayList result = new ArrayList();
+            List<Map<String, String>> result = new ArrayList<Map<String, String>>();
             result = getArray(queryStm.toString());
             fw.write(indent(1) + "<" + normalizeTagName(xmlTagname + "_package id=\"") + queries.get(queryId).getTag() + "\">\n");
             if (!result.isEmpty()) {
@@ -335,7 +337,7 @@ public class SOSExport {
                 }
                 fw.write(indent(-1) + normalizeTagName("</key_fields>") + "\n");
                 fw.write(indent(1) + normalizeTagName("<fields>") + "\n");
-                Object[] fields = ((HashMap) result.get(0)).keySet().toArray();
+                Object[] fields = result.get(0).keySet().toArray();
                 for (int i = 0; i < fields.length; i++) {
                     fw.write(indent() + "<" + normalizeTagName("field name=\"") + normalizeFieldName((String) fields[i]) + "\"");
                     fw.write(" type=\"" + fieldTypes.getTypeName(normalizeFieldName((String) fields[i])) + "\"");
@@ -349,7 +351,7 @@ public class SOSExport {
                 fw.write(indent(-1) + "</" + normalizeTagName(xmlTagname + "_meta") + ">\n");
                 fw.write(indent(1) + "<" + normalizeTagName(xmlTagname + "_data") + ">\n");
                 for (int i = 0; i < result.size(); i++) {
-                    HashMap record = (HashMap) result.get(i);
+                    Map<String, String> record = result.get(i);
                     if (logger != null) {
                         logger.debug9("get: " + queries.get(queryId).getTag() + " query_id=" + queryId);
                     }
@@ -359,8 +361,8 @@ public class SOSExport {
                             + normalizeTagName(xmlTagname + "_fields")
                             + (queries.get(queryId).getOperation() != null && !queries.get(queryId).getOperation().isEmpty() ? " operation=\""
                                     + queries.get(queryId).getOperation() + "\" " : "") + ">\n");
-                    for (Iterator it = record.keySet().iterator(); it.hasNext();) {
-                        String key = it.next().toString();
+                    for (Iterator<String> it = record.keySet().iterator(); it.hasNext();) {
+                        String key = it.next();
                         String lobType = null;
                         switch (fieldTypes.getTypeId(normalizeFieldName(key))) {
                         case Types.CLOB:
@@ -461,7 +463,7 @@ public class SOSExport {
         }
     }
 
-    public String exportQueriesForDelete(int queryId, ArrayList parameterValues, Writer fw) throws Exception {
+    public String exportQueriesForDelete(int queryId, List<String> parameterValues, Writer fw) throws Exception {
         try {
             if (logger != null) {
                 logger.debug3("export_queries: " + " name=\"" + queries.get(queryId).getTag() + "\" query_id=\"" + queryId + "\" key=\""
@@ -471,7 +473,8 @@ public class SOSExport {
             }
             rekursionCnt++;
             String queryStm = substituteQuery(queries.get(queryId).getQuery(), parameterValues);
-            HashMap allFieldNames = prepareGetFieldName(queryStm);
+            @SuppressWarnings("unused")
+            Map<String, String> allFieldNames = prepareGetFieldName(queryStm);
             SOSImExportTableFieldTypes fieldTypes = getFieldTypes(queryStm.toString());
             fw.write(indent(1) + "<" + normalizeTagName(xmlTagname + "_package id=\"") + queries.get(queryId).getTag() + "\">\n");
             fw.write(indent(1) + "<" + normalizeTagName(xmlTagname + "_meta") + ">\n");
@@ -503,7 +506,7 @@ public class SOSExport {
             fw.write(indent(-1) + normalizeTagName("</fields>") + "\n");
             fw.write(indent(-1) + "</" + normalizeTagName(xmlTagname + "_meta") + ">\n");
             fw.write(indent(1) + "<" + normalizeTagName(xmlTagname + "_data") + ">\n");
-            HashMap record = queries.get(queryId).getFieldsKeys();
+            Map<String, String> record = queries.get(queryId).getFieldsKeys();
             if (logger != null) {
                 logger.debug9("get: " + queries.get(queryId).getTag() + " query_id=" + queryId);
             }
@@ -513,8 +516,8 @@ public class SOSExport {
                     + normalizeTagName(xmlTagname + "_fields")
                     + (queries.get(queryId).getOperation() != null && queries.get(queryId).getOperation().length() > 0 ? " operation=\""
                             + queries.get(queryId).getOperation() + "\" " : "") + ">\n");
-            for (Iterator it = record.keySet().iterator(); it.hasNext();) {
-                String key = it.next().toString();
+            for (Iterator<String> it = record.keySet().iterator(); it.hasNext();) {
+                String key = it.next();
                 if (record.get(key) != null) {
                     switch (fieldTypes.getTypeId(normalizeFieldName(key))) {
                     case Types.DATE:
@@ -565,7 +568,7 @@ public class SOSExport {
         }
     }
 
-    private String exportQueries(int queryId, ArrayList parameterValues) throws Exception {
+    private String exportQueries(int queryId, List<String> parameterValues) throws Exception {
         StringBuilder output = new StringBuilder();
         try {
             if (logger != null) {
@@ -575,10 +578,9 @@ public class SOSExport {
             }
             rekursionCnt++;
             String queryStm = substituteQuery(queries.get(queryId).getQuery(), parameterValues);
-            HashMap allFieldNames = prepareGetFieldName(queryStm);
+            Map<String, String> allFieldNames = prepareGetFieldName(queryStm);
             SOSImExportTableFieldTypes fieldTypes = getFieldTypes(queryStm.toString());
-            ArrayList result = new ArrayList();
-            result = getArray(queryStm.toString());
+            List<Map<String, String>> result = getArray(queryStm.toString());
             output.append(indent(1) + "<" + normalizeTagName(xmlTagname + "_package id=\"") + queries.get(queryId).getTag() + "\">\n");
             if (!result.isEmpty()) {
                 output.append(indent(1)).append("<").append(normalizeTagName(xmlTagname + "_meta")).append(">\n");
@@ -600,7 +602,7 @@ public class SOSExport {
                 output.append(indent(-1)).append(normalizeTagName("</key_fields>")).append("\n");
                 // Felder
                 output.append(indent(1)).append(normalizeTagName("<fields>")).append("\n");
-                Object[] fields = ((HashMap) result.get(0)).keySet().toArray();
+                Object[] fields = result.get(0).keySet().toArray();
                 for (int i = 0; i < fields.length; i++) {
                     output.append(indent()).append("<").append(normalizeTagName("field name=\"")).append(normalizeFieldName((String) fields[i])).append(
                             "\"");
@@ -615,15 +617,15 @@ public class SOSExport {
                 output.append(indent(-1)).append("</").append(normalizeTagName(xmlTagname + "_meta")).append(">\n");
                 output.append(indent(1)).append("<").append(normalizeTagName(xmlTagname + "_data")).append(">\n");
                 for (int i = 0; i < result.size(); i++) {
-                    HashMap record = (HashMap) result.get(i);
+                    Map<String, String> record = result.get(i);
                     if (logger != null) {
                         logger.debug9("get: " + queries.get(queryId).getTag() + " query_id=" + queryId);
                     }
                     output.append(indent(1)).append("<").append(normalizeTagName(xmlTagname + "_record name=\"")).append(
                             queries.get(queryId).getTag()).append("\">\n").append(indent(1)).append("<").append(
                             normalizeTagName(xmlTagname + "_fields")).append(">\n");
-                    for (Iterator it = record.keySet().iterator(); it.hasNext();) {
-                        String key = it.next().toString();
+                    for (Iterator<String> it = record.keySet().iterator(); it.hasNext();) {
+                        String key = it.next();
                         String lobType = null;
                         switch (fieldTypes.getTypeId(normalizeFieldName(key))) {
                         case Types.CLOB:
@@ -721,14 +723,14 @@ public class SOSExport {
         }
     }
 
-    private HashMap prepareGetFieldName(String stmt) throws Exception {
+    private Map<String, String> prepareGetFieldName(String stmt) throws Exception {
         int posBegin = new String(stmt).toUpperCase().indexOf("SELECT");
         int posEnd = new String(stmt).toUpperCase().indexOf("FROM");
         if (posBegin == -1 || posEnd == -1) {
             throw new Exception("sql statement is not valid : " + stmt);
         }
         String selectFields = stmt.substring(posBegin + 6, posEnd).trim().toUpperCase();
-        HashMap hm = new HashMap();
+        Map<String, String> hm = new HashMap<String, String>();
         if (!"*".equals(selectFields)) {
             String[] splitFields = selectFields.split(",");
             for (int i = 0; i < splitFields.length; i++) {
@@ -750,7 +752,7 @@ public class SOSExport {
         return hm;
     }
 
-    private String getBlobFieldName(HashMap hm, String sampleFieldName) throws Exception {
+    private String getBlobFieldName(Map<String, String> hm, String sampleFieldName) throws Exception {
         String sample = sampleFieldName.toUpperCase();
         if (hm != null && !hm.isEmpty() && hm.containsKey(sample)) {
             return "\"" + hm.get(sample) + "\" as \"" + sample + "\"";
@@ -758,7 +760,7 @@ public class SOSExport {
         return "\"" + sample + "\"";
     }
 
-    private String getKeyFieldName(HashMap hm, String sampleFieldName) throws Exception {
+    private String getKeyFieldName(Map<String, String> hm, String sampleFieldName) throws Exception {
         String sample = sampleFieldName.toUpperCase();
         if (hm != null && !hm.isEmpty() && hm.containsKey(sample)) {
             return "\"" + hm.get(sample) + "\"";
@@ -766,8 +768,8 @@ public class SOSExport {
         return "\"" + sample + "\"";
     }
 
-    public ArrayList queryParams(int queryId, HashMap record) throws Exception {
-        ArrayList values = new ArrayList();
+    public List<String> queryParams(int queryId, Map<String, String> record) throws Exception {
+        List<String> values = new ArrayList<String>();
         try {
             if (logger != null) {
                 logger.debug3("query_params: query_id=" + queryId);
@@ -786,7 +788,7 @@ public class SOSExport {
         }
     }
 
-    private String substituteQuery(String query, ArrayList values) {
+    private String substituteQuery(String query, List<String> values) {
         int matches = countStr(query, "?");
         String[] queryParts = query.split("\\?");
         if (matches == 0) {
@@ -820,15 +822,15 @@ public class SOSExport {
         return matches;
     }
 
-    private ArrayList getArray(String query) throws Exception {
+    private List<Map<String, String>> getArray(String query) throws Exception {
         try {
             connection.executeQuery(query);
             ResultSet rs = connection.getResultSet();
             java.sql.ResultSetMetaData rsmd = rs.getMetaData();
             int i, n = rsmd.getColumnCount();
-            ArrayList result = new ArrayList();
+            List<Map<String, String>> result = new ArrayList<Map<String, String>>();
             while (rs.next()) {
-                HashMap row = new HashMap(n);
+                Map<String, String> row = new HashMap<String, String>(n);
                 for (i = 1; i <= n; i++) {
                     switch (rsmd.getColumnType(i)) {
                     case Types.BIGINT:
@@ -1038,16 +1040,17 @@ public class SOSExport {
     private class Query {
 
         private String tag = null;
-        private ArrayList key = new ArrayList();
+        private List<String> key = new ArrayList<String>();
         private String query = null;
-        private ArrayList parameters = new ArrayList();
-        private ArrayList dependRefs = new ArrayList();
-        private ArrayList indepdRefs = new ArrayList();
+        private List<String> parameters = new ArrayList<String>();
+        private List<Integer> dependRefs = new ArrayList<Integer>();
+        private List<Integer> indepdRefs = new ArrayList<Integer>();
         private boolean done = false;
         private boolean dependent = false;
         private String operation = null;
-        HashMap fieldsKeys = null;
+        private Map<String, String> fieldsKeys = null;
 
+        @SuppressWarnings("unused")
         public Query(String tag, String key, String query, String parameters, int dependRef) {
             this.tag = tag;
             this.key.addAll(Arrays.asList(key.split(",")));
@@ -1061,13 +1064,13 @@ public class SOSExport {
             if (key != null && !"".equals(key)) {
                 this.key.addAll(Arrays.asList(key.split(",")));
             }
-            query = query;
+            this.query = query;
             if (parameters != null) {
                 this.parameters.addAll(Arrays.asList(parameters.split(",")));
             }
         }
 
-        public Query(String tag, String key, String query, String parameters, String operation, HashMap keys4Delete) throws Exception {
+        public Query(String tag, String key, String query, String parameters, String operation, Map<String, String> keys4Delete) throws Exception {
             this.tag = tag;
             if (key != null && !"".equals(key)) {
                 this.key.addAll(Arrays.asList(key.split(",")));
@@ -1142,6 +1145,7 @@ public class SOSExport {
             return key.size();
         }
 
+        @SuppressWarnings("unused")
         public void addKey(String key) {
             this.key.add(key);
         }
@@ -1165,10 +1169,12 @@ public class SOSExport {
             return parameters.size();
         }
 
+        @SuppressWarnings("unused")
         public void addParameter(String parameter) {
             this.parameters.add(parameter);
         }
 
+        @SuppressWarnings("unused")
         public String parametersToStr() {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < parameters.size(); i++) {
@@ -1184,6 +1190,7 @@ public class SOSExport {
             return query;
         }
 
+        @SuppressWarnings("unused")
         public void setQuery(String query) {
             this.query = query;
         }
@@ -1192,6 +1199,7 @@ public class SOSExport {
             return tag;
         }
 
+        @SuppressWarnings("unused")
         public void setTag(String tag) {
             this.tag = tag;
         }
@@ -1208,31 +1216,34 @@ public class SOSExport {
             return operation;
         }
 
+        @SuppressWarnings("unused")
         public void setOperation(String operation) {
             this.operation = operation;
         }
 
-        public HashMap getFieldsKeys() {
+        public Map<String, String> getFieldsKeys() {
             return fieldsKeys;
         }
 
-        public void setFieldsKeys(HashMap fieldsKeys) {
+        @SuppressWarnings("unused")
+        public void setFieldsKeys(Map<String, String> fieldsKeys) {
             this.fieldsKeys = fieldsKeys;
         }
     }
 
     private class Queries {
 
-        private ArrayList list = new ArrayList();
+        private List<Query> list = new ArrayList<Query>();
 
         public void add(Query query) throws Exception {
             this.list.add(query);
         }
 
         public Query get(int index) throws IndexOutOfBoundsException {
-            return (Query) list.get(index);
+            return list.get(index);
         }
 
+        @SuppressWarnings("unused")
         public void clear() throws UnsupportedOperationException {
             this.list.clear();
         }
