@@ -2,9 +2,9 @@
 package com.sos.joc.model.joe.job;
 
 import java.util.List;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
@@ -24,7 +24,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "script")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "language",
     "javaClass",
@@ -58,71 +57,42 @@ public class Script {
      * 
      */
     @JsonProperty("content")
+    @JsonPropertyDescription("cdata embedded script, e.g. javascript")
     @JacksonXmlText
     @JacksonXmlCData
     @JacksonXmlProperty(localName = "content", isAttribute = false)
     private String content;
 
-    /**
-     * 
-     * @return
-     *     The language
-     */
     @JsonProperty("language")
     @JacksonXmlProperty(localName = "language", isAttribute = true)
     public String getLanguage() {
         return language;
     }
 
-    /**
-     * 
-     * @param language
-     *     The language
-     */
     @JsonProperty("language")
     @JacksonXmlProperty(localName = "language", isAttribute = true)
     public void setLanguage(String language) {
         this.language = language;
     }
 
-    /**
-     * 
-     * @return
-     *     The javaClass
-     */
     @JsonProperty("javaClass")
     @JacksonXmlProperty(localName = "java_class", isAttribute = true)
     public String getJavaClass() {
         return javaClass;
     }
 
-    /**
-     * 
-     * @param javaClass
-     *     The javaClass
-     */
     @JsonProperty("javaClass")
     @JacksonXmlProperty(localName = "java_class", isAttribute = true)
     public void setJavaClass(String javaClass) {
         this.javaClass = javaClass;
     }
 
-    /**
-     * 
-     * @return
-     *     The javaClassPath
-     */
     @JsonProperty("javaClassPath")
     @JacksonXmlProperty(localName = "java_class_path", isAttribute = true)
     public String getJavaClassPath() {
         return javaClassPath;
     }
 
-    /**
-     * 
-     * @param javaClassPath
-     *     The javaClassPath
-     */
     @JsonProperty("javaClassPath")
     @JacksonXmlProperty(localName = "java_class_path", isAttribute = true)
     public void setJavaClassPath(String javaClassPath) {
@@ -134,8 +104,6 @@ public class Script {
      * <p>
      * 
      * 
-     * @return
-     *     The includes
      */
     @JsonProperty("includes")
     @JacksonXmlProperty(localName = "include", isAttribute = false)
@@ -148,8 +116,6 @@ public class Script {
      * <p>
      * 
      * 
-     * @param includes
-     *     The includes
      */
     @JsonProperty("includes")
     @JacksonXmlProperty(localName = "include", isAttribute = false)
@@ -160,8 +126,6 @@ public class Script {
     /**
      * cdata embedded script, e.g. javascript
      * 
-     * @return
-     *     The content
      */
     @JsonProperty("content")
     @JacksonXmlText
@@ -174,8 +138,6 @@ public class Script {
     /**
      * cdata embedded script, e.g. javascript
      * 
-     * @param content
-     *     The content
      */
     @JsonProperty("content")
     @JacksonXmlText
@@ -187,12 +149,12 @@ public class Script {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("language", language).append("javaClass", javaClass).append("javaClassPath", javaClassPath).append("includes", includes).append("content", content).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(language).append(javaClass).append(javaClassPath).append(includes).append(content).toHashCode();
+        return new HashCodeBuilder().append(javaClassPath).append(language).append(includes).append(javaClass).append(content).toHashCode();
     }
 
     @Override
@@ -204,7 +166,7 @@ public class Script {
             return false;
         }
         Script rhs = ((Script) other);
-        return new EqualsBuilder().append(language, rhs.language).append(javaClass, rhs.javaClass).append(javaClassPath, rhs.javaClassPath).append(includes, rhs.includes).append(content, rhs.content).isEquals();
+        return new EqualsBuilder().append(javaClassPath, rhs.javaClassPath).append(language, rhs.language).append(includes, rhs.includes).append(javaClass, rhs.javaClass).append(content, rhs.content).isEquals();
     }
 
 }

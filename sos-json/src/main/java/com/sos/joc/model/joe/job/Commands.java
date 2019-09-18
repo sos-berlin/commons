@@ -2,7 +2,6 @@
 package com.sos.joc.model.joe.job;
 
 import java.util.List;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -16,7 +15,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "commands")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "addOrders",
     "startJobs"
@@ -32,44 +30,24 @@ public class Commands {
     @JacksonXmlProperty(localName = "start_job", isAttribute = false)
     private List<StartJob> startJobs = null;
 
-    /**
-     * 
-     * @return
-     *     The addOrders
-     */
     @JsonProperty("addOrders")
     @JacksonXmlProperty(localName = "add_order", isAttribute = false)
     public List<AddOrder> getAddOrders() {
         return addOrders;
     }
 
-    /**
-     * 
-     * @param addOrders
-     *     The addOrders
-     */
     @JsonProperty("addOrders")
     @JacksonXmlProperty(localName = "add_order", isAttribute = false)
     public void setAddOrders(List<AddOrder> addOrders) {
         this.addOrders = addOrders;
     }
 
-    /**
-     * 
-     * @return
-     *     The startJobs
-     */
     @JsonProperty("startJobs")
     @JacksonXmlProperty(localName = "start_job", isAttribute = false)
     public List<StartJob> getStartJobs() {
         return startJobs;
     }
 
-    /**
-     * 
-     * @param startJobs
-     *     The startJobs
-     */
     @JsonProperty("startJobs")
     @JacksonXmlProperty(localName = "start_job", isAttribute = false)
     public void setStartJobs(List<StartJob> startJobs) {
@@ -78,7 +56,7 @@ public class Commands {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("addOrders", addOrders).append("startJobs", startJobs).toString();
     }
 
     @Override

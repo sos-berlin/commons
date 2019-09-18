@@ -1,5 +1,5 @@
 
-package com.sos.joc.model.joe.job;
+package com.sos.joc.model.joe.schedule;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,22 +13,22 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * edit job configuration
+ * edit schedule configuration
  * <p>
  * 
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JacksonXmlRootElement(localName = "job_edit")
+@JacksonXmlRootElement(localName = "schedule_edit")
 @JsonPropertyOrder({
     "configuration"
 })
-public class JobEdit
+public class ScheduleEdit
     extends JSObjectEdit
 {
 
     /**
-     * job without name, visible, temporary, spooler_id, log_append, separate_process, mail_xslt_stylesheet attributes
+     * lock
      * <p>
      * 
      * (Required)
@@ -36,10 +36,10 @@ public class JobEdit
      */
     @JsonProperty("configuration")
     @JacksonXmlProperty(localName = "configuration", isAttribute = false)
-    private Job configuration;
+    private Schedule configuration;
 
     /**
-     * job without name, visible, temporary, spooler_id, log_append, separate_process, mail_xslt_stylesheet attributes
+     * lock
      * <p>
      * 
      * (Required)
@@ -47,12 +47,12 @@ public class JobEdit
      */
     @JsonProperty("configuration")
     @JacksonXmlProperty(localName = "configuration", isAttribute = false)
-    public Job getConfiguration() {
+    public Schedule getConfiguration() {
         return configuration;
     }
 
     /**
-     * job without name, visible, temporary, spooler_id, log_append, separate_process, mail_xslt_stylesheet attributes
+     * lock
      * <p>
      * 
      * (Required)
@@ -60,7 +60,7 @@ public class JobEdit
      */
     @JsonProperty("configuration")
     @JacksonXmlProperty(localName = "configuration", isAttribute = false)
-    public void setConfiguration(Job configuration) {
+    public void setConfiguration(Schedule configuration) {
         this.configuration = configuration;
     }
 
@@ -79,10 +79,10 @@ public class JobEdit
         if (other == this) {
             return true;
         }
-        if ((other instanceof JobEdit) == false) {
+        if ((other instanceof ScheduleEdit) == false) {
             return false;
         }
-        JobEdit rhs = ((JobEdit) other);
+        ScheduleEdit rhs = ((ScheduleEdit) other);
         return new EqualsBuilder().appendSuper(super.equals(other)).append(configuration, rhs.configuration).isEquals();
     }
 

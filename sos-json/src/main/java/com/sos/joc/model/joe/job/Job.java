@@ -2,13 +2,14 @@
 package com.sos.joc.model.joe.job;
 
 import java.util.List;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.sos.joc.model.joe.common.IJSObject;
 import com.sos.joc.model.joe.common.Params;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -23,7 +24,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "job")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "priority",
     "title",
@@ -50,7 +50,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "runTime",
     "commands"
 })
-public class Job {
+public class Job implements IJSObject
+{
 
     @JsonProperty("priority")
     @JacksonXmlProperty(localName = "priority", isAttribute = true)
@@ -63,6 +64,7 @@ public class Job {
      * 
      */
     @JsonProperty("order")
+    @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "order", isAttribute = true)
     private String order;
     /**
@@ -94,6 +96,7 @@ public class Job {
      * 
      */
     @JsonProperty("forceIdleTimeout")
+    @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "force_idle_timeout", isAttribute = true)
     private String forceIdleTimeout;
     /**
@@ -101,6 +104,7 @@ public class Job {
      * 
      */
     @JsonProperty("processClass")
+    @JsonPropertyDescription("path of a process class object")
     @JacksonXmlProperty(localName = "process_class", isAttribute = true)
     private String processClass;
     @JsonProperty("javaOptions")
@@ -111,6 +115,7 @@ public class Job {
      * 
      */
     @JsonProperty("stopOnError")
+    @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "stop_on_error", isAttribute = true)
     private String stopOnError;
     /**
@@ -144,9 +149,6 @@ public class Job {
     @JsonProperty("environment")
     @JacksonXmlProperty(localName = "environment", isAttribute = false)
     private EnviromentVariables environment;
-    /**
-     * 
-     */
     @JsonProperty("login")
     @JacksonXmlProperty(localName = "login", isAttribute = false)
     private Login login;
@@ -186,44 +188,24 @@ public class Job {
     @JacksonXmlProperty(localName = "commands", isAttribute = false)
     private Commands commands;
 
-    /**
-     * 
-     * @return
-     *     The priority
-     */
     @JsonProperty("priority")
     @JacksonXmlProperty(localName = "priority", isAttribute = true)
     public String getPriority() {
         return priority;
     }
 
-    /**
-     * 
-     * @param priority
-     *     The priority
-     */
     @JsonProperty("priority")
     @JacksonXmlProperty(localName = "priority", isAttribute = true)
     public void setPriority(String priority) {
         this.priority = priority;
     }
 
-    /**
-     * 
-     * @return
-     *     The title
-     */
     @JsonProperty("title")
     @JacksonXmlProperty(localName = "title", isAttribute = true)
     public String getTitle() {
         return title;
     }
 
-    /**
-     * 
-     * @param title
-     *     The title
-     */
     @JsonProperty("title")
     @JacksonXmlProperty(localName = "title", isAttribute = true)
     public void setTitle(String title) {
@@ -233,8 +215,6 @@ public class Job {
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @return
-     *     The order
      */
     @JsonProperty("order")
     @JacksonXmlProperty(localName = "order", isAttribute = true)
@@ -245,8 +225,6 @@ public class Job {
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @param order
-     *     The order
      */
     @JsonProperty("order")
     @JacksonXmlProperty(localName = "order", isAttribute = true)
@@ -259,8 +237,6 @@ public class Job {
      * <p>
      * 
      * 
-     * @return
-     *     The tasks
      */
     @JsonProperty("tasks")
     @JacksonXmlProperty(localName = "tasks", isAttribute = true)
@@ -273,8 +249,6 @@ public class Job {
      * <p>
      * 
      * 
-     * @param tasks
-     *     The tasks
      */
     @JsonProperty("tasks")
     @JacksonXmlProperty(localName = "tasks", isAttribute = true)
@@ -287,8 +261,6 @@ public class Job {
      * <p>
      * 
      * 
-     * @return
-     *     The minTasks
      */
     @JsonProperty("minTasks")
     @JacksonXmlProperty(localName = "min_tasks", isAttribute = true)
@@ -301,8 +273,6 @@ public class Job {
      * <p>
      * 
      * 
-     * @param minTasks
-     *     The minTasks
      */
     @JsonProperty("minTasks")
     @JacksonXmlProperty(localName = "min_tasks", isAttribute = true)
@@ -310,44 +280,24 @@ public class Job {
         this.minTasks = minTasks;
     }
 
-    /**
-     * 
-     * @return
-     *     The timeout
-     */
     @JsonProperty("timeout")
     @JacksonXmlProperty(localName = "timeout", isAttribute = true)
     public String getTimeout() {
         return timeout;
     }
 
-    /**
-     * 
-     * @param timeout
-     *     The timeout
-     */
     @JsonProperty("timeout")
     @JacksonXmlProperty(localName = "timeout", isAttribute = true)
     public void setTimeout(String timeout) {
         this.timeout = timeout;
     }
 
-    /**
-     * 
-     * @return
-     *     The idleTimeout
-     */
     @JsonProperty("idleTimeout")
     @JacksonXmlProperty(localName = "idle_timeout", isAttribute = true)
     public String getIdleTimeout() {
         return idleTimeout;
     }
 
-    /**
-     * 
-     * @param idleTimeout
-     *     The idleTimeout
-     */
     @JsonProperty("idleTimeout")
     @JacksonXmlProperty(localName = "idle_timeout", isAttribute = true)
     public void setIdleTimeout(String idleTimeout) {
@@ -357,8 +307,6 @@ public class Job {
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @return
-     *     The forceIdleTimeout
      */
     @JsonProperty("forceIdleTimeout")
     @JacksonXmlProperty(localName = "force_idle_timeout", isAttribute = true)
@@ -369,8 +317,6 @@ public class Job {
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @param forceIdleTimeout
-     *     The forceIdleTimeout
      */
     @JsonProperty("forceIdleTimeout")
     @JacksonXmlProperty(localName = "force_idle_timeout", isAttribute = true)
@@ -381,8 +327,6 @@ public class Job {
     /**
      * path of a process class object
      * 
-     * @return
-     *     The processClass
      */
     @JsonProperty("processClass")
     @JacksonXmlProperty(localName = "process_class", isAttribute = true)
@@ -393,8 +337,6 @@ public class Job {
     /**
      * path of a process class object
      * 
-     * @param processClass
-     *     The processClass
      */
     @JsonProperty("processClass")
     @JacksonXmlProperty(localName = "process_class", isAttribute = true)
@@ -402,22 +344,12 @@ public class Job {
         this.processClass = processClass;
     }
 
-    /**
-     * 
-     * @return
-     *     The javaOptions
-     */
     @JsonProperty("javaOptions")
     @JacksonXmlProperty(localName = "java_options", isAttribute = true)
     public String getJavaOptions() {
         return javaOptions;
     }
 
-    /**
-     * 
-     * @param javaOptions
-     *     The javaOptions
-     */
     @JsonProperty("javaOptions")
     @JacksonXmlProperty(localName = "java_options", isAttribute = true)
     public void setJavaOptions(String javaOptions) {
@@ -427,8 +359,6 @@ public class Job {
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @return
-     *     The stopOnError
      */
     @JsonProperty("stopOnError")
     @JacksonXmlProperty(localName = "stop_on_error", isAttribute = true)
@@ -439,8 +369,6 @@ public class Job {
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @param stopOnError
-     *     The stopOnError
      */
     @JsonProperty("stopOnError")
     @JacksonXmlProperty(localName = "stop_on_error", isAttribute = true)
@@ -453,8 +381,6 @@ public class Job {
      * <p>
      * 
      * 
-     * @return
-     *     The settings
      */
     @JsonProperty("settings")
     @JacksonXmlProperty(localName = "settings", isAttribute = false)
@@ -467,8 +393,6 @@ public class Job {
      * <p>
      * 
      * 
-     * @param settings
-     *     The settings
      */
     @JsonProperty("settings")
     @JacksonXmlProperty(localName = "settings", isAttribute = false)
@@ -476,22 +400,12 @@ public class Job {
         this.settings = settings;
     }
 
-    /**
-     * 
-     * @return
-     *     The lockUses
-     */
     @JsonProperty("lockUses")
     @JacksonXmlProperty(localName = "lock.use", isAttribute = false)
     public List<LockUse> getLockUses() {
         return lockUses;
     }
 
-    /**
-     * 
-     * @param lockUses
-     *     The lockUses
-     */
     @JsonProperty("lockUses")
     @JacksonXmlProperty(localName = "lock.use", isAttribute = false)
     public void setLockUses(List<LockUse> lockUses) {
@@ -503,8 +417,6 @@ public class Job {
      * <p>
      * 
      * 
-     * @return
-     *     The params
      */
     @JsonProperty("params")
     @JacksonXmlProperty(localName = "params", isAttribute = false)
@@ -517,8 +429,6 @@ public class Job {
      * <p>
      * 
      * 
-     * @param params
-     *     The params
      */
     @JsonProperty("params")
     @JacksonXmlProperty(localName = "params", isAttribute = false)
@@ -531,8 +441,6 @@ public class Job {
      * <p>
      * 
      * 
-     * @return
-     *     The environment
      */
     @JsonProperty("environment")
     @JacksonXmlProperty(localName = "environment", isAttribute = false)
@@ -545,8 +453,6 @@ public class Job {
      * <p>
      * 
      * 
-     * @param environment
-     *     The environment
      */
     @JsonProperty("environment")
     @JacksonXmlProperty(localName = "environment", isAttribute = false)
@@ -554,22 +460,12 @@ public class Job {
         this.environment = environment;
     }
 
-    /**
-     * 
-     * @return
-     *     The login
-     */
     @JsonProperty("login")
     @JacksonXmlProperty(localName = "login", isAttribute = false)
     public Login getLogin() {
         return login;
     }
 
-    /**
-     * 
-     * @param login
-     *     The login
-     */
     @JsonProperty("login")
     @JacksonXmlProperty(localName = "login", isAttribute = false)
     public void setLogin(Login login) {
@@ -581,8 +477,6 @@ public class Job {
      * <p>
      * 
      * 
-     * @return
-     *     The script
      */
     @JsonProperty("script")
     @JacksonXmlProperty(localName = "script", isAttribute = false)
@@ -595,8 +489,6 @@ public class Job {
      * <p>
      * 
      * 
-     * @param script
-     *     The script
      */
     @JsonProperty("script")
     @JacksonXmlProperty(localName = "script", isAttribute = false)
@@ -604,154 +496,84 @@ public class Job {
         this.script = script;
     }
 
-    /**
-     * 
-     * @return
-     *     The monitors
-     */
     @JsonProperty("monitors")
     @JacksonXmlProperty(localName = "monitors", isAttribute = false)
     public List<Monitor> getMonitors() {
         return monitors;
     }
 
-    /**
-     * 
-     * @param monitors
-     *     The monitors
-     */
     @JsonProperty("monitors")
     @JacksonXmlProperty(localName = "monitors", isAttribute = false)
     public void setMonitors(List<Monitor> monitors) {
         this.monitors = monitors;
     }
 
-    /**
-     * 
-     * @return
-     *     The monitorUses
-     */
     @JsonProperty("monitorUses")
     @JacksonXmlProperty(localName = "monitor.use", isAttribute = false)
     public List<MonitorUse> getMonitorUses() {
         return monitorUses;
     }
 
-    /**
-     * 
-     * @param monitorUses
-     *     The monitorUses
-     */
     @JsonProperty("monitorUses")
     @JacksonXmlProperty(localName = "monitor.use", isAttribute = false)
     public void setMonitorUses(List<MonitorUse> monitorUses) {
         this.monitorUses = monitorUses;
     }
 
-    /**
-     * 
-     * @return
-     *     The startWhenDirectoriesChanged
-     */
     @JsonProperty("startWhenDirectoriesChanged")
     @JacksonXmlProperty(localName = "start_when_directory_changed", isAttribute = false)
     public List<StartWhenDirectoryChanged> getStartWhenDirectoriesChanged() {
         return startWhenDirectoriesChanged;
     }
 
-    /**
-     * 
-     * @param startWhenDirectoriesChanged
-     *     The startWhenDirectoriesChanged
-     */
     @JsonProperty("startWhenDirectoriesChanged")
     @JacksonXmlProperty(localName = "start_when_directory_changed", isAttribute = false)
     public void setStartWhenDirectoriesChanged(List<StartWhenDirectoryChanged> startWhenDirectoriesChanged) {
         this.startWhenDirectoriesChanged = startWhenDirectoriesChanged;
     }
 
-    /**
-     * 
-     * @return
-     *     The delayAfterErrors
-     */
     @JsonProperty("delayAfterErrors")
     @JacksonXmlProperty(localName = "delay_after_error", isAttribute = false)
     public List<DelayAfterError> getDelayAfterErrors() {
         return delayAfterErrors;
     }
 
-    /**
-     * 
-     * @param delayAfterErrors
-     *     The delayAfterErrors
-     */
     @JsonProperty("delayAfterErrors")
     @JacksonXmlProperty(localName = "delay_after_error", isAttribute = false)
     public void setDelayAfterErrors(List<DelayAfterError> delayAfterErrors) {
         this.delayAfterErrors = delayAfterErrors;
     }
 
-    /**
-     * 
-     * @return
-     *     The delayOrderAfterSetbacks
-     */
     @JsonProperty("delayOrderAfterSetbacks")
     @JacksonXmlProperty(localName = "delay_order_after_setback", isAttribute = false)
     public List<DelayOrderAfterSetback> getDelayOrderAfterSetbacks() {
         return delayOrderAfterSetbacks;
     }
 
-    /**
-     * 
-     * @param delayOrderAfterSetbacks
-     *     The delayOrderAfterSetbacks
-     */
     @JsonProperty("delayOrderAfterSetbacks")
     @JacksonXmlProperty(localName = "delay_order_after_setback", isAttribute = false)
     public void setDelayOrderAfterSetbacks(List<DelayOrderAfterSetback> delayOrderAfterSetbacks) {
         this.delayOrderAfterSetbacks = delayOrderAfterSetbacks;
     }
 
-    /**
-     * 
-     * @return
-     *     The runTime
-     */
     @JsonProperty("runTime")
     @JacksonXmlProperty(localName = "run_time", isAttribute = false)
     public String getRunTime() {
         return runTime;
     }
 
-    /**
-     * 
-     * @param runTime
-     *     The runTime
-     */
     @JsonProperty("runTime")
     @JacksonXmlProperty(localName = "run_time", isAttribute = false)
     public void setRunTime(String runTime) {
         this.runTime = runTime;
     }
 
-    /**
-     * 
-     * @return
-     *     The commands
-     */
     @JsonProperty("commands")
     @JacksonXmlProperty(localName = "commands", isAttribute = false)
     public Commands getCommands() {
         return commands;
     }
 
-    /**
-     * 
-     * @param commands
-     *     The commands
-     */
     @JsonProperty("commands")
     @JacksonXmlProperty(localName = "commands", isAttribute = false)
     public void setCommands(Commands commands) {
@@ -760,12 +582,12 @@ public class Job {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("priority", priority).append("title", title).append("order", order).append("tasks", tasks).append("minTasks", minTasks).append("timeout", timeout).append("idleTimeout", idleTimeout).append("forceIdleTimeout", forceIdleTimeout).append("processClass", processClass).append("javaOptions", javaOptions).append("stopOnError", stopOnError).append("settings", settings).append("lockUses", lockUses).append("params", params).append("environment", environment).append("login", login).append("script", script).append("monitors", monitors).append("monitorUses", monitorUses).append("startWhenDirectoriesChanged", startWhenDirectoriesChanged).append("delayAfterErrors", delayAfterErrors).append("delayOrderAfterSetbacks", delayOrderAfterSetbacks).append("runTime", runTime).append("commands", commands).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(priority).append(title).append(order).append(tasks).append(minTasks).append(timeout).append(idleTimeout).append(forceIdleTimeout).append(processClass).append(javaOptions).append(stopOnError).append(settings).append(lockUses).append(params).append(environment).append(login).append(script).append(monitors).append(monitorUses).append(startWhenDirectoriesChanged).append(delayAfterErrors).append(delayOrderAfterSetbacks).append(runTime).append(commands).toHashCode();
+        return new HashCodeBuilder().append(delayOrderAfterSetbacks).append(delayAfterErrors).append(startWhenDirectoriesChanged).append(forceIdleTimeout).append(processClass).append(title).append(login).append(minTasks).append(timeout).append(lockUses).append(runTime).append(tasks).append(commands).append(order).append(monitorUses).append(settings).append(priority).append(params).append(script).append(stopOnError).append(environment).append(idleTimeout).append(javaOptions).append(monitors).toHashCode();
     }
 
     @Override
@@ -777,7 +599,7 @@ public class Job {
             return false;
         }
         Job rhs = ((Job) other);
-        return new EqualsBuilder().append(priority, rhs.priority).append(title, rhs.title).append(order, rhs.order).append(tasks, rhs.tasks).append(minTasks, rhs.minTasks).append(timeout, rhs.timeout).append(idleTimeout, rhs.idleTimeout).append(forceIdleTimeout, rhs.forceIdleTimeout).append(processClass, rhs.processClass).append(javaOptions, rhs.javaOptions).append(stopOnError, rhs.stopOnError).append(settings, rhs.settings).append(lockUses, rhs.lockUses).append(params, rhs.params).append(environment, rhs.environment).append(login, rhs.login).append(script, rhs.script).append(monitors, rhs.monitors).append(monitorUses, rhs.monitorUses).append(startWhenDirectoriesChanged, rhs.startWhenDirectoriesChanged).append(delayAfterErrors, rhs.delayAfterErrors).append(delayOrderAfterSetbacks, rhs.delayOrderAfterSetbacks).append(runTime, rhs.runTime).append(commands, rhs.commands).isEquals();
+        return new EqualsBuilder().append(delayOrderAfterSetbacks, rhs.delayOrderAfterSetbacks).append(delayAfterErrors, rhs.delayAfterErrors).append(startWhenDirectoriesChanged, rhs.startWhenDirectoriesChanged).append(forceIdleTimeout, rhs.forceIdleTimeout).append(processClass, rhs.processClass).append(title, rhs.title).append(login, rhs.login).append(minTasks, rhs.minTasks).append(timeout, rhs.timeout).append(lockUses, rhs.lockUses).append(runTime, rhs.runTime).append(tasks, rhs.tasks).append(commands, rhs.commands).append(order, rhs.order).append(monitorUses, rhs.monitorUses).append(settings, rhs.settings).append(priority, rhs.priority).append(params, rhs.params).append(script, rhs.script).append(stopOnError, rhs.stopOnError).append(environment, rhs.environment).append(idleTimeout, rhs.idleTimeout).append(javaOptions, rhs.javaOptions).append(monitors, rhs.monitors).isEquals();
     }
 
 }

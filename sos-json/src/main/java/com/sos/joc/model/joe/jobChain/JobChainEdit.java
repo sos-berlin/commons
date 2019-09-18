@@ -1,5 +1,5 @@
 
-package com.sos.joc.model.joe.job;
+package com.sos.joc.model.joe.jobChain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,22 +13,22 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * edit job configuration
+ * edit job chain configuration
  * <p>
  * 
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JacksonXmlRootElement(localName = "job_edit")
+@JacksonXmlRootElement(localName = "job_chain_edit")
 @JsonPropertyOrder({
     "configuration"
 })
-public class JobEdit
+public class JobChainEdit
     extends JSObjectEdit
 {
 
     /**
-     * job without name, visible, temporary, spooler_id, log_append, separate_process, mail_xslt_stylesheet attributes
+     * job chain
      * <p>
      * 
      * (Required)
@@ -36,10 +36,10 @@ public class JobEdit
      */
     @JsonProperty("configuration")
     @JacksonXmlProperty(localName = "configuration", isAttribute = false)
-    private Job configuration;
+    private JobChain configuration;
 
     /**
-     * job without name, visible, temporary, spooler_id, log_append, separate_process, mail_xslt_stylesheet attributes
+     * job chain
      * <p>
      * 
      * (Required)
@@ -47,12 +47,12 @@ public class JobEdit
      */
     @JsonProperty("configuration")
     @JacksonXmlProperty(localName = "configuration", isAttribute = false)
-    public Job getConfiguration() {
+    public JobChain getConfiguration() {
         return configuration;
     }
 
     /**
-     * job without name, visible, temporary, spooler_id, log_append, separate_process, mail_xslt_stylesheet attributes
+     * job chain
      * <p>
      * 
      * (Required)
@@ -60,7 +60,7 @@ public class JobEdit
      */
     @JsonProperty("configuration")
     @JacksonXmlProperty(localName = "configuration", isAttribute = false)
-    public void setConfiguration(Job configuration) {
+    public void setConfiguration(JobChain configuration) {
         this.configuration = configuration;
     }
 
@@ -79,10 +79,10 @@ public class JobEdit
         if (other == this) {
             return true;
         }
-        if ((other instanceof JobEdit) == false) {
+        if ((other instanceof JobChainEdit) == false) {
             return false;
         }
-        JobEdit rhs = ((JobEdit) other);
+        JobChainEdit rhs = ((JobChainEdit) other);
         return new EqualsBuilder().appendSuper(super.equals(other)).append(configuration, rhs.configuration).isEquals();
     }
 

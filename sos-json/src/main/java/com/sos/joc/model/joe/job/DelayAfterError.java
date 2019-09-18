@@ -1,7 +1,6 @@
 
 package com.sos.joc.model.joe.job;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -13,7 +12,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "delay_after_error")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "errorCount",
     "delay"
@@ -45,8 +43,6 @@ public class DelayAfterError {
      * 
      * (Required)
      * 
-     * @return
-     *     The errorCount
      */
     @JsonProperty("errorCount")
     @JacksonXmlProperty(localName = "error_count", isAttribute = true)
@@ -60,8 +56,6 @@ public class DelayAfterError {
      * 
      * (Required)
      * 
-     * @param errorCount
-     *     The errorCount
      */
     @JsonProperty("errorCount")
     @JacksonXmlProperty(localName = "error_count", isAttribute = true)
@@ -73,8 +67,6 @@ public class DelayAfterError {
      * 
      * (Required)
      * 
-     * @return
-     *     The delay
      */
     @JsonProperty("delay")
     @JacksonXmlProperty(localName = "delay", isAttribute = true)
@@ -86,8 +78,6 @@ public class DelayAfterError {
      * 
      * (Required)
      * 
-     * @param delay
-     *     The delay
      */
     @JsonProperty("delay")
     @JacksonXmlProperty(localName = "delay", isAttribute = true)
@@ -97,7 +87,7 @@ public class DelayAfterError {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("errorCount", errorCount).append("delay", delay).toString();
     }
 
     @Override

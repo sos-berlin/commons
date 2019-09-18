@@ -1,7 +1,6 @@
 
 package com.sos.joc.model.joe.common;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -13,7 +12,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "copy_params")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "from"
 })
@@ -32,8 +30,6 @@ public class CopyParams {
      * 
      * (Required)
      * 
-     * @return
-     *     The from
      */
     @JsonProperty("from")
     @JacksonXmlProperty(localName = "from", isAttribute = true)
@@ -45,8 +41,6 @@ public class CopyParams {
      * 
      * (Required)
      * 
-     * @param from
-     *     The from
      */
     @JsonProperty("from")
     @JacksonXmlProperty(localName = "from", isAttribute = true)
@@ -56,7 +50,7 @@ public class CopyParams {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("from", from).toString();
     }
 
     @Override

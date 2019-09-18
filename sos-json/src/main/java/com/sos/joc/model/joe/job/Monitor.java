@@ -2,7 +2,6 @@
 package com.sos.joc.model.joe.job;
 
 import java.util.List;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -22,7 +21,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "monitor")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "name",
     "ordering",
@@ -47,22 +45,12 @@ public class Monitor {
     @JacksonXmlProperty(localName = "script", isAttribute = false)
     private List<Script> scripts = null;
 
-    /**
-     * 
-     * @return
-     *     The name
-     */
     @JsonProperty("name")
     @JacksonXmlProperty(localName = "name", isAttribute = true)
     public String getName() {
         return name;
     }
 
-    /**
-     * 
-     * @param name
-     *     The name
-     */
     @JsonProperty("name")
     @JacksonXmlProperty(localName = "name", isAttribute = true)
     public void setName(String name) {
@@ -74,8 +62,6 @@ public class Monitor {
      * <p>
      * 
      * 
-     * @return
-     *     The ordering
      */
     @JsonProperty("ordering")
     @JacksonXmlProperty(localName = "ordering", isAttribute = true)
@@ -88,8 +74,6 @@ public class Monitor {
      * <p>
      * 
      * 
-     * @param ordering
-     *     The ordering
      */
     @JsonProperty("ordering")
     @JacksonXmlProperty(localName = "ordering", isAttribute = true)
@@ -97,22 +81,12 @@ public class Monitor {
         this.ordering = ordering;
     }
 
-    /**
-     * 
-     * @return
-     *     The scripts
-     */
     @JsonProperty("scripts")
     @JacksonXmlProperty(localName = "script", isAttribute = false)
     public List<Script> getScripts() {
         return scripts;
     }
 
-    /**
-     * 
-     * @param scripts
-     *     The scripts
-     */
     @JsonProperty("scripts")
     @JacksonXmlProperty(localName = "script", isAttribute = false)
     public void setScripts(List<Script> scripts) {
@@ -121,12 +95,12 @@ public class Monitor {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("name", name).append("ordering", ordering).append("scripts", scripts).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(name).append(ordering).append(scripts).toHashCode();
+        return new HashCodeBuilder().append(name).append(scripts).append(ordering).toHashCode();
     }
 
     @Override
@@ -138,7 +112,7 @@ public class Monitor {
             return false;
         }
         Monitor rhs = ((Monitor) other);
-        return new EqualsBuilder().append(name, rhs.name).append(ordering, rhs.ordering).append(scripts, rhs.scripts).isEquals();
+        return new EqualsBuilder().append(name, rhs.name).append(scripts, rhs.scripts).append(ordering, rhs.ordering).isEquals();
     }
 
 }

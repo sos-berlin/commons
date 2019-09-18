@@ -1,12 +1,12 @@
 
 package com.sos.joc.model.joe.processClass;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.sos.joc.model.joe.common.IJSObject;
 import com.sos.joc.model.processClass.RemoteSchedulers;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -21,7 +21,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "process_class")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "name",
     "maxProcesses",
@@ -29,7 +28,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "remoteScheduler",
     "remoteSchedulers"
 })
-public class ProcessClass {
+public class ProcessClass implements IJSObject
+{
 
     @JsonProperty("name")
     @JacksonXmlProperty(localName = "name", isAttribute = true)
@@ -56,29 +56,16 @@ public class ProcessClass {
     @JsonProperty("remoteScheduler")
     @JacksonXmlProperty(localName = "remote_scheduler", isAttribute = true)
     private String remoteScheduler;
-    /**
-     * 
-     */
     @JsonProperty("remoteSchedulers")
     @JacksonXmlProperty(localName = "remote_schedulers", isAttribute = false)
     private RemoteSchedulers remoteSchedulers;
 
-    /**
-     * 
-     * @return
-     *     The name
-     */
     @JsonProperty("name")
     @JacksonXmlProperty(localName = "name", isAttribute = true)
     public String getName() {
         return name;
     }
 
-    /**
-     * 
-     * @param name
-     *     The name
-     */
     @JsonProperty("name")
     @JacksonXmlProperty(localName = "name", isAttribute = true)
     public void setName(String name) {
@@ -91,8 +78,6 @@ public class ProcessClass {
      * 
      * (Required)
      * 
-     * @return
-     *     The maxProcesses
      */
     @JsonProperty("maxProcesses")
     @JacksonXmlProperty(localName = "max_processes", isAttribute = true)
@@ -106,8 +91,6 @@ public class ProcessClass {
      * 
      * (Required)
      * 
-     * @param maxProcesses
-     *     The maxProcesses
      */
     @JsonProperty("maxProcesses")
     @JacksonXmlProperty(localName = "max_processes", isAttribute = true)
@@ -120,8 +103,6 @@ public class ProcessClass {
      * <p>
      * 
      * 
-     * @return
-     *     The timeout
      */
     @JsonProperty("timeout")
     @JacksonXmlProperty(localName = "timeout", isAttribute = true)
@@ -134,8 +115,6 @@ public class ProcessClass {
      * <p>
      * 
      * 
-     * @param timeout
-     *     The timeout
      */
     @JsonProperty("timeout")
     @JacksonXmlProperty(localName = "timeout", isAttribute = true)
@@ -143,44 +122,24 @@ public class ProcessClass {
         this.timeout = timeout;
     }
 
-    /**
-     * 
-     * @return
-     *     The remoteScheduler
-     */
     @JsonProperty("remoteScheduler")
     @JacksonXmlProperty(localName = "remote_scheduler", isAttribute = true)
     public String getRemoteScheduler() {
         return remoteScheduler;
     }
 
-    /**
-     * 
-     * @param remoteScheduler
-     *     The remoteScheduler
-     */
     @JsonProperty("remoteScheduler")
     @JacksonXmlProperty(localName = "remote_scheduler", isAttribute = true)
     public void setRemoteScheduler(String remoteScheduler) {
         this.remoteScheduler = remoteScheduler;
     }
 
-    /**
-     * 
-     * @return
-     *     The remoteSchedulers
-     */
     @JsonProperty("remoteSchedulers")
     @JacksonXmlProperty(localName = "remote_schedulers", isAttribute = false)
     public RemoteSchedulers getRemoteSchedulers() {
         return remoteSchedulers;
     }
 
-    /**
-     * 
-     * @param remoteSchedulers
-     *     The remoteSchedulers
-     */
     @JsonProperty("remoteSchedulers")
     @JacksonXmlProperty(localName = "remote_schedulers", isAttribute = false)
     public void setRemoteSchedulers(RemoteSchedulers remoteSchedulers) {
@@ -189,12 +148,12 @@ public class ProcessClass {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("name", name).append("maxProcesses", maxProcesses).append("timeout", timeout).append("remoteScheduler", remoteScheduler).append("remoteSchedulers", remoteSchedulers).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(name).append(maxProcesses).append(timeout).append(remoteScheduler).append(remoteSchedulers).toHashCode();
+        return new HashCodeBuilder().append(name).append(maxProcesses).append(remoteSchedulers).append(remoteScheduler).append(timeout).toHashCode();
     }
 
     @Override
@@ -206,7 +165,7 @@ public class ProcessClass {
             return false;
         }
         ProcessClass rhs = ((ProcessClass) other);
-        return new EqualsBuilder().append(name, rhs.name).append(maxProcesses, rhs.maxProcesses).append(timeout, rhs.timeout).append(remoteScheduler, rhs.remoteScheduler).append(remoteSchedulers, rhs.remoteSchedulers).isEquals();
+        return new EqualsBuilder().append(name, rhs.name).append(maxProcesses, rhs.maxProcesses).append(remoteSchedulers, rhs.remoteSchedulers).append(remoteScheduler, rhs.remoteScheduler).append(timeout, rhs.timeout).isEquals();
     }
 
 }

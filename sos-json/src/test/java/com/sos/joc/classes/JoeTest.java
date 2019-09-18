@@ -12,12 +12,15 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.sos.joc.model.joe.common.IJSObject;
+import com.sos.joc.model.joe.common.JSObjectEdit;
 import com.sos.joc.model.joe.common.Param;
 import com.sos.joc.model.joe.common.Params;
 import com.sos.joc.model.joe.job.Commands;
 import com.sos.joc.model.joe.job.EnviromentVariable;
 import com.sos.joc.model.joe.job.EnviromentVariables;
 import com.sos.joc.model.joe.job.Job;
+import com.sos.joc.model.joe.job.JobEdit;
 import com.sos.joc.model.joe.job.Login;
 import com.sos.joc.model.joe.job.Script;
 import com.sos.joc.model.joe.job.Settings;
@@ -72,7 +75,7 @@ public class JoeTest {
         startJob2.setJob("/path/to/myOtherJob2");
         commands.setStartJobs(Arrays.asList(startJob, startJob2));
         job.setCommands(commands);
-        writeValueAsString(job);
+        writeValueAsXMLString(job);
     }
     
     @Test
@@ -110,11 +113,68 @@ public class JoeTest {
                 .append("  }")
                 .append("}");
         Job job = objMapper.readValue(json.toString(), Job.class);
-        writeValueAsString(job);
+        writeValueAsXMLString(job);
     }
     
-    private String writeValueAsString(Object obj) throws JsonProcessingException {
+    @Test
+    public void textJSObjEditTest() throws IOException {
+        StringBuilder json = new StringBuilder()
+                .append("{")
+                .append("  \"jobschedulerId\" : \"myJobScheduler\",")
+                .append("  \"objectType\" : \"JOB\",")
+                .append("  \"path\" : \"/path/to/job\",")
+                .append("  \"configuration\" : ")
+                //job
+                .append("{")
+                .append("  \"title\" : \"myJob\",")
+                .append("  \"order\" : \"yes\",")
+                .append("  \"stopOnError\" : \"no\",")
+                .append("  \"settings\" : {")
+                .append("    \"logLevel\" : \"debug9\"")
+                .append("  },")
+                .append("  \"params\" : {")
+                .append("    \"paramList\" : [ {")
+                .append("      \"name\" : \"myParam\",")
+                .append("      \"value\" : \"myParamVal\"")
+                .append("    }, {")
+                .append("      \"name\" : \"myParam2\",")
+                .append("      \"value\" : \"myParamVal2\"")
+                .append("    } ]")
+                .append("  },")
+                .append("  \"environment\" : {")
+                .append("    \"variables\" : [ {")
+                .append("      \"name\" : \"myEnv\",")
+                .append("     \"value\" : \"myEnvVal\"")
+                .append("   } ]")
+                .append("  },")
+                .append("  \"login\" : {")
+                .append("    \"user\" : \"me\",")
+                .append("    \"password\" : \"secret\"")
+                .append("  },")
+                .append("  \"script\" : {")
+                .append("    \"language\" : \"shell\",")
+                .append("    \"content\" : \"\\necho hallo\\necho welt\\n\"")
+                .append("  }")
+                .append("}")
+                //Job ende
+                .append("}");
+        JSObjectEdit jsObj = objMapper.readValue(json.toString(), JSObjectEdit.class);
+        IJSObject jobI = jsObj.getConfiguration();
+        JobEdit jobEdit = jsObj.cast();
+        Job job = jobEdit.getConfiguration();
+        writeValueAsXMLString(jobI);
+        writeValueAsXMLString(job);
+        writeValueAsJsonString(jobI);
+    }
+    
+    private String writeValueAsXMLString(Object obj) throws JsonProcessingException {
         String s = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n\n" + xmlMapper.writeValueAsString(obj);
+        System.out.println(s);
+        return s;
+    }
+    
+    private String writeValueAsJsonString(Object obj) throws JsonProcessingException {
+        String s = objMapper.writeValueAsString(obj);
         System.out.println(s);
         return s;
     }
