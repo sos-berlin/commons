@@ -8,6 +8,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.sos.joc.model.joe.common.IJSObject;
 import com.sos.joc.model.joe.common.Params;
+import com.sos.joc.model.joe.schedule.RunTime;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -57,9 +58,15 @@ public class Order implements IJSObject
     @JsonProperty("params")
     @JacksonXmlProperty(localName = "params", isAttribute = false)
     private Params params;
+    /**
+     * runTime
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("runTime")
     @JacksonXmlProperty(localName = "run_time", isAttribute = false)
-    private String runTime = "";
+    private RunTime runTime = new RunTime();
 
     @JsonProperty("priority")
     @JacksonXmlProperty(localName = "priority", isAttribute = true)
@@ -145,15 +152,27 @@ public class Order implements IJSObject
         this.params = params;
     }
 
+    /**
+     * runTime
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("runTime")
     @JacksonXmlProperty(localName = "run_time", isAttribute = false)
-    public String getRunTime() {
+    public RunTime getRunTime() {
         return runTime;
     }
 
+    /**
+     * runTime
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("runTime")
     @JacksonXmlProperty(localName = "run_time", isAttribute = false)
-    public void setRunTime(String runTime) {
+    public void setRunTime(RunTime runTime) {
         this.runTime = runTime;
     }
 

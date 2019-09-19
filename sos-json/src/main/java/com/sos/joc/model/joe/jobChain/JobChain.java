@@ -16,7 +16,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * job chain without name, replace, visible attributes
+ * job chain without name, replace attributes
  * <p>
  * 
  * 

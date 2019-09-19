@@ -51,7 +51,7 @@ public class StartJob {
     @JsonProperty("force")
     @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "force", isAttribute = true)
-    private String force = "true";
+    private String force;
     /**
      * parameters
      * <p>

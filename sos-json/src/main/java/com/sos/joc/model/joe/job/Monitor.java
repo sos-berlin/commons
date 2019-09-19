@@ -41,7 +41,7 @@ public class Monitor implements IJSObject
     @JacksonXmlProperty(localName = "ordering", isAttribute = true)
     private Integer ordering;
     /**
-     * job script TODO it's incomplete
+     * job script
      * <p>
      * 
      * 
@@ -87,7 +87,7 @@ public class Monitor implements IJSObject
     }
 
     /**
-     * job script TODO it's incomplete
+     * job script
      * <p>
      * 
      * 
@@ -99,7 +99,7 @@ public class Monitor implements IJSObject
     }
 
     /**
-     * job script TODO it's incomplete
+     * job script
      * <p>
      * 
      * 

@@ -28,6 +28,7 @@ import com.sos.joc.model.joe.job.Script;
 import com.sos.joc.model.joe.job.Settings;
 import com.sos.joc.model.joe.job.StartJob;
 import com.sos.joc.model.joe.jobChain.JobChain;
+import com.sos.joc.model.joe.order.AddOrder;
 
 public class JoeTest {
 
@@ -77,8 +78,17 @@ public class JoeTest {
         StartJob startJob2 = new StartJob();
         startJob2.setAt("now");
         startJob2.setJob("/path/to/myOtherJob2");
+        commands.setOnExitCode("success");
         commands.setStartJobs(Arrays.asList(startJob, startJob2));
-        job.setCommands(commands);
+        Commands commands2 = new Commands();
+        AddOrder addOrder = new AddOrder();
+        addOrder.setAt("now");
+        addOrder.setJobChain("myJobChain");
+        addOrder.setId("42");
+        commands2.setOnExitCode("error");
+        commands2.setStartJobs(Arrays.asList(startJob));
+        commands2.setAddOrders(Arrays.asList(addOrder));
+        job.setCommands(Arrays.asList(commands, commands2));
         writeValueAsXMLString(job);
     }
     
@@ -108,6 +118,15 @@ public class JoeTest {
         JobChain jobChain = xmlMapper.readValue(testFile.toFile(), JobChain.class);
         writeValueAsXMLString(jobChain);
         writeValueAsJsonString(jobChain);
+    }
+    
+    @Test
+    public void testJobWithCommands() throws JsonParseException, JsonMappingException, IOException {
+        //getClass().getResource("jobChainWithReturnCodes.job_chain.xml").getFile();
+        Path testFile = resourceDirectory.resolve("jobWithCommands.job.xml");
+        Job job = xmlMapper.readValue(testFile.toFile(), Job.class);
+        writeValueAsXMLString(job);
+        writeValueAsJsonString(job);
     }
     
     private String writeValueAsXMLString(Object obj) throws JsonProcessingException {

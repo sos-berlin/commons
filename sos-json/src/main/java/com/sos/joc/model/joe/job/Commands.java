@@ -4,6 +4,7 @@ package com.sos.joc.model.joe.job;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -16,11 +17,20 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "commands")
 @JsonPropertyOrder({
+    "onExitCode",
     "addOrders",
     "startJobs"
 })
 public class Commands {
 
+    /**
+     * possible values: success, error or space separated collection of numbers or a unix signal
+     * 
+     */
+    @JsonProperty("onExitCode")
+    @JsonPropertyDescription("possible values: success, error or space separated collection of numbers or a unix signal")
+    @JacksonXmlProperty(localName = "on_exit_code", isAttribute = true)
+    private String onExitCode;
     @JsonProperty("addOrders")
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "add_order", isAttribute = false)
@@ -29,6 +39,26 @@ public class Commands {
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "start_job", isAttribute = false)
     private List<StartJob> startJobs = null;
+
+    /**
+     * possible values: success, error or space separated collection of numbers or a unix signal
+     * 
+     */
+    @JsonProperty("onExitCode")
+    @JacksonXmlProperty(localName = "on_exit_code", isAttribute = true)
+    public String getOnExitCode() {
+        return onExitCode;
+    }
+
+    /**
+     * possible values: success, error or space separated collection of numbers or a unix signal
+     * 
+     */
+    @JsonProperty("onExitCode")
+    @JacksonXmlProperty(localName = "on_exit_code", isAttribute = true)
+    public void setOnExitCode(String onExitCode) {
+        this.onExitCode = onExitCode;
+    }
 
     @JsonProperty("addOrders")
     @JacksonXmlProperty(localName = "add_order", isAttribute = false)
@@ -56,12 +86,12 @@ public class Commands {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("addOrders", addOrders).append("startJobs", startJobs).toString();
+        return new ToStringBuilder(this).append("onExitCode", onExitCode).append("addOrders", addOrders).append("startJobs", startJobs).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(addOrders).append(startJobs).toHashCode();
+        return new HashCodeBuilder().append(addOrders).append(startJobs).append(onExitCode).toHashCode();
     }
 
     @Override
@@ -73,7 +103,7 @@ public class Commands {
             return false;
         }
         Commands rhs = ((Commands) other);
-        return new EqualsBuilder().append(addOrders, rhs.addOrders).append(startJobs, rhs.startJobs).isEquals();
+        return new EqualsBuilder().append(addOrders, rhs.addOrders).append(startJobs, rhs.startJobs).append(onExitCode, rhs.onExitCode).isEquals();
     }
 
 }

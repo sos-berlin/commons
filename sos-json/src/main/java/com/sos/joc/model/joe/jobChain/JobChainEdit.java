@@ -28,7 +28,7 @@ public class JobChainEdit
 {
 
     /**
-     * job chain without name, replace, visible attributes
+     * job chain without name, replace attributes
      * <p>
      * 
      * (Required)
@@ -39,7 +39,7 @@ public class JobChainEdit
     private JobChain configuration;
 
     /**
-     * job chain without name, replace, visible attributes
+     * job chain without name, replace attributes
      * <p>
      * 
      * (Required)
@@ -52,7 +52,7 @@ public class JobChainEdit
     }
 
     /**
-     * job chain without name, replace, visible attributes
+     * job chain without name, replace attributes
      * <p>
      * 
      * (Required)

@@ -11,6 +11,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.sos.joc.model.joe.common.IJSObject;
 import com.sos.joc.model.joe.common.Params;
+import com.sos.joc.model.joe.schedule.RunTime;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -195,7 +196,7 @@ public class Job implements IJSObject
     @JacksonXmlProperty(localName = "login", isAttribute = false)
     private Login login;
     /**
-     * job script TODO it's incomplete
+     * job script
      * <p>
      * 
      * 
@@ -223,12 +224,19 @@ public class Job implements IJSObject
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "delay_order_after_setback", isAttribute = false)
     private List<DelayOrderAfterSetback> delayOrderAfterSetbacks = null;
+    /**
+     * runTime
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("runTime")
     @JacksonXmlProperty(localName = "run_time", isAttribute = false)
-    private String runTime = "";
+    private RunTime runTime = new RunTime();
     @JsonProperty("commands")
+    @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "commands", isAttribute = false)
-    private Commands commands;
+    private List<Commands> commands = null;
 
     @JsonProperty("priority")
     @JacksonXmlProperty(localName = "priority", isAttribute = true)
@@ -619,7 +627,7 @@ public class Job implements IJSObject
     }
 
     /**
-     * job script TODO it's incomplete
+     * job script
      * <p>
      * 
      * 
@@ -631,7 +639,7 @@ public class Job implements IJSObject
     }
 
     /**
-     * job script TODO it's incomplete
+     * job script
      * <p>
      * 
      * 
@@ -702,27 +710,39 @@ public class Job implements IJSObject
         this.delayOrderAfterSetbacks = delayOrderAfterSetbacks;
     }
 
+    /**
+     * runTime
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("runTime")
     @JacksonXmlProperty(localName = "run_time", isAttribute = false)
-    public String getRunTime() {
+    public RunTime getRunTime() {
         return runTime;
     }
 
+    /**
+     * runTime
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("runTime")
     @JacksonXmlProperty(localName = "run_time", isAttribute = false)
-    public void setRunTime(String runTime) {
+    public void setRunTime(RunTime runTime) {
         this.runTime = runTime;
     }
 
     @JsonProperty("commands")
     @JacksonXmlProperty(localName = "commands", isAttribute = false)
-    public Commands getCommands() {
+    public List<Commands> getCommands() {
         return commands;
     }
 
     @JsonProperty("commands")
     @JacksonXmlProperty(localName = "commands", isAttribute = false)
-    public void setCommands(Commands commands) {
+    public void setCommands(List<Commands> commands) {
         this.commands = commands;
     }
 

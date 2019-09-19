@@ -17,7 +17,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * job script TODO it's incomplete
+ * job script
  * <p>
  * 
  * 
@@ -28,6 +28,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "language",
     "javaClass",
     "javaClassPath",
+    "dll",
+    "dotnetClass",
+    "comClass",
     "includes",
     "content"
 })
@@ -42,6 +45,15 @@ public class Script {
     @JsonProperty("javaClassPath")
     @JacksonXmlProperty(localName = "java_class_path", isAttribute = true)
     private String javaClassPath;
+    @JsonProperty("dll")
+    @JacksonXmlProperty(localName = "dll", isAttribute = true)
+    private String dll;
+    @JsonProperty("dotnetClass")
+    @JacksonXmlProperty(localName = "dotnet_class", isAttribute = true)
+    private String dotnetClass;
+    @JsonProperty("comClass")
+    @JacksonXmlProperty(localName = "com_class", isAttribute = true)
+    private String comClass;
     /**
      * include collection
      * <p>
@@ -99,6 +111,42 @@ public class Script {
         this.javaClassPath = javaClassPath;
     }
 
+    @JsonProperty("dll")
+    @JacksonXmlProperty(localName = "dll", isAttribute = true)
+    public String getDll() {
+        return dll;
+    }
+
+    @JsonProperty("dll")
+    @JacksonXmlProperty(localName = "dll", isAttribute = true)
+    public void setDll(String dll) {
+        this.dll = dll;
+    }
+
+    @JsonProperty("dotnetClass")
+    @JacksonXmlProperty(localName = "dotnet_class", isAttribute = true)
+    public String getDotnetClass() {
+        return dotnetClass;
+    }
+
+    @JsonProperty("dotnetClass")
+    @JacksonXmlProperty(localName = "dotnet_class", isAttribute = true)
+    public void setDotnetClass(String dotnetClass) {
+        this.dotnetClass = dotnetClass;
+    }
+
+    @JsonProperty("comClass")
+    @JacksonXmlProperty(localName = "com_class", isAttribute = true)
+    public String getComClass() {
+        return comClass;
+    }
+
+    @JsonProperty("comClass")
+    @JacksonXmlProperty(localName = "com_class", isAttribute = true)
+    public void setComClass(String comClass) {
+        this.comClass = comClass;
+    }
+
     /**
      * include collection
      * <p>
@@ -149,12 +197,12 @@ public class Script {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("language", language).append("javaClass", javaClass).append("javaClassPath", javaClassPath).append("includes", includes).append("content", content).toString();
+        return new ToStringBuilder(this).append("language", language).append("javaClass", javaClass).append("javaClassPath", javaClassPath).append("dll", dll).append("dotnetClass", dotnetClass).append("comClass", comClass).append("includes", includes).append("content", content).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(javaClassPath).append(language).append(includes).append(javaClass).append(content).toHashCode();
+        return new HashCodeBuilder().append(javaClassPath).append(dll).append(javaClass).append(language).append(includes).append(comClass).append(content).append(dotnetClass).toHashCode();
     }
 
     @Override
@@ -166,7 +214,7 @@ public class Script {
             return false;
         }
         Script rhs = ((Script) other);
-        return new EqualsBuilder().append(javaClassPath, rhs.javaClassPath).append(language, rhs.language).append(includes, rhs.includes).append(javaClass, rhs.javaClass).append(content, rhs.content).isEquals();
+        return new EqualsBuilder().append(javaClassPath, rhs.javaClassPath).append(dll, rhs.dll).append(javaClass, rhs.javaClass).append(language, rhs.language).append(includes, rhs.includes).append(comClass, rhs.comClass).append(content, rhs.content).append(dotnetClass, rhs.dotnetClass).isEquals();
     }
 
 }

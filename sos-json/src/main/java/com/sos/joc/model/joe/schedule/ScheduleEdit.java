@@ -28,7 +28,7 @@ public class ScheduleEdit
 {
 
     /**
-     * lock
+     * schedule
      * <p>
      * 
      * (Required)
@@ -39,7 +39,7 @@ public class ScheduleEdit
     private Schedule configuration;
 
     /**
-     * lock
+     * schedule
      * <p>
      * 
      * (Required)
@@ -52,7 +52,7 @@ public class ScheduleEdit
     }
 
     /**
-     * lock
+     * schedule
      * <p>
      * 
      * (Required)
