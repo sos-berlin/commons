@@ -28,7 +28,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "delay",
     "onReturnCodes"
 })
-public class JobChainNode extends JobChainEndNode {
+public class JobChainNode
+    extends JobChainEndNode
+{
 
     /**
      * path to job
@@ -51,7 +53,7 @@ public class JobChainNode extends JobChainEndNode {
      * 
      */
     @JsonProperty("errorState")
-    @JsonPropertyDescription("name of the next job chain node in errornous case")
+    @JsonPropertyDescription("name of the next job chain node in erroneous case")
     @JacksonXmlProperty(localName = "error_state", isAttribute = true)
     private String errorState;
     /**
@@ -116,7 +118,7 @@ public class JobChainNode extends JobChainEndNode {
     }
 
     /**
-     * name of the next job chain node in errornous case
+     * name of the next job chain node in erroneous case
      * 
      */
     @JsonProperty("errorState")
@@ -126,7 +128,7 @@ public class JobChainNode extends JobChainEndNode {
     }
 
     /**
-     * name of the next job chain node in errornous case
+     * name of the next job chain node in erroneous case
      * 
      */
     @JsonProperty("errorState")
@@ -193,12 +195,12 @@ public class JobChainNode extends JobChainEndNode {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("job", job).append("nextState", nextState).append("errorState", errorState).append("onError", onError).append("delay", delay).append("onReturnCodes", onReturnCodes).toString();
+        return new ToStringBuilder(this).appendSuper(super.toString()).append("job", job).append("nextState", nextState).append("errorState", errorState).append("onError", onError).append("delay", delay).append("onReturnCodes", onReturnCodes).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(onError).append(delay).append(errorState).append(nextState).append(job).append(onReturnCodes).toHashCode();
+        return new HashCodeBuilder().appendSuper(super.hashCode()).append(onError).append(delay).append(errorState).append(nextState).append(job).append(onReturnCodes).toHashCode();
     }
 
     @Override
@@ -210,7 +212,7 @@ public class JobChainNode extends JobChainEndNode {
             return false;
         }
         JobChainNode rhs = ((JobChainNode) other);
-        return new EqualsBuilder().append(onError, rhs.onError).append(delay, rhs.delay).append(errorState, rhs.errorState).append(nextState, rhs.nextState).append(job, rhs.job).append(onReturnCodes, rhs.onReturnCodes).isEquals();
+        return new EqualsBuilder().appendSuper(super.equals(other)).append(onError, rhs.onError).append(delay, rhs.delay).append(errorState, rhs.errorState).append(nextState, rhs.nextState).append(job, rhs.job).append(onReturnCodes, rhs.onReturnCodes).isEquals();
     }
 
 }

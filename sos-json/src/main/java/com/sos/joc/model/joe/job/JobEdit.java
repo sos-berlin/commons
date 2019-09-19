@@ -28,7 +28,7 @@ public class JobEdit
 {
 
     /**
-     * job without name, visible, temporary, spooler_id, log_append, separate_process, mail_xslt_stylesheet attributes
+     * job without name, vtemporary, spooler_id, log_append, separate_process, mail_xslt_stylesheet, replace attributes
      * <p>
      * 
      * (Required)
@@ -39,7 +39,7 @@ public class JobEdit
     private Job configuration;
 
     /**
-     * job without name, visible, temporary, spooler_id, log_append, separate_process, mail_xslt_stylesheet attributes
+     * job without name, vtemporary, spooler_id, log_append, separate_process, mail_xslt_stylesheet, replace attributes
      * <p>
      * 
      * (Required)
@@ -52,7 +52,7 @@ public class JobEdit
     }
 
     /**
-     * job without name, visible, temporary, spooler_id, log_append, separate_process, mail_xslt_stylesheet attributes
+     * job without name, vtemporary, spooler_id, log_append, separate_process, mail_xslt_stylesheet, replace attributes
      * <p>
      * 
      * (Required)

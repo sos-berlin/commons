@@ -41,7 +41,7 @@ public class JoeTest {
     public void testJob() throws JsonProcessingException {
         Job job = new Job();
         job.setTitle("myJob");
-        job.setOrder("yes");
+        job.setIsOrderJob("yes");
         job.setStopOnError("no");
         Settings settings = new Settings();
         settings.setLogLevel("debug9");
@@ -84,85 +84,15 @@ public class JoeTest {
     
     @Test
     public void testJob2() throws JsonParseException, JsonMappingException, IOException {
-        StringBuilder json = new StringBuilder()
-                .append("{")
-                .append("  \"title\" : \"myJob\",")
-                .append("  \"order\" : \"yes\",")
-                .append("  \"stopOnError\" : \"no\",")
-                .append("  \"settings\" : {")
-                .append("    \"logLevel\" : \"debug9\"")
-                .append("  },")
-                .append("  \"params\" : {")
-                .append("    \"paramList\" : [ {")
-                .append("      \"name\" : \"myParam\",")
-                .append("      \"value\" : \"myParamVal\"")
-                .append("    }, {")
-                .append("      \"name\" : \"myParam2\",")
-                .append("      \"value\" : \"myParamVal2\"")
-                .append("    } ]")
-                .append("  },")
-                .append("  \"environment\" : {")
-                .append("    \"variables\" : [ {")
-                .append("      \"name\" : \"myEnv\",")
-                .append("     \"value\" : \"myEnvVal\"")
-                .append("   } ]")
-                .append("  },")
-                .append("  \"login\" : {")
-                .append("    \"user\" : \"me\",")
-                .append("    \"password\" : \"secret\"")
-                .append("  },")
-                .append("  \"script\" : {")
-                .append("    \"language\" : \"shell\",")
-                .append("    \"content\" : \"\\necho hallo\\necho welt\\n\"")
-                .append("  }")
-                .append("}");
-        Job job = objMapper.readValue(json.toString(), Job.class);
+        Path testFile = resourceDirectory.resolve("job1.json");
+        Job job = objMapper.readValue(testFile.toFile(), Job.class);
         writeValueAsXMLString(job);
     }
     
     @Test
     public void textJSObjEditTest() throws IOException {
-        StringBuilder json = new StringBuilder()
-                .append("{")
-                .append("  \"jobschedulerId\" : \"myJobScheduler\",")
-                .append("  \"objectType\" : \"JOB\",")
-                .append("  \"path\" : \"/path/to/job\",")
-                .append("  \"configuration\" : ")
-                //job
-                .append("{")
-                .append("  \"title\" : \"myJob\",")
-                .append("  \"order\" : \"yes\",")
-                .append("  \"stopOnError\" : \"no\",")
-                .append("  \"settings\" : {")
-                .append("    \"logLevel\" : \"debug9\"")
-                .append("  },")
-                .append("  \"params\" : {")
-                .append("    \"paramList\" : [ {")
-                .append("      \"name\" : \"myParam\",")
-                .append("      \"value\" : \"myParamVal\"")
-                .append("    }, {")
-                .append("      \"name\" : \"myParam2\",")
-                .append("      \"value\" : \"myParamVal2\"")
-                .append("    } ]")
-                .append("  },")
-                .append("  \"environment\" : {")
-                .append("    \"variables\" : [ {")
-                .append("      \"name\" : \"myEnv\",")
-                .append("     \"value\" : \"myEnvVal\"")
-                .append("   } ]")
-                .append("  },")
-                .append("  \"login\" : {")
-                .append("    \"user\" : \"me\",")
-                .append("    \"password\" : \"secret\"")
-                .append("  },")
-                .append("  \"script\" : {")
-                .append("    \"language\" : \"shell\",")
-                .append("    \"content\" : \"\\necho hallo\\necho welt\\n\"")
-                .append("  }")
-                .append("}")
-                //Job ende
-                .append("}");
-        JSObjectEdit jsObj = objMapper.readValue(json.toString(), JSObjectEdit.class);
+        Path testFile = resourceDirectory.resolve("job1store.json");
+        JSObjectEdit jsObj = objMapper.readValue(testFile.toFile(), JSObjectEdit.class);
         IJSObject jobI = jsObj.getConfiguration();
         JobEdit jobEdit = jsObj.cast();
         Job job = jobEdit.getConfiguration();

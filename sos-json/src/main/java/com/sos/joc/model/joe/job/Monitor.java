@@ -1,13 +1,12 @@
 
 package com.sos.joc.model.joe.job;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.sos.joc.model.joe.common.IJSObject;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -24,9 +23,10 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "name",
     "ordering",
-    "scripts"
+    "script"
 })
-public class Monitor {
+public class Monitor implements IJSObject
+{
 
     @JsonProperty("name")
     @JacksonXmlProperty(localName = "name", isAttribute = true)
@@ -40,10 +40,15 @@ public class Monitor {
     @JsonProperty("ordering")
     @JacksonXmlProperty(localName = "ordering", isAttribute = true)
     private Integer ordering;
-    @JsonProperty("scripts")
-    @JacksonXmlElementWrapper(useWrapping = false)
+    /**
+     * job script TODO it's incomplete
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("script")
     @JacksonXmlProperty(localName = "script", isAttribute = false)
-    private List<Script> scripts = null;
+    private Script script;
 
     @JsonProperty("name")
     @JacksonXmlProperty(localName = "name", isAttribute = true)
@@ -81,26 +86,38 @@ public class Monitor {
         this.ordering = ordering;
     }
 
-    @JsonProperty("scripts")
+    /**
+     * job script TODO it's incomplete
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("script")
     @JacksonXmlProperty(localName = "script", isAttribute = false)
-    public List<Script> getScripts() {
-        return scripts;
+    public Script getScript() {
+        return script;
     }
 
-    @JsonProperty("scripts")
+    /**
+     * job script TODO it's incomplete
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("script")
     @JacksonXmlProperty(localName = "script", isAttribute = false)
-    public void setScripts(List<Script> scripts) {
-        this.scripts = scripts;
+    public void setScript(Script script) {
+        this.script = script;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("name", name).append("ordering", ordering).append("scripts", scripts).toString();
+        return new ToStringBuilder(this).append("name", name).append("ordering", ordering).append("script", script).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(name).append(scripts).append(ordering).toHashCode();
+        return new HashCodeBuilder().append(name).append(ordering).append(script).toHashCode();
     }
 
     @Override
@@ -112,7 +129,7 @@ public class Monitor {
             return false;
         }
         Monitor rhs = ((Monitor) other);
-        return new EqualsBuilder().append(name, rhs.name).append(scripts, rhs.scripts).append(ordering, rhs.ordering).isEquals();
+        return new EqualsBuilder().append(name, rhs.name).append(ordering, rhs.ordering).append(script, rhs.script).isEquals();
     }
 
 }

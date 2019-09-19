@@ -34,7 +34,7 @@ public class Login {
      */
     @JsonProperty("password")
     @JacksonXmlCData
-    @JacksonXmlProperty(localName = "password", isAttribute = false)
+    @JacksonXmlProperty(localName = "password.plain", isAttribute = false)
     private String password;
 
     /**
@@ -66,7 +66,7 @@ public class Login {
      */
     @JsonProperty("password")
     @JacksonXmlCData
-    @JacksonXmlProperty(localName = "password", isAttribute = false)
+    @JacksonXmlProperty(localName = "password.plain", isAttribute = false)
     public String getPassword() {
         return password;
     }
@@ -78,7 +78,7 @@ public class Login {
      */
     @JsonProperty("password")
     @JacksonXmlCData
-    @JacksonXmlProperty(localName = "password", isAttribute = false)
+    @JacksonXmlProperty(localName = "password.plain", isAttribute = false)
     public void setPassword(String password) {
         this.password = password;
     }

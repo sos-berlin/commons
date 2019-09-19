@@ -40,11 +40,6 @@ public class AddOrder
     @JsonProperty("jobChain")
     @JacksonXmlProperty(localName = "job_chain", isAttribute = true)
     private String jobChain;
-    /**
-     * 
-     * (Required)
-     * 
-     */
     @JsonProperty("id")
     @JacksonXmlProperty(localName = "id", isAttribute = true)
     private String id;
@@ -93,22 +88,12 @@ public class AddOrder
         this.jobChain = jobChain;
     }
 
-    /**
-     * 
-     * (Required)
-     * 
-     */
     @JsonProperty("id")
     @JacksonXmlProperty(localName = "id", isAttribute = true)
     public String getId() {
         return id;
     }
 
-    /**
-     * 
-     * (Required)
-     * 
-     */
     @JsonProperty("id")
     @JacksonXmlProperty(localName = "id", isAttribute = true)
     public void setId(String id) {

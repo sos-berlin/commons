@@ -1,5 +1,5 @@
 
-package com.sos.joc.model.joe.processClass;
+package com.sos.joc.model.joe.job;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,54 +13,54 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * edit process_class configuration
+ * edit monitor configuration
  * <p>
  * 
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JacksonXmlRootElement(localName = "process_class_edit")
+@JacksonXmlRootElement(localName = "monitor_edit")
 @JsonPropertyOrder({
     "configuration"
 })
-public class ProcessClassEdit
+public class MonitorEdit
     extends JSObjectEdit
 {
 
     /**
-     * processClass without name, replace, spooler_id attributes
+     * job monitor
      * <p>
      * 
      * (Required)
      * 
      */
     @JsonProperty("configuration")
-    @JacksonXmlProperty(localName = "process_class", isAttribute = false)
-    private ProcessClass configuration;
+    @JacksonXmlProperty(localName = "configuration", isAttribute = false)
+    private Monitor configuration;
 
     /**
-     * processClass without name, replace, spooler_id attributes
+     * job monitor
      * <p>
      * 
      * (Required)
      * 
      */
     @JsonProperty("configuration")
-    @JacksonXmlProperty(localName = "process_class", isAttribute = false)
-    public ProcessClass getConfiguration() {
+    @JacksonXmlProperty(localName = "configuration", isAttribute = false)
+    public Monitor getConfiguration() {
         return configuration;
     }
 
     /**
-     * processClass without name, replace, spooler_id attributes
+     * job monitor
      * <p>
      * 
      * (Required)
      * 
      */
     @JsonProperty("configuration")
-    @JacksonXmlProperty(localName = "process_class", isAttribute = false)
-    public void setConfiguration(ProcessClass configuration) {
+    @JacksonXmlProperty(localName = "configuration", isAttribute = false)
+    public void setConfiguration(Monitor configuration) {
         this.configuration = configuration;
     }
 
@@ -79,10 +79,10 @@ public class ProcessClassEdit
         if (other == this) {
             return true;
         }
-        if ((other instanceof ProcessClassEdit) == false) {
+        if ((other instanceof MonitorEdit) == false) {
             return false;
         }
-        ProcessClassEdit rhs = ((ProcessClassEdit) other);
+        MonitorEdit rhs = ((MonitorEdit) other);
         return new EqualsBuilder().appendSuper(super.equals(other)).append(configuration, rhs.configuration).isEquals();
     }
 

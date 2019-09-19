@@ -30,6 +30,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "distributed",
     "processClass",
     "fileWatchingProcessClass",
+    "visible",
     "fileOrderSources",
     "jobChainNodes",
     "fileOrderSinks",
@@ -83,6 +84,14 @@ public class JobChain implements IJSObject
     @JsonPropertyDescription("path of a process class object")
     @JacksonXmlProperty(localName = "file_watching_process_class", isAttribute = true)
     private String fileWatchingProcessClass;
+    /**
+     * possible values: yes, no, 1, 0, true, false or never
+     * 
+     */
+    @JsonProperty("visible")
+    @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false or never")
+    @JacksonXmlProperty(localName = "visible", isAttribute = true)
+    private String visible;
     @JsonProperty("fileOrderSources")
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "file_order_source", isAttribute = false)
@@ -220,6 +229,26 @@ public class JobChain implements IJSObject
         this.fileWatchingProcessClass = fileWatchingProcessClass;
     }
 
+    /**
+     * possible values: yes, no, 1, 0, true, false or never
+     * 
+     */
+    @JsonProperty("visible")
+    @JacksonXmlProperty(localName = "visible", isAttribute = true)
+    public String getVisible() {
+        return visible;
+    }
+
+    /**
+     * possible values: yes, no, 1, 0, true, false or never
+     * 
+     */
+    @JsonProperty("visible")
+    @JacksonXmlProperty(localName = "visible", isAttribute = true)
+    public void setVisible(String visible) {
+        this.visible = visible;
+    }
+
     @JsonProperty("fileOrderSources")
     @JacksonXmlProperty(localName = "file_order_source", isAttribute = false)
     public List<FileOrderSource> getFileOrderSources() {
@@ -282,12 +311,12 @@ public class JobChain implements IJSObject
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("ordersRecoverable", ordersRecoverable).append("title", title).append("maxOrders", maxOrders).append("distributed", distributed).append("processClass", processClass).append("fileWatchingProcessClass", fileWatchingProcessClass).append("fileOrderSources", fileOrderSources).append("jobChainNodes", jobChainNodes).append("fileOrderSinks", fileOrderSinks).append("nestedJobChainNodes", nestedJobChainNodes).append("jobChainEndNodes", jobChainEndNodes).toString();
+        return new ToStringBuilder(this).append("ordersRecoverable", ordersRecoverable).append("title", title).append("maxOrders", maxOrders).append("distributed", distributed).append("processClass", processClass).append("fileWatchingProcessClass", fileWatchingProcessClass).append("visible", visible).append("fileOrderSources", fileOrderSources).append("jobChainNodes", jobChainNodes).append("fileOrderSinks", fileOrderSinks).append("nestedJobChainNodes", nestedJobChainNodes).append("jobChainEndNodes", jobChainEndNodes).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(ordersRecoverable).append(fileOrderSources).append(jobChainNodes).append(distributed).append(nestedJobChainNodes).append(processClass).append(title).append(maxOrders).append(fileOrderSinks).append(jobChainEndNodes).append(fileWatchingProcessClass).toHashCode();
+        return new HashCodeBuilder().append(ordersRecoverable).append(visible).append(jobChainNodes).append(distributed).append(processClass).append(title).append(maxOrders).append(fileOrderSinks).append(jobChainEndNodes).append(fileOrderSources).append(nestedJobChainNodes).append(fileWatchingProcessClass).toHashCode();
     }
 
     @Override
@@ -299,7 +328,7 @@ public class JobChain implements IJSObject
             return false;
         }
         JobChain rhs = ((JobChain) other);
-        return new EqualsBuilder().append(ordersRecoverable, rhs.ordersRecoverable).append(fileOrderSources, rhs.fileOrderSources).append(jobChainNodes, rhs.jobChainNodes).append(distributed, rhs.distributed).append(nestedJobChainNodes, rhs.nestedJobChainNodes).append(processClass, rhs.processClass).append(title, rhs.title).append(maxOrders, rhs.maxOrders).append(fileOrderSinks, rhs.fileOrderSinks).append(jobChainEndNodes, rhs.jobChainEndNodes).append(fileWatchingProcessClass, rhs.fileWatchingProcessClass).isEquals();
+        return new EqualsBuilder().append(ordersRecoverable, rhs.ordersRecoverable).append(visible, rhs.visible).append(jobChainNodes, rhs.jobChainNodes).append(distributed, rhs.distributed).append(processClass, rhs.processClass).append(title, rhs.title).append(maxOrders, rhs.maxOrders).append(fileOrderSinks, rhs.fileOrderSinks).append(jobChainEndNodes, rhs.jobChainEndNodes).append(fileOrderSources, rhs.fileOrderSources).append(nestedJobChainNodes, rhs.nestedJobChainNodes).append(fileWatchingProcessClass, rhs.fileWatchingProcessClass).isEquals();
     }
 
 }

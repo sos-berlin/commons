@@ -17,7 +17,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * job without name, visible, temporary, spooler_id, log_append, separate_process, mail_xslt_stylesheet attributes
+ * job without name, vtemporary, spooler_id, log_append, separate_process, mail_xslt_stylesheet, replace attributes
  * <p>
  * 
  * 
@@ -27,8 +27,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "priority",
     "title",
-    "order",
-    "tasks",
+    "isOrderJob",
+    "maxTasks",
     "minTasks",
     "timeout",
     "idleTimeout",
@@ -36,6 +36,13 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "processClass",
     "javaOptions",
     "stopOnError",
+    "ignoreSignals",
+    "warnIfLongerThan",
+    "warnIfShorterThan",
+    "stderrLogLevel",
+    "credentialsKey",
+    "loadUserProfile",
+    "visible",
     "settings",
     "lockUses",
     "params",
@@ -63,19 +70,13 @@ public class Job implements IJSObject
      * possible values: yes, no, 1, 0, true, false
      * 
      */
-    @JsonProperty("order")
+    @JsonProperty("isOrderJob")
     @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "order", isAttribute = true)
-    private String order;
-    /**
-     * non negative integer
-     * <p>
-     * 
-     * 
-     */
-    @JsonProperty("tasks")
+    private String isOrderJob;
+    @JsonProperty("maxTasks")
     @JacksonXmlProperty(localName = "tasks", isAttribute = true)
-    private Integer tasks;
+    private Integer maxTasks;
     /**
      * non negative integer
      * <p>
@@ -118,6 +119,47 @@ public class Job implements IJSObject
     @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "stop_on_error", isAttribute = true)
     private String stopOnError;
+    /**
+     * possible values: positive Integer or SIGHUP, SIGINT, SIGQUIT, SIGILL, SIGTRAP, SIGABRT, SIGIOT, SIGBUS, SIGFPE, SIGKILL, SIGUSR1, SIGSEGV, SIGUSR2, SIGPIPE, SIGALRM, SIGTERM, SIGSTKFLT, SIGCHLD, SIGCONT, SIGSTOP, SIGTSTP, SIGTTIN, SIGTTOU, SIGURG, SIGXCPU, SIGXFSZ, SIGVTALRM, SIGPROF, SIGWINCH, SIGPOLL, SIGIO, SIGPWR, SIGSYS
+     * 
+     */
+    @JsonProperty("ignoreSignals")
+    @JsonPropertyDescription("possible values: positive Integer or SIGHUP, SIGINT, SIGQUIT, SIGILL, SIGTRAP, SIGABRT, SIGIOT, SIGBUS, SIGFPE, SIGKILL, SIGUSR1, SIGSEGV, SIGUSR2, SIGPIPE, SIGALRM, SIGTERM, SIGSTKFLT, SIGCHLD, SIGCONT, SIGSTOP, SIGTSTP, SIGTTIN, SIGTTOU, SIGURG, SIGXCPU, SIGXFSZ, SIGVTALRM, SIGPROF, SIGWINCH, SIGPOLL, SIGIO, SIGPWR, SIGSYS")
+    @JacksonXmlProperty(localName = "ignore_signals", isAttribute = true)
+    private String ignoreSignals;
+    @JsonProperty("warnIfLongerThan")
+    @JacksonXmlProperty(localName = "warn_if_longer_than", isAttribute = true)
+    private String warnIfLongerThan;
+    @JsonProperty("warnIfShorterThan")
+    @JacksonXmlProperty(localName = "warn_if_shorter_than", isAttribute = true)
+    private String warnIfShorterThan;
+    /**
+     * possible values: error, warn, info, debug or debug[0-9]
+     * 
+     */
+    @JsonProperty("stderrLogLevel")
+    @JsonPropertyDescription("possible values: error, warn, info, debug or debug[0-9]")
+    @JacksonXmlProperty(localName = "stderr_log_level", isAttribute = true)
+    private String stderrLogLevel;
+    @JsonProperty("credentialsKey")
+    @JacksonXmlProperty(localName = "credentials_key", isAttribute = true)
+    private String credentialsKey;
+    /**
+     * possible values: yes, no, 1, 0, true, false
+     * 
+     */
+    @JsonProperty("loadUserProfile")
+    @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
+    @JacksonXmlProperty(localName = "load_user_profile", isAttribute = true)
+    private String loadUserProfile;
+    /**
+     * possible values: yes, no, 1, 0, true, false or never
+     * 
+     */
+    @JsonProperty("visible")
+    @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false or never")
+    @JacksonXmlProperty(localName = "visible", isAttribute = true)
+    private String visible;
     /**
      * job settings
      * <p>
@@ -216,44 +258,32 @@ public class Job implements IJSObject
      * possible values: yes, no, 1, 0, true, false
      * 
      */
-    @JsonProperty("order")
+    @JsonProperty("isOrderJob")
     @JacksonXmlProperty(localName = "order", isAttribute = true)
-    public String getOrder() {
-        return order;
+    public String getIsOrderJob() {
+        return isOrderJob;
     }
 
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
      */
-    @JsonProperty("order")
+    @JsonProperty("isOrderJob")
     @JacksonXmlProperty(localName = "order", isAttribute = true)
-    public void setOrder(String order) {
-        this.order = order;
+    public void setIsOrderJob(String isOrderJob) {
+        this.isOrderJob = isOrderJob;
     }
 
-    /**
-     * non negative integer
-     * <p>
-     * 
-     * 
-     */
-    @JsonProperty("tasks")
+    @JsonProperty("maxTasks")
     @JacksonXmlProperty(localName = "tasks", isAttribute = true)
-    public Integer getTasks() {
-        return tasks;
+    public Integer getMaxTasks() {
+        return maxTasks;
     }
 
-    /**
-     * non negative integer
-     * <p>
-     * 
-     * 
-     */
-    @JsonProperty("tasks")
+    @JsonProperty("maxTasks")
     @JacksonXmlProperty(localName = "tasks", isAttribute = true)
-    public void setTasks(Integer tasks) {
-        this.tasks = tasks;
+    public void setMaxTasks(Integer maxTasks) {
+        this.maxTasks = maxTasks;
     }
 
     /**
@@ -374,6 +404,122 @@ public class Job implements IJSObject
     @JacksonXmlProperty(localName = "stop_on_error", isAttribute = true)
     public void setStopOnError(String stopOnError) {
         this.stopOnError = stopOnError;
+    }
+
+    /**
+     * possible values: positive Integer or SIGHUP, SIGINT, SIGQUIT, SIGILL, SIGTRAP, SIGABRT, SIGIOT, SIGBUS, SIGFPE, SIGKILL, SIGUSR1, SIGSEGV, SIGUSR2, SIGPIPE, SIGALRM, SIGTERM, SIGSTKFLT, SIGCHLD, SIGCONT, SIGSTOP, SIGTSTP, SIGTTIN, SIGTTOU, SIGURG, SIGXCPU, SIGXFSZ, SIGVTALRM, SIGPROF, SIGWINCH, SIGPOLL, SIGIO, SIGPWR, SIGSYS
+     * 
+     */
+    @JsonProperty("ignoreSignals")
+    @JacksonXmlProperty(localName = "ignore_signals", isAttribute = true)
+    public String getIgnoreSignals() {
+        return ignoreSignals;
+    }
+
+    /**
+     * possible values: positive Integer or SIGHUP, SIGINT, SIGQUIT, SIGILL, SIGTRAP, SIGABRT, SIGIOT, SIGBUS, SIGFPE, SIGKILL, SIGUSR1, SIGSEGV, SIGUSR2, SIGPIPE, SIGALRM, SIGTERM, SIGSTKFLT, SIGCHLD, SIGCONT, SIGSTOP, SIGTSTP, SIGTTIN, SIGTTOU, SIGURG, SIGXCPU, SIGXFSZ, SIGVTALRM, SIGPROF, SIGWINCH, SIGPOLL, SIGIO, SIGPWR, SIGSYS
+     * 
+     */
+    @JsonProperty("ignoreSignals")
+    @JacksonXmlProperty(localName = "ignore_signals", isAttribute = true)
+    public void setIgnoreSignals(String ignoreSignals) {
+        this.ignoreSignals = ignoreSignals;
+    }
+
+    @JsonProperty("warnIfLongerThan")
+    @JacksonXmlProperty(localName = "warn_if_longer_than", isAttribute = true)
+    public String getWarnIfLongerThan() {
+        return warnIfLongerThan;
+    }
+
+    @JsonProperty("warnIfLongerThan")
+    @JacksonXmlProperty(localName = "warn_if_longer_than", isAttribute = true)
+    public void setWarnIfLongerThan(String warnIfLongerThan) {
+        this.warnIfLongerThan = warnIfLongerThan;
+    }
+
+    @JsonProperty("warnIfShorterThan")
+    @JacksonXmlProperty(localName = "warn_if_shorter_than", isAttribute = true)
+    public String getWarnIfShorterThan() {
+        return warnIfShorterThan;
+    }
+
+    @JsonProperty("warnIfShorterThan")
+    @JacksonXmlProperty(localName = "warn_if_shorter_than", isAttribute = true)
+    public void setWarnIfShorterThan(String warnIfShorterThan) {
+        this.warnIfShorterThan = warnIfShorterThan;
+    }
+
+    /**
+     * possible values: error, warn, info, debug or debug[0-9]
+     * 
+     */
+    @JsonProperty("stderrLogLevel")
+    @JacksonXmlProperty(localName = "stderr_log_level", isAttribute = true)
+    public String getStderrLogLevel() {
+        return stderrLogLevel;
+    }
+
+    /**
+     * possible values: error, warn, info, debug or debug[0-9]
+     * 
+     */
+    @JsonProperty("stderrLogLevel")
+    @JacksonXmlProperty(localName = "stderr_log_level", isAttribute = true)
+    public void setStderrLogLevel(String stderrLogLevel) {
+        this.stderrLogLevel = stderrLogLevel;
+    }
+
+    @JsonProperty("credentialsKey")
+    @JacksonXmlProperty(localName = "credentials_key", isAttribute = true)
+    public String getCredentialsKey() {
+        return credentialsKey;
+    }
+
+    @JsonProperty("credentialsKey")
+    @JacksonXmlProperty(localName = "credentials_key", isAttribute = true)
+    public void setCredentialsKey(String credentialsKey) {
+        this.credentialsKey = credentialsKey;
+    }
+
+    /**
+     * possible values: yes, no, 1, 0, true, false
+     * 
+     */
+    @JsonProperty("loadUserProfile")
+    @JacksonXmlProperty(localName = "load_user_profile", isAttribute = true)
+    public String getLoadUserProfile() {
+        return loadUserProfile;
+    }
+
+    /**
+     * possible values: yes, no, 1, 0, true, false
+     * 
+     */
+    @JsonProperty("loadUserProfile")
+    @JacksonXmlProperty(localName = "load_user_profile", isAttribute = true)
+    public void setLoadUserProfile(String loadUserProfile) {
+        this.loadUserProfile = loadUserProfile;
+    }
+
+    /**
+     * possible values: yes, no, 1, 0, true, false or never
+     * 
+     */
+    @JsonProperty("visible")
+    @JacksonXmlProperty(localName = "visible", isAttribute = true)
+    public String getVisible() {
+        return visible;
+    }
+
+    /**
+     * possible values: yes, no, 1, 0, true, false or never
+     * 
+     */
+    @JsonProperty("visible")
+    @JacksonXmlProperty(localName = "visible", isAttribute = true)
+    public void setVisible(String visible) {
+        this.visible = visible;
     }
 
     /**
@@ -582,12 +728,12 @@ public class Job implements IJSObject
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("priority", priority).append("title", title).append("order", order).append("tasks", tasks).append("minTasks", minTasks).append("timeout", timeout).append("idleTimeout", idleTimeout).append("forceIdleTimeout", forceIdleTimeout).append("processClass", processClass).append("javaOptions", javaOptions).append("stopOnError", stopOnError).append("settings", settings).append("lockUses", lockUses).append("params", params).append("environment", environment).append("login", login).append("script", script).append("monitors", monitors).append("monitorUses", monitorUses).append("startWhenDirectoriesChanged", startWhenDirectoriesChanged).append("delayAfterErrors", delayAfterErrors).append("delayOrderAfterSetbacks", delayOrderAfterSetbacks).append("runTime", runTime).append("commands", commands).toString();
+        return new ToStringBuilder(this).append("priority", priority).append("title", title).append("isOrderJob", isOrderJob).append("maxTasks", maxTasks).append("minTasks", minTasks).append("timeout", timeout).append("idleTimeout", idleTimeout).append("forceIdleTimeout", forceIdleTimeout).append("processClass", processClass).append("javaOptions", javaOptions).append("stopOnError", stopOnError).append("ignoreSignals", ignoreSignals).append("warnIfLongerThan", warnIfLongerThan).append("warnIfShorterThan", warnIfShorterThan).append("stderrLogLevel", stderrLogLevel).append("credentialsKey", credentialsKey).append("loadUserProfile", loadUserProfile).append("visible", visible).append("settings", settings).append("lockUses", lockUses).append("params", params).append("environment", environment).append("login", login).append("script", script).append("monitors", monitors).append("monitorUses", monitorUses).append("startWhenDirectoriesChanged", startWhenDirectoriesChanged).append("delayAfterErrors", delayAfterErrors).append("delayOrderAfterSetbacks", delayOrderAfterSetbacks).append("runTime", runTime).append("commands", commands).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(delayOrderAfterSetbacks).append(delayAfterErrors).append(startWhenDirectoriesChanged).append(forceIdleTimeout).append(processClass).append(title).append(login).append(minTasks).append(timeout).append(lockUses).append(runTime).append(tasks).append(commands).append(order).append(monitorUses).append(settings).append(priority).append(params).append(script).append(stopOnError).append(environment).append(idleTimeout).append(javaOptions).append(monitors).toHashCode();
+        return new HashCodeBuilder().append(delayOrderAfterSetbacks).append(delayAfterErrors).append(startWhenDirectoriesChanged).append(forceIdleTimeout).append(processClass).append(title).append(ignoreSignals).append(credentialsKey).append(login).append(minTasks).append(warnIfShorterThan).append(timeout).append(isOrderJob).append(lockUses).append(runTime).append(commands).append(warnIfLongerThan).append(monitorUses).append(settings).append(visible).append(maxTasks).append(loadUserProfile).append(priority).append(params).append(script).append(stopOnError).append(environment).append(idleTimeout).append(javaOptions).append(stderrLogLevel).append(monitors).toHashCode();
     }
 
     @Override
@@ -599,7 +745,7 @@ public class Job implements IJSObject
             return false;
         }
         Job rhs = ((Job) other);
-        return new EqualsBuilder().append(delayOrderAfterSetbacks, rhs.delayOrderAfterSetbacks).append(delayAfterErrors, rhs.delayAfterErrors).append(startWhenDirectoriesChanged, rhs.startWhenDirectoriesChanged).append(forceIdleTimeout, rhs.forceIdleTimeout).append(processClass, rhs.processClass).append(title, rhs.title).append(login, rhs.login).append(minTasks, rhs.minTasks).append(timeout, rhs.timeout).append(lockUses, rhs.lockUses).append(runTime, rhs.runTime).append(tasks, rhs.tasks).append(commands, rhs.commands).append(order, rhs.order).append(monitorUses, rhs.monitorUses).append(settings, rhs.settings).append(priority, rhs.priority).append(params, rhs.params).append(script, rhs.script).append(stopOnError, rhs.stopOnError).append(environment, rhs.environment).append(idleTimeout, rhs.idleTimeout).append(javaOptions, rhs.javaOptions).append(monitors, rhs.monitors).isEquals();
+        return new EqualsBuilder().append(delayOrderAfterSetbacks, rhs.delayOrderAfterSetbacks).append(delayAfterErrors, rhs.delayAfterErrors).append(startWhenDirectoriesChanged, rhs.startWhenDirectoriesChanged).append(forceIdleTimeout, rhs.forceIdleTimeout).append(processClass, rhs.processClass).append(title, rhs.title).append(ignoreSignals, rhs.ignoreSignals).append(credentialsKey, rhs.credentialsKey).append(login, rhs.login).append(minTasks, rhs.minTasks).append(warnIfShorterThan, rhs.warnIfShorterThan).append(timeout, rhs.timeout).append(isOrderJob, rhs.isOrderJob).append(lockUses, rhs.lockUses).append(runTime, rhs.runTime).append(commands, rhs.commands).append(warnIfLongerThan, rhs.warnIfLongerThan).append(monitorUses, rhs.monitorUses).append(settings, rhs.settings).append(visible, rhs.visible).append(maxTasks, rhs.maxTasks).append(loadUserProfile, rhs.loadUserProfile).append(priority, rhs.priority).append(params, rhs.params).append(script, rhs.script).append(stopOnError, rhs.stopOnError).append(environment, rhs.environment).append(idleTimeout, rhs.idleTimeout).append(javaOptions, rhs.javaOptions).append(stderrLogLevel, rhs.stderrLogLevel).append(monitors, rhs.monitors).isEquals();
     }
 
 }

@@ -25,7 +25,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "nextState",
     "errorState"
 })
-public class NestedJobChainNode {
+public class NestedJobChainNode
+    extends JobChainEndNode
+{
 
     /**
      * path to job chain
@@ -114,12 +116,12 @@ public class NestedJobChainNode {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobChain", jobChain).append("nextState", nextState).append("errorState", errorState).toString();
+        return new ToStringBuilder(this).appendSuper(super.toString()).append("jobChain", jobChain).append("nextState", nextState).append("errorState", errorState).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobChain).append(nextState).append(errorState).toHashCode();
+        return new HashCodeBuilder().appendSuper(super.hashCode()).append(jobChain).append(nextState).append(errorState).toHashCode();
     }
 
     @Override
@@ -131,7 +133,7 @@ public class NestedJobChainNode {
             return false;
         }
         NestedJobChainNode rhs = ((NestedJobChainNode) other);
-        return new EqualsBuilder().append(jobChain, rhs.jobChain).append(nextState, rhs.nextState).append(errorState, rhs.errorState).isEquals();
+        return new EqualsBuilder().appendSuper(super.equals(other)).append(jobChain, rhs.jobChain).append(nextState, rhs.nextState).append(errorState, rhs.errorState).isEquals();
     }
 
 }
