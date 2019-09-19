@@ -39,7 +39,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "holidays",
     "calendars"
 })
-public class AbstractSchedule {
+public abstract class AbstractSchedule {
 
     @JsonProperty("timeZone")
     @JacksonXmlProperty(localName = "time_zone", isAttribute = true)
