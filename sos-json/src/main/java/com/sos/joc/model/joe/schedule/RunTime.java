@@ -28,16 +28,16 @@ public class RunTime
 {
 
     /**
-     * path to another schedule
+     * path to a schedule
      * 
      */
     @JsonProperty("schedule")
-    @JsonPropertyDescription("path to another schedule")
+    @JsonPropertyDescription("path to a schedule")
     @JacksonXmlProperty(localName = "schedule", isAttribute = true)
     private String schedule;
 
     /**
-     * path to another schedule
+     * path to a schedule
      * 
      */
     @JsonProperty("schedule")
@@ -47,7 +47,7 @@ public class RunTime
     }
 
     /**
-     * path to another schedule
+     * path to a schedule
      * 
      */
     @JsonProperty("schedule")

@@ -13,13 +13,13 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JacksonXmlRootElement(localName = "date")
+@JacksonXmlRootElement(localName = "holiday")
 @JsonPropertyOrder({
     "date",
     "calendar",
     "periods"
 })
-public class Date {
+public class Holiday {
 
     /**
      * 
@@ -116,10 +116,10 @@ public class Date {
         if (other == this) {
             return true;
         }
-        if ((other instanceof Date) == false) {
+        if ((other instanceof Holiday) == false) {
             return false;
         }
-        Date rhs = ((Date) other);
+        Holiday rhs = ((Holiday) other);
         return new EqualsBuilder().append(date, rhs.date).append(calendar, rhs.calendar).append(periods, rhs.periods).isEquals();
     }
 

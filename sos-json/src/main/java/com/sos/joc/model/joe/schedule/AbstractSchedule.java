@@ -127,13 +127,14 @@ public abstract class AbstractSchedule {
     @JacksonXmlProperty(localName = "month", isAttribute = false)
     private String month;
     /**
-     * TODO
+     * holidays without weekdays elements TODO?
+     * <p>
+     * 
      * 
      */
     @JsonProperty("holidays")
-    @JsonPropertyDescription("TODO")
     @JacksonXmlProperty(localName = "holidays", isAttribute = false)
-    private String holidays;
+    private Holidays holidays;
     @JsonProperty("calendars")
     @JacksonXmlCData
     @JacksonXmlProperty(localName = "calendars", isAttribute = false)
@@ -360,22 +361,26 @@ public abstract class AbstractSchedule {
     }
 
     /**
-     * TODO
+     * holidays without weekdays elements TODO?
+     * <p>
+     * 
      * 
      */
     @JsonProperty("holidays")
     @JacksonXmlProperty(localName = "holidays", isAttribute = false)
-    public String getHolidays() {
+    public Holidays getHolidays() {
         return holidays;
     }
 
     /**
-     * TODO
+     * holidays without weekdays elements TODO?
+     * <p>
+     * 
      * 
      */
     @JsonProperty("holidays")
     @JacksonXmlProperty(localName = "holidays", isAttribute = false)
-    public void setHolidays(String holidays) {
+    public void setHolidays(Holidays holidays) {
         this.holidays = holidays;
     }
 
