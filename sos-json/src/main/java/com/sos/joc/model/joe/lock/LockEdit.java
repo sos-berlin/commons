@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.sos.joc.model.joe.common.JSObjectEdit;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -22,7 +23,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "configuration"
 })
-public class LockEdit {
+public class LockEdit
+    extends JSObjectEdit
+{
 
     /**
      * lock
@@ -63,12 +66,12 @@ public class LockEdit {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("configuration", configuration).toString();
+        return new ToStringBuilder(this).appendSuper(super.toString()).append("configuration", configuration).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(configuration).toHashCode();
+        return new HashCodeBuilder().appendSuper(super.hashCode()).append(configuration).toHashCode();
     }
 
     @Override
@@ -80,7 +83,7 @@ public class LockEdit {
             return false;
         }
         LockEdit rhs = ((LockEdit) other);
-        return new EqualsBuilder().append(configuration, rhs.configuration).isEquals();
+        return new EqualsBuilder().appendSuper(super.equals(other)).append(configuration, rhs.configuration).isEquals();
     }
 
 }

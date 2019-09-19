@@ -28,7 +28,7 @@ public class ProcessClassEdit
 {
 
     /**
-     * processClass configuration
+     * processClass without name, replace, spooler_id attributes
      * <p>
      * 
      * (Required)
@@ -39,7 +39,7 @@ public class ProcessClassEdit
     private ProcessClass configuration;
 
     /**
-     * processClass configuration
+     * processClass without name, replace, spooler_id attributes
      * <p>
      * 
      * (Required)
@@ -52,7 +52,7 @@ public class ProcessClassEdit
     }
 
     /**
-     * processClass configuration
+     * processClass without name, replace, spooler_id attributes
      * <p>
      * 
      * (Required)

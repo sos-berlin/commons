@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+
+<job_chain  name="job_chain1">
+    <job_chain_node  state="run" job="job1" next_state="success" error_state="error">
+        <on_return_codes >
+            <on_return_code  return_code="43">
+                <to_state  state="success"/>
+            </on_return_code>
+
+            <on_return_code  return_code="1...10">
+                <to_state  state="success"/>
+            </on_return_code>
+
+            <on_return_code  return_code="42">
+                <add_order  xmlns="https://jobscheduler-plugins.sos-berlin.com/NodeOrderPlugin" job_chain="job_chain2" id="666"/>
+            </on_return_code>
+        </on_return_codes>
+    </job_chain_node>
+
+    <job_chain_node  state="success"/>
+
+    <job_chain_node  state="error"/>
+</job_chain>

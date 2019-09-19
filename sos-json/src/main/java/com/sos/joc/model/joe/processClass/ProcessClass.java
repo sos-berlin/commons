@@ -14,7 +14,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * processClass configuration
+ * processClass without name, replace, spooler_id attributes
  * <p>
  * 
  * 
@@ -22,7 +22,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "process_class")
 @JsonPropertyOrder({
-    "name",
     "maxProcesses",
     "timeout",
     "remoteScheduler",
@@ -31,9 +30,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class ProcessClass implements IJSObject
 {
 
-    @JsonProperty("name")
-    @JacksonXmlProperty(localName = "name", isAttribute = true)
-    private String name;
     /**
      * non negative integer
      * <p>
@@ -59,18 +55,6 @@ public class ProcessClass implements IJSObject
     @JsonProperty("remoteSchedulers")
     @JacksonXmlProperty(localName = "remote_schedulers", isAttribute = false)
     private RemoteSchedulers remoteSchedulers;
-
-    @JsonProperty("name")
-    @JacksonXmlProperty(localName = "name", isAttribute = true)
-    public String getName() {
-        return name;
-    }
-
-    @JsonProperty("name")
-    @JacksonXmlProperty(localName = "name", isAttribute = true)
-    public void setName(String name) {
-        this.name = name;
-    }
 
     /**
      * non negative integer
@@ -148,12 +132,12 @@ public class ProcessClass implements IJSObject
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("name", name).append("maxProcesses", maxProcesses).append("timeout", timeout).append("remoteScheduler", remoteScheduler).append("remoteSchedulers", remoteSchedulers).toString();
+        return new ToStringBuilder(this).append("maxProcesses", maxProcesses).append("timeout", timeout).append("remoteScheduler", remoteScheduler).append("remoteSchedulers", remoteSchedulers).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(name).append(maxProcesses).append(remoteSchedulers).append(remoteScheduler).append(timeout).toHashCode();
+        return new HashCodeBuilder().append(maxProcesses).append(remoteSchedulers).append(remoteScheduler).append(timeout).toHashCode();
     }
 
     @Override
@@ -165,7 +149,7 @@ public class ProcessClass implements IJSObject
             return false;
         }
         ProcessClass rhs = ((ProcessClass) other);
-        return new EqualsBuilder().append(name, rhs.name).append(maxProcesses, rhs.maxProcesses).append(remoteSchedulers, rhs.remoteSchedulers).append(remoteScheduler, rhs.remoteScheduler).append(timeout, rhs.timeout).isEquals();
+        return new EqualsBuilder().append(maxProcesses, rhs.maxProcesses).append(remoteSchedulers, rhs.remoteSchedulers).append(remoteScheduler, rhs.remoteScheduler).append(timeout, rhs.timeout).isEquals();
     }
 
 }

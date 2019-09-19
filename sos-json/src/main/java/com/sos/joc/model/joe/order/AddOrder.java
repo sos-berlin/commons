@@ -13,7 +13,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * order TODO
+ * add order
  * <p>
  * 
  * 
@@ -25,7 +25,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "id",
     "at",
     "replace",
-    "suspended"
+    "suspended",
+    "runTime"
 })
 public class AddOrder
     extends Order
@@ -49,7 +50,7 @@ public class AddOrder
     private String id;
     @JsonProperty("at")
     @JacksonXmlProperty(localName = "at", isAttribute = true)
-    private String at = "now";
+    private String at;
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
@@ -66,6 +67,9 @@ public class AddOrder
     @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "suspended", isAttribute = true)
     private String suspended;
+    @JsonProperty("runTime")
+    @JacksonXmlProperty(localName = "run_time", isAttribute = false)
+    private String runTime;
 
     /**
      * 
@@ -163,14 +167,26 @@ public class AddOrder
         this.suspended = suspended;
     }
 
+    @JsonProperty("runTime")
+    @JacksonXmlProperty(localName = "run_time", isAttribute = false)
+    public String getRunTime() {
+        return runTime;
+    }
+
+    @JsonProperty("runTime")
+    @JacksonXmlProperty(localName = "run_time", isAttribute = false)
+    public void setRunTime(String runTime) {
+        this.runTime = runTime;
+    }
+
     @Override
     public String toString() {
-        return new ToStringBuilder(this).appendSuper(super.toString()).append("jobChain", jobChain).append("id", id).append("at", at).append("replace", replace).append("suspended", suspended).toString();
+        return new ToStringBuilder(this).appendSuper(super.toString()).append("jobChain", jobChain).append("id", id).append("at", at).append("replace", replace).append("suspended", suspended).append("runTime", runTime).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().appendSuper(super.hashCode()).append(jobChain).append(replace).append(id).append(at).append(suspended).toHashCode();
+        return new HashCodeBuilder().appendSuper(super.hashCode()).append(at).append(jobChain).append(replace).append(id).append(runTime).append(suspended).toHashCode();
     }
 
     @Override
@@ -182,7 +198,7 @@ public class AddOrder
             return false;
         }
         AddOrder rhs = ((AddOrder) other);
-        return new EqualsBuilder().appendSuper(super.equals(other)).append(jobChain, rhs.jobChain).append(replace, rhs.replace).append(id, rhs.id).append(at, rhs.at).append(suspended, rhs.suspended).isEquals();
+        return new EqualsBuilder().appendSuper(super.equals(other)).append(at, rhs.at).append(jobChain, rhs.jobChain).append(replace, rhs.replace).append(id, rhs.id).append(runTime, rhs.runTime).append(suspended, rhs.suspended).isEquals();
     }
 
 }

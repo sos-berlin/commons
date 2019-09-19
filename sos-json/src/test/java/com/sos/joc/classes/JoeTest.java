@@ -1,6 +1,8 @@
 package com.sos.joc.classes;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 
 import org.junit.Test;
@@ -25,6 +27,7 @@ import com.sos.joc.model.joe.job.Login;
 import com.sos.joc.model.joe.job.Script;
 import com.sos.joc.model.joe.job.Settings;
 import com.sos.joc.model.joe.job.StartJob;
+import com.sos.joc.model.joe.jobChain.JobChain;
 
 public class JoeTest {
 
@@ -32,6 +35,7 @@ public class JoeTest {
             DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     private ObjectMapper objMapper = new ObjectMapper().configure(SerializationFeature.INDENT_OUTPUT, true).configure(
             DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    private Path resourceDirectory = Paths.get("src","test","resources");
 
     @Test
     public void testJob() throws JsonProcessingException {
@@ -165,6 +169,15 @@ public class JoeTest {
         writeValueAsXMLString(jobI);
         writeValueAsXMLString(job);
         writeValueAsJsonString(jobI);
+    }
+    
+    @Test
+    public void testJobChainWithReturnCodes() throws JsonParseException, JsonMappingException, IOException {
+        //getClass().getResource("jobChainWithReturnCodes.job_chain.xml").getFile();
+        Path testFile = resourceDirectory.resolve("jobChainWithReturnCodes.job_chain.xml");
+        JobChain jobChain = xmlMapper.readValue(testFile.toFile(), JobChain.class);
+        writeValueAsXMLString(jobChain);
+        writeValueAsJsonString(jobChain);
     }
     
     private String writeValueAsXMLString(Object obj) throws JsonProcessingException {
