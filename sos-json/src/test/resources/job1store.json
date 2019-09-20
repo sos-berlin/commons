@@ -31,7 +31,7 @@
     },
     "script" : {
       "language" : "shell",
-      "content" : "\necho hallo\necho welt\n"
+      "content" : "\necho hello\necho world\n"
     }
   }
 }
