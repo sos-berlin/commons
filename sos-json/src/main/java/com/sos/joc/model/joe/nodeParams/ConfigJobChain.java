@@ -1,5 +1,5 @@
 
-package com.sos.joc.model.joe.common;
+package com.sos.joc.model.joe.nodeParams;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,20 +10,13 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-
-/**
- * parameter
- * <p>
- * 
- * 
- */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JacksonXmlRootElement(localName = "param")
+@JacksonXmlRootElement(localName = "job_chain")
 @JsonPropertyOrder({
     "name",
-    "value"
+    "order"
 })
-public class Param {
+public class ConfigJobChain {
 
     /**
      * 
@@ -38,9 +31,9 @@ public class Param {
      * (Required)
      * 
      */
-    @JsonProperty("value")
-    @JacksonXmlProperty(localName = "value", isAttribute = true)
-    private String value;
+    @JsonProperty("order")
+    @JacksonXmlProperty(localName = "order", isAttribute = false)
+    private ConfigOrder order;
 
     /**
      * 
@@ -69,10 +62,10 @@ public class Param {
      * (Required)
      * 
      */
-    @JsonProperty("value")
-    @JacksonXmlProperty(localName = "value", isAttribute = true)
-    public String getValue() {
-        return value;
+    @JsonProperty("order")
+    @JacksonXmlProperty(localName = "order", isAttribute = false)
+    public ConfigOrder getOrder() {
+        return order;
     }
 
     /**
@@ -80,20 +73,20 @@ public class Param {
      * (Required)
      * 
      */
-    @JsonProperty("value")
-    @JacksonXmlProperty(localName = "value", isAttribute = true)
-    public void setValue(String value) {
-        this.value = value;
+    @JsonProperty("order")
+    @JacksonXmlProperty(localName = "order", isAttribute = false)
+    public void setOrder(ConfigOrder order) {
+        this.order = order;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("name", name).append("value", value).toString();
+        return new ToStringBuilder(this).append("name", name).append("order", order).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(name).append(value).toHashCode();
+        return new HashCodeBuilder().append(name).append(order).toHashCode();
     }
 
     @Override
@@ -101,11 +94,11 @@ public class Param {
         if (other == this) {
             return true;
         }
-        if ((other instanceof Param) == false) {
+        if ((other instanceof ConfigJobChain) == false) {
             return false;
         }
-        Param rhs = ((Param) other);
-        return new EqualsBuilder().append(name, rhs.name).append(value, rhs.value).isEquals();
+        ConfigJobChain rhs = ((ConfigJobChain) other);
+        return new EqualsBuilder().append(name, rhs.name).append(order, rhs.order).isEquals();
     }
 
 }

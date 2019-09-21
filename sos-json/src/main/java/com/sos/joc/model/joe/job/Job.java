@@ -45,6 +45,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "loadUserProfile",
     "visible",
     "settings",
+    "documentation",
     "lockUses",
     "params",
     "environment",
@@ -170,6 +171,9 @@ public class Job implements IJSObject
     @JsonProperty("settings")
     @JacksonXmlProperty(localName = "settings", isAttribute = false)
     private Settings settings;
+    @JsonProperty("documentation")
+    @JacksonXmlProperty(localName = "description", isAttribute = false)
+    private Description documentation;
     @JsonProperty("lockUses")
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "lock.use", isAttribute = false)
@@ -554,6 +558,18 @@ public class Job implements IJSObject
         this.settings = settings;
     }
 
+    @JsonProperty("documentation")
+    @JacksonXmlProperty(localName = "description", isAttribute = false)
+    public Description getDocumentation() {
+        return documentation;
+    }
+
+    @JsonProperty("documentation")
+    @JacksonXmlProperty(localName = "description", isAttribute = false)
+    public void setDocumentation(Description documentation) {
+        this.documentation = documentation;
+    }
+
     @JsonProperty("lockUses")
     @JacksonXmlProperty(localName = "lock.use", isAttribute = false)
     public List<LockUse> getLockUses() {
@@ -748,12 +764,12 @@ public class Job implements IJSObject
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("priority", priority).append("title", title).append("isOrderJob", isOrderJob).append("maxTasks", maxTasks).append("minTasks", minTasks).append("timeout", timeout).append("idleTimeout", idleTimeout).append("forceIdleTimeout", forceIdleTimeout).append("processClass", processClass).append("javaOptions", javaOptions).append("stopOnError", stopOnError).append("ignoreSignals", ignoreSignals).append("warnIfLongerThan", warnIfLongerThan).append("warnIfShorterThan", warnIfShorterThan).append("stderrLogLevel", stderrLogLevel).append("credentialsKey", credentialsKey).append("loadUserProfile", loadUserProfile).append("visible", visible).append("settings", settings).append("lockUses", lockUses).append("params", params).append("environment", environment).append("login", login).append("script", script).append("monitors", monitors).append("monitorUses", monitorUses).append("startWhenDirectoriesChanged", startWhenDirectoriesChanged).append("delayAfterErrors", delayAfterErrors).append("delayOrderAfterSetbacks", delayOrderAfterSetbacks).append("runTime", runTime).append("commands", commands).toString();
+        return new ToStringBuilder(this).append("priority", priority).append("title", title).append("isOrderJob", isOrderJob).append("maxTasks", maxTasks).append("minTasks", minTasks).append("timeout", timeout).append("idleTimeout", idleTimeout).append("forceIdleTimeout", forceIdleTimeout).append("processClass", processClass).append("javaOptions", javaOptions).append("stopOnError", stopOnError).append("ignoreSignals", ignoreSignals).append("warnIfLongerThan", warnIfLongerThan).append("warnIfShorterThan", warnIfShorterThan).append("stderrLogLevel", stderrLogLevel).append("credentialsKey", credentialsKey).append("loadUserProfile", loadUserProfile).append("visible", visible).append("settings", settings).append("documentation", documentation).append("lockUses", lockUses).append("params", params).append("environment", environment).append("login", login).append("script", script).append("monitors", monitors).append("monitorUses", monitorUses).append("startWhenDirectoriesChanged", startWhenDirectoriesChanged).append("delayAfterErrors", delayAfterErrors).append("delayOrderAfterSetbacks", delayOrderAfterSetbacks).append("runTime", runTime).append("commands", commands).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(delayOrderAfterSetbacks).append(delayAfterErrors).append(startWhenDirectoriesChanged).append(forceIdleTimeout).append(processClass).append(title).append(ignoreSignals).append(credentialsKey).append(login).append(minTasks).append(warnIfShorterThan).append(timeout).append(isOrderJob).append(lockUses).append(runTime).append(commands).append(warnIfLongerThan).append(monitorUses).append(settings).append(visible).append(maxTasks).append(loadUserProfile).append(priority).append(params).append(script).append(stopOnError).append(environment).append(idleTimeout).append(javaOptions).append(stderrLogLevel).append(monitors).toHashCode();
+        return new HashCodeBuilder().append(delayOrderAfterSetbacks).append(delayAfterErrors).append(startWhenDirectoriesChanged).append(forceIdleTimeout).append(processClass).append(title).append(ignoreSignals).append(credentialsKey).append(login).append(minTasks).append(warnIfShorterThan).append(timeout).append(isOrderJob).append(lockUses).append(runTime).append(commands).append(warnIfLongerThan).append(monitorUses).append(settings).append(visible).append(maxTasks).append(loadUserProfile).append(documentation).append(priority).append(params).append(script).append(stopOnError).append(environment).append(idleTimeout).append(javaOptions).append(stderrLogLevel).append(monitors).toHashCode();
     }
 
     @Override
@@ -765,7 +781,7 @@ public class Job implements IJSObject
             return false;
         }
         Job rhs = ((Job) other);
-        return new EqualsBuilder().append(delayOrderAfterSetbacks, rhs.delayOrderAfterSetbacks).append(delayAfterErrors, rhs.delayAfterErrors).append(startWhenDirectoriesChanged, rhs.startWhenDirectoriesChanged).append(forceIdleTimeout, rhs.forceIdleTimeout).append(processClass, rhs.processClass).append(title, rhs.title).append(ignoreSignals, rhs.ignoreSignals).append(credentialsKey, rhs.credentialsKey).append(login, rhs.login).append(minTasks, rhs.minTasks).append(warnIfShorterThan, rhs.warnIfShorterThan).append(timeout, rhs.timeout).append(isOrderJob, rhs.isOrderJob).append(lockUses, rhs.lockUses).append(runTime, rhs.runTime).append(commands, rhs.commands).append(warnIfLongerThan, rhs.warnIfLongerThan).append(monitorUses, rhs.monitorUses).append(settings, rhs.settings).append(visible, rhs.visible).append(maxTasks, rhs.maxTasks).append(loadUserProfile, rhs.loadUserProfile).append(priority, rhs.priority).append(params, rhs.params).append(script, rhs.script).append(stopOnError, rhs.stopOnError).append(environment, rhs.environment).append(idleTimeout, rhs.idleTimeout).append(javaOptions, rhs.javaOptions).append(stderrLogLevel, rhs.stderrLogLevel).append(monitors, rhs.monitors).isEquals();
+        return new EqualsBuilder().append(delayOrderAfterSetbacks, rhs.delayOrderAfterSetbacks).append(delayAfterErrors, rhs.delayAfterErrors).append(startWhenDirectoriesChanged, rhs.startWhenDirectoriesChanged).append(forceIdleTimeout, rhs.forceIdleTimeout).append(processClass, rhs.processClass).append(title, rhs.title).append(ignoreSignals, rhs.ignoreSignals).append(credentialsKey, rhs.credentialsKey).append(login, rhs.login).append(minTasks, rhs.minTasks).append(warnIfShorterThan, rhs.warnIfShorterThan).append(timeout, rhs.timeout).append(isOrderJob, rhs.isOrderJob).append(lockUses, rhs.lockUses).append(runTime, rhs.runTime).append(commands, rhs.commands).append(warnIfLongerThan, rhs.warnIfLongerThan).append(monitorUses, rhs.monitorUses).append(settings, rhs.settings).append(visible, rhs.visible).append(maxTasks, rhs.maxTasks).append(loadUserProfile, rhs.loadUserProfile).append(documentation, rhs.documentation).append(priority, rhs.priority).append(params, rhs.params).append(script, rhs.script).append(stopOnError, rhs.stopOnError).append(environment, rhs.environment).append(idleTimeout, rhs.idleTimeout).append(javaOptions, rhs.javaOptions).append(stderrLogLevel, rhs.stderrLogLevel).append(monitors, rhs.monitors).isEquals();
     }
 
 }
