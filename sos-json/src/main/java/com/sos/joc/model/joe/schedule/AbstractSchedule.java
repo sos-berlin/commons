@@ -95,39 +95,44 @@ public abstract class AbstractSchedule {
     @JacksonXmlProperty(localName = "date", isAttribute = false)
     private List<Date> dates = null;
     /**
-     * TODO
+     * weekdays
+     * <p>
+     * 
      * 
      */
     @JsonProperty("weekDays")
-    @JsonPropertyDescription("TODO")
     @JacksonXmlProperty(localName = "week_days", isAttribute = false)
-    private String weekDays;
+    private WeekDays weekDays;
     /**
-     * TODO
+     * monthdays
+     * <p>
+     * 
      * 
      */
     @JsonProperty("monthDays")
-    @JsonPropertyDescription("TODO")
     @JacksonXmlProperty(localName = "month_days", isAttribute = false)
-    private String monthDays;
+    private Monthdays monthDays;
     /**
-     * TODO
+     * ultimos
+     * <p>
+     * 
      * 
      */
     @JsonProperty("ultimos")
-    @JsonPropertyDescription("TODO")
     @JacksonXmlProperty(localName = "ultimos", isAttribute = false)
-    private String ultimos;
+    private Ultimos ultimos;
     /**
-     * TODO
+     * months
+     * <p>
+     * 
      * 
      */
     @JsonProperty("month")
-    @JsonPropertyDescription("TODO")
+    @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "month", isAttribute = false)
-    private String month;
+    private List<Month> month = null;
     /**
-     * holidays without weekdays elements TODO?
+     * holidays
      * <p>
      * 
      * 
@@ -281,87 +286,103 @@ public abstract class AbstractSchedule {
     }
 
     /**
-     * TODO
+     * weekdays
+     * <p>
+     * 
      * 
      */
     @JsonProperty("weekDays")
     @JacksonXmlProperty(localName = "week_days", isAttribute = false)
-    public String getWeekDays() {
+    public WeekDays getWeekDays() {
         return weekDays;
     }
 
     /**
-     * TODO
+     * weekdays
+     * <p>
+     * 
      * 
      */
     @JsonProperty("weekDays")
     @JacksonXmlProperty(localName = "week_days", isAttribute = false)
-    public void setWeekDays(String weekDays) {
+    public void setWeekDays(WeekDays weekDays) {
         this.weekDays = weekDays;
     }
 
     /**
-     * TODO
+     * monthdays
+     * <p>
+     * 
      * 
      */
     @JsonProperty("monthDays")
     @JacksonXmlProperty(localName = "month_days", isAttribute = false)
-    public String getMonthDays() {
+    public Monthdays getMonthDays() {
         return monthDays;
     }
 
     /**
-     * TODO
+     * monthdays
+     * <p>
+     * 
      * 
      */
     @JsonProperty("monthDays")
     @JacksonXmlProperty(localName = "month_days", isAttribute = false)
-    public void setMonthDays(String monthDays) {
+    public void setMonthDays(Monthdays monthDays) {
         this.monthDays = monthDays;
     }
 
     /**
-     * TODO
+     * ultimos
+     * <p>
+     * 
      * 
      */
     @JsonProperty("ultimos")
     @JacksonXmlProperty(localName = "ultimos", isAttribute = false)
-    public String getUltimos() {
+    public Ultimos getUltimos() {
         return ultimos;
     }
 
     /**
-     * TODO
+     * ultimos
+     * <p>
+     * 
      * 
      */
     @JsonProperty("ultimos")
     @JacksonXmlProperty(localName = "ultimos", isAttribute = false)
-    public void setUltimos(String ultimos) {
+    public void setUltimos(Ultimos ultimos) {
         this.ultimos = ultimos;
     }
 
     /**
-     * TODO
+     * months
+     * <p>
+     * 
      * 
      */
     @JsonProperty("month")
     @JacksonXmlProperty(localName = "month", isAttribute = false)
-    public String getMonth() {
+    public List<Month> getMonth() {
         return month;
     }
 
     /**
-     * TODO
+     * months
+     * <p>
+     * 
      * 
      */
     @JsonProperty("month")
     @JacksonXmlProperty(localName = "month", isAttribute = false)
-    public void setMonth(String month) {
+    public void setMonth(List<Month> month) {
         this.month = month;
     }
 
     /**
-     * holidays without weekdays elements TODO?
+     * holidays
      * <p>
      * 
      * 
@@ -373,7 +394,7 @@ public abstract class AbstractSchedule {
     }
 
     /**
-     * holidays without weekdays elements TODO?
+     * holidays
      * <p>
      * 
      * 

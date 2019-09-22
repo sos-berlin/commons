@@ -4,7 +4,6 @@ package com.sos.joc.model.joe.schedule;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -31,35 +30,40 @@ public class HolidaysFile implements IJSObject
 {
 
     /**
-     * TODO
+     * weekdays
+     * <p>
+     * 
      * 
      */
     @JsonProperty("weekDays")
-    @JsonPropertyDescription("TODO")
     @JacksonXmlProperty(localName = "week_days", isAttribute = false)
-    private String weekDays;
+    private WeekDays weekDays;
     @JsonProperty("days")
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "holiday", isAttribute = false)
     private List<Holiday> days = null;
 
     /**
-     * TODO
+     * weekdays
+     * <p>
+     * 
      * 
      */
     @JsonProperty("weekDays")
     @JacksonXmlProperty(localName = "week_days", isAttribute = false)
-    public String getWeekDays() {
+    public WeekDays getWeekDays() {
         return weekDays;
     }
 
     /**
-     * TODO
+     * weekdays
+     * <p>
+     * 
      * 
      */
     @JsonProperty("weekDays")
     @JacksonXmlProperty(localName = "week_days", isAttribute = false)
-    public void setWeekDays(String weekDays) {
+    public void setWeekDays(WeekDays weekDays) {
         this.weekDays = weekDays;
     }
 

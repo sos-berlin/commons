@@ -14,7 +14,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * holidays without weekdays elements TODO?
+ * holidays
  * <p>
  * 
  * 
@@ -23,6 +23,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JacksonXmlRootElement(localName = "holidays")
 @JsonPropertyOrder({
     "includes",
+    "weekDays",
     "days"
 })
 public class Holidays {
@@ -37,6 +38,15 @@ public class Holidays {
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "include", isAttribute = false)
     private List<com.sos.joc.model.joe.common.Include> includes = null;
+    /**
+     * weekdays
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("weekDays")
+    @JacksonXmlProperty(localName = "week_days", isAttribute = false)
+    private WeekDays weekDays;
     @JsonProperty("days")
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "holiday", isAttribute = false)
@@ -66,6 +76,30 @@ public class Holidays {
         this.includes = includes;
     }
 
+    /**
+     * weekdays
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("weekDays")
+    @JacksonXmlProperty(localName = "week_days", isAttribute = false)
+    public WeekDays getWeekDays() {
+        return weekDays;
+    }
+
+    /**
+     * weekdays
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("weekDays")
+    @JacksonXmlProperty(localName = "week_days", isAttribute = false)
+    public void setWeekDays(WeekDays weekDays) {
+        this.weekDays = weekDays;
+    }
+
     @JsonProperty("days")
     @JacksonXmlProperty(localName = "holiday", isAttribute = false)
     public List<Holiday> getDays() {
@@ -80,12 +114,12 @@ public class Holidays {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("includes", includes).append("days", days).toString();
+        return new ToStringBuilder(this).append("includes", includes).append("weekDays", weekDays).append("days", days).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(days).append(includes).toHashCode();
+        return new HashCodeBuilder().append(days).append(includes).append(weekDays).toHashCode();
     }
 
     @Override
@@ -97,7 +131,7 @@ public class Holidays {
             return false;
         }
         Holidays rhs = ((Holidays) other);
-        return new EqualsBuilder().append(days, rhs.days).append(includes, rhs.includes).isEquals();
+        return new EqualsBuilder().append(days, rhs.days).append(includes, rhs.includes).append(weekDays, rhs.weekDays).isEquals();
     }
 
 }

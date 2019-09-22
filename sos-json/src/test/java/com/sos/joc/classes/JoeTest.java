@@ -113,7 +113,6 @@ public class JoeTest {
     
     @Test
     public void testJobChainWithReturnCodes() throws JsonParseException, JsonMappingException, IOException {
-        //getClass().getResource("jobChainWithReturnCodes.job_chain.xml").getFile();
         Path testFile = resourceDirectory.resolve("jobChainWithReturnCodes.job_chain.xml");
         JobChain jobChain = xmlMapper.readValue(testFile.toFile(), JobChain.class);
         writeValueAsXMLString(jobChain);
@@ -122,7 +121,6 @@ public class JoeTest {
     
     @Test
     public void testJobWithCommands() throws JsonParseException, JsonMappingException, IOException {
-        //getClass().getResource("jobChainWithReturnCodes.job_chain.xml").getFile();
         Path testFile = resourceDirectory.resolve("jobWithCommands.job.xml");
         Job job = xmlMapper.readValue(testFile.toFile(), Job.class);
         writeValueAsXMLString(job);
