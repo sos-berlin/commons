@@ -23,7 +23,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "holidays_file")
 @JsonPropertyOrder({
-    "weekDays",
+    "weekdays",
     "days"
 })
 public class HolidaysFile implements IJSObject
@@ -35,9 +35,9 @@ public class HolidaysFile implements IJSObject
      * 
      * 
      */
-    @JsonProperty("weekDays")
-    @JacksonXmlProperty(localName = "week_days", isAttribute = false)
-    private WeekDays weekDays;
+    @JsonProperty("weekdays")
+    @JacksonXmlProperty(localName = "weekdays", isAttribute = false)
+    private Weekdays weekdays;
     @JsonProperty("days")
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "holiday", isAttribute = false)
@@ -49,10 +49,10 @@ public class HolidaysFile implements IJSObject
      * 
      * 
      */
-    @JsonProperty("weekDays")
-    @JacksonXmlProperty(localName = "week_days", isAttribute = false)
-    public WeekDays getWeekDays() {
-        return weekDays;
+    @JsonProperty("weekdays")
+    @JacksonXmlProperty(localName = "weekdays", isAttribute = false)
+    public Weekdays getWeekdays() {
+        return weekdays;
     }
 
     /**
@@ -61,10 +61,10 @@ public class HolidaysFile implements IJSObject
      * 
      * 
      */
-    @JsonProperty("weekDays")
-    @JacksonXmlProperty(localName = "week_days", isAttribute = false)
-    public void setWeekDays(WeekDays weekDays) {
-        this.weekDays = weekDays;
+    @JsonProperty("weekdays")
+    @JacksonXmlProperty(localName = "weekdays", isAttribute = false)
+    public void setWeekdays(Weekdays weekdays) {
+        this.weekdays = weekdays;
     }
 
     @JsonProperty("days")
@@ -81,12 +81,12 @@ public class HolidaysFile implements IJSObject
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("weekDays", weekDays).append("days", days).toString();
+        return new ToStringBuilder(this).append("weekdays", weekdays).append("days", days).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(weekDays).append(days).toHashCode();
+        return new HashCodeBuilder().append(days).append(weekdays).toHashCode();
     }
 
     @Override
@@ -98,7 +98,7 @@ public class HolidaysFile implements IJSObject
             return false;
         }
         HolidaysFile rhs = ((HolidaysFile) other);
-        return new EqualsBuilder().append(weekDays, rhs.weekDays).append(days, rhs.days).isEquals();
+        return new EqualsBuilder().append(days, rhs.days).append(weekdays, rhs.weekdays).isEquals();
     }
 
 }

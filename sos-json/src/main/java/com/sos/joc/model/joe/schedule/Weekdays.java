@@ -20,11 +20,11 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JacksonXmlRootElement(localName = "week_days")
+@JacksonXmlRootElement(localName = "weekdays")
 @JsonPropertyOrder({
     "days"
 })
-public class WeekDays {
+public class Weekdays {
 
     /**
      * days
@@ -76,10 +76,10 @@ public class WeekDays {
         if (other == this) {
             return true;
         }
-        if ((other instanceof WeekDays) == false) {
+        if ((other instanceof Weekdays) == false) {
             return false;
         }
-        WeekDays rhs = ((WeekDays) other);
+        Weekdays rhs = ((Weekdays) other);
         return new EqualsBuilder().append(days, rhs.days).isEquals();
     }
 

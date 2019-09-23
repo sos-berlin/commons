@@ -127,6 +127,14 @@ public class JoeTest {
         writeValueAsJsonString(job);
     }
     
+    @Test
+    public void testJobWithRunTime() throws JsonParseException, JsonMappingException, IOException {
+        Path testFile = resourceDirectory.resolve("jobWithRuntime.job.xml");
+        Job job = xmlMapper.readValue(testFile.toFile(), Job.class);
+        writeValueAsXMLString(job);
+        writeValueAsJsonString(job);
+    }
+    
     private String writeValueAsXMLString(Object obj) throws JsonProcessingException {
         String s = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n\n" + xmlMapper.writeValueAsString(obj);
         System.out.println(s);

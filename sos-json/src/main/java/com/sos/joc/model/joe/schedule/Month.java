@@ -18,18 +18,18 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "month",
     "periods",
-    "weekDays",
-    "monthDays",
+    "weekdays",
+    "monthdays",
     "ultimos"
 })
 public class Month {
 
     /**
-     * unordered space seperated list of 1-12 or january, february, march, april, may, june, july, august, september, october, november, december
+     * unordered space separated list of 1-12 or january, february, march, april, may, june, july, august, september, october, november, december
      * 
      */
     @JsonProperty("month")
-    @JsonPropertyDescription("unordered space seperated list of 1-12 or january, february, march, april, may, june, july, august, september, october, november, december")
+    @JsonPropertyDescription("unordered space separated list of 1-12 or january, february, march, april, may, june, july, august, september, october, november, december")
     @JacksonXmlProperty(localName = "month", isAttribute = true)
     private String month;
     /**
@@ -48,18 +48,18 @@ public class Month {
      * 
      * 
      */
-    @JsonProperty("weekDays")
-    @JacksonXmlProperty(localName = "week_days", isAttribute = false)
-    private WeekDays weekDays;
+    @JsonProperty("weekdays")
+    @JacksonXmlProperty(localName = "weekdays", isAttribute = false)
+    private Weekdays weekdays;
     /**
      * monthdays
      * <p>
      * 
      * 
      */
-    @JsonProperty("monthDays")
-    @JacksonXmlProperty(localName = "month_days", isAttribute = false)
-    private Monthdays monthDays;
+    @JsonProperty("monthdays")
+    @JacksonXmlProperty(localName = "monthdays", isAttribute = false)
+    private Monthdays monthdays;
     /**
      * ultimos
      * <p>
@@ -71,7 +71,7 @@ public class Month {
     private Ultimos ultimos;
 
     /**
-     * unordered space seperated list of 1-12 or january, february, march, april, may, june, july, august, september, october, november, december
+     * unordered space separated list of 1-12 or january, february, march, april, may, june, july, august, september, october, november, december
      * 
      */
     @JsonProperty("month")
@@ -81,7 +81,7 @@ public class Month {
     }
 
     /**
-     * unordered space seperated list of 1-12 or january, february, march, april, may, june, july, august, september, october, november, december
+     * unordered space separated list of 1-12 or january, february, march, april, may, june, july, august, september, october, november, december
      * 
      */
     @JsonProperty("month")
@@ -120,10 +120,10 @@ public class Month {
      * 
      * 
      */
-    @JsonProperty("weekDays")
-    @JacksonXmlProperty(localName = "week_days", isAttribute = false)
-    public WeekDays getWeekDays() {
-        return weekDays;
+    @JsonProperty("weekdays")
+    @JacksonXmlProperty(localName = "weekdays", isAttribute = false)
+    public Weekdays getWeekdays() {
+        return weekdays;
     }
 
     /**
@@ -132,10 +132,10 @@ public class Month {
      * 
      * 
      */
-    @JsonProperty("weekDays")
-    @JacksonXmlProperty(localName = "week_days", isAttribute = false)
-    public void setWeekDays(WeekDays weekDays) {
-        this.weekDays = weekDays;
+    @JsonProperty("weekdays")
+    @JacksonXmlProperty(localName = "weekdays", isAttribute = false)
+    public void setWeekdays(Weekdays weekdays) {
+        this.weekdays = weekdays;
     }
 
     /**
@@ -144,10 +144,10 @@ public class Month {
      * 
      * 
      */
-    @JsonProperty("monthDays")
-    @JacksonXmlProperty(localName = "month_days", isAttribute = false)
-    public Monthdays getMonthDays() {
-        return monthDays;
+    @JsonProperty("monthdays")
+    @JacksonXmlProperty(localName = "monthdays", isAttribute = false)
+    public Monthdays getMonthdays() {
+        return monthdays;
     }
 
     /**
@@ -156,10 +156,10 @@ public class Month {
      * 
      * 
      */
-    @JsonProperty("monthDays")
-    @JacksonXmlProperty(localName = "month_days", isAttribute = false)
-    public void setMonthDays(Monthdays monthDays) {
-        this.monthDays = monthDays;
+    @JsonProperty("monthdays")
+    @JacksonXmlProperty(localName = "monthdays", isAttribute = false)
+    public void setMonthdays(Monthdays monthdays) {
+        this.monthdays = monthdays;
     }
 
     /**
@@ -188,12 +188,12 @@ public class Month {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("month", month).append("periods", periods).append("weekDays", weekDays).append("monthDays", monthDays).append("ultimos", ultimos).toString();
+        return new ToStringBuilder(this).append("month", month).append("periods", periods).append("weekdays", weekdays).append("monthdays", monthdays).append("ultimos", ultimos).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(monthDays).append(periods).append(month).append(weekDays).append(ultimos).toHashCode();
+        return new HashCodeBuilder().append(periods).append(monthdays).append(month).append(ultimos).append(weekdays).toHashCode();
     }
 
     @Override
@@ -205,7 +205,7 @@ public class Month {
             return false;
         }
         Month rhs = ((Month) other);
-        return new EqualsBuilder().append(monthDays, rhs.monthDays).append(periods, rhs.periods).append(month, rhs.month).append(weekDays, rhs.weekDays).append(ultimos, rhs.ultimos).isEquals();
+        return new EqualsBuilder().append(periods, rhs.periods).append(monthdays, rhs.monthdays).append(month, rhs.month).append(ultimos, rhs.ultimos).append(weekdays, rhs.weekdays).isEquals();
     }
 
 }
