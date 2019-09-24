@@ -35,7 +35,7 @@ public class HolidaysEdit
      * 
      */
     @JsonProperty("configuration")
-    @JacksonXmlProperty(localName = "configuration", isAttribute = false)
+    @JacksonXmlProperty(localName = "holidays", isAttribute = false)
     private HolidaysFile configuration;
 
     /**
@@ -46,7 +46,7 @@ public class HolidaysEdit
      * 
      */
     @JsonProperty("configuration")
-    @JacksonXmlProperty(localName = "configuration", isAttribute = false)
+    @JacksonXmlProperty(localName = "holidays", isAttribute = false)
     public HolidaysFile getConfiguration() {
         return configuration;
     }
@@ -59,7 +59,7 @@ public class HolidaysEdit
      * 
      */
     @JsonProperty("configuration")
-    @JacksonXmlProperty(localName = "configuration", isAttribute = false)
+    @JacksonXmlProperty(localName = "holidays", isAttribute = false)
     public void setConfiguration(HolidaysFile configuration) {
         this.configuration = configuration;
     }

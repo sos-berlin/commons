@@ -21,7 +21,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JacksonXmlRootElement(localName = "holidays_file")
+@JacksonXmlRootElement(localName = "holidays")
 @JsonPropertyOrder({
     "weekdays",
     "days"

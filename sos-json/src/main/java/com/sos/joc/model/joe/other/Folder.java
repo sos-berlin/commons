@@ -1,6 +1,7 @@
 
 package com.sos.joc.model.joe.other;
 
+import java.util.Date;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -23,6 +24,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "folder")
 @JsonPropertyOrder({
+    "deliveryDate",
     "path",
     "folders",
     "jobs",
@@ -32,13 +34,22 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "locks",
     "schedules",
     "monitors",
-    "params",
     "nodeParams",
-    "holidays",
     "others"
 })
 public class Folder {
 
+    /**
+     * delivery date
+     * <p>
+     * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
+     * (Required)
+     * 
+     */
+    @JsonProperty("deliveryDate")
+    @JsonPropertyDescription("Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
+    @JacksonXmlProperty(localName = "delivery_date", isAttribute = true)
+    private Date deliveryDate;
     /**
      * path
      * <p>
@@ -83,15 +94,6 @@ public class Folder {
     @JacksonXmlProperty(localName = "monitors", isAttribute = false)
     private List<String> monitors = null;
     /**
-     * external parameter files for jobs and orders
-     * 
-     */
-    @JsonProperty("params")
-    @JsonPropertyDescription("external parameter files for jobs and orders")
-    @JacksonXmlElementWrapper(useWrapping = false)
-    @JacksonXmlProperty(localName = "params", isAttribute = false)
-    private List<String> params = null;
-    /**
      * [jobChainName].config.xml files with node parameters
      * 
      */
@@ -101,23 +103,40 @@ public class Folder {
     @JacksonXmlProperty(localName = "node_params", isAttribute = false)
     private List<String> nodeParams = null;
     /**
-     * external holidays files
-     * 
-     */
-    @JsonProperty("holidays")
-    @JsonPropertyDescription("external holidays files")
-    @JacksonXmlElementWrapper(useWrapping = false)
-    @JacksonXmlProperty(localName = "holidays", isAttribute = false)
-    private List<String> holidays = null;
-    /**
-     * external files, e.g. shell scripts to include in job's script
+     * external files, e.g. shell scripts to include in job's script, parameter files for jobs and orders, holidays files
      * 
      */
     @JsonProperty("others")
-    @JsonPropertyDescription("external files, e.g. shell scripts to include in job's script")
+    @JsonPropertyDescription("external files, e.g. shell scripts to include in job's script, parameter files for jobs and orders, holidays files")
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "others", isAttribute = false)
     private List<String> others = null;
+
+    /**
+     * delivery date
+     * <p>
+     * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
+     * (Required)
+     * 
+     */
+    @JsonProperty("deliveryDate")
+    @JacksonXmlProperty(localName = "delivery_date", isAttribute = true)
+    public Date getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    /**
+     * delivery date
+     * <p>
+     * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
+     * (Required)
+     * 
+     */
+    @JsonProperty("deliveryDate")
+    @JacksonXmlProperty(localName = "delivery_date", isAttribute = true)
+    public void setDeliveryDate(Date deliveryDate) {
+        this.deliveryDate = deliveryDate;
+    }
 
     /**
      * path
@@ -242,26 +261,6 @@ public class Folder {
     }
 
     /**
-     * external parameter files for jobs and orders
-     * 
-     */
-    @JsonProperty("params")
-    @JacksonXmlProperty(localName = "params", isAttribute = false)
-    public List<String> getParams() {
-        return params;
-    }
-
-    /**
-     * external parameter files for jobs and orders
-     * 
-     */
-    @JsonProperty("params")
-    @JacksonXmlProperty(localName = "params", isAttribute = false)
-    public void setParams(List<String> params) {
-        this.params = params;
-    }
-
-    /**
      * [jobChainName].config.xml files with node parameters
      * 
      */
@@ -282,27 +281,7 @@ public class Folder {
     }
 
     /**
-     * external holidays files
-     * 
-     */
-    @JsonProperty("holidays")
-    @JacksonXmlProperty(localName = "holidays", isAttribute = false)
-    public List<String> getHolidays() {
-        return holidays;
-    }
-
-    /**
-     * external holidays files
-     * 
-     */
-    @JsonProperty("holidays")
-    @JacksonXmlProperty(localName = "holidays", isAttribute = false)
-    public void setHolidays(List<String> holidays) {
-        this.holidays = holidays;
-    }
-
-    /**
-     * external files, e.g. shell scripts to include in job's script
+     * external files, e.g. shell scripts to include in job's script, parameter files for jobs and orders, holidays files
      * 
      */
     @JsonProperty("others")
@@ -312,7 +291,7 @@ public class Folder {
     }
 
     /**
-     * external files, e.g. shell scripts to include in job's script
+     * external files, e.g. shell scripts to include in job's script, parameter files for jobs and orders, holidays files
      * 
      */
     @JsonProperty("others")
@@ -323,12 +302,12 @@ public class Folder {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("path", path).append("folders", folders).append("jobs", jobs).append("jobChains", jobChains).append("orders", orders).append("processClasses", processClasses).append("locks", locks).append("schedules", schedules).append("monitors", monitors).append("params", params).append("nodeParams", nodeParams).append("holidays", holidays).append("others", others).toString();
+        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("path", path).append("folders", folders).append("jobs", jobs).append("jobChains", jobChains).append("orders", orders).append("processClasses", processClasses).append("locks", locks).append("schedules", schedules).append("monitors", monitors).append("nodeParams", nodeParams).append("others", others).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(folders).append(processClasses).append(jobs).append(params).append(locks).append(path).append(holidays).append(schedules).append(jobChains).append(orders).append(nodeParams).append(others).append(monitors).toHashCode();
+        return new HashCodeBuilder().append(folders).append(processClasses).append(jobs).append(locks).append(path).append(schedules).append(jobChains).append(orders).append(deliveryDate).append(nodeParams).append(others).append(monitors).toHashCode();
     }
 
     @Override
@@ -340,7 +319,7 @@ public class Folder {
             return false;
         }
         Folder rhs = ((Folder) other);
-        return new EqualsBuilder().append(folders, rhs.folders).append(processClasses, rhs.processClasses).append(jobs, rhs.jobs).append(params, rhs.params).append(locks, rhs.locks).append(path, rhs.path).append(holidays, rhs.holidays).append(schedules, rhs.schedules).append(jobChains, rhs.jobChains).append(orders, rhs.orders).append(nodeParams, rhs.nodeParams).append(others, rhs.others).append(monitors, rhs.monitors).isEquals();
+        return new EqualsBuilder().append(folders, rhs.folders).append(processClasses, rhs.processClasses).append(jobs, rhs.jobs).append(locks, rhs.locks).append(path, rhs.path).append(schedules, rhs.schedules).append(jobChains, rhs.jobChains).append(orders, rhs.orders).append(deliveryDate, rhs.deliveryDate).append(nodeParams, rhs.nodeParams).append(others, rhs.others).append(monitors, rhs.monitors).isEquals();
     }
 
 }

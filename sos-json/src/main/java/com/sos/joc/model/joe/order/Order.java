@@ -3,7 +3,9 @@ package com.sos.joc.model.joe.order;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.sos.joc.model.joe.common.IJSObject;
@@ -29,7 +31,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "endState",
     "webService",
     "params",
-    "runTime"
+    "runTime",
+    "runTimeJson"
 })
 public class Order implements IJSObject
 {
@@ -59,14 +62,23 @@ public class Order implements IJSObject
     @JacksonXmlProperty(localName = "params", isAttribute = false)
     private Params params;
     /**
+     * xml string of the run time
+     * 
+     */
+    @JsonProperty("runTime")
+    @JsonPropertyDescription("xml string of the run time")
+    @JacksonXmlCData
+    @JacksonXmlProperty(localName = "run_time_str", isAttribute = false)
+    private String runTime;
+    /**
      * runTime
      * <p>
      * 
      * 
      */
-    @JsonProperty("runTime")
+    @JsonProperty("runTimeJson")
     @JacksonXmlProperty(localName = "run_time", isAttribute = false)
-    private RunTime runTime = new RunTime();
+    private RunTime runTimeJson;
 
     @JsonProperty("priority")
     @JacksonXmlProperty(localName = "priority", isAttribute = true)
@@ -153,15 +165,25 @@ public class Order implements IJSObject
     }
 
     /**
-     * runTime
-     * <p>
-     * 
+     * xml string of the run time
      * 
      */
     @JsonProperty("runTime")
-    @JacksonXmlProperty(localName = "run_time", isAttribute = false)
-    public RunTime getRunTime() {
+    @JacksonXmlCData
+    @JacksonXmlProperty(localName = "run_time_str", isAttribute = false)
+    public String getRunTime() {
         return runTime;
+    }
+
+    /**
+     * xml string of the run time
+     * 
+     */
+    @JsonProperty("runTime")
+    @JacksonXmlCData
+    @JacksonXmlProperty(localName = "run_time_str", isAttribute = false)
+    public void setRunTime(String runTime) {
+        this.runTime = runTime;
     }
 
     /**
@@ -170,20 +192,32 @@ public class Order implements IJSObject
      * 
      * 
      */
-    @JsonProperty("runTime")
+    @JsonProperty("runTimeJson")
     @JacksonXmlProperty(localName = "run_time", isAttribute = false)
-    public void setRunTime(RunTime runTime) {
-        this.runTime = runTime;
+    public RunTime getRunTimeJson() {
+        return runTimeJson;
+    }
+
+    /**
+     * runTime
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("runTimeJson")
+    @JacksonXmlProperty(localName = "run_time", isAttribute = false)
+    public void setRunTimeJson(RunTime runTimeJson) {
+        this.runTimeJson = runTimeJson;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("priority", priority).append("title", title).append("state", state).append("endState", endState).append("webService", webService).append("params", params).append("runTime", runTime).toString();
+        return new ToStringBuilder(this).append("priority", priority).append("title", title).append("state", state).append("endState", endState).append("webService", webService).append("params", params).append("runTime", runTime).append("runTimeJson", runTimeJson).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(webService).append(endState).append(state).append(runTime).append(priority).append(title).append(params).toHashCode();
+        return new HashCodeBuilder().append(webService).append(runTimeJson).append(endState).append(state).append(runTime).append(priority).append(title).append(params).toHashCode();
     }
 
     @Override
@@ -195,7 +229,7 @@ public class Order implements IJSObject
             return false;
         }
         Order rhs = ((Order) other);
-        return new EqualsBuilder().append(webService, rhs.webService).append(endState, rhs.endState).append(state, rhs.state).append(runTime, rhs.runTime).append(priority, rhs.priority).append(title, rhs.title).append(params, rhs.params).isEquals();
+        return new EqualsBuilder().append(webService, rhs.webService).append(runTimeJson, rhs.runTimeJson).append(endState, rhs.endState).append(state, rhs.state).append(runTime, rhs.runTime).append(priority, rhs.priority).append(title, rhs.title).append(params, rhs.params).isEquals();
     }
 
 }

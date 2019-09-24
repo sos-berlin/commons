@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.sos.joc.model.joe.schedule.RunTime;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -26,8 +25,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "id",
     "at",
     "replace",
-    "suspended",
-    "runTime"
+    "suspended"
 })
 public class AddOrder
     extends Order
@@ -63,15 +61,6 @@ public class AddOrder
     @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "suspended", isAttribute = true)
     private String suspended;
-    /**
-     * runTime
-     * <p>
-     * 
-     * 
-     */
-    @JsonProperty("runTime")
-    @JacksonXmlProperty(localName = "run_time", isAttribute = false)
-    private RunTime runTime;
 
     /**
      * 
@@ -159,38 +148,14 @@ public class AddOrder
         this.suspended = suspended;
     }
 
-    /**
-     * runTime
-     * <p>
-     * 
-     * 
-     */
-    @JsonProperty("runTime")
-    @JacksonXmlProperty(localName = "run_time", isAttribute = false)
-    public RunTime getRunTime() {
-        return runTime;
-    }
-
-    /**
-     * runTime
-     * <p>
-     * 
-     * 
-     */
-    @JsonProperty("runTime")
-    @JacksonXmlProperty(localName = "run_time", isAttribute = false)
-    public void setRunTime(RunTime runTime) {
-        this.runTime = runTime;
-    }
-
     @Override
     public String toString() {
-        return new ToStringBuilder(this).appendSuper(super.toString()).append("jobChain", jobChain).append("id", id).append("at", at).append("replace", replace).append("suspended", suspended).append("runTime", runTime).toString();
+        return new ToStringBuilder(this).appendSuper(super.toString()).append("jobChain", jobChain).append("id", id).append("at", at).append("replace", replace).append("suspended", suspended).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().appendSuper(super.hashCode()).append(at).append(jobChain).append(replace).append(id).append(runTime).append(suspended).toHashCode();
+        return new HashCodeBuilder().appendSuper(super.hashCode()).append(jobChain).append(replace).append(id).append(at).append(suspended).toHashCode();
     }
 
     @Override
@@ -202,7 +167,7 @@ public class AddOrder
             return false;
         }
         AddOrder rhs = ((AddOrder) other);
-        return new EqualsBuilder().appendSuper(super.equals(other)).append(at, rhs.at).append(jobChain, rhs.jobChain).append(replace, rhs.replace).append(id, rhs.id).append(runTime, rhs.runTime).append(suspended, rhs.suspended).isEquals();
+        return new EqualsBuilder().appendSuper(super.equals(other)).append(jobChain, rhs.jobChain).append(replace, rhs.replace).append(id, rhs.id).append(at, rhs.at).append(suspended, rhs.suspended).isEquals();
     }
 
 }
