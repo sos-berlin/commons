@@ -1,5 +1,5 @@
 
-package com.sos.joc.model.joe.processClass;
+package com.sos.joc.model.joe.processclass;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

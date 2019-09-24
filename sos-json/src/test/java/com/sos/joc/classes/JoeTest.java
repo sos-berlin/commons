@@ -27,7 +27,7 @@ import com.sos.joc.model.joe.job.Login;
 import com.sos.joc.model.joe.job.Script;
 import com.sos.joc.model.joe.job.Settings;
 import com.sos.joc.model.joe.job.StartJob;
-import com.sos.joc.model.joe.jobChain.JobChain;
+import com.sos.joc.model.joe.jobchain.JobChain;
 import com.sos.joc.model.joe.order.AddOrder;
 
 public class JoeTest {

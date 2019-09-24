@@ -1,5 +1,5 @@
 
-package com.sos.joc.model.joe.nodeParams;
+package com.sos.joc.model.joe.nodeparams;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

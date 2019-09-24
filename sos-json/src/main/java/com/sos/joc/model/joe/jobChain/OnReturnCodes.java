@@ -1,5 +1,5 @@
 
-package com.sos.joc.model.joe.jobChain;
+package com.sos.joc.model.joe.jobchain;
 
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
