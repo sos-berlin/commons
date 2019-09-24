@@ -2,11 +2,12 @@
 package com.sos.joc.model.joe.other;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
@@ -62,55 +63,65 @@ public class Folder {
     @JacksonXmlProperty(localName = "path", isAttribute = true)
     private String path;
     @JsonProperty("folders")
+    @JsonDeserialize(as = java.util.LinkedHashSet.class)
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "folders", isAttribute = false)
-    private List<String> folders = null;
+    private Set<String> folders = null;
     @JsonProperty("jobs")
+    @JsonDeserialize(as = java.util.LinkedHashSet.class)
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "jobs", isAttribute = false)
-    private List<String> jobs = null;
+    private Set<String> jobs = null;
     @JsonProperty("jobChains")
+    @JsonDeserialize(as = java.util.LinkedHashSet.class)
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "job_chains", isAttribute = false)
-    private List<String> jobChains = null;
+    private Set<String> jobChains = null;
     @JsonProperty("orders")
+    @JsonDeserialize(as = java.util.LinkedHashSet.class)
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "orders", isAttribute = false)
-    private List<String> orders = null;
+    private Set<String> orders = null;
     @JsonProperty("processClasses")
+    @JsonDeserialize(as = java.util.LinkedHashSet.class)
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "process_classes", isAttribute = false)
-    private List<String> processClasses = null;
+    private Set<String> processClasses = null;
     @JsonProperty("locks")
+    @JsonDeserialize(as = java.util.LinkedHashSet.class)
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "locks", isAttribute = false)
-    private List<String> locks = null;
+    private Set<String> locks = null;
     @JsonProperty("schedules")
+    @JsonDeserialize(as = java.util.LinkedHashSet.class)
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "schedules", isAttribute = false)
-    private List<String> schedules = null;
+    private Set<String> schedules = null;
     @JsonProperty("monitors")
+    @JsonDeserialize(as = java.util.LinkedHashSet.class)
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "monitors", isAttribute = false)
-    private List<String> monitors = null;
+    private Set<String> monitors = null;
     /**
      * [jobChainName].config.xml files with node parameters
      * 
      */
     @JsonProperty("nodeParams")
+    @JsonDeserialize(as = java.util.LinkedHashSet.class)
     @JsonPropertyDescription("[jobChainName].config.xml files with node parameters")
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "node_params", isAttribute = false)
-    private List<String> nodeParams = null;
+    private Set<String> nodeParams = null;
     /**
      * external files, e.g. shell scripts to include in job's script, parameter files for jobs and orders, holidays files
      * 
      */
     @JsonProperty("others")
+    @JsonDeserialize(as = java.util.LinkedHashSet.class)
     @JsonPropertyDescription("external files, e.g. shell scripts to include in job's script, parameter files for jobs and orders, holidays files")
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "others", isAttribute = false)
-    private List<String> others = null;
+    private Set<String> others = null;
 
     /**
      * delivery date
@@ -166,97 +177,97 @@ public class Folder {
 
     @JsonProperty("folders")
     @JacksonXmlProperty(localName = "folders", isAttribute = false)
-    public List<String> getFolders() {
+    public Set<String> getFolders() {
         return folders;
     }
 
     @JsonProperty("folders")
     @JacksonXmlProperty(localName = "folders", isAttribute = false)
-    public void setFolders(List<String> folders) {
+    public void setFolders(Set<String> folders) {
         this.folders = folders;
     }
 
     @JsonProperty("jobs")
     @JacksonXmlProperty(localName = "jobs", isAttribute = false)
-    public List<String> getJobs() {
+    public Set<String> getJobs() {
         return jobs;
     }
 
     @JsonProperty("jobs")
     @JacksonXmlProperty(localName = "jobs", isAttribute = false)
-    public void setJobs(List<String> jobs) {
+    public void setJobs(Set<String> jobs) {
         this.jobs = jobs;
     }
 
     @JsonProperty("jobChains")
     @JacksonXmlProperty(localName = "job_chains", isAttribute = false)
-    public List<String> getJobChains() {
+    public Set<String> getJobChains() {
         return jobChains;
     }
 
     @JsonProperty("jobChains")
     @JacksonXmlProperty(localName = "job_chains", isAttribute = false)
-    public void setJobChains(List<String> jobChains) {
+    public void setJobChains(Set<String> jobChains) {
         this.jobChains = jobChains;
     }
 
     @JsonProperty("orders")
     @JacksonXmlProperty(localName = "orders", isAttribute = false)
-    public List<String> getOrders() {
+    public Set<String> getOrders() {
         return orders;
     }
 
     @JsonProperty("orders")
     @JacksonXmlProperty(localName = "orders", isAttribute = false)
-    public void setOrders(List<String> orders) {
+    public void setOrders(Set<String> orders) {
         this.orders = orders;
     }
 
     @JsonProperty("processClasses")
     @JacksonXmlProperty(localName = "process_classes", isAttribute = false)
-    public List<String> getProcessClasses() {
+    public Set<String> getProcessClasses() {
         return processClasses;
     }
 
     @JsonProperty("processClasses")
     @JacksonXmlProperty(localName = "process_classes", isAttribute = false)
-    public void setProcessClasses(List<String> processClasses) {
+    public void setProcessClasses(Set<String> processClasses) {
         this.processClasses = processClasses;
     }
 
     @JsonProperty("locks")
     @JacksonXmlProperty(localName = "locks", isAttribute = false)
-    public List<String> getLocks() {
+    public Set<String> getLocks() {
         return locks;
     }
 
     @JsonProperty("locks")
     @JacksonXmlProperty(localName = "locks", isAttribute = false)
-    public void setLocks(List<String> locks) {
+    public void setLocks(Set<String> locks) {
         this.locks = locks;
     }
 
     @JsonProperty("schedules")
     @JacksonXmlProperty(localName = "schedules", isAttribute = false)
-    public List<String> getSchedules() {
+    public Set<String> getSchedules() {
         return schedules;
     }
 
     @JsonProperty("schedules")
     @JacksonXmlProperty(localName = "schedules", isAttribute = false)
-    public void setSchedules(List<String> schedules) {
+    public void setSchedules(Set<String> schedules) {
         this.schedules = schedules;
     }
 
     @JsonProperty("monitors")
     @JacksonXmlProperty(localName = "monitors", isAttribute = false)
-    public List<String> getMonitors() {
+    public Set<String> getMonitors() {
         return monitors;
     }
 
     @JsonProperty("monitors")
     @JacksonXmlProperty(localName = "monitors", isAttribute = false)
-    public void setMonitors(List<String> monitors) {
+    public void setMonitors(Set<String> monitors) {
         this.monitors = monitors;
     }
 
@@ -266,7 +277,7 @@ public class Folder {
      */
     @JsonProperty("nodeParams")
     @JacksonXmlProperty(localName = "node_params", isAttribute = false)
-    public List<String> getNodeParams() {
+    public Set<String> getNodeParams() {
         return nodeParams;
     }
 
@@ -276,7 +287,7 @@ public class Folder {
      */
     @JsonProperty("nodeParams")
     @JacksonXmlProperty(localName = "node_params", isAttribute = false)
-    public void setNodeParams(List<String> nodeParams) {
+    public void setNodeParams(Set<String> nodeParams) {
         this.nodeParams = nodeParams;
     }
 
@@ -286,7 +297,7 @@ public class Folder {
      */
     @JsonProperty("others")
     @JacksonXmlProperty(localName = "others", isAttribute = false)
-    public List<String> getOthers() {
+    public Set<String> getOthers() {
         return others;
     }
 
@@ -296,7 +307,7 @@ public class Folder {
      */
     @JsonProperty("others")
     @JacksonXmlProperty(localName = "others", isAttribute = false)
-    public void setOthers(List<String> others) {
+    public void setOthers(Set<String> others) {
         this.others = others;
     }
 
