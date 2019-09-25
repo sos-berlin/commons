@@ -3,7 +3,9 @@ package com.sos.joc.classes;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
 import java.util.Arrays;
+import java.util.Date;
 
 import org.junit.Test;
 
@@ -14,6 +16,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.sos.joc.model.common.JobSchedulerObjectType;
 import com.sos.joc.model.joe.common.IJSObject;
 import com.sos.joc.model.joe.common.JSObjectEdit;
 import com.sos.joc.model.joe.common.Param;
@@ -100,7 +103,7 @@ public class JoeTest {
     }
     
     @Test
-    public void textJSObjEditTest() throws IOException {
+    public void testReadJSObjEdit() throws IOException {
         Path testFile = resourceDirectory.resolve("job1store.json");
         JSObjectEdit jsObj = objMapper.readValue(testFile.toFile(), JSObjectEdit.class);
         IJSObject jobI = jsObj.getConfiguration();
@@ -109,6 +112,20 @@ public class JoeTest {
         writeValueAsXMLString(jobI);
         writeValueAsXMLString(job);
         writeValueAsJsonString(jobI);
+    }
+    
+    @Test
+    public void testWriteJSObjEdit() throws IOException {
+        JSObjectEdit jsObjectEdit = new JSObjectEdit();
+        Path testFile = resourceDirectory.resolve("jobWithCommands.job.xml");
+        jsObjectEdit.setConfiguration(xmlMapper.readValue(testFile.toFile(), Job.class));
+        jsObjectEdit.setDeployed(true);
+        jsObjectEdit.setConfigurationDate(Date.from(Instant.now()));
+        jsObjectEdit.setJobschedulerId("myScheduler");
+        jsObjectEdit.setPath(testFile.toString().replace('\\', '/'));
+        jsObjectEdit.setObjectType(JobSchedulerObjectType.JOB);
+        jsObjectEdit.setDeliveryDate(Date.from(Instant.now()));
+        writeValueAsJsonString(jsObjectEdit);
     }
     
     @Test

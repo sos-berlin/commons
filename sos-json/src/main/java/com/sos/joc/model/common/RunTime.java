@@ -8,8 +8,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.sos.joc.model.calendar.Calendar;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -26,6 +24,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "surveyDate",
     "runTime",
+    "runTimeXML",
     "permanentRunTime",
     "runTimeIsTemporary",
     "calendars"
@@ -41,23 +40,24 @@ public class RunTime {
      */
     @JsonProperty("surveyDate")
     @JsonPropertyDescription("Current date of the JobScheduler Master/Agent. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
-    @JacksonXmlProperty(localName = "surveyDate")
     private Date surveyDate;
     /**
+     * runTime
+     * <p>
      * 
      * (Required)
      * 
      */
     @JsonProperty("runTime")
-    @JacksonXmlProperty(localName = "runTime")
-    private String runTime;
+    private com.sos.joc.model.joe.schedule.RunTime runTime;
+    @JsonProperty("runTimeXML")
+    private String runTimeXML;
     /**
      * is required iff runTimeIsTemporary = true
      * 
      */
     @JsonProperty("permanentRunTime")
     @JsonPropertyDescription("is required iff runTimeIsTemporary = true")
-    @JacksonXmlProperty(localName = "permanentRunTime")
     private String permanentRunTime;
     /**
      * 
@@ -65,11 +65,8 @@ public class RunTime {
      * 
      */
     @JsonProperty("runTimeIsTemporary")
-    @JacksonXmlProperty(localName = "runTimeIsTemporary")
     private Boolean runTimeIsTemporary = false;
     @JsonProperty("calendars")
-    @JacksonXmlProperty(localName = "calendar")
-    @JacksonXmlElementWrapper(useWrapping = true, localName = "calendars")
     private List<Calendar> calendars = new ArrayList<Calendar>();
 
     /**
@@ -80,7 +77,6 @@ public class RunTime {
      * 
      */
     @JsonProperty("surveyDate")
-    @JacksonXmlProperty(localName = "surveyDate")
     public Date getSurveyDate() {
         return surveyDate;
     }
@@ -93,31 +89,42 @@ public class RunTime {
      * 
      */
     @JsonProperty("surveyDate")
-    @JacksonXmlProperty(localName = "surveyDate")
     public void setSurveyDate(Date surveyDate) {
         this.surveyDate = surveyDate;
     }
 
     /**
+     * runTime
+     * <p>
      * 
      * (Required)
      * 
      */
     @JsonProperty("runTime")
-    @JacksonXmlProperty(localName = "runTime")
-    public String getRunTime() {
+    public com.sos.joc.model.joe.schedule.RunTime getRunTime() {
         return runTime;
     }
 
     /**
+     * runTime
+     * <p>
      * 
      * (Required)
      * 
      */
     @JsonProperty("runTime")
-    @JacksonXmlProperty(localName = "runTime")
-    public void setRunTime(String runTime) {
+    public void setRunTime(com.sos.joc.model.joe.schedule.RunTime runTime) {
         this.runTime = runTime;
+    }
+
+    @JsonProperty("runTimeXML")
+    public String getRunTimeXML() {
+        return runTimeXML;
+    }
+
+    @JsonProperty("runTimeXML")
+    public void setRunTimeXML(String runTimeXML) {
+        this.runTimeXML = runTimeXML;
     }
 
     /**
@@ -125,7 +132,6 @@ public class RunTime {
      * 
      */
     @JsonProperty("permanentRunTime")
-    @JacksonXmlProperty(localName = "permanentRunTime")
     public String getPermanentRunTime() {
         return permanentRunTime;
     }
@@ -135,7 +141,6 @@ public class RunTime {
      * 
      */
     @JsonProperty("permanentRunTime")
-    @JacksonXmlProperty(localName = "permanentRunTime")
     public void setPermanentRunTime(String permanentRunTime) {
         this.permanentRunTime = permanentRunTime;
     }
@@ -146,7 +151,6 @@ public class RunTime {
      * 
      */
     @JsonProperty("runTimeIsTemporary")
-    @JacksonXmlProperty(localName = "runTimeIsTemporary")
     public Boolean getRunTimeIsTemporary() {
         return runTimeIsTemporary;
     }
@@ -157,31 +161,28 @@ public class RunTime {
      * 
      */
     @JsonProperty("runTimeIsTemporary")
-    @JacksonXmlProperty(localName = "runTimeIsTemporary")
     public void setRunTimeIsTemporary(Boolean runTimeIsTemporary) {
         this.runTimeIsTemporary = runTimeIsTemporary;
     }
 
     @JsonProperty("calendars")
-    @JacksonXmlProperty(localName = "calendar")
     public List<Calendar> getCalendars() {
         return calendars;
     }
 
     @JsonProperty("calendars")
-    @JacksonXmlProperty(localName = "calendar")
     public void setCalendars(List<Calendar> calendars) {
         this.calendars = calendars;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("surveyDate", surveyDate).append("runTime", runTime).append("permanentRunTime", permanentRunTime).append("runTimeIsTemporary", runTimeIsTemporary).append("calendars", calendars).toString();
+        return new ToStringBuilder(this).append("surveyDate", surveyDate).append("runTime", runTime).append("runTimeXML", runTimeXML).append("permanentRunTime", permanentRunTime).append("runTimeIsTemporary", runTimeIsTemporary).append("calendars", calendars).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(runTime).append(permanentRunTime).append(runTimeIsTemporary).append(surveyDate).append(calendars).toHashCode();
+        return new HashCodeBuilder().append(permanentRunTime).append(surveyDate).append(calendars).append(runTime).append(runTimeIsTemporary).append(runTimeXML).toHashCode();
     }
 
     @Override
@@ -193,7 +194,7 @@ public class RunTime {
             return false;
         }
         RunTime rhs = ((RunTime) other);
-        return new EqualsBuilder().append(runTime, rhs.runTime).append(permanentRunTime, rhs.permanentRunTime).append(runTimeIsTemporary, rhs.runTimeIsTemporary).append(surveyDate, rhs.surveyDate).append(calendars, rhs.calendars).isEquals();
+        return new EqualsBuilder().append(permanentRunTime, rhs.permanentRunTime).append(surveyDate, rhs.surveyDate).append(calendars, rhs.calendars).append(runTime, rhs.runTime).append(runTimeIsTemporary, rhs.runTimeIsTemporary).append(runTimeXML, rhs.runTimeXML).isEquals();
     }
 
 }
