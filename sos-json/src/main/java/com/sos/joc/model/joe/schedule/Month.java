@@ -71,6 +71,30 @@ public class Month {
     private Ultimos ultimos;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public Month() {
+    }
+
+    /**
+     * 
+     * @param month
+     * @param weekdays
+     * @param periods
+     * @param monthdays
+     * @param ultimos
+     */
+    public Month(String month, List<Period> periods, Weekdays weekdays, Monthdays monthdays, Ultimos ultimos) {
+        super();
+        this.month = month;
+        this.periods = periods;
+        this.weekdays = weekdays;
+        this.monthdays = monthdays;
+        this.ultimos = ultimos;
+    }
+
+    /**
      * unordered space separated list of 1-12 or january, february, march, april, may, june, july, august, september, october, november, december
      * 
      */

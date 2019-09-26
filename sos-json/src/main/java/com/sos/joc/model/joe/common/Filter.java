@@ -80,6 +80,30 @@ public class Filter {
     private AuditParams auditLog;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public Filter() {
+    }
+
+    /**
+     * 
+     * @param path
+     * @param auditLog
+     * @param oldPath
+     * @param jobschedulerId
+     * @param objectType
+     */
+    public Filter(String jobschedulerId, String path, String oldPath, JobSchedulerObjectType objectType, AuditParams auditLog) {
+        super();
+        this.jobschedulerId = jobschedulerId;
+        this.path = path;
+        this.oldPath = oldPath;
+        this.objectType = objectType;
+        this.auditLog = auditLog;
+    }
+
+    /**
      * 
      * (Required)
      * 

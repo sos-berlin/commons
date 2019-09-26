@@ -1,6 +1,7 @@
 
 package com.sos.joc.model.joe.schedule;
 
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
@@ -37,6 +38,36 @@ public class RunTime
     @JsonPropertyDescription("path to a schedule")
     @JacksonXmlProperty(localName = "schedule", isAttribute = true)
     private String schedule;
+
+    /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public RunTime() {
+    }
+
+    /**
+     * 
+     * @param letRun
+     * @param ats
+     * @param weekdays
+     * @param timeZone
+     * @param dates
+     * @param runOnce
+     * @param schedule
+     * @param month
+     * @param holidays
+     * @param calendars
+     * @param periods
+     * @param end
+     * @param monthdays
+     * @param begin
+     * @param ultimos
+     */
+    public RunTime(String schedule, String timeZone, String begin, String end, String letRun, String runOnce, List<Period> periods, List<At> ats, List<Date> dates, Weekdays weekdays, Monthdays monthdays, Ultimos ultimos, List<Month> month, Holidays holidays, String calendars) {
+        super(timeZone, begin, end, letRun, runOnce, periods, ats, dates, weekdays, monthdays, ultimos, month, holidays, calendars);
+        this.schedule = schedule;
+    }
 
     /**
      * path to a schedule

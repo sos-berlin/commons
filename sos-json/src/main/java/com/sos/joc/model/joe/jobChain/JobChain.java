@@ -114,6 +114,44 @@ public class JobChain implements IJSObject
     private List<JobChainEndNode> jobChainEndNodes = null;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public JobChain() {
+    }
+
+    /**
+     * 
+     * @param ordersRecoverable
+     * @param fileOrderSources
+     * @param visible
+     * @param jobChainNodes
+     * @param distributed
+     * @param nestedJobChainNodes
+     * @param processClass
+     * @param title
+     * @param maxOrders
+     * @param fileOrderSinks
+     * @param jobChainEndNodes
+     * @param fileWatchingProcessClass
+     */
+    public JobChain(String ordersRecoverable, String title, Integer maxOrders, String distributed, String processClass, String fileWatchingProcessClass, String visible, List<FileOrderSource> fileOrderSources, List<JobChainNode> jobChainNodes, List<FileOrderSink> fileOrderSinks, List<NestedJobChainNode> nestedJobChainNodes, List<JobChainEndNode> jobChainEndNodes) {
+        super();
+        this.ordersRecoverable = ordersRecoverable;
+        this.title = title;
+        this.maxOrders = maxOrders;
+        this.distributed = distributed;
+        this.processClass = processClass;
+        this.fileWatchingProcessClass = fileWatchingProcessClass;
+        this.visible = visible;
+        this.fileOrderSources = fileOrderSources;
+        this.jobChainNodes = jobChainNodes;
+        this.fileOrderSinks = fileOrderSinks;
+        this.nestedJobChainNodes = nestedJobChainNodes;
+        this.jobChainEndNodes = jobChainEndNodes;
+    }
+
+    /**
      * possible values: yes, no, 1, 0, true, false
      * 
      */

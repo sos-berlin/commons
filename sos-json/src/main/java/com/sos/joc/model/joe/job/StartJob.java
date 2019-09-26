@@ -71,6 +71,34 @@ public class StartJob {
     @JacksonXmlProperty(localName = "environment", isAttribute = false)
     private EnviromentVariables environment;
 
+    /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public StartJob() {
+    }
+
+    /**
+     * 
+     * @param environment
+     * @param at
+     * @param webService
+     * @param force
+     * @param after
+     * @param job
+     * @param params
+     */
+    public StartJob(String job, String at, String after, String webService, String force, Params params, EnviromentVariables environment) {
+        super();
+        this.job = job;
+        this.at = at;
+        this.after = after;
+        this.webService = webService;
+        this.force = force;
+        this.params = params;
+        this.environment = environment;
+    }
+
     @JsonProperty("job")
     @JacksonXmlProperty(localName = "job", isAttribute = true)
     public String getJob() {

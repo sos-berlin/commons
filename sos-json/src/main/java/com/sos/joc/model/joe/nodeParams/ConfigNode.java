@@ -38,6 +38,24 @@ public class ConfigNode {
     private Params params;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public ConfigNode() {
+    }
+
+    /**
+     * 
+     * @param state
+     * @param params
+     */
+    public ConfigNode(String state, Params params) {
+        super();
+        this.state = state;
+        this.params = params;
+    }
+
+    /**
      * name of the job chain node
      * 
      */

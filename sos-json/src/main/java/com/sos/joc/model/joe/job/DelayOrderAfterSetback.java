@@ -43,6 +43,26 @@ public class DelayOrderAfterSetback {
     private String isMaximum;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public DelayOrderAfterSetback() {
+    }
+
+    /**
+     * 
+     * @param setbackCount
+     * @param delay
+     * @param isMaximum
+     */
+    public DelayOrderAfterSetback(Integer setbackCount, String delay, String isMaximum) {
+        super();
+        this.setbackCount = setbackCount;
+        this.delay = delay;
+        this.isMaximum = isMaximum;
+    }
+
+    /**
      * non negative integer
      * <p>
      * 

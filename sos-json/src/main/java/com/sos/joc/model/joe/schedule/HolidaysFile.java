@@ -44,6 +44,24 @@ public class HolidaysFile implements IJSObject
     private List<Holiday> days = null;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public HolidaysFile() {
+    }
+
+    /**
+     * 
+     * @param weekdays
+     * @param days
+     */
+    public HolidaysFile(Weekdays weekdays, List<Holiday> days) {
+        super();
+        this.weekdays = weekdays;
+        this.days = days;
+    }
+
+    /**
      * weekdays
      * <p>
      * 

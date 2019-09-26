@@ -39,6 +39,22 @@ public class MonitorEdit
     private Monitor configuration;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public MonitorEdit() {
+    }
+
+    /**
+     * 
+     * @param configuration
+     */
+    public MonitorEdit(Monitor configuration) {
+        super();
+        this.configuration = configuration;
+    }
+
+    /**
      * job monitor
      * <p>
      * 

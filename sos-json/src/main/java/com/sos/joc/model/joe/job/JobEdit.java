@@ -39,6 +39,22 @@ public class JobEdit
     private Job configuration;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public JobEdit() {
+    }
+
+    /**
+     * 
+     * @param configuration
+     */
+    public JobEdit(Job configuration) {
+        super();
+        this.configuration = configuration;
+    }
+
+    /**
      * job without name, vtemporary, spooler_id, log_append, separate_process, mail_xslt_stylesheet, replace attributes
      * <p>
      * 

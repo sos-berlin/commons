@@ -36,6 +36,26 @@ public class ParamInclude {
     @JacksonXmlProperty(localName = "node", isAttribute = true)
     private String node;
 
+    /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public ParamInclude() {
+    }
+
+    /**
+     * 
+     * @param liveFile
+     * @param node
+     * @param file
+     */
+    public ParamInclude(String file, String liveFile, String node) {
+        super();
+        this.file = file;
+        this.liveFile = liveFile;
+        this.node = node;
+    }
+
     @JsonProperty("file")
     @JacksonXmlProperty(localName = "file", isAttribute = true)
     public String getFile() {

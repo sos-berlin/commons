@@ -31,6 +31,24 @@ public class StartWhenDirectoryChanged {
     private String regex;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public StartWhenDirectoryChanged() {
+    }
+
+    /**
+     * 
+     * @param regex
+     * @param directory
+     */
+    public StartWhenDirectoryChanged(String directory, String regex) {
+        super();
+        this.directory = directory;
+        this.regex = regex;
+    }
+
+    /**
      * 
      * (Required)
      * 

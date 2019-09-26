@@ -75,6 +75,36 @@ public class Script {
     @JacksonXmlProperty(localName = "content", isAttribute = false)
     private String content;
 
+    /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public Script() {
+    }
+
+    /**
+     * 
+     * @param javaClassPath
+     * @param dll
+     * @param javaClass
+     * @param language
+     * @param includes
+     * @param comClass
+     * @param content
+     * @param dotnetClass
+     */
+    public Script(String language, String javaClass, String javaClassPath, String dll, String dotnetClass, String comClass, List<com.sos.joc.model.joe.common.Include> includes, String content) {
+        super();
+        this.language = language;
+        this.javaClass = javaClass;
+        this.javaClassPath = javaClassPath;
+        this.dll = dll;
+        this.dotnetClass = dotnetClass;
+        this.comClass = comClass;
+        this.includes = includes;
+        this.content = content;
+    }
+
     @JsonProperty("language")
     @JacksonXmlProperty(localName = "language", isAttribute = true)
     public String getLanguage() {

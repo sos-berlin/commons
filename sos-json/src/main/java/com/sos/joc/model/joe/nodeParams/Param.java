@@ -50,6 +50,26 @@ public class Param {
     private String content;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public Param() {
+    }
+
+    /**
+     * 
+     * @param name
+     * @param value
+     * @param content
+     */
+    public Param(String name, String value, String content) {
+        super();
+        this.name = name;
+        this.value = value;
+        this.content = content;
+    }
+
+    /**
      * 
      * (Required)
      * 

@@ -43,6 +43,24 @@ public class Monthdays {
     private List<WeekdayOfMonth> weekdays = null;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public Monthdays() {
+    }
+
+    /**
+     * 
+     * @param weekdays
+     * @param days
+     */
+    public Monthdays(List<Day> days, List<WeekdayOfMonth> weekdays) {
+        super();
+        this.days = days;
+        this.weekdays = weekdays;
+    }
+
+    /**
      * days
      * <p>
      * 

@@ -78,6 +78,32 @@ public class JobChainNode
     private OnReturnCodes onReturnCodes;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public JobChainNode() {
+    }
+
+    /**
+     * 
+     * @param onError
+     * @param delay
+     * @param errorState
+     * @param nextState
+     * @param job
+     * @param onReturnCodes
+     */
+    public JobChainNode(String job, String nextState, String errorState, String onError, Integer delay, OnReturnCodes onReturnCodes) {
+        super();
+        this.job = job;
+        this.nextState = nextState;
+        this.errorState = errorState;
+        this.onError = onError;
+        this.delay = delay;
+        this.onReturnCodes = onReturnCodes;
+    }
+
+    /**
      * path to job
      * 
      */

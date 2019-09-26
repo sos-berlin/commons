@@ -27,6 +27,22 @@ public class CopyParams {
     private String from;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public CopyParams() {
+    }
+
+    /**
+     * 
+     * @param from
+     */
+    public CopyParams(String from) {
+        super();
+        this.from = from;
+    }
+
+    /**
      * 
      * (Required)
      * 

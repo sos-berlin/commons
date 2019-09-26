@@ -123,6 +123,44 @@ public class Settings {
     private String historyWithLog;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public Settings() {
+    }
+
+    /**
+     * 
+     * @param mailOnSuccess
+     * @param logLevel
+     * @param mailOnError
+     * @param mailOnWarning
+     * @param logMailTo
+     * @param logMailBcc
+     * @param historyOnProcess
+     * @param historyWithLog
+     * @param mailOnDelayAfterError
+     * @param logMailCc
+     * @param history
+     * @param mailOnProcess
+     */
+    public Settings(String mailOnError, String mailOnWarning, String mailOnSuccess, String mailOnProcess, String mailOnDelayAfterError, String logMailTo, String logMailCc, String logMailBcc, String logLevel, String history, String historyOnProcess, String historyWithLog) {
+        super();
+        this.mailOnError = mailOnError;
+        this.mailOnWarning = mailOnWarning;
+        this.mailOnSuccess = mailOnSuccess;
+        this.mailOnProcess = mailOnProcess;
+        this.mailOnDelayAfterError = mailOnDelayAfterError;
+        this.logMailTo = logMailTo;
+        this.logMailCc = logMailCc;
+        this.logMailBcc = logMailBcc;
+        this.logLevel = logLevel;
+        this.history = history;
+        this.historyOnProcess = historyOnProcess;
+        this.historyWithLog = historyWithLog;
+    }
+
+    /**
      * possible values: yes, no, 1, 0, true, false
      * 
      */

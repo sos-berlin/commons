@@ -56,6 +56,28 @@ public class ProcessClass implements IJSObject
     private RemoteSchedulers remoteSchedulers;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public ProcessClass() {
+    }
+
+    /**
+     * 
+     * @param maxProcesses
+     * @param remoteSchedulers
+     * @param remoteScheduler
+     * @param timeout
+     */
+    public ProcessClass(Integer maxProcesses, Integer timeout, String remoteScheduler, RemoteSchedulers remoteSchedulers) {
+        super();
+        this.maxProcesses = maxProcesses;
+        this.timeout = timeout;
+        this.remoteScheduler = remoteScheduler;
+        this.remoteSchedulers = remoteSchedulers;
+    }
+
+    /**
      * non negative integer
      * <p>
      * 

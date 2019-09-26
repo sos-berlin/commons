@@ -39,6 +39,22 @@ public class OrderEdit
     private Order configuration;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public OrderEdit() {
+    }
+
+    /**
+     * 
+     * @param configuration
+     */
+    public OrderEdit(Order configuration) {
+        super();
+        this.configuration = configuration;
+    }
+
+    /**
      * order
      * <p>
      * 

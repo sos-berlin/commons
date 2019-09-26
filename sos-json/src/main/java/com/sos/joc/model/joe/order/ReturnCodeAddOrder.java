@@ -36,6 +36,22 @@ public class ReturnCodeAddOrder
     private String xmlns = "https://jobscheduler-plugins.sos-berlin.com/NodeOrderPlugin";
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public ReturnCodeAddOrder() {
+    }
+
+    /**
+     * 
+     * @param xmlns
+     */
+    public ReturnCodeAddOrder(String xmlns) {
+        super();
+        this.xmlns = xmlns;
+    }
+
+    /**
      * 
      * (Required)
      * 

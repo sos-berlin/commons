@@ -81,6 +81,34 @@ public class FileOrderSource {
     private String alertWhenDirectoryMissing;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public FileOrderSource() {
+    }
+
+    /**
+     * 
+     * @param regex
+     * @param max
+     * @param repeat
+     * @param delayAfterError
+     * @param nextState
+     * @param alertWhenDirectoryMissing
+     * @param directory
+     */
+    public FileOrderSource(String directory, String regex, String repeat, Integer delayAfterError, Integer max, String nextState, String alertWhenDirectoryMissing) {
+        super();
+        this.directory = directory;
+        this.regex = regex;
+        this.repeat = repeat;
+        this.delayAfterError = delayAfterError;
+        this.max = max;
+        this.nextState = nextState;
+        this.alertWhenDirectoryMissing = alertWhenDirectoryMissing;
+    }
+
+    /**
      * 
      * (Required)
      * 

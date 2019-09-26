@@ -36,6 +36,22 @@ public class Config implements IJSObject
     private ConfigJobChain jobChain;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public Config() {
+    }
+
+    /**
+     * 
+     * @param jobChain
+     */
+    public Config(ConfigJobChain jobChain) {
+        super();
+        this.jobChain = jobChain;
+    }
+
+    /**
      * 
      * (Required)
      * 

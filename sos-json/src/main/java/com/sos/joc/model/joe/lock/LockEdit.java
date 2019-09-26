@@ -39,6 +39,22 @@ public class LockEdit
     private Lock configuration;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public LockEdit() {
+    }
+
+    /**
+     * 
+     * @param configuration
+     */
+    public LockEdit(Lock configuration) {
+        super();
+        this.configuration = configuration;
+    }
+
+    /**
      * lock
      * <p>
      * 

@@ -50,6 +50,26 @@ public class Monitor implements IJSObject
     @JacksonXmlProperty(localName = "script", isAttribute = false)
     private Script script;
 
+    /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public Monitor() {
+    }
+
+    /**
+     * 
+     * @param ordering
+     * @param name
+     * @param script
+     */
+    public Monitor(String name, Integer ordering, Script script) {
+        super();
+        this.name = name;
+        this.ordering = ordering;
+        this.script = script;
+    }
+
     @JsonProperty("name")
     @JacksonXmlProperty(localName = "name", isAttribute = true)
     public String getName() {

@@ -38,6 +38,22 @@ public class Weekdays {
     private List<Day> days = null;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public Weekdays() {
+    }
+
+    /**
+     * 
+     * @param days
+     */
+    public Weekdays(List<Day> days) {
+        super();
+        this.days = days;
+    }
+
+    /**
      * days
      * <p>
      * 

@@ -242,6 +242,84 @@ public class Job implements IJSObject
     @JacksonXmlProperty(localName = "commands", isAttribute = false)
     private List<Commands> commands = null;
 
+    /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public Job() {
+    }
+
+    /**
+     * 
+     * @param delayOrderAfterSetbacks
+     * @param delayAfterErrors
+     * @param startWhenDirectoriesChanged
+     * @param forceIdleTimeout
+     * @param processClass
+     * @param title
+     * @param ignoreSignals
+     * @param credentialsKey
+     * @param login
+     * @param minTasks
+     * @param warnIfShorterThan
+     * @param timeout
+     * @param isOrderJob
+     * @param lockUses
+     * @param runTime
+     * @param commands
+     * @param warnIfLongerThan
+     * @param monitorUses
+     * @param settings
+     * @param visible
+     * @param maxTasks
+     * @param loadUserProfile
+     * @param documentation
+     * @param priority
+     * @param params
+     * @param script
+     * @param stopOnError
+     * @param environment
+     * @param idleTimeout
+     * @param javaOptions
+     * @param stderrLogLevel
+     * @param monitors
+     */
+    public Job(String priority, String title, String isOrderJob, Integer maxTasks, Integer minTasks, String timeout, String idleTimeout, String forceIdleTimeout, String processClass, String javaOptions, String stopOnError, String ignoreSignals, String warnIfLongerThan, String warnIfShorterThan, String stderrLogLevel, String credentialsKey, String loadUserProfile, String visible, Settings settings, Description documentation, List<LockUse> lockUses, Params params, EnviromentVariables environment, Login login, Script script, List<Monitor> monitors, List<MonitorUse> monitorUses, List<StartWhenDirectoryChanged> startWhenDirectoriesChanged, List<DelayAfterError> delayAfterErrors, List<DelayOrderAfterSetback> delayOrderAfterSetbacks, RunTime runTime, List<Commands> commands) {
+        super();
+        this.priority = priority;
+        this.title = title;
+        this.isOrderJob = isOrderJob;
+        this.maxTasks = maxTasks;
+        this.minTasks = minTasks;
+        this.timeout = timeout;
+        this.idleTimeout = idleTimeout;
+        this.forceIdleTimeout = forceIdleTimeout;
+        this.processClass = processClass;
+        this.javaOptions = javaOptions;
+        this.stopOnError = stopOnError;
+        this.ignoreSignals = ignoreSignals;
+        this.warnIfLongerThan = warnIfLongerThan;
+        this.warnIfShorterThan = warnIfShorterThan;
+        this.stderrLogLevel = stderrLogLevel;
+        this.credentialsKey = credentialsKey;
+        this.loadUserProfile = loadUserProfile;
+        this.visible = visible;
+        this.settings = settings;
+        this.documentation = documentation;
+        this.lockUses = lockUses;
+        this.params = params;
+        this.environment = environment;
+        this.login = login;
+        this.script = script;
+        this.monitors = monitors;
+        this.monitorUses = monitorUses;
+        this.startWhenDirectoriesChanged = startWhenDirectoriesChanged;
+        this.delayAfterErrors = delayAfterErrors;
+        this.delayOrderAfterSetbacks = delayOrderAfterSetbacks;
+        this.runTime = runTime;
+        this.commands = commands;
+    }
+
     @JsonProperty("priority")
     @JacksonXmlProperty(localName = "priority", isAttribute = true)
     public String getPriority() {

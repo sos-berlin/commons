@@ -64,6 +64,28 @@ public class FileOrderSink {
     private Integer delay;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public FileOrderSink() {
+    }
+
+    /**
+     * 
+     * @param delay
+     * @param state
+     * @param remove
+     * @param moveTo
+     */
+    public FileOrderSink(String state, String moveTo, String remove, Integer delay) {
+        super();
+        this.state = state;
+        this.moveTo = moveTo;
+        this.remove = remove;
+        this.delay = delay;
+    }
+
+    /**
      * name of the job chain node
      * (Required)
      * 

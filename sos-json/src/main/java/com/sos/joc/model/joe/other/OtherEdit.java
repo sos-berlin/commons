@@ -39,6 +39,22 @@ public class OtherEdit
     private Other configuration;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public OtherEdit() {
+    }
+
+    /**
+     * 
+     * @param configuration
+     */
+    public OtherEdit(Other configuration) {
+        super();
+        this.configuration = configuration;
+    }
+
+    /**
      * other files
      * <p>
      * 

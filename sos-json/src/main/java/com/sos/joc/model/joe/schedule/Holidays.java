@@ -53,6 +53,26 @@ public class Holidays {
     private List<Holiday> days = null;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public Holidays() {
+    }
+
+    /**
+     * 
+     * @param weekdays
+     * @param days
+     * @param includes
+     */
+    public Holidays(List<com.sos.joc.model.joe.common.Include> includes, Weekdays weekdays, List<Holiday> days) {
+        super();
+        this.includes = includes;
+        this.weekdays = weekdays;
+        this.days = days;
+    }
+
+    /**
      * include collection
      * <p>
      * 

@@ -52,6 +52,26 @@ public class WeekdayOfMonth {
     private List<Period> periods = null;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public WeekdayOfMonth() {
+    }
+
+    /**
+     * 
+     * @param which
+     * @param periods
+     * @param day
+     */
+    public WeekdayOfMonth(String day, Integer which, List<Period> periods) {
+        super();
+        this.day = day;
+        this.which = which;
+        this.periods = periods;
+    }
+
+    /**
      * [01234567]|(so(nntag)?)|(mo(ntag)?)|(di(enstag)?)|(mi(ttwoch)?)|(do(nnerstag)?)|(fr(eitag)?)|(sa(mstag)?)|(sun(day)?)|(mon(day)?)|(tue(sday)?)|(wed(nesday)?)|(thu(rsday)?)|(fri(day)?)|(sat(urday)?)
      * (Required)
      * 

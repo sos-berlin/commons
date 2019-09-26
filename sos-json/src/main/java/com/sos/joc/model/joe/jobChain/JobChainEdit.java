@@ -39,6 +39,22 @@ public class JobChainEdit
     private JobChain configuration;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public JobChainEdit() {
+    }
+
+    /**
+     * 
+     * @param configuration
+     */
+    public JobChainEdit(JobChain configuration) {
+        super();
+        this.configuration = configuration;
+    }
+
+    /**
      * job chain without name, replace attributes
      * <p>
      * 

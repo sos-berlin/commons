@@ -29,6 +29,22 @@ public class ToState {
     private String state;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public ToState() {
+    }
+
+    /**
+     * 
+     * @param state
+     */
+    public ToState(String state) {
+        super();
+        this.state = state;
+    }
+
+    /**
      * name of a job chain node
      * (Required)
      * 

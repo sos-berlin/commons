@@ -40,6 +40,24 @@ public class RemoteSchedulers {
     private List<RemoteScheduler> remoteSchedulerList = null;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public RemoteSchedulers() {
+    }
+
+    /**
+     * 
+     * @param select
+     * @param remoteSchedulerList
+     */
+    public RemoteSchedulers(String select, List<RemoteScheduler> remoteSchedulerList) {
+        super();
+        this.select = select;
+        this.remoteSchedulerList = remoteSchedulerList;
+    }
+
+    /**
      * first, next
      * 
      */

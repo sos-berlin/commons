@@ -39,6 +39,22 @@ public class ProcessClassEdit
     private ProcessClass configuration;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public ProcessClassEdit() {
+    }
+
+    /**
+     * 
+     * @param configuration
+     */
+    public ProcessClassEdit(ProcessClass configuration) {
+        super();
+        this.configuration = configuration;
+    }
+
+    /**
      * processClass without name, replace, spooler_id attributes
      * <p>
      * 

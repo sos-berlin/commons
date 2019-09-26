@@ -38,6 +38,24 @@ public class LockUse {
     private String exclusive;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public LockUse() {
+    }
+
+    /**
+     * 
+     * @param lock
+     * @param exclusive
+     */
+    public LockUse(String lock, String exclusive) {
+        super();
+        this.lock = lock;
+        this.exclusive = exclusive;
+    }
+
+    /**
      * path to a lock object
      * (Required)
      * 

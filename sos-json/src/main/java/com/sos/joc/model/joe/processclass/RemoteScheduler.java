@@ -47,6 +47,26 @@ public class RemoteScheduler {
     private Integer httpHeartbeatPeriod;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public RemoteScheduler() {
+    }
+
+    /**
+     * 
+     * @param httpHeartbeatTimeout
+     * @param remoteScheduler
+     * @param httpHeartbeatPeriod
+     */
+    public RemoteScheduler(String remoteScheduler, Integer httpHeartbeatTimeout, Integer httpHeartbeatPeriod) {
+        super();
+        this.remoteScheduler = remoteScheduler;
+        this.httpHeartbeatTimeout = httpHeartbeatTimeout;
+        this.httpHeartbeatPeriod = httpHeartbeatPeriod;
+    }
+
+    /**
      * 
      * (Required)
      * 

@@ -39,6 +39,22 @@ public class HolidaysEdit
     private HolidaysFile configuration;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public HolidaysEdit() {
+    }
+
+    /**
+     * 
+     * @param configuration
+     */
+    public HolidaysEdit(HolidaysFile configuration) {
+        super();
+        this.configuration = configuration;
+    }
+
+    /**
      * external holidays
      * <p>
      * 

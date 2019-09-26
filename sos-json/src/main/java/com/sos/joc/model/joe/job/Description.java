@@ -31,6 +31,22 @@ public class Description {
     private List<com.sos.joc.model.joe.common.Include> inculdes = null;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public Description() {
+    }
+
+    /**
+     * 
+     * @param inculdes
+     */
+    public Description(List<com.sos.joc.model.joe.common.Include> inculdes) {
+        super();
+        this.inculdes = inculdes;
+    }
+
+    /**
      * include collection
      * <p>
      * 

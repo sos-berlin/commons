@@ -31,6 +31,22 @@ public class Params {
     @JacksonXmlProperty(localName = "param", isAttribute = false)
     private List<Param> paramList = null;
 
+    /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public Params() {
+    }
+
+    /**
+     * 
+     * @param paramList
+     */
+    public Params(List<Param> paramList) {
+        super();
+        this.paramList = paramList;
+    }
+
     @JsonProperty("paramList")
     @JacksonXmlProperty(localName = "param", isAttribute = false)
     public List<Param> getParamList() {

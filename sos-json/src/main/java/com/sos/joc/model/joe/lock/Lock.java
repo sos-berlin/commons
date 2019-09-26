@@ -37,6 +37,22 @@ public class Lock implements IJSObject
     private Integer maxNonExclusive;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public Lock() {
+    }
+
+    /**
+     * 
+     * @param maxNonExclusive
+     */
+    public Lock(Integer maxNonExclusive) {
+        super();
+        this.maxNonExclusive = maxNonExclusive;
+    }
+
+    /**
      * non negative integer
      * <p>
      * 

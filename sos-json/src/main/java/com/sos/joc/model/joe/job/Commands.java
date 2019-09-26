@@ -41,6 +41,26 @@ public class Commands {
     private List<StartJob> startJobs = null;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public Commands() {
+    }
+
+    /**
+     * 
+     * @param addOrders
+     * @param onExitCode
+     * @param startJobs
+     */
+    public Commands(String onExitCode, List<AddOrder> addOrders, List<StartJob> startJobs) {
+        super();
+        this.onExitCode = onExitCode;
+        this.addOrders = addOrders;
+        this.startJobs = startJobs;
+    }
+
+    /**
      * possible values: success, error or space separated collection of numbers or a unix signal
      * 
      */

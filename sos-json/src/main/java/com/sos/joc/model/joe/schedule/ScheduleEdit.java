@@ -39,6 +39,22 @@ public class ScheduleEdit
     private Schedule configuration;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public ScheduleEdit() {
+    }
+
+    /**
+     * 
+     * @param configuration
+     */
+    public ScheduleEdit(Schedule configuration) {
+        super();
+        this.configuration = configuration;
+    }
+
+    /**
      * schedule
      * <p>
      * 

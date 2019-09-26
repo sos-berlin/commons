@@ -42,6 +42,24 @@ public class Day {
     private List<Period> periods = null;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public Day() {
+    }
+
+    /**
+     * 
+     * @param periods
+     * @param day
+     */
+    public Day(String day, List<Period> periods) {
+        super();
+        this.day = day;
+        this.periods = periods;
+    }
+
+    /**
      * [01234567]|(so(nntag)?)|(mo(ntag)?)|(di(enstag)?)|(mi(ttwoch)?)|(do(nnerstag)?)|(fr(eitag)?)|(sa(mstag)?)|(sun(day)?)|(mon(day)?)|(tue(sday)?)|(wed(nesday)?)|(thu(rsday)?)|(fri(day)?)|(sat(urday)?) for weekdays (where sunday is 0 or 7) or 1-31 for monthdays and 0-30 for ultimos
      * (Required)
      * 

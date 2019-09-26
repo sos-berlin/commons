@@ -1,6 +1,7 @@
 
 package com.sos.joc.model.joe.schedule;
 
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
@@ -59,6 +60,42 @@ public class Schedule
     @JsonProperty("title")
     @JacksonXmlProperty(localName = "title", isAttribute = true)
     private String title;
+
+    /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public Schedule() {
+    }
+
+    /**
+     * 
+     * @param letRun
+     * @param ats
+     * @param weekdays
+     * @param timeZone
+     * @param dates
+     * @param validFrom
+     * @param title
+     * @param runOnce
+     * @param substitute
+     * @param month
+     * @param holidays
+     * @param calendars
+     * @param periods
+     * @param end
+     * @param monthdays
+     * @param begin
+     * @param ultimos
+     * @param validTo
+     */
+    public Schedule(String validFrom, String validTo, String substitute, String title, String timeZone, String begin, String end, String letRun, String runOnce, List<Period> periods, List<At> ats, List<Date> dates, Weekdays weekdays, Monthdays monthdays, Ultimos ultimos, List<Month> month, Holidays holidays, String calendars) {
+        super(timeZone, begin, end, letRun, runOnce, periods, ats, dates, weekdays, monthdays, ultimos, month, holidays, calendars);
+        this.validFrom = validFrom;
+        this.validTo = validTo;
+        this.substitute = substitute;
+        this.title = title;
+    }
 
     /**
      * yyyy-mm-dd HH:MM[:SS]

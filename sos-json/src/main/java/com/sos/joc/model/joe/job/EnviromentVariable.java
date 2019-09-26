@@ -25,6 +25,24 @@ public class EnviromentVariable {
     @JacksonXmlProperty(localName = "value", isAttribute = true)
     private String value;
 
+    /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public EnviromentVariable() {
+    }
+
+    /**
+     * 
+     * @param name
+     * @param value
+     */
+    public EnviromentVariable(String name, String value) {
+        super();
+        this.name = name;
+        this.value = value;
+    }
+
     @JsonProperty("name")
     @JacksonXmlProperty(localName = "name", isAttribute = true)
     public String getName() {

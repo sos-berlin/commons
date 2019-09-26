@@ -24,6 +24,22 @@ public class ConfigOrder {
     @JacksonXmlProperty(localName = "process", isAttribute = false)
     private List<ConfigNode> jobChainNodes = null;
 
+    /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public ConfigOrder() {
+    }
+
+    /**
+     * 
+     * @param jobChainNodes
+     */
+    public ConfigOrder(List<ConfigNode> jobChainNodes) {
+        super();
+        this.jobChainNodes = jobChainNodes;
+    }
+
     @JsonProperty("jobChainNodes")
     @JacksonXmlProperty(localName = "process", isAttribute = false)
     public List<ConfigNode> getJobChainNodes() {

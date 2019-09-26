@@ -1,5 +1,5 @@
 
-package com.sos.joc.model.joe.nodeparams;
+package com.sos.joc.model.joe.other;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,13 +10,20 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
+
+/**
+ * folder item
+ * <p>
+ * 
+ * 
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JacksonXmlRootElement(localName = "job_chain")
+@JacksonXmlRootElement(localName = "folder_item")
 @JsonPropertyOrder({
     "name",
-    "order"
+    "deployed"
 })
-public class ConfigJobChain {
+public class FolderItem {
 
     /**
      * 
@@ -31,26 +38,26 @@ public class ConfigJobChain {
      * (Required)
      * 
      */
-    @JsonProperty("order")
-    @JacksonXmlProperty(localName = "order", isAttribute = false)
-    private ConfigOrder order;
+    @JsonProperty("deployed")
+    @JacksonXmlProperty(localName = "deployed", isAttribute = true)
+    private Boolean deployed = false;
 
     /**
      * No args constructor for use in serialization
      * 
      */
-    public ConfigJobChain() {
+    public FolderItem() {
     }
 
     /**
      * 
      * @param name
-     * @param order
+     * @param deployed
      */
-    public ConfigJobChain(String name, ConfigOrder order) {
+    public FolderItem(String name, Boolean deployed) {
         super();
         this.name = name;
-        this.order = order;
+        this.deployed = deployed;
     }
 
     /**
@@ -80,10 +87,10 @@ public class ConfigJobChain {
      * (Required)
      * 
      */
-    @JsonProperty("order")
-    @JacksonXmlProperty(localName = "order", isAttribute = false)
-    public ConfigOrder getOrder() {
-        return order;
+    @JsonProperty("deployed")
+    @JacksonXmlProperty(localName = "deployed", isAttribute = true)
+    public Boolean getDeployed() {
+        return deployed;
     }
 
     /**
@@ -91,20 +98,20 @@ public class ConfigJobChain {
      * (Required)
      * 
      */
-    @JsonProperty("order")
-    @JacksonXmlProperty(localName = "order", isAttribute = false)
-    public void setOrder(ConfigOrder order) {
-        this.order = order;
+    @JsonProperty("deployed")
+    @JacksonXmlProperty(localName = "deployed", isAttribute = true)
+    public void setDeployed(Boolean deployed) {
+        this.deployed = deployed;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("name", name).append("order", order).toString();
+        return new ToStringBuilder(this).append("name", name).append("deployed", deployed).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(name).append(order).toHashCode();
+        return new HashCodeBuilder().append(name).toHashCode();
     }
 
     @Override
@@ -112,11 +119,11 @@ public class ConfigJobChain {
         if (other == this) {
             return true;
         }
-        if ((other instanceof ConfigJobChain) == false) {
+        if ((other instanceof FolderItem) == false) {
             return false;
         }
-        ConfigJobChain rhs = ((ConfigJobChain) other);
-        return new EqualsBuilder().append(name, rhs.name).append(order, rhs.order).isEquals();
+        FolderItem rhs = ((FolderItem) other);
+        return new EqualsBuilder().append(name, rhs.name).isEquals();
     }
 
 }

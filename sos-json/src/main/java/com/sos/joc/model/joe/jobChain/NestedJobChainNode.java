@@ -55,6 +55,26 @@ public class NestedJobChainNode
     private String errorState;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public NestedJobChainNode() {
+    }
+
+    /**
+     * 
+     * @param errorState
+     * @param jobChain
+     * @param nextState
+     */
+    public NestedJobChainNode(String jobChain, String nextState, String errorState) {
+        super();
+        this.jobChain = jobChain;
+        this.nextState = nextState;
+        this.errorState = errorState;
+    }
+
+    /**
      * path to job chain
      * 
      */

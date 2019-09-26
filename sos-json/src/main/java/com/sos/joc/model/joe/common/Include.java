@@ -32,6 +32,24 @@ public class Include {
     @JacksonXmlProperty(localName = "live_file", isAttribute = true)
     private String liveFile;
 
+    /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public Include() {
+    }
+
+    /**
+     * 
+     * @param liveFile
+     * @param file
+     */
+    public Include(String file, String liveFile) {
+        super();
+        this.file = file;
+        this.liveFile = liveFile;
+    }
+
     @JsonProperty("file")
     @JacksonXmlProperty(localName = "file", isAttribute = true)
     public String getFile() {

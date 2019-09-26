@@ -38,6 +38,22 @@ public class Ultimos {
     private List<Day> days = null;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public Ultimos() {
+    }
+
+    /**
+     * 
+     * @param days
+     */
+    public Ultimos(List<Day> days) {
+        super();
+        this.days = days;
+    }
+
+    /**
      * days
      * <p>
      * 

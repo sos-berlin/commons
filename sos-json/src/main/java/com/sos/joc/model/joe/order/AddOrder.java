@@ -63,6 +63,30 @@ public class AddOrder
     private String suspended;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public AddOrder() {
+    }
+
+    /**
+     * 
+     * @param at
+     * @param jobChain
+     * @param replace
+     * @param id
+     * @param suspended
+     */
+    public AddOrder(String jobChain, String id, String at, String replace, String suspended) {
+        super();
+        this.jobChain = jobChain;
+        this.id = id;
+        this.at = at;
+        this.replace = replace;
+        this.suspended = suspended;
+    }
+
+    /**
      * 
      * (Required)
      * 

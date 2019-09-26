@@ -24,6 +24,22 @@ public class OnReturnCodes {
     @JacksonXmlProperty(localName = "on_return_code", isAttribute = false)
     private List<OnReturnCode> onReturnCodeList = null;
 
+    /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public OnReturnCodes() {
+    }
+
+    /**
+     * 
+     * @param onReturnCodeList
+     */
+    public OnReturnCodes(List<OnReturnCode> onReturnCodeList) {
+        super();
+        this.onReturnCodeList = onReturnCodeList;
+    }
+
     @JsonProperty("onReturnCodeList")
     @JacksonXmlProperty(localName = "on_return_code", isAttribute = false)
     public List<OnReturnCode> getOnReturnCodeList() {

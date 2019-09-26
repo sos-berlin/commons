@@ -145,6 +145,48 @@ public abstract class AbstractSchedule {
     @JacksonXmlProperty(localName = "calendars", isAttribute = false)
     private String calendars;
 
+    /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public AbstractSchedule() {
+    }
+
+    /**
+     * 
+     * @param letRun
+     * @param ats
+     * @param weekdays
+     * @param timeZone
+     * @param dates
+     * @param runOnce
+     * @param month
+     * @param holidays
+     * @param calendars
+     * @param periods
+     * @param end
+     * @param monthdays
+     * @param begin
+     * @param ultimos
+     */
+    public AbstractSchedule(String timeZone, String begin, String end, String letRun, String runOnce, List<Period> periods, List<At> ats, List<Date> dates, Weekdays weekdays, Monthdays monthdays, Ultimos ultimos, List<Month> month, Holidays holidays, String calendars) {
+        super();
+        this.timeZone = timeZone;
+        this.begin = begin;
+        this.end = end;
+        this.letRun = letRun;
+        this.runOnce = runOnce;
+        this.periods = periods;
+        this.ats = ats;
+        this.dates = dates;
+        this.weekdays = weekdays;
+        this.monthdays = monthdays;
+        this.ultimos = ultimos;
+        this.month = month;
+        this.holidays = holidays;
+        this.calendars = calendars;
+    }
+
     @JsonProperty("timeZone")
     @JacksonXmlProperty(localName = "time_zone", isAttribute = true)
     public String getTimeZone() {

@@ -98,6 +98,36 @@ public class Period {
     private String whenHoliday;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public Period() {
+    }
+
+    /**
+     * 
+     * @param letRun
+     * @param singleStart
+     * @param repeat
+     * @param end
+     * @param absoluteRepeat
+     * @param begin
+     * @param runOnce
+     * @param whenHoliday
+     */
+    public Period(String begin, String end, String singleStart, String letRun, String runOnce, String repeat, String absoluteRepeat, String whenHoliday) {
+        super();
+        this.begin = begin;
+        this.end = end;
+        this.singleStart = singleStart;
+        this.letRun = letRun;
+        this.runOnce = runOnce;
+        this.repeat = repeat;
+        this.absoluteRepeat = absoluteRepeat;
+        this.whenHoliday = whenHoliday;
+    }
+
+    /**
      * pattern: [0-9]{1,2}:[0-9]{2}(:[0-9]{2})?
      * 
      */

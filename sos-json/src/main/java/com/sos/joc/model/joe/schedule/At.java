@@ -28,6 +28,22 @@ public class At {
     private String at;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public At() {
+    }
+
+    /**
+     * 
+     * @param at
+     */
+    public At(String at) {
+        super();
+        this.at = at;
+    }
+
+    /**
      * yyyy-mm-dd HH:MM[:SS]
      * 
      */

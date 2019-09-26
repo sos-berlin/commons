@@ -38,6 +38,24 @@ public class DelayAfterError {
     private String delay;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public DelayAfterError() {
+    }
+
+    /**
+     * 
+     * @param delay
+     * @param errorCount
+     */
+    public DelayAfterError(Integer errorCount, String delay) {
+        super();
+        this.errorCount = errorCount;
+        this.delay = delay;
+    }
+
+    /**
      * non negative integer
      * <p>
      * 

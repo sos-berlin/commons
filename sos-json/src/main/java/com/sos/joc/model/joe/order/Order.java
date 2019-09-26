@@ -68,6 +68,34 @@ public class Order implements IJSObject
     @JacksonXmlProperty(localName = "run_time", isAttribute = false)
     private RunTime runTime = new RunTime();
 
+    /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public Order() {
+    }
+
+    /**
+     * 
+     * @param webService
+     * @param endState
+     * @param state
+     * @param runTime
+     * @param priority
+     * @param title
+     * @param params
+     */
+    public Order(String priority, String title, String state, String endState, String webService, Params params, RunTime runTime) {
+        super();
+        this.priority = priority;
+        this.title = title;
+        this.state = state;
+        this.endState = endState;
+        this.webService = webService;
+        this.params = params;
+        this.runTime = runTime;
+    }
+
     @JsonProperty("priority")
     @JacksonXmlProperty(localName = "priority", isAttribute = true)
     public String getPriority() {

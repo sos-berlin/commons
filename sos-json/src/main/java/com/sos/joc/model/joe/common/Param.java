@@ -43,6 +43,24 @@ public class Param {
     private String value;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public Param() {
+    }
+
+    /**
+     * 
+     * @param name
+     * @param value
+     */
+    public Param(String name, String value) {
+        super();
+        this.name = name;
+        this.value = value;
+    }
+
+    /**
      * 
      * (Required)
      * 

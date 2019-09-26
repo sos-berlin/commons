@@ -36,6 +36,22 @@ public class JobChainEndNode {
     private String state;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public JobChainEndNode() {
+    }
+
+    /**
+     * 
+     * @param state
+     */
+    public JobChainEndNode(String state) {
+        super();
+        this.state = state;
+    }
+
+    /**
      * name of the job chain node
      * (Required)
      * 

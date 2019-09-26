@@ -39,6 +39,22 @@ public class NodeParamsEdit
     private Config configuration;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public NodeParamsEdit() {
+    }
+
+    /**
+     * 
+     * @param configuration
+     */
+    public NodeParamsEdit(Config configuration) {
+        super();
+        this.configuration = configuration;
+    }
+
+    /**
      * node params config file
      * <p>
      * 

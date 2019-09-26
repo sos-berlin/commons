@@ -42,6 +42,26 @@ public class OnReturnCode {
     private ReturnCodeAddOrder addOrder;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public OnReturnCode() {
+    }
+
+    /**
+     * 
+     * @param returnCode
+     * @param toState
+     * @param addOrder
+     */
+    public OnReturnCode(String returnCode, ToState toState, ReturnCodeAddOrder addOrder) {
+        super();
+        this.returnCode = returnCode;
+        this.toState = toState;
+        this.addOrder = addOrder;
+    }
+
+    /**
      * 
      * (Required)
      * 

@@ -44,6 +44,26 @@ public class Date {
     private List<Period> periods = null;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public Date() {
+    }
+
+    /**
+     * 
+     * @param date
+     * @param calendar
+     * @param periods
+     */
+    public Date(String date, String calendar, List<Period> periods) {
+        super();
+        this.date = date;
+        this.calendar = calendar;
+        this.periods = periods;
+    }
+
+    /**
      * 
      * (Required)
      * 

@@ -39,6 +39,24 @@ public class MonitorUse {
     private Integer ordering;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public MonitorUse() {
+    }
+
+    /**
+     * 
+     * @param ordering
+     * @param monitor
+     */
+    public MonitorUse(String monitor, Integer ordering) {
+        super();
+        this.monitor = monitor;
+        this.ordering = ordering;
+    }
+
+    /**
      * path to a monitor object
      * (Required)
      * 

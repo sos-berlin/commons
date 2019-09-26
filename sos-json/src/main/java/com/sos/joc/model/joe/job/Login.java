@@ -38,6 +38,24 @@ public class Login {
     private String password;
 
     /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public Login() {
+    }
+
+    /**
+     * 
+     * @param password
+     * @param user
+     */
+    public Login(String user, String password) {
+        super();
+        this.user = user;
+        this.password = password;
+    }
+
+    /**
      * 
      * (Required)
      * 

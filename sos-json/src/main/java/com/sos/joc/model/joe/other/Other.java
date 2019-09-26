@@ -34,6 +34,22 @@ public class Other implements IJSObject
     @JacksonXmlProperty(localName = "content", isAttribute = false)
     private String content;
 
+    /**
+     * No args constructor for use in serialization
+     * 
+     */
+    public Other() {
+    }
+
+    /**
+     * 
+     * @param content
+     */
+    public Other(String content) {
+        super();
+        this.content = content;
+    }
+
     @JsonProperty("content")
     @JacksonXmlText
     @JacksonXmlCData
