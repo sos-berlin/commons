@@ -21,6 +21,7 @@ import com.sos.joc.model.joe.common.IJSObject;
 import com.sos.joc.model.joe.common.JSObjectEdit;
 import com.sos.joc.model.joe.common.Param;
 import com.sos.joc.model.joe.common.Params;
+import com.sos.joc.model.joe.common.VersionStateText;
 import com.sos.joc.model.joe.job.Commands;
 import com.sos.joc.model.joe.job.EnviromentVariable;
 import com.sos.joc.model.joe.job.EnviromentVariables;
@@ -119,7 +120,8 @@ public class JoeTest {
         JSObjectEdit jsObjectEdit = new JSObjectEdit();
         Path testFile = resourceDirectory.resolve("jobWithCommands.job.xml");
         jsObjectEdit.setConfiguration(xmlMapper.readValue(testFile.toFile(), Job.class));
-        jsObjectEdit.setDeployed(true);
+        jsObjectEdit.getObjectVersionStatus().setDeployed(true);
+        jsObjectEdit.getObjectVersionStatus().setVersionState(VersionStateText.LIVE_IS_NEWER); 
         jsObjectEdit.setConfigurationDate(Date.from(Instant.now()));
         jsObjectEdit.setJobschedulerId("myScheduler");
         jsObjectEdit.setPath(testFile.toString().replace('\\', '/'));

@@ -1,6 +1,7 @@
 
 package com.sos.joc.model.joe.common;
 
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -19,6 +20,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "param")
+@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "name",
     "value"
@@ -55,7 +57,6 @@ public class Param {
      * @param value
      */
     public Param(String name, String value) {
-        super();
         this.name = name;
         this.value = value;
     }
@@ -64,6 +65,8 @@ public class Param {
      * 
      * (Required)
      * 
+     * @return
+     *     The name
      */
     @JsonProperty("name")
     @JacksonXmlProperty(localName = "name", isAttribute = true)
@@ -75,6 +78,8 @@ public class Param {
      * 
      * (Required)
      * 
+     * @param name
+     *     The name
      */
     @JsonProperty("name")
     @JacksonXmlProperty(localName = "name", isAttribute = true)
@@ -86,6 +91,8 @@ public class Param {
      * 
      * (Required)
      * 
+     * @return
+     *     The value
      */
     @JsonProperty("value")
     @JacksonXmlProperty(localName = "value", isAttribute = true)
@@ -97,6 +104,8 @@ public class Param {
      * 
      * (Required)
      * 
+     * @param value
+     *     The value
      */
     @JsonProperty("value")
     @JacksonXmlProperty(localName = "value", isAttribute = true)
@@ -106,7 +115,7 @@ public class Param {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("name", name).append("value", value).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override

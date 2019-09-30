@@ -2,6 +2,7 @@
 package com.sos.joc.model.joe.schedule;
 
 import java.util.List;
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -21,6 +22,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "holidays")
+@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "includes",
     "weekdays",
@@ -66,7 +68,6 @@ public class Holidays {
      * @param includes
      */
     public Holidays(List<com.sos.joc.model.joe.common.Include> includes, Weekdays weekdays, List<Holiday> days) {
-        super();
         this.includes = includes;
         this.weekdays = weekdays;
         this.days = days;
@@ -77,6 +78,8 @@ public class Holidays {
      * <p>
      * 
      * 
+     * @return
+     *     The includes
      */
     @JsonProperty("includes")
     @JacksonXmlProperty(localName = "include", isAttribute = false)
@@ -89,6 +92,8 @@ public class Holidays {
      * <p>
      * 
      * 
+     * @param includes
+     *     The includes
      */
     @JsonProperty("includes")
     @JacksonXmlProperty(localName = "include", isAttribute = false)
@@ -101,6 +106,8 @@ public class Holidays {
      * <p>
      * 
      * 
+     * @return
+     *     The weekdays
      */
     @JsonProperty("weekdays")
     @JacksonXmlProperty(localName = "weekdays", isAttribute = false)
@@ -113,6 +120,8 @@ public class Holidays {
      * <p>
      * 
      * 
+     * @param weekdays
+     *     The weekdays
      */
     @JsonProperty("weekdays")
     @JacksonXmlProperty(localName = "weekdays", isAttribute = false)
@@ -120,12 +129,22 @@ public class Holidays {
         this.weekdays = weekdays;
     }
 
+    /**
+     * 
+     * @return
+     *     The days
+     */
     @JsonProperty("days")
     @JacksonXmlProperty(localName = "holiday", isAttribute = false)
     public List<Holiday> getDays() {
         return days;
     }
 
+    /**
+     * 
+     * @param days
+     *     The days
+     */
     @JsonProperty("days")
     @JacksonXmlProperty(localName = "holiday", isAttribute = false)
     public void setDays(List<Holiday> days) {
@@ -134,12 +153,12 @@ public class Holidays {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("includes", includes).append("weekdays", weekdays).append("days", days).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(days).append(includes).append(weekdays).toHashCode();
+        return new HashCodeBuilder().append(includes).append(weekdays).append(days).toHashCode();
     }
 
     @Override
@@ -151,7 +170,7 @@ public class Holidays {
             return false;
         }
         Holidays rhs = ((Holidays) other);
-        return new EqualsBuilder().append(days, rhs.days).append(includes, rhs.includes).append(weekdays, rhs.weekdays).isEquals();
+        return new EqualsBuilder().append(includes, rhs.includes).append(weekdays, rhs.weekdays).append(days, rhs.days).isEquals();
     }
 
 }

@@ -1,6 +1,7 @@
 
 package com.sos.joc.model.joe.jobchain;
 
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -13,6 +14,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "on_return_code")
+@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "returnCode",
     "toState",
@@ -28,6 +30,9 @@ public class OnReturnCode {
     @JsonProperty("returnCode")
     @JacksonXmlProperty(localName = "return_code", isAttribute = true)
     private String returnCode;
+    /**
+     * 
+     */
     @JsonProperty("toState")
     @JacksonXmlProperty(localName = "to_state", isAttribute = false)
     private ToState toState;
@@ -55,7 +60,6 @@ public class OnReturnCode {
      * @param addOrder
      */
     public OnReturnCode(String returnCode, ToState toState, ReturnCodeAddOrder addOrder) {
-        super();
         this.returnCode = returnCode;
         this.toState = toState;
         this.addOrder = addOrder;
@@ -65,6 +69,8 @@ public class OnReturnCode {
      * 
      * (Required)
      * 
+     * @return
+     *     The returnCode
      */
     @JsonProperty("returnCode")
     @JacksonXmlProperty(localName = "return_code", isAttribute = true)
@@ -76,6 +82,8 @@ public class OnReturnCode {
      * 
      * (Required)
      * 
+     * @param returnCode
+     *     The returnCode
      */
     @JsonProperty("returnCode")
     @JacksonXmlProperty(localName = "return_code", isAttribute = true)
@@ -83,12 +91,22 @@ public class OnReturnCode {
         this.returnCode = returnCode;
     }
 
+    /**
+     * 
+     * @return
+     *     The toState
+     */
     @JsonProperty("toState")
     @JacksonXmlProperty(localName = "to_state", isAttribute = false)
     public ToState getToState() {
         return toState;
     }
 
+    /**
+     * 
+     * @param toState
+     *     The toState
+     */
     @JsonProperty("toState")
     @JacksonXmlProperty(localName = "to_state", isAttribute = false)
     public void setToState(ToState toState) {
@@ -100,6 +118,8 @@ public class OnReturnCode {
      * <p>
      * 
      * 
+     * @return
+     *     The addOrder
      */
     @JsonProperty("addOrder")
     @JacksonXmlProperty(localName = "add_order", isAttribute = false)
@@ -112,6 +132,8 @@ public class OnReturnCode {
      * <p>
      * 
      * 
+     * @param addOrder
+     *     The addOrder
      */
     @JsonProperty("addOrder")
     @JacksonXmlProperty(localName = "add_order", isAttribute = false)
@@ -121,12 +143,12 @@ public class OnReturnCode {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("returnCode", returnCode).append("toState", toState).append("addOrder", addOrder).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(returnCode).append(addOrder).append(toState).toHashCode();
+        return new HashCodeBuilder().append(returnCode).append(toState).append(addOrder).toHashCode();
     }
 
     @Override
@@ -138,7 +160,7 @@ public class OnReturnCode {
             return false;
         }
         OnReturnCode rhs = ((OnReturnCode) other);
-        return new EqualsBuilder().append(returnCode, rhs.returnCode).append(addOrder, rhs.addOrder).append(toState, rhs.toState).isEquals();
+        return new EqualsBuilder().append(returnCode, rhs.returnCode).append(toState, rhs.toState).append(addOrder, rhs.addOrder).isEquals();
     }
 
 }

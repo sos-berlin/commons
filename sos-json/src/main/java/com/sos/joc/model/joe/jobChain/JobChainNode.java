@@ -1,9 +1,9 @@
 
 package com.sos.joc.model.joe.jobchain;
 
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
@@ -20,6 +20,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "job_chain_node")
+@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "job",
     "nextState",
@@ -37,7 +38,6 @@ public class JobChainNode
      * 
      */
     @JsonProperty("job")
-    @JsonPropertyDescription("path to job")
     @JacksonXmlProperty(localName = "job", isAttribute = true)
     private String job;
     /**
@@ -45,7 +45,6 @@ public class JobChainNode
      * 
      */
     @JsonProperty("nextState")
-    @JsonPropertyDescription("name of the next job chain node in successful case")
     @JacksonXmlProperty(localName = "next_state", isAttribute = true)
     private String nextState;
     /**
@@ -53,7 +52,6 @@ public class JobChainNode
      * 
      */
     @JsonProperty("errorState")
-    @JsonPropertyDescription("name of the next job chain node in erroneous case")
     @JacksonXmlProperty(localName = "error_state", isAttribute = true)
     private String errorState;
     /**
@@ -61,7 +59,6 @@ public class JobChainNode
      * 
      */
     @JsonProperty("onError")
-    @JsonPropertyDescription("possible values: suspend and setback")
     @JacksonXmlProperty(localName = "on_error", isAttribute = true)
     private String onError;
     /**
@@ -94,7 +91,6 @@ public class JobChainNode
      * @param onReturnCodes
      */
     public JobChainNode(String job, String nextState, String errorState, String onError, Integer delay, OnReturnCodes onReturnCodes) {
-        super();
         this.job = job;
         this.nextState = nextState;
         this.errorState = errorState;
@@ -106,6 +102,8 @@ public class JobChainNode
     /**
      * path to job
      * 
+     * @return
+     *     The job
      */
     @JsonProperty("job")
     @JacksonXmlProperty(localName = "job", isAttribute = true)
@@ -116,6 +114,8 @@ public class JobChainNode
     /**
      * path to job
      * 
+     * @param job
+     *     The job
      */
     @JsonProperty("job")
     @JacksonXmlProperty(localName = "job", isAttribute = true)
@@ -126,6 +126,8 @@ public class JobChainNode
     /**
      * name of the next job chain node in successful case
      * 
+     * @return
+     *     The nextState
      */
     @JsonProperty("nextState")
     @JacksonXmlProperty(localName = "next_state", isAttribute = true)
@@ -136,6 +138,8 @@ public class JobChainNode
     /**
      * name of the next job chain node in successful case
      * 
+     * @param nextState
+     *     The nextState
      */
     @JsonProperty("nextState")
     @JacksonXmlProperty(localName = "next_state", isAttribute = true)
@@ -146,6 +150,8 @@ public class JobChainNode
     /**
      * name of the next job chain node in erroneous case
      * 
+     * @return
+     *     The errorState
      */
     @JsonProperty("errorState")
     @JacksonXmlProperty(localName = "error_state", isAttribute = true)
@@ -156,6 +162,8 @@ public class JobChainNode
     /**
      * name of the next job chain node in erroneous case
      * 
+     * @param errorState
+     *     The errorState
      */
     @JsonProperty("errorState")
     @JacksonXmlProperty(localName = "error_state", isAttribute = true)
@@ -166,6 +174,8 @@ public class JobChainNode
     /**
      * possible values: suspend and setback
      * 
+     * @return
+     *     The onError
      */
     @JsonProperty("onError")
     @JacksonXmlProperty(localName = "on_error", isAttribute = true)
@@ -176,6 +186,8 @@ public class JobChainNode
     /**
      * possible values: suspend and setback
      * 
+     * @param onError
+     *     The onError
      */
     @JsonProperty("onError")
     @JacksonXmlProperty(localName = "on_error", isAttribute = true)
@@ -188,6 +200,8 @@ public class JobChainNode
      * <p>
      * 
      * 
+     * @return
+     *     The delay
      */
     @JsonProperty("delay")
     @JacksonXmlProperty(localName = "delay", isAttribute = true)
@@ -200,6 +214,8 @@ public class JobChainNode
      * <p>
      * 
      * 
+     * @param delay
+     *     The delay
      */
     @JsonProperty("delay")
     @JacksonXmlProperty(localName = "delay", isAttribute = true)
@@ -207,12 +223,22 @@ public class JobChainNode
         this.delay = delay;
     }
 
+    /**
+     * 
+     * @return
+     *     The onReturnCodes
+     */
     @JsonProperty("onReturnCodes")
     @JacksonXmlProperty(localName = "on_return_codes", isAttribute = false)
     public OnReturnCodes getOnReturnCodes() {
         return onReturnCodes;
     }
 
+    /**
+     * 
+     * @param onReturnCodes
+     *     The onReturnCodes
+     */
     @JsonProperty("onReturnCodes")
     @JacksonXmlProperty(localName = "on_return_codes", isAttribute = false)
     public void setOnReturnCodes(OnReturnCodes onReturnCodes) {
@@ -221,12 +247,12 @@ public class JobChainNode
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).appendSuper(super.toString()).append("job", job).append("nextState", nextState).append("errorState", errorState).append("onError", onError).append("delay", delay).append("onReturnCodes", onReturnCodes).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().appendSuper(super.hashCode()).append(onError).append(delay).append(errorState).append(nextState).append(job).append(onReturnCodes).toHashCode();
+        return new HashCodeBuilder().appendSuper(super.hashCode()).append(job).append(nextState).append(errorState).append(onError).append(delay).append(onReturnCodes).toHashCode();
     }
 
     @Override
@@ -238,7 +264,7 @@ public class JobChainNode
             return false;
         }
         JobChainNode rhs = ((JobChainNode) other);
-        return new EqualsBuilder().appendSuper(super.equals(other)).append(onError, rhs.onError).append(delay, rhs.delay).append(errorState, rhs.errorState).append(nextState, rhs.nextState).append(job, rhs.job).append(onReturnCodes, rhs.onReturnCodes).isEquals();
+        return new EqualsBuilder().appendSuper(super.equals(other)).append(job, rhs.job).append(nextState, rhs.nextState).append(errorState, rhs.errorState).append(onError, rhs.onError).append(delay, rhs.delay).append(onReturnCodes, rhs.onReturnCodes).isEquals();
     }
 
 }

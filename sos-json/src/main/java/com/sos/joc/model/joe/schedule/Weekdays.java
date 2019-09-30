@@ -2,6 +2,7 @@
 package com.sos.joc.model.joe.schedule;
 
 import java.util.List;
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -21,6 +22,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "weekdays")
+@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "days"
 })
@@ -49,7 +51,6 @@ public class Weekdays {
      * @param days
      */
     public Weekdays(List<Day> days) {
-        super();
         this.days = days;
     }
 
@@ -58,6 +59,8 @@ public class Weekdays {
      * <p>
      * 
      * 
+     * @return
+     *     The days
      */
     @JsonProperty("days")
     @JacksonXmlProperty(localName = "day", isAttribute = false)
@@ -70,6 +73,8 @@ public class Weekdays {
      * <p>
      * 
      * 
+     * @param days
+     *     The days
      */
     @JsonProperty("days")
     @JacksonXmlProperty(localName = "day", isAttribute = false)
@@ -79,7 +84,7 @@ public class Weekdays {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("days", days).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override

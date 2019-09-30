@@ -2,6 +2,7 @@
 package com.sos.joc.model.joe.job;
 
 import java.util.List;
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -21,6 +22,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "environment")
+@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "variables"
 })
@@ -43,16 +45,25 @@ public class EnviromentVariables {
      * @param variables
      */
     public EnviromentVariables(List<EnviromentVariable> variables) {
-        super();
         this.variables = variables;
     }
 
+    /**
+     * 
+     * @return
+     *     The variables
+     */
     @JsonProperty("variables")
     @JacksonXmlProperty(localName = "variable", isAttribute = false)
     public List<EnviromentVariable> getVariables() {
         return variables;
     }
 
+    /**
+     * 
+     * @param variables
+     *     The variables
+     */
     @JsonProperty("variables")
     @JacksonXmlProperty(localName = "variable", isAttribute = false)
     public void setVariables(List<EnviromentVariable> variables) {
@@ -61,7 +72,7 @@ public class EnviromentVariables {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("variables", variables).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override

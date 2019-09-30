@@ -1,6 +1,7 @@
 
 package com.sos.joc.model.joe.order;
 
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -22,6 +23,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "order")
+@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "priority",
     "title",
@@ -86,7 +88,6 @@ public class Order implements IJSObject
      * @param params
      */
     public Order(String priority, String title, String state, String endState, String webService, Params params, RunTime runTime) {
-        super();
         this.priority = priority;
         this.title = title;
         this.state = state;
@@ -96,60 +97,110 @@ public class Order implements IJSObject
         this.runTime = runTime;
     }
 
+    /**
+     * 
+     * @return
+     *     The priority
+     */
     @JsonProperty("priority")
     @JacksonXmlProperty(localName = "priority", isAttribute = true)
     public String getPriority() {
         return priority;
     }
 
+    /**
+     * 
+     * @param priority
+     *     The priority
+     */
     @JsonProperty("priority")
     @JacksonXmlProperty(localName = "priority", isAttribute = true)
     public void setPriority(String priority) {
         this.priority = priority;
     }
 
+    /**
+     * 
+     * @return
+     *     The title
+     */
     @JsonProperty("title")
     @JacksonXmlProperty(localName = "title", isAttribute = true)
     public String getTitle() {
         return title;
     }
 
+    /**
+     * 
+     * @param title
+     *     The title
+     */
     @JsonProperty("title")
     @JacksonXmlProperty(localName = "title", isAttribute = true)
     public void setTitle(String title) {
         this.title = title;
     }
 
+    /**
+     * 
+     * @return
+     *     The state
+     */
     @JsonProperty("state")
     @JacksonXmlProperty(localName = "state", isAttribute = true)
     public String getState() {
         return state;
     }
 
+    /**
+     * 
+     * @param state
+     *     The state
+     */
     @JsonProperty("state")
     @JacksonXmlProperty(localName = "state", isAttribute = true)
     public void setState(String state) {
         this.state = state;
     }
 
+    /**
+     * 
+     * @return
+     *     The endState
+     */
     @JsonProperty("endState")
     @JacksonXmlProperty(localName = "end_state", isAttribute = true)
     public String getEndState() {
         return endState;
     }
 
+    /**
+     * 
+     * @param endState
+     *     The endState
+     */
     @JsonProperty("endState")
     @JacksonXmlProperty(localName = "end_state", isAttribute = true)
     public void setEndState(String endState) {
         this.endState = endState;
     }
 
+    /**
+     * 
+     * @return
+     *     The webService
+     */
     @JsonProperty("webService")
     @JacksonXmlProperty(localName = "web_service", isAttribute = true)
     public String getWebService() {
         return webService;
     }
 
+    /**
+     * 
+     * @param webService
+     *     The webService
+     */
     @JsonProperty("webService")
     @JacksonXmlProperty(localName = "web_service", isAttribute = true)
     public void setWebService(String webService) {
@@ -161,6 +212,8 @@ public class Order implements IJSObject
      * <p>
      * 
      * 
+     * @return
+     *     The params
      */
     @JsonProperty("params")
     @JacksonXmlProperty(localName = "params", isAttribute = false)
@@ -173,6 +226,8 @@ public class Order implements IJSObject
      * <p>
      * 
      * 
+     * @param params
+     *     The params
      */
     @JsonProperty("params")
     @JacksonXmlProperty(localName = "params", isAttribute = false)
@@ -185,6 +240,8 @@ public class Order implements IJSObject
      * <p>
      * 
      * 
+     * @return
+     *     The runTime
      */
     @JsonProperty("runTime")
     @JacksonXmlProperty(localName = "run_time", isAttribute = false)
@@ -197,6 +254,8 @@ public class Order implements IJSObject
      * <p>
      * 
      * 
+     * @param runTime
+     *     The runTime
      */
     @JsonProperty("runTime")
     @JacksonXmlProperty(localName = "run_time", isAttribute = false)
@@ -206,12 +265,12 @@ public class Order implements IJSObject
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("priority", priority).append("title", title).append("state", state).append("endState", endState).append("webService", webService).append("params", params).append("runTime", runTime).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(webService).append(endState).append(state).append(runTime).append(priority).append(title).append(params).toHashCode();
+        return new HashCodeBuilder().append(priority).append(title).append(state).append(endState).append(webService).append(params).append(runTime).toHashCode();
     }
 
     @Override
@@ -223,7 +282,7 @@ public class Order implements IJSObject
             return false;
         }
         Order rhs = ((Order) other);
-        return new EqualsBuilder().append(webService, rhs.webService).append(endState, rhs.endState).append(state, rhs.state).append(runTime, rhs.runTime).append(priority, rhs.priority).append(title, rhs.title).append(params, rhs.params).isEquals();
+        return new EqualsBuilder().append(priority, rhs.priority).append(title, rhs.title).append(state, rhs.state).append(endState, rhs.endState).append(webService, rhs.webService).append(params, rhs.params).append(runTime, rhs.runTime).isEquals();
     }
 
 }

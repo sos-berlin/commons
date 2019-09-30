@@ -1,9 +1,9 @@
 
 package com.sos.joc.model.joe.jobchain;
 
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
@@ -20,6 +20,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "file_order_source")
+@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "directory",
     "regex",
@@ -47,7 +48,6 @@ public class FileOrderSource {
      * 
      */
     @JsonProperty("repeat")
-    @JsonPropertyDescription("possible values: 'no' or positive number")
     @JacksonXmlProperty(localName = "repeat", isAttribute = true)
     private String repeat;
     /**
@@ -76,7 +76,6 @@ public class FileOrderSource {
      * 
      */
     @JsonProperty("alertWhenDirectoryMissing")
-    @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "alert_when_directory_missing", isAttribute = true)
     private String alertWhenDirectoryMissing;
 
@@ -98,7 +97,6 @@ public class FileOrderSource {
      * @param directory
      */
     public FileOrderSource(String directory, String regex, String repeat, Integer delayAfterError, Integer max, String nextState, String alertWhenDirectoryMissing) {
-        super();
         this.directory = directory;
         this.regex = regex;
         this.repeat = repeat;
@@ -112,6 +110,8 @@ public class FileOrderSource {
      * 
      * (Required)
      * 
+     * @return
+     *     The directory
      */
     @JsonProperty("directory")
     @JacksonXmlProperty(localName = "directory", isAttribute = true)
@@ -123,6 +123,8 @@ public class FileOrderSource {
      * 
      * (Required)
      * 
+     * @param directory
+     *     The directory
      */
     @JsonProperty("directory")
     @JacksonXmlProperty(localName = "directory", isAttribute = true)
@@ -130,12 +132,22 @@ public class FileOrderSource {
         this.directory = directory;
     }
 
+    /**
+     * 
+     * @return
+     *     The regex
+     */
     @JsonProperty("regex")
     @JacksonXmlProperty(localName = "regex", isAttribute = true)
     public String getRegex() {
         return regex;
     }
 
+    /**
+     * 
+     * @param regex
+     *     The regex
+     */
     @JsonProperty("regex")
     @JacksonXmlProperty(localName = "regex", isAttribute = true)
     public void setRegex(String regex) {
@@ -145,6 +157,8 @@ public class FileOrderSource {
     /**
      * possible values: 'no' or positive number
      * 
+     * @return
+     *     The repeat
      */
     @JsonProperty("repeat")
     @JacksonXmlProperty(localName = "repeat", isAttribute = true)
@@ -155,6 +169,8 @@ public class FileOrderSource {
     /**
      * possible values: 'no' or positive number
      * 
+     * @param repeat
+     *     The repeat
      */
     @JsonProperty("repeat")
     @JacksonXmlProperty(localName = "repeat", isAttribute = true)
@@ -167,6 +183,8 @@ public class FileOrderSource {
      * <p>
      * 
      * 
+     * @return
+     *     The delayAfterError
      */
     @JsonProperty("delayAfterError")
     @JacksonXmlProperty(localName = "delay_after_error", isAttribute = true)
@@ -179,6 +197,8 @@ public class FileOrderSource {
      * <p>
      * 
      * 
+     * @param delayAfterError
+     *     The delayAfterError
      */
     @JsonProperty("delayAfterError")
     @JacksonXmlProperty(localName = "delay_after_error", isAttribute = true)
@@ -191,6 +211,8 @@ public class FileOrderSource {
      * <p>
      * 
      * 
+     * @return
+     *     The max
      */
     @JsonProperty("max")
     @JacksonXmlProperty(localName = "max", isAttribute = true)
@@ -203,6 +225,8 @@ public class FileOrderSource {
      * <p>
      * 
      * 
+     * @param max
+     *     The max
      */
     @JsonProperty("max")
     @JacksonXmlProperty(localName = "max", isAttribute = true)
@@ -210,12 +234,22 @@ public class FileOrderSource {
         this.max = max;
     }
 
+    /**
+     * 
+     * @return
+     *     The nextState
+     */
     @JsonProperty("nextState")
     @JacksonXmlProperty(localName = "next_state", isAttribute = true)
     public String getNextState() {
         return nextState;
     }
 
+    /**
+     * 
+     * @param nextState
+     *     The nextState
+     */
     @JsonProperty("nextState")
     @JacksonXmlProperty(localName = "next_state", isAttribute = true)
     public void setNextState(String nextState) {
@@ -225,6 +259,8 @@ public class FileOrderSource {
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
+     * @return
+     *     The alertWhenDirectoryMissing
      */
     @JsonProperty("alertWhenDirectoryMissing")
     @JacksonXmlProperty(localName = "alert_when_directory_missing", isAttribute = true)
@@ -235,6 +271,8 @@ public class FileOrderSource {
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
+     * @param alertWhenDirectoryMissing
+     *     The alertWhenDirectoryMissing
      */
     @JsonProperty("alertWhenDirectoryMissing")
     @JacksonXmlProperty(localName = "alert_when_directory_missing", isAttribute = true)
@@ -244,12 +282,12 @@ public class FileOrderSource {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("directory", directory).append("regex", regex).append("repeat", repeat).append("delayAfterError", delayAfterError).append("max", max).append("nextState", nextState).append("alertWhenDirectoryMissing", alertWhenDirectoryMissing).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(regex).append(max).append(repeat).append(delayAfterError).append(nextState).append(alertWhenDirectoryMissing).append(directory).toHashCode();
+        return new HashCodeBuilder().append(directory).append(regex).append(repeat).append(delayAfterError).append(max).append(nextState).append(alertWhenDirectoryMissing).toHashCode();
     }
 
     @Override
@@ -261,7 +299,7 @@ public class FileOrderSource {
             return false;
         }
         FileOrderSource rhs = ((FileOrderSource) other);
-        return new EqualsBuilder().append(regex, rhs.regex).append(max, rhs.max).append(repeat, rhs.repeat).append(delayAfterError, rhs.delayAfterError).append(nextState, rhs.nextState).append(alertWhenDirectoryMissing, rhs.alertWhenDirectoryMissing).append(directory, rhs.directory).isEquals();
+        return new EqualsBuilder().append(directory, rhs.directory).append(regex, rhs.regex).append(repeat, rhs.repeat).append(delayAfterError, rhs.delayAfterError).append(max, rhs.max).append(nextState, rhs.nextState).append(alertWhenDirectoryMissing, rhs.alertWhenDirectoryMissing).isEquals();
     }
 
 }

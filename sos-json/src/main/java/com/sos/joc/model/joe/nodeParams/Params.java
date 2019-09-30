@@ -2,6 +2,7 @@
 package com.sos.joc.model.joe.nodeparams;
 
 import java.util.List;
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -21,6 +22,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "params")
+@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "paramList"
 })
@@ -43,16 +45,25 @@ public class Params {
      * @param paramList
      */
     public Params(List<Param> paramList) {
-        super();
         this.paramList = paramList;
     }
 
+    /**
+     * 
+     * @return
+     *     The paramList
+     */
     @JsonProperty("paramList")
     @JacksonXmlProperty(localName = "param", isAttribute = false)
     public List<Param> getParamList() {
         return paramList;
     }
 
+    /**
+     * 
+     * @param paramList
+     *     The paramList
+     */
     @JsonProperty("paramList")
     @JacksonXmlProperty(localName = "param", isAttribute = false)
     public void setParamList(List<Param> paramList) {
@@ -61,7 +72,7 @@ public class Params {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("paramList", paramList).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override

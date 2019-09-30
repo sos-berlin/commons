@@ -1,9 +1,9 @@
 
 package com.sos.joc.model.joe.common;
 
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
@@ -22,11 +22,13 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "filter")
+@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobschedulerId",
     "path",
     "oldPath",
     "objectType",
+    "forceLive",
     "auditLog"
 })
 public class Filter {
@@ -47,7 +49,6 @@ public class Filter {
      * 
      */
     @JsonProperty("path")
-    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
     @JacksonXmlProperty(localName = "path", isAttribute = true)
     private String path;
     /**
@@ -57,7 +58,6 @@ public class Filter {
      * 
      */
     @JsonProperty("oldPath")
-    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
     @JacksonXmlProperty(localName = "old_path", isAttribute = true)
     private String oldPath;
     /**
@@ -69,6 +69,9 @@ public class Filter {
     @JsonProperty("objectType")
     @JacksonXmlProperty(localName = "object_type", isAttribute = false)
     private JobSchedulerObjectType objectType;
+    @JsonProperty("forceLive")
+    @JacksonXmlProperty(localName = "force_live", isAttribute = true)
+    private Boolean forceLive;
     /**
      * auditParams
      * <p>
@@ -90,16 +93,17 @@ public class Filter {
      * 
      * @param path
      * @param auditLog
+     * @param forceLive
      * @param oldPath
      * @param jobschedulerId
      * @param objectType
      */
-    public Filter(String jobschedulerId, String path, String oldPath, JobSchedulerObjectType objectType, AuditParams auditLog) {
-        super();
+    public Filter(String jobschedulerId, String path, String oldPath, JobSchedulerObjectType objectType, Boolean forceLive, AuditParams auditLog) {
         this.jobschedulerId = jobschedulerId;
         this.path = path;
         this.oldPath = oldPath;
         this.objectType = objectType;
+        this.forceLive = forceLive;
         this.auditLog = auditLog;
     }
 
@@ -107,6 +111,8 @@ public class Filter {
      * 
      * (Required)
      * 
+     * @return
+     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
     @JacksonXmlProperty(localName = "jobscheduler_id", isAttribute = true)
@@ -118,6 +124,8 @@ public class Filter {
      * 
      * (Required)
      * 
+     * @param jobschedulerId
+     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
     @JacksonXmlProperty(localName = "jobscheduler_id", isAttribute = true)
@@ -131,6 +139,8 @@ public class Filter {
      * absolute path based on live folder of a JobScheduler object.
      * (Required)
      * 
+     * @return
+     *     The path
      */
     @JsonProperty("path")
     @JacksonXmlProperty(localName = "path", isAttribute = true)
@@ -144,6 +154,8 @@ public class Filter {
      * absolute path based on live folder of a JobScheduler object.
      * (Required)
      * 
+     * @param path
+     *     The path
      */
     @JsonProperty("path")
     @JacksonXmlProperty(localName = "path", isAttribute = true)
@@ -156,6 +168,8 @@ public class Filter {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
+     * @return
+     *     The oldPath
      */
     @JsonProperty("oldPath")
     @JacksonXmlProperty(localName = "old_path", isAttribute = true)
@@ -168,6 +182,8 @@ public class Filter {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
+     * @param oldPath
+     *     The oldPath
      */
     @JsonProperty("oldPath")
     @JacksonXmlProperty(localName = "old_path", isAttribute = true)
@@ -180,6 +196,8 @@ public class Filter {
      * <p>
      * 
      * 
+     * @return
+     *     The objectType
      */
     @JsonProperty("objectType")
     @JacksonXmlProperty(localName = "object_type", isAttribute = false)
@@ -192,6 +210,8 @@ public class Filter {
      * <p>
      * 
      * 
+     * @param objectType
+     *     The objectType
      */
     @JsonProperty("objectType")
     @JacksonXmlProperty(localName = "object_type", isAttribute = false)
@@ -200,10 +220,34 @@ public class Filter {
     }
 
     /**
+     * 
+     * @return
+     *     The forceLive
+     */
+    @JsonProperty("forceLive")
+    @JacksonXmlProperty(localName = "force_live", isAttribute = true)
+    public Boolean getForceLive() {
+        return forceLive;
+    }
+
+    /**
+     * 
+     * @param forceLive
+     *     The forceLive
+     */
+    @JsonProperty("forceLive")
+    @JacksonXmlProperty(localName = "force_live", isAttribute = true)
+    public void setForceLive(Boolean forceLive) {
+        this.forceLive = forceLive;
+    }
+
+    /**
      * auditParams
      * <p>
      * 
      * 
+     * @return
+     *     The auditLog
      */
     @JsonProperty("auditLog")
     @JacksonXmlProperty(localName = "audit_log", isAttribute = false)
@@ -216,6 +260,8 @@ public class Filter {
      * <p>
      * 
      * 
+     * @param auditLog
+     *     The auditLog
      */
     @JsonProperty("auditLog")
     @JacksonXmlProperty(localName = "audit_log", isAttribute = false)
@@ -225,12 +271,12 @@ public class Filter {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("path", path).append("oldPath", oldPath).append("objectType", objectType).append("auditLog", auditLog).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(path).append(oldPath).append(jobschedulerId).append(auditLog).append(objectType).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(path).append(oldPath).append(objectType).append(forceLive).append(auditLog).toHashCode();
     }
 
     @Override
@@ -242,7 +288,7 @@ public class Filter {
             return false;
         }
         Filter rhs = ((Filter) other);
-        return new EqualsBuilder().append(path, rhs.path).append(oldPath, rhs.oldPath).append(jobschedulerId, rhs.jobschedulerId).append(auditLog, rhs.auditLog).append(objectType, rhs.objectType).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(path, rhs.path).append(oldPath, rhs.oldPath).append(objectType, rhs.objectType).append(forceLive, rhs.forceLive).append(auditLog, rhs.auditLog).isEquals();
     }
 
 }

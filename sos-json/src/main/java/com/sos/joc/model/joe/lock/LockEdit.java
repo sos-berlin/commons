@@ -1,6 +1,7 @@
 
 package com.sos.joc.model.joe.lock;
 
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -20,6 +21,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "lock_edit")
+@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "configuration"
 })
@@ -50,7 +52,6 @@ public class LockEdit
      * @param configuration
      */
     public LockEdit(Lock configuration) {
-        super();
         this.configuration = configuration;
     }
 
@@ -60,6 +61,8 @@ public class LockEdit
      * 
      * (Required)
      * 
+     * @return
+     *     The configuration
      */
     @JsonProperty("configuration")
     @JacksonXmlProperty(localName = "configuration", isAttribute = false)
@@ -73,6 +76,8 @@ public class LockEdit
      * 
      * (Required)
      * 
+     * @param configuration
+     *     The configuration
      */
     @JsonProperty("configuration")
     @JacksonXmlProperty(localName = "configuration", isAttribute = false)
@@ -82,7 +87,7 @@ public class LockEdit
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).appendSuper(super.toString()).append("configuration", configuration).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override

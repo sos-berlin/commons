@@ -2,9 +2,9 @@
 package com.sos.joc.model.joe.jobchain;
 
 import java.util.List;
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -23,6 +23,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "job_chain")
+@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "ordersRecoverable",
     "title",
@@ -45,7 +46,6 @@ public class JobChain implements IJSObject
      * 
      */
     @JsonProperty("ordersRecoverable")
-    @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "orders_recoverable", isAttribute = true)
     private String ordersRecoverable;
     @JsonProperty("title")
@@ -65,7 +65,6 @@ public class JobChain implements IJSObject
      * 
      */
     @JsonProperty("distributed")
-    @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "distributed", isAttribute = true)
     private String distributed;
     /**
@@ -73,7 +72,6 @@ public class JobChain implements IJSObject
      * 
      */
     @JsonProperty("processClass")
-    @JsonPropertyDescription("path of a process class object")
     @JacksonXmlProperty(localName = "process_class", isAttribute = true)
     private String processClass;
     /**
@@ -81,7 +79,6 @@ public class JobChain implements IJSObject
      * 
      */
     @JsonProperty("fileWatchingProcessClass")
-    @JsonPropertyDescription("path of a process class object")
     @JacksonXmlProperty(localName = "file_watching_process_class", isAttribute = true)
     private String fileWatchingProcessClass;
     /**
@@ -89,7 +86,6 @@ public class JobChain implements IJSObject
      * 
      */
     @JsonProperty("visible")
-    @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false or never")
     @JacksonXmlProperty(localName = "visible", isAttribute = true)
     private String visible;
     @JsonProperty("fileOrderSources")
@@ -136,7 +132,6 @@ public class JobChain implements IJSObject
      * @param fileWatchingProcessClass
      */
     public JobChain(String ordersRecoverable, String title, Integer maxOrders, String distributed, String processClass, String fileWatchingProcessClass, String visible, List<FileOrderSource> fileOrderSources, List<JobChainNode> jobChainNodes, List<FileOrderSink> fileOrderSinks, List<NestedJobChainNode> nestedJobChainNodes, List<JobChainEndNode> jobChainEndNodes) {
-        super();
         this.ordersRecoverable = ordersRecoverable;
         this.title = title;
         this.maxOrders = maxOrders;
@@ -154,6 +149,8 @@ public class JobChain implements IJSObject
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
+     * @return
+     *     The ordersRecoverable
      */
     @JsonProperty("ordersRecoverable")
     @JacksonXmlProperty(localName = "orders_recoverable", isAttribute = true)
@@ -164,6 +161,8 @@ public class JobChain implements IJSObject
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
+     * @param ordersRecoverable
+     *     The ordersRecoverable
      */
     @JsonProperty("ordersRecoverable")
     @JacksonXmlProperty(localName = "orders_recoverable", isAttribute = true)
@@ -171,12 +170,22 @@ public class JobChain implements IJSObject
         this.ordersRecoverable = ordersRecoverable;
     }
 
+    /**
+     * 
+     * @return
+     *     The title
+     */
     @JsonProperty("title")
     @JacksonXmlProperty(localName = "title", isAttribute = true)
     public String getTitle() {
         return title;
     }
 
+    /**
+     * 
+     * @param title
+     *     The title
+     */
     @JsonProperty("title")
     @JacksonXmlProperty(localName = "title", isAttribute = true)
     public void setTitle(String title) {
@@ -188,6 +197,8 @@ public class JobChain implements IJSObject
      * <p>
      * 
      * 
+     * @return
+     *     The maxOrders
      */
     @JsonProperty("maxOrders")
     @JacksonXmlProperty(localName = "max_orders", isAttribute = true)
@@ -200,6 +211,8 @@ public class JobChain implements IJSObject
      * <p>
      * 
      * 
+     * @param maxOrders
+     *     The maxOrders
      */
     @JsonProperty("maxOrders")
     @JacksonXmlProperty(localName = "max_orders", isAttribute = true)
@@ -210,6 +223,8 @@ public class JobChain implements IJSObject
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
+     * @return
+     *     The distributed
      */
     @JsonProperty("distributed")
     @JacksonXmlProperty(localName = "distributed", isAttribute = true)
@@ -220,6 +235,8 @@ public class JobChain implements IJSObject
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
+     * @param distributed
+     *     The distributed
      */
     @JsonProperty("distributed")
     @JacksonXmlProperty(localName = "distributed", isAttribute = true)
@@ -230,6 +247,8 @@ public class JobChain implements IJSObject
     /**
      * path of a process class object
      * 
+     * @return
+     *     The processClass
      */
     @JsonProperty("processClass")
     @JacksonXmlProperty(localName = "process_class", isAttribute = true)
@@ -240,6 +259,8 @@ public class JobChain implements IJSObject
     /**
      * path of a process class object
      * 
+     * @param processClass
+     *     The processClass
      */
     @JsonProperty("processClass")
     @JacksonXmlProperty(localName = "process_class", isAttribute = true)
@@ -250,6 +271,8 @@ public class JobChain implements IJSObject
     /**
      * path of a process class object
      * 
+     * @return
+     *     The fileWatchingProcessClass
      */
     @JsonProperty("fileWatchingProcessClass")
     @JacksonXmlProperty(localName = "file_watching_process_class", isAttribute = true)
@@ -260,6 +283,8 @@ public class JobChain implements IJSObject
     /**
      * path of a process class object
      * 
+     * @param fileWatchingProcessClass
+     *     The fileWatchingProcessClass
      */
     @JsonProperty("fileWatchingProcessClass")
     @JacksonXmlProperty(localName = "file_watching_process_class", isAttribute = true)
@@ -270,6 +295,8 @@ public class JobChain implements IJSObject
     /**
      * possible values: yes, no, 1, 0, true, false or never
      * 
+     * @return
+     *     The visible
      */
     @JsonProperty("visible")
     @JacksonXmlProperty(localName = "visible", isAttribute = true)
@@ -280,6 +307,8 @@ public class JobChain implements IJSObject
     /**
      * possible values: yes, no, 1, 0, true, false or never
      * 
+     * @param visible
+     *     The visible
      */
     @JsonProperty("visible")
     @JacksonXmlProperty(localName = "visible", isAttribute = true)
@@ -287,60 +316,110 @@ public class JobChain implements IJSObject
         this.visible = visible;
     }
 
+    /**
+     * 
+     * @return
+     *     The fileOrderSources
+     */
     @JsonProperty("fileOrderSources")
     @JacksonXmlProperty(localName = "file_order_source", isAttribute = false)
     public List<FileOrderSource> getFileOrderSources() {
         return fileOrderSources;
     }
 
+    /**
+     * 
+     * @param fileOrderSources
+     *     The fileOrderSources
+     */
     @JsonProperty("fileOrderSources")
     @JacksonXmlProperty(localName = "file_order_source", isAttribute = false)
     public void setFileOrderSources(List<FileOrderSource> fileOrderSources) {
         this.fileOrderSources = fileOrderSources;
     }
 
+    /**
+     * 
+     * @return
+     *     The jobChainNodes
+     */
     @JsonProperty("jobChainNodes")
     @JacksonXmlProperty(localName = "job_chain_node", isAttribute = false)
     public List<JobChainNode> getJobChainNodes() {
         return jobChainNodes;
     }
 
+    /**
+     * 
+     * @param jobChainNodes
+     *     The jobChainNodes
+     */
     @JsonProperty("jobChainNodes")
     @JacksonXmlProperty(localName = "job_chain_node", isAttribute = false)
     public void setJobChainNodes(List<JobChainNode> jobChainNodes) {
         this.jobChainNodes = jobChainNodes;
     }
 
+    /**
+     * 
+     * @return
+     *     The fileOrderSinks
+     */
     @JsonProperty("fileOrderSinks")
     @JacksonXmlProperty(localName = "file_order_sink", isAttribute = false)
     public List<FileOrderSink> getFileOrderSinks() {
         return fileOrderSinks;
     }
 
+    /**
+     * 
+     * @param fileOrderSinks
+     *     The fileOrderSinks
+     */
     @JsonProperty("fileOrderSinks")
     @JacksonXmlProperty(localName = "file_order_sink", isAttribute = false)
     public void setFileOrderSinks(List<FileOrderSink> fileOrderSinks) {
         this.fileOrderSinks = fileOrderSinks;
     }
 
+    /**
+     * 
+     * @return
+     *     The nestedJobChainNodes
+     */
     @JsonProperty("nestedJobChainNodes")
     @JacksonXmlProperty(localName = "job_chain_node.job_chain", isAttribute = false)
     public List<NestedJobChainNode> getNestedJobChainNodes() {
         return nestedJobChainNodes;
     }
 
+    /**
+     * 
+     * @param nestedJobChainNodes
+     *     The nestedJobChainNodes
+     */
     @JsonProperty("nestedJobChainNodes")
     @JacksonXmlProperty(localName = "job_chain_node.job_chain", isAttribute = false)
     public void setNestedJobChainNodes(List<NestedJobChainNode> nestedJobChainNodes) {
         this.nestedJobChainNodes = nestedJobChainNodes;
     }
 
+    /**
+     * 
+     * @return
+     *     The jobChainEndNodes
+     */
     @JsonProperty("jobChainEndNodes")
     @JacksonXmlProperty(localName = "job_chain_node.end", isAttribute = false)
     public List<JobChainEndNode> getJobChainEndNodes() {
         return jobChainEndNodes;
     }
 
+    /**
+     * 
+     * @param jobChainEndNodes
+     *     The jobChainEndNodes
+     */
     @JsonProperty("jobChainEndNodes")
     @JacksonXmlProperty(localName = "job_chain_node.end", isAttribute = false)
     public void setJobChainEndNodes(List<JobChainEndNode> jobChainEndNodes) {
@@ -349,12 +428,12 @@ public class JobChain implements IJSObject
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("ordersRecoverable", ordersRecoverable).append("title", title).append("maxOrders", maxOrders).append("distributed", distributed).append("processClass", processClass).append("fileWatchingProcessClass", fileWatchingProcessClass).append("visible", visible).append("fileOrderSources", fileOrderSources).append("jobChainNodes", jobChainNodes).append("fileOrderSinks", fileOrderSinks).append("nestedJobChainNodes", nestedJobChainNodes).append("jobChainEndNodes", jobChainEndNodes).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(ordersRecoverable).append(visible).append(jobChainNodes).append(distributed).append(processClass).append(title).append(maxOrders).append(fileOrderSinks).append(jobChainEndNodes).append(fileOrderSources).append(nestedJobChainNodes).append(fileWatchingProcessClass).toHashCode();
+        return new HashCodeBuilder().append(ordersRecoverable).append(title).append(maxOrders).append(distributed).append(processClass).append(fileWatchingProcessClass).append(visible).append(fileOrderSources).append(jobChainNodes).append(fileOrderSinks).append(nestedJobChainNodes).append(jobChainEndNodes).toHashCode();
     }
 
     @Override
@@ -366,7 +445,7 @@ public class JobChain implements IJSObject
             return false;
         }
         JobChain rhs = ((JobChain) other);
-        return new EqualsBuilder().append(ordersRecoverable, rhs.ordersRecoverable).append(visible, rhs.visible).append(jobChainNodes, rhs.jobChainNodes).append(distributed, rhs.distributed).append(processClass, rhs.processClass).append(title, rhs.title).append(maxOrders, rhs.maxOrders).append(fileOrderSinks, rhs.fileOrderSinks).append(jobChainEndNodes, rhs.jobChainEndNodes).append(fileOrderSources, rhs.fileOrderSources).append(nestedJobChainNodes, rhs.nestedJobChainNodes).append(fileWatchingProcessClass, rhs.fileWatchingProcessClass).isEquals();
+        return new EqualsBuilder().append(ordersRecoverable, rhs.ordersRecoverable).append(title, rhs.title).append(maxOrders, rhs.maxOrders).append(distributed, rhs.distributed).append(processClass, rhs.processClass).append(fileWatchingProcessClass, rhs.fileWatchingProcessClass).append(visible, rhs.visible).append(fileOrderSources, rhs.fileOrderSources).append(jobChainNodes, rhs.jobChainNodes).append(fileOrderSinks, rhs.fileOrderSinks).append(nestedJobChainNodes, rhs.nestedJobChainNodes).append(jobChainEndNodes, rhs.jobChainEndNodes).isEquals();
     }
 
 }

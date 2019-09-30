@@ -1,6 +1,7 @@
 
 package com.sos.joc.model.joe.job;
 
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -12,6 +13,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "start_when_directory_changed")
+@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "directory",
     "regex"
@@ -43,7 +45,6 @@ public class StartWhenDirectoryChanged {
      * @param directory
      */
     public StartWhenDirectoryChanged(String directory, String regex) {
-        super();
         this.directory = directory;
         this.regex = regex;
     }
@@ -52,6 +53,8 @@ public class StartWhenDirectoryChanged {
      * 
      * (Required)
      * 
+     * @return
+     *     The directory
      */
     @JsonProperty("directory")
     @JacksonXmlProperty(localName = "directory", isAttribute = true)
@@ -63,6 +66,8 @@ public class StartWhenDirectoryChanged {
      * 
      * (Required)
      * 
+     * @param directory
+     *     The directory
      */
     @JsonProperty("directory")
     @JacksonXmlProperty(localName = "directory", isAttribute = true)
@@ -70,12 +75,22 @@ public class StartWhenDirectoryChanged {
         this.directory = directory;
     }
 
+    /**
+     * 
+     * @return
+     *     The regex
+     */
     @JsonProperty("regex")
     @JacksonXmlProperty(localName = "regex", isAttribute = true)
     public String getRegex() {
         return regex;
     }
 
+    /**
+     * 
+     * @param regex
+     *     The regex
+     */
     @JsonProperty("regex")
     @JacksonXmlProperty(localName = "regex", isAttribute = true)
     public void setRegex(String regex) {
@@ -84,7 +99,7 @@ public class StartWhenDirectoryChanged {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("directory", directory).append("regex", regex).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override

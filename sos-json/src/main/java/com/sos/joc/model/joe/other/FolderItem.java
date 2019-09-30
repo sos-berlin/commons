@@ -1,6 +1,7 @@
 
 package com.sos.joc.model.joe.other;
 
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -19,6 +20,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "folder_item")
+@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "name",
     "deployed"
@@ -55,7 +57,6 @@ public class FolderItem {
      * @param deployed
      */
     public FolderItem(String name, Boolean deployed) {
-        super();
         this.name = name;
         this.deployed = deployed;
     }
@@ -64,6 +65,8 @@ public class FolderItem {
      * 
      * (Required)
      * 
+     * @return
+     *     The name
      */
     @JsonProperty("name")
     @JacksonXmlProperty(localName = "name", isAttribute = true)
@@ -75,6 +78,8 @@ public class FolderItem {
      * 
      * (Required)
      * 
+     * @param name
+     *     The name
      */
     @JsonProperty("name")
     @JacksonXmlProperty(localName = "name", isAttribute = true)
@@ -86,6 +91,8 @@ public class FolderItem {
      * 
      * (Required)
      * 
+     * @return
+     *     The deployed
      */
     @JsonProperty("deployed")
     @JacksonXmlProperty(localName = "deployed", isAttribute = true)
@@ -97,6 +104,8 @@ public class FolderItem {
      * 
      * (Required)
      * 
+     * @param deployed
+     *     The deployed
      */
     @JsonProperty("deployed")
     @JacksonXmlProperty(localName = "deployed", isAttribute = true)
@@ -106,7 +115,7 @@ public class FolderItem {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("name", name).append("deployed", deployed).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override

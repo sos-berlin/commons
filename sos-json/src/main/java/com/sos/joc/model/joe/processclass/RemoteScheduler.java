@@ -1,6 +1,7 @@
 
 package com.sos.joc.model.joe.processclass;
 
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -12,6 +13,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "remote_scheduler")
+@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "remoteScheduler",
     "httpHeartbeatTimeout",
@@ -60,7 +62,6 @@ public class RemoteScheduler {
      * @param httpHeartbeatPeriod
      */
     public RemoteScheduler(String remoteScheduler, Integer httpHeartbeatTimeout, Integer httpHeartbeatPeriod) {
-        super();
         this.remoteScheduler = remoteScheduler;
         this.httpHeartbeatTimeout = httpHeartbeatTimeout;
         this.httpHeartbeatPeriod = httpHeartbeatPeriod;
@@ -70,6 +71,8 @@ public class RemoteScheduler {
      * 
      * (Required)
      * 
+     * @return
+     *     The remoteScheduler
      */
     @JsonProperty("remoteScheduler")
     @JacksonXmlProperty(localName = "remote_scheduler", isAttribute = true)
@@ -81,6 +84,8 @@ public class RemoteScheduler {
      * 
      * (Required)
      * 
+     * @param remoteScheduler
+     *     The remoteScheduler
      */
     @JsonProperty("remoteScheduler")
     @JacksonXmlProperty(localName = "remote_scheduler", isAttribute = true)
@@ -93,6 +98,8 @@ public class RemoteScheduler {
      * <p>
      * 
      * 
+     * @return
+     *     The httpHeartbeatTimeout
      */
     @JsonProperty("httpHeartbeatTimeout")
     @JacksonXmlProperty(localName = "http_heartbeat_timeout", isAttribute = true)
@@ -105,6 +112,8 @@ public class RemoteScheduler {
      * <p>
      * 
      * 
+     * @param httpHeartbeatTimeout
+     *     The httpHeartbeatTimeout
      */
     @JsonProperty("httpHeartbeatTimeout")
     @JacksonXmlProperty(localName = "http_heartbeat_timeout", isAttribute = true)
@@ -117,6 +126,8 @@ public class RemoteScheduler {
      * <p>
      * 
      * 
+     * @return
+     *     The httpHeartbeatPeriod
      */
     @JsonProperty("httpHeartbeatPeriod")
     @JacksonXmlProperty(localName = "http_heartbeat_period", isAttribute = true)
@@ -129,6 +140,8 @@ public class RemoteScheduler {
      * <p>
      * 
      * 
+     * @param httpHeartbeatPeriod
+     *     The httpHeartbeatPeriod
      */
     @JsonProperty("httpHeartbeatPeriod")
     @JacksonXmlProperty(localName = "http_heartbeat_period", isAttribute = true)
@@ -138,12 +151,12 @@ public class RemoteScheduler {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("remoteScheduler", remoteScheduler).append("httpHeartbeatTimeout", httpHeartbeatTimeout).append("httpHeartbeatPeriod", httpHeartbeatPeriod).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(remoteScheduler).append(httpHeartbeatPeriod).append(httpHeartbeatTimeout).toHashCode();
+        return new HashCodeBuilder().append(remoteScheduler).append(httpHeartbeatTimeout).append(httpHeartbeatPeriod).toHashCode();
     }
 
     @Override
@@ -155,7 +168,7 @@ public class RemoteScheduler {
             return false;
         }
         RemoteScheduler rhs = ((RemoteScheduler) other);
-        return new EqualsBuilder().append(remoteScheduler, rhs.remoteScheduler).append(httpHeartbeatPeriod, rhs.httpHeartbeatPeriod).append(httpHeartbeatTimeout, rhs.httpHeartbeatTimeout).isEquals();
+        return new EqualsBuilder().append(remoteScheduler, rhs.remoteScheduler).append(httpHeartbeatTimeout, rhs.httpHeartbeatTimeout).append(httpHeartbeatPeriod, rhs.httpHeartbeatPeriod).isEquals();
     }
 
 }

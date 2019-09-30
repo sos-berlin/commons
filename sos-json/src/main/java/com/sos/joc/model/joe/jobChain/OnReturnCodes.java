@@ -2,6 +2,7 @@
 package com.sos.joc.model.joe.jobchain;
 
 import java.util.List;
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -14,6 +15,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "on_return_codes")
+@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "onReturnCodeList"
 })
@@ -36,16 +38,25 @@ public class OnReturnCodes {
      * @param onReturnCodeList
      */
     public OnReturnCodes(List<OnReturnCode> onReturnCodeList) {
-        super();
         this.onReturnCodeList = onReturnCodeList;
     }
 
+    /**
+     * 
+     * @return
+     *     The onReturnCodeList
+     */
     @JsonProperty("onReturnCodeList")
     @JacksonXmlProperty(localName = "on_return_code", isAttribute = false)
     public List<OnReturnCode> getOnReturnCodeList() {
         return onReturnCodeList;
     }
 
+    /**
+     * 
+     * @param onReturnCodeList
+     *     The onReturnCodeList
+     */
     @JsonProperty("onReturnCodeList")
     @JacksonXmlProperty(localName = "on_return_code", isAttribute = false)
     public void setOnReturnCodeList(List<OnReturnCode> onReturnCodeList) {
@@ -54,7 +65,7 @@ public class OnReturnCodes {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("onReturnCodeList", onReturnCodeList).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override

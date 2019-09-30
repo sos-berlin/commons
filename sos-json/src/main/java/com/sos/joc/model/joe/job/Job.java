@@ -2,9 +2,9 @@
 package com.sos.joc.model.joe.job;
 
 import java.util.List;
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -25,6 +25,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "job")
+@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "priority",
     "title",
@@ -73,7 +74,6 @@ public class Job implements IJSObject
      * 
      */
     @JsonProperty("isOrderJob")
-    @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "order", isAttribute = true)
     private String isOrderJob;
     @JsonProperty("maxTasks")
@@ -99,7 +99,6 @@ public class Job implements IJSObject
      * 
      */
     @JsonProperty("forceIdleTimeout")
-    @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "force_idle_timeout", isAttribute = true)
     private String forceIdleTimeout;
     /**
@@ -107,7 +106,6 @@ public class Job implements IJSObject
      * 
      */
     @JsonProperty("processClass")
-    @JsonPropertyDescription("path of a process class object")
     @JacksonXmlProperty(localName = "process_class", isAttribute = true)
     private String processClass;
     @JsonProperty("javaOptions")
@@ -118,7 +116,6 @@ public class Job implements IJSObject
      * 
      */
     @JsonProperty("stopOnError")
-    @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "stop_on_error", isAttribute = true)
     private String stopOnError;
     /**
@@ -126,7 +123,6 @@ public class Job implements IJSObject
      * 
      */
     @JsonProperty("ignoreSignals")
-    @JsonPropertyDescription("possible values: positive Integer or SIGHUP, SIGINT, SIGQUIT, SIGILL, SIGTRAP, SIGABRT, SIGIOT, SIGBUS, SIGFPE, SIGKILL, SIGUSR1, SIGSEGV, SIGUSR2, SIGPIPE, SIGALRM, SIGTERM, SIGSTKFLT, SIGCHLD, SIGCONT, SIGSTOP, SIGTSTP, SIGTTIN, SIGTTOU, SIGURG, SIGXCPU, SIGXFSZ, SIGVTALRM, SIGPROF, SIGWINCH, SIGPOLL, SIGIO, SIGPWR, SIGSYS")
     @JacksonXmlProperty(localName = "ignore_signals", isAttribute = true)
     private String ignoreSignals;
     @JsonProperty("warnIfLongerThan")
@@ -140,7 +136,6 @@ public class Job implements IJSObject
      * 
      */
     @JsonProperty("stderrLogLevel")
-    @JsonPropertyDescription("possible values: error, warn, info, debug or debug[0-9]")
     @JacksonXmlProperty(localName = "stderr_log_level", isAttribute = true)
     private String stderrLogLevel;
     @JsonProperty("credentialsKey")
@@ -151,7 +146,6 @@ public class Job implements IJSObject
      * 
      */
     @JsonProperty("loadUserProfile")
-    @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "load_user_profile", isAttribute = true)
     private String loadUserProfile;
     /**
@@ -159,7 +153,6 @@ public class Job implements IJSObject
      * 
      */
     @JsonProperty("visible")
-    @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false or never")
     @JacksonXmlProperty(localName = "visible", isAttribute = true)
     private String visible;
     /**
@@ -196,6 +189,9 @@ public class Job implements IJSObject
     @JsonProperty("environment")
     @JacksonXmlProperty(localName = "environment", isAttribute = false)
     private EnviromentVariables environment;
+    /**
+     * 
+     */
     @JsonProperty("login")
     @JacksonXmlProperty(localName = "login", isAttribute = false)
     private Login login;
@@ -285,7 +281,6 @@ public class Job implements IJSObject
      * @param monitors
      */
     public Job(String priority, String title, String isOrderJob, Integer maxTasks, Integer minTasks, String timeout, String idleTimeout, String forceIdleTimeout, String processClass, String javaOptions, String stopOnError, String ignoreSignals, String warnIfLongerThan, String warnIfShorterThan, String stderrLogLevel, String credentialsKey, String loadUserProfile, String visible, Settings settings, Description documentation, List<LockUse> lockUses, Params params, EnviromentVariables environment, Login login, Script script, List<Monitor> monitors, List<MonitorUse> monitorUses, List<StartWhenDirectoryChanged> startWhenDirectoriesChanged, List<DelayAfterError> delayAfterErrors, List<DelayOrderAfterSetback> delayOrderAfterSetbacks, RunTime runTime, List<Commands> commands) {
-        super();
         this.priority = priority;
         this.title = title;
         this.isOrderJob = isOrderJob;
@@ -320,24 +315,44 @@ public class Job implements IJSObject
         this.commands = commands;
     }
 
+    /**
+     * 
+     * @return
+     *     The priority
+     */
     @JsonProperty("priority")
     @JacksonXmlProperty(localName = "priority", isAttribute = true)
     public String getPriority() {
         return priority;
     }
 
+    /**
+     * 
+     * @param priority
+     *     The priority
+     */
     @JsonProperty("priority")
     @JacksonXmlProperty(localName = "priority", isAttribute = true)
     public void setPriority(String priority) {
         this.priority = priority;
     }
 
+    /**
+     * 
+     * @return
+     *     The title
+     */
     @JsonProperty("title")
     @JacksonXmlProperty(localName = "title", isAttribute = true)
     public String getTitle() {
         return title;
     }
 
+    /**
+     * 
+     * @param title
+     *     The title
+     */
     @JsonProperty("title")
     @JacksonXmlProperty(localName = "title", isAttribute = true)
     public void setTitle(String title) {
@@ -347,6 +362,8 @@ public class Job implements IJSObject
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
+     * @return
+     *     The isOrderJob
      */
     @JsonProperty("isOrderJob")
     @JacksonXmlProperty(localName = "order", isAttribute = true)
@@ -357,6 +374,8 @@ public class Job implements IJSObject
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
+     * @param isOrderJob
+     *     The isOrderJob
      */
     @JsonProperty("isOrderJob")
     @JacksonXmlProperty(localName = "order", isAttribute = true)
@@ -364,12 +383,22 @@ public class Job implements IJSObject
         this.isOrderJob = isOrderJob;
     }
 
+    /**
+     * 
+     * @return
+     *     The maxTasks
+     */
     @JsonProperty("maxTasks")
     @JacksonXmlProperty(localName = "tasks", isAttribute = true)
     public Integer getMaxTasks() {
         return maxTasks;
     }
 
+    /**
+     * 
+     * @param maxTasks
+     *     The maxTasks
+     */
     @JsonProperty("maxTasks")
     @JacksonXmlProperty(localName = "tasks", isAttribute = true)
     public void setMaxTasks(Integer maxTasks) {
@@ -381,6 +410,8 @@ public class Job implements IJSObject
      * <p>
      * 
      * 
+     * @return
+     *     The minTasks
      */
     @JsonProperty("minTasks")
     @JacksonXmlProperty(localName = "min_tasks", isAttribute = true)
@@ -393,6 +424,8 @@ public class Job implements IJSObject
      * <p>
      * 
      * 
+     * @param minTasks
+     *     The minTasks
      */
     @JsonProperty("minTasks")
     @JacksonXmlProperty(localName = "min_tasks", isAttribute = true)
@@ -400,24 +433,44 @@ public class Job implements IJSObject
         this.minTasks = minTasks;
     }
 
+    /**
+     * 
+     * @return
+     *     The timeout
+     */
     @JsonProperty("timeout")
     @JacksonXmlProperty(localName = "timeout", isAttribute = true)
     public String getTimeout() {
         return timeout;
     }
 
+    /**
+     * 
+     * @param timeout
+     *     The timeout
+     */
     @JsonProperty("timeout")
     @JacksonXmlProperty(localName = "timeout", isAttribute = true)
     public void setTimeout(String timeout) {
         this.timeout = timeout;
     }
 
+    /**
+     * 
+     * @return
+     *     The idleTimeout
+     */
     @JsonProperty("idleTimeout")
     @JacksonXmlProperty(localName = "idle_timeout", isAttribute = true)
     public String getIdleTimeout() {
         return idleTimeout;
     }
 
+    /**
+     * 
+     * @param idleTimeout
+     *     The idleTimeout
+     */
     @JsonProperty("idleTimeout")
     @JacksonXmlProperty(localName = "idle_timeout", isAttribute = true)
     public void setIdleTimeout(String idleTimeout) {
@@ -427,6 +480,8 @@ public class Job implements IJSObject
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
+     * @return
+     *     The forceIdleTimeout
      */
     @JsonProperty("forceIdleTimeout")
     @JacksonXmlProperty(localName = "force_idle_timeout", isAttribute = true)
@@ -437,6 +492,8 @@ public class Job implements IJSObject
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
+     * @param forceIdleTimeout
+     *     The forceIdleTimeout
      */
     @JsonProperty("forceIdleTimeout")
     @JacksonXmlProperty(localName = "force_idle_timeout", isAttribute = true)
@@ -447,6 +504,8 @@ public class Job implements IJSObject
     /**
      * path of a process class object
      * 
+     * @return
+     *     The processClass
      */
     @JsonProperty("processClass")
     @JacksonXmlProperty(localName = "process_class", isAttribute = true)
@@ -457,6 +516,8 @@ public class Job implements IJSObject
     /**
      * path of a process class object
      * 
+     * @param processClass
+     *     The processClass
      */
     @JsonProperty("processClass")
     @JacksonXmlProperty(localName = "process_class", isAttribute = true)
@@ -464,12 +525,22 @@ public class Job implements IJSObject
         this.processClass = processClass;
     }
 
+    /**
+     * 
+     * @return
+     *     The javaOptions
+     */
     @JsonProperty("javaOptions")
     @JacksonXmlProperty(localName = "java_options", isAttribute = true)
     public String getJavaOptions() {
         return javaOptions;
     }
 
+    /**
+     * 
+     * @param javaOptions
+     *     The javaOptions
+     */
     @JsonProperty("javaOptions")
     @JacksonXmlProperty(localName = "java_options", isAttribute = true)
     public void setJavaOptions(String javaOptions) {
@@ -479,6 +550,8 @@ public class Job implements IJSObject
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
+     * @return
+     *     The stopOnError
      */
     @JsonProperty("stopOnError")
     @JacksonXmlProperty(localName = "stop_on_error", isAttribute = true)
@@ -489,6 +562,8 @@ public class Job implements IJSObject
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
+     * @param stopOnError
+     *     The stopOnError
      */
     @JsonProperty("stopOnError")
     @JacksonXmlProperty(localName = "stop_on_error", isAttribute = true)
@@ -499,6 +574,8 @@ public class Job implements IJSObject
     /**
      * possible values: positive Integer or SIGHUP, SIGINT, SIGQUIT, SIGILL, SIGTRAP, SIGABRT, SIGIOT, SIGBUS, SIGFPE, SIGKILL, SIGUSR1, SIGSEGV, SIGUSR2, SIGPIPE, SIGALRM, SIGTERM, SIGSTKFLT, SIGCHLD, SIGCONT, SIGSTOP, SIGTSTP, SIGTTIN, SIGTTOU, SIGURG, SIGXCPU, SIGXFSZ, SIGVTALRM, SIGPROF, SIGWINCH, SIGPOLL, SIGIO, SIGPWR, SIGSYS
      * 
+     * @return
+     *     The ignoreSignals
      */
     @JsonProperty("ignoreSignals")
     @JacksonXmlProperty(localName = "ignore_signals", isAttribute = true)
@@ -509,6 +586,8 @@ public class Job implements IJSObject
     /**
      * possible values: positive Integer or SIGHUP, SIGINT, SIGQUIT, SIGILL, SIGTRAP, SIGABRT, SIGIOT, SIGBUS, SIGFPE, SIGKILL, SIGUSR1, SIGSEGV, SIGUSR2, SIGPIPE, SIGALRM, SIGTERM, SIGSTKFLT, SIGCHLD, SIGCONT, SIGSTOP, SIGTSTP, SIGTTIN, SIGTTOU, SIGURG, SIGXCPU, SIGXFSZ, SIGVTALRM, SIGPROF, SIGWINCH, SIGPOLL, SIGIO, SIGPWR, SIGSYS
      * 
+     * @param ignoreSignals
+     *     The ignoreSignals
      */
     @JsonProperty("ignoreSignals")
     @JacksonXmlProperty(localName = "ignore_signals", isAttribute = true)
@@ -516,24 +595,44 @@ public class Job implements IJSObject
         this.ignoreSignals = ignoreSignals;
     }
 
+    /**
+     * 
+     * @return
+     *     The warnIfLongerThan
+     */
     @JsonProperty("warnIfLongerThan")
     @JacksonXmlProperty(localName = "warn_if_longer_than", isAttribute = true)
     public String getWarnIfLongerThan() {
         return warnIfLongerThan;
     }
 
+    /**
+     * 
+     * @param warnIfLongerThan
+     *     The warnIfLongerThan
+     */
     @JsonProperty("warnIfLongerThan")
     @JacksonXmlProperty(localName = "warn_if_longer_than", isAttribute = true)
     public void setWarnIfLongerThan(String warnIfLongerThan) {
         this.warnIfLongerThan = warnIfLongerThan;
     }
 
+    /**
+     * 
+     * @return
+     *     The warnIfShorterThan
+     */
     @JsonProperty("warnIfShorterThan")
     @JacksonXmlProperty(localName = "warn_if_shorter_than", isAttribute = true)
     public String getWarnIfShorterThan() {
         return warnIfShorterThan;
     }
 
+    /**
+     * 
+     * @param warnIfShorterThan
+     *     The warnIfShorterThan
+     */
     @JsonProperty("warnIfShorterThan")
     @JacksonXmlProperty(localName = "warn_if_shorter_than", isAttribute = true)
     public void setWarnIfShorterThan(String warnIfShorterThan) {
@@ -543,6 +642,8 @@ public class Job implements IJSObject
     /**
      * possible values: error, warn, info, debug or debug[0-9]
      * 
+     * @return
+     *     The stderrLogLevel
      */
     @JsonProperty("stderrLogLevel")
     @JacksonXmlProperty(localName = "stderr_log_level", isAttribute = true)
@@ -553,6 +654,8 @@ public class Job implements IJSObject
     /**
      * possible values: error, warn, info, debug or debug[0-9]
      * 
+     * @param stderrLogLevel
+     *     The stderrLogLevel
      */
     @JsonProperty("stderrLogLevel")
     @JacksonXmlProperty(localName = "stderr_log_level", isAttribute = true)
@@ -560,12 +663,22 @@ public class Job implements IJSObject
         this.stderrLogLevel = stderrLogLevel;
     }
 
+    /**
+     * 
+     * @return
+     *     The credentialsKey
+     */
     @JsonProperty("credentialsKey")
     @JacksonXmlProperty(localName = "credentials_key", isAttribute = true)
     public String getCredentialsKey() {
         return credentialsKey;
     }
 
+    /**
+     * 
+     * @param credentialsKey
+     *     The credentialsKey
+     */
     @JsonProperty("credentialsKey")
     @JacksonXmlProperty(localName = "credentials_key", isAttribute = true)
     public void setCredentialsKey(String credentialsKey) {
@@ -575,6 +688,8 @@ public class Job implements IJSObject
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
+     * @return
+     *     The loadUserProfile
      */
     @JsonProperty("loadUserProfile")
     @JacksonXmlProperty(localName = "load_user_profile", isAttribute = true)
@@ -585,6 +700,8 @@ public class Job implements IJSObject
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
+     * @param loadUserProfile
+     *     The loadUserProfile
      */
     @JsonProperty("loadUserProfile")
     @JacksonXmlProperty(localName = "load_user_profile", isAttribute = true)
@@ -595,6 +712,8 @@ public class Job implements IJSObject
     /**
      * possible values: yes, no, 1, 0, true, false or never
      * 
+     * @return
+     *     The visible
      */
     @JsonProperty("visible")
     @JacksonXmlProperty(localName = "visible", isAttribute = true)
@@ -605,6 +724,8 @@ public class Job implements IJSObject
     /**
      * possible values: yes, no, 1, 0, true, false or never
      * 
+     * @param visible
+     *     The visible
      */
     @JsonProperty("visible")
     @JacksonXmlProperty(localName = "visible", isAttribute = true)
@@ -617,6 +738,8 @@ public class Job implements IJSObject
      * <p>
      * 
      * 
+     * @return
+     *     The settings
      */
     @JsonProperty("settings")
     @JacksonXmlProperty(localName = "settings", isAttribute = false)
@@ -629,6 +752,8 @@ public class Job implements IJSObject
      * <p>
      * 
      * 
+     * @param settings
+     *     The settings
      */
     @JsonProperty("settings")
     @JacksonXmlProperty(localName = "settings", isAttribute = false)
@@ -636,24 +761,44 @@ public class Job implements IJSObject
         this.settings = settings;
     }
 
+    /**
+     * 
+     * @return
+     *     The documentation
+     */
     @JsonProperty("documentation")
     @JacksonXmlProperty(localName = "description", isAttribute = false)
     public Description getDocumentation() {
         return documentation;
     }
 
+    /**
+     * 
+     * @param documentation
+     *     The documentation
+     */
     @JsonProperty("documentation")
     @JacksonXmlProperty(localName = "description", isAttribute = false)
     public void setDocumentation(Description documentation) {
         this.documentation = documentation;
     }
 
+    /**
+     * 
+     * @return
+     *     The lockUses
+     */
     @JsonProperty("lockUses")
     @JacksonXmlProperty(localName = "lock.use", isAttribute = false)
     public List<LockUse> getLockUses() {
         return lockUses;
     }
 
+    /**
+     * 
+     * @param lockUses
+     *     The lockUses
+     */
     @JsonProperty("lockUses")
     @JacksonXmlProperty(localName = "lock.use", isAttribute = false)
     public void setLockUses(List<LockUse> lockUses) {
@@ -665,6 +810,8 @@ public class Job implements IJSObject
      * <p>
      * 
      * 
+     * @return
+     *     The params
      */
     @JsonProperty("params")
     @JacksonXmlProperty(localName = "params", isAttribute = false)
@@ -677,6 +824,8 @@ public class Job implements IJSObject
      * <p>
      * 
      * 
+     * @param params
+     *     The params
      */
     @JsonProperty("params")
     @JacksonXmlProperty(localName = "params", isAttribute = false)
@@ -689,6 +838,8 @@ public class Job implements IJSObject
      * <p>
      * 
      * 
+     * @return
+     *     The environment
      */
     @JsonProperty("environment")
     @JacksonXmlProperty(localName = "environment", isAttribute = false)
@@ -701,6 +852,8 @@ public class Job implements IJSObject
      * <p>
      * 
      * 
+     * @param environment
+     *     The environment
      */
     @JsonProperty("environment")
     @JacksonXmlProperty(localName = "environment", isAttribute = false)
@@ -708,12 +861,22 @@ public class Job implements IJSObject
         this.environment = environment;
     }
 
+    /**
+     * 
+     * @return
+     *     The login
+     */
     @JsonProperty("login")
     @JacksonXmlProperty(localName = "login", isAttribute = false)
     public Login getLogin() {
         return login;
     }
 
+    /**
+     * 
+     * @param login
+     *     The login
+     */
     @JsonProperty("login")
     @JacksonXmlProperty(localName = "login", isAttribute = false)
     public void setLogin(Login login) {
@@ -725,6 +888,8 @@ public class Job implements IJSObject
      * <p>
      * 
      * 
+     * @return
+     *     The script
      */
     @JsonProperty("script")
     @JacksonXmlProperty(localName = "script", isAttribute = false)
@@ -737,6 +902,8 @@ public class Job implements IJSObject
      * <p>
      * 
      * 
+     * @param script
+     *     The script
      */
     @JsonProperty("script")
     @JacksonXmlProperty(localName = "script", isAttribute = false)
@@ -744,60 +911,110 @@ public class Job implements IJSObject
         this.script = script;
     }
 
+    /**
+     * 
+     * @return
+     *     The monitors
+     */
     @JsonProperty("monitors")
     @JacksonXmlProperty(localName = "monitors", isAttribute = false)
     public List<Monitor> getMonitors() {
         return monitors;
     }
 
+    /**
+     * 
+     * @param monitors
+     *     The monitors
+     */
     @JsonProperty("monitors")
     @JacksonXmlProperty(localName = "monitors", isAttribute = false)
     public void setMonitors(List<Monitor> monitors) {
         this.monitors = monitors;
     }
 
+    /**
+     * 
+     * @return
+     *     The monitorUses
+     */
     @JsonProperty("monitorUses")
     @JacksonXmlProperty(localName = "monitor.use", isAttribute = false)
     public List<MonitorUse> getMonitorUses() {
         return monitorUses;
     }
 
+    /**
+     * 
+     * @param monitorUses
+     *     The monitorUses
+     */
     @JsonProperty("monitorUses")
     @JacksonXmlProperty(localName = "monitor.use", isAttribute = false)
     public void setMonitorUses(List<MonitorUse> monitorUses) {
         this.monitorUses = monitorUses;
     }
 
+    /**
+     * 
+     * @return
+     *     The startWhenDirectoriesChanged
+     */
     @JsonProperty("startWhenDirectoriesChanged")
     @JacksonXmlProperty(localName = "start_when_directory_changed", isAttribute = false)
     public List<StartWhenDirectoryChanged> getStartWhenDirectoriesChanged() {
         return startWhenDirectoriesChanged;
     }
 
+    /**
+     * 
+     * @param startWhenDirectoriesChanged
+     *     The startWhenDirectoriesChanged
+     */
     @JsonProperty("startWhenDirectoriesChanged")
     @JacksonXmlProperty(localName = "start_when_directory_changed", isAttribute = false)
     public void setStartWhenDirectoriesChanged(List<StartWhenDirectoryChanged> startWhenDirectoriesChanged) {
         this.startWhenDirectoriesChanged = startWhenDirectoriesChanged;
     }
 
+    /**
+     * 
+     * @return
+     *     The delayAfterErrors
+     */
     @JsonProperty("delayAfterErrors")
     @JacksonXmlProperty(localName = "delay_after_error", isAttribute = false)
     public List<DelayAfterError> getDelayAfterErrors() {
         return delayAfterErrors;
     }
 
+    /**
+     * 
+     * @param delayAfterErrors
+     *     The delayAfterErrors
+     */
     @JsonProperty("delayAfterErrors")
     @JacksonXmlProperty(localName = "delay_after_error", isAttribute = false)
     public void setDelayAfterErrors(List<DelayAfterError> delayAfterErrors) {
         this.delayAfterErrors = delayAfterErrors;
     }
 
+    /**
+     * 
+     * @return
+     *     The delayOrderAfterSetbacks
+     */
     @JsonProperty("delayOrderAfterSetbacks")
     @JacksonXmlProperty(localName = "delay_order_after_setback", isAttribute = false)
     public List<DelayOrderAfterSetback> getDelayOrderAfterSetbacks() {
         return delayOrderAfterSetbacks;
     }
 
+    /**
+     * 
+     * @param delayOrderAfterSetbacks
+     *     The delayOrderAfterSetbacks
+     */
     @JsonProperty("delayOrderAfterSetbacks")
     @JacksonXmlProperty(localName = "delay_order_after_setback", isAttribute = false)
     public void setDelayOrderAfterSetbacks(List<DelayOrderAfterSetback> delayOrderAfterSetbacks) {
@@ -809,6 +1026,8 @@ public class Job implements IJSObject
      * <p>
      * 
      * 
+     * @return
+     *     The runTime
      */
     @JsonProperty("runTime")
     @JacksonXmlProperty(localName = "run_time", isAttribute = false)
@@ -821,6 +1040,8 @@ public class Job implements IJSObject
      * <p>
      * 
      * 
+     * @param runTime
+     *     The runTime
      */
     @JsonProperty("runTime")
     @JacksonXmlProperty(localName = "run_time", isAttribute = false)
@@ -828,12 +1049,22 @@ public class Job implements IJSObject
         this.runTime = runTime;
     }
 
+    /**
+     * 
+     * @return
+     *     The commands
+     */
     @JsonProperty("commands")
     @JacksonXmlProperty(localName = "commands", isAttribute = false)
     public List<Commands> getCommands() {
         return commands;
     }
 
+    /**
+     * 
+     * @param commands
+     *     The commands
+     */
     @JsonProperty("commands")
     @JacksonXmlProperty(localName = "commands", isAttribute = false)
     public void setCommands(List<Commands> commands) {
@@ -842,12 +1073,12 @@ public class Job implements IJSObject
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("priority", priority).append("title", title).append("isOrderJob", isOrderJob).append("maxTasks", maxTasks).append("minTasks", minTasks).append("timeout", timeout).append("idleTimeout", idleTimeout).append("forceIdleTimeout", forceIdleTimeout).append("processClass", processClass).append("javaOptions", javaOptions).append("stopOnError", stopOnError).append("ignoreSignals", ignoreSignals).append("warnIfLongerThan", warnIfLongerThan).append("warnIfShorterThan", warnIfShorterThan).append("stderrLogLevel", stderrLogLevel).append("credentialsKey", credentialsKey).append("loadUserProfile", loadUserProfile).append("visible", visible).append("settings", settings).append("documentation", documentation).append("lockUses", lockUses).append("params", params).append("environment", environment).append("login", login).append("script", script).append("monitors", monitors).append("monitorUses", monitorUses).append("startWhenDirectoriesChanged", startWhenDirectoriesChanged).append("delayAfterErrors", delayAfterErrors).append("delayOrderAfterSetbacks", delayOrderAfterSetbacks).append("runTime", runTime).append("commands", commands).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(delayOrderAfterSetbacks).append(delayAfterErrors).append(startWhenDirectoriesChanged).append(forceIdleTimeout).append(processClass).append(title).append(ignoreSignals).append(credentialsKey).append(login).append(minTasks).append(warnIfShorterThan).append(timeout).append(isOrderJob).append(lockUses).append(runTime).append(commands).append(warnIfLongerThan).append(monitorUses).append(settings).append(visible).append(maxTasks).append(loadUserProfile).append(documentation).append(priority).append(params).append(script).append(stopOnError).append(environment).append(idleTimeout).append(javaOptions).append(stderrLogLevel).append(monitors).toHashCode();
+        return new HashCodeBuilder().append(priority).append(title).append(isOrderJob).append(maxTasks).append(minTasks).append(timeout).append(idleTimeout).append(forceIdleTimeout).append(processClass).append(javaOptions).append(stopOnError).append(ignoreSignals).append(warnIfLongerThan).append(warnIfShorterThan).append(stderrLogLevel).append(credentialsKey).append(loadUserProfile).append(visible).append(settings).append(documentation).append(lockUses).append(params).append(environment).append(login).append(script).append(monitors).append(monitorUses).append(startWhenDirectoriesChanged).append(delayAfterErrors).append(delayOrderAfterSetbacks).append(runTime).append(commands).toHashCode();
     }
 
     @Override
@@ -859,7 +1090,7 @@ public class Job implements IJSObject
             return false;
         }
         Job rhs = ((Job) other);
-        return new EqualsBuilder().append(delayOrderAfterSetbacks, rhs.delayOrderAfterSetbacks).append(delayAfterErrors, rhs.delayAfterErrors).append(startWhenDirectoriesChanged, rhs.startWhenDirectoriesChanged).append(forceIdleTimeout, rhs.forceIdleTimeout).append(processClass, rhs.processClass).append(title, rhs.title).append(ignoreSignals, rhs.ignoreSignals).append(credentialsKey, rhs.credentialsKey).append(login, rhs.login).append(minTasks, rhs.minTasks).append(warnIfShorterThan, rhs.warnIfShorterThan).append(timeout, rhs.timeout).append(isOrderJob, rhs.isOrderJob).append(lockUses, rhs.lockUses).append(runTime, rhs.runTime).append(commands, rhs.commands).append(warnIfLongerThan, rhs.warnIfLongerThan).append(monitorUses, rhs.monitorUses).append(settings, rhs.settings).append(visible, rhs.visible).append(maxTasks, rhs.maxTasks).append(loadUserProfile, rhs.loadUserProfile).append(documentation, rhs.documentation).append(priority, rhs.priority).append(params, rhs.params).append(script, rhs.script).append(stopOnError, rhs.stopOnError).append(environment, rhs.environment).append(idleTimeout, rhs.idleTimeout).append(javaOptions, rhs.javaOptions).append(stderrLogLevel, rhs.stderrLogLevel).append(monitors, rhs.monitors).isEquals();
+        return new EqualsBuilder().append(priority, rhs.priority).append(title, rhs.title).append(isOrderJob, rhs.isOrderJob).append(maxTasks, rhs.maxTasks).append(minTasks, rhs.minTasks).append(timeout, rhs.timeout).append(idleTimeout, rhs.idleTimeout).append(forceIdleTimeout, rhs.forceIdleTimeout).append(processClass, rhs.processClass).append(javaOptions, rhs.javaOptions).append(stopOnError, rhs.stopOnError).append(ignoreSignals, rhs.ignoreSignals).append(warnIfLongerThan, rhs.warnIfLongerThan).append(warnIfShorterThan, rhs.warnIfShorterThan).append(stderrLogLevel, rhs.stderrLogLevel).append(credentialsKey, rhs.credentialsKey).append(loadUserProfile, rhs.loadUserProfile).append(visible, rhs.visible).append(settings, rhs.settings).append(documentation, rhs.documentation).append(lockUses, rhs.lockUses).append(params, rhs.params).append(environment, rhs.environment).append(login, rhs.login).append(script, rhs.script).append(monitors, rhs.monitors).append(monitorUses, rhs.monitorUses).append(startWhenDirectoriesChanged, rhs.startWhenDirectoriesChanged).append(delayAfterErrors, rhs.delayAfterErrors).append(delayOrderAfterSetbacks, rhs.delayOrderAfterSetbacks).append(runTime, rhs.runTime).append(commands, rhs.commands).isEquals();
     }
 
 }

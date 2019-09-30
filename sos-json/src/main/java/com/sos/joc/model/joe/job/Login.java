@@ -1,6 +1,7 @@
 
 package com.sos.joc.model.joe.job;
 
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -13,6 +14,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "login")
+@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "user",
     "password"
@@ -50,7 +52,6 @@ public class Login {
      * @param user
      */
     public Login(String user, String password) {
-        super();
         this.user = user;
         this.password = password;
     }
@@ -59,6 +60,8 @@ public class Login {
      * 
      * (Required)
      * 
+     * @return
+     *     The user
      */
     @JsonProperty("user")
     @JacksonXmlProperty(localName = "user", isAttribute = true)
@@ -70,6 +73,8 @@ public class Login {
      * 
      * (Required)
      * 
+     * @param user
+     *     The user
      */
     @JsonProperty("user")
     @JacksonXmlProperty(localName = "user", isAttribute = true)
@@ -81,6 +86,8 @@ public class Login {
      * 
      * (Required)
      * 
+     * @return
+     *     The password
      */
     @JsonProperty("password")
     @JacksonXmlCData
@@ -93,6 +100,8 @@ public class Login {
      * 
      * (Required)
      * 
+     * @param password
+     *     The password
      */
     @JsonProperty("password")
     @JacksonXmlCData
@@ -103,7 +112,7 @@ public class Login {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("user", user).append("password", password).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override

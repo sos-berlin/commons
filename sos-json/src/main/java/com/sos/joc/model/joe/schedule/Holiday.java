@@ -2,6 +2,7 @@
 package com.sos.joc.model.joe.schedule;
 
 import java.util.List;
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -14,6 +15,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "holiday")
+@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "date",
     "calendar",
@@ -57,7 +59,6 @@ public class Holiday {
      * @param periods
      */
     public Holiday(String date, String calendar, List<Period> periods) {
-        super();
         this.date = date;
         this.calendar = calendar;
         this.periods = periods;
@@ -67,6 +68,8 @@ public class Holiday {
      * 
      * (Required)
      * 
+     * @return
+     *     The date
      */
     @JsonProperty("date")
     @JacksonXmlProperty(localName = "date", isAttribute = true)
@@ -78,6 +81,8 @@ public class Holiday {
      * 
      * (Required)
      * 
+     * @param date
+     *     The date
      */
     @JsonProperty("date")
     @JacksonXmlProperty(localName = "date", isAttribute = true)
@@ -85,12 +90,22 @@ public class Holiday {
         this.date = date;
     }
 
+    /**
+     * 
+     * @return
+     *     The calendar
+     */
     @JsonProperty("calendar")
     @JacksonXmlProperty(localName = "calendar", isAttribute = true)
     public String getCalendar() {
         return calendar;
     }
 
+    /**
+     * 
+     * @param calendar
+     *     The calendar
+     */
     @JsonProperty("calendar")
     @JacksonXmlProperty(localName = "calendar", isAttribute = true)
     public void setCalendar(String calendar) {
@@ -102,6 +117,8 @@ public class Holiday {
      * <p>
      * 
      * 
+     * @return
+     *     The periods
      */
     @JsonProperty("periods")
     @JacksonXmlProperty(localName = "period", isAttribute = false)
@@ -114,6 +131,8 @@ public class Holiday {
      * <p>
      * 
      * 
+     * @param periods
+     *     The periods
      */
     @JsonProperty("periods")
     @JacksonXmlProperty(localName = "period", isAttribute = false)
@@ -123,7 +142,7 @@ public class Holiday {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("date", date).append("calendar", calendar).append("periods", periods).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override

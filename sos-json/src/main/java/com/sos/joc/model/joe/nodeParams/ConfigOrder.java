@@ -2,6 +2,7 @@
 package com.sos.joc.model.joe.nodeparams;
 
 import java.util.List;
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -14,6 +15,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "order")
+@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobChainNodes"
 })
@@ -36,16 +38,25 @@ public class ConfigOrder {
      * @param jobChainNodes
      */
     public ConfigOrder(List<ConfigNode> jobChainNodes) {
-        super();
         this.jobChainNodes = jobChainNodes;
     }
 
+    /**
+     * 
+     * @return
+     *     The jobChainNodes
+     */
     @JsonProperty("jobChainNodes")
     @JacksonXmlProperty(localName = "process", isAttribute = false)
     public List<ConfigNode> getJobChainNodes() {
         return jobChainNodes;
     }
 
+    /**
+     * 
+     * @param jobChainNodes
+     *     The jobChainNodes
+     */
     @JsonProperty("jobChainNodes")
     @JacksonXmlProperty(localName = "process", isAttribute = false)
     public void setJobChainNodes(List<ConfigNode> jobChainNodes) {
@@ -54,7 +65,7 @@ public class ConfigOrder {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobChainNodes", jobChainNodes).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override

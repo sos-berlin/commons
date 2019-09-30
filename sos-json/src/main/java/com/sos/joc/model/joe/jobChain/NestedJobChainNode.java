@@ -1,9 +1,9 @@
 
 package com.sos.joc.model.joe.jobchain;
 
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
@@ -20,6 +20,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "job_chain_node.job_chain")
+@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobChain",
     "nextState",
@@ -34,7 +35,6 @@ public class NestedJobChainNode
      * 
      */
     @JsonProperty("jobChain")
-    @JsonPropertyDescription("path to job chain")
     @JacksonXmlProperty(localName = "job_chain", isAttribute = true)
     private String jobChain;
     /**
@@ -42,7 +42,6 @@ public class NestedJobChainNode
      * 
      */
     @JsonProperty("nextState")
-    @JsonPropertyDescription("name of the next job chain node in successful case")
     @JacksonXmlProperty(localName = "next_state", isAttribute = true)
     private String nextState;
     /**
@@ -50,7 +49,6 @@ public class NestedJobChainNode
      * 
      */
     @JsonProperty("errorState")
-    @JsonPropertyDescription("name of the next job chain node in errornous case")
     @JacksonXmlProperty(localName = "error_state", isAttribute = true)
     private String errorState;
 
@@ -68,7 +66,6 @@ public class NestedJobChainNode
      * @param nextState
      */
     public NestedJobChainNode(String jobChain, String nextState, String errorState) {
-        super();
         this.jobChain = jobChain;
         this.nextState = nextState;
         this.errorState = errorState;
@@ -77,6 +74,8 @@ public class NestedJobChainNode
     /**
      * path to job chain
      * 
+     * @return
+     *     The jobChain
      */
     @JsonProperty("jobChain")
     @JacksonXmlProperty(localName = "job_chain", isAttribute = true)
@@ -87,6 +86,8 @@ public class NestedJobChainNode
     /**
      * path to job chain
      * 
+     * @param jobChain
+     *     The jobChain
      */
     @JsonProperty("jobChain")
     @JacksonXmlProperty(localName = "job_chain", isAttribute = true)
@@ -97,6 +98,8 @@ public class NestedJobChainNode
     /**
      * name of the next job chain node in successful case
      * 
+     * @return
+     *     The nextState
      */
     @JsonProperty("nextState")
     @JacksonXmlProperty(localName = "next_state", isAttribute = true)
@@ -107,6 +110,8 @@ public class NestedJobChainNode
     /**
      * name of the next job chain node in successful case
      * 
+     * @param nextState
+     *     The nextState
      */
     @JsonProperty("nextState")
     @JacksonXmlProperty(localName = "next_state", isAttribute = true)
@@ -117,6 +122,8 @@ public class NestedJobChainNode
     /**
      * name of the next job chain node in errornous case
      * 
+     * @return
+     *     The errorState
      */
     @JsonProperty("errorState")
     @JacksonXmlProperty(localName = "error_state", isAttribute = true)
@@ -127,6 +134,8 @@ public class NestedJobChainNode
     /**
      * name of the next job chain node in errornous case
      * 
+     * @param errorState
+     *     The errorState
      */
     @JsonProperty("errorState")
     @JacksonXmlProperty(localName = "error_state", isAttribute = true)
@@ -136,7 +145,7 @@ public class NestedJobChainNode
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).appendSuper(super.toString()).append("jobChain", jobChain).append("nextState", nextState).append("errorState", errorState).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override

@@ -2,9 +2,9 @@
 package com.sos.joc.model.joe.schedule;
 
 import java.util.List;
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -15,6 +15,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "weekday")
+@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "day",
     "which",
@@ -28,7 +29,6 @@ public class WeekdayOfMonth {
      * 
      */
     @JsonProperty("day")
-    @JsonPropertyDescription("[01234567]|(so(nntag)?)|(mo(ntag)?)|(di(enstag)?)|(mi(ttwoch)?)|(do(nnerstag)?)|(fr(eitag)?)|(sa(mstag)?)|(sun(day)?)|(mon(day)?)|(tue(sday)?)|(wed(nesday)?)|(thu(rsday)?)|(fri(day)?)|(sat(urday)?)")
     @JacksonXmlProperty(localName = "day", isAttribute = true)
     private String day;
     /**
@@ -37,7 +37,6 @@ public class WeekdayOfMonth {
      * 
      */
     @JsonProperty("which")
-    @JsonPropertyDescription("possible value: -4, -3, -2, -1, 1, 2, 3, 4")
     @JacksonXmlProperty(localName = "which", isAttribute = true)
     private Integer which;
     /**
@@ -65,7 +64,6 @@ public class WeekdayOfMonth {
      * @param day
      */
     public WeekdayOfMonth(String day, Integer which, List<Period> periods) {
-        super();
         this.day = day;
         this.which = which;
         this.periods = periods;
@@ -75,6 +73,8 @@ public class WeekdayOfMonth {
      * [01234567]|(so(nntag)?)|(mo(ntag)?)|(di(enstag)?)|(mi(ttwoch)?)|(do(nnerstag)?)|(fr(eitag)?)|(sa(mstag)?)|(sun(day)?)|(mon(day)?)|(tue(sday)?)|(wed(nesday)?)|(thu(rsday)?)|(fri(day)?)|(sat(urday)?)
      * (Required)
      * 
+     * @return
+     *     The day
      */
     @JsonProperty("day")
     @JacksonXmlProperty(localName = "day", isAttribute = true)
@@ -86,6 +86,8 @@ public class WeekdayOfMonth {
      * [01234567]|(so(nntag)?)|(mo(ntag)?)|(di(enstag)?)|(mi(ttwoch)?)|(do(nnerstag)?)|(fr(eitag)?)|(sa(mstag)?)|(sun(day)?)|(mon(day)?)|(tue(sday)?)|(wed(nesday)?)|(thu(rsday)?)|(fri(day)?)|(sat(urday)?)
      * (Required)
      * 
+     * @param day
+     *     The day
      */
     @JsonProperty("day")
     @JacksonXmlProperty(localName = "day", isAttribute = true)
@@ -97,6 +99,8 @@ public class WeekdayOfMonth {
      * possible value: -4, -3, -2, -1, 1, 2, 3, 4
      * (Required)
      * 
+     * @return
+     *     The which
      */
     @JsonProperty("which")
     @JacksonXmlProperty(localName = "which", isAttribute = true)
@@ -108,6 +112,8 @@ public class WeekdayOfMonth {
      * possible value: -4, -3, -2, -1, 1, 2, 3, 4
      * (Required)
      * 
+     * @param which
+     *     The which
      */
     @JsonProperty("which")
     @JacksonXmlProperty(localName = "which", isAttribute = true)
@@ -120,6 +126,8 @@ public class WeekdayOfMonth {
      * <p>
      * 
      * 
+     * @return
+     *     The periods
      */
     @JsonProperty("periods")
     @JacksonXmlProperty(localName = "period", isAttribute = false)
@@ -132,6 +140,8 @@ public class WeekdayOfMonth {
      * <p>
      * 
      * 
+     * @param periods
+     *     The periods
      */
     @JsonProperty("periods")
     @JacksonXmlProperty(localName = "period", isAttribute = false)
@@ -141,12 +151,12 @@ public class WeekdayOfMonth {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("day", day).append("which", which).append("periods", periods).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(which).append(periods).append(day).toHashCode();
+        return new HashCodeBuilder().append(day).append(which).append(periods).toHashCode();
     }
 
     @Override
@@ -158,7 +168,7 @@ public class WeekdayOfMonth {
             return false;
         }
         WeekdayOfMonth rhs = ((WeekdayOfMonth) other);
-        return new EqualsBuilder().append(which, rhs.which).append(periods, rhs.periods).append(day, rhs.day).isEquals();
+        return new EqualsBuilder().append(day, rhs.day).append(which, rhs.which).append(periods, rhs.periods).isEquals();
     }
 
 }

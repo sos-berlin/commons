@@ -2,6 +2,7 @@
 package com.sos.joc.model.joe.schedule;
 
 import java.util.List;
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -22,6 +23,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "holidays")
+@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "weekdays",
     "days"
@@ -56,7 +58,6 @@ public class HolidaysFile implements IJSObject
      * @param days
      */
     public HolidaysFile(Weekdays weekdays, List<Holiday> days) {
-        super();
         this.weekdays = weekdays;
         this.days = days;
     }
@@ -66,6 +67,8 @@ public class HolidaysFile implements IJSObject
      * <p>
      * 
      * 
+     * @return
+     *     The weekdays
      */
     @JsonProperty("weekdays")
     @JacksonXmlProperty(localName = "weekdays", isAttribute = false)
@@ -78,6 +81,8 @@ public class HolidaysFile implements IJSObject
      * <p>
      * 
      * 
+     * @param weekdays
+     *     The weekdays
      */
     @JsonProperty("weekdays")
     @JacksonXmlProperty(localName = "weekdays", isAttribute = false)
@@ -85,12 +90,22 @@ public class HolidaysFile implements IJSObject
         this.weekdays = weekdays;
     }
 
+    /**
+     * 
+     * @return
+     *     The days
+     */
     @JsonProperty("days")
     @JacksonXmlProperty(localName = "holiday", isAttribute = false)
     public List<Holiday> getDays() {
         return days;
     }
 
+    /**
+     * 
+     * @param days
+     *     The days
+     */
     @JsonProperty("days")
     @JacksonXmlProperty(localName = "holiday", isAttribute = false)
     public void setDays(List<Holiday> days) {
@@ -99,12 +114,12 @@ public class HolidaysFile implements IJSObject
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("weekdays", weekdays).append("days", days).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(days).append(weekdays).toHashCode();
+        return new HashCodeBuilder().append(weekdays).append(days).toHashCode();
     }
 
     @Override
@@ -116,7 +131,7 @@ public class HolidaysFile implements IJSObject
             return false;
         }
         HolidaysFile rhs = ((HolidaysFile) other);
-        return new EqualsBuilder().append(days, rhs.days).append(weekdays, rhs.weekdays).isEquals();
+        return new EqualsBuilder().append(weekdays, rhs.weekdays).append(days, rhs.days).isEquals();
     }
 
 }

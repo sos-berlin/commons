@@ -2,6 +2,7 @@
 package com.sos.joc.model.joe.common;
 
 import java.util.List;
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -21,6 +22,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "params")
+@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "paramList",
     "copyParams",
@@ -32,6 +34,9 @@ public class Params {
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "param", isAttribute = false)
     private List<Param> paramList = null;
+    /**
+     * 
+     */
     @JsonProperty("copyParams")
     @JacksonXmlProperty(localName = "copy_params", isAttribute = false)
     private CopyParams copyParams;
@@ -54,42 +59,71 @@ public class Params {
      * @param includes
      */
     public Params(List<Param> paramList, CopyParams copyParams, List<ParamInclude> includes) {
-        super();
         this.paramList = paramList;
         this.copyParams = copyParams;
         this.includes = includes;
     }
 
+    /**
+     * 
+     * @return
+     *     The paramList
+     */
     @JsonProperty("paramList")
     @JacksonXmlProperty(localName = "param", isAttribute = false)
     public List<Param> getParamList() {
         return paramList;
     }
 
+    /**
+     * 
+     * @param paramList
+     *     The paramList
+     */
     @JsonProperty("paramList")
     @JacksonXmlProperty(localName = "param", isAttribute = false)
     public void setParamList(List<Param> paramList) {
         this.paramList = paramList;
     }
 
+    /**
+     * 
+     * @return
+     *     The copyParams
+     */
     @JsonProperty("copyParams")
     @JacksonXmlProperty(localName = "copy_params", isAttribute = false)
     public CopyParams getCopyParams() {
         return copyParams;
     }
 
+    /**
+     * 
+     * @param copyParams
+     *     The copyParams
+     */
     @JsonProperty("copyParams")
     @JacksonXmlProperty(localName = "copy_params", isAttribute = false)
     public void setCopyParams(CopyParams copyParams) {
         this.copyParams = copyParams;
     }
 
+    /**
+     * 
+     * @return
+     *     The includes
+     */
     @JsonProperty("includes")
     @JacksonXmlProperty(localName = "includes", isAttribute = false)
     public List<ParamInclude> getIncludes() {
         return includes;
     }
 
+    /**
+     * 
+     * @param includes
+     *     The includes
+     */
     @JsonProperty("includes")
     @JacksonXmlProperty(localName = "includes", isAttribute = false)
     public void setIncludes(List<ParamInclude> includes) {
@@ -98,12 +132,12 @@ public class Params {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("paramList", paramList).append("copyParams", copyParams).append("includes", includes).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(paramList).append(includes).append(copyParams).toHashCode();
+        return new HashCodeBuilder().append(paramList).append(copyParams).append(includes).toHashCode();
     }
 
     @Override
@@ -115,7 +149,7 @@ public class Params {
             return false;
         }
         Params rhs = ((Params) other);
-        return new EqualsBuilder().append(paramList, rhs.paramList).append(includes, rhs.includes).append(copyParams, rhs.copyParams).isEquals();
+        return new EqualsBuilder().append(paramList, rhs.paramList).append(copyParams, rhs.copyParams).append(includes, rhs.includes).isEquals();
     }
 
 }

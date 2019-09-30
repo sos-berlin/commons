@@ -1,6 +1,7 @@
 
 package com.sos.joc.model.joe.lock;
 
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -20,6 +21,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "lock")
+@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "maxNonExclusive"
 })
@@ -48,7 +50,6 @@ public class Lock implements IJSObject
      * @param maxNonExclusive
      */
     public Lock(Integer maxNonExclusive) {
-        super();
         this.maxNonExclusive = maxNonExclusive;
     }
 
@@ -57,6 +58,8 @@ public class Lock implements IJSObject
      * <p>
      * 
      * 
+     * @return
+     *     The maxNonExclusive
      */
     @JsonProperty("maxNonExclusive")
     @JacksonXmlProperty(localName = "max_non_exclusive", isAttribute = true)
@@ -69,6 +72,8 @@ public class Lock implements IJSObject
      * <p>
      * 
      * 
+     * @param maxNonExclusive
+     *     The maxNonExclusive
      */
     @JsonProperty("maxNonExclusive")
     @JacksonXmlProperty(localName = "max_non_exclusive", isAttribute = true)
@@ -78,7 +83,7 @@ public class Lock implements IJSObject
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("maxNonExclusive", maxNonExclusive).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override

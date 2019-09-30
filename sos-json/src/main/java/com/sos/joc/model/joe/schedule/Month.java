@@ -2,9 +2,9 @@
 package com.sos.joc.model.joe.schedule;
 
 import java.util.List;
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -15,6 +15,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "month")
+@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "month",
     "periods",
@@ -29,7 +30,6 @@ public class Month {
      * 
      */
     @JsonProperty("month")
-    @JsonPropertyDescription("unordered space separated list of 1-12 or january, february, march, april, may, june, july, august, september, october, november, december")
     @JacksonXmlProperty(localName = "month", isAttribute = true)
     private String month;
     /**
@@ -86,7 +86,6 @@ public class Month {
      * @param ultimos
      */
     public Month(String month, List<Period> periods, Weekdays weekdays, Monthdays monthdays, Ultimos ultimos) {
-        super();
         this.month = month;
         this.periods = periods;
         this.weekdays = weekdays;
@@ -97,6 +96,8 @@ public class Month {
     /**
      * unordered space separated list of 1-12 or january, february, march, april, may, june, july, august, september, october, november, december
      * 
+     * @return
+     *     The month
      */
     @JsonProperty("month")
     @JacksonXmlProperty(localName = "month", isAttribute = true)
@@ -107,6 +108,8 @@ public class Month {
     /**
      * unordered space separated list of 1-12 or january, february, march, april, may, june, july, august, september, october, november, december
      * 
+     * @param month
+     *     The month
      */
     @JsonProperty("month")
     @JacksonXmlProperty(localName = "month", isAttribute = true)
@@ -119,6 +122,8 @@ public class Month {
      * <p>
      * 
      * 
+     * @return
+     *     The periods
      */
     @JsonProperty("periods")
     @JacksonXmlProperty(localName = "period", isAttribute = false)
@@ -131,6 +136,8 @@ public class Month {
      * <p>
      * 
      * 
+     * @param periods
+     *     The periods
      */
     @JsonProperty("periods")
     @JacksonXmlProperty(localName = "period", isAttribute = false)
@@ -143,6 +150,8 @@ public class Month {
      * <p>
      * 
      * 
+     * @return
+     *     The weekdays
      */
     @JsonProperty("weekdays")
     @JacksonXmlProperty(localName = "weekdays", isAttribute = false)
@@ -155,6 +164,8 @@ public class Month {
      * <p>
      * 
      * 
+     * @param weekdays
+     *     The weekdays
      */
     @JsonProperty("weekdays")
     @JacksonXmlProperty(localName = "weekdays", isAttribute = false)
@@ -167,6 +178,8 @@ public class Month {
      * <p>
      * 
      * 
+     * @return
+     *     The monthdays
      */
     @JsonProperty("monthdays")
     @JacksonXmlProperty(localName = "monthdays", isAttribute = false)
@@ -179,6 +192,8 @@ public class Month {
      * <p>
      * 
      * 
+     * @param monthdays
+     *     The monthdays
      */
     @JsonProperty("monthdays")
     @JacksonXmlProperty(localName = "monthdays", isAttribute = false)
@@ -191,6 +206,8 @@ public class Month {
      * <p>
      * 
      * 
+     * @return
+     *     The ultimos
      */
     @JsonProperty("ultimos")
     @JacksonXmlProperty(localName = "ultimos", isAttribute = false)
@@ -203,6 +220,8 @@ public class Month {
      * <p>
      * 
      * 
+     * @param ultimos
+     *     The ultimos
      */
     @JsonProperty("ultimos")
     @JacksonXmlProperty(localName = "ultimos", isAttribute = false)
@@ -212,12 +231,12 @@ public class Month {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("month", month).append("periods", periods).append("weekdays", weekdays).append("monthdays", monthdays).append("ultimos", ultimos).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(periods).append(monthdays).append(month).append(ultimos).append(weekdays).toHashCode();
+        return new HashCodeBuilder().append(month).append(periods).append(weekdays).append(monthdays).append(ultimos).toHashCode();
     }
 
     @Override
@@ -229,7 +248,7 @@ public class Month {
             return false;
         }
         Month rhs = ((Month) other);
-        return new EqualsBuilder().append(periods, rhs.periods).append(monthdays, rhs.monthdays).append(month, rhs.month).append(ultimos, rhs.ultimos).append(weekdays, rhs.weekdays).isEquals();
+        return new EqualsBuilder().append(month, rhs.month).append(periods, rhs.periods).append(weekdays, rhs.weekdays).append(monthdays, rhs.monthdays).append(ultimos, rhs.ultimos).isEquals();
     }
 
 }

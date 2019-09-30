@@ -1,9 +1,9 @@
 
 package com.sos.joc.model.joe.schedule;
 
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
@@ -13,6 +13,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "at")
+@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "at"
 })
@@ -23,7 +24,6 @@ public class At {
      * 
      */
     @JsonProperty("at")
-    @JsonPropertyDescription("yyyy-mm-dd HH:MM[:SS]")
     @JacksonXmlProperty(localName = "at", isAttribute = true)
     private String at;
 
@@ -39,13 +39,14 @@ public class At {
      * @param at
      */
     public At(String at) {
-        super();
         this.at = at;
     }
 
     /**
      * yyyy-mm-dd HH:MM[:SS]
      * 
+     * @return
+     *     The at
      */
     @JsonProperty("at")
     @JacksonXmlProperty(localName = "at", isAttribute = true)
@@ -56,6 +57,8 @@ public class At {
     /**
      * yyyy-mm-dd HH:MM[:SS]
      * 
+     * @param at
+     *     The at
      */
     @JsonProperty("at")
     @JacksonXmlProperty(localName = "at", isAttribute = true)
@@ -65,7 +68,7 @@ public class At {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("at", at).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override

@@ -1,10 +1,9 @@
 
 package com.sos.joc.model.joe.schedule;
 
-import java.util.List;
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
@@ -22,6 +21,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "schedule")
+@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "validFrom",
     "validTo",
@@ -38,7 +38,6 @@ public class Schedule
      * 
      */
     @JsonProperty("validFrom")
-    @JsonPropertyDescription("yyyy-mm-dd HH:MM[:SS]")
     @JacksonXmlProperty(localName = "valid_from", isAttribute = true)
     private String validFrom;
     /**
@@ -46,7 +45,6 @@ public class Schedule
      * 
      */
     @JsonProperty("validTo")
-    @JsonPropertyDescription("yyyy-mm-dd HH:MM[:SS]")
     @JacksonXmlProperty(localName = "valid_to", isAttribute = true)
     private String validTo;
     /**
@@ -54,7 +52,6 @@ public class Schedule
      * 
      */
     @JsonProperty("substitute")
-    @JsonPropertyDescription("path to another schedule")
     @JacksonXmlProperty(localName = "substitute", isAttribute = true)
     private String substitute;
     @JsonProperty("title")
@@ -70,27 +67,12 @@ public class Schedule
 
     /**
      * 
-     * @param letRun
-     * @param ats
-     * @param weekdays
-     * @param timeZone
-     * @param dates
      * @param validFrom
      * @param title
-     * @param runOnce
      * @param substitute
-     * @param month
-     * @param holidays
-     * @param calendars
-     * @param periods
-     * @param end
-     * @param monthdays
-     * @param begin
-     * @param ultimos
      * @param validTo
      */
-    public Schedule(String validFrom, String validTo, String substitute, String title, String timeZone, String begin, String end, String letRun, String runOnce, List<Period> periods, List<At> ats, List<Date> dates, Weekdays weekdays, Monthdays monthdays, Ultimos ultimos, List<Month> month, Holidays holidays, String calendars) {
-        super(timeZone, begin, end, letRun, runOnce, periods, ats, dates, weekdays, monthdays, ultimos, month, holidays, calendars);
+    public Schedule(String validFrom, String validTo, String substitute, String title) {
         this.validFrom = validFrom;
         this.validTo = validTo;
         this.substitute = substitute;
@@ -100,6 +82,8 @@ public class Schedule
     /**
      * yyyy-mm-dd HH:MM[:SS]
      * 
+     * @return
+     *     The validFrom
      */
     @JsonProperty("validFrom")
     @JacksonXmlProperty(localName = "valid_from", isAttribute = true)
@@ -110,6 +94,8 @@ public class Schedule
     /**
      * yyyy-mm-dd HH:MM[:SS]
      * 
+     * @param validFrom
+     *     The validFrom
      */
     @JsonProperty("validFrom")
     @JacksonXmlProperty(localName = "valid_from", isAttribute = true)
@@ -120,6 +106,8 @@ public class Schedule
     /**
      * yyyy-mm-dd HH:MM[:SS]
      * 
+     * @return
+     *     The validTo
      */
     @JsonProperty("validTo")
     @JacksonXmlProperty(localName = "valid_to", isAttribute = true)
@@ -130,6 +118,8 @@ public class Schedule
     /**
      * yyyy-mm-dd HH:MM[:SS]
      * 
+     * @param validTo
+     *     The validTo
      */
     @JsonProperty("validTo")
     @JacksonXmlProperty(localName = "valid_to", isAttribute = true)
@@ -140,6 +130,8 @@ public class Schedule
     /**
      * path to another schedule
      * 
+     * @return
+     *     The substitute
      */
     @JsonProperty("substitute")
     @JacksonXmlProperty(localName = "substitute", isAttribute = true)
@@ -150,6 +142,8 @@ public class Schedule
     /**
      * path to another schedule
      * 
+     * @param substitute
+     *     The substitute
      */
     @JsonProperty("substitute")
     @JacksonXmlProperty(localName = "substitute", isAttribute = true)
@@ -157,12 +151,22 @@ public class Schedule
         this.substitute = substitute;
     }
 
+    /**
+     * 
+     * @return
+     *     The title
+     */
     @JsonProperty("title")
     @JacksonXmlProperty(localName = "title", isAttribute = true)
     public String getTitle() {
         return title;
     }
 
+    /**
+     * 
+     * @param title
+     *     The title
+     */
     @JsonProperty("title")
     @JacksonXmlProperty(localName = "title", isAttribute = true)
     public void setTitle(String title) {
@@ -171,12 +175,12 @@ public class Schedule
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).appendSuper(super.toString()).append("validFrom", validFrom).append("validTo", validTo).append("substitute", substitute).append("title", title).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().appendSuper(super.hashCode()).append(validFrom).append(title).append(substitute).append(validTo).toHashCode();
+        return new HashCodeBuilder().appendSuper(super.hashCode()).append(validFrom).append(validTo).append(substitute).append(title).toHashCode();
     }
 
     @Override
@@ -188,7 +192,7 @@ public class Schedule
             return false;
         }
         Schedule rhs = ((Schedule) other);
-        return new EqualsBuilder().appendSuper(super.equals(other)).append(validFrom, rhs.validFrom).append(title, rhs.title).append(substitute, rhs.substitute).append(validTo, rhs.validTo).isEquals();
+        return new EqualsBuilder().appendSuper(super.equals(other)).append(validFrom, rhs.validFrom).append(validTo, rhs.validTo).append(substitute, rhs.substitute).append(title, rhs.title).isEquals();
     }
 
 }
