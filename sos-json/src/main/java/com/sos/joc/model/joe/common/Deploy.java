@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.sos.joc.model.audit.AuditParams;
 import com.sos.joc.model.common.JobSchedulerObjectType;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -15,23 +14,22 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * Filter Deploy
+ * Return for Deploy
  * <p>
  * 
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JacksonXmlRootElement(localName = "filter_deploy")
+@JacksonXmlRootElement(localName = "deploy")
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobschedulerId",
     "folder",
     "recursive",
     "objectName",
-    "objectType",
-    "auditLog"
+    "objectType"
 })
-public class FilterDeploy {
+public class Deploy {
 
     /**
      * 
@@ -65,39 +63,28 @@ public class FilterDeploy {
     @JsonProperty("objectType")
     @JacksonXmlProperty(localName = "object_type", isAttribute = false)
     private JobSchedulerObjectType objectType;
-    /**
-     * auditParams
-     * <p>
-     * 
-     * 
-     */
-    @JsonProperty("auditLog")
-    @JacksonXmlProperty(localName = "audit_log", isAttribute = false)
-    private AuditParams auditLog;
 
     /**
      * No args constructor for use in serialization
      * 
      */
-    public FilterDeploy() {
+    public Deploy() {
     }
 
     /**
      * 
      * @param folder
-     * @param auditLog
      * @param objectName
      * @param jobschedulerId
      * @param recursive
      * @param objectType
      */
-    public FilterDeploy(String jobschedulerId, String folder, Boolean recursive, String objectName, JobSchedulerObjectType objectType, AuditParams auditLog) {
+    public Deploy(String jobschedulerId, String folder, Boolean recursive, String objectName, JobSchedulerObjectType objectType) {
         this.jobschedulerId = jobschedulerId;
         this.folder = folder;
         this.recursive = recursive;
         this.objectName = objectName;
         this.objectType = objectType;
-        this.auditLog = auditLog;
     }
 
     /**
@@ -226,34 +213,6 @@ public class FilterDeploy {
         this.objectType = objectType;
     }
 
-    /**
-     * auditParams
-     * <p>
-     * 
-     * 
-     * @return
-     *     The auditLog
-     */
-    @JsonProperty("auditLog")
-    @JacksonXmlProperty(localName = "audit_log", isAttribute = false)
-    public AuditParams getAuditLog() {
-        return auditLog;
-    }
-
-    /**
-     * auditParams
-     * <p>
-     * 
-     * 
-     * @param auditLog
-     *     The auditLog
-     */
-    @JsonProperty("auditLog")
-    @JacksonXmlProperty(localName = "audit_log", isAttribute = false)
-    public void setAuditLog(AuditParams auditLog) {
-        this.auditLog = auditLog;
-    }
-
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -261,7 +220,7 @@ public class FilterDeploy {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(folder).append(recursive).append(objectName).append(objectType).append(auditLog).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(folder).append(recursive).append(objectName).append(objectType).toHashCode();
     }
 
     @Override
@@ -269,11 +228,11 @@ public class FilterDeploy {
         if (other == this) {
             return true;
         }
-        if ((other instanceof FilterDeploy) == false) {
+        if ((other instanceof Deploy) == false) {
             return false;
         }
-        FilterDeploy rhs = ((FilterDeploy) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(folder, rhs.folder).append(recursive, rhs.recursive).append(objectName, rhs.objectName).append(objectType, rhs.objectType).append(auditLog, rhs.auditLog).isEquals();
+        Deploy rhs = ((Deploy) other);
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(folder, rhs.folder).append(recursive, rhs.recursive).append(objectName, rhs.objectName).append(objectType, rhs.objectType).isEquals();
     }
 
 }

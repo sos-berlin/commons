@@ -13,7 +13,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * filter for requests
+ * joe object status
  * <p>
  * Describes the situation live/draft
  * 

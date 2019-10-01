@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
-import com.sos.joc.model.audit.AuditParams;
 import com.sos.joc.model.common.JobSchedulerObjectType;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -15,9 +14,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * filter for requests
+ * filter for joe requests
  * <p>
- * oldPath is used for a move/rename, auditLog only for deploy
+ * oldPath is used for a move/rename, auditLog only for deploy, forceLive only for read/file
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -27,9 +26,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "jobschedulerId",
     "path",
     "oldPath",
-    "objectType",
     "forceLive",
-    "auditLog"
+    "object",
+    "objectType"
 })
 public class Filter {
 
@@ -60,6 +59,12 @@ public class Filter {
     @JsonProperty("oldPath")
     @JacksonXmlProperty(localName = "old_path", isAttribute = true)
     private String oldPath;
+    @JsonProperty("forceLive")
+    @JacksonXmlProperty(localName = "force_live", isAttribute = true)
+    private Boolean forceLive;
+    @JsonProperty("object")
+    @JacksonXmlProperty(localName = "object", isAttribute = true)
+    private String object;
     /**
      * JobScheduler object type
      * <p>
@@ -69,18 +74,6 @@ public class Filter {
     @JsonProperty("objectType")
     @JacksonXmlProperty(localName = "object_type", isAttribute = false)
     private JobSchedulerObjectType objectType;
-    @JsonProperty("forceLive")
-    @JacksonXmlProperty(localName = "force_live", isAttribute = true)
-    private Boolean forceLive;
-    /**
-     * auditParams
-     * <p>
-     * 
-     * 
-     */
-    @JsonProperty("auditLog")
-    @JacksonXmlProperty(localName = "audit_log", isAttribute = false)
-    private AuditParams auditLog;
 
     /**
      * No args constructor for use in serialization
@@ -92,19 +85,19 @@ public class Filter {
     /**
      * 
      * @param path
-     * @param auditLog
      * @param forceLive
      * @param oldPath
      * @param jobschedulerId
+     * @param object
      * @param objectType
      */
-    public Filter(String jobschedulerId, String path, String oldPath, JobSchedulerObjectType objectType, Boolean forceLive, AuditParams auditLog) {
+    public Filter(String jobschedulerId, String path, String oldPath, Boolean forceLive, String object, JobSchedulerObjectType objectType) {
         this.jobschedulerId = jobschedulerId;
         this.path = path;
         this.oldPath = oldPath;
-        this.objectType = objectType;
         this.forceLive = forceLive;
-        this.auditLog = auditLog;
+        this.object = object;
+        this.objectType = objectType;
     }
 
     /**
@@ -192,6 +185,50 @@ public class Filter {
     }
 
     /**
+     * 
+     * @return
+     *     The forceLive
+     */
+    @JsonProperty("forceLive")
+    @JacksonXmlProperty(localName = "force_live", isAttribute = true)
+    public Boolean getForceLive() {
+        return forceLive;
+    }
+
+    /**
+     * 
+     * @param forceLive
+     *     The forceLive
+     */
+    @JsonProperty("forceLive")
+    @JacksonXmlProperty(localName = "force_live", isAttribute = true)
+    public void setForceLive(Boolean forceLive) {
+        this.forceLive = forceLive;
+    }
+
+    /**
+     * 
+     * @return
+     *     The object
+     */
+    @JsonProperty("object")
+    @JacksonXmlProperty(localName = "object", isAttribute = true)
+    public String getObject() {
+        return object;
+    }
+
+    /**
+     * 
+     * @param object
+     *     The object
+     */
+    @JsonProperty("object")
+    @JacksonXmlProperty(localName = "object", isAttribute = true)
+    public void setObject(String object) {
+        this.object = object;
+    }
+
+    /**
      * JobScheduler object type
      * <p>
      * 
@@ -219,56 +256,6 @@ public class Filter {
         this.objectType = objectType;
     }
 
-    /**
-     * 
-     * @return
-     *     The forceLive
-     */
-    @JsonProperty("forceLive")
-    @JacksonXmlProperty(localName = "force_live", isAttribute = true)
-    public Boolean getForceLive() {
-        return forceLive;
-    }
-
-    /**
-     * 
-     * @param forceLive
-     *     The forceLive
-     */
-    @JsonProperty("forceLive")
-    @JacksonXmlProperty(localName = "force_live", isAttribute = true)
-    public void setForceLive(Boolean forceLive) {
-        this.forceLive = forceLive;
-    }
-
-    /**
-     * auditParams
-     * <p>
-     * 
-     * 
-     * @return
-     *     The auditLog
-     */
-    @JsonProperty("auditLog")
-    @JacksonXmlProperty(localName = "audit_log", isAttribute = false)
-    public AuditParams getAuditLog() {
-        return auditLog;
-    }
-
-    /**
-     * auditParams
-     * <p>
-     * 
-     * 
-     * @param auditLog
-     *     The auditLog
-     */
-    @JsonProperty("auditLog")
-    @JacksonXmlProperty(localName = "audit_log", isAttribute = false)
-    public void setAuditLog(AuditParams auditLog) {
-        this.auditLog = auditLog;
-    }
-
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -276,7 +263,7 @@ public class Filter {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(path).append(oldPath).append(objectType).append(forceLive).append(auditLog).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(path).append(oldPath).append(forceLive).append(object).append(objectType).toHashCode();
     }
 
     @Override
@@ -288,7 +275,7 @@ public class Filter {
             return false;
         }
         Filter rhs = ((Filter) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(path, rhs.path).append(oldPath, rhs.oldPath).append(objectType, rhs.objectType).append(forceLive, rhs.forceLive).append(auditLog, rhs.auditLog).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(path, rhs.path).append(oldPath, rhs.oldPath).append(forceLive, rhs.forceLive).append(object, rhs.object).append(objectType, rhs.objectType).isEquals();
     }
 
 }
