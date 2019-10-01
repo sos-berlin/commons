@@ -12,7 +12,9 @@ public enum VersionStateText {
 
     LIVE_IS_NEWER("LIVE_IS_NEWER"),
     DRAFT_IS_NEWER("DRAFT_IS_NEWER"),
-    LIVE_NOT_EXIST("LIVE_NOT_EXIST");
+    LIVE_NOT_EXIST("LIVE_NOT_EXIST"),
+    DRAFT_NOT_EXIST("DRAFT_NOT_EXIST"),
+    NO_CONFIGURATION_EXIST("NO_CONFIGURATION_EXIST");
     private final String value;
     private final static Map<String, VersionStateText> CONSTANTS = new HashMap<String, VersionStateText>();
 
