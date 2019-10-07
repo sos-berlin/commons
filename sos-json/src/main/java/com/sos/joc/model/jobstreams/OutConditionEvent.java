@@ -23,6 +23,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "command",
     "event",
     "exists",
+    "globalEvent",
     "existsInJobStream",
     "jobStream"
 })
@@ -42,6 +43,8 @@ public class OutConditionEvent {
     private String event;
     @JsonProperty("exists")
     private Boolean exists;
+    @JsonProperty("globalEvent")
+    private Boolean globalEvent;
     @JsonProperty("existsInJobStream")
     private Boolean existsInJobStream;
     @JsonProperty("jobStream")
@@ -136,6 +139,26 @@ public class OutConditionEvent {
     /**
      * 
      * @return
+     *     The globalEvent
+     */
+    @JsonProperty("globalEvent")
+    public Boolean getGlobalEvent() {
+        return globalEvent;
+    }
+
+    /**
+     * 
+     * @param globalEvent
+     *     The globalEvent
+     */
+    @JsonProperty("globalEvent")
+    public void setGlobalEvent(Boolean globalEvent) {
+        this.globalEvent = globalEvent;
+    }
+
+    /**
+     * 
+     * @return
      *     The existsInJobStream
      */
     @JsonProperty("existsInJobStream")
@@ -180,7 +203,7 @@ public class OutConditionEvent {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(id).append(command).append(event).append(exists).append(existsInJobStream).append(jobStream).toHashCode();
+        return new HashCodeBuilder().append(id).append(command).append(event).append(exists).append(globalEvent).append(existsInJobStream).append(jobStream).toHashCode();
     }
 
     @Override
@@ -192,7 +215,7 @@ public class OutConditionEvent {
             return false;
         }
         OutConditionEvent rhs = ((OutConditionEvent) other);
-        return new EqualsBuilder().append(id, rhs.id).append(command, rhs.command).append(event, rhs.event).append(exists, rhs.exists).append(existsInJobStream, rhs.existsInJobStream).append(jobStream, rhs.jobStream).isEquals();
+        return new EqualsBuilder().append(id, rhs.id).append(command, rhs.command).append(event, rhs.event).append(exists, rhs.exists).append(globalEvent, rhs.globalEvent).append(existsInJobStream, rhs.existsInJobStream).append(jobStream, rhs.jobStream).isEquals();
     }
 
 }
