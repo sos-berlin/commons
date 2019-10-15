@@ -1,9 +1,9 @@
 
 package com.sos.joc.model.joe.other;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
@@ -20,10 +20,20 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "folder_item")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "name",
-    "deployed"
+    "deployed",
+    "title",
+    "processClass",
+    "isOrderJob",
+    "priority",
+    "state",
+    "endState",
+    "maxProcesses",
+    "maxNonExclusive",
+    "validFrom",
+    "validTo",
+    "substitute"
 })
 public class FolderItem {
 
@@ -43,30 +53,96 @@ public class FolderItem {
     @JsonProperty("deployed")
     @JacksonXmlProperty(localName = "deployed", isAttribute = true)
     private Boolean deployed = false;
-
+    @JsonProperty("title")
+    @JacksonXmlProperty(localName = "title", isAttribute = true)
+    private String title;
     /**
-     * No args constructor for use in serialization
+     * for jobs and job chains
      * 
      */
-    public FolderItem() {
-    }
-
+    @JsonProperty("processClass")
+    @JsonPropertyDescription("for jobs and job chains")
+    @JacksonXmlProperty(localName = "process_class", isAttribute = true)
+    private String processClass;
     /**
+     * for jobs: possible values: yes, no, 1, 0, true, false
      * 
-     * @param name
-     * @param deployed
      */
-    public FolderItem(String name, Boolean deployed) {
-        this.name = name;
-        this.deployed = deployed;
-    }
+    @JsonProperty("isOrderJob")
+    @JsonPropertyDescription("for jobs: possible values: yes, no, 1, 0, true, false")
+    @JacksonXmlProperty(localName = "is_order_job", isAttribute = true)
+    private String isOrderJob;
+    /**
+     * for orders
+     * 
+     */
+    @JsonProperty("priority")
+    @JsonPropertyDescription("for orders")
+    @JacksonXmlProperty(localName = "priority", isAttribute = true)
+    private String priority;
+    /**
+     * for orders
+     * 
+     */
+    @JsonProperty("state")
+    @JsonPropertyDescription("for orders")
+    @JacksonXmlProperty(localName = "state", isAttribute = true)
+    private String state;
+    /**
+     * for orders
+     * 
+     */
+    @JsonProperty("endState")
+    @JsonPropertyDescription("for orders")
+    @JacksonXmlProperty(localName = "end_state", isAttribute = true)
+    private String endState;
+    /**
+     * non negative integer
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("maxProcesses")
+    @JacksonXmlProperty(localName = "max_processes", isAttribute = true)
+    private Integer maxProcesses;
+    /**
+     * non negative integer
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("maxNonExclusive")
+    @JacksonXmlProperty(localName = "max_non_exclusive", isAttribute = true)
+    private Integer maxNonExclusive;
+    /**
+     * for schedule: yyyy-mm-dd HH:MM[:SS]
+     * 
+     */
+    @JsonProperty("validFrom")
+    @JsonPropertyDescription("for schedule: yyyy-mm-dd HH:MM[:SS]")
+    @JacksonXmlProperty(localName = "valid_from", isAttribute = true)
+    private String validFrom;
+    /**
+     * for schedule: yyyy-mm-dd HH:MM[:SS]
+     * 
+     */
+    @JsonProperty("validTo")
+    @JsonPropertyDescription("for schedule: yyyy-mm-dd HH:MM[:SS]")
+    @JacksonXmlProperty(localName = "valid_to", isAttribute = true)
+    private String validTo;
+    /**
+     * for schedule: path to another schedule
+     * 
+     */
+    @JsonProperty("substitute")
+    @JsonPropertyDescription("for schedule: path to another schedule")
+    @JacksonXmlProperty(localName = "substitute", isAttribute = true)
+    private String substitute;
 
     /**
      * 
      * (Required)
      * 
-     * @return
-     *     The name
      */
     @JsonProperty("name")
     @JacksonXmlProperty(localName = "name", isAttribute = true)
@@ -78,8 +154,6 @@ public class FolderItem {
      * 
      * (Required)
      * 
-     * @param name
-     *     The name
      */
     @JsonProperty("name")
     @JacksonXmlProperty(localName = "name", isAttribute = true)
@@ -91,8 +165,6 @@ public class FolderItem {
      * 
      * (Required)
      * 
-     * @return
-     *     The deployed
      */
     @JsonProperty("deployed")
     @JacksonXmlProperty(localName = "deployed", isAttribute = true)
@@ -104,8 +176,6 @@ public class FolderItem {
      * 
      * (Required)
      * 
-     * @param deployed
-     *     The deployed
      */
     @JsonProperty("deployed")
     @JacksonXmlProperty(localName = "deployed", isAttribute = true)
@@ -113,9 +183,229 @@ public class FolderItem {
         this.deployed = deployed;
     }
 
+    @JsonProperty("title")
+    @JacksonXmlProperty(localName = "title", isAttribute = true)
+    public String getTitle() {
+        return title;
+    }
+
+    @JsonProperty("title")
+    @JacksonXmlProperty(localName = "title", isAttribute = true)
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
+     * for jobs and job chains
+     * 
+     */
+    @JsonProperty("processClass")
+    @JacksonXmlProperty(localName = "process_class", isAttribute = true)
+    public String getProcessClass() {
+        return processClass;
+    }
+
+    /**
+     * for jobs and job chains
+     * 
+     */
+    @JsonProperty("processClass")
+    @JacksonXmlProperty(localName = "process_class", isAttribute = true)
+    public void setProcessClass(String processClass) {
+        this.processClass = processClass;
+    }
+
+    /**
+     * for jobs: possible values: yes, no, 1, 0, true, false
+     * 
+     */
+    @JsonProperty("isOrderJob")
+    @JacksonXmlProperty(localName = "is_order_job", isAttribute = true)
+    public String getIsOrderJob() {
+        return isOrderJob;
+    }
+
+    /**
+     * for jobs: possible values: yes, no, 1, 0, true, false
+     * 
+     */
+    @JsonProperty("isOrderJob")
+    @JacksonXmlProperty(localName = "is_order_job", isAttribute = true)
+    public void setIsOrderJob(String isOrderJob) {
+        this.isOrderJob = isOrderJob;
+    }
+
+    /**
+     * for orders
+     * 
+     */
+    @JsonProperty("priority")
+    @JacksonXmlProperty(localName = "priority", isAttribute = true)
+    public String getPriority() {
+        return priority;
+    }
+
+    /**
+     * for orders
+     * 
+     */
+    @JsonProperty("priority")
+    @JacksonXmlProperty(localName = "priority", isAttribute = true)
+    public void setPriority(String priority) {
+        this.priority = priority;
+    }
+
+    /**
+     * for orders
+     * 
+     */
+    @JsonProperty("state")
+    @JacksonXmlProperty(localName = "state", isAttribute = true)
+    public String getState() {
+        return state;
+    }
+
+    /**
+     * for orders
+     * 
+     */
+    @JsonProperty("state")
+    @JacksonXmlProperty(localName = "state", isAttribute = true)
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    /**
+     * for orders
+     * 
+     */
+    @JsonProperty("endState")
+    @JacksonXmlProperty(localName = "end_state", isAttribute = true)
+    public String getEndState() {
+        return endState;
+    }
+
+    /**
+     * for orders
+     * 
+     */
+    @JsonProperty("endState")
+    @JacksonXmlProperty(localName = "end_state", isAttribute = true)
+    public void setEndState(String endState) {
+        this.endState = endState;
+    }
+
+    /**
+     * non negative integer
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("maxProcesses")
+    @JacksonXmlProperty(localName = "max_processes", isAttribute = true)
+    public Integer getMaxProcesses() {
+        return maxProcesses;
+    }
+
+    /**
+     * non negative integer
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("maxProcesses")
+    @JacksonXmlProperty(localName = "max_processes", isAttribute = true)
+    public void setMaxProcesses(Integer maxProcesses) {
+        this.maxProcesses = maxProcesses;
+    }
+
+    /**
+     * non negative integer
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("maxNonExclusive")
+    @JacksonXmlProperty(localName = "max_non_exclusive", isAttribute = true)
+    public Integer getMaxNonExclusive() {
+        return maxNonExclusive;
+    }
+
+    /**
+     * non negative integer
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("maxNonExclusive")
+    @JacksonXmlProperty(localName = "max_non_exclusive", isAttribute = true)
+    public void setMaxNonExclusive(Integer maxNonExclusive) {
+        this.maxNonExclusive = maxNonExclusive;
+    }
+
+    /**
+     * for schedule: yyyy-mm-dd HH:MM[:SS]
+     * 
+     */
+    @JsonProperty("validFrom")
+    @JacksonXmlProperty(localName = "valid_from", isAttribute = true)
+    public String getValidFrom() {
+        return validFrom;
+    }
+
+    /**
+     * for schedule: yyyy-mm-dd HH:MM[:SS]
+     * 
+     */
+    @JsonProperty("validFrom")
+    @JacksonXmlProperty(localName = "valid_from", isAttribute = true)
+    public void setValidFrom(String validFrom) {
+        this.validFrom = validFrom;
+    }
+
+    /**
+     * for schedule: yyyy-mm-dd HH:MM[:SS]
+     * 
+     */
+    @JsonProperty("validTo")
+    @JacksonXmlProperty(localName = "valid_to", isAttribute = true)
+    public String getValidTo() {
+        return validTo;
+    }
+
+    /**
+     * for schedule: yyyy-mm-dd HH:MM[:SS]
+     * 
+     */
+    @JsonProperty("validTo")
+    @JacksonXmlProperty(localName = "valid_to", isAttribute = true)
+    public void setValidTo(String validTo) {
+        this.validTo = validTo;
+    }
+
+    /**
+     * for schedule: path to another schedule
+     * 
+     */
+    @JsonProperty("substitute")
+    @JacksonXmlProperty(localName = "substitute", isAttribute = true)
+    public String getSubstitute() {
+        return substitute;
+    }
+
+    /**
+     * for schedule: path to another schedule
+     * 
+     */
+    @JsonProperty("substitute")
+    @JacksonXmlProperty(localName = "substitute", isAttribute = true)
+    public void setSubstitute(String substitute) {
+        this.substitute = substitute;
+    }
+
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("name", name).append("deployed", deployed).append("title", title).append("processClass", processClass).append("isOrderJob", isOrderJob).append("priority", priority).append("state", state).append("endState", endState).append("maxProcesses", maxProcesses).append("maxNonExclusive", maxNonExclusive).append("validFrom", validFrom).append("validTo", validTo).append("substitute", substitute).toString();
     }
 
     @Override
