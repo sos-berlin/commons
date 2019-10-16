@@ -1,9 +1,9 @@
 
 package com.sos.joc.model.joe.order;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
@@ -20,7 +20,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "add_order")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobChain",
     "id",
@@ -51,6 +50,7 @@ public class AddOrder
      * 
      */
     @JsonProperty("replace")
+    @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "replace", isAttribute = true)
     private String replace;
     /**
@@ -58,38 +58,14 @@ public class AddOrder
      * 
      */
     @JsonProperty("suspended")
+    @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "suspended", isAttribute = true)
     private String suspended;
-
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public AddOrder() {
-    }
-
-    /**
-     * 
-     * @param at
-     * @param jobChain
-     * @param replace
-     * @param id
-     * @param suspended
-     */
-    public AddOrder(String jobChain, String id, String at, String replace, String suspended) {
-        this.jobChain = jobChain;
-        this.id = id;
-        this.at = at;
-        this.replace = replace;
-        this.suspended = suspended;
-    }
 
     /**
      * 
      * (Required)
      * 
-     * @return
-     *     The jobChain
      */
     @JsonProperty("jobChain")
     @JacksonXmlProperty(localName = "job_chain", isAttribute = true)
@@ -101,8 +77,6 @@ public class AddOrder
      * 
      * (Required)
      * 
-     * @param jobChain
-     *     The jobChain
      */
     @JsonProperty("jobChain")
     @JacksonXmlProperty(localName = "job_chain", isAttribute = true)
@@ -110,44 +84,24 @@ public class AddOrder
         this.jobChain = jobChain;
     }
 
-    /**
-     * 
-     * @return
-     *     The id
-     */
     @JsonProperty("id")
     @JacksonXmlProperty(localName = "id", isAttribute = true)
     public String getId() {
         return id;
     }
 
-    /**
-     * 
-     * @param id
-     *     The id
-     */
     @JsonProperty("id")
     @JacksonXmlProperty(localName = "id", isAttribute = true)
     public void setId(String id) {
         this.id = id;
     }
 
-    /**
-     * 
-     * @return
-     *     The at
-     */
     @JsonProperty("at")
     @JacksonXmlProperty(localName = "at", isAttribute = true)
     public String getAt() {
         return at;
     }
 
-    /**
-     * 
-     * @param at
-     *     The at
-     */
     @JsonProperty("at")
     @JacksonXmlProperty(localName = "at", isAttribute = true)
     public void setAt(String at) {
@@ -157,8 +111,6 @@ public class AddOrder
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @return
-     *     The replace
      */
     @JsonProperty("replace")
     @JacksonXmlProperty(localName = "replace", isAttribute = true)
@@ -169,8 +121,6 @@ public class AddOrder
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @param replace
-     *     The replace
      */
     @JsonProperty("replace")
     @JacksonXmlProperty(localName = "replace", isAttribute = true)
@@ -181,8 +131,6 @@ public class AddOrder
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @return
-     *     The suspended
      */
     @JsonProperty("suspended")
     @JacksonXmlProperty(localName = "suspended", isAttribute = true)
@@ -193,8 +141,6 @@ public class AddOrder
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @param suspended
-     *     The suspended
      */
     @JsonProperty("suspended")
     @JacksonXmlProperty(localName = "suspended", isAttribute = true)
@@ -204,12 +150,12 @@ public class AddOrder
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).appendSuper(super.toString()).append("jobChain", jobChain).append("id", id).append("at", at).append("replace", replace).append("suspended", suspended).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().appendSuper(super.hashCode()).append(jobChain).append(id).append(at).append(replace).append(suspended).toHashCode();
+        return new HashCodeBuilder().appendSuper(super.hashCode()).append(jobChain).append(replace).append(id).append(at).append(suspended).toHashCode();
     }
 
     @Override
@@ -221,7 +167,7 @@ public class AddOrder
             return false;
         }
         AddOrder rhs = ((AddOrder) other);
-        return new EqualsBuilder().appendSuper(super.equals(other)).append(jobChain, rhs.jobChain).append(id, rhs.id).append(at, rhs.at).append(replace, rhs.replace).append(suspended, rhs.suspended).isEquals();
+        return new EqualsBuilder().appendSuper(super.equals(other)).append(jobChain, rhs.jobChain).append(replace, rhs.replace).append(id, rhs.id).append(at, rhs.at).append(suspended, rhs.suspended).isEquals();
     }
 
 }

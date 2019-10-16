@@ -1,9 +1,9 @@
 
 package com.sos.joc.model.joe.job;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
@@ -21,7 +21,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "start_job")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "job",
     "at",
@@ -50,6 +49,7 @@ public class StartJob {
      * 
      */
     @JsonProperty("force")
+    @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "force", isAttribute = true)
     private String force;
     /**
@@ -71,115 +71,48 @@ public class StartJob {
     @JacksonXmlProperty(localName = "environment", isAttribute = false)
     private EnviromentVariables environment;
 
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public StartJob() {
-    }
-
-    /**
-     * 
-     * @param environment
-     * @param at
-     * @param webService
-     * @param force
-     * @param after
-     * @param job
-     * @param params
-     */
-    public StartJob(String job, String at, String after, String webService, String force, Params params, EnviromentVariables environment) {
-        this.job = job;
-        this.at = at;
-        this.after = after;
-        this.webService = webService;
-        this.force = force;
-        this.params = params;
-        this.environment = environment;
-    }
-
-    /**
-     * 
-     * @return
-     *     The job
-     */
     @JsonProperty("job")
     @JacksonXmlProperty(localName = "job", isAttribute = true)
     public String getJob() {
         return job;
     }
 
-    /**
-     * 
-     * @param job
-     *     The job
-     */
     @JsonProperty("job")
     @JacksonXmlProperty(localName = "job", isAttribute = true)
     public void setJob(String job) {
         this.job = job;
     }
 
-    /**
-     * 
-     * @return
-     *     The at
-     */
     @JsonProperty("at")
     @JacksonXmlProperty(localName = "at", isAttribute = true)
     public String getAt() {
         return at;
     }
 
-    /**
-     * 
-     * @param at
-     *     The at
-     */
     @JsonProperty("at")
     @JacksonXmlProperty(localName = "at", isAttribute = true)
     public void setAt(String at) {
         this.at = at;
     }
 
-    /**
-     * 
-     * @return
-     *     The after
-     */
     @JsonProperty("after")
     @JacksonXmlProperty(localName = "after", isAttribute = true)
     public String getAfter() {
         return after;
     }
 
-    /**
-     * 
-     * @param after
-     *     The after
-     */
     @JsonProperty("after")
     @JacksonXmlProperty(localName = "after", isAttribute = true)
     public void setAfter(String after) {
         this.after = after;
     }
 
-    /**
-     * 
-     * @return
-     *     The webService
-     */
     @JsonProperty("webService")
     @JacksonXmlProperty(localName = "web_service", isAttribute = true)
     public String getWebService() {
         return webService;
     }
 
-    /**
-     * 
-     * @param webService
-     *     The webService
-     */
     @JsonProperty("webService")
     @JacksonXmlProperty(localName = "web_service", isAttribute = true)
     public void setWebService(String webService) {
@@ -189,8 +122,6 @@ public class StartJob {
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @return
-     *     The force
      */
     @JsonProperty("force")
     @JacksonXmlProperty(localName = "force", isAttribute = true)
@@ -201,8 +132,6 @@ public class StartJob {
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @param force
-     *     The force
      */
     @JsonProperty("force")
     @JacksonXmlProperty(localName = "force", isAttribute = true)
@@ -215,8 +144,6 @@ public class StartJob {
      * <p>
      * 
      * 
-     * @return
-     *     The params
      */
     @JsonProperty("params")
     @JacksonXmlProperty(localName = "params", isAttribute = false)
@@ -229,8 +156,6 @@ public class StartJob {
      * <p>
      * 
      * 
-     * @param params
-     *     The params
      */
     @JsonProperty("params")
     @JacksonXmlProperty(localName = "params", isAttribute = false)
@@ -243,8 +168,6 @@ public class StartJob {
      * <p>
      * 
      * 
-     * @return
-     *     The environment
      */
     @JsonProperty("environment")
     @JacksonXmlProperty(localName = "environment", isAttribute = false)
@@ -257,8 +180,6 @@ public class StartJob {
      * <p>
      * 
      * 
-     * @param environment
-     *     The environment
      */
     @JsonProperty("environment")
     @JacksonXmlProperty(localName = "environment", isAttribute = false)
@@ -268,12 +189,12 @@ public class StartJob {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("job", job).append("at", at).append("after", after).append("webService", webService).append("force", force).append("params", params).append("environment", environment).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(job).append(at).append(after).append(webService).append(force).append(params).append(environment).toHashCode();
+        return new HashCodeBuilder().append(environment).append(at).append(webService).append(force).append(after).append(job).append(params).toHashCode();
     }
 
     @Override
@@ -285,7 +206,7 @@ public class StartJob {
             return false;
         }
         StartJob rhs = ((StartJob) other);
-        return new EqualsBuilder().append(job, rhs.job).append(at, rhs.at).append(after, rhs.after).append(webService, rhs.webService).append(force, rhs.force).append(params, rhs.params).append(environment, rhs.environment).isEquals();
+        return new EqualsBuilder().append(environment, rhs.environment).append(at, rhs.at).append(webService, rhs.webService).append(force, rhs.force).append(after, rhs.after).append(job, rhs.job).append(params, rhs.params).isEquals();
     }
 
 }

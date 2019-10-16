@@ -2,7 +2,6 @@
 package com.sos.joc.model.joe.common;
 
 import java.util.List;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -22,7 +21,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "deployables")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "deployables"
 })
@@ -33,37 +31,12 @@ public class Deployables {
     @JacksonXmlProperty(localName = "deployables", isAttribute = false)
     private List<Deployable> deployables = null;
 
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public Deployables() {
-    }
-
-    /**
-     * 
-     * @param deployables
-     */
-    public Deployables(List<Deployable> deployables) {
-        this.deployables = deployables;
-    }
-
-    /**
-     * 
-     * @return
-     *     The deployables
-     */
     @JsonProperty("deployables")
     @JacksonXmlProperty(localName = "deployables", isAttribute = false)
     public List<Deployable> getDeployables() {
         return deployables;
     }
 
-    /**
-     * 
-     * @param deployables
-     *     The deployables
-     */
     @JsonProperty("deployables")
     @JacksonXmlProperty(localName = "deployables", isAttribute = false)
     public void setDeployables(List<Deployable> deployables) {
@@ -72,7 +45,7 @@ public class Deployables {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("deployables", deployables).toString();
     }
 
     @Override

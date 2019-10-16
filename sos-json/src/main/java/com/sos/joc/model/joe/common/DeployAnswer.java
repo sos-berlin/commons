@@ -2,9 +2,9 @@
 package com.sos.joc.model.joe.common;
 
 import java.util.List;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -23,7 +23,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "deploy_answer")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobschedulerId",
     "folder",
@@ -49,6 +48,7 @@ public class DeployAnswer {
      * 
      */
     @JsonProperty("folder")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
     @JacksonXmlProperty(localName = "folder", isAttribute = true)
     private String folder;
     @JsonProperty("recursive")
@@ -72,36 +72,9 @@ public class DeployAnswer {
     private List<DeployMessage> messages = null;
 
     /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public DeployAnswer() {
-    }
-
-    /**
-     * 
-     * @param folder
-     * @param objectName
-     * @param messages
-     * @param jobschedulerId
-     * @param recursive
-     * @param objectType
-     */
-    public DeployAnswer(String jobschedulerId, String folder, Boolean recursive, String objectName, JobSchedulerObjectType objectType, List<DeployMessage> messages) {
-        this.jobschedulerId = jobschedulerId;
-        this.folder = folder;
-        this.recursive = recursive;
-        this.objectName = objectName;
-        this.objectType = objectType;
-        this.messages = messages;
-    }
-
-    /**
      * 
      * (Required)
      * 
-     * @return
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
     @JacksonXmlProperty(localName = "jobscheduler_id", isAttribute = true)
@@ -113,8 +86,6 @@ public class DeployAnswer {
      * 
      * (Required)
      * 
-     * @param jobschedulerId
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
     @JacksonXmlProperty(localName = "jobscheduler_id", isAttribute = true)
@@ -127,8 +98,6 @@ public class DeployAnswer {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @return
-     *     The folder
      */
     @JsonProperty("folder")
     @JacksonXmlProperty(localName = "folder", isAttribute = true)
@@ -141,8 +110,6 @@ public class DeployAnswer {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @param folder
-     *     The folder
      */
     @JsonProperty("folder")
     @JacksonXmlProperty(localName = "folder", isAttribute = true)
@@ -150,44 +117,24 @@ public class DeployAnswer {
         this.folder = folder;
     }
 
-    /**
-     * 
-     * @return
-     *     The recursive
-     */
     @JsonProperty("recursive")
     @JacksonXmlProperty(localName = "recursive", isAttribute = true)
     public Boolean getRecursive() {
         return recursive;
     }
 
-    /**
-     * 
-     * @param recursive
-     *     The recursive
-     */
     @JsonProperty("recursive")
     @JacksonXmlProperty(localName = "recursive", isAttribute = true)
     public void setRecursive(Boolean recursive) {
         this.recursive = recursive;
     }
 
-    /**
-     * 
-     * @return
-     *     The objectName
-     */
     @JsonProperty("objectName")
     @JacksonXmlProperty(localName = "object_name", isAttribute = true)
     public String getObjectName() {
         return objectName;
     }
 
-    /**
-     * 
-     * @param objectName
-     *     The objectName
-     */
     @JsonProperty("objectName")
     @JacksonXmlProperty(localName = "object_name", isAttribute = true)
     public void setObjectName(String objectName) {
@@ -199,8 +146,6 @@ public class DeployAnswer {
      * <p>
      * 
      * 
-     * @return
-     *     The objectType
      */
     @JsonProperty("objectType")
     @JacksonXmlProperty(localName = "object_type", isAttribute = false)
@@ -213,8 +158,6 @@ public class DeployAnswer {
      * <p>
      * 
      * 
-     * @param objectType
-     *     The objectType
      */
     @JsonProperty("objectType")
     @JacksonXmlProperty(localName = "object_type", isAttribute = false)
@@ -222,22 +165,12 @@ public class DeployAnswer {
         this.objectType = objectType;
     }
 
-    /**
-     * 
-     * @return
-     *     The messages
-     */
     @JsonProperty("messages")
     @JacksonXmlProperty(localName = "messages", isAttribute = false)
     public List<DeployMessage> getMessages() {
         return messages;
     }
 
-    /**
-     * 
-     * @param messages
-     *     The messages
-     */
     @JsonProperty("messages")
     @JacksonXmlProperty(localName = "messages", isAttribute = false)
     public void setMessages(List<DeployMessage> messages) {
@@ -246,12 +179,12 @@ public class DeployAnswer {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("folder", folder).append("recursive", recursive).append("objectName", objectName).append("objectType", objectType).append("messages", messages).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(folder).append(recursive).append(objectName).append(objectType).append(messages).toHashCode();
+        return new HashCodeBuilder().append(folder).append(objectName).append(messages).append(jobschedulerId).append(recursive).append(objectType).toHashCode();
     }
 
     @Override
@@ -263,7 +196,7 @@ public class DeployAnswer {
             return false;
         }
         DeployAnswer rhs = ((DeployAnswer) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(folder, rhs.folder).append(recursive, rhs.recursive).append(objectName, rhs.objectName).append(objectType, rhs.objectType).append(messages, rhs.messages).isEquals();
+        return new EqualsBuilder().append(folder, rhs.folder).append(objectName, rhs.objectName).append(messages, rhs.messages).append(jobschedulerId, rhs.jobschedulerId).append(recursive, rhs.recursive).append(objectType, rhs.objectType).isEquals();
     }
 
 }

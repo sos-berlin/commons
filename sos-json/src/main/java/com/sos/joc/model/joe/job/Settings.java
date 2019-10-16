@@ -1,9 +1,9 @@
 
 package com.sos.joc.model.joe.job;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -21,7 +21,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "settings")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "mailOnError",
     "mailOnWarning",
@@ -43,6 +42,7 @@ public class Settings {
      * 
      */
     @JsonProperty("mailOnError")
+    @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "mail_on_error", isAttribute = false)
     private String mailOnError;
     /**
@@ -50,6 +50,7 @@ public class Settings {
      * 
      */
     @JsonProperty("mailOnWarning")
+    @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "mail_on_warning", isAttribute = false)
     private String mailOnWarning;
     /**
@@ -57,6 +58,7 @@ public class Settings {
      * 
      */
     @JsonProperty("mailOnSuccess")
+    @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "mail_on_success", isAttribute = false)
     private String mailOnSuccess;
     /**
@@ -64,6 +66,7 @@ public class Settings {
      * 
      */
     @JsonProperty("mailOnProcess")
+    @JsonPropertyDescription("possible values: yes, no, true, false, non-negative integer")
     @JacksonXmlProperty(localName = "mail_on_process", isAttribute = false)
     private String mailOnProcess;
     /**
@@ -71,6 +74,7 @@ public class Settings {
      * 
      */
     @JsonProperty("mailOnDelayAfterError")
+    @JsonPropertyDescription("possible values: all, first_only, last_only, first_and_last_only")
     @JacksonXmlProperty(localName = "mail_on_delay_after_error", isAttribute = false)
     private String mailOnDelayAfterError;
     @JsonProperty("logMailTo")
@@ -90,6 +94,7 @@ public class Settings {
      * 
      */
     @JsonProperty("logLevel")
+    @JsonPropertyDescription("possible values: error, warn, info, debug, debug[1-9]")
     @JacksonXmlProperty(localName = "log_level", isAttribute = false)
     private String logLevel;
     /**
@@ -97,6 +102,7 @@ public class Settings {
      * 
      */
     @JsonProperty("history")
+    @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "history", isAttribute = false)
     private String history;
     /**
@@ -104,6 +110,7 @@ public class Settings {
      * 
      */
     @JsonProperty("historyOnProcess")
+    @JsonPropertyDescription("possible values: yes, no, true, false, non-negative integer")
     @JacksonXmlProperty(localName = "history_on_process", isAttribute = false)
     private String historyOnProcess;
     /**
@@ -111,51 +118,13 @@ public class Settings {
      * 
      */
     @JsonProperty("historyWithLog")
+    @JsonPropertyDescription("possible values: yes, no, gzip")
     @JacksonXmlProperty(localName = "history_with_log", isAttribute = false)
     private String historyWithLog;
 
     /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public Settings() {
-    }
-
-    /**
-     * 
-     * @param mailOnSuccess
-     * @param logLevel
-     * @param mailOnError
-     * @param mailOnWarning
-     * @param logMailTo
-     * @param logMailBcc
-     * @param historyOnProcess
-     * @param historyWithLog
-     * @param mailOnDelayAfterError
-     * @param logMailCc
-     * @param history
-     * @param mailOnProcess
-     */
-    public Settings(String mailOnError, String mailOnWarning, String mailOnSuccess, String mailOnProcess, String mailOnDelayAfterError, String logMailTo, String logMailCc, String logMailBcc, String logLevel, String history, String historyOnProcess, String historyWithLog) {
-        this.mailOnError = mailOnError;
-        this.mailOnWarning = mailOnWarning;
-        this.mailOnSuccess = mailOnSuccess;
-        this.mailOnProcess = mailOnProcess;
-        this.mailOnDelayAfterError = mailOnDelayAfterError;
-        this.logMailTo = logMailTo;
-        this.logMailCc = logMailCc;
-        this.logMailBcc = logMailBcc;
-        this.logLevel = logLevel;
-        this.history = history;
-        this.historyOnProcess = historyOnProcess;
-        this.historyWithLog = historyWithLog;
-    }
-
-    /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @return
-     *     The mailOnError
      */
     @JsonProperty("mailOnError")
     @JacksonXmlProperty(localName = "mail_on_error", isAttribute = false)
@@ -166,8 +135,6 @@ public class Settings {
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @param mailOnError
-     *     The mailOnError
      */
     @JsonProperty("mailOnError")
     @JacksonXmlProperty(localName = "mail_on_error", isAttribute = false)
@@ -178,8 +145,6 @@ public class Settings {
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @return
-     *     The mailOnWarning
      */
     @JsonProperty("mailOnWarning")
     @JacksonXmlProperty(localName = "mail_on_warning", isAttribute = false)
@@ -190,8 +155,6 @@ public class Settings {
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @param mailOnWarning
-     *     The mailOnWarning
      */
     @JsonProperty("mailOnWarning")
     @JacksonXmlProperty(localName = "mail_on_warning", isAttribute = false)
@@ -202,8 +165,6 @@ public class Settings {
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @return
-     *     The mailOnSuccess
      */
     @JsonProperty("mailOnSuccess")
     @JacksonXmlProperty(localName = "mail_on_success", isAttribute = false)
@@ -214,8 +175,6 @@ public class Settings {
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @param mailOnSuccess
-     *     The mailOnSuccess
      */
     @JsonProperty("mailOnSuccess")
     @JacksonXmlProperty(localName = "mail_on_success", isAttribute = false)
@@ -226,8 +185,6 @@ public class Settings {
     /**
      * possible values: yes, no, true, false, non-negative integer
      * 
-     * @return
-     *     The mailOnProcess
      */
     @JsonProperty("mailOnProcess")
     @JacksonXmlProperty(localName = "mail_on_process", isAttribute = false)
@@ -238,8 +195,6 @@ public class Settings {
     /**
      * possible values: yes, no, true, false, non-negative integer
      * 
-     * @param mailOnProcess
-     *     The mailOnProcess
      */
     @JsonProperty("mailOnProcess")
     @JacksonXmlProperty(localName = "mail_on_process", isAttribute = false)
@@ -250,8 +205,6 @@ public class Settings {
     /**
      * possible values: all, first_only, last_only, first_and_last_only
      * 
-     * @return
-     *     The mailOnDelayAfterError
      */
     @JsonProperty("mailOnDelayAfterError")
     @JacksonXmlProperty(localName = "mail_on_delay_after_error", isAttribute = false)
@@ -262,8 +215,6 @@ public class Settings {
     /**
      * possible values: all, first_only, last_only, first_and_last_only
      * 
-     * @param mailOnDelayAfterError
-     *     The mailOnDelayAfterError
      */
     @JsonProperty("mailOnDelayAfterError")
     @JacksonXmlProperty(localName = "mail_on_delay_after_error", isAttribute = false)
@@ -271,11 +222,6 @@ public class Settings {
         this.mailOnDelayAfterError = mailOnDelayAfterError;
     }
 
-    /**
-     * 
-     * @return
-     *     The logMailTo
-     */
     @JsonProperty("logMailTo")
     @JacksonXmlCData
     @JacksonXmlProperty(localName = "log_mail_to", isAttribute = false)
@@ -283,11 +229,6 @@ public class Settings {
         return logMailTo;
     }
 
-    /**
-     * 
-     * @param logMailTo
-     *     The logMailTo
-     */
     @JsonProperty("logMailTo")
     @JacksonXmlCData
     @JacksonXmlProperty(localName = "log_mail_to", isAttribute = false)
@@ -295,11 +236,6 @@ public class Settings {
         this.logMailTo = logMailTo;
     }
 
-    /**
-     * 
-     * @return
-     *     The logMailCc
-     */
     @JsonProperty("logMailCc")
     @JacksonXmlCData
     @JacksonXmlProperty(localName = "log_mail_cc", isAttribute = false)
@@ -307,11 +243,6 @@ public class Settings {
         return logMailCc;
     }
 
-    /**
-     * 
-     * @param logMailCc
-     *     The logMailCc
-     */
     @JsonProperty("logMailCc")
     @JacksonXmlCData
     @JacksonXmlProperty(localName = "log_mail_cc", isAttribute = false)
@@ -319,11 +250,6 @@ public class Settings {
         this.logMailCc = logMailCc;
     }
 
-    /**
-     * 
-     * @return
-     *     The logMailBcc
-     */
     @JsonProperty("logMailBcc")
     @JacksonXmlCData
     @JacksonXmlProperty(localName = "log_mail_bcc", isAttribute = false)
@@ -331,11 +257,6 @@ public class Settings {
         return logMailBcc;
     }
 
-    /**
-     * 
-     * @param logMailBcc
-     *     The logMailBcc
-     */
     @JsonProperty("logMailBcc")
     @JacksonXmlCData
     @JacksonXmlProperty(localName = "log_mail_bcc", isAttribute = false)
@@ -346,8 +267,6 @@ public class Settings {
     /**
      * possible values: error, warn, info, debug, debug[1-9]
      * 
-     * @return
-     *     The logLevel
      */
     @JsonProperty("logLevel")
     @JacksonXmlProperty(localName = "log_level", isAttribute = false)
@@ -358,8 +277,6 @@ public class Settings {
     /**
      * possible values: error, warn, info, debug, debug[1-9]
      * 
-     * @param logLevel
-     *     The logLevel
      */
     @JsonProperty("logLevel")
     @JacksonXmlProperty(localName = "log_level", isAttribute = false)
@@ -370,8 +287,6 @@ public class Settings {
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @return
-     *     The history
      */
     @JsonProperty("history")
     @JacksonXmlProperty(localName = "history", isAttribute = false)
@@ -382,8 +297,6 @@ public class Settings {
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @param history
-     *     The history
      */
     @JsonProperty("history")
     @JacksonXmlProperty(localName = "history", isAttribute = false)
@@ -394,8 +307,6 @@ public class Settings {
     /**
      * possible values: yes, no, true, false, non-negative integer
      * 
-     * @return
-     *     The historyOnProcess
      */
     @JsonProperty("historyOnProcess")
     @JacksonXmlProperty(localName = "history_on_process", isAttribute = false)
@@ -406,8 +317,6 @@ public class Settings {
     /**
      * possible values: yes, no, true, false, non-negative integer
      * 
-     * @param historyOnProcess
-     *     The historyOnProcess
      */
     @JsonProperty("historyOnProcess")
     @JacksonXmlProperty(localName = "history_on_process", isAttribute = false)
@@ -418,8 +327,6 @@ public class Settings {
     /**
      * possible values: yes, no, gzip
      * 
-     * @return
-     *     The historyWithLog
      */
     @JsonProperty("historyWithLog")
     @JacksonXmlProperty(localName = "history_with_log", isAttribute = false)
@@ -430,8 +337,6 @@ public class Settings {
     /**
      * possible values: yes, no, gzip
      * 
-     * @param historyWithLog
-     *     The historyWithLog
      */
     @JsonProperty("historyWithLog")
     @JacksonXmlProperty(localName = "history_with_log", isAttribute = false)
@@ -441,12 +346,12 @@ public class Settings {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("mailOnError", mailOnError).append("mailOnWarning", mailOnWarning).append("mailOnSuccess", mailOnSuccess).append("mailOnProcess", mailOnProcess).append("mailOnDelayAfterError", mailOnDelayAfterError).append("logMailTo", logMailTo).append("logMailCc", logMailCc).append("logMailBcc", logMailBcc).append("logLevel", logLevel).append("history", history).append("historyOnProcess", historyOnProcess).append("historyWithLog", historyWithLog).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(mailOnError).append(mailOnWarning).append(mailOnSuccess).append(mailOnProcess).append(mailOnDelayAfterError).append(logMailTo).append(logMailCc).append(logMailBcc).append(logLevel).append(history).append(historyOnProcess).append(historyWithLog).toHashCode();
+        return new HashCodeBuilder().append(mailOnSuccess).append(mailOnWarning).append(logMailTo).append(logMailBcc).append(historyOnProcess).append(historyWithLog).append(logMailCc).append(history).append(logLevel).append(mailOnError).append(mailOnDelayAfterError).append(mailOnProcess).toHashCode();
     }
 
     @Override
@@ -458,7 +363,7 @@ public class Settings {
             return false;
         }
         Settings rhs = ((Settings) other);
-        return new EqualsBuilder().append(mailOnError, rhs.mailOnError).append(mailOnWarning, rhs.mailOnWarning).append(mailOnSuccess, rhs.mailOnSuccess).append(mailOnProcess, rhs.mailOnProcess).append(mailOnDelayAfterError, rhs.mailOnDelayAfterError).append(logMailTo, rhs.logMailTo).append(logMailCc, rhs.logMailCc).append(logMailBcc, rhs.logMailBcc).append(logLevel, rhs.logLevel).append(history, rhs.history).append(historyOnProcess, rhs.historyOnProcess).append(historyWithLog, rhs.historyWithLog).isEquals();
+        return new EqualsBuilder().append(mailOnSuccess, rhs.mailOnSuccess).append(mailOnWarning, rhs.mailOnWarning).append(logMailTo, rhs.logMailTo).append(logMailBcc, rhs.logMailBcc).append(historyOnProcess, rhs.historyOnProcess).append(historyWithLog, rhs.historyWithLog).append(logMailCc, rhs.logMailCc).append(history, rhs.history).append(logLevel, rhs.logLevel).append(mailOnError, rhs.mailOnError).append(mailOnDelayAfterError, rhs.mailOnDelayAfterError).append(mailOnProcess, rhs.mailOnProcess).isEquals();
     }
 
 }

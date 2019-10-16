@@ -1,7 +1,6 @@
 
 package com.sos.joc.model.joe.schedule;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -21,7 +20,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "holidays_edit")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "configuration"
 })
@@ -41,28 +39,11 @@ public class HolidaysEdit
     private HolidaysFile configuration;
 
     /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public HolidaysEdit() {
-    }
-
-    /**
-     * 
-     * @param configuration
-     */
-    public HolidaysEdit(HolidaysFile configuration) {
-        this.configuration = configuration;
-    }
-
-    /**
      * external holidays
      * <p>
      * 
      * (Required)
      * 
-     * @return
-     *     The configuration
      */
     @JsonProperty("configuration")
     @JacksonXmlProperty(localName = "holidays", isAttribute = false)
@@ -76,8 +57,6 @@ public class HolidaysEdit
      * 
      * (Required)
      * 
-     * @param configuration
-     *     The configuration
      */
     @JsonProperty("configuration")
     @JacksonXmlProperty(localName = "holidays", isAttribute = false)
@@ -87,7 +66,7 @@ public class HolidaysEdit
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).appendSuper(super.toString()).append("configuration", configuration).toString();
     }
 
     @Override

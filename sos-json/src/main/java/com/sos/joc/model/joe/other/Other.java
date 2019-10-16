@@ -1,7 +1,6 @@
 
 package com.sos.joc.model.joe.other;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -23,7 +22,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "other")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "content"
 })
@@ -36,26 +34,6 @@ public class Other implements IJSObject
     @JacksonXmlProperty(localName = "content", isAttribute = false)
     private String content;
 
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public Other() {
-    }
-
-    /**
-     * 
-     * @param content
-     */
-    public Other(String content) {
-        this.content = content;
-    }
-
-    /**
-     * 
-     * @return
-     *     The content
-     */
     @JsonProperty("content")
     @JacksonXmlText
     @JacksonXmlCData
@@ -64,11 +42,6 @@ public class Other implements IJSObject
         return content;
     }
 
-    /**
-     * 
-     * @param content
-     *     The content
-     */
     @JsonProperty("content")
     @JacksonXmlText
     @JacksonXmlCData
@@ -79,7 +52,7 @@ public class Other implements IJSObject
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("content", content).toString();
     }
 
     @Override

@@ -1,9 +1,9 @@
 
 package com.sos.joc.model.joe.job;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
@@ -13,7 +13,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "delay_order_after_setback")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "setbackCount",
     "delay",
@@ -39,27 +38,9 @@ public class DelayOrderAfterSetback {
      * 
      */
     @JsonProperty("isMaximum")
+    @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "is_maximum", isAttribute = true)
     private String isMaximum;
-
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public DelayOrderAfterSetback() {
-    }
-
-    /**
-     * 
-     * @param setbackCount
-     * @param delay
-     * @param isMaximum
-     */
-    public DelayOrderAfterSetback(Integer setbackCount, String delay, String isMaximum) {
-        this.setbackCount = setbackCount;
-        this.delay = delay;
-        this.isMaximum = isMaximum;
-    }
 
     /**
      * non negative integer
@@ -67,8 +48,6 @@ public class DelayOrderAfterSetback {
      * 
      * (Required)
      * 
-     * @return
-     *     The setbackCount
      */
     @JsonProperty("setbackCount")
     @JacksonXmlProperty(localName = "setback_count", isAttribute = true)
@@ -82,8 +61,6 @@ public class DelayOrderAfterSetback {
      * 
      * (Required)
      * 
-     * @param setbackCount
-     *     The setbackCount
      */
     @JsonProperty("setbackCount")
     @JacksonXmlProperty(localName = "setback_count", isAttribute = true)
@@ -91,22 +68,12 @@ public class DelayOrderAfterSetback {
         this.setbackCount = setbackCount;
     }
 
-    /**
-     * 
-     * @return
-     *     The delay
-     */
     @JsonProperty("delay")
     @JacksonXmlProperty(localName = "delay", isAttribute = true)
     public String getDelay() {
         return delay;
     }
 
-    /**
-     * 
-     * @param delay
-     *     The delay
-     */
     @JsonProperty("delay")
     @JacksonXmlProperty(localName = "delay", isAttribute = true)
     public void setDelay(String delay) {
@@ -116,8 +83,6 @@ public class DelayOrderAfterSetback {
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @return
-     *     The isMaximum
      */
     @JsonProperty("isMaximum")
     @JacksonXmlProperty(localName = "is_maximum", isAttribute = true)
@@ -128,8 +93,6 @@ public class DelayOrderAfterSetback {
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @param isMaximum
-     *     The isMaximum
      */
     @JsonProperty("isMaximum")
     @JacksonXmlProperty(localName = "is_maximum", isAttribute = true)
@@ -139,7 +102,7 @@ public class DelayOrderAfterSetback {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("setbackCount", setbackCount).append("delay", delay).append("isMaximum", isMaximum).toString();
     }
 
     @Override

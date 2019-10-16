@@ -1,9 +1,9 @@
 
 package com.sos.joc.model.joe.jobchain;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
@@ -20,7 +20,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "file_order_sink")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "state",
     "moveTo",
@@ -35,6 +34,7 @@ public class FileOrderSink {
      * 
      */
     @JsonProperty("state")
+    @JsonPropertyDescription("name of the job chain node")
     @JacksonXmlProperty(localName = "state", isAttribute = true)
     private String state;
     /**
@@ -42,6 +42,7 @@ public class FileOrderSink {
      * 
      */
     @JsonProperty("moveTo")
+    @JsonPropertyDescription("path of the target folder")
     @JacksonXmlProperty(localName = "move_to", isAttribute = true)
     private String moveTo;
     /**
@@ -49,6 +50,7 @@ public class FileOrderSink {
      * 
      */
     @JsonProperty("remove")
+    @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "remove", isAttribute = true)
     private String remove;
     /**
@@ -62,32 +64,9 @@ public class FileOrderSink {
     private Integer delay;
 
     /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public FileOrderSink() {
-    }
-
-    /**
-     * 
-     * @param delay
-     * @param state
-     * @param remove
-     * @param moveTo
-     */
-    public FileOrderSink(String state, String moveTo, String remove, Integer delay) {
-        this.state = state;
-        this.moveTo = moveTo;
-        this.remove = remove;
-        this.delay = delay;
-    }
-
-    /**
      * name of the job chain node
      * (Required)
      * 
-     * @return
-     *     The state
      */
     @JsonProperty("state")
     @JacksonXmlProperty(localName = "state", isAttribute = true)
@@ -99,8 +78,6 @@ public class FileOrderSink {
      * name of the job chain node
      * (Required)
      * 
-     * @param state
-     *     The state
      */
     @JsonProperty("state")
     @JacksonXmlProperty(localName = "state", isAttribute = true)
@@ -111,8 +88,6 @@ public class FileOrderSink {
     /**
      * path of the target folder
      * 
-     * @return
-     *     The moveTo
      */
     @JsonProperty("moveTo")
     @JacksonXmlProperty(localName = "move_to", isAttribute = true)
@@ -123,8 +98,6 @@ public class FileOrderSink {
     /**
      * path of the target folder
      * 
-     * @param moveTo
-     *     The moveTo
      */
     @JsonProperty("moveTo")
     @JacksonXmlProperty(localName = "move_to", isAttribute = true)
@@ -135,8 +108,6 @@ public class FileOrderSink {
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @return
-     *     The remove
      */
     @JsonProperty("remove")
     @JacksonXmlProperty(localName = "remove", isAttribute = true)
@@ -147,8 +118,6 @@ public class FileOrderSink {
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @param remove
-     *     The remove
      */
     @JsonProperty("remove")
     @JacksonXmlProperty(localName = "remove", isAttribute = true)
@@ -161,8 +130,6 @@ public class FileOrderSink {
      * <p>
      * 
      * 
-     * @return
-     *     The delay
      */
     @JsonProperty("delay")
     @JacksonXmlProperty(localName = "delay", isAttribute = true)
@@ -175,8 +142,6 @@ public class FileOrderSink {
      * <p>
      * 
      * 
-     * @param delay
-     *     The delay
      */
     @JsonProperty("delay")
     @JacksonXmlProperty(localName = "delay", isAttribute = true)
@@ -186,12 +151,12 @@ public class FileOrderSink {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("state", state).append("moveTo", moveTo).append("remove", remove).append("delay", delay).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(state).append(moveTo).append(remove).append(delay).toHashCode();
+        return new HashCodeBuilder().append(state).append(delay).append(remove).append(moveTo).toHashCode();
     }
 
     @Override
@@ -203,7 +168,7 @@ public class FileOrderSink {
             return false;
         }
         FileOrderSink rhs = ((FileOrderSink) other);
-        return new EqualsBuilder().append(state, rhs.state).append(moveTo, rhs.moveTo).append(remove, rhs.remove).append(delay, rhs.delay).isEquals();
+        return new EqualsBuilder().append(state, rhs.state).append(delay, rhs.delay).append(remove, rhs.remove).append(moveTo, rhs.moveTo).isEquals();
     }
 
 }

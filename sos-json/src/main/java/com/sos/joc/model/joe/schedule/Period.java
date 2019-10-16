@@ -1,9 +1,9 @@
 
 package com.sos.joc.model.joe.schedule;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
@@ -20,7 +20,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "period")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "begin",
     "end",
@@ -38,6 +37,7 @@ public class Period {
      * 
      */
     @JsonProperty("begin")
+    @JsonPropertyDescription("pattern: [0-9]{1,2}:[0-9]{2}(:[0-9]{2})?")
     @JacksonXmlProperty(localName = "begin", isAttribute = true)
     private String begin;
     /**
@@ -45,6 +45,7 @@ public class Period {
      * 
      */
     @JsonProperty("end")
+    @JsonPropertyDescription("pattern: [0-9]{1,2}:[0-9]{2}(:[0-9]{2})?")
     @JacksonXmlProperty(localName = "end", isAttribute = true)
     private String end;
     /**
@@ -52,6 +53,7 @@ public class Period {
      * 
      */
     @JsonProperty("singleStart")
+    @JsonPropertyDescription("pattern: [0-9]{1,2}:[0-9]{2}(:[0-9]{2})?")
     @JacksonXmlProperty(localName = "single_start", isAttribute = true)
     private String singleStart;
     /**
@@ -59,6 +61,7 @@ public class Period {
      * 
      */
     @JsonProperty("letRun")
+    @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "let_run", isAttribute = true)
     private String letRun;
     /**
@@ -66,6 +69,7 @@ public class Period {
      * 
      */
     @JsonProperty("runOnce")
+    @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "start_once", isAttribute = true)
     private String runOnce;
     /**
@@ -73,6 +77,7 @@ public class Period {
      * 
      */
     @JsonProperty("repeat")
+    @JsonPropertyDescription("pattern: ([0-9]+)|([0-9]+:[0-9]{2}(:[0-9]{2})?)")
     @JacksonXmlProperty(localName = "repeat", isAttribute = true)
     private String repeat;
     /**
@@ -80,6 +85,7 @@ public class Period {
      * 
      */
     @JsonProperty("absoluteRepeat")
+    @JsonPropertyDescription("pattern: ([0-9]+)|([0-9]+:[0-9]{2}(:[0-9]{2})?)")
     @JacksonXmlProperty(localName = "absolute_repeat", isAttribute = true)
     private String absoluteRepeat;
     /**
@@ -87,43 +93,13 @@ public class Period {
      * 
      */
     @JsonProperty("whenHoliday")
+    @JsonPropertyDescription("possible values: suppress (default), ignore_holiday, previous_non_holiday, next_non_holiday")
     @JacksonXmlProperty(localName = "when_holiday", isAttribute = true)
     private String whenHoliday;
 
     /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public Period() {
-    }
-
-    /**
-     * 
-     * @param letRun
-     * @param singleStart
-     * @param repeat
-     * @param end
-     * @param absoluteRepeat
-     * @param begin
-     * @param runOnce
-     * @param whenHoliday
-     */
-    public Period(String begin, String end, String singleStart, String letRun, String runOnce, String repeat, String absoluteRepeat, String whenHoliday) {
-        this.begin = begin;
-        this.end = end;
-        this.singleStart = singleStart;
-        this.letRun = letRun;
-        this.runOnce = runOnce;
-        this.repeat = repeat;
-        this.absoluteRepeat = absoluteRepeat;
-        this.whenHoliday = whenHoliday;
-    }
-
-    /**
      * pattern: [0-9]{1,2}:[0-9]{2}(:[0-9]{2})?
      * 
-     * @return
-     *     The begin
      */
     @JsonProperty("begin")
     @JacksonXmlProperty(localName = "begin", isAttribute = true)
@@ -134,8 +110,6 @@ public class Period {
     /**
      * pattern: [0-9]{1,2}:[0-9]{2}(:[0-9]{2})?
      * 
-     * @param begin
-     *     The begin
      */
     @JsonProperty("begin")
     @JacksonXmlProperty(localName = "begin", isAttribute = true)
@@ -146,8 +120,6 @@ public class Period {
     /**
      * pattern: [0-9]{1,2}:[0-9]{2}(:[0-9]{2})?
      * 
-     * @return
-     *     The end
      */
     @JsonProperty("end")
     @JacksonXmlProperty(localName = "end", isAttribute = true)
@@ -158,8 +130,6 @@ public class Period {
     /**
      * pattern: [0-9]{1,2}:[0-9]{2}(:[0-9]{2})?
      * 
-     * @param end
-     *     The end
      */
     @JsonProperty("end")
     @JacksonXmlProperty(localName = "end", isAttribute = true)
@@ -170,8 +140,6 @@ public class Period {
     /**
      * pattern: [0-9]{1,2}:[0-9]{2}(:[0-9]{2})?
      * 
-     * @return
-     *     The singleStart
      */
     @JsonProperty("singleStart")
     @JacksonXmlProperty(localName = "single_start", isAttribute = true)
@@ -182,8 +150,6 @@ public class Period {
     /**
      * pattern: [0-9]{1,2}:[0-9]{2}(:[0-9]{2})?
      * 
-     * @param singleStart
-     *     The singleStart
      */
     @JsonProperty("singleStart")
     @JacksonXmlProperty(localName = "single_start", isAttribute = true)
@@ -194,8 +160,6 @@ public class Period {
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @return
-     *     The letRun
      */
     @JsonProperty("letRun")
     @JacksonXmlProperty(localName = "let_run", isAttribute = true)
@@ -206,8 +170,6 @@ public class Period {
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @param letRun
-     *     The letRun
      */
     @JsonProperty("letRun")
     @JacksonXmlProperty(localName = "let_run", isAttribute = true)
@@ -218,8 +180,6 @@ public class Period {
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @return
-     *     The runOnce
      */
     @JsonProperty("runOnce")
     @JacksonXmlProperty(localName = "start_once", isAttribute = true)
@@ -230,8 +190,6 @@ public class Period {
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @param runOnce
-     *     The runOnce
      */
     @JsonProperty("runOnce")
     @JacksonXmlProperty(localName = "start_once", isAttribute = true)
@@ -242,8 +200,6 @@ public class Period {
     /**
      * pattern: ([0-9]+)|([0-9]+:[0-9]{2}(:[0-9]{2})?)
      * 
-     * @return
-     *     The repeat
      */
     @JsonProperty("repeat")
     @JacksonXmlProperty(localName = "repeat", isAttribute = true)
@@ -254,8 +210,6 @@ public class Period {
     /**
      * pattern: ([0-9]+)|([0-9]+:[0-9]{2}(:[0-9]{2})?)
      * 
-     * @param repeat
-     *     The repeat
      */
     @JsonProperty("repeat")
     @JacksonXmlProperty(localName = "repeat", isAttribute = true)
@@ -266,8 +220,6 @@ public class Period {
     /**
      * pattern: ([0-9]+)|([0-9]+:[0-9]{2}(:[0-9]{2})?)
      * 
-     * @return
-     *     The absoluteRepeat
      */
     @JsonProperty("absoluteRepeat")
     @JacksonXmlProperty(localName = "absolute_repeat", isAttribute = true)
@@ -278,8 +230,6 @@ public class Period {
     /**
      * pattern: ([0-9]+)|([0-9]+:[0-9]{2}(:[0-9]{2})?)
      * 
-     * @param absoluteRepeat
-     *     The absoluteRepeat
      */
     @JsonProperty("absoluteRepeat")
     @JacksonXmlProperty(localName = "absolute_repeat", isAttribute = true)
@@ -290,8 +240,6 @@ public class Period {
     /**
      * possible values: suppress (default), ignore_holiday, previous_non_holiday, next_non_holiday
      * 
-     * @return
-     *     The whenHoliday
      */
     @JsonProperty("whenHoliday")
     @JacksonXmlProperty(localName = "when_holiday", isAttribute = true)
@@ -302,8 +250,6 @@ public class Period {
     /**
      * possible values: suppress (default), ignore_holiday, previous_non_holiday, next_non_holiday
      * 
-     * @param whenHoliday
-     *     The whenHoliday
      */
     @JsonProperty("whenHoliday")
     @JacksonXmlProperty(localName = "when_holiday", isAttribute = true)
@@ -313,12 +259,12 @@ public class Period {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("begin", begin).append("end", end).append("singleStart", singleStart).append("letRun", letRun).append("runOnce", runOnce).append("repeat", repeat).append("absoluteRepeat", absoluteRepeat).append("whenHoliday", whenHoliday).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(begin).append(end).append(singleStart).append(letRun).append(runOnce).append(repeat).append(absoluteRepeat).append(whenHoliday).toHashCode();
+        return new HashCodeBuilder().append(letRun).append(singleStart).append(repeat).append(end).append(absoluteRepeat).append(begin).append(runOnce).append(whenHoliday).toHashCode();
     }
 
     @Override
@@ -330,7 +276,7 @@ public class Period {
             return false;
         }
         Period rhs = ((Period) other);
-        return new EqualsBuilder().append(begin, rhs.begin).append(end, rhs.end).append(singleStart, rhs.singleStart).append(letRun, rhs.letRun).append(runOnce, rhs.runOnce).append(repeat, rhs.repeat).append(absoluteRepeat, rhs.absoluteRepeat).append(whenHoliday, rhs.whenHoliday).isEquals();
+        return new EqualsBuilder().append(letRun, rhs.letRun).append(singleStart, rhs.singleStart).append(repeat, rhs.repeat).append(end, rhs.end).append(absoluteRepeat, rhs.absoluteRepeat).append(begin, rhs.begin).append(runOnce, rhs.runOnce).append(whenHoliday, rhs.whenHoliday).isEquals();
     }
 
 }

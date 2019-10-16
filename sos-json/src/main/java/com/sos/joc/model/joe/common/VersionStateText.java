@@ -3,11 +3,9 @@ package com.sos.joc.model.joe.common;
 
 import java.util.HashMap;
 import java.util.Map;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-@Generated("org.jsonschema2pojo")
 public enum VersionStateText {
 
     LIVE_IS_NEWER("LIVE_IS_NEWER"),
@@ -28,9 +26,13 @@ public enum VersionStateText {
         this.value = value;
     }
 
-    @JsonValue
     @Override
     public String toString() {
+        return this.value;
+    }
+
+    @JsonValue
+    public String value() {
         return this.value;
     }
 

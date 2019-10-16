@@ -2,9 +2,9 @@
 package com.sos.joc.model.joe.processclass;
 
 import java.util.List;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -15,7 +15,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "remote_schedulers")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "select",
     "remoteSchedulerList"
@@ -27,8 +26,9 @@ public class RemoteSchedulers {
      * 
      */
     @JsonProperty("select")
+    @JsonPropertyDescription("first, next")
     @JacksonXmlProperty(localName = "select", isAttribute = true)
-    private String select;
+    private String select = "first";
     /**
      * 
      * (Required)
@@ -40,27 +40,8 @@ public class RemoteSchedulers {
     private List<RemoteScheduler> remoteSchedulerList = null;
 
     /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public RemoteSchedulers() {
-    }
-
-    /**
-     * 
-     * @param select
-     * @param remoteSchedulerList
-     */
-    public RemoteSchedulers(String select, List<RemoteScheduler> remoteSchedulerList) {
-        this.select = select;
-        this.remoteSchedulerList = remoteSchedulerList;
-    }
-
-    /**
      * first, next
      * 
-     * @return
-     *     The select
      */
     @JsonProperty("select")
     @JacksonXmlProperty(localName = "select", isAttribute = true)
@@ -71,8 +52,6 @@ public class RemoteSchedulers {
     /**
      * first, next
      * 
-     * @param select
-     *     The select
      */
     @JsonProperty("select")
     @JacksonXmlProperty(localName = "select", isAttribute = true)
@@ -84,8 +63,6 @@ public class RemoteSchedulers {
      * 
      * (Required)
      * 
-     * @return
-     *     The remoteSchedulerList
      */
     @JsonProperty("remoteSchedulerList")
     @JacksonXmlProperty(localName = "remote_scheduler", isAttribute = false)
@@ -97,8 +74,6 @@ public class RemoteSchedulers {
      * 
      * (Required)
      * 
-     * @param remoteSchedulerList
-     *     The remoteSchedulerList
      */
     @JsonProperty("remoteSchedulerList")
     @JacksonXmlProperty(localName = "remote_scheduler", isAttribute = false)
@@ -108,12 +83,12 @@ public class RemoteSchedulers {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("select", select).append("remoteSchedulerList", remoteSchedulerList).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(select).append(remoteSchedulerList).toHashCode();
+        return new HashCodeBuilder().append(remoteSchedulerList).append(select).toHashCode();
     }
 
     @Override
@@ -125,7 +100,7 @@ public class RemoteSchedulers {
             return false;
         }
         RemoteSchedulers rhs = ((RemoteSchedulers) other);
-        return new EqualsBuilder().append(select, rhs.select).append(remoteSchedulerList, rhs.remoteSchedulerList).isEquals();
+        return new EqualsBuilder().append(remoteSchedulerList, rhs.remoteSchedulerList).append(select, rhs.select).isEquals();
     }
 
 }

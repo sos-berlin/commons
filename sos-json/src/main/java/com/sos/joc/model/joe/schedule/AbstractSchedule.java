@@ -2,9 +2,9 @@
 package com.sos.joc.model.joe.schedule;
 
 import java.util.List;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
@@ -23,7 +23,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "abstract_schedule")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "timeZone",
     "begin",
@@ -50,6 +49,7 @@ public abstract class AbstractSchedule {
      * 
      */
     @JsonProperty("begin")
+    @JsonPropertyDescription("pattern: [0-9]{1,2}:[0-9]{2}(:[0-9]{2})?")
     @JacksonXmlProperty(localName = "begin", isAttribute = true)
     private String begin;
     /**
@@ -57,6 +57,7 @@ public abstract class AbstractSchedule {
      * 
      */
     @JsonProperty("end")
+    @JsonPropertyDescription("pattern: [0-9]{1,2}:[0-9]{2}(:[0-9]{2})?")
     @JacksonXmlProperty(localName = "end", isAttribute = true)
     private String end;
     /**
@@ -64,6 +65,7 @@ public abstract class AbstractSchedule {
      * 
      */
     @JsonProperty("letRun")
+    @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "let_run", isAttribute = true)
     private String letRun;
     /**
@@ -71,6 +73,7 @@ public abstract class AbstractSchedule {
      * 
      */
     @JsonProperty("runOnce")
+    @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "once", isAttribute = true)
     private String runOnce;
     /**
@@ -142,63 +145,12 @@ public abstract class AbstractSchedule {
     @JacksonXmlProperty(localName = "calendars", isAttribute = false)
     private String calendars;
 
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public AbstractSchedule() {
-    }
-
-    /**
-     * 
-     * @param letRun
-     * @param ats
-     * @param weekdays
-     * @param timeZone
-     * @param dates
-     * @param runOnce
-     * @param month
-     * @param holidays
-     * @param calendars
-     * @param periods
-     * @param end
-     * @param monthdays
-     * @param begin
-     * @param ultimos
-     */
-    public AbstractSchedule(String timeZone, String begin, String end, String letRun, String runOnce, List<Period> periods, List<At> ats, List<Date> dates, Weekdays weekdays, Monthdays monthdays, Ultimos ultimos, List<Month> month, Holidays holidays, String calendars) {
-        this.timeZone = timeZone;
-        this.begin = begin;
-        this.end = end;
-        this.letRun = letRun;
-        this.runOnce = runOnce;
-        this.periods = periods;
-        this.ats = ats;
-        this.dates = dates;
-        this.weekdays = weekdays;
-        this.monthdays = monthdays;
-        this.ultimos = ultimos;
-        this.month = month;
-        this.holidays = holidays;
-        this.calendars = calendars;
-    }
-
-    /**
-     * 
-     * @return
-     *     The timeZone
-     */
     @JsonProperty("timeZone")
     @JacksonXmlProperty(localName = "time_zone", isAttribute = true)
     public String getTimeZone() {
         return timeZone;
     }
 
-    /**
-     * 
-     * @param timeZone
-     *     The timeZone
-     */
     @JsonProperty("timeZone")
     @JacksonXmlProperty(localName = "time_zone", isAttribute = true)
     public void setTimeZone(String timeZone) {
@@ -208,8 +160,6 @@ public abstract class AbstractSchedule {
     /**
      * pattern: [0-9]{1,2}:[0-9]{2}(:[0-9]{2})?
      * 
-     * @return
-     *     The begin
      */
     @JsonProperty("begin")
     @JacksonXmlProperty(localName = "begin", isAttribute = true)
@@ -220,8 +170,6 @@ public abstract class AbstractSchedule {
     /**
      * pattern: [0-9]{1,2}:[0-9]{2}(:[0-9]{2})?
      * 
-     * @param begin
-     *     The begin
      */
     @JsonProperty("begin")
     @JacksonXmlProperty(localName = "begin", isAttribute = true)
@@ -232,8 +180,6 @@ public abstract class AbstractSchedule {
     /**
      * pattern: [0-9]{1,2}:[0-9]{2}(:[0-9]{2})?
      * 
-     * @return
-     *     The end
      */
     @JsonProperty("end")
     @JacksonXmlProperty(localName = "end", isAttribute = true)
@@ -244,8 +190,6 @@ public abstract class AbstractSchedule {
     /**
      * pattern: [0-9]{1,2}:[0-9]{2}(:[0-9]{2})?
      * 
-     * @param end
-     *     The end
      */
     @JsonProperty("end")
     @JacksonXmlProperty(localName = "end", isAttribute = true)
@@ -256,8 +200,6 @@ public abstract class AbstractSchedule {
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @return
-     *     The letRun
      */
     @JsonProperty("letRun")
     @JacksonXmlProperty(localName = "let_run", isAttribute = true)
@@ -268,8 +210,6 @@ public abstract class AbstractSchedule {
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @param letRun
-     *     The letRun
      */
     @JsonProperty("letRun")
     @JacksonXmlProperty(localName = "let_run", isAttribute = true)
@@ -280,8 +220,6 @@ public abstract class AbstractSchedule {
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @return
-     *     The runOnce
      */
     @JsonProperty("runOnce")
     @JacksonXmlProperty(localName = "once", isAttribute = true)
@@ -292,8 +230,6 @@ public abstract class AbstractSchedule {
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @param runOnce
-     *     The runOnce
      */
     @JsonProperty("runOnce")
     @JacksonXmlProperty(localName = "once", isAttribute = true)
@@ -306,8 +242,6 @@ public abstract class AbstractSchedule {
      * <p>
      * 
      * 
-     * @return
-     *     The periods
      */
     @JsonProperty("periods")
     @JacksonXmlProperty(localName = "period", isAttribute = false)
@@ -320,8 +254,6 @@ public abstract class AbstractSchedule {
      * <p>
      * 
      * 
-     * @param periods
-     *     The periods
      */
     @JsonProperty("periods")
     @JacksonXmlProperty(localName = "period", isAttribute = false)
@@ -329,44 +261,24 @@ public abstract class AbstractSchedule {
         this.periods = periods;
     }
 
-    /**
-     * 
-     * @return
-     *     The ats
-     */
     @JsonProperty("ats")
     @JacksonXmlProperty(localName = "at", isAttribute = false)
     public List<At> getAts() {
         return ats;
     }
 
-    /**
-     * 
-     * @param ats
-     *     The ats
-     */
     @JsonProperty("ats")
     @JacksonXmlProperty(localName = "at", isAttribute = false)
     public void setAts(List<At> ats) {
         this.ats = ats;
     }
 
-    /**
-     * 
-     * @return
-     *     The dates
-     */
     @JsonProperty("dates")
     @JacksonXmlProperty(localName = "date", isAttribute = false)
     public List<Date> getDates() {
         return dates;
     }
 
-    /**
-     * 
-     * @param dates
-     *     The dates
-     */
     @JsonProperty("dates")
     @JacksonXmlProperty(localName = "date", isAttribute = false)
     public void setDates(List<Date> dates) {
@@ -378,8 +290,6 @@ public abstract class AbstractSchedule {
      * <p>
      * 
      * 
-     * @return
-     *     The weekdays
      */
     @JsonProperty("weekdays")
     @JacksonXmlProperty(localName = "weekdays", isAttribute = false)
@@ -392,8 +302,6 @@ public abstract class AbstractSchedule {
      * <p>
      * 
      * 
-     * @param weekdays
-     *     The weekdays
      */
     @JsonProperty("weekdays")
     @JacksonXmlProperty(localName = "weekdays", isAttribute = false)
@@ -406,8 +314,6 @@ public abstract class AbstractSchedule {
      * <p>
      * 
      * 
-     * @return
-     *     The monthdays
      */
     @JsonProperty("monthdays")
     @JacksonXmlProperty(localName = "monthdays", isAttribute = false)
@@ -420,8 +326,6 @@ public abstract class AbstractSchedule {
      * <p>
      * 
      * 
-     * @param monthdays
-     *     The monthdays
      */
     @JsonProperty("monthdays")
     @JacksonXmlProperty(localName = "monthdays", isAttribute = false)
@@ -434,8 +338,6 @@ public abstract class AbstractSchedule {
      * <p>
      * 
      * 
-     * @return
-     *     The ultimos
      */
     @JsonProperty("ultimos")
     @JacksonXmlProperty(localName = "ultimos", isAttribute = false)
@@ -448,8 +350,6 @@ public abstract class AbstractSchedule {
      * <p>
      * 
      * 
-     * @param ultimos
-     *     The ultimos
      */
     @JsonProperty("ultimos")
     @JacksonXmlProperty(localName = "ultimos", isAttribute = false)
@@ -462,8 +362,6 @@ public abstract class AbstractSchedule {
      * <p>
      * 
      * 
-     * @return
-     *     The month
      */
     @JsonProperty("month")
     @JacksonXmlProperty(localName = "month", isAttribute = false)
@@ -476,8 +374,6 @@ public abstract class AbstractSchedule {
      * <p>
      * 
      * 
-     * @param month
-     *     The month
      */
     @JsonProperty("month")
     @JacksonXmlProperty(localName = "month", isAttribute = false)
@@ -490,8 +386,6 @@ public abstract class AbstractSchedule {
      * <p>
      * 
      * 
-     * @return
-     *     The holidays
      */
     @JsonProperty("holidays")
     @JacksonXmlProperty(localName = "holidays", isAttribute = false)
@@ -504,8 +398,6 @@ public abstract class AbstractSchedule {
      * <p>
      * 
      * 
-     * @param holidays
-     *     The holidays
      */
     @JsonProperty("holidays")
     @JacksonXmlProperty(localName = "holidays", isAttribute = false)
@@ -513,11 +405,6 @@ public abstract class AbstractSchedule {
         this.holidays = holidays;
     }
 
-    /**
-     * 
-     * @return
-     *     The calendars
-     */
     @JsonProperty("calendars")
     @JacksonXmlCData
     @JacksonXmlProperty(localName = "calendars", isAttribute = false)
@@ -525,11 +412,6 @@ public abstract class AbstractSchedule {
         return calendars;
     }
 
-    /**
-     * 
-     * @param calendars
-     *     The calendars
-     */
     @JsonProperty("calendars")
     @JacksonXmlCData
     @JacksonXmlProperty(localName = "calendars", isAttribute = false)
@@ -539,12 +421,12 @@ public abstract class AbstractSchedule {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("timeZone", timeZone).append("begin", begin).append("end", end).append("letRun", letRun).append("runOnce", runOnce).append("periods", periods).append("ats", ats).append("dates", dates).append("weekdays", weekdays).append("monthdays", monthdays).append("ultimos", ultimos).append("month", month).append("holidays", holidays).append("calendars", calendars).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(timeZone).append(begin).append(end).append(letRun).append(runOnce).append(periods).append(ats).append(dates).append(weekdays).append(monthdays).append(ultimos).append(month).append(holidays).append(calendars).toHashCode();
+        return new HashCodeBuilder().append(letRun).append(ats).append(weekdays).append(timeZone).append(dates).append(runOnce).append(month).append(holidays).append(calendars).append(periods).append(end).append(monthdays).append(begin).append(ultimos).toHashCode();
     }
 
     @Override
@@ -556,7 +438,7 @@ public abstract class AbstractSchedule {
             return false;
         }
         AbstractSchedule rhs = ((AbstractSchedule) other);
-        return new EqualsBuilder().append(timeZone, rhs.timeZone).append(begin, rhs.begin).append(end, rhs.end).append(letRun, rhs.letRun).append(runOnce, rhs.runOnce).append(periods, rhs.periods).append(ats, rhs.ats).append(dates, rhs.dates).append(weekdays, rhs.weekdays).append(monthdays, rhs.monthdays).append(ultimos, rhs.ultimos).append(month, rhs.month).append(holidays, rhs.holidays).append(calendars, rhs.calendars).isEquals();
+        return new EqualsBuilder().append(letRun, rhs.letRun).append(ats, rhs.ats).append(weekdays, rhs.weekdays).append(timeZone, rhs.timeZone).append(dates, rhs.dates).append(runOnce, rhs.runOnce).append(month, rhs.month).append(holidays, rhs.holidays).append(calendars, rhs.calendars).append(periods, rhs.periods).append(end, rhs.end).append(monthdays, rhs.monthdays).append(begin, rhs.begin).append(ultimos, rhs.ultimos).isEquals();
     }
 
 }

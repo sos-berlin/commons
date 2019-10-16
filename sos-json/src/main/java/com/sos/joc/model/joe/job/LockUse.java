@@ -1,9 +1,9 @@
 
 package com.sos.joc.model.joe.job;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
@@ -13,7 +13,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "lock.use")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "lock",
     "exclusive"
@@ -26,6 +25,7 @@ public class LockUse {
      * 
      */
     @JsonProperty("lock")
+    @JsonPropertyDescription("path to a lock object")
     @JacksonXmlProperty(localName = "lock", isAttribute = true)
     private String lock;
     /**
@@ -33,32 +33,14 @@ public class LockUse {
      * 
      */
     @JsonProperty("exclusive")
+    @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "exclusive", isAttribute = true)
     private String exclusive;
-
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public LockUse() {
-    }
-
-    /**
-     * 
-     * @param lock
-     * @param exclusive
-     */
-    public LockUse(String lock, String exclusive) {
-        this.lock = lock;
-        this.exclusive = exclusive;
-    }
 
     /**
      * path to a lock object
      * (Required)
      * 
-     * @return
-     *     The lock
      */
     @JsonProperty("lock")
     @JacksonXmlProperty(localName = "lock", isAttribute = true)
@@ -70,8 +52,6 @@ public class LockUse {
      * path to a lock object
      * (Required)
      * 
-     * @param lock
-     *     The lock
      */
     @JsonProperty("lock")
     @JacksonXmlProperty(localName = "lock", isAttribute = true)
@@ -82,8 +62,6 @@ public class LockUse {
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @return
-     *     The exclusive
      */
     @JsonProperty("exclusive")
     @JacksonXmlProperty(localName = "exclusive", isAttribute = true)
@@ -94,8 +72,6 @@ public class LockUse {
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
-     * @param exclusive
-     *     The exclusive
      */
     @JsonProperty("exclusive")
     @JacksonXmlProperty(localName = "exclusive", isAttribute = true)
@@ -105,7 +81,7 @@ public class LockUse {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("lock", lock).append("exclusive", exclusive).toString();
     }
 
     @Override

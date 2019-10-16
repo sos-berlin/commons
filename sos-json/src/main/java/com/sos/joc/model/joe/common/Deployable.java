@@ -2,9 +2,9 @@
 package com.sos.joc.model.joe.common;
 
 import java.util.Date;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
@@ -22,7 +22,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "deployable")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobschedulerId",
     "folder",
@@ -49,6 +48,7 @@ public class Deployable {
      * 
      */
     @JsonProperty("folder")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
     @JacksonXmlProperty(localName = "folder", isAttribute = true)
     private String folder;
     @JsonProperty("objectName")
@@ -76,42 +76,14 @@ public class Deployable {
      * 
      */
     @JsonProperty("modified")
+    @JsonPropertyDescription("Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty")
     @JacksonXmlProperty(localName = "modified", isAttribute = true)
     private Date modified;
-
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public Deployable() {
-    }
-
-    /**
-     * 
-     * @param folder
-     * @param objectName
-     * @param modified
-     * @param jobschedulerId
-     * @param operation
-     * @param account
-     * @param objectType
-     */
-    public Deployable(String jobschedulerId, String folder, String objectName, String account, String operation, JobSchedulerObjectType objectType, Date modified) {
-        this.jobschedulerId = jobschedulerId;
-        this.folder = folder;
-        this.objectName = objectName;
-        this.account = account;
-        this.operation = operation;
-        this.objectType = objectType;
-        this.modified = modified;
-    }
 
     /**
      * 
      * (Required)
      * 
-     * @return
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
     @JacksonXmlProperty(localName = "jobscheduler_id", isAttribute = true)
@@ -123,8 +95,6 @@ public class Deployable {
      * 
      * (Required)
      * 
-     * @param jobschedulerId
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
     @JacksonXmlProperty(localName = "jobscheduler_id", isAttribute = true)
@@ -137,8 +107,6 @@ public class Deployable {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @return
-     *     The folder
      */
     @JsonProperty("folder")
     @JacksonXmlProperty(localName = "folder", isAttribute = true)
@@ -151,8 +119,6 @@ public class Deployable {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @param folder
-     *     The folder
      */
     @JsonProperty("folder")
     @JacksonXmlProperty(localName = "folder", isAttribute = true)
@@ -160,66 +126,36 @@ public class Deployable {
         this.folder = folder;
     }
 
-    /**
-     * 
-     * @return
-     *     The objectName
-     */
     @JsonProperty("objectName")
     @JacksonXmlProperty(localName = "object_name", isAttribute = true)
     public String getObjectName() {
         return objectName;
     }
 
-    /**
-     * 
-     * @param objectName
-     *     The objectName
-     */
     @JsonProperty("objectName")
     @JacksonXmlProperty(localName = "object_name", isAttribute = true)
     public void setObjectName(String objectName) {
         this.objectName = objectName;
     }
 
-    /**
-     * 
-     * @return
-     *     The account
-     */
     @JsonProperty("account")
     @JacksonXmlProperty(localName = "account", isAttribute = true)
     public String getAccount() {
         return account;
     }
 
-    /**
-     * 
-     * @param account
-     *     The account
-     */
     @JsonProperty("account")
     @JacksonXmlProperty(localName = "account", isAttribute = true)
     public void setAccount(String account) {
         this.account = account;
     }
 
-    /**
-     * 
-     * @return
-     *     The operation
-     */
     @JsonProperty("operation")
     @JacksonXmlProperty(localName = "operation", isAttribute = true)
     public String getOperation() {
         return operation;
     }
 
-    /**
-     * 
-     * @param operation
-     *     The operation
-     */
     @JsonProperty("operation")
     @JacksonXmlProperty(localName = "operation", isAttribute = true)
     public void setOperation(String operation) {
@@ -231,8 +167,6 @@ public class Deployable {
      * <p>
      * 
      * 
-     * @return
-     *     The objectType
      */
     @JsonProperty("objectType")
     @JacksonXmlProperty(localName = "object_type", isAttribute = false)
@@ -245,8 +179,6 @@ public class Deployable {
      * <p>
      * 
      * 
-     * @param objectType
-     *     The objectType
      */
     @JsonProperty("objectType")
     @JacksonXmlProperty(localName = "object_type", isAttribute = false)
@@ -259,8 +191,6 @@ public class Deployable {
      * <p>
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
-     * @return
-     *     The modified
      */
     @JsonProperty("modified")
     @JacksonXmlProperty(localName = "modified", isAttribute = true)
@@ -273,8 +203,6 @@ public class Deployable {
      * <p>
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
-     * @param modified
-     *     The modified
      */
     @JsonProperty("modified")
     @JacksonXmlProperty(localName = "modified", isAttribute = true)
@@ -284,12 +212,12 @@ public class Deployable {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("folder", folder).append("objectName", objectName).append("account", account).append("operation", operation).append("objectType", objectType).append("modified", modified).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(folder).append(objectName).append(account).append(operation).append(objectType).append(modified).toHashCode();
+        return new HashCodeBuilder().append(folder).append(objectName).append(modified).append(jobschedulerId).append(operation).append(account).append(objectType).toHashCode();
     }
 
     @Override
@@ -301,7 +229,7 @@ public class Deployable {
             return false;
         }
         Deployable rhs = ((Deployable) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(folder, rhs.folder).append(objectName, rhs.objectName).append(account, rhs.account).append(operation, rhs.operation).append(objectType, rhs.objectType).append(modified, rhs.modified).isEquals();
+        return new EqualsBuilder().append(folder, rhs.folder).append(objectName, rhs.objectName).append(modified, rhs.modified).append(jobschedulerId, rhs.jobschedulerId).append(operation, rhs.operation).append(account, rhs.account).append(objectType, rhs.objectType).isEquals();
     }
 
 }

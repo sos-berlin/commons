@@ -1,7 +1,6 @@
 
 package com.sos.joc.model.joe.job;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -13,7 +12,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "variable")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "name",
     "value"
@@ -27,61 +25,24 @@ public class EnviromentVariable {
     @JacksonXmlProperty(localName = "value", isAttribute = true)
     private String value;
 
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public EnviromentVariable() {
-    }
-
-    /**
-     * 
-     * @param name
-     * @param value
-     */
-    public EnviromentVariable(String name, String value) {
-        this.name = name;
-        this.value = value;
-    }
-
-    /**
-     * 
-     * @return
-     *     The name
-     */
     @JsonProperty("name")
     @JacksonXmlProperty(localName = "name", isAttribute = true)
     public String getName() {
         return name;
     }
 
-    /**
-     * 
-     * @param name
-     *     The name
-     */
     @JsonProperty("name")
     @JacksonXmlProperty(localName = "name", isAttribute = true)
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * 
-     * @return
-     *     The value
-     */
     @JsonProperty("value")
     @JacksonXmlProperty(localName = "value", isAttribute = true)
     public String getValue() {
         return value;
     }
 
-    /**
-     * 
-     * @param value
-     *     The value
-     */
     @JsonProperty("value")
     @JacksonXmlProperty(localName = "value", isAttribute = true)
     public void setValue(String value) {
@@ -90,7 +51,7 @@ public class EnviromentVariable {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("name", name).append("value", value).toString();
     }
 
     @Override

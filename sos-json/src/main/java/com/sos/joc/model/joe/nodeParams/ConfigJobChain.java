@@ -1,7 +1,6 @@
 
 package com.sos.joc.model.joe.nodeparams;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -13,7 +12,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "job_chain")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "name",
     "order"
@@ -38,28 +36,9 @@ public class ConfigJobChain {
     private ConfigOrder order;
 
     /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public ConfigJobChain() {
-    }
-
-    /**
-     * 
-     * @param name
-     * @param order
-     */
-    public ConfigJobChain(String name, ConfigOrder order) {
-        this.name = name;
-        this.order = order;
-    }
-
-    /**
      * 
      * (Required)
      * 
-     * @return
-     *     The name
      */
     @JsonProperty("name")
     @JacksonXmlProperty(localName = "name", isAttribute = true)
@@ -71,8 +50,6 @@ public class ConfigJobChain {
      * 
      * (Required)
      * 
-     * @param name
-     *     The name
      */
     @JsonProperty("name")
     @JacksonXmlProperty(localName = "name", isAttribute = true)
@@ -84,8 +61,6 @@ public class ConfigJobChain {
      * 
      * (Required)
      * 
-     * @return
-     *     The order
      */
     @JsonProperty("order")
     @JacksonXmlProperty(localName = "order", isAttribute = false)
@@ -97,8 +72,6 @@ public class ConfigJobChain {
      * 
      * (Required)
      * 
-     * @param order
-     *     The order
      */
     @JsonProperty("order")
     @JacksonXmlProperty(localName = "order", isAttribute = false)
@@ -108,7 +81,7 @@ public class ConfigJobChain {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("name", name).append("order", order).toString();
     }
 
     @Override

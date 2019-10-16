@@ -1,7 +1,6 @@
 
 package com.sos.joc.model.joe.common;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -20,7 +19,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "joe_object_status")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "message",
     "versionState",
@@ -51,31 +49,10 @@ public class JoeObjectStatus {
     private Boolean deployed;
 
     /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public JoeObjectStatus() {
-    }
-
-    /**
-     * 
-     * @param versionState
-     * @param deployed
-     * @param message
-     */
-    public JoeObjectStatus(JoeMessage message, VersionStateText versionState, Boolean deployed) {
-        this.message = message;
-        this.versionState = versionState;
-        this.deployed = deployed;
-    }
-
-    /**
      * include
      * <p>
      * 
      * 
-     * @return
-     *     The message
      */
     @JsonProperty("message")
     @JacksonXmlProperty(localName = "message", isAttribute = false)
@@ -88,8 +65,6 @@ public class JoeObjectStatus {
      * <p>
      * 
      * 
-     * @param message
-     *     The message
      */
     @JsonProperty("message")
     @JacksonXmlProperty(localName = "message", isAttribute = false)
@@ -102,8 +77,6 @@ public class JoeObjectStatus {
      * <p>
      * 
      * 
-     * @return
-     *     The versionState
      */
     @JsonProperty("versionState")
     @JacksonXmlProperty(localName = "version_state", isAttribute = false)
@@ -116,8 +89,6 @@ public class JoeObjectStatus {
      * <p>
      * 
      * 
-     * @param versionState
-     *     The versionState
      */
     @JsonProperty("versionState")
     @JacksonXmlProperty(localName = "version_state", isAttribute = false)
@@ -125,22 +96,12 @@ public class JoeObjectStatus {
         this.versionState = versionState;
     }
 
-    /**
-     * 
-     * @return
-     *     The deployed
-     */
     @JsonProperty("deployed")
     @JacksonXmlProperty(localName = "deployed", isAttribute = true)
     public Boolean getDeployed() {
         return deployed;
     }
 
-    /**
-     * 
-     * @param deployed
-     *     The deployed
-     */
     @JsonProperty("deployed")
     @JacksonXmlProperty(localName = "deployed", isAttribute = true)
     public void setDeployed(Boolean deployed) {
@@ -149,12 +110,12 @@ public class JoeObjectStatus {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("message", message).append("versionState", versionState).append("deployed", deployed).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(message).append(versionState).append(deployed).toHashCode();
+        return new HashCodeBuilder().append(deployed).append(versionState).append(message).toHashCode();
     }
 
     @Override
@@ -166,7 +127,7 @@ public class JoeObjectStatus {
             return false;
         }
         JoeObjectStatus rhs = ((JoeObjectStatus) other);
-        return new EqualsBuilder().append(message, rhs.message).append(versionState, rhs.versionState).append(deployed, rhs.deployed).isEquals();
+        return new EqualsBuilder().append(deployed, rhs.deployed).append(versionState, rhs.versionState).append(message, rhs.message).isEquals();
     }
 
 }

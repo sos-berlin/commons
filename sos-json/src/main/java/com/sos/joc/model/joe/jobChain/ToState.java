@@ -1,9 +1,9 @@
 
 package com.sos.joc.model.joe.jobchain;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
@@ -13,7 +13,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "to_state")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "state"
 })
@@ -25,30 +24,14 @@ public class ToState {
      * 
      */
     @JsonProperty("state")
+    @JsonPropertyDescription("name of a job chain node")
     @JacksonXmlProperty(localName = "state", isAttribute = true)
     private String state;
-
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public ToState() {
-    }
-
-    /**
-     * 
-     * @param state
-     */
-    public ToState(String state) {
-        this.state = state;
-    }
 
     /**
      * name of a job chain node
      * (Required)
      * 
-     * @return
-     *     The state
      */
     @JsonProperty("state")
     @JacksonXmlProperty(localName = "state", isAttribute = true)
@@ -60,8 +43,6 @@ public class ToState {
      * name of a job chain node
      * (Required)
      * 
-     * @param state
-     *     The state
      */
     @JsonProperty("state")
     @JacksonXmlProperty(localName = "state", isAttribute = true)
@@ -71,7 +52,7 @@ public class ToState {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("state", state).toString();
     }
 
     @Override

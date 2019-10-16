@@ -2,9 +2,9 @@
 package com.sos.joc.model.joe.job;
 
 import java.util.List;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -16,7 +16,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "commands")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "onExitCode",
     "addOrders",
@@ -29,6 +28,7 @@ public class Commands {
      * 
      */
     @JsonProperty("onExitCode")
+    @JsonPropertyDescription("possible values: success, error or space separated collection of numbers or a unix signal")
     @JacksonXmlProperty(localName = "on_exit_code", isAttribute = true)
     private String onExitCode;
     @JsonProperty("addOrders")
@@ -41,29 +41,8 @@ public class Commands {
     private List<StartJob> startJobs = null;
 
     /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public Commands() {
-    }
-
-    /**
-     * 
-     * @param addOrders
-     * @param onExitCode
-     * @param startJobs
-     */
-    public Commands(String onExitCode, List<AddOrder> addOrders, List<StartJob> startJobs) {
-        this.onExitCode = onExitCode;
-        this.addOrders = addOrders;
-        this.startJobs = startJobs;
-    }
-
-    /**
      * possible values: success, error or space separated collection of numbers or a unix signal
      * 
-     * @return
-     *     The onExitCode
      */
     @JsonProperty("onExitCode")
     @JacksonXmlProperty(localName = "on_exit_code", isAttribute = true)
@@ -74,8 +53,6 @@ public class Commands {
     /**
      * possible values: success, error or space separated collection of numbers or a unix signal
      * 
-     * @param onExitCode
-     *     The onExitCode
      */
     @JsonProperty("onExitCode")
     @JacksonXmlProperty(localName = "on_exit_code", isAttribute = true)
@@ -83,44 +60,24 @@ public class Commands {
         this.onExitCode = onExitCode;
     }
 
-    /**
-     * 
-     * @return
-     *     The addOrders
-     */
     @JsonProperty("addOrders")
     @JacksonXmlProperty(localName = "add_order", isAttribute = false)
     public List<AddOrder> getAddOrders() {
         return addOrders;
     }
 
-    /**
-     * 
-     * @param addOrders
-     *     The addOrders
-     */
     @JsonProperty("addOrders")
     @JacksonXmlProperty(localName = "add_order", isAttribute = false)
     public void setAddOrders(List<AddOrder> addOrders) {
         this.addOrders = addOrders;
     }
 
-    /**
-     * 
-     * @return
-     *     The startJobs
-     */
     @JsonProperty("startJobs")
     @JacksonXmlProperty(localName = "start_job", isAttribute = false)
     public List<StartJob> getStartJobs() {
         return startJobs;
     }
 
-    /**
-     * 
-     * @param startJobs
-     *     The startJobs
-     */
     @JsonProperty("startJobs")
     @JacksonXmlProperty(localName = "start_job", isAttribute = false)
     public void setStartJobs(List<StartJob> startJobs) {
@@ -129,12 +86,12 @@ public class Commands {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("onExitCode", onExitCode).append("addOrders", addOrders).append("startJobs", startJobs).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(onExitCode).append(addOrders).append(startJobs).toHashCode();
+        return new HashCodeBuilder().append(addOrders).append(startJobs).append(onExitCode).toHashCode();
     }
 
     @Override
@@ -146,7 +103,7 @@ public class Commands {
             return false;
         }
         Commands rhs = ((Commands) other);
-        return new EqualsBuilder().append(onExitCode, rhs.onExitCode).append(addOrders, rhs.addOrders).append(startJobs, rhs.startJobs).isEquals();
+        return new EqualsBuilder().append(addOrders, rhs.addOrders).append(startJobs, rhs.startJobs).append(onExitCode, rhs.onExitCode).isEquals();
     }
 
 }

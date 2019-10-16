@@ -1,7 +1,6 @@
 
 package com.sos.joc.model.joe.job;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -21,7 +20,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "monitor")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "name",
     "ordering",
@@ -52,41 +50,12 @@ public class Monitor implements IJSObject
     @JacksonXmlProperty(localName = "script", isAttribute = false)
     private Script script;
 
-    /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public Monitor() {
-    }
-
-    /**
-     * 
-     * @param ordering
-     * @param name
-     * @param script
-     */
-    public Monitor(String name, Integer ordering, Script script) {
-        this.name = name;
-        this.ordering = ordering;
-        this.script = script;
-    }
-
-    /**
-     * 
-     * @return
-     *     The name
-     */
     @JsonProperty("name")
     @JacksonXmlProperty(localName = "name", isAttribute = true)
     public String getName() {
         return name;
     }
 
-    /**
-     * 
-     * @param name
-     *     The name
-     */
     @JsonProperty("name")
     @JacksonXmlProperty(localName = "name", isAttribute = true)
     public void setName(String name) {
@@ -98,8 +67,6 @@ public class Monitor implements IJSObject
      * <p>
      * 
      * 
-     * @return
-     *     The ordering
      */
     @JsonProperty("ordering")
     @JacksonXmlProperty(localName = "ordering", isAttribute = true)
@@ -112,8 +79,6 @@ public class Monitor implements IJSObject
      * <p>
      * 
      * 
-     * @param ordering
-     *     The ordering
      */
     @JsonProperty("ordering")
     @JacksonXmlProperty(localName = "ordering", isAttribute = true)
@@ -126,8 +91,6 @@ public class Monitor implements IJSObject
      * <p>
      * 
      * 
-     * @return
-     *     The script
      */
     @JsonProperty("script")
     @JacksonXmlProperty(localName = "script", isAttribute = false)
@@ -140,8 +103,6 @@ public class Monitor implements IJSObject
      * <p>
      * 
      * 
-     * @param script
-     *     The script
      */
     @JsonProperty("script")
     @JacksonXmlProperty(localName = "script", isAttribute = false)
@@ -151,7 +112,7 @@ public class Monitor implements IJSObject
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("name", name).append("ordering", ordering).append("script", script).toString();
     }
 
     @Override

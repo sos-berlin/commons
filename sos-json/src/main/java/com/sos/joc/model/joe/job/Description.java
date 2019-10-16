@@ -2,7 +2,6 @@
 package com.sos.joc.model.joe.job;
 
 import java.util.List;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -15,7 +14,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "description")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "inculdes"
 })
@@ -33,27 +31,10 @@ public class Description {
     private List<com.sos.joc.model.joe.common.Include> inculdes = null;
 
     /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public Description() {
-    }
-
-    /**
-     * 
-     * @param inculdes
-     */
-    public Description(List<com.sos.joc.model.joe.common.Include> inculdes) {
-        this.inculdes = inculdes;
-    }
-
-    /**
      * include collection
      * <p>
      * 
      * 
-     * @return
-     *     The inculdes
      */
     @JsonProperty("inculdes")
     @JacksonXmlProperty(localName = "include", isAttribute = false)
@@ -66,8 +47,6 @@ public class Description {
      * <p>
      * 
      * 
-     * @param inculdes
-     *     The inculdes
      */
     @JsonProperty("inculdes")
     @JacksonXmlProperty(localName = "include", isAttribute = false)
@@ -77,7 +56,7 @@ public class Description {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("inculdes", inculdes).toString();
     }
 
     @Override

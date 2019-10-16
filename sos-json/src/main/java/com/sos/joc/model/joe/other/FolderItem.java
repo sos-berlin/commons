@@ -27,7 +27,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "processClass",
     "isOrderJob",
     "priority",
-    "state",
+    "initialState",
     "endState",
     "maxProcesses",
     "maxNonExclusive",
@@ -65,13 +65,13 @@ public class FolderItem {
     @JacksonXmlProperty(localName = "process_class", isAttribute = true)
     private String processClass;
     /**
-     * for jobs: possible values: yes, no, 1, 0, true, false
+     * for jobs
      * 
      */
     @JsonProperty("isOrderJob")
-    @JsonPropertyDescription("for jobs: possible values: yes, no, 1, 0, true, false")
+    @JsonPropertyDescription("for jobs")
     @JacksonXmlProperty(localName = "is_order_job", isAttribute = true)
-    private String isOrderJob;
+    private Boolean isOrderJob;
     /**
      * for orders
      * 
@@ -84,10 +84,10 @@ public class FolderItem {
      * for orders
      * 
      */
-    @JsonProperty("state")
+    @JsonProperty("initialState")
     @JsonPropertyDescription("for orders")
-    @JacksonXmlProperty(localName = "state", isAttribute = true)
-    private String state;
+    @JacksonXmlProperty(localName = "initial_state", isAttribute = true)
+    private String initialState;
     /**
      * for orders
      * 
@@ -216,22 +216,22 @@ public class FolderItem {
     }
 
     /**
-     * for jobs: possible values: yes, no, 1, 0, true, false
+     * for jobs
      * 
      */
     @JsonProperty("isOrderJob")
     @JacksonXmlProperty(localName = "is_order_job", isAttribute = true)
-    public String getIsOrderJob() {
+    public Boolean getIsOrderJob() {
         return isOrderJob;
     }
 
     /**
-     * for jobs: possible values: yes, no, 1, 0, true, false
+     * for jobs
      * 
      */
     @JsonProperty("isOrderJob")
     @JacksonXmlProperty(localName = "is_order_job", isAttribute = true)
-    public void setIsOrderJob(String isOrderJob) {
+    public void setIsOrderJob(Boolean isOrderJob) {
         this.isOrderJob = isOrderJob;
     }
 
@@ -259,20 +259,20 @@ public class FolderItem {
      * for orders
      * 
      */
-    @JsonProperty("state")
-    @JacksonXmlProperty(localName = "state", isAttribute = true)
-    public String getState() {
-        return state;
+    @JsonProperty("initialState")
+    @JacksonXmlProperty(localName = "initial_state", isAttribute = true)
+    public String getInitialState() {
+        return initialState;
     }
 
     /**
      * for orders
      * 
      */
-    @JsonProperty("state")
-    @JacksonXmlProperty(localName = "state", isAttribute = true)
-    public void setState(String state) {
-        this.state = state;
+    @JsonProperty("initialState")
+    @JacksonXmlProperty(localName = "initial_state", isAttribute = true)
+    public void setInitialState(String initialState) {
+        this.initialState = initialState;
     }
 
     /**
@@ -405,7 +405,7 @@ public class FolderItem {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("name", name).append("deployed", deployed).append("title", title).append("processClass", processClass).append("isOrderJob", isOrderJob).append("priority", priority).append("state", state).append("endState", endState).append("maxProcesses", maxProcesses).append("maxNonExclusive", maxNonExclusive).append("validFrom", validFrom).append("validTo", validTo).append("substitute", substitute).toString();
+        return new ToStringBuilder(this).append("name", name).append("deployed", deployed).append("title", title).append("processClass", processClass).append("isOrderJob", isOrderJob).append("priority", priority).append("initialState", initialState).append("endState", endState).append("maxProcesses", maxProcesses).append("maxNonExclusive", maxNonExclusive).append("validFrom", validFrom).append("validTo", validTo).append("substitute", substitute).toString();
     }
 
     @Override

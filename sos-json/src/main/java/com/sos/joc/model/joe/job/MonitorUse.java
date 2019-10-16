@@ -1,9 +1,9 @@
 
 package com.sos.joc.model.joe.job;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
@@ -13,7 +13,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "monitor.use")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "monitor",
     "ordering"
@@ -26,6 +25,7 @@ public class MonitorUse {
      * 
      */
     @JsonProperty("monitor")
+    @JsonPropertyDescription("path to a monitor object")
     @JacksonXmlProperty(localName = "monitor", isAttribute = true)
     private String monitor;
     /**
@@ -39,28 +39,9 @@ public class MonitorUse {
     private Integer ordering;
 
     /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public MonitorUse() {
-    }
-
-    /**
-     * 
-     * @param ordering
-     * @param monitor
-     */
-    public MonitorUse(String monitor, Integer ordering) {
-        this.monitor = monitor;
-        this.ordering = ordering;
-    }
-
-    /**
      * path to a monitor object
      * (Required)
      * 
-     * @return
-     *     The monitor
      */
     @JsonProperty("monitor")
     @JacksonXmlProperty(localName = "monitor", isAttribute = true)
@@ -72,8 +53,6 @@ public class MonitorUse {
      * path to a monitor object
      * (Required)
      * 
-     * @param monitor
-     *     The monitor
      */
     @JsonProperty("monitor")
     @JacksonXmlProperty(localName = "monitor", isAttribute = true)
@@ -86,8 +65,6 @@ public class MonitorUse {
      * <p>
      * 
      * 
-     * @return
-     *     The ordering
      */
     @JsonProperty("ordering")
     @JacksonXmlProperty(localName = "ordering", isAttribute = true)
@@ -100,8 +77,6 @@ public class MonitorUse {
      * <p>
      * 
      * 
-     * @param ordering
-     *     The ordering
      */
     @JsonProperty("ordering")
     @JacksonXmlProperty(localName = "ordering", isAttribute = true)
@@ -111,7 +86,7 @@ public class MonitorUse {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("monitor", monitor).append("ordering", ordering).toString();
     }
 
     @Override

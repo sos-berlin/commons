@@ -1,9 +1,9 @@
 
 package com.sos.joc.model.joe.nodeparams;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
@@ -13,7 +13,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "process")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "state",
     "params"
@@ -25,6 +24,7 @@ public class ConfigNode {
      * 
      */
     @JsonProperty("state")
+    @JsonPropertyDescription("name of the job chain node")
     @JacksonXmlProperty(localName = "state", isAttribute = true)
     private String state;
     /**
@@ -38,27 +38,8 @@ public class ConfigNode {
     private Params params;
 
     /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public ConfigNode() {
-    }
-
-    /**
-     * 
-     * @param state
-     * @param params
-     */
-    public ConfigNode(String state, Params params) {
-        this.state = state;
-        this.params = params;
-    }
-
-    /**
      * name of the job chain node
      * 
-     * @return
-     *     The state
      */
     @JsonProperty("state")
     @JacksonXmlProperty(localName = "state", isAttribute = true)
@@ -69,8 +50,6 @@ public class ConfigNode {
     /**
      * name of the job chain node
      * 
-     * @param state
-     *     The state
      */
     @JsonProperty("state")
     @JacksonXmlProperty(localName = "state", isAttribute = true)
@@ -83,8 +62,6 @@ public class ConfigNode {
      * <p>
      * 
      * 
-     * @return
-     *     The params
      */
     @JsonProperty("params")
     @JacksonXmlProperty(localName = "params", isAttribute = false)
@@ -97,8 +74,6 @@ public class ConfigNode {
      * <p>
      * 
      * 
-     * @param params
-     *     The params
      */
     @JsonProperty("params")
     @JacksonXmlProperty(localName = "params", isAttribute = false)
@@ -108,12 +83,12 @@ public class ConfigNode {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("state", state).append("params", params).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(state).append(params).toHashCode();
+        return new HashCodeBuilder().append(params).append(state).toHashCode();
     }
 
     @Override
@@ -125,7 +100,7 @@ public class ConfigNode {
             return false;
         }
         ConfigNode rhs = ((ConfigNode) other);
-        return new EqualsBuilder().append(state, rhs.state).append(params, rhs.params).isEquals();
+        return new EqualsBuilder().append(params, rhs.params).append(state, rhs.state).isEquals();
     }
 
 }

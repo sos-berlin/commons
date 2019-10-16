@@ -124,44 +124,6 @@ public class Folder {
     private Set<FolderItem> others = null;
 
     /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public Folder() {
-    }
-
-    /**
-     * 
-     * @param path
-     * @param folders
-     * @param processClasses
-     * @param jobs
-     * @param schedules
-     * @param jobChains
-     * @param orders
-     * @param deliveryDate
-     * @param locks
-     * @param nodeParams
-     * @param others
-     * @param monitors
-     */
-    public Folder(Date deliveryDate, String path, Set<FolderItem> folders, Set<FolderItem> jobs, Set<FolderItem> jobChains, Set<FolderItem> orders, Set<FolderItem> processClasses, Set<FolderItem> locks, Set<FolderItem> schedules, Set<FolderItem> monitors, Set<FolderItem> nodeParams, Set<FolderItem> others) {
-        super();
-        this.deliveryDate = deliveryDate;
-        this.path = path;
-        this.folders = folders;
-        this.jobs = jobs;
-        this.jobChains = jobChains;
-        this.orders = orders;
-        this.processClasses = processClasses;
-        this.locks = locks;
-        this.schedules = schedules;
-        this.monitors = monitors;
-        this.nodeParams = nodeParams;
-        this.others = others;
-    }
-
-    /**
      * delivery date
      * <p>
      * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ

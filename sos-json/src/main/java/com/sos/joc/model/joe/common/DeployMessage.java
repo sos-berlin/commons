@@ -1,9 +1,9 @@
 
 package com.sos.joc.model.joe.common;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
@@ -20,7 +20,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "deploy_message")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "permissionDeniedFor",
     "wrongObjectType",
@@ -35,6 +34,7 @@ public class DeployMessage {
      * 
      */
     @JsonProperty("permissionDeniedFor")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
     @JacksonXmlProperty(localName = "permission_denied_for", isAttribute = true)
     private String permissionDeniedFor;
     @JsonProperty("wrongObjectType")
@@ -45,31 +45,10 @@ public class DeployMessage {
     private String message;
 
     /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public DeployMessage() {
-    }
-
-    /**
-     * 
-     * @param wrongObjectType
-     * @param permissionDeniedFor
-     * @param message
-     */
-    public DeployMessage(String permissionDeniedFor, String wrongObjectType, String message) {
-        this.permissionDeniedFor = permissionDeniedFor;
-        this.wrongObjectType = wrongObjectType;
-        this.message = message;
-    }
-
-    /**
      * path
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @return
-     *     The permissionDeniedFor
      */
     @JsonProperty("permissionDeniedFor")
     @JacksonXmlProperty(localName = "permission_denied_for", isAttribute = true)
@@ -82,8 +61,6 @@ public class DeployMessage {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @param permissionDeniedFor
-     *     The permissionDeniedFor
      */
     @JsonProperty("permissionDeniedFor")
     @JacksonXmlProperty(localName = "permission_denied_for", isAttribute = true)
@@ -91,44 +68,24 @@ public class DeployMessage {
         this.permissionDeniedFor = permissionDeniedFor;
     }
 
-    /**
-     * 
-     * @return
-     *     The wrongObjectType
-     */
     @JsonProperty("wrongObjectType")
     @JacksonXmlProperty(localName = "wrong_object_type", isAttribute = true)
     public String getWrongObjectType() {
         return wrongObjectType;
     }
 
-    /**
-     * 
-     * @param wrongObjectType
-     *     The wrongObjectType
-     */
     @JsonProperty("wrongObjectType")
     @JacksonXmlProperty(localName = "wrong_object_type", isAttribute = true)
     public void setWrongObjectType(String wrongObjectType) {
         this.wrongObjectType = wrongObjectType;
     }
 
-    /**
-     * 
-     * @return
-     *     The message
-     */
     @JsonProperty("message")
     @JacksonXmlProperty(localName = "message", isAttribute = true)
     public String getMessage() {
         return message;
     }
 
-    /**
-     * 
-     * @param message
-     *     The message
-     */
     @JsonProperty("message")
     @JacksonXmlProperty(localName = "message", isAttribute = true)
     public void setMessage(String message) {
@@ -137,12 +94,12 @@ public class DeployMessage {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("permissionDeniedFor", permissionDeniedFor).append("wrongObjectType", wrongObjectType).append("message", message).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(permissionDeniedFor).append(wrongObjectType).append(message).toHashCode();
+        return new HashCodeBuilder().append(permissionDeniedFor).append(message).append(wrongObjectType).toHashCode();
     }
 
     @Override
@@ -154,7 +111,7 @@ public class DeployMessage {
             return false;
         }
         DeployMessage rhs = ((DeployMessage) other);
-        return new EqualsBuilder().append(permissionDeniedFor, rhs.permissionDeniedFor).append(wrongObjectType, rhs.wrongObjectType).append(message, rhs.message).isEquals();
+        return new EqualsBuilder().append(permissionDeniedFor, rhs.permissionDeniedFor).append(message, rhs.message).append(wrongObjectType, rhs.wrongObjectType).isEquals();
     }
 
 }

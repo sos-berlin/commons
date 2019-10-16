@@ -1,7 +1,6 @@
 
 package com.sos.joc.model.joe.nodeparams;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -21,7 +20,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "settings")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobChain"
 })
@@ -38,26 +36,9 @@ public class Config implements IJSObject
     private ConfigJobChain jobChain;
 
     /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public Config() {
-    }
-
-    /**
-     * 
-     * @param jobChain
-     */
-    public Config(ConfigJobChain jobChain) {
-        this.jobChain = jobChain;
-    }
-
-    /**
      * 
      * (Required)
      * 
-     * @return
-     *     The jobChain
      */
     @JsonProperty("jobChain")
     @JacksonXmlProperty(localName = "job_chain", isAttribute = false)
@@ -69,8 +50,6 @@ public class Config implements IJSObject
      * 
      * (Required)
      * 
-     * @param jobChain
-     *     The jobChain
      */
     @JsonProperty("jobChain")
     @JacksonXmlProperty(localName = "job_chain", isAttribute = false)
@@ -80,7 +59,7 @@ public class Config implements IJSObject
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("jobChain", jobChain).toString();
     }
 
     @Override

@@ -1,9 +1,9 @@
 
 package com.sos.joc.model.joe.nodeparams;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -15,7 +15,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "param")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "name",
     "value",
@@ -36,6 +35,7 @@ public class Param {
      * 
      */
     @JsonProperty("value")
+    @JsonPropertyDescription("parameter value as attribute in xml representation")
     @JacksonXmlProperty(localName = "value", isAttribute = true)
     private String value;
     /**
@@ -43,36 +43,16 @@ public class Param {
      * 
      */
     @JsonProperty("content")
+    @JsonPropertyDescription("parameter value as cdata in xml representation")
     @JacksonXmlText
     @JacksonXmlCData
     @JacksonXmlProperty(localName = "content", isAttribute = false)
     private String content;
 
     /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public Param() {
-    }
-
-    /**
-     * 
-     * @param name
-     * @param value
-     * @param content
-     */
-    public Param(String name, String value, String content) {
-        this.name = name;
-        this.value = value;
-        this.content = content;
-    }
-
-    /**
      * 
      * (Required)
      * 
-     * @return
-     *     The name
      */
     @JsonProperty("name")
     @JacksonXmlProperty(localName = "name", isAttribute = true)
@@ -84,8 +64,6 @@ public class Param {
      * 
      * (Required)
      * 
-     * @param name
-     *     The name
      */
     @JsonProperty("name")
     @JacksonXmlProperty(localName = "name", isAttribute = true)
@@ -96,8 +74,6 @@ public class Param {
     /**
      * parameter value as attribute in xml representation
      * 
-     * @return
-     *     The value
      */
     @JsonProperty("value")
     @JacksonXmlProperty(localName = "value", isAttribute = true)
@@ -108,8 +84,6 @@ public class Param {
     /**
      * parameter value as attribute in xml representation
      * 
-     * @param value
-     *     The value
      */
     @JsonProperty("value")
     @JacksonXmlProperty(localName = "value", isAttribute = true)
@@ -120,8 +94,6 @@ public class Param {
     /**
      * parameter value as cdata in xml representation
      * 
-     * @return
-     *     The content
      */
     @JsonProperty("content")
     @JacksonXmlText
@@ -134,8 +106,6 @@ public class Param {
     /**
      * parameter value as cdata in xml representation
      * 
-     * @param content
-     *     The content
      */
     @JsonProperty("content")
     @JacksonXmlText
@@ -147,7 +117,7 @@ public class Param {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("name", name).append("value", value).append("content", content).toString();
     }
 
     @Override

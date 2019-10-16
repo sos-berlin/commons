@@ -1,9 +1,9 @@
 
 package com.sos.joc.model.joe.schedule;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
@@ -21,7 +21,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "run_time")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "schedule"
 })
@@ -35,29 +34,13 @@ public class RunTime
      * 
      */
     @JsonProperty("schedule")
+    @JsonPropertyDescription("path to a schedule")
     @JacksonXmlProperty(localName = "schedule", isAttribute = true)
     private String schedule;
 
     /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public RunTime() {
-    }
-
-    /**
-     * 
-     * @param schedule
-     */
-    public RunTime(String schedule) {
-        this.schedule = schedule;
-    }
-
-    /**
      * path to a schedule
      * 
-     * @return
-     *     The schedule
      */
     @JsonProperty("schedule")
     @JacksonXmlProperty(localName = "schedule", isAttribute = true)
@@ -68,8 +51,6 @@ public class RunTime
     /**
      * path to a schedule
      * 
-     * @param schedule
-     *     The schedule
      */
     @JsonProperty("schedule")
     @JacksonXmlProperty(localName = "schedule", isAttribute = true)
@@ -79,7 +60,7 @@ public class RunTime
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).appendSuper(super.toString()).append("schedule", schedule).toString();
     }
 
     @Override

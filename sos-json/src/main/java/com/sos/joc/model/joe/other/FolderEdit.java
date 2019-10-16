@@ -39,22 +39,6 @@ public class FolderEdit
     private EmptyConfiguration configuration;
 
     /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public FolderEdit() {
-    }
-
-    /**
-     * 
-     * @param configuration
-     */
-    public FolderEdit(EmptyConfiguration configuration) {
-        super();
-        this.configuration = configuration;
-    }
-
-    /**
      * empty configuration
      * <p>
      * 

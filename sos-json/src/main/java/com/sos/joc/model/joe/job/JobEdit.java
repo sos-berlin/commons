@@ -1,7 +1,6 @@
 
 package com.sos.joc.model.joe.job;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -21,7 +20,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "job_edit")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "configuration"
 })
@@ -30,7 +28,7 @@ public class JobEdit
 {
 
     /**
-     * job without name, vtemporary, spooler_id, log_append, separate_process, mail_xslt_stylesheet, replace attributes
+     * job without name, temporary, spooler_id, log_append, separate_process, mail_xslt_stylesheet, replace attributes
      * <p>
      * 
      * (Required)
@@ -41,28 +39,11 @@ public class JobEdit
     private Job configuration;
 
     /**
-     * No args constructor for use in serialization
-     * 
-     */
-    public JobEdit() {
-    }
-
-    /**
-     * 
-     * @param configuration
-     */
-    public JobEdit(Job configuration) {
-        this.configuration = configuration;
-    }
-
-    /**
-     * job without name, vtemporary, spooler_id, log_append, separate_process, mail_xslt_stylesheet, replace attributes
+     * job without name, temporary, spooler_id, log_append, separate_process, mail_xslt_stylesheet, replace attributes
      * <p>
      * 
      * (Required)
      * 
-     * @return
-     *     The configuration
      */
     @JsonProperty("configuration")
     @JacksonXmlProperty(localName = "configuration", isAttribute = false)
@@ -71,13 +52,11 @@ public class JobEdit
     }
 
     /**
-     * job without name, vtemporary, spooler_id, log_append, separate_process, mail_xslt_stylesheet, replace attributes
+     * job without name, temporary, spooler_id, log_append, separate_process, mail_xslt_stylesheet, replace attributes
      * <p>
      * 
      * (Required)
      * 
-     * @param configuration
-     *     The configuration
      */
     @JsonProperty("configuration")
     @JacksonXmlProperty(localName = "configuration", isAttribute = false)
@@ -87,7 +66,7 @@ public class JobEdit
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).appendSuper(super.toString()).append("configuration", configuration).toString();
     }
 
     @Override
