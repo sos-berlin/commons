@@ -210,7 +210,7 @@ public class Job implements IJSObject
     private Script script;
     @JsonProperty("monitors")
     @JacksonXmlElementWrapper(useWrapping = false)
-    @JacksonXmlProperty(localName = "monitors", isAttribute = false)
+    @JacksonXmlProperty(localName = "monitor", isAttribute = false)
     private List<Monitor> monitors = null;
     @JsonProperty("monitorUses")
     @JacksonXmlElementWrapper(useWrapping = false)
@@ -667,13 +667,13 @@ public class Job implements IJSObject
     }
 
     @JsonProperty("monitors")
-    @JacksonXmlProperty(localName = "monitors", isAttribute = false)
+    @JacksonXmlProperty(localName = "monitor", isAttribute = false)
     public List<Monitor> getMonitors() {
         return monitors;
     }
 
     @JsonProperty("monitors")
-    @JacksonXmlProperty(localName = "monitors", isAttribute = false)
+    @JacksonXmlProperty(localName = "monitor", isAttribute = false)
     public void setMonitors(List<Monitor> monitors) {
         this.monitors = monitors;
     }

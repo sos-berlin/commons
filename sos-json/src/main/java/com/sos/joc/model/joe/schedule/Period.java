@@ -63,7 +63,7 @@ public class Period {
     @JsonProperty("letRun")
     @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "let_run", isAttribute = true)
-    private String letRun;
+    private String letRun = "false";
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
@@ -71,7 +71,7 @@ public class Period {
     @JsonProperty("runOnce")
     @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "start_once", isAttribute = true)
-    private String runOnce;
+    private String runOnce = "false";
     /**
      * pattern: ([0-9]+)|([0-9]+:[0-9]{2}(:[0-9]{2})?)
      * 
@@ -95,7 +95,7 @@ public class Period {
     @JsonProperty("whenHoliday")
     @JsonPropertyDescription("possible values: suppress (default), ignore_holiday, previous_non_holiday, next_non_holiday")
     @JacksonXmlProperty(localName = "when_holiday", isAttribute = true)
-    private String whenHoliday;
+    private String whenHoliday = "suppress";
 
     /**
      * pattern: [0-9]{1,2}:[0-9]{2}(:[0-9]{2})?

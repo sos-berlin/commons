@@ -7,8 +7,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -24,6 +22,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "path",
     "name",
+    "deleted",
     "folders"
 })
 public class Tree {
@@ -37,7 +36,6 @@ public class Tree {
      */
     @JsonProperty("path")
     @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
-    @JacksonXmlProperty(localName = "path")
     private String path;
     /**
      * 
@@ -45,11 +43,10 @@ public class Tree {
      * 
      */
     @JsonProperty("name")
-    @JacksonXmlProperty(localName = "name")
     private String name;
+    @JsonProperty("deleted")
+    private Boolean deleted;
     @JsonProperty("folders")
-    @JacksonXmlProperty(localName = "folder")
-    @JacksonXmlElementWrapper(useWrapping = true, localName = "folders")
     private List<Tree> folders = new ArrayList<Tree>();
 
     /**
@@ -60,7 +57,6 @@ public class Tree {
      * 
      */
     @JsonProperty("path")
-    @JacksonXmlProperty(localName = "path")
     public String getPath() {
         return path;
     }
@@ -73,7 +69,6 @@ public class Tree {
      * 
      */
     @JsonProperty("path")
-    @JacksonXmlProperty(localName = "path")
     public void setPath(String path) {
         this.path = path;
     }
@@ -84,7 +79,6 @@ public class Tree {
      * 
      */
     @JsonProperty("name")
-    @JacksonXmlProperty(localName = "name")
     public String getName() {
         return name;
     }
@@ -95,31 +89,38 @@ public class Tree {
      * 
      */
     @JsonProperty("name")
-    @JacksonXmlProperty(localName = "name")
     public void setName(String name) {
         this.name = name;
     }
 
+    @JsonProperty("deleted")
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    @JsonProperty("deleted")
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
     @JsonProperty("folders")
-    @JacksonXmlProperty(localName = "folder")
     public List<Tree> getFolders() {
         return folders;
     }
 
     @JsonProperty("folders")
-    @JacksonXmlProperty(localName = "folder")
     public void setFolders(List<Tree> folders) {
         this.folders = folders;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("path", path).append("name", name).append("folders", folders).toString();
+        return new ToStringBuilder(this).append("path", path).append("name", name).append("deleted", deleted).append("folders", folders).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(name).append(path).append(folders).toHashCode();
+        return new HashCodeBuilder().append(name).append(path).append(deleted).append(folders).toHashCode();
     }
 
     @Override
@@ -131,7 +132,7 @@ public class Tree {
             return false;
         }
         Tree rhs = ((Tree) other);
-        return new EqualsBuilder().append(name, rhs.name).append(path, rhs.path).append(folders, rhs.folders).isEquals();
+        return new EqualsBuilder().append(name, rhs.name).append(path, rhs.path).append(deleted, rhs.deleted).append(folders, rhs.folders).isEquals();
     }
 
 }

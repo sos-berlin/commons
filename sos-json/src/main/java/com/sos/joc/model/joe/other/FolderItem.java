@@ -23,6 +23,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "name",
     "deployed",
+    "deleted",
     "title",
     "processClass",
     "isOrderJob",
@@ -53,6 +54,14 @@ public class FolderItem {
     @JsonProperty("deployed")
     @JacksonXmlProperty(localName = "deployed", isAttribute = true)
     private Boolean deployed = false;
+    /**
+     * 
+     * (Required)
+     * 
+     */
+    @JsonProperty("deleted")
+    @JacksonXmlProperty(localName = "deleted", isAttribute = true)
+    private Boolean deleted = false;
     @JsonProperty("title")
     @JacksonXmlProperty(localName = "title", isAttribute = true)
     private String title;
@@ -181,6 +190,28 @@ public class FolderItem {
     @JacksonXmlProperty(localName = "deployed", isAttribute = true)
     public void setDeployed(Boolean deployed) {
         this.deployed = deployed;
+    }
+
+    /**
+     * 
+     * (Required)
+     * 
+     */
+    @JsonProperty("deleted")
+    @JacksonXmlProperty(localName = "deleted", isAttribute = true)
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    /**
+     * 
+     * (Required)
+     * 
+     */
+    @JsonProperty("deleted")
+    @JacksonXmlProperty(localName = "deleted", isAttribute = true)
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 
     @JsonProperty("title")
@@ -405,7 +436,7 @@ public class FolderItem {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("name", name).append("deployed", deployed).append("title", title).append("processClass", processClass).append("isOrderJob", isOrderJob).append("priority", priority).append("initialState", initialState).append("endState", endState).append("maxProcesses", maxProcesses).append("maxNonExclusive", maxNonExclusive).append("validFrom", validFrom).append("validTo", validTo).append("substitute", substitute).toString();
+        return new ToStringBuilder(this).append("name", name).append("deployed", deployed).append("deleted", deleted).append("title", title).append("processClass", processClass).append("isOrderJob", isOrderJob).append("priority", priority).append("initialState", initialState).append("endState", endState).append("maxProcesses", maxProcesses).append("maxNonExclusive", maxNonExclusive).append("validFrom", validFrom).append("validTo", validTo).append("substitute", substitute).toString();
     }
 
     @Override

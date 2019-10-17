@@ -35,7 +35,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "weekdays",
     "monthdays",
     "ultimos",
-    "month",
+    "months",
     "holidays",
     "calendars"
 })
@@ -67,7 +67,7 @@ public abstract class AbstractSchedule {
     @JsonProperty("letRun")
     @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "let_run", isAttribute = true)
-    private String letRun;
+    private String letRun = "false";
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
@@ -75,7 +75,7 @@ public abstract class AbstractSchedule {
     @JsonProperty("runOnce")
     @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "once", isAttribute = true)
-    private String runOnce;
+    private String runOnce = "false";
     /**
      * periods
      * <p>
@@ -127,10 +127,10 @@ public abstract class AbstractSchedule {
      * 
      * 
      */
-    @JsonProperty("month")
+    @JsonProperty("months")
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "month", isAttribute = false)
-    private List<Month> month = null;
+    private List<Month> months = null;
     /**
      * holidays
      * <p>
@@ -363,10 +363,10 @@ public abstract class AbstractSchedule {
      * 
      * 
      */
-    @JsonProperty("month")
+    @JsonProperty("months")
     @JacksonXmlProperty(localName = "month", isAttribute = false)
-    public List<Month> getMonth() {
-        return month;
+    public List<Month> getMonths() {
+        return months;
     }
 
     /**
@@ -375,10 +375,10 @@ public abstract class AbstractSchedule {
      * 
      * 
      */
-    @JsonProperty("month")
+    @JsonProperty("months")
     @JacksonXmlProperty(localName = "month", isAttribute = false)
-    public void setMonth(List<Month> month) {
-        this.month = month;
+    public void setMonths(List<Month> months) {
+        this.months = months;
     }
 
     /**
@@ -421,12 +421,12 @@ public abstract class AbstractSchedule {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("timeZone", timeZone).append("begin", begin).append("end", end).append("letRun", letRun).append("runOnce", runOnce).append("periods", periods).append("ats", ats).append("dates", dates).append("weekdays", weekdays).append("monthdays", monthdays).append("ultimos", ultimos).append("month", month).append("holidays", holidays).append("calendars", calendars).toString();
+        return new ToStringBuilder(this).append("timeZone", timeZone).append("begin", begin).append("end", end).append("letRun", letRun).append("runOnce", runOnce).append("periods", periods).append("ats", ats).append("dates", dates).append("weekdays", weekdays).append("monthdays", monthdays).append("ultimos", ultimos).append("months", months).append("holidays", holidays).append("calendars", calendars).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(letRun).append(ats).append(weekdays).append(timeZone).append(dates).append(runOnce).append(month).append(holidays).append(calendars).append(periods).append(end).append(monthdays).append(begin).append(ultimos).toHashCode();
+        return new HashCodeBuilder().append(letRun).append(ats).append(months).append(weekdays).append(timeZone).append(dates).append(runOnce).append(holidays).append(calendars).append(periods).append(end).append(monthdays).append(begin).append(ultimos).toHashCode();
     }
 
     @Override
@@ -438,7 +438,7 @@ public abstract class AbstractSchedule {
             return false;
         }
         AbstractSchedule rhs = ((AbstractSchedule) other);
-        return new EqualsBuilder().append(letRun, rhs.letRun).append(ats, rhs.ats).append(weekdays, rhs.weekdays).append(timeZone, rhs.timeZone).append(dates, rhs.dates).append(runOnce, rhs.runOnce).append(month, rhs.month).append(holidays, rhs.holidays).append(calendars, rhs.calendars).append(periods, rhs.periods).append(end, rhs.end).append(monthdays, rhs.monthdays).append(begin, rhs.begin).append(ultimos, rhs.ultimos).isEquals();
+        return new EqualsBuilder().append(letRun, rhs.letRun).append(ats, rhs.ats).append(months, rhs.months).append(weekdays, rhs.weekdays).append(timeZone, rhs.timeZone).append(dates, rhs.dates).append(runOnce, rhs.runOnce).append(holidays, rhs.holidays).append(calendars, rhs.calendars).append(periods, rhs.periods).append(end, rhs.end).append(monthdays, rhs.monthdays).append(begin, rhs.begin).append(ultimos, rhs.ultimos).isEquals();
     }
 
 }

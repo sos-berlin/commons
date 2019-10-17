@@ -27,16 +27,13 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "deliveryDate",
     "path",
-    "folders",
     "jobs",
     "jobChains",
     "orders",
     "processClasses",
     "locks",
     "schedules",
-    "monitors",
-    "nodeParams",
-    "others"
+    "monitors"
 })
 public class Folder {
 
@@ -62,11 +59,6 @@ public class Folder {
     @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
     @JacksonXmlProperty(localName = "path", isAttribute = true)
     private String path;
-    @JsonProperty("folders")
-    @JsonDeserialize(as = java.util.LinkedHashSet.class)
-    @JacksonXmlElementWrapper(useWrapping = false)
-    @JacksonXmlProperty(localName = "folders", isAttribute = false)
-    private Set<FolderItem> folders = null;
     @JsonProperty("jobs")
     @JsonDeserialize(as = java.util.LinkedHashSet.class)
     @JacksonXmlElementWrapper(useWrapping = false)
@@ -102,26 +94,6 @@ public class Folder {
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "monitors", isAttribute = false)
     private Set<FolderItem> monitors = null;
-    /**
-     * [jobChainName].config.xml files with node parameters
-     * 
-     */
-    @JsonProperty("nodeParams")
-    @JsonDeserialize(as = java.util.LinkedHashSet.class)
-    @JsonPropertyDescription("[jobChainName].config.xml files with node parameters")
-    @JacksonXmlElementWrapper(useWrapping = false)
-    @JacksonXmlProperty(localName = "node_params", isAttribute = false)
-    private Set<FolderItem> nodeParams = null;
-    /**
-     * external files, e.g. shell scripts to include in job's script, parameter files for jobs and orders, holidays files
-     * 
-     */
-    @JsonProperty("others")
-    @JsonDeserialize(as = java.util.LinkedHashSet.class)
-    @JsonPropertyDescription("external files, e.g. shell scripts to include in job's script, parameter files for jobs and orders, holidays files")
-    @JacksonXmlElementWrapper(useWrapping = false)
-    @JacksonXmlProperty(localName = "others", isAttribute = false)
-    private Set<FolderItem> others = null;
 
     /**
      * delivery date
@@ -173,18 +145,6 @@ public class Folder {
     @JacksonXmlProperty(localName = "path", isAttribute = true)
     public void setPath(String path) {
         this.path = path;
-    }
-
-    @JsonProperty("folders")
-    @JacksonXmlProperty(localName = "folders", isAttribute = false)
-    public Set<FolderItem> getFolders() {
-        return folders;
-    }
-
-    @JsonProperty("folders")
-    @JacksonXmlProperty(localName = "folders", isAttribute = false)
-    public void setFolders(Set<FolderItem> folders) {
-        this.folders = folders;
     }
 
     @JsonProperty("jobs")
@@ -271,54 +231,14 @@ public class Folder {
         this.monitors = monitors;
     }
 
-    /**
-     * [jobChainName].config.xml files with node parameters
-     * 
-     */
-    @JsonProperty("nodeParams")
-    @JacksonXmlProperty(localName = "node_params", isAttribute = false)
-    public Set<FolderItem> getNodeParams() {
-        return nodeParams;
-    }
-
-    /**
-     * [jobChainName].config.xml files with node parameters
-     * 
-     */
-    @JsonProperty("nodeParams")
-    @JacksonXmlProperty(localName = "node_params", isAttribute = false)
-    public void setNodeParams(Set<FolderItem> nodeParams) {
-        this.nodeParams = nodeParams;
-    }
-
-    /**
-     * external files, e.g. shell scripts to include in job's script, parameter files for jobs and orders, holidays files
-     * 
-     */
-    @JsonProperty("others")
-    @JacksonXmlProperty(localName = "others", isAttribute = false)
-    public Set<FolderItem> getOthers() {
-        return others;
-    }
-
-    /**
-     * external files, e.g. shell scripts to include in job's script, parameter files for jobs and orders, holidays files
-     * 
-     */
-    @JsonProperty("others")
-    @JacksonXmlProperty(localName = "others", isAttribute = false)
-    public void setOthers(Set<FolderItem> others) {
-        this.others = others;
-    }
-
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("path", path).append("folders", folders).append("jobs", jobs).append("jobChains", jobChains).append("orders", orders).append("processClasses", processClasses).append("locks", locks).append("schedules", schedules).append("monitors", monitors).append("nodeParams", nodeParams).append("others", others).toString();
+        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("path", path).append("jobs", jobs).append("jobChains", jobChains).append("orders", orders).append("processClasses", processClasses).append("locks", locks).append("schedules", schedules).append("monitors", monitors).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(folders).append(processClasses).append(jobs).append(locks).append(path).append(schedules).append(jobChains).append(orders).append(deliveryDate).append(nodeParams).append(others).append(monitors).toHashCode();
+        return new HashCodeBuilder().append(path).append(processClasses).append(jobs).append(schedules).append(jobChains).append(orders).append(deliveryDate).append(locks).append(monitors).toHashCode();
     }
 
     @Override
@@ -330,7 +250,7 @@ public class Folder {
             return false;
         }
         Folder rhs = ((Folder) other);
-        return new EqualsBuilder().append(folders, rhs.folders).append(processClasses, rhs.processClasses).append(jobs, rhs.jobs).append(locks, rhs.locks).append(path, rhs.path).append(schedules, rhs.schedules).append(jobChains, rhs.jobChains).append(orders, rhs.orders).append(deliveryDate, rhs.deliveryDate).append(nodeParams, rhs.nodeParams).append(others, rhs.others).append(monitors, rhs.monitors).isEquals();
+        return new EqualsBuilder().append(path, rhs.path).append(processClasses, rhs.processClasses).append(jobs, rhs.jobs).append(schedules, rhs.schedules).append(jobChains, rhs.jobChains).append(orders, rhs.orders).append(deliveryDate, rhs.deliveryDate).append(locks, rhs.locks).append(monitors, rhs.monitors).isEquals();
     }
 
 }
