@@ -30,6 +30,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "jobs",
     "jobChains",
     "orders",
+    "agentCluster",
     "processClasses",
     "locks",
     "schedules",
@@ -74,6 +75,11 @@ public class Folder {
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "orders", isAttribute = false)
     private Set<FolderItem> orders = null;
+    @JsonProperty("agentCluster")
+    @JsonDeserialize(as = java.util.LinkedHashSet.class)
+    @JacksonXmlElementWrapper(useWrapping = false)
+    @JacksonXmlProperty(localName = "agent_cluster", isAttribute = false)
+    private Set<FolderItem> agentCluster = null;
     @JsonProperty("processClasses")
     @JsonDeserialize(as = java.util.LinkedHashSet.class)
     @JacksonXmlElementWrapper(useWrapping = false)
@@ -183,6 +189,18 @@ public class Folder {
         this.orders = orders;
     }
 
+    @JsonProperty("agentCluster")
+    @JacksonXmlProperty(localName = "agent_cluster", isAttribute = false)
+    public Set<FolderItem> getAgentCluster() {
+        return agentCluster;
+    }
+
+    @JsonProperty("agentCluster")
+    @JacksonXmlProperty(localName = "agent_cluster", isAttribute = false)
+    public void setAgentCluster(Set<FolderItem> agentCluster) {
+        this.agentCluster = agentCluster;
+    }
+
     @JsonProperty("processClasses")
     @JacksonXmlProperty(localName = "process_classes", isAttribute = false)
     public Set<FolderItem> getProcessClasses() {
@@ -233,12 +251,12 @@ public class Folder {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("path", path).append("jobs", jobs).append("jobChains", jobChains).append("orders", orders).append("processClasses", processClasses).append("locks", locks).append("schedules", schedules).append("monitors", monitors).toString();
+        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("path", path).append("jobs", jobs).append("jobChains", jobChains).append("orders", orders).append("agentCluster", agentCluster).append("processClasses", processClasses).append("locks", locks).append("schedules", schedules).append("monitors", monitors).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(path).append(processClasses).append(jobs).append(schedules).append(jobChains).append(orders).append(deliveryDate).append(locks).append(monitors).toHashCode();
+        return new HashCodeBuilder().append(path).append(agentCluster).append(processClasses).append(jobs).append(schedules).append(jobChains).append(orders).append(deliveryDate).append(locks).append(monitors).toHashCode();
     }
 
     @Override
@@ -250,7 +268,7 @@ public class Folder {
             return false;
         }
         Folder rhs = ((Folder) other);
-        return new EqualsBuilder().append(path, rhs.path).append(processClasses, rhs.processClasses).append(jobs, rhs.jobs).append(schedules, rhs.schedules).append(jobChains, rhs.jobChains).append(orders, rhs.orders).append(deliveryDate, rhs.deliveryDate).append(locks, rhs.locks).append(monitors, rhs.monitors).isEquals();
+        return new EqualsBuilder().append(path, rhs.path).append(agentCluster, rhs.agentCluster).append(processClasses, rhs.processClasses).append(jobs, rhs.jobs).append(schedules, rhs.schedules).append(jobChains, rhs.jobChains).append(orders, rhs.orders).append(deliveryDate, rhs.deliveryDate).append(locks, rhs.locks).append(monitors, rhs.monitors).isEquals();
     }
 
 }
