@@ -1,7 +1,6 @@
 
-package com.sos.joc.model.xmleditor.read;
+package com.sos.joc.model.xmleditor.read.standard;
 
-import java.util.Date;
 import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,7 +13,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * xmleditor read configuration answer
+ * xmleditor read standard configuration (YADE, NOTIFICATION) answer
  * <p>
  * Describes the situation live/draft
  * 
@@ -24,11 +23,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "deployed",
     "versionState",
-    "message",
-    "warning",
-    "modified"
+    "message"
 })
-public class ReadConfigurationAnswerState {
+public class ReadStandardConfigurationAnswerState {
 
     @JsonProperty("deployed")
     private Boolean deployed;
@@ -48,22 +45,6 @@ public class ReadConfigurationAnswerState {
      */
     @JsonProperty("message")
     private AnswerMessage message;
-    /**
-     * xmleditor answer message
-     * <p>
-     * 
-     * 
-     */
-    @JsonProperty("warning")
-    private AnswerMessage warning;
-    /**
-     * timestamp
-     * <p>
-     * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
-     * 
-     */
-    @JsonProperty("modified")
-    private Date modified;
 
     /**
      * 
@@ -137,58 +118,6 @@ public class ReadConfigurationAnswerState {
         this.message = message;
     }
 
-    /**
-     * xmleditor answer message
-     * <p>
-     * 
-     * 
-     * @return
-     *     The warning
-     */
-    @JsonProperty("warning")
-    public AnswerMessage getWarning() {
-        return warning;
-    }
-
-    /**
-     * xmleditor answer message
-     * <p>
-     * 
-     * 
-     * @param warning
-     *     The warning
-     */
-    @JsonProperty("warning")
-    public void setWarning(AnswerMessage warning) {
-        this.warning = warning;
-    }
-
-    /**
-     * timestamp
-     * <p>
-     * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
-     * 
-     * @return
-     *     The modified
-     */
-    @JsonProperty("modified")
-    public Date getModified() {
-        return modified;
-    }
-
-    /**
-     * timestamp
-     * <p>
-     * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
-     * 
-     * @param modified
-     *     The modified
-     */
-    @JsonProperty("modified")
-    public void setModified(Date modified) {
-        this.modified = modified;
-    }
-
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
@@ -196,7 +125,7 @@ public class ReadConfigurationAnswerState {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(deployed).append(versionState).append(message).append(warning).append(modified).toHashCode();
+        return new HashCodeBuilder().append(deployed).append(versionState).append(message).toHashCode();
     }
 
     @Override
@@ -204,11 +133,11 @@ public class ReadConfigurationAnswerState {
         if (other == this) {
             return true;
         }
-        if ((other instanceof ReadConfigurationAnswerState) == false) {
+        if ((other instanceof ReadStandardConfigurationAnswerState) == false) {
             return false;
         }
-        ReadConfigurationAnswerState rhs = ((ReadConfigurationAnswerState) other);
-        return new EqualsBuilder().append(deployed, rhs.deployed).append(versionState, rhs.versionState).append(message, rhs.message).append(warning, rhs.warning).append(modified, rhs.modified).isEquals();
+        ReadStandardConfigurationAnswerState rhs = ((ReadStandardConfigurationAnswerState) other);
+        return new EqualsBuilder().append(deployed, rhs.deployed).append(versionState, rhs.versionState).append(message, rhs.message).isEquals();
     }
 
 }
