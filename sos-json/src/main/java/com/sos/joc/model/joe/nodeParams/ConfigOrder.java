@@ -15,14 +15,48 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "order")
 @JsonPropertyOrder({
+    "params",
     "jobChainNodes"
 })
 public class ConfigOrder {
 
+    /**
+     * job chain node parameters
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("params")
+    @JacksonXmlProperty(localName = "params", isAttribute = false)
+    private Params params;
     @JsonProperty("jobChainNodes")
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "process", isAttribute = false)
     private List<ConfigNode> jobChainNodes = null;
+
+    /**
+     * job chain node parameters
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("params")
+    @JacksonXmlProperty(localName = "params", isAttribute = false)
+    public Params getParams() {
+        return params;
+    }
+
+    /**
+     * job chain node parameters
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("params")
+    @JacksonXmlProperty(localName = "params", isAttribute = false)
+    public void setParams(Params params) {
+        this.params = params;
+    }
 
     @JsonProperty("jobChainNodes")
     @JacksonXmlProperty(localName = "process", isAttribute = false)
@@ -38,12 +72,12 @@ public class ConfigOrder {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobChainNodes", jobChainNodes).toString();
+        return new ToStringBuilder(this).append("params", params).append("jobChainNodes", jobChainNodes).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobChainNodes).toHashCode();
+        return new HashCodeBuilder().append(params).append(jobChainNodes).toHashCode();
     }
 
     @Override
@@ -55,7 +89,7 @@ public class ConfigOrder {
             return false;
         }
         ConfigOrder rhs = ((ConfigOrder) other);
-        return new EqualsBuilder().append(jobChainNodes, rhs.jobChainNodes).isEquals();
+        return new EqualsBuilder().append(params, rhs.params).append(jobChainNodes, rhs.jobChainNodes).isEquals();
     }
 
 }
