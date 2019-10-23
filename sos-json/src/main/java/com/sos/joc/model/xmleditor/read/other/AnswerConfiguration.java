@@ -20,7 +20,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
-    "exists",
     "name",
     "schema",
     "configuration",
@@ -28,8 +27,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 })
 public class AnswerConfiguration {
 
-    @JsonProperty("exists")
-    private Boolean exists;
     /**
      * 
      * (Required)
@@ -49,26 +46,6 @@ public class AnswerConfiguration {
      */
     @JsonProperty("modified")
     private Date modified;
-
-    /**
-     * 
-     * @return
-     *     The exists
-     */
-    @JsonProperty("exists")
-    public Boolean getExists() {
-        return exists;
-    }
-
-    /**
-     * 
-     * @param exists
-     *     The exists
-     */
-    @JsonProperty("exists")
-    public void setExists(Boolean exists) {
-        this.exists = exists;
-    }
 
     /**
      * 
@@ -167,7 +144,7 @@ public class AnswerConfiguration {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(exists).append(name).append(schema).append(configuration).append(modified).toHashCode();
+        return new HashCodeBuilder().append(name).append(schema).append(configuration).append(modified).toHashCode();
     }
 
     @Override
@@ -179,7 +156,7 @@ public class AnswerConfiguration {
             return false;
         }
         AnswerConfiguration rhs = ((AnswerConfiguration) other);
-        return new EqualsBuilder().append(exists, rhs.exists).append(name, rhs.name).append(schema, rhs.schema).append(configuration, rhs.configuration).append(modified, rhs.modified).isEquals();
+        return new EqualsBuilder().append(name, rhs.name).append(schema, rhs.schema).append(configuration, rhs.configuration).append(modified, rhs.modified).isEquals();
     }
 
 }
