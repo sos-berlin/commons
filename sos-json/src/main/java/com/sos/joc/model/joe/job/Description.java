@@ -12,10 +12,10 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JacksonXmlRootElement(localName = "description")
 @JsonPropertyOrder({
-    "inculdes"
+    "includes"
 })
 public class Description {
 
@@ -25,10 +25,10 @@ public class Description {
      * 
      * 
      */
-    @JsonProperty("inculdes")
+    @JsonProperty("includes")
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "include", isAttribute = false)
-    private List<com.sos.joc.model.joe.common.Include> inculdes = null;
+    private List<com.sos.joc.model.joe.common.Include> includes = null;
 
     /**
      * include collection
@@ -36,10 +36,10 @@ public class Description {
      * 
      * 
      */
-    @JsonProperty("inculdes")
+    @JsonProperty("includes")
     @JacksonXmlProperty(localName = "include", isAttribute = false)
-    public List<com.sos.joc.model.joe.common.Include> getInculdes() {
-        return inculdes;
+    public List<com.sos.joc.model.joe.common.Include> getIncludes() {
+        return includes;
     }
 
     /**
@@ -48,20 +48,20 @@ public class Description {
      * 
      * 
      */
-    @JsonProperty("inculdes")
+    @JsonProperty("includes")
     @JacksonXmlProperty(localName = "include", isAttribute = false)
-    public void setInculdes(List<com.sos.joc.model.joe.common.Include> inculdes) {
-        this.inculdes = inculdes;
+    public void setIncludes(List<com.sos.joc.model.joe.common.Include> includes) {
+        this.includes = includes;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("inculdes", inculdes).toString();
+        return new ToStringBuilder(this).append("includes", includes).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(inculdes).toHashCode();
+        return new HashCodeBuilder().append(includes).toHashCode();
     }
 
     @Override
@@ -73,7 +73,7 @@ public class Description {
             return false;
         }
         Description rhs = ((Description) other);
-        return new EqualsBuilder().append(inculdes, rhs.inculdes).isEquals();
+        return new EqualsBuilder().append(includes, rhs.includes).isEquals();
     }
 
 }

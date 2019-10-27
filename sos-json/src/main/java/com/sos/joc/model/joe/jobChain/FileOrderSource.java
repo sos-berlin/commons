@@ -18,7 +18,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  * 
  */
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JacksonXmlRootElement(localName = "file_order_source")
 @JsonPropertyOrder({
     "directory",
@@ -78,7 +78,7 @@ public class FileOrderSource {
     @JsonProperty("alertWhenDirectoryMissing")
     @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "alert_when_directory_missing", isAttribute = true)
-    private String alertWhenDirectoryMissing;
+    private String alertWhenDirectoryMissing = "true";
 
     /**
      * 

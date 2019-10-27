@@ -20,14 +20,13 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  * 
  */
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JacksonXmlRootElement(localName = "order")
 @JsonPropertyOrder({
     "priority",
     "title",
     "initialState",
     "endState",
-    "webService",
     "params",
     "runTime"
 })
@@ -46,9 +45,6 @@ public class Order implements IJSObject
     @JsonProperty("endState")
     @JacksonXmlProperty(localName = "end_state", isAttribute = true)
     private String endState;
-    @JsonProperty("webService")
-    @JacksonXmlProperty(localName = "web_service", isAttribute = true)
-    private String webService;
     /**
      * parameters
      * <p>
@@ -116,18 +112,6 @@ public class Order implements IJSObject
         this.endState = endState;
     }
 
-    @JsonProperty("webService")
-    @JacksonXmlProperty(localName = "web_service", isAttribute = true)
-    public String getWebService() {
-        return webService;
-    }
-
-    @JsonProperty("webService")
-    @JacksonXmlProperty(localName = "web_service", isAttribute = true)
-    public void setWebService(String webService) {
-        this.webService = webService;
-    }
-
     /**
      * parameters
      * <p>
@@ -178,12 +162,12 @@ public class Order implements IJSObject
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("priority", priority).append("title", title).append("initialState", initialState).append("endState", endState).append("webService", webService).append("params", params).append("runTime", runTime).toString();
+        return new ToStringBuilder(this).append("priority", priority).append("title", title).append("initialState", initialState).append("endState", endState).append("params", params).append("runTime", runTime).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(initialState).append(webService).append(endState).append(runTime).append(priority).append(title).append(params).toHashCode();
+        return new HashCodeBuilder().append(initialState).append(endState).append(runTime).append(priority).append(title).append(params).toHashCode();
     }
 
     @Override
@@ -195,7 +179,7 @@ public class Order implements IJSObject
             return false;
         }
         Order rhs = ((Order) other);
-        return new EqualsBuilder().append(initialState, rhs.initialState).append(webService, rhs.webService).append(endState, rhs.endState).append(runTime, rhs.runTime).append(priority, rhs.priority).append(title, rhs.title).append(params, rhs.params).isEquals();
+        return new EqualsBuilder().append(initialState, rhs.initialState).append(endState, rhs.endState).append(runTime, rhs.runTime).append(priority, rhs.priority).append(title, rhs.title).append(params, rhs.params).isEquals();
     }
 
 }

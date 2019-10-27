@@ -19,7 +19,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * oldPath is used for a move/rename, auditLog only for deploy, forceLive only for read/file
  * 
  */
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JacksonXmlRootElement(localName = "filter")
 @JsonPropertyOrder({
     "jobschedulerId",

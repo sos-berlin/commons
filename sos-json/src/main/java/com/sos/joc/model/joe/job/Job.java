@@ -23,7 +23,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  * 
  */
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JacksonXmlRootElement(localName = "job")
 @JsonPropertyOrder({
     "priority",
@@ -161,7 +161,7 @@ public class Job implements IJSObject
     @JsonProperty("loadUserProfile")
     @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "load_user_profile", isAttribute = true)
-    private String loadUserProfile;
+    private String loadUserProfile = "false";
     /**
      * job settings
      * <p>

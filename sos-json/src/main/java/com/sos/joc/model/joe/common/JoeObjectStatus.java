@@ -17,7 +17,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * Describes the situation live/draft
  * 
  */
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JacksonXmlRootElement(localName = "joe_object_status")
 @JsonPropertyOrder({
     "message",
