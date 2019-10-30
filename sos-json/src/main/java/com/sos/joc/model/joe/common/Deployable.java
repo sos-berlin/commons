@@ -217,7 +217,7 @@ public class Deployable {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(folder).append(objectName).append(modified).append(jobschedulerId).append(operation).append(account).append(objectType).toHashCode();
+        return new HashCodeBuilder().append(folder).append(objectName).append(jobschedulerId).append(objectType).toHashCode();
     }
 
     @Override
@@ -229,7 +229,7 @@ public class Deployable {
             return false;
         }
         Deployable rhs = ((Deployable) other);
-        return new EqualsBuilder().append(folder, rhs.folder).append(objectName, rhs.objectName).append(modified, rhs.modified).append(jobschedulerId, rhs.jobschedulerId).append(operation, rhs.operation).append(account, rhs.account).append(objectType, rhs.objectType).isEquals();
+        return new EqualsBuilder().append(folder, rhs.folder).append(objectName, rhs.objectName).append(jobschedulerId, rhs.jobschedulerId).append(objectType, rhs.objectType).isEquals();
     }
 
 }
