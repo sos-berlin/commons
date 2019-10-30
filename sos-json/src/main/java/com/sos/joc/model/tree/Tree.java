@@ -23,6 +23,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "path",
     "name",
     "deleted",
+    "lockedBy",
     "folders"
 })
 public class Tree {
@@ -46,6 +47,8 @@ public class Tree {
     private String name;
     @JsonProperty("deleted")
     private Boolean deleted;
+    @JsonProperty("lockedBy")
+    private String lockedBy;
     @JsonProperty("folders")
     private List<Tree> folders = new ArrayList<Tree>();
 
@@ -103,6 +106,16 @@ public class Tree {
         this.deleted = deleted;
     }
 
+    @JsonProperty("lockedBy")
+    public String getLockedBy() {
+        return lockedBy;
+    }
+
+    @JsonProperty("lockedBy")
+    public void setLockedBy(String lockedBy) {
+        this.lockedBy = lockedBy;
+    }
+
     @JsonProperty("folders")
     public List<Tree> getFolders() {
         return folders;
@@ -115,12 +128,12 @@ public class Tree {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("path", path).append("name", name).append("deleted", deleted).append("folders", folders).toString();
+        return new ToStringBuilder(this).append("path", path).append("name", name).append("deleted", deleted).append("lockedBy", lockedBy).append("folders", folders).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(name).append(path).append(deleted).append(folders).toHashCode();
+        return new HashCodeBuilder().append(name).append(path).append(deleted).append(folders).append(lockedBy).toHashCode();
     }
 
     @Override
@@ -132,7 +145,7 @@ public class Tree {
             return false;
         }
         Tree rhs = ((Tree) other);
-        return new EqualsBuilder().append(name, rhs.name).append(path, rhs.path).append(deleted, rhs.deleted).append(folders, rhs.folders).isEquals();
+        return new EqualsBuilder().append(name, rhs.name).append(path, rhs.path).append(deleted, rhs.deleted).append(folders, rhs.folders).append(lockedBy, rhs.lockedBy).isEquals();
     }
 
 }
