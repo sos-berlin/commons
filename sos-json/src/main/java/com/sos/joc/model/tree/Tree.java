@@ -133,7 +133,7 @@ public class Tree {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(name).append(path).append(deleted).append(folders).append(lockedBy).toHashCode();
+        return new HashCodeBuilder().append(path).toHashCode();
     }
 
     @Override
@@ -145,7 +145,7 @@ public class Tree {
             return false;
         }
         Tree rhs = ((Tree) other);
-        return new EqualsBuilder().append(name, rhs.name).append(path, rhs.path).append(deleted, rhs.deleted).append(folders, rhs.folders).append(lockedBy, rhs.lockedBy).isEquals();
+        return new EqualsBuilder().append(path, rhs.path).isEquals();
     }
 
 }
