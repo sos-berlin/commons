@@ -27,7 +27,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "compact",
     "force",
     "regex",
-    "folders"
+    "folders",
+    "forJoe"
 })
 public class TreeFilter {
 
@@ -81,6 +82,8 @@ public class TreeFilter {
      */
     @JsonProperty("folders")
     private List<Folder> folders = new ArrayList<Folder>();
+    @JsonProperty("forJoe")
+    private Boolean forJoe = false;
 
     /**
      * 
@@ -212,14 +215,24 @@ public class TreeFilter {
         this.folders = folders;
     }
 
+    @JsonProperty("forJoe")
+    public Boolean getForJoe() {
+        return forJoe;
+    }
+
+    @JsonProperty("forJoe")
+    public void setForJoe(Boolean forJoe) {
+        this.forJoe = forJoe;
+    }
+
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("types", types).append("compact", compact).append("force", force).append("regex", regex).append("folders", folders).toString();
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("types", types).append("compact", compact).append("force", force).append("regex", regex).append("folders", folders).append("forJoe", forJoe).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(types).append(regex).append(folders).append(compact).append(force).append(jobschedulerId).toHashCode();
+        return new HashCodeBuilder().append(types).append(regex).append(folders).append(compact).append(forJoe).append(force).append(jobschedulerId).toHashCode();
     }
 
     @Override
@@ -231,7 +244,7 @@ public class TreeFilter {
             return false;
         }
         TreeFilter rhs = ((TreeFilter) other);
-        return new EqualsBuilder().append(types, rhs.types).append(regex, rhs.regex).append(folders, rhs.folders).append(compact, rhs.compact).append(force, rhs.force).append(jobschedulerId, rhs.jobschedulerId).isEquals();
+        return new EqualsBuilder().append(types, rhs.types).append(regex, rhs.regex).append(folders, rhs.folders).append(compact, rhs.compact).append(forJoe, rhs.forJoe).append(force, rhs.force).append(jobschedulerId, rhs.jobschedulerId).isEquals();
     }
 
 }

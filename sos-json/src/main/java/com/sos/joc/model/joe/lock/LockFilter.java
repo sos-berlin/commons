@@ -23,31 +23,56 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "jobschedulerId",
     "folder",
+    "path",
     "forceLock"
 })
 public class LockFilter {
 
+    /**
+     * 
+     * (Required)
+     * 
+     */
     @JsonProperty("jobschedulerId")
     @JacksonXmlProperty(localName = "jobscheduler_id", isAttribute = true)
     private String jobschedulerId;
     /**
      * path of the a folder
+     * (Required)
      * 
      */
     @JsonProperty("folder")
     @JsonPropertyDescription("path of the a folder")
     @JacksonXmlProperty(localName = "folder", isAttribute = true)
     private String folder;
+    /**
+     * alias of folder
+     * 
+     */
+    @JsonProperty("path")
+    @JsonPropertyDescription("alias of folder")
+    @JacksonXmlProperty(localName = "path", isAttribute = true)
+    private String path;
     @JsonProperty("forceLock")
     @JacksonXmlProperty(localName = "force_lock", isAttribute = true)
     private Boolean forceLock = false;
 
+    /**
+     * 
+     * (Required)
+     * 
+     */
     @JsonProperty("jobschedulerId")
     @JacksonXmlProperty(localName = "jobscheduler_id", isAttribute = true)
     public String getJobschedulerId() {
         return jobschedulerId;
     }
 
+    /**
+     * 
+     * (Required)
+     * 
+     */
     @JsonProperty("jobschedulerId")
     @JacksonXmlProperty(localName = "jobscheduler_id", isAttribute = true)
     public void setJobschedulerId(String jobschedulerId) {
@@ -56,6 +81,7 @@ public class LockFilter {
 
     /**
      * path of the a folder
+     * (Required)
      * 
      */
     @JsonProperty("folder")
@@ -66,12 +92,33 @@ public class LockFilter {
 
     /**
      * path of the a folder
+     * (Required)
      * 
      */
     @JsonProperty("folder")
     @JacksonXmlProperty(localName = "folder", isAttribute = true)
     public void setFolder(String folder) {
         this.folder = folder;
+    }
+
+    /**
+     * alias of folder
+     * 
+     */
+    @JsonProperty("path")
+    @JacksonXmlProperty(localName = "path", isAttribute = true)
+    public String getPath() {
+        return path;
+    }
+
+    /**
+     * alias of folder
+     * 
+     */
+    @JsonProperty("path")
+    @JacksonXmlProperty(localName = "path", isAttribute = true)
+    public void setPath(String path) {
+        this.path = path;
     }
 
     @JsonProperty("forceLock")
@@ -88,12 +135,12 @@ public class LockFilter {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("folder", folder).append("forceLock", forceLock).toString();
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("folder", folder).append("path", path).append("forceLock", forceLock).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(folder).append(jobschedulerId).append(forceLock).toHashCode();
+        return new HashCodeBuilder().append(path).append(folder).append(jobschedulerId).append(forceLock).toHashCode();
     }
 
     @Override
@@ -105,7 +152,7 @@ public class LockFilter {
             return false;
         }
         LockFilter rhs = ((LockFilter) other);
-        return new EqualsBuilder().append(folder, rhs.folder).append(jobschedulerId, rhs.jobschedulerId).append(forceLock, rhs.forceLock).isEquals();
+        return new EqualsBuilder().append(path, rhs.path).append(folder, rhs.folder).append(jobschedulerId, rhs.jobschedulerId).append(forceLock, rhs.forceLock).isEquals();
     }
 
 }
