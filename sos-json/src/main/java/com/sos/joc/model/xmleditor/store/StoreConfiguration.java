@@ -14,7 +14,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 /**
  * xmleditor store configuration in
  * <p>
- * name amd schema only for OTHER
+ * id, name and schema only for OTHER
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -23,6 +23,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "jobschedulerId",
     "objectType",
     "configuration",
+    "id",
     "name",
     "schema"
 })
@@ -51,6 +52,8 @@ public class StoreConfiguration {
      */
     @JsonProperty("configuration")
     private String configuration;
+    @JsonProperty("id")
+    private Integer id;
     @JsonProperty("name")
     private String name;
     @JsonProperty("schema")
@@ -135,6 +138,26 @@ public class StoreConfiguration {
     /**
      * 
      * @return
+     *     The id
+     */
+    @JsonProperty("id")
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * 
+     * @param id
+     *     The id
+     */
+    @JsonProperty("id")
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    /**
+     * 
+     * @return
      *     The name
      */
     @JsonProperty("name")
@@ -179,7 +202,7 @@ public class StoreConfiguration {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(objectType).append(configuration).append(name).append(schema).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(objectType).append(configuration).append(id).append(name).append(schema).toHashCode();
     }
 
     @Override
@@ -191,7 +214,7 @@ public class StoreConfiguration {
             return false;
         }
         StoreConfiguration rhs = ((StoreConfiguration) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(objectType, rhs.objectType).append(configuration, rhs.configuration).append(name, rhs.name).append(schema, rhs.schema).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(objectType, rhs.objectType).append(configuration, rhs.configuration).append(id, rhs.id).append(name, rhs.name).append(schema, rhs.schema).isEquals();
     }
 
 }

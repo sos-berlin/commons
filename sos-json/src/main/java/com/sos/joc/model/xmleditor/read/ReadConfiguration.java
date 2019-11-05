@@ -14,7 +14,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 /**
  * xmleditor read configuration in
  * <p>
- * name only for OTHER
+ * id only for OTHER
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -22,7 +22,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "jobschedulerId",
     "objectType",
-    "name",
+    "id",
     "forceLive"
 })
 public class ReadConfiguration {
@@ -43,8 +43,8 @@ public class ReadConfiguration {
      */
     @JsonProperty("objectType")
     private ObjectType objectType;
-    @JsonProperty("name")
-    private String name;
+    @JsonProperty("id")
+    private Integer id;
     @JsonProperty("forceLive")
     private Boolean forceLive;
 
@@ -103,21 +103,21 @@ public class ReadConfiguration {
     /**
      * 
      * @return
-     *     The name
+     *     The id
      */
-    @JsonProperty("name")
-    public String getName() {
-        return name;
+    @JsonProperty("id")
+    public Integer getId() {
+        return id;
     }
 
     /**
      * 
-     * @param name
-     *     The name
+     * @param id
+     *     The id
      */
-    @JsonProperty("name")
-    public void setName(String name) {
-        this.name = name;
+    @JsonProperty("id")
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     /**
@@ -147,7 +147,7 @@ public class ReadConfiguration {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(objectType).append(name).append(forceLive).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(objectType).append(id).append(forceLive).toHashCode();
     }
 
     @Override
@@ -159,7 +159,7 @@ public class ReadConfiguration {
             return false;
         }
         ReadConfiguration rhs = ((ReadConfiguration) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(objectType, rhs.objectType).append(name, rhs.name).append(forceLive, rhs.forceLive).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(objectType, rhs.objectType).append(id, rhs.id).append(forceLive, rhs.forceLive).isEquals();
     }
 
 }

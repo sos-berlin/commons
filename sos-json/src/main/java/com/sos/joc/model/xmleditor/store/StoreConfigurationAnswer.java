@@ -21,11 +21,14 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
+    "id",
     "modified",
     "message"
 })
 public class StoreConfigurationAnswer {
 
+    @JsonProperty("id")
+    private Integer id;
     /**
      * timestamp
      * <p>
@@ -42,6 +45,26 @@ public class StoreConfigurationAnswer {
      */
     @JsonProperty("message")
     private AnswerMessage message;
+
+    /**
+     * 
+     * @return
+     *     The id
+     */
+    @JsonProperty("id")
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * 
+     * @param id
+     *     The id
+     */
+    @JsonProperty("id")
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     /**
      * timestamp
@@ -102,7 +125,7 @@ public class StoreConfigurationAnswer {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(modified).append(message).toHashCode();
+        return new HashCodeBuilder().append(id).append(modified).append(message).toHashCode();
     }
 
     @Override
@@ -114,7 +137,7 @@ public class StoreConfigurationAnswer {
             return false;
         }
         StoreConfigurationAnswer rhs = ((StoreConfigurationAnswer) other);
-        return new EqualsBuilder().append(modified, rhs.modified).append(message, rhs.message).isEquals();
+        return new EqualsBuilder().append(id, rhs.id).append(modified, rhs.modified).append(message, rhs.message).isEquals();
     }
 
 }

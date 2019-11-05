@@ -20,6 +20,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
+    "id",
     "name",
     "schema",
     "configuration",
@@ -27,6 +28,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 })
 public class AnswerConfiguration {
 
+    @JsonProperty("id")
+    private Integer id;
     /**
      * 
      * (Required)
@@ -46,6 +49,26 @@ public class AnswerConfiguration {
      */
     @JsonProperty("modified")
     private Date modified;
+
+    /**
+     * 
+     * @return
+     *     The id
+     */
+    @JsonProperty("id")
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * 
+     * @param id
+     *     The id
+     */
+    @JsonProperty("id")
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     /**
      * 
@@ -144,7 +167,7 @@ public class AnswerConfiguration {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(name).append(schema).append(configuration).append(modified).toHashCode();
+        return new HashCodeBuilder().append(id).append(name).append(schema).append(configuration).append(modified).toHashCode();
     }
 
     @Override
@@ -156,7 +179,7 @@ public class AnswerConfiguration {
             return false;
         }
         AnswerConfiguration rhs = ((AnswerConfiguration) other);
-        return new EqualsBuilder().append(name, rhs.name).append(schema, rhs.schema).append(configuration, rhs.configuration).append(modified, rhs.modified).isEquals();
+        return new EqualsBuilder().append(id, rhs.id).append(name, rhs.name).append(schema, rhs.schema).append(configuration, rhs.configuration).append(modified, rhs.modified).isEquals();
     }
 
 }
