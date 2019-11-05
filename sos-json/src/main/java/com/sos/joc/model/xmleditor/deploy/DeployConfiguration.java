@@ -23,6 +23,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "jobschedulerId",
     "objectType",
+    "configuration",
     "auditLog"
 })
 public class DeployConfiguration {
@@ -43,6 +44,13 @@ public class DeployConfiguration {
      */
     @JsonProperty("objectType")
     private ObjectType objectType;
+    /**
+     * 
+     * (Required)
+     * 
+     */
+    @JsonProperty("configuration")
+    private String configuration;
     /**
      * auditParams
      * <p>
@@ -105,6 +113,30 @@ public class DeployConfiguration {
     }
 
     /**
+     * 
+     * (Required)
+     * 
+     * @return
+     *     The configuration
+     */
+    @JsonProperty("configuration")
+    public String getConfiguration() {
+        return configuration;
+    }
+
+    /**
+     * 
+     * (Required)
+     * 
+     * @param configuration
+     *     The configuration
+     */
+    @JsonProperty("configuration")
+    public void setConfiguration(String configuration) {
+        this.configuration = configuration;
+    }
+
+    /**
      * auditParams
      * <p>
      * 
@@ -137,7 +169,7 @@ public class DeployConfiguration {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(objectType).append(auditLog).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(objectType).append(configuration).append(auditLog).toHashCode();
     }
 
     @Override
@@ -149,7 +181,7 @@ public class DeployConfiguration {
             return false;
         }
         DeployConfiguration rhs = ((DeployConfiguration) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(objectType, rhs.objectType).append(auditLog, rhs.auditLog).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(objectType, rhs.objectType).append(configuration, rhs.configuration).append(auditLog, rhs.auditLog).isEquals();
     }
 
 }
