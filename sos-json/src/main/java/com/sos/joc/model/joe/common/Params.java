@@ -2,9 +2,11 @@
 package com.sos.joc.model.joe.common;
 
 import java.util.List;
+import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
@@ -33,8 +35,10 @@ public class Params {
     @JacksonXmlProperty(localName = "param", isAttribute = false)
     private List<Param> paramList = null;
     @JsonProperty("copyParams")
+    @JsonDeserialize(as = java.util.LinkedHashSet.class)
+    @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "copy_params", isAttribute = false)
-    private CopyParams copyParams;
+    private Set<CopyParams> copyParams = null;
     @JsonProperty("includes")
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "includes", isAttribute = false)
@@ -54,13 +58,13 @@ public class Params {
 
     @JsonProperty("copyParams")
     @JacksonXmlProperty(localName = "copy_params", isAttribute = false)
-    public CopyParams getCopyParams() {
+    public Set<CopyParams> getCopyParams() {
         return copyParams;
     }
 
     @JsonProperty("copyParams")
     @JacksonXmlProperty(localName = "copy_params", isAttribute = false)
-    public void setCopyParams(CopyParams copyParams) {
+    public void setCopyParams(Set<CopyParams> copyParams) {
         this.copyParams = copyParams;
     }
 
