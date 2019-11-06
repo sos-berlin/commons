@@ -1,9 +1,9 @@
 
 package com.sos.joc.model.joe.common;
 
+import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
@@ -20,14 +20,16 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  * 
  */
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JacksonXmlRootElement(localName = "filter_deploy")
+@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobschedulerId",
     "folder",
     "recursive",
     "objectName",
     "objectType",
+    "account",
     "auditLog"
 })
 public class FilterDeploy {
@@ -47,7 +49,6 @@ public class FilterDeploy {
      * 
      */
     @JsonProperty("folder")
-    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
     @JacksonXmlProperty(localName = "folder", isAttribute = true)
     private String folder;
     @JsonProperty("recursive")
@@ -65,6 +66,9 @@ public class FilterDeploy {
     @JsonProperty("objectType")
     @JacksonXmlProperty(localName = "object_type", isAttribute = false)
     private JobSchedulerObjectType objectType;
+    @JsonProperty("account")
+    @JacksonXmlProperty(localName = "account", isAttribute = true)
+    private String account;
     /**
      * auditParams
      * <p>
@@ -79,6 +83,8 @@ public class FilterDeploy {
      * 
      * (Required)
      * 
+     * @return
+     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
     @JacksonXmlProperty(localName = "jobscheduler_id", isAttribute = true)
@@ -90,6 +96,8 @@ public class FilterDeploy {
      * 
      * (Required)
      * 
+     * @param jobschedulerId
+     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
     @JacksonXmlProperty(localName = "jobscheduler_id", isAttribute = true)
@@ -102,6 +110,8 @@ public class FilterDeploy {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
+     * @return
+     *     The folder
      */
     @JsonProperty("folder")
     @JacksonXmlProperty(localName = "folder", isAttribute = true)
@@ -114,6 +124,8 @@ public class FilterDeploy {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
+     * @param folder
+     *     The folder
      */
     @JsonProperty("folder")
     @JacksonXmlProperty(localName = "folder", isAttribute = true)
@@ -121,24 +133,44 @@ public class FilterDeploy {
         this.folder = folder;
     }
 
+    /**
+     * 
+     * @return
+     *     The recursive
+     */
     @JsonProperty("recursive")
     @JacksonXmlProperty(localName = "recursive", isAttribute = true)
     public Boolean getRecursive() {
         return recursive;
     }
 
+    /**
+     * 
+     * @param recursive
+     *     The recursive
+     */
     @JsonProperty("recursive")
     @JacksonXmlProperty(localName = "recursive", isAttribute = true)
     public void setRecursive(Boolean recursive) {
         this.recursive = recursive;
     }
 
+    /**
+     * 
+     * @return
+     *     The objectName
+     */
     @JsonProperty("objectName")
     @JacksonXmlProperty(localName = "object_name", isAttribute = true)
     public String getObjectName() {
         return objectName;
     }
 
+    /**
+     * 
+     * @param objectName
+     *     The objectName
+     */
     @JsonProperty("objectName")
     @JacksonXmlProperty(localName = "object_name", isAttribute = true)
     public void setObjectName(String objectName) {
@@ -150,6 +182,8 @@ public class FilterDeploy {
      * <p>
      * 
      * 
+     * @return
+     *     The objectType
      */
     @JsonProperty("objectType")
     @JacksonXmlProperty(localName = "object_type", isAttribute = false)
@@ -162,6 +196,8 @@ public class FilterDeploy {
      * <p>
      * 
      * 
+     * @param objectType
+     *     The objectType
      */
     @JsonProperty("objectType")
     @JacksonXmlProperty(localName = "object_type", isAttribute = false)
@@ -170,10 +206,34 @@ public class FilterDeploy {
     }
 
     /**
+     * 
+     * @return
+     *     The account
+     */
+    @JsonProperty("account")
+    @JacksonXmlProperty(localName = "account", isAttribute = true)
+    public String getAccount() {
+        return account;
+    }
+
+    /**
+     * 
+     * @param account
+     *     The account
+     */
+    @JsonProperty("account")
+    @JacksonXmlProperty(localName = "account", isAttribute = true)
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    /**
      * auditParams
      * <p>
      * 
      * 
+     * @return
+     *     The auditLog
      */
     @JsonProperty("auditLog")
     @JacksonXmlProperty(localName = "audit_log", isAttribute = false)
@@ -186,6 +246,8 @@ public class FilterDeploy {
      * <p>
      * 
      * 
+     * @param auditLog
+     *     The auditLog
      */
     @JsonProperty("auditLog")
     @JacksonXmlProperty(localName = "audit_log", isAttribute = false)
@@ -195,12 +257,12 @@ public class FilterDeploy {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("folder", folder).append("recursive", recursive).append("objectName", objectName).append("objectType", objectType).append("auditLog", auditLog).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(folder).append(auditLog).append(objectName).append(jobschedulerId).append(recursive).append(objectType).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(folder).append(recursive).append(objectName).append(objectType).append(account).append(auditLog).toHashCode();
     }
 
     @Override
@@ -212,7 +274,7 @@ public class FilterDeploy {
             return false;
         }
         FilterDeploy rhs = ((FilterDeploy) other);
-        return new EqualsBuilder().append(folder, rhs.folder).append(auditLog, rhs.auditLog).append(objectName, rhs.objectName).append(jobschedulerId, rhs.jobschedulerId).append(recursive, rhs.recursive).append(objectType, rhs.objectType).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(folder, rhs.folder).append(recursive, rhs.recursive).append(objectName, rhs.objectName).append(objectType, rhs.objectType).append(account, rhs.account).append(auditLog, rhs.auditLog).isEquals();
     }
 
 }
