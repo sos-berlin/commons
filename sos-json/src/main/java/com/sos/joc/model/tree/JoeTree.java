@@ -28,7 +28,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "processClasses",
     "locks",
     "schedules",
-    "monitors"
+    "monitors",
+    "nodeParams"
 })
 public class JoeTree
     extends Tree
@@ -58,6 +59,9 @@ public class JoeTree
     @JsonProperty("monitors")
     @JsonDeserialize(as = java.util.LinkedHashSet.class)
     private Set<FolderItem> monitors = new LinkedHashSet<FolderItem>();
+    @JsonProperty("nodeParams")
+    @JsonDeserialize(as = java.util.LinkedHashSet.class)
+    private Set<FolderItem> nodeParams = new LinkedHashSet<FolderItem>();
 
     @JsonProperty("jobs")
     public Set<FolderItem> getJobs() {
@@ -139,9 +143,19 @@ public class JoeTree
         this.monitors = monitors;
     }
 
+    @JsonProperty("nodeParams")
+    public Set<FolderItem> getNodeParams() {
+        return nodeParams;
+    }
+
+    @JsonProperty("nodeParams")
+    public void setNodeParams(Set<FolderItem> nodeParams) {
+        this.nodeParams = nodeParams;
+    }
+
     @Override
     public String toString() {
-        return new ToStringBuilder(this).appendSuper(super.toString()).append("jobs", jobs).append("jobChains", jobChains).append("orders", orders).append("agentClusters", agentClusters).append("processClasses", processClasses).append("locks", locks).append("schedules", schedules).append("monitors", monitors).toString();
+        return new ToStringBuilder(this).appendSuper(super.toString()).append("jobs", jobs).append("jobChains", jobChains).append("orders", orders).append("agentClusters", agentClusters).append("processClasses", processClasses).append("locks", locks).append("schedules", schedules).append("monitors", monitors).append("nodeParams", nodeParams).toString();
     }
 
     @Override
