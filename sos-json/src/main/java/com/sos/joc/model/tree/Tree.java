@@ -2,6 +2,7 @@
 package com.sos.joc.model.tree;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -24,6 +25,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "name",
     "deleted",
     "lockedBy",
+    "lockedSince",
     "folders"
 })
 public class Tree {
@@ -49,6 +51,15 @@ public class Tree {
     private Boolean deleted;
     @JsonProperty("lockedBy")
     private String lockedBy;
+    /**
+     * timestamp
+     * <p>
+     * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
+     * 
+     */
+    @JsonProperty("lockedSince")
+    @JsonPropertyDescription("Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty")
+    private Date lockedSince;
     @JsonProperty("folders")
     private List<Tree> folders = new ArrayList<Tree>();
 
@@ -116,6 +127,28 @@ public class Tree {
         this.lockedBy = lockedBy;
     }
 
+    /**
+     * timestamp
+     * <p>
+     * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
+     * 
+     */
+    @JsonProperty("lockedSince")
+    public Date getLockedSince() {
+        return lockedSince;
+    }
+
+    /**
+     * timestamp
+     * <p>
+     * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
+     * 
+     */
+    @JsonProperty("lockedSince")
+    public void setLockedSince(Date lockedSince) {
+        this.lockedSince = lockedSince;
+    }
+
     @JsonProperty("folders")
     public List<Tree> getFolders() {
         return folders;
@@ -128,7 +161,7 @@ public class Tree {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("path", path).append("name", name).append("deleted", deleted).append("lockedBy", lockedBy).append("folders", folders).toString();
+        return new ToStringBuilder(this).append("path", path).append("name", name).append("deleted", deleted).append("lockedBy", lockedBy).append("lockedSince", lockedSince).append("folders", folders).toString();
     }
 
     @Override
