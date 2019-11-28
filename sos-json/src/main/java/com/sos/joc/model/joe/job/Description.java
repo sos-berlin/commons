@@ -4,10 +4,13 @@ package com.sos.joc.model.joe.job;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -15,7 +18,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JacksonXmlRootElement(localName = "description")
 @JsonPropertyOrder({
-    "includes"
+    "includes",
+    "content"
 })
 public class Description {
 
@@ -29,6 +33,16 @@ public class Description {
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "include", isAttribute = false)
     private List<com.sos.joc.model.joe.common.Include> includes = null;
+    /**
+     * cdata embedded docu
+     * 
+     */
+    @JsonProperty("content")
+    @JsonPropertyDescription("cdata embedded docu")
+    @JacksonXmlText
+    @JacksonXmlCData
+    @JacksonXmlProperty(localName = "content", isAttribute = false)
+    private String content;
 
     /**
      * include collection
@@ -54,14 +68,38 @@ public class Description {
         this.includes = includes;
     }
 
+    /**
+     * cdata embedded docu
+     * 
+     */
+    @JsonProperty("content")
+    @JacksonXmlText
+    @JacksonXmlCData
+    @JacksonXmlProperty(localName = "content", isAttribute = false)
+    public String getContent() {
+        return content;
+    }
+
+    /**
+     * cdata embedded docu
+     * 
+     */
+    @JsonProperty("content")
+    @JacksonXmlText
+    @JacksonXmlCData
+    @JacksonXmlProperty(localName = "content", isAttribute = false)
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("includes", includes).toString();
+        return new ToStringBuilder(this).append("includes", includes).append("content", content).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(includes).toHashCode();
+        return new HashCodeBuilder().append(includes).append(content).toHashCode();
     }
 
     @Override
@@ -73,7 +111,7 @@ public class Description {
             return false;
         }
         Description rhs = ((Description) other);
-        return new EqualsBuilder().append(includes, rhs.includes).isEquals();
+        return new EqualsBuilder().append(includes, rhs.includes).append(content, rhs.content).isEquals();
     }
 
 }
