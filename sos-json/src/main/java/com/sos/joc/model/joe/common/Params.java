@@ -24,36 +24,36 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JacksonXmlRootElement(localName = "params")
 @JsonPropertyOrder({
-    "paramList",
+    "includes",
     "copyParams",
-    "includes"
+    "paramList"
 })
 public class Params {
 
-    @JsonProperty("paramList")
+    @JsonProperty("includes")
     @JacksonXmlElementWrapper(useWrapping = false)
-    @JacksonXmlProperty(localName = "param", isAttribute = false)
-    private List<Param> paramList = null;
+    @JacksonXmlProperty(localName = "include", isAttribute = false)
+    private List<ParamInclude> includes = null;
     @JsonProperty("copyParams")
     @JsonDeserialize(as = java.util.LinkedHashSet.class)
     @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "copy_params", isAttribute = false)
     private Set<CopyParams> copyParams = null;
-    @JsonProperty("includes")
-    @JacksonXmlElementWrapper(useWrapping = false)
-    @JacksonXmlProperty(localName = "includes", isAttribute = false)
-    private List<ParamInclude> includes = null;
-
     @JsonProperty("paramList")
+    @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "param", isAttribute = false)
-    public List<Param> getParamList() {
-        return paramList;
+    private List<Param> paramList = null;
+
+    @JsonProperty("includes")
+    @JacksonXmlProperty(localName = "include", isAttribute = false)
+    public List<ParamInclude> getIncludes() {
+        return includes;
     }
 
-    @JsonProperty("paramList")
-    @JacksonXmlProperty(localName = "param", isAttribute = false)
-    public void setParamList(List<Param> paramList) {
-        this.paramList = paramList;
+    @JsonProperty("includes")
+    @JacksonXmlProperty(localName = "include", isAttribute = false)
+    public void setIncludes(List<ParamInclude> includes) {
+        this.includes = includes;
     }
 
     @JsonProperty("copyParams")
@@ -68,21 +68,21 @@ public class Params {
         this.copyParams = copyParams;
     }
 
-    @JsonProperty("includes")
-    @JacksonXmlProperty(localName = "includes", isAttribute = false)
-    public List<ParamInclude> getIncludes() {
-        return includes;
+    @JsonProperty("paramList")
+    @JacksonXmlProperty(localName = "param", isAttribute = false)
+    public List<Param> getParamList() {
+        return paramList;
     }
 
-    @JsonProperty("includes")
-    @JacksonXmlProperty(localName = "includes", isAttribute = false)
-    public void setIncludes(List<ParamInclude> includes) {
-        this.includes = includes;
+    @JsonProperty("paramList")
+    @JacksonXmlProperty(localName = "param", isAttribute = false)
+    public void setParamList(List<Param> paramList) {
+        this.paramList = paramList;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("paramList", paramList).append("copyParams", copyParams).append("includes", includes).toString();
+        return new ToStringBuilder(this).append("includes", includes).append("copyParams", copyParams).append("paramList", paramList).toString();
     }
 
     @Override
