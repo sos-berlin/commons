@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -26,10 +25,8 @@ public class PlanCreated {
      */
     @JsonProperty("until")
     @JsonPropertyDescription("Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty")
-    @JacksonXmlProperty(localName = "until")
     private Date until;
     @JsonProperty("days")
-    @JacksonXmlProperty(localName = "days")
     private Object days;
 
     /**
@@ -39,7 +36,6 @@ public class PlanCreated {
      * 
      */
     @JsonProperty("until")
-    @JacksonXmlProperty(localName = "until")
     public Date getUntil() {
         return until;
     }
@@ -51,19 +47,16 @@ public class PlanCreated {
      * 
      */
     @JsonProperty("until")
-    @JacksonXmlProperty(localName = "until")
     public void setUntil(Date until) {
         this.until = until;
     }
 
     @JsonProperty("days")
-    @JacksonXmlProperty(localName = "days")
     public Object getDays() {
         return days;
     }
 
     @JsonProperty("days")
-    @JacksonXmlProperty(localName = "days")
     public void setDays(Object days) {
         this.days = days;
     }

@@ -7,8 +7,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.sos.joc.model.common.Folder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -43,7 +41,6 @@ public class PlanFilter {
      * 
      */
     @JsonProperty("jobschedulerId")
-    @JacksonXmlProperty(localName = "jobschedulerId")
     private String jobschedulerId;
     /**
      * filter with regex
@@ -53,20 +50,14 @@ public class PlanFilter {
      */
     @JsonProperty("regex")
     @JsonPropertyDescription("regular expression to filter JobScheduler objects by matching the path")
-    @JacksonXmlProperty(localName = "regex")
     private String regex;
     @JsonProperty("states")
-    @JacksonXmlProperty(localName = "state")
-    @JacksonXmlElementWrapper(useWrapping = true, localName = "states")
     private List<PlanStateText> states = new ArrayList<PlanStateText>();
     @JsonProperty("late")
-    @JacksonXmlProperty(localName = "late")
     private Boolean late;
     @JsonProperty("dateFrom")
-    @JacksonXmlProperty(localName = "dateFrom")
     private String dateFrom;
     @JsonProperty("dateTo")
-    @JacksonXmlProperty(localName = "dateTo")
     private String dateTo;
     /**
      * see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
@@ -74,7 +65,6 @@ public class PlanFilter {
      */
     @JsonProperty("timeZone")
     @JsonPropertyDescription("see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones")
-    @JacksonXmlProperty(localName = "timeZone")
     private String timeZone;
     /**
      * folders
@@ -83,8 +73,6 @@ public class PlanFilter {
      * 
      */
     @JsonProperty("folders")
-    @JacksonXmlProperty(localName = "folder")
-    @JacksonXmlElementWrapper(useWrapping = true, localName = "folders")
     private List<Folder> folders = new ArrayList<Folder>();
     /**
      * path
@@ -94,7 +82,6 @@ public class PlanFilter {
      */
     @JsonProperty("job")
     @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
-    @JacksonXmlProperty(localName = "job")
     private String job;
     /**
      * path
@@ -104,10 +91,8 @@ public class PlanFilter {
      */
     @JsonProperty("jobChain")
     @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
-    @JacksonXmlProperty(localName = "jobChain")
     private String jobChain;
     @JsonProperty("orderId")
-    @JacksonXmlProperty(localName = "orderId")
     private String orderId;
 
     /**
@@ -116,7 +101,6 @@ public class PlanFilter {
      * 
      */
     @JsonProperty("jobschedulerId")
-    @JacksonXmlProperty(localName = "jobschedulerId")
     public String getJobschedulerId() {
         return jobschedulerId;
     }
@@ -127,7 +111,6 @@ public class PlanFilter {
      * 
      */
     @JsonProperty("jobschedulerId")
-    @JacksonXmlProperty(localName = "jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
         this.jobschedulerId = jobschedulerId;
     }
@@ -139,7 +122,6 @@ public class PlanFilter {
      * 
      */
     @JsonProperty("regex")
-    @JacksonXmlProperty(localName = "regex")
     public String getRegex() {
         return regex;
     }
@@ -151,55 +133,46 @@ public class PlanFilter {
      * 
      */
     @JsonProperty("regex")
-    @JacksonXmlProperty(localName = "regex")
     public void setRegex(String regex) {
         this.regex = regex;
     }
 
     @JsonProperty("states")
-    @JacksonXmlProperty(localName = "state")
     public List<PlanStateText> getStates() {
         return states;
     }
 
     @JsonProperty("states")
-    @JacksonXmlProperty(localName = "state")
     public void setStates(List<PlanStateText> states) {
         this.states = states;
     }
 
     @JsonProperty("late")
-    @JacksonXmlProperty(localName = "late")
     public Boolean getLate() {
         return late;
     }
 
     @JsonProperty("late")
-    @JacksonXmlProperty(localName = "late")
     public void setLate(Boolean late) {
         this.late = late;
     }
 
     @JsonProperty("dateFrom")
-    @JacksonXmlProperty(localName = "dateFrom")
     public String getDateFrom() {
         return dateFrom;
     }
 
     @JsonProperty("dateFrom")
-    @JacksonXmlProperty(localName = "dateFrom")
     public void setDateFrom(String dateFrom) {
         this.dateFrom = dateFrom;
     }
 
     @JsonProperty("dateTo")
-    @JacksonXmlProperty(localName = "dateTo")
     public String getDateTo() {
         return dateTo;
     }
 
     @JsonProperty("dateTo")
-    @JacksonXmlProperty(localName = "dateTo")
     public void setDateTo(String dateTo) {
         this.dateTo = dateTo;
     }
@@ -209,7 +182,6 @@ public class PlanFilter {
      * 
      */
     @JsonProperty("timeZone")
-    @JacksonXmlProperty(localName = "timeZone")
     public String getTimeZone() {
         return timeZone;
     }
@@ -219,7 +191,6 @@ public class PlanFilter {
      * 
      */
     @JsonProperty("timeZone")
-    @JacksonXmlProperty(localName = "timeZone")
     public void setTimeZone(String timeZone) {
         this.timeZone = timeZone;
     }
@@ -231,7 +202,6 @@ public class PlanFilter {
      * 
      */
     @JsonProperty("folders")
-    @JacksonXmlProperty(localName = "folder")
     public List<Folder> getFolders() {
         return folders;
     }
@@ -243,7 +213,6 @@ public class PlanFilter {
      * 
      */
     @JsonProperty("folders")
-    @JacksonXmlProperty(localName = "folder")
     public void setFolders(List<Folder> folders) {
         this.folders = folders;
     }
@@ -255,7 +224,6 @@ public class PlanFilter {
      * 
      */
     @JsonProperty("job")
-    @JacksonXmlProperty(localName = "job")
     public String getJob() {
         return job;
     }
@@ -267,7 +235,6 @@ public class PlanFilter {
      * 
      */
     @JsonProperty("job")
-    @JacksonXmlProperty(localName = "job")
     public void setJob(String job) {
         this.job = job;
     }
@@ -279,7 +246,6 @@ public class PlanFilter {
      * 
      */
     @JsonProperty("jobChain")
-    @JacksonXmlProperty(localName = "jobChain")
     public String getJobChain() {
         return jobChain;
     }
@@ -291,19 +257,16 @@ public class PlanFilter {
      * 
      */
     @JsonProperty("jobChain")
-    @JacksonXmlProperty(localName = "jobChain")
     public void setJobChain(String jobChain) {
         this.jobChain = jobChain;
     }
 
     @JsonProperty("orderId")
-    @JacksonXmlProperty(localName = "orderId")
     public String getOrderId() {
         return orderId;
     }
 
     @JsonProperty("orderId")
-    @JacksonXmlProperty(localName = "orderId")
     public void setOrderId(String orderId) {
         this.orderId = orderId;
     }

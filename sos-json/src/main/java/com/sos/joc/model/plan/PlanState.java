@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -31,7 +30,6 @@ public class PlanState {
      */
     @JsonProperty("severity")
     @JsonPropertyDescription("0=SUCCESSFUL, 1=INCOMPLETE, 2=FAILED, 4=PLANNED")
-    @JacksonXmlProperty(localName = "severity")
     private Integer severity;
     /**
      * plan state text
@@ -41,7 +39,6 @@ public class PlanState {
      * 
      */
     @JsonProperty("_text")
-    @JacksonXmlProperty(localName = "_text")
     private PlanStateText _text;
 
     /**
@@ -50,7 +47,6 @@ public class PlanState {
      * 
      */
     @JsonProperty("severity")
-    @JacksonXmlProperty(localName = "severity")
     public Integer getSeverity() {
         return severity;
     }
@@ -61,7 +57,6 @@ public class PlanState {
      * 
      */
     @JsonProperty("severity")
-    @JacksonXmlProperty(localName = "severity")
     public void setSeverity(Integer severity) {
         this.severity = severity;
     }
@@ -74,7 +69,6 @@ public class PlanState {
      * 
      */
     @JsonProperty("_text")
-    @JacksonXmlProperty(localName = "_text")
     public PlanStateText get_text() {
         return _text;
     }
@@ -87,7 +81,6 @@ public class PlanState {
      * 
      */
     @JsonProperty("_text")
-    @JacksonXmlProperty(localName = "_text")
     public void set_text(PlanStateText _text) {
         this._text = _text;
     }
