@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.sos.joc.model.common.JobSchedulerObjectType;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -21,85 +22,156 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JacksonXmlRootElement(localName = "deploy_message")
 @JsonPropertyOrder({
-    "permissionDeniedFor",
-    "wrongObjectType",
-    "message"
+    "deployed",
+    "deleted",
+    "path",
+    "objectType",
+    "failReason"
 })
 public class DeployMessage {
 
     /**
+     * 
+     * (Required)
+     * 
+     */
+    @JsonProperty("deployed")
+    @JacksonXmlProperty(localName = "deployed", isAttribute = true)
+    private Boolean deployed;
+    @JsonProperty("deleted")
+    @JacksonXmlProperty(localName = "deleted", isAttribute = true)
+    private Boolean deleted;
+    /**
      * path
      * <p>
      * absolute path based on live folder of a JobScheduler object.
+     * (Required)
      * 
      */
-    @JsonProperty("permissionDeniedFor")
+    @JsonProperty("path")
     @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
-    @JacksonXmlProperty(localName = "permission_denied_for", isAttribute = true)
-    private String permissionDeniedFor;
-    @JsonProperty("wrongObjectType")
-    @JacksonXmlProperty(localName = "wrong_object_type", isAttribute = true)
-    private String wrongObjectType;
-    @JsonProperty("message")
-    @JacksonXmlProperty(localName = "message", isAttribute = true)
-    private String message;
+    @JacksonXmlProperty(localName = "path", isAttribute = true)
+    private String path;
+    /**
+     * JobScheduler object type
+     * <p>
+     * 
+     * (Required)
+     * 
+     */
+    @JsonProperty("objectType")
+    @JacksonXmlProperty(localName = "object_type", isAttribute = false)
+    private JobSchedulerObjectType objectType;
+    @JsonProperty("failReason")
+    @JacksonXmlProperty(localName = "failReason", isAttribute = false)
+    private DeployFailReason failReason;
+
+    /**
+     * 
+     * (Required)
+     * 
+     */
+    @JsonProperty("deployed")
+    @JacksonXmlProperty(localName = "deployed", isAttribute = true)
+    public Boolean getDeployed() {
+        return deployed;
+    }
+
+    /**
+     * 
+     * (Required)
+     * 
+     */
+    @JsonProperty("deployed")
+    @JacksonXmlProperty(localName = "deployed", isAttribute = true)
+    public void setDeployed(Boolean deployed) {
+        this.deployed = deployed;
+    }
+
+    @JsonProperty("deleted")
+    @JacksonXmlProperty(localName = "deleted", isAttribute = true)
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    @JsonProperty("deleted")
+    @JacksonXmlProperty(localName = "deleted", isAttribute = true)
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
 
     /**
      * path
      * <p>
      * absolute path based on live folder of a JobScheduler object.
+     * (Required)
      * 
      */
-    @JsonProperty("permissionDeniedFor")
-    @JacksonXmlProperty(localName = "permission_denied_for", isAttribute = true)
-    public String getPermissionDeniedFor() {
-        return permissionDeniedFor;
+    @JsonProperty("path")
+    @JacksonXmlProperty(localName = "path", isAttribute = true)
+    public String getPath() {
+        return path;
     }
 
     /**
      * path
      * <p>
      * absolute path based on live folder of a JobScheduler object.
+     * (Required)
      * 
      */
-    @JsonProperty("permissionDeniedFor")
-    @JacksonXmlProperty(localName = "permission_denied_for", isAttribute = true)
-    public void setPermissionDeniedFor(String permissionDeniedFor) {
-        this.permissionDeniedFor = permissionDeniedFor;
+    @JsonProperty("path")
+    @JacksonXmlProperty(localName = "path", isAttribute = true)
+    public void setPath(String path) {
+        this.path = path;
     }
 
-    @JsonProperty("wrongObjectType")
-    @JacksonXmlProperty(localName = "wrong_object_type", isAttribute = true)
-    public String getWrongObjectType() {
-        return wrongObjectType;
+    /**
+     * JobScheduler object type
+     * <p>
+     * 
+     * (Required)
+     * 
+     */
+    @JsonProperty("objectType")
+    @JacksonXmlProperty(localName = "object_type", isAttribute = false)
+    public JobSchedulerObjectType getObjectType() {
+        return objectType;
     }
 
-    @JsonProperty("wrongObjectType")
-    @JacksonXmlProperty(localName = "wrong_object_type", isAttribute = true)
-    public void setWrongObjectType(String wrongObjectType) {
-        this.wrongObjectType = wrongObjectType;
+    /**
+     * JobScheduler object type
+     * <p>
+     * 
+     * (Required)
+     * 
+     */
+    @JsonProperty("objectType")
+    @JacksonXmlProperty(localName = "object_type", isAttribute = false)
+    public void setObjectType(JobSchedulerObjectType objectType) {
+        this.objectType = objectType;
     }
 
-    @JsonProperty("message")
-    @JacksonXmlProperty(localName = "message", isAttribute = true)
-    public String getMessage() {
-        return message;
+    @JsonProperty("failReason")
+    @JacksonXmlProperty(localName = "failReason", isAttribute = false)
+    public DeployFailReason getFailReason() {
+        return failReason;
     }
 
-    @JsonProperty("message")
-    @JacksonXmlProperty(localName = "message", isAttribute = true)
-    public void setMessage(String message) {
-        this.message = message;
+    @JsonProperty("failReason")
+    @JacksonXmlProperty(localName = "failReason", isAttribute = false)
+    public void setFailReason(DeployFailReason reason) {
+        this.failReason = reason;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("permissionDeniedFor", permissionDeniedFor).append("wrongObjectType", wrongObjectType).append("message", message).toString();
+        return new ToStringBuilder(this).append("deployed", deployed).append("deleted", deleted).append("path", path).append("objectType", objectType).append("failReason", failReason).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(permissionDeniedFor).append(message).append(wrongObjectType).toHashCode();
+        return new HashCodeBuilder().append(deployed).append(path).append(failReason).append(deleted).append(objectType).toHashCode();
     }
 
     @Override
@@ -111,7 +183,7 @@ public class DeployMessage {
             return false;
         }
         DeployMessage rhs = ((DeployMessage) other);
-        return new EqualsBuilder().append(permissionDeniedFor, rhs.permissionDeniedFor).append(message, rhs.message).append(wrongObjectType, rhs.wrongObjectType).isEquals();
+        return new EqualsBuilder().append(deployed, rhs.deployed).append(path, rhs.path).append(failReason, rhs.failReason).append(deleted, rhs.deleted).append(objectType, rhs.objectType).isEquals();
     }
 
 }

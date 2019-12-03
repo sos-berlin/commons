@@ -29,7 +29,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "recursive",
     "objectName",
     "objectType",
-    "messages"
+    "report"
 })
 public class DeployAnswer {
 
@@ -66,10 +66,10 @@ public class DeployAnswer {
     @JsonProperty("objectType")
     @JacksonXmlProperty(localName = "object_type", isAttribute = false)
     private JobSchedulerObjectType objectType;
-    @JsonProperty("messages")
+    @JsonProperty("report")
     @JacksonXmlElementWrapper(useWrapping = false)
-    @JacksonXmlProperty(localName = "messages", isAttribute = false)
-    private List<DeployMessage> messages = null;
+    @JacksonXmlProperty(localName = "report", isAttribute = false)
+    private List<DeployMessage> report = null;
 
     /**
      * 
@@ -165,26 +165,26 @@ public class DeployAnswer {
         this.objectType = objectType;
     }
 
-    @JsonProperty("messages")
-    @JacksonXmlProperty(localName = "messages", isAttribute = false)
-    public List<DeployMessage> getMessages() {
-        return messages;
+    @JsonProperty("report")
+    @JacksonXmlProperty(localName = "report", isAttribute = false)
+    public List<DeployMessage> getReport() {
+        return report;
     }
 
-    @JsonProperty("messages")
-    @JacksonXmlProperty(localName = "messages", isAttribute = false)
-    public void setMessages(List<DeployMessage> messages) {
-        this.messages = messages;
+    @JsonProperty("report")
+    @JacksonXmlProperty(localName = "report", isAttribute = false)
+    public void setReport(List<DeployMessage> report) {
+        this.report = report;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("folder", folder).append("recursive", recursive).append("objectName", objectName).append("objectType", objectType).append("messages", messages).toString();
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("folder", folder).append("recursive", recursive).append("objectName", objectName).append("objectType", objectType).append("report", report).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(folder).append(objectName).append(messages).append(jobschedulerId).append(recursive).append(objectType).toHashCode();
+        return new HashCodeBuilder().append(folder).append(report).append(objectName).append(jobschedulerId).append(recursive).append(objectType).toHashCode();
     }
 
     @Override
@@ -196,7 +196,7 @@ public class DeployAnswer {
             return false;
         }
         DeployAnswer rhs = ((DeployAnswer) other);
-        return new EqualsBuilder().append(folder, rhs.folder).append(objectName, rhs.objectName).append(messages, rhs.messages).append(jobschedulerId, rhs.jobschedulerId).append(recursive, rhs.recursive).append(objectType, rhs.objectType).isEquals();
+        return new EqualsBuilder().append(folder, rhs.folder).append(report, rhs.report).append(objectName, rhs.objectName).append(jobschedulerId, rhs.jobschedulerId).append(recursive, rhs.recursive).append(objectType, rhs.objectType).isEquals();
     }
 
 }
