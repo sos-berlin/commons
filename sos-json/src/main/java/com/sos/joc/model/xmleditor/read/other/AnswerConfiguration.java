@@ -2,9 +2,9 @@
 package com.sos.joc.model.xmleditor.read.other;
 
 import java.util.Date;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -18,12 +18,12 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "id",
     "name",
     "schema",
     "configuration",
+    "configurationJson",
     "modified"
 })
 public class AnswerConfiguration {
@@ -41,6 +41,8 @@ public class AnswerConfiguration {
     private String schema;
     @JsonProperty("configuration")
     private String configuration;
+    @JsonProperty("configurationJson")
+    private String configurationJson;
     /**
      * timestamp
      * <p>
@@ -48,23 +50,14 @@ public class AnswerConfiguration {
      * 
      */
     @JsonProperty("modified")
+    @JsonPropertyDescription("Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty")
     private Date modified;
 
-    /**
-     * 
-     * @return
-     *     The id
-     */
     @JsonProperty("id")
     public Integer getId() {
         return id;
     }
 
-    /**
-     * 
-     * @param id
-     *     The id
-     */
     @JsonProperty("id")
     public void setId(Integer id) {
         this.id = id;
@@ -74,8 +67,6 @@ public class AnswerConfiguration {
      * 
      * (Required)
      * 
-     * @return
-     *     The name
      */
     @JsonProperty("name")
     public String getName() {
@@ -86,52 +77,40 @@ public class AnswerConfiguration {
      * 
      * (Required)
      * 
-     * @param name
-     *     The name
      */
     @JsonProperty("name")
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * 
-     * @return
-     *     The schema
-     */
     @JsonProperty("schema")
     public String getSchema() {
         return schema;
     }
 
-    /**
-     * 
-     * @param schema
-     *     The schema
-     */
     @JsonProperty("schema")
     public void setSchema(String schema) {
         this.schema = schema;
     }
 
-    /**
-     * 
-     * @return
-     *     The configuration
-     */
     @JsonProperty("configuration")
     public String getConfiguration() {
         return configuration;
     }
 
-    /**
-     * 
-     * @param configuration
-     *     The configuration
-     */
     @JsonProperty("configuration")
     public void setConfiguration(String configuration) {
         this.configuration = configuration;
+    }
+
+    @JsonProperty("configurationJson")
+    public String getConfigurationJson() {
+        return configurationJson;
+    }
+
+    @JsonProperty("configurationJson")
+    public void setConfigurationJson(String configurationJson) {
+        this.configurationJson = configurationJson;
     }
 
     /**
@@ -139,8 +118,6 @@ public class AnswerConfiguration {
      * <p>
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
-     * @return
-     *     The modified
      */
     @JsonProperty("modified")
     public Date getModified() {
@@ -152,8 +129,6 @@ public class AnswerConfiguration {
      * <p>
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
-     * @param modified
-     *     The modified
      */
     @JsonProperty("modified")
     public void setModified(Date modified) {
@@ -162,12 +137,12 @@ public class AnswerConfiguration {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("id", id).append("name", name).append("schema", schema).append("configuration", configuration).append("configurationJson", configurationJson).append("modified", modified).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(id).append(name).append(schema).append(configuration).append(modified).toHashCode();
+        return new HashCodeBuilder().append(schema).append(configuration).append(name).append(configurationJson).append(modified).append(id).toHashCode();
     }
 
     @Override
@@ -179,7 +154,7 @@ public class AnswerConfiguration {
             return false;
         }
         AnswerConfiguration rhs = ((AnswerConfiguration) other);
-        return new EqualsBuilder().append(id, rhs.id).append(name, rhs.name).append(schema, rhs.schema).append(configuration, rhs.configuration).append(modified, rhs.modified).isEquals();
+        return new EqualsBuilder().append(schema, rhs.schema).append(configuration, rhs.configuration).append(name, rhs.name).append(configurationJson, rhs.configurationJson).append(modified, rhs.modified).append(id, rhs.id).isEquals();
     }
 
 }

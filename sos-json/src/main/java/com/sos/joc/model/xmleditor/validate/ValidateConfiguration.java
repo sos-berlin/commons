@@ -1,7 +1,6 @@
 
 package com.sos.joc.model.xmleditor.validate;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -18,7 +17,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobschedulerId",
     "objectType",
@@ -57,8 +55,6 @@ public class ValidateConfiguration {
      * 
      * (Required)
      * 
-     * @return
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
     public String getJobschedulerId() {
@@ -69,8 +65,6 @@ public class ValidateConfiguration {
      * 
      * (Required)
      * 
-     * @param jobschedulerId
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
@@ -83,8 +77,6 @@ public class ValidateConfiguration {
      * 
      * (Required)
      * 
-     * @return
-     *     The objectType
      */
     @JsonProperty("objectType")
     public ObjectType getObjectType() {
@@ -97,8 +89,6 @@ public class ValidateConfiguration {
      * 
      * (Required)
      * 
-     * @param objectType
-     *     The objectType
      */
     @JsonProperty("objectType")
     public void setObjectType(ObjectType objectType) {
@@ -109,8 +99,6 @@ public class ValidateConfiguration {
      * 
      * (Required)
      * 
-     * @return
-     *     The configuration
      */
     @JsonProperty("configuration")
     public String getConfiguration() {
@@ -121,29 +109,17 @@ public class ValidateConfiguration {
      * 
      * (Required)
      * 
-     * @param configuration
-     *     The configuration
      */
     @JsonProperty("configuration")
     public void setConfiguration(String configuration) {
         this.configuration = configuration;
     }
 
-    /**
-     * 
-     * @return
-     *     The schema
-     */
     @JsonProperty("schema")
     public String getSchema() {
         return schema;
     }
 
-    /**
-     * 
-     * @param schema
-     *     The schema
-     */
     @JsonProperty("schema")
     public void setSchema(String schema) {
         this.schema = schema;
@@ -151,12 +127,12 @@ public class ValidateConfiguration {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("objectType", objectType).append("configuration", configuration).append("schema", schema).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(objectType).append(configuration).append(schema).toHashCode();
+        return new HashCodeBuilder().append(schema).append(jobschedulerId).append(configuration).append(objectType).toHashCode();
     }
 
     @Override
@@ -168,7 +144,7 @@ public class ValidateConfiguration {
             return false;
         }
         ValidateConfiguration rhs = ((ValidateConfiguration) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(objectType, rhs.objectType).append(configuration, rhs.configuration).append(schema, rhs.schema).isEquals();
+        return new EqualsBuilder().append(schema, rhs.schema).append(jobschedulerId, rhs.jobschedulerId).append(configuration, rhs.configuration).append(objectType, rhs.objectType).isEquals();
     }
 
 }

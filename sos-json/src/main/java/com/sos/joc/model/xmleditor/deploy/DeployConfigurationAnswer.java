@@ -2,9 +2,9 @@
 package com.sos.joc.model.xmleditor.deploy;
 
 import java.util.Date;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.sos.joc.model.xmleditor.common.AnswerMessage;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -19,7 +19,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "deployed",
     "message"
@@ -33,6 +32,7 @@ public class DeployConfigurationAnswer {
      * 
      */
     @JsonProperty("deployed")
+    @JsonPropertyDescription("Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty")
     private Date deployed;
     /**
      * xmleditor answer message
@@ -48,8 +48,6 @@ public class DeployConfigurationAnswer {
      * <p>
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
-     * @return
-     *     The deployed
      */
     @JsonProperty("deployed")
     public Date getDeployed() {
@@ -61,8 +59,6 @@ public class DeployConfigurationAnswer {
      * <p>
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
-     * @param deployed
-     *     The deployed
      */
     @JsonProperty("deployed")
     public void setDeployed(Date deployed) {
@@ -74,8 +70,6 @@ public class DeployConfigurationAnswer {
      * <p>
      * 
      * 
-     * @return
-     *     The message
      */
     @JsonProperty("message")
     public AnswerMessage getMessage() {
@@ -87,8 +81,6 @@ public class DeployConfigurationAnswer {
      * <p>
      * 
      * 
-     * @param message
-     *     The message
      */
     @JsonProperty("message")
     public void setMessage(AnswerMessage message) {
@@ -97,12 +89,12 @@ public class DeployConfigurationAnswer {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("deployed", deployed).append("message", message).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(deployed).append(message).toHashCode();
+        return new HashCodeBuilder().append(message).append(deployed).toHashCode();
     }
 
     @Override
@@ -114,7 +106,7 @@ public class DeployConfigurationAnswer {
             return false;
         }
         DeployConfigurationAnswer rhs = ((DeployConfigurationAnswer) other);
-        return new EqualsBuilder().append(deployed, rhs.deployed).append(message, rhs.message).isEquals();
+        return new EqualsBuilder().append(message, rhs.message).append(deployed, rhs.deployed).isEquals();
     }
 
 }

@@ -2,9 +2,9 @@
 package com.sos.joc.model.xmleditor.delete;
 
 import java.util.Date;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -18,7 +18,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "deleted",
     "found"
@@ -32,6 +31,7 @@ public class DeleteOtherDraftAnswer {
      * 
      */
     @JsonProperty("deleted")
+    @JsonPropertyDescription("Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty")
     private Date deleted;
     @JsonProperty("found")
     private Boolean found;
@@ -41,8 +41,6 @@ public class DeleteOtherDraftAnswer {
      * <p>
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
-     * @return
-     *     The deleted
      */
     @JsonProperty("deleted")
     public Date getDeleted() {
@@ -54,29 +52,17 @@ public class DeleteOtherDraftAnswer {
      * <p>
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
-     * @param deleted
-     *     The deleted
      */
     @JsonProperty("deleted")
     public void setDeleted(Date deleted) {
         this.deleted = deleted;
     }
 
-    /**
-     * 
-     * @return
-     *     The found
-     */
     @JsonProperty("found")
     public Boolean getFound() {
         return found;
     }
 
-    /**
-     * 
-     * @param found
-     *     The found
-     */
     @JsonProperty("found")
     public void setFound(Boolean found) {
         this.found = found;
@@ -84,7 +70,7 @@ public class DeleteOtherDraftAnswer {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("deleted", deleted).append("found", found).toString();
     }
 
     @Override

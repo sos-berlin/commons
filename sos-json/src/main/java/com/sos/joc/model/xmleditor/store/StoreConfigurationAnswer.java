@@ -2,9 +2,9 @@
 package com.sos.joc.model.xmleditor.store;
 
 import java.util.Date;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.sos.joc.model.xmleditor.common.AnswerMessage;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -19,7 +19,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "id",
     "modified",
@@ -36,6 +35,7 @@ public class StoreConfigurationAnswer {
      * 
      */
     @JsonProperty("modified")
+    @JsonPropertyDescription("Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty")
     private Date modified;
     /**
      * xmleditor answer message
@@ -46,21 +46,11 @@ public class StoreConfigurationAnswer {
     @JsonProperty("message")
     private AnswerMessage message;
 
-    /**
-     * 
-     * @return
-     *     The id
-     */
     @JsonProperty("id")
     public Integer getId() {
         return id;
     }
 
-    /**
-     * 
-     * @param id
-     *     The id
-     */
     @JsonProperty("id")
     public void setId(Integer id) {
         this.id = id;
@@ -71,8 +61,6 @@ public class StoreConfigurationAnswer {
      * <p>
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
-     * @return
-     *     The modified
      */
     @JsonProperty("modified")
     public Date getModified() {
@@ -84,8 +72,6 @@ public class StoreConfigurationAnswer {
      * <p>
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
-     * @param modified
-     *     The modified
      */
     @JsonProperty("modified")
     public void setModified(Date modified) {
@@ -97,8 +83,6 @@ public class StoreConfigurationAnswer {
      * <p>
      * 
      * 
-     * @return
-     *     The message
      */
     @JsonProperty("message")
     public AnswerMessage getMessage() {
@@ -110,8 +94,6 @@ public class StoreConfigurationAnswer {
      * <p>
      * 
      * 
-     * @param message
-     *     The message
      */
     @JsonProperty("message")
     public void setMessage(AnswerMessage message) {
@@ -120,12 +102,12 @@ public class StoreConfigurationAnswer {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("id", id).append("modified", modified).append("message", message).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(id).append(modified).append(message).toHashCode();
+        return new HashCodeBuilder().append(modified).append(id).append(message).toHashCode();
     }
 
     @Override
@@ -137,7 +119,7 @@ public class StoreConfigurationAnswer {
             return false;
         }
         StoreConfigurationAnswer rhs = ((StoreConfigurationAnswer) other);
-        return new EqualsBuilder().append(id, rhs.id).append(modified, rhs.modified).append(message, rhs.message).isEquals();
+        return new EqualsBuilder().append(modified, rhs.modified).append(id, rhs.id).append(message, rhs.message).isEquals();
     }
 
 }

@@ -1,7 +1,6 @@
 
 package com.sos.joc.model.xmleditor.read;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -18,7 +17,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobschedulerId",
     "objectType",
@@ -52,8 +50,6 @@ public class ReadConfiguration {
      * 
      * (Required)
      * 
-     * @return
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
     public String getJobschedulerId() {
@@ -64,8 +60,6 @@ public class ReadConfiguration {
      * 
      * (Required)
      * 
-     * @param jobschedulerId
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
@@ -78,8 +72,6 @@ public class ReadConfiguration {
      * 
      * (Required)
      * 
-     * @return
-     *     The objectType
      */
     @JsonProperty("objectType")
     public ObjectType getObjectType() {
@@ -92,49 +84,27 @@ public class ReadConfiguration {
      * 
      * (Required)
      * 
-     * @param objectType
-     *     The objectType
      */
     @JsonProperty("objectType")
     public void setObjectType(ObjectType objectType) {
         this.objectType = objectType;
     }
 
-    /**
-     * 
-     * @return
-     *     The id
-     */
     @JsonProperty("id")
     public Integer getId() {
         return id;
     }
 
-    /**
-     * 
-     * @param id
-     *     The id
-     */
     @JsonProperty("id")
     public void setId(Integer id) {
         this.id = id;
     }
 
-    /**
-     * 
-     * @return
-     *     The forceLive
-     */
     @JsonProperty("forceLive")
     public Boolean getForceLive() {
         return forceLive;
     }
 
-    /**
-     * 
-     * @param forceLive
-     *     The forceLive
-     */
     @JsonProperty("forceLive")
     public void setForceLive(Boolean forceLive) {
         this.forceLive = forceLive;
@@ -142,12 +112,12 @@ public class ReadConfiguration {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("objectType", objectType).append("id", id).append("forceLive", forceLive).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(objectType).append(id).append(forceLive).toHashCode();
+        return new HashCodeBuilder().append(id).append(jobschedulerId).append(objectType).append(forceLive).toHashCode();
     }
 
     @Override
@@ -159,7 +129,7 @@ public class ReadConfiguration {
             return false;
         }
         ReadConfiguration rhs = ((ReadConfiguration) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(objectType, rhs.objectType).append(id, rhs.id).append(forceLive, rhs.forceLive).isEquals();
+        return new EqualsBuilder().append(id, rhs.id).append(jobschedulerId, rhs.jobschedulerId).append(objectType, rhs.objectType).append(forceLive, rhs.forceLive).isEquals();
     }
 
 }

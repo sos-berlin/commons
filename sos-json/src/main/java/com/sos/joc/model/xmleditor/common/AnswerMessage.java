@@ -1,7 +1,6 @@
 
 package com.sos.joc.model.xmleditor.common;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -17,7 +16,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "code",
     "message"
@@ -29,41 +27,21 @@ public class AnswerMessage {
     @JsonProperty("message")
     private String message;
 
-    /**
-     * 
-     * @return
-     *     The code
-     */
     @JsonProperty("code")
     public String getCode() {
         return code;
     }
 
-    /**
-     * 
-     * @param code
-     *     The code
-     */
     @JsonProperty("code")
     public void setCode(String code) {
         this.code = code;
     }
 
-    /**
-     * 
-     * @return
-     *     The message
-     */
     @JsonProperty("message")
     public String getMessage() {
         return message;
     }
 
-    /**
-     * 
-     * @param message
-     *     The message
-     */
     @JsonProperty("message")
     public void setMessage(String message) {
         this.message = message;
@@ -71,12 +49,12 @@ public class AnswerMessage {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("code", code).append("message", message).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(code).append(message).toHashCode();
+        return new HashCodeBuilder().append(message).append(code).toHashCode();
     }
 
     @Override
@@ -88,7 +66,7 @@ public class AnswerMessage {
             return false;
         }
         AnswerMessage rhs = ((AnswerMessage) other);
-        return new EqualsBuilder().append(code, rhs.code).append(message, rhs.message).isEquals();
+        return new EqualsBuilder().append(message, rhs.message).append(code, rhs.code).isEquals();
     }
 
 }

@@ -1,7 +1,6 @@
 
 package com.sos.joc.model.xmleditor.store;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -18,11 +17,11 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobschedulerId",
     "objectType",
     "configuration",
+    "configurationJson",
     "id",
     "name",
     "schema"
@@ -52,6 +51,8 @@ public class StoreConfiguration {
      */
     @JsonProperty("configuration")
     private String configuration;
+    @JsonProperty("configurationJson")
+    private String configurationJson;
     @JsonProperty("id")
     private Integer id;
     @JsonProperty("name")
@@ -63,8 +64,6 @@ public class StoreConfiguration {
      * 
      * (Required)
      * 
-     * @return
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
     public String getJobschedulerId() {
@@ -75,8 +74,6 @@ public class StoreConfiguration {
      * 
      * (Required)
      * 
-     * @param jobschedulerId
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
@@ -89,8 +86,6 @@ public class StoreConfiguration {
      * 
      * (Required)
      * 
-     * @return
-     *     The objectType
      */
     @JsonProperty("objectType")
     public ObjectType getObjectType() {
@@ -103,8 +98,6 @@ public class StoreConfiguration {
      * 
      * (Required)
      * 
-     * @param objectType
-     *     The objectType
      */
     @JsonProperty("objectType")
     public void setObjectType(ObjectType objectType) {
@@ -115,8 +108,6 @@ public class StoreConfiguration {
      * 
      * (Required)
      * 
-     * @return
-     *     The configuration
      */
     @JsonProperty("configuration")
     public String getConfiguration() {
@@ -127,69 +118,47 @@ public class StoreConfiguration {
      * 
      * (Required)
      * 
-     * @param configuration
-     *     The configuration
      */
     @JsonProperty("configuration")
     public void setConfiguration(String configuration) {
         this.configuration = configuration;
     }
 
-    /**
-     * 
-     * @return
-     *     The id
-     */
+    @JsonProperty("configurationJson")
+    public String getConfigurationJson() {
+        return configurationJson;
+    }
+
+    @JsonProperty("configurationJson")
+    public void setConfigurationJson(String configurationJson) {
+        this.configurationJson = configurationJson;
+    }
+
     @JsonProperty("id")
     public Integer getId() {
         return id;
     }
 
-    /**
-     * 
-     * @param id
-     *     The id
-     */
     @JsonProperty("id")
     public void setId(Integer id) {
         this.id = id;
     }
 
-    /**
-     * 
-     * @return
-     *     The name
-     */
     @JsonProperty("name")
     public String getName() {
         return name;
     }
 
-    /**
-     * 
-     * @param name
-     *     The name
-     */
     @JsonProperty("name")
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * 
-     * @return
-     *     The schema
-     */
     @JsonProperty("schema")
     public String getSchema() {
         return schema;
     }
 
-    /**
-     * 
-     * @param schema
-     *     The schema
-     */
     @JsonProperty("schema")
     public void setSchema(String schema) {
         this.schema = schema;
@@ -197,12 +166,12 @@ public class StoreConfiguration {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("objectType", objectType).append("configuration", configuration).append("configurationJson", configurationJson).append("id", id).append("name", name).append("schema", schema).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(objectType).append(configuration).append(id).append(name).append(schema).toHashCode();
+        return new HashCodeBuilder().append(schema).append(configuration).append(name).append(configurationJson).append(id).append(jobschedulerId).append(objectType).toHashCode();
     }
 
     @Override
@@ -214,7 +183,7 @@ public class StoreConfiguration {
             return false;
         }
         StoreConfiguration rhs = ((StoreConfiguration) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(objectType, rhs.objectType).append(configuration, rhs.configuration).append(id, rhs.id).append(name, rhs.name).append(schema, rhs.schema).isEquals();
+        return new EqualsBuilder().append(schema, rhs.schema).append(configuration, rhs.configuration).append(name, rhs.name).append(configurationJson, rhs.configurationJson).append(id, rhs.id).append(jobschedulerId, rhs.jobschedulerId).append(objectType, rhs.objectType).isEquals();
     }
 
 }

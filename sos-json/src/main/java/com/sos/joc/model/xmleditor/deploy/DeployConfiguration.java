@@ -1,7 +1,6 @@
 
 package com.sos.joc.model.xmleditor.deploy;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -19,11 +18,11 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobschedulerId",
     "objectType",
     "configuration",
+    "configurationJson",
     "auditLog"
 })
 public class DeployConfiguration {
@@ -51,6 +50,8 @@ public class DeployConfiguration {
      */
     @JsonProperty("configuration")
     private String configuration;
+    @JsonProperty("configurationJson")
+    private String configurationJson;
     /**
      * auditParams
      * <p>
@@ -64,8 +65,6 @@ public class DeployConfiguration {
      * 
      * (Required)
      * 
-     * @return
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
     public String getJobschedulerId() {
@@ -76,8 +75,6 @@ public class DeployConfiguration {
      * 
      * (Required)
      * 
-     * @param jobschedulerId
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
@@ -90,8 +87,6 @@ public class DeployConfiguration {
      * 
      * (Required)
      * 
-     * @return
-     *     The objectType
      */
     @JsonProperty("objectType")
     public ObjectType getObjectType() {
@@ -104,8 +99,6 @@ public class DeployConfiguration {
      * 
      * (Required)
      * 
-     * @param objectType
-     *     The objectType
      */
     @JsonProperty("objectType")
     public void setObjectType(ObjectType objectType) {
@@ -116,8 +109,6 @@ public class DeployConfiguration {
      * 
      * (Required)
      * 
-     * @return
-     *     The configuration
      */
     @JsonProperty("configuration")
     public String getConfiguration() {
@@ -128,12 +119,20 @@ public class DeployConfiguration {
      * 
      * (Required)
      * 
-     * @param configuration
-     *     The configuration
      */
     @JsonProperty("configuration")
     public void setConfiguration(String configuration) {
         this.configuration = configuration;
+    }
+
+    @JsonProperty("configurationJson")
+    public String getConfigurationJson() {
+        return configurationJson;
+    }
+
+    @JsonProperty("configurationJson")
+    public void setConfigurationJson(String configurationJson) {
+        this.configurationJson = configurationJson;
     }
 
     /**
@@ -141,8 +140,6 @@ public class DeployConfiguration {
      * <p>
      * 
      * 
-     * @return
-     *     The auditLog
      */
     @JsonProperty("auditLog")
     public AuditParams getAuditLog() {
@@ -154,8 +151,6 @@ public class DeployConfiguration {
      * <p>
      * 
      * 
-     * @param auditLog
-     *     The auditLog
      */
     @JsonProperty("auditLog")
     public void setAuditLog(AuditParams auditLog) {
@@ -164,12 +159,12 @@ public class DeployConfiguration {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("objectType", objectType).append("configuration", configuration).append("configurationJson", configurationJson).append("auditLog", auditLog).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(objectType).append(configuration).append(auditLog).toHashCode();
+        return new HashCodeBuilder().append(configurationJson).append(jobschedulerId).append(auditLog).append(configuration).append(objectType).toHashCode();
     }
 
     @Override
@@ -181,7 +176,7 @@ public class DeployConfiguration {
             return false;
         }
         DeployConfiguration rhs = ((DeployConfiguration) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(objectType, rhs.objectType).append(configuration, rhs.configuration).append(auditLog, rhs.auditLog).isEquals();
+        return new EqualsBuilder().append(configurationJson, rhs.configurationJson).append(jobschedulerId, rhs.jobschedulerId).append(auditLog, rhs.auditLog).append(configuration, rhs.configuration).append(objectType, rhs.objectType).isEquals();
     }
 
 }

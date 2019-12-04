@@ -1,9 +1,9 @@
 
 package com.sos.joc.model.xmleditor.read.other;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -17,7 +17,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "configuration",
     "configurations",
@@ -32,6 +31,7 @@ public class ReadOtherConfigurationAnswer {
      * 
      */
     @JsonProperty("configuration")
+    @JsonPropertyDescription("")
     private AnswerConfiguration configuration;
     @JsonProperty("configurations")
     private Object configurations;
@@ -43,8 +43,6 @@ public class ReadOtherConfigurationAnswer {
      * <p>
      * 
      * 
-     * @return
-     *     The configuration
      */
     @JsonProperty("configuration")
     public AnswerConfiguration getConfiguration() {
@@ -56,49 +54,27 @@ public class ReadOtherConfigurationAnswer {
      * <p>
      * 
      * 
-     * @param configuration
-     *     The configuration
      */
     @JsonProperty("configuration")
     public void setConfiguration(AnswerConfiguration configuration) {
         this.configuration = configuration;
     }
 
-    /**
-     * 
-     * @return
-     *     The configurations
-     */
     @JsonProperty("configurations")
     public Object getConfigurations() {
         return configurations;
     }
 
-    /**
-     * 
-     * @param configurations
-     *     The configurations
-     */
     @JsonProperty("configurations")
     public void setConfigurations(Object configurations) {
         this.configurations = configurations;
     }
 
-    /**
-     * 
-     * @return
-     *     The schemas
-     */
     @JsonProperty("schemas")
     public Object getSchemas() {
         return schemas;
     }
 
-    /**
-     * 
-     * @param schemas
-     *     The schemas
-     */
     @JsonProperty("schemas")
     public void setSchemas(Object schemas) {
         this.schemas = schemas;
@@ -106,7 +82,7 @@ public class ReadOtherConfigurationAnswer {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("configuration", configuration).append("configurations", configurations).append("schemas", schemas).toString();
     }
 
     @Override

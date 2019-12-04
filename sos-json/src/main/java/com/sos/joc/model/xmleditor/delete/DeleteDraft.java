@@ -1,7 +1,6 @@
 
 package com.sos.joc.model.xmleditor.delete;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -18,7 +17,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobschedulerId",
     "objectType",
@@ -49,8 +47,6 @@ public class DeleteDraft {
      * 
      * (Required)
      * 
-     * @return
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
     public String getJobschedulerId() {
@@ -61,8 +57,6 @@ public class DeleteDraft {
      * 
      * (Required)
      * 
-     * @param jobschedulerId
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
@@ -75,8 +69,6 @@ public class DeleteDraft {
      * 
      * (Required)
      * 
-     * @return
-     *     The objectType
      */
     @JsonProperty("objectType")
     public ObjectType getObjectType() {
@@ -89,29 +81,17 @@ public class DeleteDraft {
      * 
      * (Required)
      * 
-     * @param objectType
-     *     The objectType
      */
     @JsonProperty("objectType")
     public void setObjectType(ObjectType objectType) {
         this.objectType = objectType;
     }
 
-    /**
-     * 
-     * @return
-     *     The id
-     */
     @JsonProperty("id")
     public Integer getId() {
         return id;
     }
 
-    /**
-     * 
-     * @param id
-     *     The id
-     */
     @JsonProperty("id")
     public void setId(Integer id) {
         this.id = id;
@@ -119,12 +99,12 @@ public class DeleteDraft {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("objectType", objectType).append("id", id).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(objectType).append(id).toHashCode();
+        return new HashCodeBuilder().append(id).append(jobschedulerId).append(objectType).toHashCode();
     }
 
     @Override
@@ -136,7 +116,7 @@ public class DeleteDraft {
             return false;
         }
         DeleteDraft rhs = ((DeleteDraft) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(objectType, rhs.objectType).append(id, rhs.id).isEquals();
+        return new EqualsBuilder().append(id, rhs.id).append(jobschedulerId, rhs.jobschedulerId).append(objectType, rhs.objectType).isEquals();
     }
 
 }

@@ -1,7 +1,6 @@
 
 package com.sos.joc.model.xmleditor.read.standard;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -19,7 +18,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "deployed",
     "versionState",
@@ -46,21 +44,11 @@ public class ReadStandardConfigurationAnswerState {
     @JsonProperty("message")
     private AnswerMessage message;
 
-    /**
-     * 
-     * @return
-     *     The deployed
-     */
     @JsonProperty("deployed")
     public Boolean getDeployed() {
         return deployed;
     }
 
-    /**
-     * 
-     * @param deployed
-     *     The deployed
-     */
     @JsonProperty("deployed")
     public void setDeployed(Boolean deployed) {
         this.deployed = deployed;
@@ -71,8 +59,6 @@ public class ReadStandardConfigurationAnswerState {
      * <p>
      * 
      * 
-     * @return
-     *     The versionState
      */
     @JsonProperty("versionState")
     public ObjectVersionState getVersionState() {
@@ -84,8 +70,6 @@ public class ReadStandardConfigurationAnswerState {
      * <p>
      * 
      * 
-     * @param versionState
-     *     The versionState
      */
     @JsonProperty("versionState")
     public void setVersionState(ObjectVersionState versionState) {
@@ -97,8 +81,6 @@ public class ReadStandardConfigurationAnswerState {
      * <p>
      * 
      * 
-     * @return
-     *     The message
      */
     @JsonProperty("message")
     public AnswerMessage getMessage() {
@@ -110,8 +92,6 @@ public class ReadStandardConfigurationAnswerState {
      * <p>
      * 
      * 
-     * @param message
-     *     The message
      */
     @JsonProperty("message")
     public void setMessage(AnswerMessage message) {
@@ -120,7 +100,7 @@ public class ReadStandardConfigurationAnswerState {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("deployed", deployed).append("versionState", versionState).append("message", message).toString();
     }
 
     @Override

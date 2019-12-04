@@ -2,9 +2,9 @@
 package com.sos.joc.model.xmleditor.read.standard;
 
 import java.util.Date;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.sos.joc.model.xmleditor.common.AnswerMessage;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -19,9 +19,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "configuration",
+    "configurationJson",
     "schema",
     "state",
     "warning",
@@ -36,6 +36,8 @@ public class ReadStandardConfigurationAnswer {
      */
     @JsonProperty("configuration")
     private String configuration;
+    @JsonProperty("configurationJson")
+    private String configurationJson;
     /**
      * 
      * (Required)
@@ -51,6 +53,7 @@ public class ReadStandardConfigurationAnswer {
      * 
      */
     @JsonProperty("state")
+    @JsonPropertyDescription("Describes the situation live/draft")
     private ReadStandardConfigurationAnswerState state;
     /**
      * xmleditor answer message
@@ -67,14 +70,13 @@ public class ReadStandardConfigurationAnswer {
      * 
      */
     @JsonProperty("modified")
+    @JsonPropertyDescription("Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty")
     private Date modified;
 
     /**
      * 
      * (Required)
      * 
-     * @return
-     *     The configuration
      */
     @JsonProperty("configuration")
     public String getConfiguration() {
@@ -85,20 +87,26 @@ public class ReadStandardConfigurationAnswer {
      * 
      * (Required)
      * 
-     * @param configuration
-     *     The configuration
      */
     @JsonProperty("configuration")
     public void setConfiguration(String configuration) {
         this.configuration = configuration;
     }
 
+    @JsonProperty("configurationJson")
+    public String getConfigurationJson() {
+        return configurationJson;
+    }
+
+    @JsonProperty("configurationJson")
+    public void setConfigurationJson(String configurationJson) {
+        this.configurationJson = configurationJson;
+    }
+
     /**
      * 
      * (Required)
      * 
-     * @return
-     *     The schema
      */
     @JsonProperty("schema")
     public String getSchema() {
@@ -109,8 +117,6 @@ public class ReadStandardConfigurationAnswer {
      * 
      * (Required)
      * 
-     * @param schema
-     *     The schema
      */
     @JsonProperty("schema")
     public void setSchema(String schema) {
@@ -123,8 +129,6 @@ public class ReadStandardConfigurationAnswer {
      * Describes the situation live/draft
      * (Required)
      * 
-     * @return
-     *     The state
      */
     @JsonProperty("state")
     public ReadStandardConfigurationAnswerState getState() {
@@ -137,8 +141,6 @@ public class ReadStandardConfigurationAnswer {
      * Describes the situation live/draft
      * (Required)
      * 
-     * @param state
-     *     The state
      */
     @JsonProperty("state")
     public void setState(ReadStandardConfigurationAnswerState state) {
@@ -150,8 +152,6 @@ public class ReadStandardConfigurationAnswer {
      * <p>
      * 
      * 
-     * @return
-     *     The warning
      */
     @JsonProperty("warning")
     public AnswerMessage getWarning() {
@@ -163,8 +163,6 @@ public class ReadStandardConfigurationAnswer {
      * <p>
      * 
      * 
-     * @param warning
-     *     The warning
      */
     @JsonProperty("warning")
     public void setWarning(AnswerMessage warning) {
@@ -176,8 +174,6 @@ public class ReadStandardConfigurationAnswer {
      * <p>
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
-     * @return
-     *     The modified
      */
     @JsonProperty("modified")
     public Date getModified() {
@@ -189,8 +185,6 @@ public class ReadStandardConfigurationAnswer {
      * <p>
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
-     * @param modified
-     *     The modified
      */
     @JsonProperty("modified")
     public void setModified(Date modified) {
@@ -199,12 +193,12 @@ public class ReadStandardConfigurationAnswer {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("configuration", configuration).append("configurationJson", configurationJson).append("schema", schema).append("state", state).append("warning", warning).append("modified", modified).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(configuration).append(schema).append(state).append(warning).append(modified).toHashCode();
+        return new HashCodeBuilder().append(schema).append(configuration).append(configurationJson).append(warning).append(modified).append(state).toHashCode();
     }
 
     @Override
@@ -216,7 +210,7 @@ public class ReadStandardConfigurationAnswer {
             return false;
         }
         ReadStandardConfigurationAnswer rhs = ((ReadStandardConfigurationAnswer) other);
-        return new EqualsBuilder().append(configuration, rhs.configuration).append(schema, rhs.schema).append(state, rhs.state).append(warning, rhs.warning).append(modified, rhs.modified).isEquals();
+        return new EqualsBuilder().append(schema, rhs.schema).append(configuration, rhs.configuration).append(configurationJson, rhs.configurationJson).append(warning, rhs.warning).append(modified, rhs.modified).append(state, rhs.state).isEquals();
     }
 
 }
