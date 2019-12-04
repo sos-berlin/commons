@@ -22,8 +22,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JacksonXmlRootElement(localName = "deploy_message")
 @JsonPropertyOrder({
-    "deployed",
-    "deleted",
+    "action",
     "path",
     "objectType",
     "failReason"
@@ -35,12 +34,9 @@ public class DeployMessage {
      * (Required)
      * 
      */
-    @JsonProperty("deployed")
-    @JacksonXmlProperty(localName = "deployed", isAttribute = true)
-    private Boolean deployed;
-    @JsonProperty("deleted")
-    @JacksonXmlProperty(localName = "deleted", isAttribute = true)
-    private Boolean deleted;
+    @JsonProperty("action")
+    @JacksonXmlProperty(localName = "action", isAttribute = false)
+    private DeployActionType action;
     /**
      * path
      * <p>
@@ -63,7 +59,7 @@ public class DeployMessage {
     @JacksonXmlProperty(localName = "object_type", isAttribute = false)
     private JobSchedulerObjectType objectType;
     @JsonProperty("failReason")
-    @JacksonXmlProperty(localName = "failReason", isAttribute = false)
+    @JacksonXmlProperty(localName = "fail_reason", isAttribute = false)
     private DeployFailReason failReason;
 
     /**
@@ -71,10 +67,10 @@ public class DeployMessage {
      * (Required)
      * 
      */
-    @JsonProperty("deployed")
-    @JacksonXmlProperty(localName = "deployed", isAttribute = true)
-    public Boolean getDeployed() {
-        return deployed;
+    @JsonProperty("action")
+    @JacksonXmlProperty(localName = "action", isAttribute = false)
+    public DeployActionType getAction() {
+        return action;
     }
 
     /**
@@ -82,22 +78,10 @@ public class DeployMessage {
      * (Required)
      * 
      */
-    @JsonProperty("deployed")
-    @JacksonXmlProperty(localName = "deployed", isAttribute = true)
-    public void setDeployed(Boolean deployed) {
-        this.deployed = deployed;
-    }
-
-    @JsonProperty("deleted")
-    @JacksonXmlProperty(localName = "deleted", isAttribute = true)
-    public Boolean getDeleted() {
-        return deleted;
-    }
-
-    @JsonProperty("deleted")
-    @JacksonXmlProperty(localName = "deleted", isAttribute = true)
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
+    @JsonProperty("action")
+    @JacksonXmlProperty(localName = "action", isAttribute = false)
+    public void setAction(DeployActionType action) {
+        this.action = action;
     }
 
     /**
@@ -153,25 +137,25 @@ public class DeployMessage {
     }
 
     @JsonProperty("failReason")
-    @JacksonXmlProperty(localName = "failReason", isAttribute = false)
+    @JacksonXmlProperty(localName = "fail_reason", isAttribute = false)
     public DeployFailReason getFailReason() {
         return failReason;
     }
 
     @JsonProperty("failReason")
-    @JacksonXmlProperty(localName = "failReason", isAttribute = false)
-    public void setFailReason(DeployFailReason reason) {
-        this.failReason = reason;
+    @JacksonXmlProperty(localName = "fail_reason", isAttribute = false)
+    public void setFailReason(DeployFailReason failReason) {
+        this.failReason = failReason;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("deployed", deployed).append("deleted", deleted).append("path", path).append("objectType", objectType).append("failReason", failReason).toString();
+        return new ToStringBuilder(this).append("action", action).append("path", path).append("objectType", objectType).append("failReason", failReason).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(deployed).append(path).append(failReason).append(deleted).append(objectType).toHashCode();
+        return new HashCodeBuilder().append(action).append(path).append(failReason).append(objectType).toHashCode();
     }
 
     @Override
@@ -183,7 +167,7 @@ public class DeployMessage {
             return false;
         }
         DeployMessage rhs = ((DeployMessage) other);
-        return new EqualsBuilder().append(deployed, rhs.deployed).append(path, rhs.path).append(failReason, rhs.failReason).append(deleted, rhs.deleted).append(objectType, rhs.objectType).isEquals();
+        return new EqualsBuilder().append(action, rhs.action).append(path, rhs.path).append(failReason, rhs.failReason).append(objectType, rhs.objectType).isEquals();
     }
 
 }
