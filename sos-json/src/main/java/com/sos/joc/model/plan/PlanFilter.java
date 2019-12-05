@@ -31,6 +31,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "folders",
     "job",
     "jobChain",
+    "jobStream",
+    "isJobStream",
     "orderId"
 })
 public class PlanFilter {
@@ -92,6 +94,10 @@ public class PlanFilter {
     @JsonProperty("jobChain")
     @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
     private String jobChain;
+    @JsonProperty("jobStream")
+    private String jobStream;
+    @JsonProperty("isJobStream")
+    private Boolean isJobStream;
     @JsonProperty("orderId")
     private String orderId;
 
@@ -261,6 +267,26 @@ public class PlanFilter {
         this.jobChain = jobChain;
     }
 
+    @JsonProperty("jobStream")
+    public String getJobStream() {
+        return jobStream;
+    }
+
+    @JsonProperty("jobStream")
+    public void setJobStream(String jobStream) {
+        this.jobStream = jobStream;
+    }
+
+    @JsonProperty("isJobStream")
+    public Boolean getIsJobStream() {
+        return isJobStream;
+    }
+
+    @JsonProperty("isJobStream")
+    public void setIsJobStream(Boolean isJobStream) {
+        this.isJobStream = isJobStream;
+    }
+
     @JsonProperty("orderId")
     public String getOrderId() {
         return orderId;
@@ -273,12 +299,12 @@ public class PlanFilter {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("regex", regex).append("states", states).append("late", late).append("dateFrom", dateFrom).append("dateTo", dateTo).append("timeZone", timeZone).append("folders", folders).append("job", job).append("jobChain", jobChain).append("orderId", orderId).toString();
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("regex", regex).append("states", states).append("late", late).append("dateFrom", dateFrom).append("dateTo", dateTo).append("timeZone", timeZone).append("folders", folders).append("job", job).append("jobChain", jobChain).append("jobStream", jobStream).append("isJobStream", isJobStream).append("orderId", orderId).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(regex).append(folders).append(late).append(orderId).append(dateTo).append(jobChain).append(timeZone).append(jobschedulerId).append(dateFrom).append(job).append(states).toHashCode();
+        return new HashCodeBuilder().append(isJobStream).append(folders).append(orderId).append(jobChain).append(jobStream).append(timeZone).append(dateFrom).append(states).append(regex).append(late).append(dateTo).append(jobschedulerId).append(job).toHashCode();
     }
 
     @Override
@@ -290,7 +316,7 @@ public class PlanFilter {
             return false;
         }
         PlanFilter rhs = ((PlanFilter) other);
-        return new EqualsBuilder().append(regex, rhs.regex).append(folders, rhs.folders).append(late, rhs.late).append(orderId, rhs.orderId).append(dateTo, rhs.dateTo).append(jobChain, rhs.jobChain).append(timeZone, rhs.timeZone).append(jobschedulerId, rhs.jobschedulerId).append(dateFrom, rhs.dateFrom).append(job, rhs.job).append(states, rhs.states).isEquals();
+        return new EqualsBuilder().append(isJobStream, rhs.isJobStream).append(folders, rhs.folders).append(orderId, rhs.orderId).append(jobChain, rhs.jobChain).append(jobStream, rhs.jobStream).append(timeZone, rhs.timeZone).append(dateFrom, rhs.dateFrom).append(states, rhs.states).append(regex, rhs.regex).append(late, rhs.late).append(dateTo, rhs.dateTo).append(jobschedulerId, rhs.jobschedulerId).append(job, rhs.job).isEquals();
     }
 
 }
