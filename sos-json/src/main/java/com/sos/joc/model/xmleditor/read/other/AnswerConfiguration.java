@@ -24,6 +24,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "schema",
     "configuration",
     "configurationJson",
+    "recreateJson",
     "modified"
 })
 public class AnswerConfiguration {
@@ -43,6 +44,8 @@ public class AnswerConfiguration {
     private String configuration;
     @JsonProperty("configurationJson")
     private String configurationJson;
+    @JsonProperty("recreateJson")
+    private Boolean recreateJson;
     /**
      * timestamp
      * <p>
@@ -113,6 +116,16 @@ public class AnswerConfiguration {
         this.configurationJson = configurationJson;
     }
 
+    @JsonProperty("recreateJson")
+    public Boolean getRecreateJson() {
+        return recreateJson;
+    }
+
+    @JsonProperty("recreateJson")
+    public void setRecreateJson(Boolean recreateJson) {
+        this.recreateJson = recreateJson;
+    }
+
     /**
      * timestamp
      * <p>
@@ -137,12 +150,12 @@ public class AnswerConfiguration {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("id", id).append("name", name).append("schema", schema).append("configuration", configuration).append("configurationJson", configurationJson).append("modified", modified).toString();
+        return new ToStringBuilder(this).append("id", id).append("name", name).append("schema", schema).append("configuration", configuration).append("configurationJson", configurationJson).append("recreateJson", recreateJson).append("modified", modified).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(schema).append(configuration).append(name).append(configurationJson).append(modified).append(id).toHashCode();
+        return new HashCodeBuilder().append(schema).append(configuration).append(name).append(configurationJson).append(recreateJson).append(modified).append(id).toHashCode();
     }
 
     @Override
@@ -154,7 +167,7 @@ public class AnswerConfiguration {
             return false;
         }
         AnswerConfiguration rhs = ((AnswerConfiguration) other);
-        return new EqualsBuilder().append(schema, rhs.schema).append(configuration, rhs.configuration).append(name, rhs.name).append(configurationJson, rhs.configurationJson).append(modified, rhs.modified).append(id, rhs.id).isEquals();
+        return new EqualsBuilder().append(schema, rhs.schema).append(configuration, rhs.configuration).append(name, rhs.name).append(configurationJson, rhs.configurationJson).append(recreateJson, rhs.recreateJson).append(modified, rhs.modified).append(id, rhs.id).isEquals();
     }
 
 }
