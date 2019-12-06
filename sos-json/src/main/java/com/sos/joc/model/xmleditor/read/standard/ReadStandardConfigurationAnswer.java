@@ -1,7 +1,9 @@
 
 package com.sos.joc.model.xmleditor.read.standard;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
@@ -38,7 +40,7 @@ public class ReadStandardConfigurationAnswer {
     @JsonProperty("configuration")
     private String configuration;
     @JsonProperty("configurationJson")
-    private String configurationJson;
+    private List<Object> configurationJson = new ArrayList<Object>();
     @JsonProperty("recreateJson")
     private Boolean recreateJson;
     /**
@@ -97,12 +99,12 @@ public class ReadStandardConfigurationAnswer {
     }
 
     @JsonProperty("configurationJson")
-    public String getConfigurationJson() {
+    public List<Object> getConfigurationJson() {
         return configurationJson;
     }
 
     @JsonProperty("configurationJson")
-    public void setConfigurationJson(String configurationJson) {
+    public void setConfigurationJson(List<Object> configurationJson) {
         this.configurationJson = configurationJson;
     }
 
