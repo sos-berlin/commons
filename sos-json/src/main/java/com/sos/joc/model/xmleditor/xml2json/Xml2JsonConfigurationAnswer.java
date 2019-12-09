@@ -1,8 +1,6 @@
 
 package com.sos.joc.model.xmleditor.xml2json;
 
-import java.util.ArrayList;
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -24,15 +22,15 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class Xml2JsonConfigurationAnswer {
 
     @JsonProperty("configurationJson")
-    private List<Object> configurationJson = new ArrayList<Object>();
+    private String configurationJson;
 
     @JsonProperty("configurationJson")
-    public List<Object> getConfigurationJson() {
+    public String getConfigurationJson() {
         return configurationJson;
     }
 
     @JsonProperty("configurationJson")
-    public void setConfigurationJson(List<Object> configurationJson) {
+    public void setConfigurationJson(String configurationJson) {
         this.configurationJson = configurationJson;
     }
 
