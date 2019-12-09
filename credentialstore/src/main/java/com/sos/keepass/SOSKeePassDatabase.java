@@ -301,7 +301,7 @@ public class SOSKeePassDatabase {
             }
         } else {
             if (isDebugEnabled) {
-                LOGGER.debug(String.format("[%s]pass=?, keyFile=%s", method, _file));
+                LOGGER.debug(String.format("[%s]pass=?, keyFile=%s", method, getFilePath(keyFile)));
             }
 
             InputStream is = null;
