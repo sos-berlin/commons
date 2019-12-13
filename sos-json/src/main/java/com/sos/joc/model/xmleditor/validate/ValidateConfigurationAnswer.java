@@ -19,7 +19,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "validated"
+    "validated",
+    "validationError"
 })
 public class ValidateConfigurationAnswer {
 
@@ -32,6 +33,14 @@ public class ValidateConfigurationAnswer {
     @JsonProperty("validated")
     @JsonPropertyDescription("Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty")
     private Date validated;
+    /**
+     * xmleditor validate configuration error answer
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("validationError")
+    private ErrorMessage validationError;
 
     /**
      * timestamp
@@ -55,14 +64,36 @@ public class ValidateConfigurationAnswer {
         this.validated = validated;
     }
 
+    /**
+     * xmleditor validate configuration error answer
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("validationError")
+    public ErrorMessage getValidationError() {
+        return validationError;
+    }
+
+    /**
+     * xmleditor validate configuration error answer
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("validationError")
+    public void setValidationError(ErrorMessage validationError) {
+        this.validationError = validationError;
+    }
+
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("validated", validated).toString();
+        return new ToStringBuilder(this).append("validated", validated).append("validationError", validationError).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(validated).toHashCode();
+        return new HashCodeBuilder().append(validated).append(validationError).toHashCode();
     }
 
     @Override
@@ -74,7 +105,7 @@ public class ValidateConfigurationAnswer {
             return false;
         }
         ValidateConfigurationAnswer rhs = ((ValidateConfigurationAnswer) other);
-        return new EqualsBuilder().append(validated, rhs.validated).isEquals();
+        return new EqualsBuilder().append(validated, rhs.validated).append(validationError, rhs.validationError).isEquals();
     }
 
 }
