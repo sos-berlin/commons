@@ -22,6 +22,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "id",
     "name",
     "schema",
+    "schemaIdentifier",
     "configuration",
     "configurationJson",
     "recreateJson",
@@ -40,6 +41,8 @@ public class AnswerConfiguration {
     private String name;
     @JsonProperty("schema")
     private String schema;
+    @JsonProperty("schemaIdentifier")
+    private String schemaIdentifier;
     @JsonProperty("configuration")
     private String configuration;
     @JsonProperty("configurationJson")
@@ -96,6 +99,16 @@ public class AnswerConfiguration {
         this.schema = schema;
     }
 
+    @JsonProperty("schemaIdentifier")
+    public String getSchemaIdentifier() {
+        return schemaIdentifier;
+    }
+
+    @JsonProperty("schemaIdentifier")
+    public void setSchemaIdentifier(String schemaIdentifier) {
+        this.schemaIdentifier = schemaIdentifier;
+    }
+
     @JsonProperty("configuration")
     public String getConfiguration() {
         return configuration;
@@ -150,12 +163,12 @@ public class AnswerConfiguration {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("id", id).append("name", name).append("schema", schema).append("configuration", configuration).append("configurationJson", configurationJson).append("recreateJson", recreateJson).append("modified", modified).toString();
+        return new ToStringBuilder(this).append("id", id).append("name", name).append("schema", schema).append("schemaIdentifier", schemaIdentifier).append("configuration", configuration).append("configurationJson", configurationJson).append("recreateJson", recreateJson).append("modified", modified).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(schema).append(configuration).append(name).append(configurationJson).append(recreateJson).append(modified).append(id).toHashCode();
+        return new HashCodeBuilder().append(schema).append(configuration).append(name).append(configurationJson).append(recreateJson).append(modified).append(id).append(schemaIdentifier).toHashCode();
     }
 
     @Override
@@ -167,7 +180,7 @@ public class AnswerConfiguration {
             return false;
         }
         AnswerConfiguration rhs = ((AnswerConfiguration) other);
-        return new EqualsBuilder().append(schema, rhs.schema).append(configuration, rhs.configuration).append(name, rhs.name).append(configurationJson, rhs.configurationJson).append(recreateJson, rhs.recreateJson).append(modified, rhs.modified).append(id, rhs.id).isEquals();
+        return new EqualsBuilder().append(schema, rhs.schema).append(configuration, rhs.configuration).append(name, rhs.name).append(configurationJson, rhs.configurationJson).append(recreateJson, rhs.recreateJson).append(modified, rhs.modified).append(id, rhs.id).append(schemaIdentifier, rhs.schemaIdentifier).isEquals();
     }
 
 }

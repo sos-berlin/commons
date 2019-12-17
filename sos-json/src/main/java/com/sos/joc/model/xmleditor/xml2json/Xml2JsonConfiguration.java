@@ -13,7 +13,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 /**
  * xmleditor xml2json configuration in
  * <p>
- * schema only for OTHER
+ * schemaIdentifier only for OTHER
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -21,7 +21,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "jobschedulerId",
     "objectType",
     "configuration",
-    "schema"
+    "schemaIdentifier"
 })
 public class Xml2JsonConfiguration {
 
@@ -48,8 +48,8 @@ public class Xml2JsonConfiguration {
      */
     @JsonProperty("configuration")
     private String configuration;
-    @JsonProperty("schema")
-    private String schema;
+    @JsonProperty("schemaIdentifier")
+    private String schemaIdentifier;
 
     /**
      * 
@@ -115,24 +115,24 @@ public class Xml2JsonConfiguration {
         this.configuration = configuration;
     }
 
-    @JsonProperty("schema")
-    public String getSchema() {
-        return schema;
+    @JsonProperty("schemaIdentifier")
+    public String getSchemaIdentifier() {
+        return schemaIdentifier;
     }
 
-    @JsonProperty("schema")
-    public void setSchema(String schema) {
-        this.schema = schema;
+    @JsonProperty("schemaIdentifier")
+    public void setSchemaIdentifier(String schemaIdentifier) {
+        this.schemaIdentifier = schemaIdentifier;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("objectType", objectType).append("configuration", configuration).append("schema", schema).toString();
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("objectType", objectType).append("configuration", configuration).append("schemaIdentifier", schemaIdentifier).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(schema).append(jobschedulerId).append(configuration).append(objectType).toHashCode();
+        return new HashCodeBuilder().append(schemaIdentifier).append(jobschedulerId).append(configuration).append(objectType).toHashCode();
     }
 
     @Override
@@ -144,7 +144,7 @@ public class Xml2JsonConfiguration {
             return false;
         }
         Xml2JsonConfiguration rhs = ((Xml2JsonConfiguration) other);
-        return new EqualsBuilder().append(schema, rhs.schema).append(jobschedulerId, rhs.jobschedulerId).append(configuration, rhs.configuration).append(objectType, rhs.objectType).isEquals();
+        return new EqualsBuilder().append(schemaIdentifier, rhs.schemaIdentifier).append(jobschedulerId, rhs.jobschedulerId).append(configuration, rhs.configuration).append(objectType, rhs.objectType).isEquals();
     }
 
 }

@@ -1,5 +1,5 @@
 
-package com.sos.joc.model.xmleditor.validate;
+package com.sos.joc.model.xmleditor.assign.schema;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,19 +11,20 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * xmleditor validate configuration in
+ * xmleditor assign schema configuration in
  * <p>
- * schemaIdentifier only for OTHER
+ * 
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "jobschedulerId",
     "objectType",
-    "configuration",
-    "schemaIdentifier"
+    "uri",
+    "fileName",
+    "fileContent"
 })
-public class ValidateConfiguration {
+public class AssignSchemaConfiguration {
 
     /**
      * 
@@ -41,15 +42,12 @@ public class ValidateConfiguration {
      */
     @JsonProperty("objectType")
     private ObjectType objectType;
-    /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("configuration")
-    private String configuration;
-    @JsonProperty("schemaIdentifier")
-    private String schemaIdentifier;
+    @JsonProperty("uri")
+    private String uri;
+    @JsonProperty("fileName")
+    private String fileName;
+    @JsonProperty("fileContent")
+    private String fileContent;
 
     /**
      * 
@@ -95,44 +93,44 @@ public class ValidateConfiguration {
         this.objectType = objectType;
     }
 
-    /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("configuration")
-    public String getConfiguration() {
-        return configuration;
+    @JsonProperty("uri")
+    public String getUri() {
+        return uri;
     }
 
-    /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("configuration")
-    public void setConfiguration(String configuration) {
-        this.configuration = configuration;
+    @JsonProperty("uri")
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 
-    @JsonProperty("schemaIdentifier")
-    public String getSchemaIdentifier() {
-        return schemaIdentifier;
+    @JsonProperty("fileName")
+    public String getFileName() {
+        return fileName;
     }
 
-    @JsonProperty("schemaIdentifier")
-    public void setSchemaIdentifier(String schemaIdentifier) {
-        this.schemaIdentifier = schemaIdentifier;
+    @JsonProperty("fileName")
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    @JsonProperty("fileContent")
+    public String getFileContent() {
+        return fileContent;
+    }
+
+    @JsonProperty("fileContent")
+    public void setFileContent(String fileContent) {
+        this.fileContent = fileContent;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("objectType", objectType).append("configuration", configuration).append("schemaIdentifier", schemaIdentifier).toString();
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("objectType", objectType).append("uri", uri).append("fileName", fileName).append("fileContent", fileContent).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(schemaIdentifier).append(jobschedulerId).append(configuration).append(objectType).toHashCode();
+        return new HashCodeBuilder().append(fileName).append(jobschedulerId).append(uri).append(fileContent).append(objectType).toHashCode();
     }
 
     @Override
@@ -140,11 +138,11 @@ public class ValidateConfiguration {
         if (other == this) {
             return true;
         }
-        if ((other instanceof ValidateConfiguration) == false) {
+        if ((other instanceof AssignSchemaConfiguration) == false) {
             return false;
         }
-        ValidateConfiguration rhs = ((ValidateConfiguration) other);
-        return new EqualsBuilder().append(schemaIdentifier, rhs.schemaIdentifier).append(jobschedulerId, rhs.jobschedulerId).append(configuration, rhs.configuration).append(objectType, rhs.objectType).isEquals();
+        AssignSchemaConfiguration rhs = ((AssignSchemaConfiguration) other);
+        return new EqualsBuilder().append(fileName, rhs.fileName).append(jobschedulerId, rhs.jobschedulerId).append(uri, rhs.uri).append(fileContent, rhs.fileContent).append(objectType, rhs.objectType).isEquals();
     }
 
 }
