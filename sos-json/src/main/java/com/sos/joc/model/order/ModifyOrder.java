@@ -36,6 +36,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "priority",
     "params",
     "runTime",
+    "runTimeXml",
     "calendars"
 })
 public class ModifyOrder {
@@ -107,12 +108,10 @@ public class ModifyOrder {
      */
     @JsonProperty("params")
     private List<NameValuePair> params = new ArrayList<NameValuePair>();
-    /**
-     * A run_time xml is expected which is specified in the <xsd:complexType name='run_time'> element of  http://www.sos-berlin.com/schema/scheduler.xsd
-     * 
-     */
     @JsonProperty("runTime")
-    private String runTime;
+    private com.sos.joc.model.joe.schedule.RunTime runTime;
+    @JsonProperty("runTimeXml")
+    private String runTimeXml;
     @JsonProperty("calendars")
     private List<Calendar> calendars = new ArrayList<Calendar>();
 
@@ -373,25 +372,43 @@ public class ModifyOrder {
     }
 
     /**
-     * A run_time xml is expected which is specified in the <xsd:complexType name='run_time'> element of  http://www.sos-berlin.com/schema/scheduler.xsd
      * 
      * @return
      *     The runTime
      */
     @JsonProperty("runTime")
-    public String getRunTime() {
+    public com.sos.joc.model.joe.schedule.RunTime getRunTime() {
         return runTime;
     }
 
     /**
-     * A run_time xml is expected which is specified in the <xsd:complexType name='run_time'> element of  http://www.sos-berlin.com/schema/scheduler.xsd
      * 
      * @param runTime
      *     The runTime
      */
     @JsonProperty("runTime")
-    public void setRunTime(String runTime) {
+    public void setRunTime(com.sos.joc.model.joe.schedule.RunTime runTime) {
         this.runTime = runTime;
+    }
+
+    /**
+     * 
+     * @return
+     *     The runTimeXml
+     */
+    @JsonProperty("runTimeXml")
+    public String getRunTimeXml() {
+        return runTimeXml;
+    }
+
+    /**
+     * 
+     * @param runTimeXml
+     *     The runTimeXml
+     */
+    @JsonProperty("runTimeXml")
+    public void setRunTimeXml(String runTimeXml) {
+        this.runTimeXml = runTimeXml;
     }
 
     /**

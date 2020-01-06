@@ -28,6 +28,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "schedule",
     "auditLog",
     "runTime",
+    "runTimeXml",
     "calendars"
 })
 public class ModifyRunTime {
@@ -56,13 +57,14 @@ public class ModifyRunTime {
      */
     @JsonProperty("auditLog")
     private AuditParams auditLog;
+    @JsonProperty("runTime")
+    private com.sos.joc.model.joe.schedule.Schedule runTime;
     /**
      * A run_time xml is expected which is specified in the <xsd:complexType name='run_time'> element of  http://www.sos-berlin.com/schema/scheduler.xsd
-     * (Required)
      * 
      */
-    @JsonProperty("runTime")
-    private String runTime;
+    @JsonProperty("runTimeXml")
+    private String runTimeXml;
     @JsonProperty("calendars")
     private List<Calendar> calendars = new ArrayList<Calendar>();
 
@@ -143,29 +145,49 @@ public class ModifyRunTime {
     public void setAuditLog(AuditParams auditLog) {
         this.auditLog = auditLog;
     }
-
+    
     /**
-     * A run_time xml is expected which is specified in the <xsd:complexType name='run_time'> element of  http://www.sos-berlin.com/schema/scheduler.xsd
      * (Required)
      * 
      * @return
      *     The runTime
      */
     @JsonProperty("runTime")
-    public String getRunTime() {
+    public com.sos.joc.model.joe.schedule.Schedule getRunTime() {
         return runTime;
     }
 
     /**
-     * A run_time xml is expected which is specified in the <xsd:complexType name='run_time'> element of  http://www.sos-berlin.com/schema/scheduler.xsd
      * (Required)
      * 
      * @param runTime
      *     The runTime
      */
     @JsonProperty("runTime")
-    public void setRunTime(String runTime) {
+    public void setRunTime(com.sos.joc.model.joe.schedule.Schedule runTime) {
         this.runTime = runTime;
+    }
+
+    /**
+     * A run_time xml is expected which is specified in the <xsd:complexType name='run_time'> element of  http://www.sos-berlin.com/schema/scheduler.xsd
+     * 
+     * @return
+     *     The runTimeXml
+     */
+    @JsonProperty("runTimeXml")
+    public String getRunTimeXml() {
+        return runTimeXml;
+    }
+
+    /**
+     * A run_time xml is expected which is specified in the <xsd:complexType name='run_time'> element of  http://www.sos-berlin.com/schema/scheduler.xsd
+     * 
+     * @param runTimeXml
+     *     The runTimeXml
+     */
+    @JsonProperty("runTimeXml")
+    public void setRunTimeXml(String runTimeXml) {
+        this.runTimeXml = runTimeXml;
     }
 
     /**
