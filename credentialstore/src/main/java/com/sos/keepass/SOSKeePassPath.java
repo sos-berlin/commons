@@ -60,7 +60,7 @@ public class SOSKeePassPath {
         }
 
         _query = uri.substring(t + 1, uri.length());
-        Map<String, String> maskedMap = Splitter.on('&').trimResults().withKeyValueSeparator("=").split(mask(_query));
+        Map<String, String> maskedMap = Splitter.on('&').withKeyValueSeparator("=").split(mask(_query));
         Map<String, String> unmaskedMap = new LinkedHashMap<String, String>();
         maskedMap.forEach((k, v) -> {
             unmaskedMap.put(k, unmask(v));

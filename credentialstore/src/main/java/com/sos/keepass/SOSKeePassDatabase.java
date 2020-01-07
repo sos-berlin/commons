@@ -1,12 +1,11 @@
 package com.sos.keepass;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -27,7 +26,6 @@ import org.linguafranca.pwdb.kdbx.simple.model.Times;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.io.Files;
 import com.sos.keepass.exceptions.SOSKeePassAttachmentException;
 import com.sos.keepass.exceptions.SOSKeePassCredentialException;
 import com.sos.keepass.exceptions.SOSKeePassDatabaseException;
@@ -65,7 +63,7 @@ public class SOSKeePassDatabase {
         _file = file;
         _isKdbx = file.toString().toLowerCase().endsWith(".kdbx");
         if (isDebugEnabled) {
-            LOGGER.debug(String.format("[%s][%s]isKdbx=%s", SOSKeePassDatabase.class.getSimpleName(), _file, _isKdbx));
+            LOGGER.debug(String.format("[%s][%s]isKdbx=%s", SOSKeePassDatabase.class.getSimpleName(), getFilePath(_file), _isKdbx));
         }
     }
 
@@ -249,13 +247,14 @@ public class SOSKeePassDatabase {
         if (isDebugEnabled) {
             LOGGER.debug(String.format("[exportAttachment2File][%s][%s]%s", entry.getPath(), propertyName, targetFile));
         }
+
         byte[] data = getAttachment(_isKdbx, entry, propertyName);
 
-        try (FileOutputStream fos = new FileOutputStream(targetFile.toFile())) {
-            fos.write(data);
+        try {
+            Files.write(targetFile, data, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
         } catch (Throwable e) {
             throw new SOSKeePassAttachmentException(String.format("[%s][%s][%s]can't write attachment to file: %s", entry.getPath(), propertyName,
-                    targetFile, e.toString()), e);
+                    getFilePath(targetFile), e.toString()), e);
         }
         return getFilePath(targetFile);
     }
@@ -287,27 +286,34 @@ public class SOSKeePassDatabase {
     private Credentials getKDBCredentials(final String pass, final Path keyFile) throws SOSKeePassDatabaseException {
         String method = "getKDBCredentials";
         Credentials cred = null;
-        String password = pass == null ? "" : pass;
 
         if (keyFile == null) {
+            if (SOSString.isEmpty(pass)) {
+                throw new SOSKeePassCredentialException("The password for the database must not be null. Please provide a valid password.");
+            }
             if (isDebugEnabled) {
                 LOGGER.debug(String.format("[%s]pass=?", method));
             }
-
             try {
-                cred = new KdbCredentials.Password(password.getBytes());
+                cred = new KdbCredentials.Password(pass.getBytes());
             } catch (Throwable e) {
                 throw new SOSKeePassCredentialException(e);
             }
         } else {
+            if (SOSString.isEmpty(pass)) {
+                if (isDebugEnabled) {
+                    LOGGER.debug(String.format("[%s]keyFile=%s", method, getFilePath(keyFile)));
+                }
+                throw new SOSKeePassCredentialException(
+                        "Composite key with key file without master password is not supported for KeePass 1.x format. Please provide a valid password.");
+            }
             if (isDebugEnabled) {
                 LOGGER.debug(String.format("[%s]pass=?, keyFile=%s", method, getFilePath(keyFile)));
             }
-
             InputStream is = null;
             try {
-                is = new FileInputStream(keyFile.toFile());
-                cred = new KdbCredentials.KeyFile(password.getBytes(), is);
+                is = Files.newInputStream(keyFile);
+                cred = new KdbCredentials.KeyFile(pass.getBytes(), is);
             } catch (Throwable e) {
                 throw new SOSKeePassCredentialException(String.format("[%s]%s", getFilePath(keyFile), e.toString()), e);
             } finally {
@@ -326,13 +332,13 @@ public class SOSKeePassDatabase {
         Credentials cred = getKDBCredentials(pass, keyFile);
 
         if (isDebugEnabled) {
-            LOGGER.debug(String.format("[getKDBDatabase]%s", _file));
+            LOGGER.debug(String.format("[getKDBDatabase]%s", getFilePath(_file)));
         }
 
         KdbDatabase database = null;
         InputStream is = null;
         try {
-            is = new FileInputStream(_file.toFile());
+            is = Files.newInputStream(_file);
             database = KdbDatabase.load(cred, is);
         } catch (Throwable e) {
             throw new SOSKeePassDatabaseException(String.format("[%s]%s", getFilePath(_file), e.toString()), e);
@@ -500,9 +506,9 @@ public class SOSKeePassDatabase {
         return entry;
     }
 
-    private Entry<?, ?, ?, ?> setBinaryProperty(SOSKeePassPath path, Entry<?, ?, ?, ?> entry, File attachment) throws SOSKeePassAttachmentException {
+    private Entry<?, ?, ?, ?> setBinaryProperty(SOSKeePassPath path, Entry<?, ?, ?, ?> entry, Path attachment) throws SOSKeePassAttachmentException {
         String method = "setBinaryProperty";
-        if (!attachment.exists()) {
+        if (Files.notExists(attachment)) {
             throw new SOSKeePassAttachmentException(String.format("[%s]attachment file not founded", getFilePath(attachment)));
         }
         String propertyName = getBinaryPropertyName(path, attachment);
@@ -510,7 +516,7 @@ public class SOSKeePassDatabase {
             LOGGER.debug(String.format("[%s][%s][%s]%s", method, path.getEntry(), propertyName, attachment));
         }
         try {
-            entry.setBinaryProperty(propertyName, Files.toByteArray(attachment));
+            entry.setBinaryProperty(propertyName, Files.readAllBytes(attachment));
         } catch (Throwable t) {
             throw new SOSKeePassAttachmentException(t);
         }
@@ -527,10 +533,10 @@ public class SOSKeePassDatabase {
         return entry;
     }
 
-    private static String getBinaryPropertyName(SOSKeePassPath path, File attachment) {
+    private static String getBinaryPropertyName(SOSKeePassPath path, Path attachment) {
         String propertyName = path.getPropertyName();
         if (path.getPropertyName().equals(STANDARD_PROPERTY_NAME_ATTACHMENT)) {
-            propertyName = attachment.getName();
+            propertyName = attachment.getFileName().toString();
         }
         return propertyName;
     }
@@ -561,7 +567,7 @@ public class SOSKeePassDatabase {
         String val = null;
         String queryParamSetProperty = path.getQueryParameters().get(SOSKeePassPath.QUERY_PARAMETER_SET_PROPERTY);
         if (SOSString.isEmpty(queryParamSetProperty)) {
-            if (path.isAttachment()) {
+            if (path.isAttachment() || path.getPropertyName().equals(STANDARD_PROPERTY_NAME_ATTACHMENT)) {
                 val = new String(getAttachment(path.isKdbx(), entry, path.getPropertyName()));
             } else {
                 val = entry.getProperty(path.getPropertyName());
@@ -575,7 +581,7 @@ public class SOSKeePassDatabase {
             }
 
             if (path.isAttachment() || path.getPropertyName().equals(STANDARD_PROPERTY_NAME_ATTACHMENT)) {
-                File attachment = new File(queryParamSetProperty);
+                Path attachment = Paths.get(queryParamSetProperty);
                 entry = kpd.setBinaryProperty(path, entry, attachment);
                 if (path.isStdoutOnSetBinaryProperty()) {
                     val = new String(entry.getBinaryProperty(getBinaryPropertyName(path, attachment)));
@@ -608,7 +614,7 @@ public class SOSKeePassDatabase {
             if (!kpd.isKDBX()) {
                 throw new Exception(".kdx format is not yet supported");
             }
-            File attachment = new File(queryParamSetProperty);
+            Path attachment = Paths.get(queryParamSetProperty);
             entry = kpd.setBinaryProperty(path, entry, attachment);
             kpd.setChanged(true);
 
@@ -635,20 +641,17 @@ public class SOSKeePassDatabase {
         Path file = Paths.get(queryFile);
         Path keyFile = null;
         if (SOSString.isEmpty(queryKeyFile)) {
-            String keyFileName = new StringBuilder(Files.getNameWithoutExtension(file.getFileName().toString())).append(".key").toString();
-            String parentDir = file.toFile().getParent();
-            keyFile = Paths.get(parentDir == null ? "" : parentDir, keyFileName);
-            if (!keyFile.toFile().exists()) {
+            keyFile = getDefaultKeyFile(file);
+            if (Files.notExists(keyFile)) {
                 if (SOSString.isEmpty(queryPassword)) {
-                    throw new SOSKeePassDatabaseException(String.format("[%s][%s]key file not found. password is empty", uri, keyFile.toFile()
-                            .getCanonicalPath()));
+                    throw new SOSKeePassDatabaseException(String.format("[%s][%s]key file not found. password is empty", uri, getFilePath(keyFile)));
                 }
                 keyFile = null;
             }
         } else {
             keyFile = Paths.get(queryKeyFile);
-            if (!keyFile.toFile().exists()) {
-                throw new SOSKeePassDatabaseException(String.format("[%s][%s]key file not found", uri, keyFile.toFile().getCanonicalPath()));
+            if (Files.notExists(keyFile)) {
+                throw new SOSKeePassDatabaseException(String.format("[%s][%s]key file not found", uri, getFilePath(keyFile)));
             }
         }
         SOSKeePassDatabase kpd = new SOSKeePassDatabase(file);
@@ -659,6 +662,19 @@ public class SOSKeePassDatabase {
             kpd.load(queryPassword, keyFile);
         }
         return kpd;
+    }
+
+    public static Path getDefaultKeyFile(Path database) throws Exception {
+        Path keyFile = null;
+        String keyFileName = new StringBuilder(com.google.common.io.Files.getNameWithoutExtension(database.getFileName().toString())).append(".key")
+                .toString();
+        Path parentDir = database.getParent();
+        if (parentDir == null) {
+            keyFile = Paths.get(keyFileName);
+        } else {
+            keyFile = parentDir.resolve(keyFileName);
+        }
+        return keyFile;
     }
 
     public Credentials getCredentials() {
@@ -674,17 +690,11 @@ public class SOSKeePassDatabase {
     }
 
     public static String getFilePath(Path path) {
-        return getFilePath(path.toFile());
-    }
-
-    private static String getFilePath(File file) {
-        String filePath = null;
         try {
-            filePath = file.getCanonicalPath();
+            return path.toFile().getCanonicalPath();
         } catch (Exception ex) {
-            filePath = file.toString();
+            return path.toString();
         }
-        return filePath;
     }
 
     public static void main(String[] args) {
