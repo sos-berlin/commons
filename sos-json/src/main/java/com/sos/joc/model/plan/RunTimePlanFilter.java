@@ -37,7 +37,7 @@ public class RunTimePlanFilter {
      * 
      */
     @JsonProperty("runTime")
-    private String runTime;
+    private com.sos.joc.model.joe.schedule.RunTime runTime;
     @JsonProperty("dateFrom")
     private String dateFrom;
     /**
@@ -74,7 +74,7 @@ public class RunTimePlanFilter {
      * 
      */
     @JsonProperty("runTime")
-    public String getRunTime() {
+    public com.sos.joc.model.joe.schedule.RunTime getRunTime() {
         return runTime;
     }
 
@@ -84,7 +84,7 @@ public class RunTimePlanFilter {
      * 
      */
     @JsonProperty("runTime")
-    public void setRunTime(String runTime) {
+    public void setRunTime(com.sos.joc.model.joe.schedule.RunTime runTime) {
         this.runTime = runTime;
     }
 
