@@ -1,5 +1,5 @@
 
-package com.sos.joc.model.joe.wizzard;
+package com.sos.joc.model.joe.wizard;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -21,7 +21,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JacksonXmlRootElement(localName = "job_filter")
 @JsonPropertyOrder({
     "jobschedulerId",
-    "path"
+    "jitlPath"
 })
 public class JobFilter {
 
@@ -33,14 +33,9 @@ public class JobFilter {
     @JsonProperty("jobschedulerId")
     @JacksonXmlProperty(localName = "jobscheduler_id", isAttribute = true)
     private String jobschedulerId;
-    /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("path")
-    @JacksonXmlProperty(localName = "path", isAttribute = true)
-    private String path;
+    @JsonProperty("jitlPath")
+    @JacksonXmlProperty(localName = "jitl_path", isAttribute = true)
+    private String jitlPath;
 
     /**
      * 
@@ -64,36 +59,26 @@ public class JobFilter {
         this.jobschedulerId = jobschedulerId;
     }
 
-    /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("path")
-    @JacksonXmlProperty(localName = "path", isAttribute = true)
-    public String getPath() {
-        return path;
+    @JsonProperty("jitlPath")
+    @JacksonXmlProperty(localName = "jitl_path", isAttribute = true)
+    public String getJitlPath() {
+        return jitlPath;
     }
 
-    /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("path")
-    @JacksonXmlProperty(localName = "path", isAttribute = true)
-    public void setPath(String path) {
-        this.path = path;
+    @JsonProperty("jitlPath")
+    @JacksonXmlProperty(localName = "jitl_path", isAttribute = true)
+    public void setJitlPath(String jitlPath) {
+        this.jitlPath = jitlPath;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("path", path).toString();
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("jitlPath", jitlPath).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(path).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(jitlPath).toHashCode();
     }
 
     @Override
@@ -105,7 +90,7 @@ public class JobFilter {
             return false;
         }
         JobFilter rhs = ((JobFilter) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(path, rhs.path).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(jitlPath, rhs.jitlPath).isEquals();
     }
 
 }

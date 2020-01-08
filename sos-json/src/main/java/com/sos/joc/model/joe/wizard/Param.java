@@ -1,5 +1,5 @@
 
-package com.sos.joc.model.joe.wizzard;
+package com.sos.joc.model.joe.wizard;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,14 +12,14 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-@JacksonXmlRootElement(localName = "params")
+@JacksonXmlRootElement(localName = "param")
 @JsonPropertyOrder({
     "name",
     "required",
     "defaultValue",
     "description"
 })
-public class Params {
+public class Param {
 
     @JsonProperty("name")
     @JacksonXmlProperty(localName = "name", isAttribute = true)
@@ -110,10 +110,10 @@ public class Params {
         if (other == this) {
             return true;
         }
-        if ((other instanceof Params) == false) {
+        if ((other instanceof Param) == false) {
             return false;
         }
-        Params rhs = ((Params) other);
+        Param rhs = ((Param) other);
         return new EqualsBuilder().append(name, rhs.name).append(description, rhs.description).append(required, rhs.required).append(defaultValue, rhs.defaultValue).isEquals();
     }
 

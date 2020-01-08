@@ -1,5 +1,5 @@
 
-package com.sos.joc.model.joe.wizzard;
+package com.sos.joc.model.joe.wizard;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -21,7 +21,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JacksonXmlRootElement(localName = "jobs_filter")
 @JsonPropertyOrder({
     "jobschedulerId",
-    "path",
     "isOrderJob"
 })
 public class JobsFilter {
@@ -34,14 +33,6 @@ public class JobsFilter {
     @JsonProperty("jobschedulerId")
     @JacksonXmlProperty(localName = "jobscheduler_id", isAttribute = true)
     private String jobschedulerId;
-    /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("path")
-    @JacksonXmlProperty(localName = "path", isAttribute = true)
-    private String path;
     @JsonProperty("isOrderJob")
     @JacksonXmlProperty(localName = "is_order_job", isAttribute = true)
     private Boolean isOrderJob;
@@ -68,28 +59,6 @@ public class JobsFilter {
         this.jobschedulerId = jobschedulerId;
     }
 
-    /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("path")
-    @JacksonXmlProperty(localName = "path", isAttribute = true)
-    public String getPath() {
-        return path;
-    }
-
-    /**
-     * 
-     * (Required)
-     * 
-     */
-    @JsonProperty("path")
-    @JacksonXmlProperty(localName = "path", isAttribute = true)
-    public void setPath(String path) {
-        this.path = path;
-    }
-
     @JsonProperty("isOrderJob")
     @JacksonXmlProperty(localName = "is_order_job", isAttribute = true)
     public Boolean getIsOrderJob() {
@@ -104,12 +73,12 @@ public class JobsFilter {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("path", path).append("isOrderJob", isOrderJob).toString();
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("isOrderJob", isOrderJob).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(isOrderJob).append(path).append(jobschedulerId).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(isOrderJob).toHashCode();
     }
 
     @Override
@@ -121,7 +90,7 @@ public class JobsFilter {
             return false;
         }
         JobsFilter rhs = ((JobsFilter) other);
-        return new EqualsBuilder().append(isOrderJob, rhs.isOrderJob).append(path, rhs.path).append(jobschedulerId, rhs.jobschedulerId).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(isOrderJob, rhs.isOrderJob).isEquals();
     }
 
 }
