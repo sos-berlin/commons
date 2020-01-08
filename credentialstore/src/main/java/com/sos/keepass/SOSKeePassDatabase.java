@@ -674,6 +674,9 @@ public class SOSKeePassDatabase {
         } else {
             keyFile = parentDir.resolve(keyFileName);
         }
+        if (isDebugEnabled) {
+            LOGGER.debug(String.format("[getDefaultKeyFile]%s", getFilePath(keyFile)));
+        }
         return keyFile;
     }
 
