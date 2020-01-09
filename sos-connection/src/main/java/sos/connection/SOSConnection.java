@@ -29,6 +29,8 @@ import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.sos.keepass.SOSKeePassResolver;
+
 import sos.connection.util.SOSProfiler;
 import sos.util.NullBufferedWriter;
 import sos.util.SOSClassUtil;
@@ -38,7 +40,8 @@ import sos.util.SOSStandardLogger;
 import sos.util.SOSString;
 import sos.xml.SOSXMLXPath;
 
-/** <p>
+/**
+ * <p>
  * Description: abstract class for database connection
  * </p>
  * <p>
@@ -106,6 +109,17 @@ public abstract class SOSConnection {
     private static final String REPLACEMENT_BACKSLASH = "XxxxX";
     private static final String REPLACE_DOUBLE_APOSTROPHE = "''";
     private static final String REPLACEMENT_DOUBLE_APOSTROPHE = "YyyyY";
+
+    private static final String HIBERNATE_PROPERTY_DIALECT = "hibernate.dialect";
+    private static final String HIBERNATE_PROPERTY_CONNECTION_DRIBER_CLASS = "hibernate.connection.driver_class";
+    private static final String HIBERNATE_PROPERTY_CONNECTION_URL = "hibernate.connection.url";
+    private static final String HIBERNATE_PROPERTY_CONNECTION_USERNAME = "hibernate.connection.username";
+    private static final String HIBERNATE_PROPERTY_CONNECTION_PASSWORD = "hibernate.connection.password";
+    private static final String HIBERNATE_SOS_PROPERTY_CREDENTIAL_STORE_FILE = "hibernate.sos.credential_store_file";
+    private static final String HIBERNATE_SOS_PROPERTY_CREDENTIAL_STORE_KEY_FILE = "hibernate.sos.credential_store_key_file";
+    private static final String HIBERNATE_SOS_PROPERTY_CREDENTIAL_STORE_PASSWORD = "hibernate.sos.credential_store_password";
+    private static final String HIBERNATE_SOS_PROPERTY_CREDENTIAL_STORE_ENTRY_PATH = "hibernate.sos.credential_store_entry_path";
+
     private String beginProcedure = "";
     private int majorVersion = -1;
     private int minorVersion = 0;
@@ -147,14 +161,17 @@ public abstract class SOSConnection {
 
             if (file.getName().toLowerCase().endsWith(".xml")) {
                 SOSXMLXPath xpath = new SOSXMLXPath(in);
-                String dialect = getHibernateConfigurationValue(xpath, "hibernate.dialect");
+                String dialect = getHibernateConfigurationValue(xpath, HIBERNATE_PROPERTY_DIALECT);
                 configFileProperties = new Properties();
                 configFileProperties.setProperty("[configuration]", "");
                 configFileProperties.setProperty("class", getClassNameByHibernateDialect(dialect));
-                configFileProperties.setProperty("driver", getHibernateConfigurationValue(xpath, "hibernate.connection.driver_class"));
-                configFileProperties.setProperty("url", getHibernateConfigurationValue(xpath, "hibernate.connection.url"));
-                configFileProperties.setProperty("user", getHibernateConfigurationValue(xpath, "hibernate.connection.username"));
-                configFileProperties.setProperty("password", getHibernateConfigurationValue(xpath, "hibernate.connection.password"));
+                configFileProperties.setProperty("driver", getHibernateConfigurationValue(xpath, HIBERNATE_PROPERTY_CONNECTION_DRIBER_CLASS));
+                configFileProperties.setProperty("url", getHibernateConfigurationValue(xpath, HIBERNATE_PROPERTY_CONNECTION_URL));
+                configFileProperties.setProperty("user", getHibernateConfigurationValue(xpath, HIBERNATE_PROPERTY_CONNECTION_USERNAME));
+                configFileProperties.setProperty("password", getHibernateConfigurationValue(xpath, HIBERNATE_PROPERTY_CONNECTION_PASSWORD));
+
+                resolveCredentialStoreProperties(logger, xpath);
+
                 if (configFileProperties.getProperty("class").equals(SOSMSSQLConnection.class.getSimpleName())) {
                     configFileProperties.setProperty("compatibility", "normal");
                 } else {
@@ -209,6 +226,42 @@ public abstract class SOSConnection {
         this.logger = logger;
 
         processPassword();
+    }
+
+    // see com.sos.hibernate.classes.SOSHibernateFactory
+    private void resolveCredentialStoreProperties(final SOSLogger logger, SOSXMLXPath xpath) throws Exception {
+        if (configFileProperties == null) {
+            return;
+        }
+
+        String f = getHibernateConfigurationValue(xpath, HIBERNATE_SOS_PROPERTY_CREDENTIAL_STORE_FILE);
+        if (logger != null) {
+            logger.debug9(String.format("[%s]%s", HIBERNATE_SOS_PROPERTY_CREDENTIAL_STORE_FILE, f));
+        }
+        if (f != null) {
+            String kf = getHibernateConfigurationValue(xpath, HIBERNATE_SOS_PROPERTY_CREDENTIAL_STORE_KEY_FILE);
+            if (logger != null) {
+                logger.debug9(String.format("[%s]%s", HIBERNATE_SOS_PROPERTY_CREDENTIAL_STORE_KEY_FILE, kf));
+            }
+            
+            String p = getHibernateConfigurationValue(xpath, HIBERNATE_SOS_PROPERTY_CREDENTIAL_STORE_PASSWORD);
+            String ep = getHibernateConfigurationValue(xpath, HIBERNATE_SOS_PROPERTY_CREDENTIAL_STORE_ENTRY_PATH);
+            SOSKeePassResolver r = new SOSKeePassResolver(f, kf, p);
+            r.setEntryPath(ep);
+
+            String url = configFileProperties.getProperty("url");
+            if (url != null) {
+                configFileProperties.setProperty("url", r.resolve(url));
+            }
+            String username = configFileProperties.getProperty("user");
+            if (username != null) {
+                configFileProperties.setProperty("user", r.resolve(username));
+            }
+            String password = configFileProperties.getProperty("password");
+            if (password != null) {
+                configFileProperties.setProperty("password", r.resolve(password));
+            }
+        }
     }
 
     public SOSConnection(final String driver, final String url, final String dbuser, final String dbpassword, final SOSLogger logger)
@@ -267,7 +320,7 @@ public abstract class SOSConnection {
             in = new BufferedInputStream(fs);
             if (file.getName().toLowerCase().endsWith(".xml")) {
                 SOSXMLXPath xpath = new SOSXMLXPath(in);
-                String dialect = getHibernateConfigurationValue(xpath, "hibernate.dialect");
+                String dialect = getHibernateConfigurationValue(xpath, HIBERNATE_PROPERTY_DIALECT);
                 config.put("class", SOSString.isEmpty(dialect) ? "" : getClassNameByHibernateDialect(dialect));
             } else {
                 config.load(in);
@@ -295,7 +348,7 @@ public abstract class SOSConnection {
     }
 
     private static String getHibernateConfigurationValue(SOSXMLXPath xpath, String name) throws Exception {
-        String val = xpath.selectSingleNodeValue("/hibernate-configuration/session-factory/property[@name='" + name + "']"); 
+        String val = xpath.selectSingleNodeValue("/hibernate-configuration/session-factory/property[@name='" + name + "']");
         return val == null ? "" : val;
     }
 
@@ -330,6 +383,7 @@ public abstract class SOSConnection {
         Object[] arguments = { configFileName, logger };
         return createInstance(className, arguments);
     }
+
     public static SOSConnection createInstance(final String className, final Connection connection, final SOSLogger logger) throws Exception {
         logger.debug6("calling " + SOSClassUtil.getMethodName());
         Object[] arguments = { connection, logger };
@@ -2013,8 +2067,8 @@ public abstract class SOSConnection {
             }
             String statement = command.trim();
             if (enableProcedureSearch) {
-                //if (statement.toLowerCase().endsWith("end") || statement.toLowerCase().endsWith("end;")) {
-                if(endsWithEnd(statement)){
+                // if (statement.toLowerCase().endsWith("end") || statement.toLowerCase().endsWith("end;")) {
+                if (endsWithEnd(statement)) {
                     if (this.isProcedureSyntax(statement)) {
                         statements.add(statement + endSB.toString());
                         logger.debug6(SOSClassUtil.getMethodName() + " : statement =" + statement + endSB.toString());
@@ -2043,12 +2097,12 @@ public abstract class SOSConnection {
         }
         return statements;
     }
-    
-    private boolean endsWithEnd(String statement){
-        //END  END; END$$; END MY_PROCEDURE;
+
+    private boolean endsWithEnd(String statement) {
+        // END END; END$$; END MY_PROCEDURE;
         String patterns = "end[\\s]*[\\S]*[;]*$";
-        Pattern p = Pattern.compile(patterns,Pattern.CASE_INSENSITIVE);
-        
+        Pattern p = Pattern.compile(patterns, Pattern.CASE_INSENSITIVE);
+
         Matcher matcher = p.matcher(statement);
         return matcher.find();
     }
@@ -2146,7 +2200,7 @@ public abstract class SOSConnection {
         boolean addRow = true;
         boolean isVersionComment = false;
         boolean isMySQL = this instanceof SOSMySQLConnection;
-        
+
         while (st.hasMoreTokens()) {
             String row = st.nextToken().trim();
             if (row == null || row.isEmpty()) {
@@ -2159,12 +2213,11 @@ public abstract class SOSConnection {
             if (row.isEmpty()) {
                 continue;
             }
-            if (isMySQL){ 
+            if (isMySQL) {
                 String rowUpper = row.toUpperCase();
                 if (rowUpper.startsWith("DELIMITER")) {
                     continue;
-                }
-                else if(rowUpper.startsWith("END$$;")) {
+                } else if (rowUpper.startsWith("END$$;")) {
                     row = "END;";
                 }
             }
