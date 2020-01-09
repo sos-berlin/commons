@@ -53,8 +53,26 @@ public class SOSKeePassResolver {
     }
 
     public SOSKeePassResolver(String databaseFile, String databaseKeyFile, String databasePassword) {
-        this(SOSString.isEmpty(databaseFile) ? null : Paths.get(databaseFile), SOSString.isEmpty(databaseKeyFile) ? null : Paths.get(databaseKeyFile),
-                databasePassword);
+        try {
+            if (databaseFile != null) {
+                file = Paths.get(databaseFile);
+            }
+        } catch (Throwable e) {
+            if (isTraceEnabled) {
+                LOGGER.trace(String.format("[%s]%s", databaseFile, e.toString()));
+            }
+        }
+        try {
+            if (databaseKeyFile != null) {
+                keyFile = Paths.get(databaseKeyFile);
+            }
+        } catch (Throwable e) {
+            if (isTraceEnabled) {
+                LOGGER.trace(String.format("[%s]%s", databaseKeyFile, e.toString()));
+            }
+        }
+
+        password = databasePassword;
     }
 
     public SOSKeePassResolver(Path databaseFile, Path databaseKeyFile, String databasePassword) {
@@ -106,7 +124,7 @@ public class SOSKeePassResolver {
         }
         if (!uri.startsWith(SOSKeePassPath.PATH_PREFIX)) {
             if (isTraceEnabled) {
-                LOGGER.trace(String.format("[skip][%s]not cs syntax", uri));
+                LOGGER.trace("[skip]cs syntax missing");// not display uri - password?
             }
             return null;
         }
