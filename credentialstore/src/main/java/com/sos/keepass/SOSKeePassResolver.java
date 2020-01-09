@@ -30,20 +30,30 @@ public class SOSKeePassResolver {
     private Map<String, Entry<?, ?, ?, ?>> entries = new HashMap<String, Entry<?, ?, ?, ?>>();
 
     public SOSKeePassResolver() {
-        this(null, null, null);
     }
 
     public SOSKeePassResolver(Path databaseFile) {
         this(databaseFile, null, null);
     }
 
+    public SOSKeePassResolver(String databaseFile) {
+        this(databaseFile, null, null);
+    }
+
     public SOSKeePassResolver(Path databaseFile, Path databaseKeyFile) {
         this(databaseFile, databaseKeyFile, null);
+    }
 
+    public SOSKeePassResolver(String databaseFile, String databaseKeyFile) {
+        this(databaseFile, databaseKeyFile, null);
     }
 
     public SOSKeePassResolver(Path databaseFile, String databasePassword) {
         this(databaseFile, null, databasePassword);
+    }
+
+    public SOSKeePassResolver(String databaseFile, String databaseKeyFile, String databasePassword) {
+        this(databaseFile == null ? null : Paths.get(databaseFile), databaseKeyFile == null ? null : Paths.get(databaseKeyFile), databasePassword);
     }
 
     public SOSKeePassResolver(Path databaseFile, Path databaseKeyFile, String databasePassword) {
