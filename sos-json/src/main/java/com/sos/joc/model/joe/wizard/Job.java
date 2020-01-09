@@ -25,8 +25,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JacksonXmlRootElement(localName = "job")
 @JsonPropertyOrder({
     "deliveryDate",
-    "jitlPath",
-    "jitlName",
+    "docPath",
+    "docName",
     "title",
     "javaClass",
     "params"
@@ -47,15 +47,21 @@ public class Job {
      * path
      * <p>
      * absolute path based on live folder of a JobScheduler object.
+     * (Required)
      * 
      */
-    @JsonProperty("jitlPath")
+    @JsonProperty("docPath")
     @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
-    @JacksonXmlProperty(localName = "jitl_path", isAttribute = true)
-    private String jitlPath;
-    @JsonProperty("jitlName")
-    @JacksonXmlProperty(localName = "jitl_name", isAttribute = true)
-    private String jitlName;
+    @JacksonXmlProperty(localName = "doc_path", isAttribute = true)
+    private String docPath;
+    /**
+     * 
+     * (Required)
+     * 
+     */
+    @JsonProperty("docName")
+    @JacksonXmlProperty(localName = "doc_name", isAttribute = true)
+    private String docName;
     @JsonProperty("title")
     @JacksonXmlProperty(localName = "title", isAttribute = true)
     private String title;
@@ -100,36 +106,48 @@ public class Job {
      * path
      * <p>
      * absolute path based on live folder of a JobScheduler object.
+     * (Required)
      * 
      */
-    @JsonProperty("jitlPath")
-    @JacksonXmlProperty(localName = "jitl_path", isAttribute = true)
-    public String getJitlPath() {
-        return jitlPath;
+    @JsonProperty("docPath")
+    @JacksonXmlProperty(localName = "doc_path", isAttribute = true)
+    public String getDocPath() {
+        return docPath;
     }
 
     /**
      * path
      * <p>
      * absolute path based on live folder of a JobScheduler object.
+     * (Required)
      * 
      */
-    @JsonProperty("jitlPath")
-    @JacksonXmlProperty(localName = "jitl_path", isAttribute = true)
-    public void setJitlPath(String jitlPath) {
-        this.jitlPath = jitlPath;
+    @JsonProperty("docPath")
+    @JacksonXmlProperty(localName = "doc_path", isAttribute = true)
+    public void setDocPath(String docPath) {
+        this.docPath = docPath;
     }
 
-    @JsonProperty("jitlName")
-    @JacksonXmlProperty(localName = "jitl_name", isAttribute = true)
-    public String getJitlName() {
-        return jitlName;
+    /**
+     * 
+     * (Required)
+     * 
+     */
+    @JsonProperty("docName")
+    @JacksonXmlProperty(localName = "doc_name", isAttribute = true)
+    public String getDocName() {
+        return docName;
     }
 
-    @JsonProperty("jitlName")
-    @JacksonXmlProperty(localName = "jitl_name", isAttribute = true)
-    public void setJitlName(String jitlName) {
-        this.jitlName = jitlName;
+    /**
+     * 
+     * (Required)
+     * 
+     */
+    @JsonProperty("docName")
+    @JacksonXmlProperty(localName = "doc_name", isAttribute = true)
+    public void setDocName(String docName) {
+        this.docName = docName;
     }
 
     @JsonProperty("title")
@@ -180,12 +198,12 @@ public class Job {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("jitlPath", jitlPath).append("jitlName", jitlName).append("title", title).append("javaClass", javaClass).append("params", params).toString();
+        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("docPath", docPath).append("docName", docName).append("title", title).append("javaClass", javaClass).append("params", params).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jitlName).append(javaClass).append(jitlPath).append(deliveryDate).append(title).append(params).toHashCode();
+        return new HashCodeBuilder().append(docName).append(javaClass).append(deliveryDate).append(title).append(params).append(docPath).toHashCode();
     }
 
     @Override
@@ -197,7 +215,7 @@ public class Job {
             return false;
         }
         Job rhs = ((Job) other);
-        return new EqualsBuilder().append(jitlName, rhs.jitlName).append(javaClass, rhs.javaClass).append(jitlPath, rhs.jitlPath).append(deliveryDate, rhs.deliveryDate).append(title, rhs.title).append(params, rhs.params).isEquals();
+        return new EqualsBuilder().append(docName, rhs.docName).append(javaClass, rhs.javaClass).append(deliveryDate, rhs.deliveryDate).append(title, rhs.title).append(params, rhs.params).append(docPath, rhs.docPath).isEquals();
     }
 
 }

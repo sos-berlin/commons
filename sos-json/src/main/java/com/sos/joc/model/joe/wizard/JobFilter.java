@@ -21,7 +21,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JacksonXmlRootElement(localName = "job_filter")
 @JsonPropertyOrder({
     "jobschedulerId",
-    "jitlPath"
+    "docPath"
 })
 public class JobFilter {
 
@@ -33,9 +33,14 @@ public class JobFilter {
     @JsonProperty("jobschedulerId")
     @JacksonXmlProperty(localName = "jobscheduler_id", isAttribute = true)
     private String jobschedulerId;
-    @JsonProperty("jitlPath")
-    @JacksonXmlProperty(localName = "jitl_path", isAttribute = true)
-    private String jitlPath;
+    /**
+     * 
+     * (Required)
+     * 
+     */
+    @JsonProperty("docPath")
+    @JacksonXmlProperty(localName = "doc_path", isAttribute = true)
+    private String docPath;
 
     /**
      * 
@@ -59,26 +64,36 @@ public class JobFilter {
         this.jobschedulerId = jobschedulerId;
     }
 
-    @JsonProperty("jitlPath")
-    @JacksonXmlProperty(localName = "jitl_path", isAttribute = true)
-    public String getJitlPath() {
-        return jitlPath;
+    /**
+     * 
+     * (Required)
+     * 
+     */
+    @JsonProperty("docPath")
+    @JacksonXmlProperty(localName = "doc_path", isAttribute = true)
+    public String getDocPath() {
+        return docPath;
     }
 
-    @JsonProperty("jitlPath")
-    @JacksonXmlProperty(localName = "jitl_path", isAttribute = true)
-    public void setJitlPath(String jitlPath) {
-        this.jitlPath = jitlPath;
+    /**
+     * 
+     * (Required)
+     * 
+     */
+    @JsonProperty("docPath")
+    @JacksonXmlProperty(localName = "doc_path", isAttribute = true)
+    public void setDocPath(String docPath) {
+        this.docPath = docPath;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("jitlPath", jitlPath).toString();
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("docPath", docPath).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(jitlPath).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(docPath).toHashCode();
     }
 
     @Override
@@ -90,7 +105,7 @@ public class JobFilter {
             return false;
         }
         JobFilter rhs = ((JobFilter) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(jitlPath, rhs.jitlPath).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(docPath, rhs.docPath).isEquals();
     }
 
 }
