@@ -53,7 +53,8 @@ public class SOSKeePassResolver {
     }
 
     public SOSKeePassResolver(String databaseFile, String databaseKeyFile, String databasePassword) {
-        this(databaseFile == null ? null : Paths.get(databaseFile), databaseKeyFile == null ? null : Paths.get(databaseKeyFile), databasePassword);
+        this(SOSString.isEmpty(databaseFile) ? null : Paths.get(databaseFile), SOSString.isEmpty(databaseKeyFile) ? null : Paths.get(databaseKeyFile),
+                databasePassword);
     }
 
     public SOSKeePassResolver(Path databaseFile, Path databaseKeyFile, String databasePassword) {
