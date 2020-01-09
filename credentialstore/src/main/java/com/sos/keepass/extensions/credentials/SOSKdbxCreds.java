@@ -11,6 +11,8 @@ import org.jetbrains.annotations.NotNull;
 import org.linguafranca.pwdb.Credentials;
 import org.linguafranca.pwdb.kdbx.KdbxCreds;
 import org.linguafranca.pwdb.security.Encryption;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.io.ByteStreams;
 import com.google.common.primitives.Bytes;
@@ -18,7 +20,12 @@ import com.sos.keepass.SOSKeePassDatabase;
 import com.sos.keepass.exceptions.SOSKeePassCredentialException;
 import com.sos.keepass.exceptions.SOSKeePassDatabaseException;
 
+import sos.util.SOSString;
+
 public class SOSKdbxCreds implements Credentials {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSKdbxCreds.class);
+    private static final boolean isTraceEnabled = LOGGER.isTraceEnabled();
 
     private byte[] key;
 
@@ -73,24 +80,42 @@ public class SOSKdbxCreds implements Credentials {
         }
     }
 
-    private void handlePassword(String password) {
-        key = new KdbxCreds(password == null ? "".getBytes() : password.getBytes()).getKey();
+    private void handlePassword(String password) throws Exception {
+        if (isTraceEnabled) {
+            LOGGER.trace("[handlePassword]");
+        }
+        if (SOSString.isEmpty(password)) {
+            throw new SOSKeePassCredentialException("The password for the database must not be null. Please provide a valid password.");
+        }
+        key = new KdbxCreds(password.getBytes()).getKey();
     }
 
     private void handleXmlKey(@NotNull InputStream keyFile, String password) {
-        if (password == null) {
+        if (SOSString.isEmpty(password)) {
+            if (isTraceEnabled) {
+                LOGGER.trace("[handleXmlKey]pass");
+            }
             key = new KdbxCreds(keyFile).getKey();
         } else {
+            if (isTraceEnabled) {
+                LOGGER.trace("[handleXmlKey]pass,keyFile");
+            }
             key = new KdbxCreds(password.getBytes(), keyFile).getKey();
         }
     }
 
     private void handleBinaryKey(@NotNull InputStream keyFile, String password) {
         MessageDigest md = Encryption.getMessageDigestInstance();
-        if (password == null) {
+        if (SOSString.isEmpty(password)) {
+            if (isTraceEnabled) {
+                LOGGER.trace("[handleBinaryKey]keyFile");
+            }
             byte[] hash = md.digest(toByteArray(keyFile));
             key = md.digest(hash);
         } else {
+            if (isTraceEnabled) {
+                LOGGER.trace("[handleBinaryKey]pass,keyFile");
+            }
             byte[] passHash = md.digest(password.getBytes());
             byte[] keyHash = md.digest(toByteArray(keyFile));
             key = md.digest(Bytes.concat(passHash, keyHash));

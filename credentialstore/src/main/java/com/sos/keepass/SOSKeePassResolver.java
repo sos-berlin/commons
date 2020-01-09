@@ -54,7 +54,7 @@ public class SOSKeePassResolver {
 
     public SOSKeePassResolver(String databaseFile, String databaseKeyFile, String databasePassword) {
         try {
-            if (databaseFile != null) {
+            if (!SOSString.isEmpty(databaseFile)) {
                 file = Paths.get(databaseFile);
             }
         } catch (Throwable e) {
@@ -63,7 +63,7 @@ public class SOSKeePassResolver {
             }
         }
         try {
-            if (databaseKeyFile != null) {
+            if (!SOSString.isEmpty(databaseKeyFile)) {
                 keyFile = Paths.get(databaseKeyFile);
             }
         } catch (Throwable e) {
@@ -72,13 +72,17 @@ public class SOSKeePassResolver {
             }
         }
 
-        password = databasePassword;
+        if (!SOSString.isEmpty(databasePassword)) {
+            password = databasePassword;
+        }
     }
 
     public SOSKeePassResolver(Path databaseFile, Path databaseKeyFile, String databasePassword) {
         file = databaseFile;
         keyFile = databaseKeyFile;
-        password = databasePassword;
+        if (!SOSString.isEmpty(databasePassword)) {
+            password = databasePassword;
+        }
     }
 
     public String resolve(String uri) throws Exception {
