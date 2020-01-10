@@ -1,38 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>com.sos-berlin</groupId>
-        <artifactId>commons</artifactId>
-        <version>1.12.12-SNAPSHOT</version>
-    </parent>
+	<parent>
+		<groupId>com.sos-berlin</groupId>
+		<artifactId>commons</artifactId>
+		<version>1.12.12-SNAPSHOT</version>
+	</parent>
 
-    <groupId>com.sos-berlin.commons</groupId>
-    <artifactId>sos-connection</artifactId>
-    <name>${project.artifactId}</name>
+	<groupId>com.sos-berlin.commons</groupId>
+	<artifactId>sos-connection</artifactId>
+	<name>${project.artifactId}</name>
 
-    <dependencies>
+	<dependencies>
 
-        <dependency>
-            <groupId>com.sos-berlin.commons</groupId>
-            <artifactId>sos-util</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-		
 		<dependency>
-            <groupId>com.sos-berlin.commons</groupId>
-            <artifactId>sos-xml</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-	
-        <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>ojdbc6</artifactId>
-            <scope>provided</scope>
-        </dependency>
+			<groupId>com.sos-berlin.commons</groupId>
+			<artifactId>sos-util</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
-    </dependencies>
+		<dependency>
+			<groupId>com.sos-berlin.commons</groupId>
+			<artifactId>sos-xml</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sos-berlin.commons</groupId>
+			<artifactId>credentialstore</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc6</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+	</dependencies>
 
 </project>

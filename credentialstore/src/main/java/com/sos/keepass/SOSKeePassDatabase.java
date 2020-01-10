@@ -52,6 +52,7 @@ public class SOSKeePassDatabase {
     private boolean _isKdbx;
     private Database<?, ?, ?, ?> _database;
     private SOSKeePassPath _keepassPath;
+    private Entry<?, ?, ?, ?> _entry;
     private boolean _changed;
 
     private Credentials _credentials;
@@ -386,8 +387,16 @@ public class SOSKeePassDatabase {
         return _keepassPath;
     }
 
-    private void setKeePassPath(SOSKeePassPath val) {
+    public void setKeePassPath(SOSKeePassPath val) {
         _keepassPath = val;
+    }
+
+    public Entry<?, ?, ?, ?> getEntry() {
+        return _entry;
+    }
+
+    public void setEntry(Entry<?, ?, ?, ?> val) {
+        _entry = val;
     }
 
     public Entry<?, ?, ?, ?> createEntry(String entryPath) throws SOSKeePassDatabaseException {
