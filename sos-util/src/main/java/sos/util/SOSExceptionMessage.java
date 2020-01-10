@@ -2,13 +2,14 @@ package sos.util;
 
 import java.sql.SQLException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/** @author MÃ¼rÃ¼vet Ã–ksÃ¼z */
+/** @author Mürüvet Öksüz */
 public class SOSExceptionMessage extends Throwable {
 
     private static final long serialVersionUID = -4037454049983347779L;
-    private static final Logger LOGGER = Logger.getLogger(SOSExceptionMessage.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSExceptionMessage.class);
 
     public static String getExceptionMessage(final Exception exception) {
         String msg = "";
@@ -40,7 +41,7 @@ public class SOSExceptionMessage extends Throwable {
     public static void main(final String[] args) {
         try {
             int i = 1 / 0;
-            LOGGER.info(i);
+            LOGGER.info("" + i);
         } catch (Exception e) {
             System.out.print("..error: " + getExceptionMessage(e));
         }

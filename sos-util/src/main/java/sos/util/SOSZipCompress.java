@@ -22,12 +22,13 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** @author Mürüvet Öksüz */
 public class SOSZipCompress {
 
-    private static final Logger LOGGER = Logger.getLogger(SOSZipCompress.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSZipCompress.class);
 
     public SOSZipCompress() {
     }
@@ -179,7 +180,7 @@ public class SOSZipCompress {
                 LOGGER.debug("Archivierung der Dateien");
                 com.compressFile(testdaten, archname);
             } catch (Exception e) {
-                LOGGER.error(e);
+                LOGGER.error(e.getMessage(), e);
             }
         } else if (test == 2) {
             try {
@@ -203,14 +204,14 @@ public class SOSZipCompress {
                     LOGGER.debug("documentinhalt: " + hash.get("file"));
                 }
             } catch (Exception e) {
-                LOGGER.error(e);
+                LOGGER.error(e.getMessage(), e);
             }
         } else if (test == 3) {
             try {
                 SOSZipCompress com = new SOSZipCompress();
                 com.deCompressFile("C:/temp/a/RDN_20070511_000001.tar.gz");
             } catch (Exception e) {
-                LOGGER.error(e);
+                LOGGER.error(e.getMessage(), e);
             }
         }
     }

@@ -14,8 +14,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.apache.log4j.Logger;
 import org.apache.xpath.CachedXPathAPI;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -27,7 +28,7 @@ import sos.util.SOSClassUtil;
 /** @author ap */
 public class SOSXMLXPath extends CachedXPathAPI {
 
-    private static final Logger LOGGER = Logger.getLogger(SOSXMLXPath.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSXMLXPath.class);
     private Document document = null;
     private Element root = null;
     private Node node = null;

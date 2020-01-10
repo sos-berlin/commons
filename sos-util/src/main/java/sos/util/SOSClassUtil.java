@@ -1,10 +1,11 @@
 package sos.util;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SOSClassUtil extends java.lang.Object {
 
-    private static final Logger LOGGER = Logger.getLogger(SOSClassUtil.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSClassUtil.class);
 
     public static String getMethodName() {
         try {
