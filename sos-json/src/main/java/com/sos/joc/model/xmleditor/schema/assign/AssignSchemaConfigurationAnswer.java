@@ -1,5 +1,5 @@
 
-package com.sos.joc.model.xmleditor.assign.schema;
+package com.sos.joc.model.xmleditor.schema.assign;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

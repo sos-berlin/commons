@@ -1,5 +1,5 @@
 
-package com.sos.joc.model.xmleditor.assign.schema;
+package com.sos.joc.model.xmleditor.schema.reassign;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,7 +11,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * xmleditor assign schema configuration in
+ * xmleditor reassign schema configuration in
  * <p>
  * 
  * 
@@ -20,11 +20,12 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "jobschedulerId",
     "objectType",
+    "configuration",
     "uri",
     "fileName",
     "fileContent"
 })
-public class AssignSchemaConfiguration {
+public class ReassignSchemaConfiguration {
 
     /**
      * 
@@ -42,6 +43,8 @@ public class AssignSchemaConfiguration {
      */
     @JsonProperty("objectType")
     private ObjectType objectType;
+    @JsonProperty("configuration")
+    private String configuration;
     @JsonProperty("uri")
     private String uri;
     @JsonProperty("fileName")
@@ -93,6 +96,16 @@ public class AssignSchemaConfiguration {
         this.objectType = objectType;
     }
 
+    @JsonProperty("configuration")
+    public String getConfiguration() {
+        return configuration;
+    }
+
+    @JsonProperty("configuration")
+    public void setConfiguration(String configuration) {
+        this.configuration = configuration;
+    }
+
     @JsonProperty("uri")
     public String getUri() {
         return uri;
@@ -125,12 +138,12 @@ public class AssignSchemaConfiguration {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("objectType", objectType).append("uri", uri).append("fileName", fileName).append("fileContent", fileContent).toString();
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("objectType", objectType).append("configuration", configuration).append("uri", uri).append("fileName", fileName).append("fileContent", fileContent).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(fileName).append(jobschedulerId).append(uri).append(fileContent).append(objectType).toHashCode();
+        return new HashCodeBuilder().append(fileName).append(configuration).append(jobschedulerId).append(uri).append(fileContent).append(objectType).toHashCode();
     }
 
     @Override
@@ -138,11 +151,11 @@ public class AssignSchemaConfiguration {
         if (other == this) {
             return true;
         }
-        if ((other instanceof AssignSchemaConfiguration) == false) {
+        if ((other instanceof ReassignSchemaConfiguration) == false) {
             return false;
         }
-        AssignSchemaConfiguration rhs = ((AssignSchemaConfiguration) other);
-        return new EqualsBuilder().append(fileName, rhs.fileName).append(jobschedulerId, rhs.jobschedulerId).append(uri, rhs.uri).append(fileContent, rhs.fileContent).append(objectType, rhs.objectType).isEquals();
+        ReassignSchemaConfiguration rhs = ((ReassignSchemaConfiguration) other);
+        return new EqualsBuilder().append(fileName, rhs.fileName).append(configuration, rhs.configuration).append(jobschedulerId, rhs.jobschedulerId).append(uri, rhs.uri).append(fileContent, rhs.fileContent).append(objectType, rhs.objectType).isEquals();
     }
 
 }
