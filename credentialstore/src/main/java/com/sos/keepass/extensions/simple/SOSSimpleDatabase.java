@@ -49,7 +49,7 @@ public class SOSSimpleDatabase extends SimpleDatabase {
 
     /** Override SimpleDatabase.load method. Read KeePassFile with strict=false to avoid the org.simpleframework.xml exceptions e.g. when the CustomData element
      * is not empty */
-    public static SimpleDatabase load(Credentials credentials, Path keePassFile) throws SOSKeePassDatabaseException {
+    public static synchronized SimpleDatabase load(Credentials credentials, Path keePassFile) throws SOSKeePassDatabaseException {
         InputStream is = null;
         try {
             is = Files.newInputStream(keePassFile);
