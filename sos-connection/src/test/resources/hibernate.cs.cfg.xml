@@ -9,12 +9,13 @@
 		<property name="hibernate.sos.credential_store_entry_path">/server/MySQL/localhost</property>
 		<property name="hibernate.sos.show_configuration_properties">true</property>
 
+		<property name="hibernate.connection.url"><![CDATA[cs://@url]]></property>
+		<property name="hibernate.connection.username"><![CDATA[cs://@username]]></property>
+		<property name="hibernate.connection.password"><![CDATA[cs://@password]]></property>
+		
+		
 		<property name="hibernate.connection.driver_class">org.mariadb.jdbc.Driver</property>
-		<property name="hibernate.connection.url">cs://@url</property>
-		<property name="hibernate.connection.username">cs://@username</property>
-		<property name="hibernate.connection.password">cs://@password</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</property>
-
 		<property name="hibernate.show_sql">false</property>
 		<property name="hibernate.connection.autocommit">false</property>
 		<property name="hibernate.format_sql">true</property>

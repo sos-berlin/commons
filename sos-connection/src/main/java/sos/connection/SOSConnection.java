@@ -170,7 +170,7 @@ public abstract class SOSConnection {
                 configFileProperties.setProperty("user", getHibernateConfigurationValue(xpath, HIBERNATE_PROPERTY_CONNECTION_USERNAME));
                 configFileProperties.setProperty("password", getHibernateConfigurationValue(xpath, HIBERNATE_PROPERTY_CONNECTION_PASSWORD));
 
-                resolveCredentialStoreProperties(logger, xpath);
+                resolveCredentialStoreProperties(xpath);
 
                 if (configFileProperties.getProperty("class").equals(SOSMSSQLConnection.class.getSimpleName())) {
                     configFileProperties.setProperty("compatibility", "normal");
@@ -229,39 +229,31 @@ public abstract class SOSConnection {
     }
 
     // see com.sos.hibernate.classes.SOSHibernateFactory
-    private void resolveCredentialStoreProperties(final SOSLogger logger, SOSXMLXPath xpath) throws Exception {
+    private void resolveCredentialStoreProperties(SOSXMLXPath xpath) throws Exception {
         if (configFileProperties == null) {
             return;
         }
 
         String f = getHibernateConfigurationValue(xpath, HIBERNATE_SOS_PROPERTY_CREDENTIAL_STORE_FILE);
-        if (logger != null) {
-            logger.debug9(String.format("[%s]%s", HIBERNATE_SOS_PROPERTY_CREDENTIAL_STORE_FILE, f));
-        }
-        if (f != null) {
-            String kf = getHibernateConfigurationValue(xpath, HIBERNATE_SOS_PROPERTY_CREDENTIAL_STORE_KEY_FILE);
-            if (logger != null) {
-                logger.debug9(String.format("[%s]%s", HIBERNATE_SOS_PROPERTY_CREDENTIAL_STORE_KEY_FILE, kf));
-            }
-            
-            String p = getHibernateConfigurationValue(xpath, HIBERNATE_SOS_PROPERTY_CREDENTIAL_STORE_PASSWORD);
-            String ep = getHibernateConfigurationValue(xpath, HIBERNATE_SOS_PROPERTY_CREDENTIAL_STORE_ENTRY_PATH);
-            SOSKeePassResolver r = new SOSKeePassResolver(f, kf, p);
-            r.setEntryPath(ep);
+        String kf = getHibernateConfigurationValue(xpath, HIBERNATE_SOS_PROPERTY_CREDENTIAL_STORE_KEY_FILE);
+        String p = getHibernateConfigurationValue(xpath, HIBERNATE_SOS_PROPERTY_CREDENTIAL_STORE_PASSWORD);
+        String ep = getHibernateConfigurationValue(xpath, HIBERNATE_SOS_PROPERTY_CREDENTIAL_STORE_ENTRY_PATH);
+        SOSKeePassResolver r = new SOSKeePassResolver(f, kf, p);
+        r.setEntryPath(ep);
 
-            String url = configFileProperties.getProperty("url");
-            if (url != null) {
-                configFileProperties.setProperty("url", r.resolve(url));
-            }
-            String username = configFileProperties.getProperty("user");
-            if (username != null) {
-                configFileProperties.setProperty("user", r.resolve(username));
-            }
-            String password = configFileProperties.getProperty("password");
-            if (password != null) {
-                configFileProperties.setProperty("password", r.resolve(password));
-            }
+        String url = configFileProperties.getProperty("url");
+        if (url != null) {
+            configFileProperties.setProperty("url", r.resolve(url));
         }
+        String username = configFileProperties.getProperty("user");
+        if (username != null) {
+            configFileProperties.setProperty("user", r.resolve(username));
+        }
+        String password = configFileProperties.getProperty("password");
+        if (password != null) {
+            configFileProperties.setProperty("password", r.resolve(password));
+        }
+
     }
 
     public SOSConnection(final String driver, final String url, final String dbuser, final String dbpassword, final SOSLogger logger)
