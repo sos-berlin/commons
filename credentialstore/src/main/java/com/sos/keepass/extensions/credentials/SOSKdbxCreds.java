@@ -39,7 +39,7 @@ public class SOSKdbxCreds implements Credentials {
             if (keyFile == null) {
                 handlePassword(password);
             } else {
-                is = new FileInputStream(keyFile.toFile());
+                is = new FileInputStream(SOSKeePassDatabase.getFilePath(keyFile));
                 if (isXmlKey(is)) {
                     handleXmlKey(is, password);
                 } else {
