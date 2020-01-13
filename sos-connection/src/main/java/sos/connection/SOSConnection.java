@@ -234,24 +234,39 @@ public abstract class SOSConnection {
             return;
         }
 
-        String f = getHibernateConfigurationValue(xpath, HIBERNATE_SOS_PROPERTY_CREDENTIAL_STORE_FILE);
-        String kf = getHibernateConfigurationValue(xpath, HIBERNATE_SOS_PROPERTY_CREDENTIAL_STORE_KEY_FILE);
-        String p = getHibernateConfigurationValue(xpath, HIBERNATE_SOS_PROPERTY_CREDENTIAL_STORE_PASSWORD);
-        String ep = getHibernateConfigurationValue(xpath, HIBERNATE_SOS_PROPERTY_CREDENTIAL_STORE_ENTRY_PATH);
-        SOSKeePassResolver r = new SOSKeePassResolver(f, kf, p);
-        r.setEntryPath(ep);
+        String ud = null;
+        String appdata = System.getenv("APPDATA_PATH");
+        if (!SOSString.isEmpty(appdata)) {
+            ud = System.getProperty("user.dir");
+            System.setProperty("user.dir", appdata);
+        }
 
-        String url = configFileProperties.getProperty("url");
-        if (url != null) {
-            configFileProperties.setProperty("url", r.resolve(url));
-        }
-        String username = configFileProperties.getProperty("user");
-        if (username != null) {
-            configFileProperties.setProperty("user", r.resolve(username));
-        }
-        String password = configFileProperties.getProperty("password");
-        if (password != null) {
-            configFileProperties.setProperty("password", r.resolve(password));
+        try {
+            String f = getHibernateConfigurationValue(xpath, HIBERNATE_SOS_PROPERTY_CREDENTIAL_STORE_FILE);
+            String kf = getHibernateConfigurationValue(xpath, HIBERNATE_SOS_PROPERTY_CREDENTIAL_STORE_KEY_FILE);
+            String p = getHibernateConfigurationValue(xpath, HIBERNATE_SOS_PROPERTY_CREDENTIAL_STORE_PASSWORD);
+            String ep = getHibernateConfigurationValue(xpath, HIBERNATE_SOS_PROPERTY_CREDENTIAL_STORE_ENTRY_PATH);
+            SOSKeePassResolver r = new SOSKeePassResolver(f, kf, p);
+            r.setEntryPath(ep);
+
+            String url = configFileProperties.getProperty("url");
+            if (url != null) {
+                configFileProperties.setProperty("url", r.resolve(url));
+            }
+            String username = configFileProperties.getProperty("user");
+            if (username != null) {
+                configFileProperties.setProperty("user", r.resolve(username));
+            }
+            String password = configFileProperties.getProperty("password");
+            if (password != null) {
+                configFileProperties.setProperty("password", r.resolve(password));
+            }
+        } catch (Throwable e) {
+            throw e;
+        } finally {
+            if (!SOSString.isEmpty(ud)) {
+                System.setProperty("user.dir", ud);
+            }
         }
 
     }
