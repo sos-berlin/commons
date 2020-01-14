@@ -1,8 +1,9 @@
 package sos.xml;
 
-import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.nio.file.Path;
 
@@ -21,6 +22,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import sos.util.SOSClassUtil;
 
@@ -34,55 +36,131 @@ public class SOSXMLXPath extends CachedXPathAPI {
 
     public SOSXMLXPath(StringBuffer xmlStr) throws Exception {
         super();
-        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-        docFactory.setNamespaceAware(false);
-        docFactory.setValidating(false);
-        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-        this.document = docBuilder.parse(new ByteArrayInputStream(xmlStr.toString().getBytes()));
-        this.root = this.document.getDocumentElement();
+        try {
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            docFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+            docFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+            docFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            docFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+            docFactory.setXIncludeAware(false);
+            docFactory.setExpandEntityReferences(false);
+            docFactory.setNamespaceAware(false);
+            docFactory.setValidating(false);
+            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+            docBuilder.setEntityResolver((publicId, systemId) -> new InputSource(new StringReader("")));
+            this.document = docBuilder.parse(new InputSource(new StringReader(xmlStr.toString())));
+            // this.document = docBuilder.parse(new ByteArrayInputStream(xmlStr.toString().getBytes()));
+            this.root = this.document.getDocumentElement();
+        } catch (SAXException e) {
+            // On Apache, this should be thrown when disallowing DOCTYPE
+            throw new SAXException("A DOCTYPE was passed into the XML document", e);
+        } catch (IOException e) {
+            // XXE that points to a file that doesn't exist
+            throw new IOException("IOException occurred, XXE may still possible: " + e.getMessage(), e);
+        }
     }
 
     public SOSXMLXPath(String filename) throws Exception {
         super();
-        InputSource in = new InputSource(new FileInputStream(filename));
-        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-        docFactory.setNamespaceAware(false);
-        docFactory.setValidating(false);
-        this.document = docFactory.newDocumentBuilder().parse(in);
-        this.root = this.document.getDocumentElement();
+        try {
+            InputSource in = new InputSource(new FileInputStream(filename));
+
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            docFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+            docFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+            docFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            docFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+            docFactory.setXIncludeAware(false);
+            docFactory.setExpandEntityReferences(false);
+            docFactory.setNamespaceAware(false);
+            docFactory.setValidating(false);
+            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+            docBuilder.setEntityResolver((publicId, systemId) -> new InputSource(new StringReader("")));
+            this.document = docBuilder.parse(in);
+            this.root = this.document.getDocumentElement();
+        } catch (SAXException e) {
+            // On Apache, this should be thrown when disallowing DOCTYPE
+            throw new SAXException("A DOCTYPE was passed into the XML document", e);
+        } catch (IOException e) {
+            // XXE that points to a file that doesn't exist
+            throw new IOException("IOException occurred, XXE may still possible: " + e.getMessage(), e);
+        }
     }
-    
+
     public SOSXMLXPath(Path filename) throws Exception {
         super();
-        InputSource in = new InputSource(new FileInputStream(filename.toFile()));
-        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-        docFactory.setNamespaceAware(false);
-        docFactory.setValidating(false);
-        this.document = docFactory.newDocumentBuilder().parse(in);
-        this.root = this.document.getDocumentElement();
+        try {
+            InputSource in = new InputSource(new FileInputStream(filename.toFile()));
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            docFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+            docFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+            docFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            docFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+            docFactory.setXIncludeAware(false);
+            docFactory.setExpandEntityReferences(false);
+            docFactory.setNamespaceAware(false);
+            docFactory.setValidating(false);
+            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+            docBuilder.setEntityResolver((publicId, systemId) -> new InputSource(new StringReader("")));
+            this.document = docBuilder.parse(in);
+            this.root = this.document.getDocumentElement();
+        } catch (SAXException e) {
+            // On Apache, this should be thrown when disallowing DOCTYPE
+            throw new SAXException("A DOCTYPE was passed into the XML document", e);
+        } catch (IOException e) {
+            // XXE that points to a file that doesn't exist
+            throw new IOException("IOException occurred, XXE may still possible: " + e.getMessage(), e);
+        }
     }
 
     public SOSXMLXPath(InputStream stream) throws Exception {
         super();
-        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-        docFactory.setNamespaceAware(false);
-        docFactory.setValidating(false);
-        this.document = docFactory.newDocumentBuilder().parse(stream);
-        this.root = this.document.getDocumentElement();
+        try {
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            docFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+            docFactory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+            docFactory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            docFactory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+            docFactory.setXIncludeAware(false);
+            docFactory.setExpandEntityReferences(false);
+            docFactory.setNamespaceAware(false);
+            docFactory.setValidating(false);
+            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+            docBuilder.setEntityResolver((publicId, systemId) -> new InputSource(new StringReader("")));
+            this.document = docBuilder.parse(stream);
+            this.root = this.document.getDocumentElement();
+        } catch (SAXException e) {
+            // On Apache, this should be thrown when disallowing DOCTYPE
+            throw new SAXException("A DOCTYPE was passed into the XML document", e);
+        } catch (IOException e) {
+            // XXE that points to a file that doesn't exist
+            throw new IOException("IOException occurred, XXE may still possible: " + e.getMessage(), e);
+        }
     }
 
     public SOSXMLXPath(InputStream stream, boolean xInclude) throws Exception {
         super();
         try {
-            DocumentBuilderFactory dbf =
-                    DocumentBuilderFactory.newInstance("org.apache.xerces.jaxp.DocumentBuilderFactoryImpl", this.getClass().getClassLoader());
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance("org.apache.xerces.jaxp.DocumentBuilderFactoryImpl", this.getClass()
+                    .getClassLoader());
+            dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+            dbf.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+            dbf.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            dbf.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+            dbf.setExpandEntityReferences(false);
             dbf.setNamespaceAware(true);
-            dbf.setXIncludeAware(true);
-            javax.xml.parsers.DocumentBuilder dom = dbf.newDocumentBuilder();
-            this.document = dom.parse(stream);
+            dbf.setXIncludeAware(xInclude);
+            javax.xml.parsers.DocumentBuilder docBuilder = dbf.newDocumentBuilder();
+            docBuilder.setEntityResolver((publicId, systemId) -> new InputSource(new StringReader("")));
+            this.document = docBuilder.parse(stream);
             this.root = document.getDocumentElement();
+        } catch (SAXException e) {
+            // On Apache, this should be thrown when disallowing DOCTYPE
+            throw new SAXException("A DOCTYPE was passed into the XML document", e);
+        } catch (IOException e) {
+            // XXE that points to a file that doesn't exist
+            throw new IOException("IOException occurred, XXE may still possible: " + e.getMessage(), e);
         } catch (Exception e) {
-            LOGGER.error("", e);
             throw new Exception(SOSClassUtil.getMethodName() + ": " + e.toString());
         }
     }
