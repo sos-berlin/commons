@@ -24,6 +24,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "configurationJson",
     "recreateJson",
     "schema",
+    "schemaIdentifier",
     "state",
     "warning",
     "modified"
@@ -48,6 +49,8 @@ public class ReadStandardConfigurationAnswer {
      */
     @JsonProperty("schema")
     private String schema;
+    @JsonProperty("schemaIdentifier")
+    private String schemaIdentifier;
     /**
      * xmleditor read standard configuration (YADE, NOTIFICATION) answer
      * <p>
@@ -136,6 +139,16 @@ public class ReadStandardConfigurationAnswer {
         this.schema = schema;
     }
 
+    @JsonProperty("schemaIdentifier")
+    public String getSchemaIdentifier() {
+        return schemaIdentifier;
+    }
+
+    @JsonProperty("schemaIdentifier")
+    public void setSchemaIdentifier(String schemaIdentifier) {
+        this.schemaIdentifier = schemaIdentifier;
+    }
+
     /**
      * xmleditor read standard configuration (YADE, NOTIFICATION) answer
      * <p>
@@ -206,12 +219,12 @@ public class ReadStandardConfigurationAnswer {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("configuration", configuration).append("configurationJson", configurationJson).append("recreateJson", recreateJson).append("schema", schema).append("state", state).append("warning", warning).append("modified", modified).toString();
+        return new ToStringBuilder(this).append("configuration", configuration).append("configurationJson", configurationJson).append("recreateJson", recreateJson).append("schema", schema).append("schemaIdentifier", schemaIdentifier).append("state", state).append("warning", warning).append("modified", modified).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(schema).append(configuration).append(configurationJson).append(recreateJson).append(warning).append(modified).append(state).toHashCode();
+        return new HashCodeBuilder().append(schema).append(configuration).append(configurationJson).append(recreateJson).append(warning).append(modified).append(schemaIdentifier).append(state).toHashCode();
     }
 
     @Override
@@ -223,7 +236,7 @@ public class ReadStandardConfigurationAnswer {
             return false;
         }
         ReadStandardConfigurationAnswer rhs = ((ReadStandardConfigurationAnswer) other);
-        return new EqualsBuilder().append(schema, rhs.schema).append(configuration, rhs.configuration).append(configurationJson, rhs.configurationJson).append(recreateJson, rhs.recreateJson).append(warning, rhs.warning).append(modified, rhs.modified).append(state, rhs.state).isEquals();
+        return new EqualsBuilder().append(schema, rhs.schema).append(configuration, rhs.configuration).append(configurationJson, rhs.configurationJson).append(recreateJson, rhs.recreateJson).append(warning, rhs.warning).append(modified, rhs.modified).append(schemaIdentifier, rhs.schemaIdentifier).append(state, rhs.state).isEquals();
     }
 
 }
