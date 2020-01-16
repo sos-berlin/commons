@@ -16,8 +16,6 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.xpath.CachedXPathAPI;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -25,12 +23,13 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import com.sos.exception.SOSDoctypeException;
+
 import sos.util.SOSClassUtil;
 
 /** @author ap */
 public class SOSXMLXPath extends CachedXPathAPI {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SOSXMLXPath.class);
     private Document document = null;
     private Element root = null;
     private Node node = null;
@@ -53,8 +52,11 @@ public class SOSXMLXPath extends CachedXPathAPI {
             // this.document = docBuilder.parse(new ByteArrayInputStream(xmlStr.toString().getBytes()));
             this.root = this.document.getDocumentElement();
         } catch (SAXException e) {
-            // On Apache, this should be thrown when disallowing DOCTYPE
-            throw new SAXException("A DOCTYPE was passed into the XML document", e);
+            if (e.getMessage().toUpperCase().contains("DOCTYPE")) {
+                // On Apache, this should be thrown when disallowing DOCTYPE
+                throw new SOSDoctypeException("A DOCTYPE was passed into the XML document", e);
+            }
+            throw e;
         } catch (IOException e) {
             // XXE that points to a file that doesn't exist
             throw new IOException("IOException occurred, XXE may still possible: " + e.getMessage(), e);
@@ -80,8 +82,11 @@ public class SOSXMLXPath extends CachedXPathAPI {
             this.document = docBuilder.parse(in);
             this.root = this.document.getDocumentElement();
         } catch (SAXException e) {
-            // On Apache, this should be thrown when disallowing DOCTYPE
-            throw new SAXException("A DOCTYPE was passed into the XML document", e);
+            if (e.getMessage().toUpperCase().contains("DOCTYPE")) {
+                // On Apache, this should be thrown when disallowing DOCTYPE
+                throw new SOSDoctypeException("A DOCTYPE was passed into the XML document", e);
+            }
+            throw e;
         } catch (IOException e) {
             // XXE that points to a file that doesn't exist
             throw new IOException("IOException occurred, XXE may still possible: " + e.getMessage(), e);
@@ -106,8 +111,11 @@ public class SOSXMLXPath extends CachedXPathAPI {
             this.document = docBuilder.parse(in);
             this.root = this.document.getDocumentElement();
         } catch (SAXException e) {
-            // On Apache, this should be thrown when disallowing DOCTYPE
-            throw new SAXException("A DOCTYPE was passed into the XML document", e);
+            if (e.getMessage().toUpperCase().contains("DOCTYPE")) {
+                // On Apache, this should be thrown when disallowing DOCTYPE
+                throw new SOSDoctypeException("A DOCTYPE was passed into the XML document", e);
+            }
+            throw e;
         } catch (IOException e) {
             // XXE that points to a file that doesn't exist
             throw new IOException("IOException occurred, XXE may still possible: " + e.getMessage(), e);
@@ -131,8 +139,11 @@ public class SOSXMLXPath extends CachedXPathAPI {
             this.document = docBuilder.parse(stream);
             this.root = this.document.getDocumentElement();
         } catch (SAXException e) {
-            // On Apache, this should be thrown when disallowing DOCTYPE
-            throw new SAXException("A DOCTYPE was passed into the XML document", e);
+            if (e.getMessage().toUpperCase().contains("DOCTYPE")) {
+                // On Apache, this should be thrown when disallowing DOCTYPE
+                throw new SOSDoctypeException("A DOCTYPE was passed into the XML document", e);
+            }
+            throw e;
         } catch (IOException e) {
             // XXE that points to a file that doesn't exist
             throw new IOException("IOException occurred, XXE may still possible: " + e.getMessage(), e);
@@ -156,8 +167,11 @@ public class SOSXMLXPath extends CachedXPathAPI {
             this.document = docBuilder.parse(stream);
             this.root = document.getDocumentElement();
         } catch (SAXException e) {
-            // On Apache, this should be thrown when disallowing DOCTYPE
-            throw new SAXException("A DOCTYPE was passed into the XML document", e);
+            if (e.getMessage().toUpperCase().contains("DOCTYPE")) {
+                // On Apache, this should be thrown when disallowing DOCTYPE
+                throw new SOSDoctypeException("A DOCTYPE was passed into the XML document", e);
+            }
+            throw e;
         } catch (IOException e) {
             // XXE that points to a file that doesn't exist
             throw new IOException("IOException occurred, XXE may still possible: " + e.getMessage(), e);
