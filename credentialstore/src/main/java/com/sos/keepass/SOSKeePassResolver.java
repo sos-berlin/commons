@@ -18,6 +18,9 @@ import sos.util.SOSString;
 
 public class SOSKeePassResolver {
 
+    public static final String ENV_VAR_APPDATA_PATH = "APPDATA_PATH";
+    public static final String ENV_VAR_USER_DIR = "user.dir";
+
     private static final Logger LOGGER = LoggerFactory.getLogger(SOSKeePassResolver.class);
     private static final boolean isDebugEnabled = LOGGER.isDebugEnabled();
     private static final boolean isTraceEnabled = LOGGER.isTraceEnabled();
@@ -90,17 +93,32 @@ public class SOSKeePassResolver {
         if (path == null) {
             return uri;
         }
-        SOSKeePassDatabase d = init(path);
-        String val;
-        if (path.isAttachment() || path.getPropertyName().equals(SOSKeePassDatabase.STANDARD_PROPERTY_NAME_ATTACHMENT)) {
-            val = new String(d.getAttachment(d.getEntry(), path.getPropertyName()));
-        } else {
-            val = d.getEntry().getProperty(path.getPropertyName());
-            if (val == null) {
-                throw new SOSKeePassPropertyNotFoundException(String.format("[%s]property not found", path.toString()));
+
+        String ud = null;
+        String appdata = System.getenv(ENV_VAR_APPDATA_PATH);
+        if (!SOSString.isEmpty(appdata)) {
+            ud = System.getProperty(ENV_VAR_USER_DIR);
+            System.setProperty(ENV_VAR_USER_DIR, appdata);
+        }
+        try {
+            SOSKeePassDatabase d = init(path);
+            String val;
+            if (path.isAttachment() || path.getPropertyName().equals(SOSKeePassDatabase.STANDARD_PROPERTY_NAME_ATTACHMENT)) {
+                val = new String(d.getAttachment(d.getEntry(), path.getPropertyName()));
+            } else {
+                val = d.getEntry().getProperty(path.getPropertyName());
+                if (val == null) {
+                    throw new SOSKeePassPropertyNotFoundException(String.format("[%s]property not found", path.toString()));
+                }
+            }
+            return val;
+        } catch (Throwable e) {
+            throw e;
+        } finally {
+            if (!SOSString.isEmpty(ud)) {
+                System.setProperty(ENV_VAR_USER_DIR, ud);
             }
         }
-        return val;
     }
 
     public byte[] getBinaryProperty(String uri) throws Exception {

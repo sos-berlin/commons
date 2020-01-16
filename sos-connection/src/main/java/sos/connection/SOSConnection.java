@@ -234,13 +234,6 @@ public abstract class SOSConnection {
             return;
         }
 
-        String ud = null;
-        String appdata = System.getenv("APPDATA_PATH");
-        if (!SOSString.isEmpty(appdata)) {
-            ud = System.getProperty("user.dir");
-            System.setProperty("user.dir", appdata);
-        }
-
         try {
             String f = getHibernateConfigurationValue(xpath, HIBERNATE_SOS_PROPERTY_CREDENTIAL_STORE_FILE);
             String kf = getHibernateConfigurationValue(xpath, HIBERNATE_SOS_PROPERTY_CREDENTIAL_STORE_KEY_FILE);
@@ -263,10 +256,6 @@ public abstract class SOSConnection {
             }
         } catch (Throwable e) {
             throw e;
-        } finally {
-            if (!SOSString.isEmpty(ud)) {
-                System.setProperty("user.dir", ud);
-            }
         }
 
     }
