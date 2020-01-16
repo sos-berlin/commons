@@ -55,7 +55,7 @@ public class SOSKeePassResolver {
     public SOSKeePassResolver(String databaseFile, String databaseKeyFile, String databasePassword) {
         try {
             if (!SOSString.isEmpty(databaseFile)) {
-                file = Paths.get(databaseFile.trim());
+                file = SOSKeePassDatabase.getCurrentPath(Paths.get(databaseFile.trim()));
             }
         } catch (Throwable e) {
             if (isTraceEnabled) {
@@ -64,7 +64,7 @@ public class SOSKeePassResolver {
         }
         try {
             if (!SOSString.isEmpty(databaseKeyFile)) {
-                keyFile = Paths.get(databaseKeyFile.trim());
+                keyFile = SOSKeePassDatabase.getCurrentPath(Paths.get(databaseKeyFile.trim()));
             }
         } catch (Throwable e) {
             if (isTraceEnabled) {
@@ -78,8 +78,8 @@ public class SOSKeePassResolver {
     }
 
     public SOSKeePassResolver(Path databaseFile, Path databaseKeyFile, String databasePassword) {
-        file = databaseFile;
-        keyFile = databaseKeyFile;
+        file = SOSKeePassDatabase.getCurrentPath(databaseFile);
+        keyFile = SOSKeePassDatabase.getCurrentPath(databaseKeyFile);
         if (!SOSString.isEmpty(databasePassword)) {
             password = databasePassword;
         }
@@ -90,17 +90,21 @@ public class SOSKeePassResolver {
         if (path == null) {
             return uri;
         }
-        SOSKeePassDatabase d = init(path);
-        String val;
-        if (path.isAttachment() || path.getPropertyName().equals(SOSKeePassDatabase.STANDARD_PROPERTY_NAME_ATTACHMENT)) {
-            val = new String(d.getAttachment(d.getEntry(), path.getPropertyName()));
-        } else {
-            val = d.getEntry().getProperty(path.getPropertyName());
-            if (val == null) {
-                throw new SOSKeePassPropertyNotFoundException(String.format("[%s]property not found", path.toString()));
+        try {
+            SOSKeePassDatabase d = init(path);
+            String val;
+            if (path.isAttachment() || path.getPropertyName().equals(SOSKeePassDatabase.STANDARD_PROPERTY_NAME_ATTACHMENT)) {
+                val = new String(d.getAttachment(d.getEntry(), path.getPropertyName()));
+            } else {
+                val = d.getEntry().getProperty(path.getPropertyName());
+                if (val == null) {
+                    throw new SOSKeePassPropertyNotFoundException(String.format("[%s]property not found", path.toString()));
+                }
             }
+            return val;
+        } catch (Throwable e) {
+            throw e;
         }
-        return val;
     }
 
     public byte[] getBinaryProperty(String uri) throws Exception {
@@ -211,7 +215,7 @@ public class SOSKeePassResolver {
         if (f == null) {
             throw new SOSKeePassResolverException(String.format("[%s]missing database file", path.getQuery()));
         }
-        return f;
+        return SOSKeePassDatabase.getCurrentPath(f);
     }
 
     private Path getCurrentKeyFile(SOSKeePassPath path, Map<String, String> queryParameters, Path currentFile, String currentPassword)
@@ -237,7 +241,7 @@ public class SOSKeePassResolver {
                 kf = keyFile;
             }
         } else {
-            kf = Paths.get(queryKeyFile);
+            kf = SOSKeePassDatabase.getCurrentPath(Paths.get(queryKeyFile));
             if (Files.notExists(kf)) {
                 throw new SOSKeePassDatabaseException(String.format("[%s][%s]key file not found", path.getQuery(), SOSKeePassDatabase.getFilePath(
                         kf)));
