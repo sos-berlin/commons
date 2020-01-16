@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -33,7 +32,6 @@ public class JobV200 {
      */
     @JsonProperty("deliveryDate")
     @JsonPropertyDescription("Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
-    @JacksonXmlProperty(localName = "deliveryDate")
     private Date deliveryDate;
     /**
      * job (volatile part)
@@ -42,7 +40,6 @@ public class JobV200 {
      * 
      */
     @JsonProperty("job")
-    @JacksonXmlProperty(localName = "job")
     private JobV job;
 
     /**
@@ -52,7 +49,6 @@ public class JobV200 {
      * 
      */
     @JsonProperty("deliveryDate")
-    @JacksonXmlProperty(localName = "deliveryDate")
     public Date getDeliveryDate() {
         return deliveryDate;
     }
@@ -64,7 +60,6 @@ public class JobV200 {
      * 
      */
     @JsonProperty("deliveryDate")
-    @JacksonXmlProperty(localName = "deliveryDate")
     public void setDeliveryDate(Date deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
@@ -76,7 +71,6 @@ public class JobV200 {
      * 
      */
     @JsonProperty("job")
-    @JacksonXmlProperty(localName = "job")
     public JobV getJob() {
         return job;
     }
@@ -88,7 +82,6 @@ public class JobV200 {
      * 
      */
     @JsonProperty("job")
-    @JacksonXmlProperty(localName = "job")
     public void setJob(JobV job) {
         this.job = job;
     }

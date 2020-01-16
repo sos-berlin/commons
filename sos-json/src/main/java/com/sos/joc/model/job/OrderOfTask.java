@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -38,7 +37,6 @@ public class OrderOfTask {
      */
     @JsonProperty("path")
     @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
-    @JacksonXmlProperty(localName = "path")
     private String path;
     /**
      * 
@@ -46,7 +44,6 @@ public class OrderOfTask {
      * 
      */
     @JsonProperty("orderId")
-    @JacksonXmlProperty(localName = "orderId")
     private String orderId;
     /**
      * path
@@ -57,10 +54,8 @@ public class OrderOfTask {
      */
     @JsonProperty("jobChain")
     @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
-    @JacksonXmlProperty(localName = "jobChain")
     private String jobChain;
     @JsonProperty("title")
-    @JacksonXmlProperty(localName = "title")
     private String title;
     /**
      * name of the current node
@@ -69,7 +64,6 @@ public class OrderOfTask {
      */
     @JsonProperty("state")
     @JsonPropertyDescription("name of the current node")
-    @JacksonXmlProperty(localName = "state")
     private String state;
     /**
      * timestamp
@@ -79,7 +73,6 @@ public class OrderOfTask {
      */
     @JsonProperty("inProcessSince")
     @JsonPropertyDescription("Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty")
-    @JacksonXmlProperty(localName = "inProcessSince")
     private Date inProcessSince;
 
     /**
@@ -90,7 +83,6 @@ public class OrderOfTask {
      * 
      */
     @JsonProperty("path")
-    @JacksonXmlProperty(localName = "path")
     public String getPath() {
         return path;
     }
@@ -103,7 +95,6 @@ public class OrderOfTask {
      * 
      */
     @JsonProperty("path")
-    @JacksonXmlProperty(localName = "path")
     public void setPath(String path) {
         this.path = path;
     }
@@ -114,7 +105,6 @@ public class OrderOfTask {
      * 
      */
     @JsonProperty("orderId")
-    @JacksonXmlProperty(localName = "orderId")
     public String getOrderId() {
         return orderId;
     }
@@ -125,7 +115,6 @@ public class OrderOfTask {
      * 
      */
     @JsonProperty("orderId")
-    @JacksonXmlProperty(localName = "orderId")
     public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
@@ -138,7 +127,6 @@ public class OrderOfTask {
      * 
      */
     @JsonProperty("jobChain")
-    @JacksonXmlProperty(localName = "jobChain")
     public String getJobChain() {
         return jobChain;
     }
@@ -151,19 +139,16 @@ public class OrderOfTask {
      * 
      */
     @JsonProperty("jobChain")
-    @JacksonXmlProperty(localName = "jobChain")
     public void setJobChain(String jobChain) {
         this.jobChain = jobChain;
     }
 
     @JsonProperty("title")
-    @JacksonXmlProperty(localName = "title")
     public String getTitle() {
         return title;
     }
 
     @JsonProperty("title")
-    @JacksonXmlProperty(localName = "title")
     public void setTitle(String title) {
         this.title = title;
     }
@@ -174,7 +159,6 @@ public class OrderOfTask {
      * 
      */
     @JsonProperty("state")
-    @JacksonXmlProperty(localName = "state")
     public String getState() {
         return state;
     }
@@ -185,7 +169,6 @@ public class OrderOfTask {
      * 
      */
     @JsonProperty("state")
-    @JacksonXmlProperty(localName = "state")
     public void setState(String state) {
         this.state = state;
     }
@@ -197,7 +180,6 @@ public class OrderOfTask {
      * 
      */
     @JsonProperty("inProcessSince")
-    @JacksonXmlProperty(localName = "inProcessSince")
     public Date getInProcessSince() {
         return inProcessSince;
     }
@@ -209,7 +191,6 @@ public class OrderOfTask {
      * 
      */
     @JsonProperty("inProcessSince")
-    @JacksonXmlProperty(localName = "inProcessSince")
     public void setInProcessSince(Date inProcessSince) {
         this.inProcessSince = inProcessSince;
     }

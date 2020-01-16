@@ -6,8 +6,6 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.sos.joc.model.audit.AuditParams;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -35,11 +33,8 @@ public class ModifyTasks {
      * 
      */
     @JsonProperty("jobschedulerId")
-    @JacksonXmlProperty(localName = "jobschedulerId")
     private String jobschedulerId;
     @JsonProperty("jobs")
-    @JacksonXmlProperty(localName = "job")
-    @JacksonXmlElementWrapper(useWrapping = true, localName = "jobs")
     private List<TasksFilter> jobs = new ArrayList<TasksFilter>();
     /**
      * non negative integer
@@ -48,7 +43,6 @@ public class ModifyTasks {
      * 
      */
     @JsonProperty("timeout")
-    @JacksonXmlProperty(localName = "timeout")
     private Integer timeout;
     /**
      * auditParams
@@ -57,7 +51,6 @@ public class ModifyTasks {
      * 
      */
     @JsonProperty("auditLog")
-    @JacksonXmlProperty(localName = "auditLog")
     private AuditParams auditLog;
 
     /**
@@ -66,7 +59,6 @@ public class ModifyTasks {
      * 
      */
     @JsonProperty("jobschedulerId")
-    @JacksonXmlProperty(localName = "jobschedulerId")
     public String getJobschedulerId() {
         return jobschedulerId;
     }
@@ -77,19 +69,16 @@ public class ModifyTasks {
      * 
      */
     @JsonProperty("jobschedulerId")
-    @JacksonXmlProperty(localName = "jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
         this.jobschedulerId = jobschedulerId;
     }
 
     @JsonProperty("jobs")
-    @JacksonXmlProperty(localName = "job")
     public List<TasksFilter> getJobs() {
         return jobs;
     }
 
     @JsonProperty("jobs")
-    @JacksonXmlProperty(localName = "job")
     public void setJobs(List<TasksFilter> jobs) {
         this.jobs = jobs;
     }
@@ -101,7 +90,6 @@ public class ModifyTasks {
      * 
      */
     @JsonProperty("timeout")
-    @JacksonXmlProperty(localName = "timeout")
     public Integer getTimeout() {
         return timeout;
     }
@@ -113,7 +101,6 @@ public class ModifyTasks {
      * 
      */
     @JsonProperty("timeout")
-    @JacksonXmlProperty(localName = "timeout")
     public void setTimeout(Integer timeout) {
         this.timeout = timeout;
     }
@@ -125,7 +112,6 @@ public class ModifyTasks {
      * 
      */
     @JsonProperty("auditLog")
-    @JacksonXmlProperty(localName = "auditLog")
     public AuditParams getAuditLog() {
         return auditLog;
     }
@@ -137,7 +123,6 @@ public class ModifyTasks {
      * 
      */
     @JsonProperty("auditLog")
-    @JacksonXmlProperty(localName = "auditLog")
     public void setAuditLog(AuditParams auditLog) {
         this.auditLog = auditLog;
     }

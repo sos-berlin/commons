@@ -4,7 +4,6 @@ package com.sos.joc.model.job;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -24,7 +23,6 @@ public class JobsHistoricSummary {
      * 
      */
     @JsonProperty("successful")
-    @JacksonXmlProperty(localName = "successful")
     private Integer successful;
     /**
      * non negative integer
@@ -34,7 +32,6 @@ public class JobsHistoricSummary {
      * 
      */
     @JsonProperty("failed")
-    @JacksonXmlProperty(localName = "failed")
     private Integer failed;
 
     /**
@@ -45,7 +42,6 @@ public class JobsHistoricSummary {
      * 
      */
     @JsonProperty("successful")
-    @JacksonXmlProperty(localName = "successful")
     public Integer getSuccessful() {
         return successful;
     }
@@ -58,7 +54,6 @@ public class JobsHistoricSummary {
      * 
      */
     @JsonProperty("successful")
-    @JacksonXmlProperty(localName = "successful")
     public void setSuccessful(Integer successful) {
         this.successful = successful;
     }
@@ -71,7 +66,6 @@ public class JobsHistoricSummary {
      * 
      */
     @JsonProperty("failed")
-    @JacksonXmlProperty(localName = "failed")
     public Integer getFailed() {
         return failed;
     }
@@ -84,7 +78,6 @@ public class JobsHistoricSummary {
      * 
      */
     @JsonProperty("failed")
-    @JacksonXmlProperty(localName = "failed")
     public void setFailed(Integer failed) {
         this.failed = failed;
     }

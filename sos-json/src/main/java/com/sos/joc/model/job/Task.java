@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.sos.joc.model.order.OrderV;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -41,10 +40,8 @@ public class Task {
      * 
      */
     @JsonProperty("taskId")
-    @JacksonXmlProperty(localName = "taskId")
     private String taskId;
     @JsonProperty("pid")
-    @JacksonXmlProperty(localName = "pid")
     private Integer pid;
     /**
      * task state
@@ -54,7 +51,6 @@ public class Task {
      * 
      */
     @JsonProperty("state")
-    @JacksonXmlProperty(localName = "state")
     private TaskState state;
     /**
      * timestamp
@@ -64,7 +60,6 @@ public class Task {
      */
     @JsonProperty("plannedStart")
     @JsonPropertyDescription("Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty")
-    @JacksonXmlProperty(localName = "plannedStart")
     private Date plannedStart;
     /**
      * timestamp
@@ -74,7 +69,6 @@ public class Task {
      */
     @JsonProperty("startedAt")
     @JsonPropertyDescription("Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty")
-    @JacksonXmlProperty(localName = "startedAt")
     private Date startedAt;
     /**
      * timestamp
@@ -84,7 +78,6 @@ public class Task {
      */
     @JsonProperty("enqueued")
     @JsonPropertyDescription("Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty")
-    @JacksonXmlProperty(localName = "enqueued")
     private Date enqueued;
     /**
      * timestamp
@@ -94,7 +87,6 @@ public class Task {
      */
     @JsonProperty("idleSince")
     @JsonPropertyDescription("Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty")
-    @JacksonXmlProperty(localName = "idleSince")
     private Date idleSince;
     /**
      * timestamp
@@ -104,7 +96,6 @@ public class Task {
      */
     @JsonProperty("inProcessSince")
     @JsonPropertyDescription("Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty")
-    @JacksonXmlProperty(localName = "inProcessSince")
     private Date inProcessSince;
     /**
      * non negative integer
@@ -113,7 +104,6 @@ public class Task {
      * 
      */
     @JsonProperty("steps")
-    @JacksonXmlProperty(localName = "steps")
     private Integer steps;
     /**
      * task cause
@@ -123,7 +113,6 @@ public class Task {
      */
     @JsonProperty("_cause")
     @JsonPropertyDescription("For order jobs only cause=order possible")
-    @JacksonXmlProperty(localName = "_cause")
     private TaskCause _cause;
     /**
      * order (volatile part)
@@ -132,7 +121,6 @@ public class Task {
      * 
      */
     @JsonProperty("order")
-    @JacksonXmlProperty(localName = "order")
     private OrderV order;
 
     /**
@@ -141,7 +129,6 @@ public class Task {
      * 
      */
     @JsonProperty("taskId")
-    @JacksonXmlProperty(localName = "taskId")
     public String getTaskId() {
         return taskId;
     }
@@ -152,19 +139,16 @@ public class Task {
      * 
      */
     @JsonProperty("taskId")
-    @JacksonXmlProperty(localName = "taskId")
     public void setTaskId(String taskId) {
         this.taskId = taskId;
     }
 
     @JsonProperty("pid")
-    @JacksonXmlProperty(localName = "pid")
     public Integer getPid() {
         return pid;
     }
 
     @JsonProperty("pid")
-    @JacksonXmlProperty(localName = "pid")
     public void setPid(Integer pid) {
         this.pid = pid;
     }
@@ -177,7 +161,6 @@ public class Task {
      * 
      */
     @JsonProperty("state")
-    @JacksonXmlProperty(localName = "state")
     public TaskState getState() {
         return state;
     }
@@ -190,7 +173,6 @@ public class Task {
      * 
      */
     @JsonProperty("state")
-    @JacksonXmlProperty(localName = "state")
     public void setState(TaskState state) {
         this.state = state;
     }
@@ -202,7 +184,6 @@ public class Task {
      * 
      */
     @JsonProperty("plannedStart")
-    @JacksonXmlProperty(localName = "plannedStart")
     public Date getPlannedStart() {
         return plannedStart;
     }
@@ -214,7 +195,6 @@ public class Task {
      * 
      */
     @JsonProperty("plannedStart")
-    @JacksonXmlProperty(localName = "plannedStart")
     public void setPlannedStart(Date plannedStart) {
         this.plannedStart = plannedStart;
     }
@@ -226,7 +206,6 @@ public class Task {
      * 
      */
     @JsonProperty("startedAt")
-    @JacksonXmlProperty(localName = "startedAt")
     public Date getStartedAt() {
         return startedAt;
     }
@@ -238,7 +217,6 @@ public class Task {
      * 
      */
     @JsonProperty("startedAt")
-    @JacksonXmlProperty(localName = "startedAt")
     public void setStartedAt(Date startedAt) {
         this.startedAt = startedAt;
     }
@@ -250,7 +228,6 @@ public class Task {
      * 
      */
     @JsonProperty("enqueued")
-    @JacksonXmlProperty(localName = "enqueued")
     public Date getEnqueued() {
         return enqueued;
     }
@@ -262,7 +239,6 @@ public class Task {
      * 
      */
     @JsonProperty("enqueued")
-    @JacksonXmlProperty(localName = "enqueued")
     public void setEnqueued(Date enqueued) {
         this.enqueued = enqueued;
     }
@@ -274,7 +250,6 @@ public class Task {
      * 
      */
     @JsonProperty("idleSince")
-    @JacksonXmlProperty(localName = "idleSince")
     public Date getIdleSince() {
         return idleSince;
     }
@@ -286,7 +261,6 @@ public class Task {
      * 
      */
     @JsonProperty("idleSince")
-    @JacksonXmlProperty(localName = "idleSince")
     public void setIdleSince(Date idleSince) {
         this.idleSince = idleSince;
     }
@@ -298,7 +272,6 @@ public class Task {
      * 
      */
     @JsonProperty("inProcessSince")
-    @JacksonXmlProperty(localName = "inProcessSince")
     public Date getInProcessSince() {
         return inProcessSince;
     }
@@ -310,7 +283,6 @@ public class Task {
      * 
      */
     @JsonProperty("inProcessSince")
-    @JacksonXmlProperty(localName = "inProcessSince")
     public void setInProcessSince(Date inProcessSince) {
         this.inProcessSince = inProcessSince;
     }
@@ -322,7 +294,6 @@ public class Task {
      * 
      */
     @JsonProperty("steps")
-    @JacksonXmlProperty(localName = "steps")
     public Integer getSteps() {
         return steps;
     }
@@ -334,7 +305,6 @@ public class Task {
      * 
      */
     @JsonProperty("steps")
-    @JacksonXmlProperty(localName = "steps")
     public void setSteps(Integer steps) {
         this.steps = steps;
     }
@@ -346,7 +316,6 @@ public class Task {
      * 
      */
     @JsonProperty("_cause")
-    @JacksonXmlProperty(localName = "_cause")
     public TaskCause get_cause() {
         return _cause;
     }
@@ -358,7 +327,6 @@ public class Task {
      * 
      */
     @JsonProperty("_cause")
-    @JacksonXmlProperty(localName = "_cause")
     public void set_cause(TaskCause _cause) {
         this._cause = _cause;
     }
@@ -370,7 +338,6 @@ public class Task {
      * 
      */
     @JsonProperty("order")
-    @JacksonXmlProperty(localName = "order")
     public OrderV getOrder() {
         return order;
     }
@@ -382,7 +349,6 @@ public class Task {
      * 
      */
     @JsonProperty("order")
-    @JacksonXmlProperty(localName = "order")
     public void setOrder(OrderV order) {
         this.order = order;
     }

@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -32,7 +31,6 @@ public class QueuedTask {
      * 
      */
     @JsonProperty("taskId")
-    @JacksonXmlProperty(localName = "taskId")
     private String taskId;
     /**
      * timestamp
@@ -43,7 +41,6 @@ public class QueuedTask {
      */
     @JsonProperty("enqueued")
     @JsonPropertyDescription("Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty")
-    @JacksonXmlProperty(localName = "enqueued")
     private Date enqueued;
     /**
      * timestamp
@@ -53,7 +50,6 @@ public class QueuedTask {
      */
     @JsonProperty("plannedStart")
     @JsonPropertyDescription("Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty")
-    @JacksonXmlProperty(localName = "plannedStart")
     private Date plannedStart;
 
     /**
@@ -62,7 +58,6 @@ public class QueuedTask {
      * 
      */
     @JsonProperty("taskId")
-    @JacksonXmlProperty(localName = "taskId")
     public String getTaskId() {
         return taskId;
     }
@@ -73,7 +68,6 @@ public class QueuedTask {
      * 
      */
     @JsonProperty("taskId")
-    @JacksonXmlProperty(localName = "taskId")
     public void setTaskId(String taskId) {
         this.taskId = taskId;
     }
@@ -86,7 +80,6 @@ public class QueuedTask {
      * 
      */
     @JsonProperty("enqueued")
-    @JacksonXmlProperty(localName = "enqueued")
     public Date getEnqueued() {
         return enqueued;
     }
@@ -99,7 +92,6 @@ public class QueuedTask {
      * 
      */
     @JsonProperty("enqueued")
-    @JacksonXmlProperty(localName = "enqueued")
     public void setEnqueued(Date enqueued) {
         this.enqueued = enqueued;
     }
@@ -111,7 +103,6 @@ public class QueuedTask {
      * 
      */
     @JsonProperty("plannedStart")
-    @JacksonXmlProperty(localName = "plannedStart")
     public Date getPlannedStart() {
         return plannedStart;
     }
@@ -123,7 +114,6 @@ public class QueuedTask {
      * 
      */
     @JsonProperty("plannedStart")
-    @JacksonXmlProperty(localName = "plannedStart")
     public void setPlannedStart(Date plannedStart) {
         this.plannedStart = plannedStart;
     }

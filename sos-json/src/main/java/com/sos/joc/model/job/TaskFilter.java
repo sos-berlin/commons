@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.sos.joc.model.common.LogMime;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -33,7 +32,6 @@ public class TaskFilter {
      * 
      */
     @JsonProperty("jobschedulerId")
-    @JacksonXmlProperty(localName = "jobschedulerId")
     private String jobschedulerId;
     /**
      * 
@@ -41,7 +39,6 @@ public class TaskFilter {
      * 
      */
     @JsonProperty("taskId")
-    @JacksonXmlProperty(localName = "taskId")
     private String taskId;
     @JsonProperty("filename")
     private String filename;
@@ -53,7 +50,6 @@ public class TaskFilter {
      */
     @JsonProperty("mime")
     @JsonPropertyDescription("The log can have a HTML representation where the HTML gets a highlighting via CSS classes.")
-    @JacksonXmlProperty(localName = "mime")
     private LogMime mime = LogMime.fromValue("PLAIN");
 
     /**
@@ -62,7 +58,6 @@ public class TaskFilter {
      * 
      */
     @JsonProperty("jobschedulerId")
-    @JacksonXmlProperty(localName = "jobschedulerId")
     public String getJobschedulerId() {
         return jobschedulerId;
     }
@@ -73,7 +68,6 @@ public class TaskFilter {
      * 
      */
     @JsonProperty("jobschedulerId")
-    @JacksonXmlProperty(localName = "jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
         this.jobschedulerId = jobschedulerId;
     }
@@ -84,7 +78,6 @@ public class TaskFilter {
      * 
      */
     @JsonProperty("taskId")
-    @JacksonXmlProperty(localName = "taskId")
     public String getTaskId() {
         return taskId;
     }
@@ -95,26 +88,15 @@ public class TaskFilter {
      * 
      */
     @JsonProperty("taskId")
-    @JacksonXmlProperty(localName = "taskId")
     public void setTaskId(String taskId) {
         this.taskId = taskId;
     }
 
-    /**
-     * 
-     * @return
-     *     The filename
-     */
     @JsonProperty("filename")
     public String getFilename() {
         return filename;
     }
 
-    /**
-     * 
-     * @param filename
-     *     The filename
-     */
     @JsonProperty("filename")
     public void setFilename(String filename) {
         this.filename = filename;
@@ -127,7 +109,6 @@ public class TaskFilter {
      * 
      */
     @JsonProperty("mime")
-    @JacksonXmlProperty(localName = "mime")
     public LogMime getMime() {
         return mime;
     }
@@ -139,19 +120,18 @@ public class TaskFilter {
      * 
      */
     @JsonProperty("mime")
-    @JacksonXmlProperty(localName = "mime")
     public void setMime(LogMime mime) {
         this.mime = mime;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("taskId", taskId).append("mime", mime).toString();
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("taskId", taskId).append("filename", filename).append("mime", mime).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(taskId).append(filename).append(mime).toHashCode();
+        return new HashCodeBuilder().append(filename).append(jobschedulerId).append(taskId).append(mime).toHashCode();
     }
 
     @Override
@@ -163,7 +143,7 @@ public class TaskFilter {
             return false;
         }
         TaskFilter rhs = ((TaskFilter) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(taskId, rhs.taskId).append(filename, rhs.filename).append(mime, rhs.mime).isEquals();
+        return new EqualsBuilder().append(filename, rhs.filename).append(jobschedulerId, rhs.jobschedulerId).append(taskId, rhs.taskId).append(mime, rhs.mime).isEquals();
     }
 
 }

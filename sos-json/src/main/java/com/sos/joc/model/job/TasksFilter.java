@@ -3,18 +3,15 @@ package com.sos.joc.model.job;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.sos.classes.Latin1ToUtf8;
-
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "job",
     "taskIds"
@@ -28,6 +25,7 @@ public class TasksFilter {
      * 
      */
     @JsonProperty("job")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
     private String job;
     @JsonProperty("taskIds")
     private List<TaskId> taskIds = new ArrayList<TaskId>();
@@ -37,8 +35,6 @@ public class TasksFilter {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @return
-     *     The job
      */
     @JsonProperty("job")
     public String getJob() {
@@ -50,29 +46,17 @@ public class TasksFilter {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @param job
-     *     The job
      */
     @JsonProperty("job")
     public void setJob(String job) {
-        this.job = Latin1ToUtf8.convert(job);
+        this.job = job;
     }
 
-    /**
-     * 
-     * @return
-     *     The taskIds
-     */
     @JsonProperty("taskIds")
     public List<TaskId> getTaskIds() {
         return taskIds;
     }
 
-    /**
-     * 
-     * @param taskIds
-     *     The taskIds
-     */
     @JsonProperty("taskIds")
     public void setTaskIds(List<TaskId> taskIds) {
         this.taskIds = taskIds;
@@ -80,7 +64,7 @@ public class TasksFilter {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("job", job).append("taskIds", taskIds).toString();
     }
 
     @Override

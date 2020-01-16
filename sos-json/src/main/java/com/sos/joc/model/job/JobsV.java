@@ -8,8 +8,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -37,7 +35,6 @@ public class JobsV {
      */
     @JsonProperty("deliveryDate")
     @JsonPropertyDescription("Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
-    @JacksonXmlProperty(localName = "deliveryDate")
     private Date deliveryDate;
     /**
      * 
@@ -45,8 +42,6 @@ public class JobsV {
      * 
      */
     @JsonProperty("jobs")
-    @JacksonXmlProperty(localName = "job")
-    @JacksonXmlElementWrapper(useWrapping = true, localName = "jobs")
     private List<JobV> jobs = new ArrayList<JobV>();
 
     /**
@@ -57,7 +52,6 @@ public class JobsV {
      * 
      */
     @JsonProperty("deliveryDate")
-    @JacksonXmlProperty(localName = "deliveryDate")
     public Date getDeliveryDate() {
         return deliveryDate;
     }
@@ -70,7 +64,6 @@ public class JobsV {
      * 
      */
     @JsonProperty("deliveryDate")
-    @JacksonXmlProperty(localName = "deliveryDate")
     public void setDeliveryDate(Date deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
@@ -81,7 +74,6 @@ public class JobsV {
      * 
      */
     @JsonProperty("jobs")
-    @JacksonXmlProperty(localName = "job")
     public List<JobV> getJobs() {
         return jobs;
     }
@@ -92,7 +84,6 @@ public class JobsV {
      * 
      */
     @JsonProperty("jobs")
-    @JacksonXmlProperty(localName = "job")
     public void setJobs(List<JobV> jobs) {
         this.jobs = jobs;
     }
