@@ -18,9 +18,6 @@ import sos.util.SOSString;
 
 public class SOSKeePassResolver {
 
-    public static final String ENV_VAR_APPDATA_PATH = "APPDATA_PATH";
-    public static final String ENV_VAR_USER_DIR = "user.dir";
-
     private static final Logger LOGGER = LoggerFactory.getLogger(SOSKeePassResolver.class);
     private static final boolean isDebugEnabled = LOGGER.isDebugEnabled();
     private static final boolean isTraceEnabled = LOGGER.isTraceEnabled();
@@ -58,7 +55,7 @@ public class SOSKeePassResolver {
     public SOSKeePassResolver(String databaseFile, String databaseKeyFile, String databasePassword) {
         try {
             if (!SOSString.isEmpty(databaseFile)) {
-                file = Paths.get(databaseFile.trim());
+                file = SOSKeePassDatabase.getCurrentPath(Paths.get(databaseFile.trim()));
             }
         } catch (Throwable e) {
             if (isTraceEnabled) {
@@ -67,7 +64,7 @@ public class SOSKeePassResolver {
         }
         try {
             if (!SOSString.isEmpty(databaseKeyFile)) {
-                keyFile = Paths.get(databaseKeyFile.trim());
+                keyFile = SOSKeePassDatabase.getCurrentPath(Paths.get(databaseKeyFile.trim()));
             }
         } catch (Throwable e) {
             if (isTraceEnabled) {
@@ -81,8 +78,8 @@ public class SOSKeePassResolver {
     }
 
     public SOSKeePassResolver(Path databaseFile, Path databaseKeyFile, String databasePassword) {
-        file = databaseFile;
-        keyFile = databaseKeyFile;
+        file = SOSKeePassDatabase.getCurrentPath(databaseFile);
+        keyFile = SOSKeePassDatabase.getCurrentPath(databaseKeyFile);
         if (!SOSString.isEmpty(databasePassword)) {
             password = databasePassword;
         }
@@ -92,13 +89,6 @@ public class SOSKeePassResolver {
         SOSKeePassPath path = getKeePassPath(uri);
         if (path == null) {
             return uri;
-        }
-
-        String ud = null;
-        String appdata = System.getenv(ENV_VAR_APPDATA_PATH);
-        if (!SOSString.isEmpty(appdata)) {
-            ud = System.getProperty(ENV_VAR_USER_DIR);
-            System.setProperty(ENV_VAR_USER_DIR, appdata);
         }
         try {
             SOSKeePassDatabase d = init(path);
@@ -114,10 +104,6 @@ public class SOSKeePassResolver {
             return val;
         } catch (Throwable e) {
             throw e;
-        } finally {
-            if (!SOSString.isEmpty(ud)) {
-                System.setProperty(ENV_VAR_USER_DIR, ud);
-            }
         }
     }
 
@@ -229,7 +215,7 @@ public class SOSKeePassResolver {
         if (f == null) {
             throw new SOSKeePassResolverException(String.format("[%s]missing database file", path.getQuery()));
         }
-        return f;
+        return SOSKeePassDatabase.getCurrentPath(f);
     }
 
     private Path getCurrentKeyFile(SOSKeePassPath path, Map<String, String> queryParameters, Path currentFile, String currentPassword)
@@ -255,7 +241,7 @@ public class SOSKeePassResolver {
                 kf = keyFile;
             }
         } else {
-            kf = Paths.get(queryKeyFile);
+            kf = SOSKeePassDatabase.getCurrentPath(Paths.get(queryKeyFile));
             if (Files.notExists(kf)) {
                 throw new SOSKeePassDatabaseException(String.format("[%s][%s]key file not found", path.getQuery(), SOSKeePassDatabase.getFilePath(
                         kf)));

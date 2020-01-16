@@ -42,6 +42,8 @@ public class SOSKeePassDatabase {
     private static final Logger LOGGER = LoggerFactory.getLogger(SOSKeePassDatabase.class);
     private static final boolean isDebugEnabled = LOGGER.isDebugEnabled();
     private static final boolean isTraceEnabled = LOGGER.isTraceEnabled();
+
+    public static final String ENV_VAR_APPDATA_PATH = "APPDATA_PATH";
     /* see KdbDatabase constructor: KDB files don't have a single root group, this is a synthetic surrogate */
     public static final String KDB_ROOT_GROUP_NAME = "Root";
     public static final String KDB_GROUP_TITLE = "Meta-Info";
@@ -687,6 +689,18 @@ public class SOSKeePassDatabase {
             LOGGER.debug(String.format("[getDefaultKeyFile]%s", getFilePath(keyFile)));
         }
         return keyFile;
+    }
+
+    public static Path getCurrentPath(Path f) {
+        if (f == null) {
+            return null;
+        }
+        String appdata = System.getenv(ENV_VAR_APPDATA_PATH);
+        if (SOSString.isEmpty(appdata)) {
+            return f;
+        } else {
+            return Paths.get(appdata).resolve(f);
+        }
     }
 
     public Credentials getCredentials() {
