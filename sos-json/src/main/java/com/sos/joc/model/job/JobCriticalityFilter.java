@@ -8,10 +8,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum JobCriticalityFilter {
 
-    __EMPTY__(""),
-    NORMAL("NORMAL"),
-    MINOR("MINOR"),
-    MAJOR("MAJOR");
+    NORMAL("normal"),
+    MINOR("minor"),
+    MAJOR("major");
     private final String value;
     private final static Map<String, JobCriticalityFilter> CONSTANTS = new HashMap<String, JobCriticalityFilter>();
 
