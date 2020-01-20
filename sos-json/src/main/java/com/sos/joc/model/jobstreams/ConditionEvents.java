@@ -4,9 +4,9 @@ package com.sos.joc.model.jobstreams;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -20,7 +20,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "deliveryDate",
     "session",
@@ -36,6 +35,7 @@ public class ConditionEvents {
      * 
      */
     @JsonProperty("deliveryDate")
+    @JsonPropertyDescription("Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
     private Date deliveryDate;
     @JsonProperty("session")
     private String session;
@@ -53,8 +53,6 @@ public class ConditionEvents {
      * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * (Required)
      * 
-     * @return
-     *     The deliveryDate
      */
     @JsonProperty("deliveryDate")
     public Date getDeliveryDate() {
@@ -67,29 +65,17 @@ public class ConditionEvents {
      * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * (Required)
      * 
-     * @param deliveryDate
-     *     The deliveryDate
      */
     @JsonProperty("deliveryDate")
     public void setDeliveryDate(Date deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
 
-    /**
-     * 
-     * @return
-     *     The session
-     */
     @JsonProperty("session")
     public String getSession() {
         return session;
     }
 
-    /**
-     * 
-     * @param session
-     *     The session
-     */
     @JsonProperty("session")
     public void setSession(String session) {
         this.session = session;
@@ -99,8 +85,6 @@ public class ConditionEvents {
      * 
      * (Required)
      * 
-     * @return
-     *     The conditionEvents
      */
     @JsonProperty("conditionEvents")
     public List<ConditionEvent> getConditionEvents() {
@@ -111,8 +95,6 @@ public class ConditionEvents {
      * 
      * (Required)
      * 
-     * @param conditionEvents
-     *     The conditionEvents
      */
     @JsonProperty("conditionEvents")
     public void setConditionEvents(List<ConditionEvent> conditionEvents) {
@@ -121,12 +103,12 @@ public class ConditionEvents {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("session", session).append("conditionEvents", conditionEvents).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(deliveryDate).append(session).append(conditionEvents).toHashCode();
+        return new HashCodeBuilder().append(deliveryDate).append(conditionEvents).append(session).toHashCode();
     }
 
     @Override
@@ -138,7 +120,7 @@ public class ConditionEvents {
             return false;
         }
         ConditionEvents rhs = ((ConditionEvents) other);
-        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(session, rhs.session).append(conditionEvents, rhs.conditionEvents).isEquals();
+        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(conditionEvents, rhs.conditionEvents).append(session, rhs.session).isEquals();
     }
 
 }

@@ -28,6 +28,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "endTime",
     "state",
     "taskId",
+    "criticality",
     "clusterMember",
     "steps",
     "exitCode",
@@ -90,6 +91,8 @@ public class TaskHistoryItem {
      */
     @JsonProperty("taskId")
     private String taskId;
+    @JsonProperty("criticality")
+    private String criticality = "normal";
     @JsonProperty("clusterMember")
     private String clusterMember;
     /**
@@ -268,6 +271,16 @@ public class TaskHistoryItem {
         this.taskId = taskId;
     }
 
+    @JsonProperty("criticality")
+    public String getCriticality() {
+        return criticality;
+    }
+
+    @JsonProperty("criticality")
+    public void setCriticality(String criticality) {
+        this.criticality = criticality;
+    }
+
     @JsonProperty("clusterMember")
     public String getClusterMember() {
         return clusterMember;
@@ -364,12 +377,12 @@ public class TaskHistoryItem {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("surveyDate", surveyDate).append("jobschedulerId", jobschedulerId).append("job", job).append("startTime", startTime).append("endTime", endTime).append("state", state).append("taskId", taskId).append("clusterMember", clusterMember).append("steps", steps).append("exitCode", exitCode).append("error", error).append("agent", agent).toString();
+        return new ToStringBuilder(this).append("surveyDate", surveyDate).append("jobschedulerId", jobschedulerId).append("job", job).append("startTime", startTime).append("endTime", endTime).append("state", state).append("taskId", taskId).append("criticality", criticality).append("clusterMember", clusterMember).append("steps", steps).append("exitCode", exitCode).append("error", error).append("agent", agent).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(agent).append(surveyDate).append(error).append(steps).append(clusterMember).append(exitCode).append(startTime).append(endTime).append(state).append(jobschedulerId).append(job).append(taskId).toHashCode();
+        return new HashCodeBuilder().append(agent).append(surveyDate).append(criticality).append(error).append(steps).append(clusterMember).append(exitCode).append(startTime).append(endTime).append(state).append(jobschedulerId).append(job).append(taskId).toHashCode();
     }
 
     @Override
@@ -381,7 +394,7 @@ public class TaskHistoryItem {
             return false;
         }
         TaskHistoryItem rhs = ((TaskHistoryItem) other);
-        return new EqualsBuilder().append(agent, rhs.agent).append(surveyDate, rhs.surveyDate).append(error, rhs.error).append(steps, rhs.steps).append(clusterMember, rhs.clusterMember).append(exitCode, rhs.exitCode).append(startTime, rhs.startTime).append(endTime, rhs.endTime).append(state, rhs.state).append(jobschedulerId, rhs.jobschedulerId).append(job, rhs.job).append(taskId, rhs.taskId).isEquals();
+        return new EqualsBuilder().append(agent, rhs.agent).append(surveyDate, rhs.surveyDate).append(criticality, rhs.criticality).append(error, rhs.error).append(steps, rhs.steps).append(clusterMember, rhs.clusterMember).append(exitCode, rhs.exitCode).append(startTime, rhs.startTime).append(endTime, rhs.endTime).append(state, rhs.state).append(jobschedulerId, rhs.jobschedulerId).append(job, rhs.job).append(taskId, rhs.taskId).isEquals();
     }
 
 }

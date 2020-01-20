@@ -1,7 +1,6 @@
 
 package com.sos.joc.model.jobstreams;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -17,7 +16,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "id",
     "command",
@@ -43,8 +41,6 @@ public class InConditionCommand {
      * <p>
      * 
      * 
-     * @return
-     *     The id
      */
     @JsonProperty("id")
     public Long getId() {
@@ -56,49 +52,27 @@ public class InConditionCommand {
      * <p>
      * 
      * 
-     * @param id
-     *     The id
      */
     @JsonProperty("id")
     public void setId(Long id) {
         this.id = id;
     }
 
-    /**
-     * 
-     * @return
-     *     The command
-     */
     @JsonProperty("command")
     public String getCommand() {
         return command;
     }
 
-    /**
-     * 
-     * @param command
-     *     The command
-     */
     @JsonProperty("command")
     public void setCommand(String command) {
         this.command = command;
     }
 
-    /**
-     * 
-     * @return
-     *     The commandParam
-     */
     @JsonProperty("commandParam")
     public String getCommandParam() {
         return commandParam;
     }
 
-    /**
-     * 
-     * @param commandParam
-     *     The commandParam
-     */
     @JsonProperty("commandParam")
     public void setCommandParam(String commandParam) {
         this.commandParam = commandParam;
@@ -106,12 +80,12 @@ public class InConditionCommand {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("id", id).append("command", command).append("commandParam", commandParam).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(id).append(command).append(commandParam).toHashCode();
+        return new HashCodeBuilder().append(id).append(commandParam).append(command).toHashCode();
     }
 
     @Override
@@ -123,7 +97,7 @@ public class InConditionCommand {
             return false;
         }
         InConditionCommand rhs = ((InConditionCommand) other);
-        return new EqualsBuilder().append(id, rhs.id).append(command, rhs.command).append(commandParam, rhs.commandParam).isEquals();
+        return new EqualsBuilder().append(id, rhs.id).append(commandParam, rhs.commandParam).append(command, rhs.command).isEquals();
     }
 
 }

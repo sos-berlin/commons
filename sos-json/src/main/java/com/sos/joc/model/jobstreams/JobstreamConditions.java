@@ -3,7 +3,6 @@ package com.sos.joc.model.jobstreams;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -19,7 +18,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobStream",
     "jobs"
@@ -31,41 +29,21 @@ public class JobstreamConditions {
     @JsonProperty("jobs")
     private List<ConditionRef> jobs = new ArrayList<ConditionRef>();
 
-    /**
-     * 
-     * @return
-     *     The jobStream
-     */
     @JsonProperty("jobStream")
     public String getJobStream() {
         return jobStream;
     }
 
-    /**
-     * 
-     * @param jobStream
-     *     The jobStream
-     */
     @JsonProperty("jobStream")
     public void setJobStream(String jobStream) {
         this.jobStream = jobStream;
     }
 
-    /**
-     * 
-     * @return
-     *     The jobs
-     */
     @JsonProperty("jobs")
     public List<ConditionRef> getJobs() {
         return jobs;
     }
 
-    /**
-     * 
-     * @param jobs
-     *     The jobs
-     */
     @JsonProperty("jobs")
     public void setJobs(List<ConditionRef> jobs) {
         this.jobs = jobs;
@@ -73,7 +51,7 @@ public class JobstreamConditions {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("jobStream", jobStream).append("jobs", jobs).toString();
     }
 
     @Override

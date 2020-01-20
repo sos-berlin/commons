@@ -1,7 +1,6 @@
 
 package com.sos.joc.model.jobstreams;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -17,7 +16,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "id",
     "command",
@@ -55,8 +53,6 @@ public class OutConditionEvent {
      * <p>
      * 
      * 
-     * @return
-     *     The id
      */
     @JsonProperty("id")
     public Long getId() {
@@ -68,129 +64,67 @@ public class OutConditionEvent {
      * <p>
      * 
      * 
-     * @param id
-     *     The id
      */
     @JsonProperty("id")
     public void setId(Long id) {
         this.id = id;
     }
 
-    /**
-     * 
-     * @return
-     *     The command
-     */
     @JsonProperty("command")
     public String getCommand() {
         return command;
     }
 
-    /**
-     * 
-     * @param command
-     *     The command
-     */
     @JsonProperty("command")
     public void setCommand(String command) {
         this.command = command;
     }
 
-    /**
-     * 
-     * @return
-     *     The event
-     */
     @JsonProperty("event")
     public String getEvent() {
         return event;
     }
 
-    /**
-     * 
-     * @param event
-     *     The event
-     */
     @JsonProperty("event")
     public void setEvent(String event) {
         this.event = event;
     }
 
-    /**
-     * 
-     * @return
-     *     The exists
-     */
     @JsonProperty("exists")
     public Boolean getExists() {
         return exists;
     }
 
-    /**
-     * 
-     * @param exists
-     *     The exists
-     */
     @JsonProperty("exists")
     public void setExists(Boolean exists) {
         this.exists = exists;
     }
 
-    /**
-     * 
-     * @return
-     *     The globalEvent
-     */
     @JsonProperty("globalEvent")
     public Boolean getGlobalEvent() {
         return globalEvent;
     }
 
-    /**
-     * 
-     * @param globalEvent
-     *     The globalEvent
-     */
     @JsonProperty("globalEvent")
     public void setGlobalEvent(Boolean globalEvent) {
         this.globalEvent = globalEvent;
     }
 
-    /**
-     * 
-     * @return
-     *     The existsInJobStream
-     */
     @JsonProperty("existsInJobStream")
     public Boolean getExistsInJobStream() {
         return existsInJobStream;
     }
 
-    /**
-     * 
-     * @param existsInJobStream
-     *     The existsInJobStream
-     */
     @JsonProperty("existsInJobStream")
     public void setExistsInJobStream(Boolean existsInJobStream) {
         this.existsInJobStream = existsInJobStream;
     }
 
-    /**
-     * 
-     * @return
-     *     The jobStream
-     */
     @JsonProperty("jobStream")
     public String getJobStream() {
         return jobStream;
     }
 
-    /**
-     * 
-     * @param jobStream
-     *     The jobStream
-     */
     @JsonProperty("jobStream")
     public void setJobStream(String jobStream) {
         this.jobStream = jobStream;
@@ -198,12 +132,12 @@ public class OutConditionEvent {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("id", id).append("command", command).append("event", event).append("exists", exists).append("globalEvent", globalEvent).append("existsInJobStream", existsInJobStream).append("jobStream", jobStream).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(id).append(command).append(event).append(exists).append(globalEvent).append(existsInJobStream).append(jobStream).toHashCode();
+        return new HashCodeBuilder().append(existsInJobStream).append(jobStream).append(exists).append(id).append(event).append(globalEvent).append(command).toHashCode();
     }
 
     @Override
@@ -215,7 +149,7 @@ public class OutConditionEvent {
             return false;
         }
         OutConditionEvent rhs = ((OutConditionEvent) other);
-        return new EqualsBuilder().append(id, rhs.id).append(command, rhs.command).append(event, rhs.event).append(exists, rhs.exists).append(globalEvent, rhs.globalEvent).append(existsInJobStream, rhs.existsInJobStream).append(jobStream, rhs.jobStream).isEquals();
+        return new EqualsBuilder().append(existsInJobStream, rhs.existsInJobStream).append(jobStream, rhs.jobStream).append(exists, rhs.exists).append(id, rhs.id).append(event, rhs.event).append(globalEvent, rhs.globalEvent).append(command, rhs.command).isEquals();
     }
 
 }

@@ -3,9 +3,9 @@ package com.sos.joc.model.jobstreams;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -19,7 +19,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "job",
     "inconditions"
@@ -33,6 +32,7 @@ public class JobInCondition {
      * 
      */
     @JsonProperty("job")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
     private String job;
     @JsonProperty("inconditions")
     private List<InCondition> inconditions = new ArrayList<InCondition>();
@@ -42,8 +42,6 @@ public class JobInCondition {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @return
-     *     The job
      */
     @JsonProperty("job")
     public String getJob() {
@@ -55,29 +53,17 @@ public class JobInCondition {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @param job
-     *     The job
      */
     @JsonProperty("job")
     public void setJob(String job) {
         this.job = job;
     }
 
-    /**
-     * 
-     * @return
-     *     The inconditions
-     */
     @JsonProperty("inconditions")
     public List<InCondition> getInconditions() {
         return inconditions;
     }
 
-    /**
-     * 
-     * @param inconditions
-     *     The inconditions
-     */
     @JsonProperty("inconditions")
     public void setInconditions(List<InCondition> inconditions) {
         this.inconditions = inconditions;
@@ -85,7 +71,7 @@ public class JobInCondition {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("job", job).append("inconditions", inconditions).toString();
     }
 
     @Override

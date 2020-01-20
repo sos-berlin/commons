@@ -1,7 +1,6 @@
 
 package com.sos.joc.model.jobstreams;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -17,7 +16,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobschedulerId",
     "event",
@@ -50,121 +48,61 @@ public class ConditionEvent {
     @JsonProperty("outConditionId")
     private Long outConditionId;
 
-    /**
-     * 
-     * @return
-     *     The jobschedulerId
-     */
     @JsonProperty("jobschedulerId")
     public String getJobschedulerId() {
         return jobschedulerId;
     }
 
-    /**
-     * 
-     * @param jobschedulerId
-     *     The jobschedulerId
-     */
     @JsonProperty("jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
         this.jobschedulerId = jobschedulerId;
     }
 
-    /**
-     * 
-     * @return
-     *     The event
-     */
     @JsonProperty("event")
     public String getEvent() {
         return event;
     }
 
-    /**
-     * 
-     * @param event
-     *     The event
-     */
     @JsonProperty("event")
     public void setEvent(String event) {
         this.event = event;
     }
 
-    /**
-     * 
-     * @return
-     *     The globalEvent
-     */
     @JsonProperty("globalEvent")
     public Boolean getGlobalEvent() {
         return globalEvent;
     }
 
-    /**
-     * 
-     * @param globalEvent
-     *     The globalEvent
-     */
     @JsonProperty("globalEvent")
     public void setGlobalEvent(Boolean globalEvent) {
         this.globalEvent = globalEvent;
     }
 
-    /**
-     * 
-     * @return
-     *     The path
-     */
     @JsonProperty("path")
     public String getPath() {
         return path;
     }
 
-    /**
-     * 
-     * @param path
-     *     The path
-     */
     @JsonProperty("path")
     public void setPath(String path) {
         this.path = path;
     }
 
-    /**
-     * 
-     * @return
-     *     The jobStream
-     */
     @JsonProperty("jobStream")
     public String getJobStream() {
         return jobStream;
     }
 
-    /**
-     * 
-     * @param jobStream
-     *     The jobStream
-     */
     @JsonProperty("jobStream")
     public void setJobStream(String jobStream) {
         this.jobStream = jobStream;
     }
 
-    /**
-     * 
-     * @return
-     *     The session
-     */
     @JsonProperty("session")
     public String getSession() {
         return session;
     }
 
-    /**
-     * 
-     * @param session
-     *     The session
-     */
     @JsonProperty("session")
     public void setSession(String session) {
         this.session = session;
@@ -175,8 +113,6 @@ public class ConditionEvent {
      * <p>
      * 
      * 
-     * @return
-     *     The outConditionId
      */
     @JsonProperty("outConditionId")
     public Long getOutConditionId() {
@@ -188,8 +124,6 @@ public class ConditionEvent {
      * <p>
      * 
      * 
-     * @param outConditionId
-     *     The outConditionId
      */
     @JsonProperty("outConditionId")
     public void setOutConditionId(Long outConditionId) {
@@ -198,12 +132,12 @@ public class ConditionEvent {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("event", event).append("globalEvent", globalEvent).append("path", path).append("jobStream", jobStream).append("session", session).append("outConditionId", outConditionId).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(event).append(globalEvent).append(path).append(jobStream).append(session).append(outConditionId).toHashCode();
+        return new HashCodeBuilder().append(path).append(session).append(jobStream).append(jobschedulerId).append(event).append(globalEvent).append(outConditionId).toHashCode();
     }
 
     @Override
@@ -215,7 +149,7 @@ public class ConditionEvent {
             return false;
         }
         ConditionEvent rhs = ((ConditionEvent) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(event, rhs.event).append(globalEvent, rhs.globalEvent).append(path, rhs.path).append(jobStream, rhs.jobStream).append(session, rhs.session).append(outConditionId, rhs.outConditionId).isEquals();
+        return new EqualsBuilder().append(path, rhs.path).append(session, rhs.session).append(jobStream, rhs.jobStream).append(jobschedulerId, rhs.jobschedulerId).append(event, rhs.event).append(globalEvent, rhs.globalEvent).append(outConditionId, rhs.outConditionId).isEquals();
     }
 
 }

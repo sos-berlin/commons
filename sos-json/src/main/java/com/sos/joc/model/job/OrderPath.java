@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.sos.classes.Latin1ToUtf8;
-
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -72,7 +70,7 @@ public class OrderPath {
      */
     @JsonProperty("jobChain")
     public void setJobChain(String jobChain) {
-        this.jobChain = Latin1ToUtf8.convert(jobChain);
+        this.jobChain = jobChain;
     }
 
     /**
@@ -90,7 +88,7 @@ public class OrderPath {
      */
     @JsonProperty("orderId")
     public void setOrderId(String orderId) {
-        this.orderId = Latin1ToUtf8.convert(orderId);
+        this.orderId = orderId;
     }
 
     /**

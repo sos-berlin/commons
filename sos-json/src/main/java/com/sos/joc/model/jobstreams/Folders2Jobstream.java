@@ -3,7 +3,6 @@ package com.sos.joc.model.jobstreams;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -19,7 +18,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobStream",
     "folders"
@@ -31,41 +29,21 @@ public class Folders2Jobstream {
     @JsonProperty("folders")
     private List<String> folders = new ArrayList<String>();
 
-    /**
-     * 
-     * @return
-     *     The jobStream
-     */
     @JsonProperty("jobStream")
     public String getJobStream() {
         return jobStream;
     }
 
-    /**
-     * 
-     * @param jobStream
-     *     The jobStream
-     */
     @JsonProperty("jobStream")
     public void setJobStream(String jobStream) {
         this.jobStream = jobStream;
     }
 
-    /**
-     * 
-     * @return
-     *     The folders
-     */
     @JsonProperty("folders")
     public List<String> getFolders() {
         return folders;
     }
 
-    /**
-     * 
-     * @param folders
-     *     The folders
-     */
     @JsonProperty("folders")
     public void setFolders(List<String> folders) {
         this.folders = folders;
@@ -73,7 +51,7 @@ public class Folders2Jobstream {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("jobStream", jobStream).append("folders", folders).toString();
     }
 
     @Override

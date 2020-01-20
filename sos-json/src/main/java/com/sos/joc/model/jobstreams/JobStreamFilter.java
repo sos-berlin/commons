@@ -2,9 +2,9 @@
 package com.sos.joc.model.jobstreams;
 
 import java.util.Date;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -18,7 +18,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "deliveryDate",
     "jobschedulerId",
@@ -34,6 +33,7 @@ public class JobStreamFilter {
      * 
      */
     @JsonProperty("deliveryDate")
+    @JsonPropertyDescription("Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
     private Date deliveryDate;
     @JsonProperty("jobschedulerId")
     private String jobschedulerId;
@@ -47,8 +47,6 @@ public class JobStreamFilter {
      * <p>
      * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * 
-     * @return
-     *     The deliveryDate
      */
     @JsonProperty("deliveryDate")
     public Date getDeliveryDate() {
@@ -60,69 +58,37 @@ public class JobStreamFilter {
      * <p>
      * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * 
-     * @param deliveryDate
-     *     The deliveryDate
      */
     @JsonProperty("deliveryDate")
     public void setDeliveryDate(Date deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
 
-    /**
-     * 
-     * @return
-     *     The jobschedulerId
-     */
     @JsonProperty("jobschedulerId")
     public String getJobschedulerId() {
         return jobschedulerId;
     }
 
-    /**
-     * 
-     * @param jobschedulerId
-     *     The jobschedulerId
-     */
     @JsonProperty("jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
         this.jobschedulerId = jobschedulerId;
     }
 
-    /**
-     * 
-     * @return
-     *     The jobStream
-     */
     @JsonProperty("jobStream")
     public String getJobStream() {
         return jobStream;
     }
 
-    /**
-     * 
-     * @param jobStream
-     *     The jobStream
-     */
     @JsonProperty("jobStream")
     public void setJobStream(String jobStream) {
         this.jobStream = jobStream;
     }
 
-    /**
-     * 
-     * @return
-     *     The limit
-     */
     @JsonProperty("limit")
     public Integer getLimit() {
         return limit;
     }
 
-    /**
-     * 
-     * @param limit
-     *     The limit
-     */
     @JsonProperty("limit")
     public void setLimit(Integer limit) {
         this.limit = limit;
@@ -130,12 +96,12 @@ public class JobStreamFilter {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("jobschedulerId", jobschedulerId).append("jobStream", jobStream).append("limit", limit).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(deliveryDate).append(jobschedulerId).append(jobStream).append(limit).toHashCode();
+        return new HashCodeBuilder().append(jobStream).append(limit).append(deliveryDate).append(jobschedulerId).toHashCode();
     }
 
     @Override
@@ -147,7 +113,7 @@ public class JobStreamFilter {
             return false;
         }
         JobStreamFilter rhs = ((JobStreamFilter) other);
-        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(jobschedulerId, rhs.jobschedulerId).append(jobStream, rhs.jobStream).append(limit, rhs.limit).isEquals();
+        return new EqualsBuilder().append(jobStream, rhs.jobStream).append(limit, rhs.limit).append(deliveryDate, rhs.deliveryDate).append(jobschedulerId, rhs.jobschedulerId).isEquals();
     }
 
 }

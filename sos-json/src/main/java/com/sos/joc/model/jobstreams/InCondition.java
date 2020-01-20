@@ -3,9 +3,9 @@ package com.sos.joc.model.jobstreams;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -19,7 +19,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "id",
     "jobStream",
@@ -27,6 +26,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "markExpression",
     "skipOutCondition",
     "conditionExpression",
+    "nexPeriod",
     "inconditionCommands",
     "outconditions"
 })
@@ -55,7 +55,17 @@ public class InCondition {
      * 
      */
     @JsonProperty("conditionExpression")
+    @JsonPropertyDescription("Expression for Condition")
     private ConditionExpression conditionExpression;
+    /**
+     * date
+     * <p>
+     * ISO date YYYY-MM-DD
+     * 
+     */
+    @JsonProperty("nexPeriod")
+    @JsonPropertyDescription("ISO date YYYY-MM-DD")
+    private String nexPeriod;
     @JsonProperty("inconditionCommands")
     private List<InConditionCommand> inconditionCommands = new ArrayList<InConditionCommand>();
     @JsonProperty("outconditions")
@@ -66,8 +76,6 @@ public class InCondition {
      * <p>
      * 
      * 
-     * @return
-     *     The id
      */
     @JsonProperty("id")
     public Long getId() {
@@ -79,89 +87,47 @@ public class InCondition {
      * <p>
      * 
      * 
-     * @param id
-     *     The id
      */
     @JsonProperty("id")
     public void setId(Long id) {
         this.id = id;
     }
 
-    /**
-     * 
-     * @return
-     *     The jobStream
-     */
     @JsonProperty("jobStream")
     public String getJobStream() {
         return jobStream;
     }
 
-    /**
-     * 
-     * @param jobStream
-     *     The jobStream
-     */
     @JsonProperty("jobStream")
     public void setJobStream(String jobStream) {
         this.jobStream = jobStream;
     }
 
-    /**
-     * 
-     * @return
-     *     The consumed
-     */
     @JsonProperty("consumed")
     public Boolean getConsumed() {
         return consumed;
     }
 
-    /**
-     * 
-     * @param consumed
-     *     The consumed
-     */
     @JsonProperty("consumed")
     public void setConsumed(Boolean consumed) {
         this.consumed = consumed;
     }
 
-    /**
-     * 
-     * @return
-     *     The markExpression
-     */
     @JsonProperty("markExpression")
     public Boolean getMarkExpression() {
         return markExpression;
     }
 
-    /**
-     * 
-     * @param markExpression
-     *     The markExpression
-     */
     @JsonProperty("markExpression")
     public void setMarkExpression(Boolean markExpression) {
         this.markExpression = markExpression;
     }
 
-    /**
-     * 
-     * @return
-     *     The skipOutCondition
-     */
     @JsonProperty("skipOutCondition")
     public Boolean getSkipOutCondition() {
         return skipOutCondition;
     }
 
-    /**
-     * 
-     * @param skipOutCondition
-     *     The skipOutCondition
-     */
     @JsonProperty("skipOutCondition")
     public void setSkipOutCondition(Boolean skipOutCondition) {
         this.skipOutCondition = skipOutCondition;
@@ -172,8 +138,6 @@ public class InCondition {
      * <p>
      * Expression for Condition
      * 
-     * @return
-     *     The conditionExpression
      */
     @JsonProperty("conditionExpression")
     public ConditionExpression getConditionExpression() {
@@ -185,8 +149,6 @@ public class InCondition {
      * <p>
      * Expression for Condition
      * 
-     * @param conditionExpression
-     *     The conditionExpression
      */
     @JsonProperty("conditionExpression")
     public void setConditionExpression(ConditionExpression conditionExpression) {
@@ -194,40 +156,42 @@ public class InCondition {
     }
 
     /**
+     * date
+     * <p>
+     * ISO date YYYY-MM-DD
      * 
-     * @return
-     *     The inconditionCommands
      */
+    @JsonProperty("nexPeriod")
+    public String getNexPeriod() {
+        return nexPeriod;
+    }
+
+    /**
+     * date
+     * <p>
+     * ISO date YYYY-MM-DD
+     * 
+     */
+    @JsonProperty("nexPeriod")
+    public void setNexPeriod(String nexPeriod) {
+        this.nexPeriod = nexPeriod;
+    }
+
     @JsonProperty("inconditionCommands")
     public List<InConditionCommand> getInconditionCommands() {
         return inconditionCommands;
     }
 
-    /**
-     * 
-     * @param inconditionCommands
-     *     The inconditionCommands
-     */
     @JsonProperty("inconditionCommands")
     public void setInconditionCommands(List<InConditionCommand> inconditionCommands) {
         this.inconditionCommands = inconditionCommands;
     }
 
-    /**
-     * 
-     * @return
-     *     The outconditions
-     */
     @JsonProperty("outconditions")
     public List<JobstreamConditions> getOutconditions() {
         return outconditions;
     }
 
-    /**
-     * 
-     * @param outconditions
-     *     The outconditions
-     */
     @JsonProperty("outconditions")
     public void setOutconditions(List<JobstreamConditions> outconditions) {
         this.outconditions = outconditions;
@@ -235,12 +199,12 @@ public class InCondition {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("id", id).append("jobStream", jobStream).append("consumed", consumed).append("markExpression", markExpression).append("skipOutCondition", skipOutCondition).append("conditionExpression", conditionExpression).append("nexPeriod", nexPeriod).append("inconditionCommands", inconditionCommands).append("outconditions", outconditions).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(id).append(jobStream).append(consumed).append(markExpression).append(skipOutCondition).append(conditionExpression).append(inconditionCommands).append(outconditions).toHashCode();
+        return new HashCodeBuilder().append(consumed).append(nexPeriod).append(markExpression).append(conditionExpression).append(outconditions).append(jobStream).append(id).append(inconditionCommands).append(skipOutCondition).toHashCode();
     }
 
     @Override
@@ -252,7 +216,7 @@ public class InCondition {
             return false;
         }
         InCondition rhs = ((InCondition) other);
-        return new EqualsBuilder().append(id, rhs.id).append(jobStream, rhs.jobStream).append(consumed, rhs.consumed).append(markExpression, rhs.markExpression).append(skipOutCondition, rhs.skipOutCondition).append(conditionExpression, rhs.conditionExpression).append(inconditionCommands, rhs.inconditionCommands).append(outconditions, rhs.outconditions).isEquals();
+        return new EqualsBuilder().append(consumed, rhs.consumed).append(nexPeriod, rhs.nexPeriod).append(markExpression, rhs.markExpression).append(conditionExpression, rhs.conditionExpression).append(outconditions, rhs.outconditions).append(jobStream, rhs.jobStream).append(id, rhs.id).append(inconditionCommands, rhs.inconditionCommands).append(skipOutCondition, rhs.skipOutCondition).isEquals();
     }
 
 }

@@ -2,9 +2,9 @@
 package com.sos.joc.model.jobstreams;
 
 import java.util.Date;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -18,7 +18,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "deliveryDate",
     "jobschedulerId",
@@ -35,6 +34,7 @@ public class ResetJobStream {
      * 
      */
     @JsonProperty("deliveryDate")
+    @JsonPropertyDescription("Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
     private Date deliveryDate;
     @JsonProperty("jobschedulerId")
     private String jobschedulerId;
@@ -45,6 +45,7 @@ public class ResetJobStream {
      * 
      */
     @JsonProperty("job")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
     private String job;
     @JsonProperty("jobStream")
     private String jobStream;
@@ -55,8 +56,6 @@ public class ResetJobStream {
      * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * (Required)
      * 
-     * @return
-     *     The deliveryDate
      */
     @JsonProperty("deliveryDate")
     public Date getDeliveryDate() {
@@ -69,29 +68,17 @@ public class ResetJobStream {
      * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * (Required)
      * 
-     * @param deliveryDate
-     *     The deliveryDate
      */
     @JsonProperty("deliveryDate")
     public void setDeliveryDate(Date deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
 
-    /**
-     * 
-     * @return
-     *     The jobschedulerId
-     */
     @JsonProperty("jobschedulerId")
     public String getJobschedulerId() {
         return jobschedulerId;
     }
 
-    /**
-     * 
-     * @param jobschedulerId
-     *     The jobschedulerId
-     */
     @JsonProperty("jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
         this.jobschedulerId = jobschedulerId;
@@ -102,8 +89,6 @@ public class ResetJobStream {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @return
-     *     The job
      */
     @JsonProperty("job")
     public String getJob() {
@@ -115,29 +100,17 @@ public class ResetJobStream {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @param job
-     *     The job
      */
     @JsonProperty("job")
     public void setJob(String job) {
         this.job = job;
     }
 
-    /**
-     * 
-     * @return
-     *     The jobStream
-     */
     @JsonProperty("jobStream")
     public String getJobStream() {
         return jobStream;
     }
 
-    /**
-     * 
-     * @param jobStream
-     *     The jobStream
-     */
     @JsonProperty("jobStream")
     public void setJobStream(String jobStream) {
         this.jobStream = jobStream;
@@ -145,12 +118,12 @@ public class ResetJobStream {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("jobschedulerId", jobschedulerId).append("job", job).append("jobStream", jobStream).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(deliveryDate).append(jobschedulerId).append(job).append(jobStream).toHashCode();
+        return new HashCodeBuilder().append(jobStream).append(deliveryDate).append(jobschedulerId).append(job).toHashCode();
     }
 
     @Override
@@ -162,7 +135,7 @@ public class ResetJobStream {
             return false;
         }
         ResetJobStream rhs = ((ResetJobStream) other);
-        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(jobschedulerId, rhs.jobschedulerId).append(job, rhs.job).append(jobStream, rhs.jobStream).isEquals();
+        return new EqualsBuilder().append(jobStream, rhs.jobStream).append(deliveryDate, rhs.deliveryDate).append(jobschedulerId, rhs.jobschedulerId).append(job, rhs.job).isEquals();
     }
 
 }

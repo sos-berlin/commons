@@ -1,9 +1,9 @@
 
 package com.sos.joc.model.jobstreams;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -17,7 +17,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobschedulerId",
     "session",
@@ -49,83 +48,44 @@ public class ConditionEventsFilter {
      * 
      */
     @JsonProperty("limit")
+    @JsonPropertyDescription("restricts the number of responsed records; -1=unlimited")
     private Integer limit = 0;
 
-    /**
-     * 
-     * @return
-     *     The jobschedulerId
-     */
     @JsonProperty("jobschedulerId")
     public String getJobschedulerId() {
         return jobschedulerId;
     }
 
-    /**
-     * 
-     * @param jobschedulerId
-     *     The jobschedulerId
-     */
     @JsonProperty("jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
         this.jobschedulerId = jobschedulerId;
     }
 
-    /**
-     * 
-     * @return
-     *     The session
-     */
     @JsonProperty("session")
     public String getSession() {
         return session;
     }
 
-    /**
-     * 
-     * @param session
-     *     The session
-     */
     @JsonProperty("session")
     public void setSession(String session) {
         this.session = session;
     }
 
-    /**
-     * 
-     * @return
-     *     The path
-     */
     @JsonProperty("path")
     public String getPath() {
         return path;
     }
 
-    /**
-     * 
-     * @param path
-     *     The path
-     */
     @JsonProperty("path")
     public void setPath(String path) {
         this.path = path;
     }
 
-    /**
-     * 
-     * @return
-     *     The jobStream
-     */
     @JsonProperty("jobStream")
     public String getJobStream() {
         return jobStream;
     }
 
-    /**
-     * 
-     * @param jobStream
-     *     The jobStream
-     */
     @JsonProperty("jobStream")
     public void setJobStream(String jobStream) {
         this.jobStream = jobStream;
@@ -136,8 +96,6 @@ public class ConditionEventsFilter {
      * <p>
      * 
      * 
-     * @return
-     *     The outConditionId
      */
     @JsonProperty("outConditionId")
     public Long getOutConditionId() {
@@ -149,8 +107,6 @@ public class ConditionEventsFilter {
      * <p>
      * 
      * 
-     * @param outConditionId
-     *     The outConditionId
      */
     @JsonProperty("outConditionId")
     public void setOutConditionId(Long outConditionId) {
@@ -160,8 +116,6 @@ public class ConditionEventsFilter {
     /**
      * restricts the number of responsed records; -1=unlimited
      * 
-     * @return
-     *     The limit
      */
     @JsonProperty("limit")
     public Integer getLimit() {
@@ -171,8 +125,6 @@ public class ConditionEventsFilter {
     /**
      * restricts the number of responsed records; -1=unlimited
      * 
-     * @param limit
-     *     The limit
      */
     @JsonProperty("limit")
     public void setLimit(Integer limit) {
@@ -181,12 +133,12 @@ public class ConditionEventsFilter {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("session", session).append("path", path).append("jobStream", jobStream).append("outConditionId", outConditionId).append("limit", limit).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(session).append(path).append(jobStream).append(outConditionId).append(limit).toHashCode();
+        return new HashCodeBuilder().append(path).append(session).append(jobStream).append(limit).append(jobschedulerId).append(outConditionId).toHashCode();
     }
 
     @Override
@@ -198,7 +150,7 @@ public class ConditionEventsFilter {
             return false;
         }
         ConditionEventsFilter rhs = ((ConditionEventsFilter) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(session, rhs.session).append(path, rhs.path).append(jobStream, rhs.jobStream).append(outConditionId, rhs.outConditionId).append(limit, rhs.limit).isEquals();
+        return new EqualsBuilder().append(path, rhs.path).append(session, rhs.session).append(jobStream, rhs.jobStream).append(limit, rhs.limit).append(jobschedulerId, rhs.jobschedulerId).append(outConditionId, rhs.outConditionId).isEquals();
     }
 
 }

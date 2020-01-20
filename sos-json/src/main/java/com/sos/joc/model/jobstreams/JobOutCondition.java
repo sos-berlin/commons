@@ -3,9 +3,9 @@ package com.sos.joc.model.jobstreams;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -19,7 +19,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "job",
     "outconditions"
@@ -33,6 +32,7 @@ public class JobOutCondition {
      * 
      */
     @JsonProperty("job")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
     private String job;
     @JsonProperty("outconditions")
     private List<OutCondition> outconditions = new ArrayList<OutCondition>();
@@ -42,8 +42,6 @@ public class JobOutCondition {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @return
-     *     The job
      */
     @JsonProperty("job")
     public String getJob() {
@@ -55,29 +53,17 @@ public class JobOutCondition {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @param job
-     *     The job
      */
     @JsonProperty("job")
     public void setJob(String job) {
         this.job = job;
     }
 
-    /**
-     * 
-     * @return
-     *     The outconditions
-     */
     @JsonProperty("outconditions")
     public List<OutCondition> getOutconditions() {
         return outconditions;
     }
 
-    /**
-     * 
-     * @param outconditions
-     *     The outconditions
-     */
     @JsonProperty("outconditions")
     public void setOutconditions(List<OutCondition> outconditions) {
         this.outconditions = outconditions;
@@ -85,7 +71,7 @@ public class JobOutCondition {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("job", job).append("outconditions", outconditions).toString();
     }
 
     @Override
