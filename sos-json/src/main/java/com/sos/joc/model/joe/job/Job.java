@@ -29,6 +29,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "priority",
     "title",
     "isOrderJob",
+    "criticality",
     "enabled",
     "maxTasks",
     "minTasks",
@@ -62,7 +63,12 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class Job implements IJSObject
 {
 
+    /**
+     * possible values windows: idle, below_normal, normal, above_normal, high; possible values unix: integer from -20 to 20
+     * 
+     */
     @JsonProperty("priority")
+    @JsonPropertyDescription("possible values windows: idle, below_normal, normal, above_normal, high; possible values unix: integer from -20 to 20")
     @JacksonXmlProperty(localName = "priority", isAttribute = true)
     private String priority;
     @JsonProperty("title")
@@ -76,6 +82,14 @@ public class Job implements IJSObject
     @JsonPropertyDescription("possible values: yes, no, 1, 0, true, false")
     @JacksonXmlProperty(localName = "order", isAttribute = true)
     private String isOrderJob = "false";
+    /**
+     * possible values: normal, minor, major
+     * 
+     */
+    @JsonProperty("criticality")
+    @JsonPropertyDescription("possible values: normal, minor, major")
+    @JacksonXmlProperty(localName = "criticality", isAttribute = true)
+    private String criticality = "normal";
     /**
      * possible values: yes, no, 1, 0, true, false
      * 
@@ -144,11 +158,11 @@ public class Job implements IJSObject
     @JacksonXmlProperty(localName = "warn_if_shorter_than", isAttribute = true)
     private String warnIfShorterThan;
     /**
-     * possible values: error, warn, info, debug or debug[0-9]
+     * possible values: error and info
      * 
      */
     @JsonProperty("stderrLogLevel")
-    @JsonPropertyDescription("possible values: error, warn, info, debug or debug[0-9]")
+    @JsonPropertyDescription("possible values: error and info")
     @JacksonXmlProperty(localName = "stderr_log_level", isAttribute = true)
     private String stderrLogLevel = "info";
     @JsonProperty("credentialsKey")
@@ -242,12 +256,20 @@ public class Job implements IJSObject
     @JacksonXmlProperty(localName = "commands", isAttribute = false)
     private List<Commands> commands = null;
 
+    /**
+     * possible values windows: idle, below_normal, normal, above_normal, high; possible values unix: integer from -20 to 20
+     * 
+     */
     @JsonProperty("priority")
     @JacksonXmlProperty(localName = "priority", isAttribute = true)
     public String getPriority() {
         return priority;
     }
 
+    /**
+     * possible values windows: idle, below_normal, normal, above_normal, high; possible values unix: integer from -20 to 20
+     * 
+     */
     @JsonProperty("priority")
     @JacksonXmlProperty(localName = "priority", isAttribute = true)
     public void setPriority(String priority) {
@@ -284,6 +306,26 @@ public class Job implements IJSObject
     @JacksonXmlProperty(localName = "order", isAttribute = true)
     public void setIsOrderJob(String isOrderJob) {
         this.isOrderJob = isOrderJob;
+    }
+
+    /**
+     * possible values: normal, minor, major
+     * 
+     */
+    @JsonProperty("criticality")
+    @JacksonXmlProperty(localName = "criticality", isAttribute = true)
+    public String getCriticality() {
+        return criticality;
+    }
+
+    /**
+     * possible values: normal, minor, major
+     * 
+     */
+    @JsonProperty("criticality")
+    @JacksonXmlProperty(localName = "criticality", isAttribute = true)
+    public void setCriticality(String criticality) {
+        this.criticality = criticality;
     }
 
     /**
@@ -483,7 +525,7 @@ public class Job implements IJSObject
     }
 
     /**
-     * possible values: error, warn, info, debug or debug[0-9]
+     * possible values: error and info
      * 
      */
     @JsonProperty("stderrLogLevel")
@@ -493,7 +535,7 @@ public class Job implements IJSObject
     }
 
     /**
-     * possible values: error, warn, info, debug or debug[0-9]
+     * possible values: error and info
      * 
      */
     @JsonProperty("stderrLogLevel")
@@ -764,12 +806,12 @@ public class Job implements IJSObject
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("priority", priority).append("title", title).append("isOrderJob", isOrderJob).append("enabled", enabled).append("maxTasks", maxTasks).append("minTasks", minTasks).append("timeout", timeout).append("idleTimeout", idleTimeout).append("forceIdleTimeout", forceIdleTimeout).append("processClass", processClass).append("javaOptions", javaOptions).append("stopOnError", stopOnError).append("ignoreSignals", ignoreSignals).append("warnIfLongerThan", warnIfLongerThan).append("warnIfShorterThan", warnIfShorterThan).append("stderrLogLevel", stderrLogLevel).append("credentialsKey", credentialsKey).append("loadUserProfile", loadUserProfile).append("settings", settings).append("documentation", documentation).append("lockUses", lockUses).append("params", params).append("environment", environment).append("login", login).append("script", script).append("monitors", monitors).append("monitorUses", monitorUses).append("startWhenDirectoriesChanged", startWhenDirectoriesChanged).append("delayAfterErrors", delayAfterErrors).append("delayOrderAfterSetbacks", delayOrderAfterSetbacks).append("runTime", runTime).append("commands", commands).toString();
+        return new ToStringBuilder(this).append("priority", priority).append("title", title).append("isOrderJob", isOrderJob).append("criticality", criticality).append("enabled", enabled).append("maxTasks", maxTasks).append("minTasks", minTasks).append("timeout", timeout).append("idleTimeout", idleTimeout).append("forceIdleTimeout", forceIdleTimeout).append("processClass", processClass).append("javaOptions", javaOptions).append("stopOnError", stopOnError).append("ignoreSignals", ignoreSignals).append("warnIfLongerThan", warnIfLongerThan).append("warnIfShorterThan", warnIfShorterThan).append("stderrLogLevel", stderrLogLevel).append("credentialsKey", credentialsKey).append("loadUserProfile", loadUserProfile).append("settings", settings).append("documentation", documentation).append("lockUses", lockUses).append("params", params).append("environment", environment).append("login", login).append("script", script).append("monitors", monitors).append("monitorUses", monitorUses).append("startWhenDirectoriesChanged", startWhenDirectoriesChanged).append("delayAfterErrors", delayAfterErrors).append("delayOrderAfterSetbacks", delayOrderAfterSetbacks).append("runTime", runTime).append("commands", commands).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(delayOrderAfterSetbacks).append(delayAfterErrors).append(startWhenDirectoriesChanged).append(forceIdleTimeout).append(processClass).append(title).append(ignoreSignals).append(credentialsKey).append(login).append(minTasks).append(warnIfShorterThan).append(enabled).append(timeout).append(isOrderJob).append(lockUses).append(runTime).append(commands).append(warnIfLongerThan).append(monitorUses).append(settings).append(maxTasks).append(loadUserProfile).append(documentation).append(priority).append(params).append(script).append(stopOnError).append(environment).append(idleTimeout).append(javaOptions).append(stderrLogLevel).append(monitors).toHashCode();
+        return new HashCodeBuilder().append(delayOrderAfterSetbacks).append(delayAfterErrors).append(startWhenDirectoriesChanged).append(criticality).append(forceIdleTimeout).append(processClass).append(title).append(ignoreSignals).append(credentialsKey).append(login).append(minTasks).append(warnIfShorterThan).append(enabled).append(timeout).append(isOrderJob).append(lockUses).append(runTime).append(commands).append(warnIfLongerThan).append(monitorUses).append(settings).append(maxTasks).append(loadUserProfile).append(documentation).append(priority).append(params).append(script).append(stopOnError).append(environment).append(idleTimeout).append(javaOptions).append(stderrLogLevel).append(monitors).toHashCode();
     }
 
     @Override
@@ -781,7 +823,7 @@ public class Job implements IJSObject
             return false;
         }
         Job rhs = ((Job) other);
-        return new EqualsBuilder().append(delayOrderAfterSetbacks, rhs.delayOrderAfterSetbacks).append(delayAfterErrors, rhs.delayAfterErrors).append(startWhenDirectoriesChanged, rhs.startWhenDirectoriesChanged).append(forceIdleTimeout, rhs.forceIdleTimeout).append(processClass, rhs.processClass).append(title, rhs.title).append(ignoreSignals, rhs.ignoreSignals).append(credentialsKey, rhs.credentialsKey).append(login, rhs.login).append(minTasks, rhs.minTasks).append(warnIfShorterThan, rhs.warnIfShorterThan).append(enabled, rhs.enabled).append(timeout, rhs.timeout).append(isOrderJob, rhs.isOrderJob).append(lockUses, rhs.lockUses).append(runTime, rhs.runTime).append(commands, rhs.commands).append(warnIfLongerThan, rhs.warnIfLongerThan).append(monitorUses, rhs.monitorUses).append(settings, rhs.settings).append(maxTasks, rhs.maxTasks).append(loadUserProfile, rhs.loadUserProfile).append(documentation, rhs.documentation).append(priority, rhs.priority).append(params, rhs.params).append(script, rhs.script).append(stopOnError, rhs.stopOnError).append(environment, rhs.environment).append(idleTimeout, rhs.idleTimeout).append(javaOptions, rhs.javaOptions).append(stderrLogLevel, rhs.stderrLogLevel).append(monitors, rhs.monitors).isEquals();
+        return new EqualsBuilder().append(delayOrderAfterSetbacks, rhs.delayOrderAfterSetbacks).append(delayAfterErrors, rhs.delayAfterErrors).append(startWhenDirectoriesChanged, rhs.startWhenDirectoriesChanged).append(criticality, rhs.criticality).append(forceIdleTimeout, rhs.forceIdleTimeout).append(processClass, rhs.processClass).append(title, rhs.title).append(ignoreSignals, rhs.ignoreSignals).append(credentialsKey, rhs.credentialsKey).append(login, rhs.login).append(minTasks, rhs.minTasks).append(warnIfShorterThan, rhs.warnIfShorterThan).append(enabled, rhs.enabled).append(timeout, rhs.timeout).append(isOrderJob, rhs.isOrderJob).append(lockUses, rhs.lockUses).append(runTime, rhs.runTime).append(commands, rhs.commands).append(warnIfLongerThan, rhs.warnIfLongerThan).append(monitorUses, rhs.monitorUses).append(settings, rhs.settings).append(maxTasks, rhs.maxTasks).append(loadUserProfile, rhs.loadUserProfile).append(documentation, rhs.documentation).append(priority, rhs.priority).append(params, rhs.params).append(script, rhs.script).append(stopOnError, rhs.stopOnError).append(environment, rhs.environment).append(idleTimeout, rhs.idleTimeout).append(javaOptions, rhs.javaOptions).append(stderrLogLevel, rhs.stderrLogLevel).append(monitors, rhs.monitors).isEquals();
     }
 
 }

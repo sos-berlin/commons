@@ -83,15 +83,8 @@ public class JobsFilter {
     private String dateFrom;
     @JsonProperty("dateTo")
     private String dateTo;
-    /**
-     * job criticality filter
-     * <p>
-     * Criticality of a job
-     * 
-     */
     @JsonProperty("criticality")
-    @JsonPropertyDescription("Criticality of a job")
-    private JobCriticalityFilter criticality;
+    private List<JobCriticalityFilter> criticality = new ArrayList<JobCriticalityFilter>();
     /**
      * see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
      * 
@@ -259,25 +252,13 @@ public class JobsFilter {
         this.dateTo = dateTo;
     }
 
-    /**
-     * job criticality filter
-     * <p>
-     * Criticality of a job
-     * 
-     */
     @JsonProperty("criticality")
-    public JobCriticalityFilter getCriticality() {
+    public List<JobCriticalityFilter> getCriticality() {
         return criticality;
     }
 
-    /**
-     * job criticality filter
-     * <p>
-     * Criticality of a job
-     * 
-     */
     @JsonProperty("criticality")
-    public void setCriticality(JobCriticalityFilter criticality) {
+    public void setCriticality(List<JobCriticalityFilter> criticality) {
         this.criticality = criticality;
     }
 
