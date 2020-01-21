@@ -4,7 +4,6 @@ package com.sos.joc.model.calendar;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -33,7 +32,6 @@ public class CalendarDatesFilter {
      * 
      */
     @JsonProperty("jobschedulerId")
-    @JacksonXmlProperty(localName = "jobschedulerId")
     private String jobschedulerId;
     /**
      * calendar
@@ -42,7 +40,6 @@ public class CalendarDatesFilter {
      * 
      */
     @JsonProperty("calendar")
-    @JacksonXmlProperty(localName = "calendar")
     private Calendar calendar;
     /**
      * non negative long
@@ -51,16 +48,12 @@ public class CalendarDatesFilter {
      * 
      */
     @JsonProperty("id")
-    @JacksonXmlProperty(localName = "id")
     private Long id;
     @JsonProperty("path")
-    @JacksonXmlProperty(localName = "path")
     private String path;
     @JsonProperty("dateFrom")
-    @JacksonXmlProperty(localName = "dateFrom")
     private String dateFrom;
     @JsonProperty("dateTo")
-    @JacksonXmlProperty(localName = "dateTo")
     private String dateTo;
 
     /**
@@ -69,7 +62,6 @@ public class CalendarDatesFilter {
      * 
      */
     @JsonProperty("jobschedulerId")
-    @JacksonXmlProperty(localName = "jobschedulerId")
     public String getJobschedulerId() {
         return jobschedulerId;
     }
@@ -80,7 +72,6 @@ public class CalendarDatesFilter {
      * 
      */
     @JsonProperty("jobschedulerId")
-    @JacksonXmlProperty(localName = "jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
         this.jobschedulerId = jobschedulerId;
     }
@@ -92,7 +83,6 @@ public class CalendarDatesFilter {
      * 
      */
     @JsonProperty("calendar")
-    @JacksonXmlProperty(localName = "calendar")
     public Calendar getCalendar() {
         return calendar;
     }
@@ -104,7 +94,6 @@ public class CalendarDatesFilter {
      * 
      */
     @JsonProperty("calendar")
-    @JacksonXmlProperty(localName = "calendar")
     public void setCalendar(Calendar calendar) {
         this.calendar = calendar;
     }
@@ -116,7 +105,6 @@ public class CalendarDatesFilter {
      * 
      */
     @JsonProperty("id")
-    @JacksonXmlProperty(localName = "id")
     public Long getId() {
         return id;
     }
@@ -128,43 +116,36 @@ public class CalendarDatesFilter {
      * 
      */
     @JsonProperty("id")
-    @JacksonXmlProperty(localName = "id")
     public void setId(Long id) {
         this.id = id;
     }
 
     @JsonProperty("path")
-    @JacksonXmlProperty(localName = "path")
     public String getPath() {
         return path;
     }
 
     @JsonProperty("path")
-    @JacksonXmlProperty(localName = "path")
     public void setPath(String path) {
         this.path = path;
     }
 
     @JsonProperty("dateFrom")
-    @JacksonXmlProperty(localName = "dateFrom")
     public String getDateFrom() {
         return dateFrom;
     }
 
     @JsonProperty("dateFrom")
-    @JacksonXmlProperty(localName = "dateFrom")
     public void setDateFrom(String dateFrom) {
         this.dateFrom = dateFrom;
     }
 
     @JsonProperty("dateTo")
-    @JacksonXmlProperty(localName = "dateTo")
     public String getDateTo() {
         return dateTo;
     }
 
     @JsonProperty("dateTo")
-    @JacksonXmlProperty(localName = "dateTo")
     public void setDateTo(String dateTo) {
         this.dateTo = dateTo;
     }

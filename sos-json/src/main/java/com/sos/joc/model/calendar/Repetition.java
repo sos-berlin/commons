@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -34,7 +33,6 @@ public class Repetition {
      */
     @JsonProperty("from")
     @JsonPropertyDescription("ISO date YYYY-MM-DD")
-    @JacksonXmlProperty(localName = "from")
     private String from;
     /**
      * date
@@ -44,7 +42,6 @@ public class Repetition {
      */
     @JsonProperty("to")
     @JsonPropertyDescription("ISO date YYYY-MM-DD")
-    @JacksonXmlProperty(localName = "to")
     private String to;
     /**
      * 
@@ -52,10 +49,8 @@ public class Repetition {
      * 
      */
     @JsonProperty("repetition")
-    @JacksonXmlProperty(localName = "repetition")
     private RepetitionText repetition;
     @JsonProperty("step")
-    @JacksonXmlProperty(localName = "step")
     private Integer step = 1;
 
     /**
@@ -65,7 +60,6 @@ public class Repetition {
      * 
      */
     @JsonProperty("from")
-    @JacksonXmlProperty(localName = "from")
     public String getFrom() {
         return from;
     }
@@ -77,7 +71,6 @@ public class Repetition {
      * 
      */
     @JsonProperty("from")
-    @JacksonXmlProperty(localName = "from")
     public void setFrom(String from) {
         this.from = from;
     }
@@ -89,7 +82,6 @@ public class Repetition {
      * 
      */
     @JsonProperty("to")
-    @JacksonXmlProperty(localName = "to")
     public String getTo() {
         return to;
     }
@@ -101,7 +93,6 @@ public class Repetition {
      * 
      */
     @JsonProperty("to")
-    @JacksonXmlProperty(localName = "to")
     public void setTo(String to) {
         this.to = to;
     }
@@ -112,7 +103,6 @@ public class Repetition {
      * 
      */
     @JsonProperty("repetition")
-    @JacksonXmlProperty(localName = "repetition")
     public RepetitionText getRepetition() {
         return repetition;
     }
@@ -123,19 +113,16 @@ public class Repetition {
      * 
      */
     @JsonProperty("repetition")
-    @JacksonXmlProperty(localName = "repetition")
     public void setRepetition(RepetitionText repetition) {
         this.repetition = repetition;
     }
 
     @JsonProperty("step")
-    @JacksonXmlProperty(localName = "step")
     public Integer getStep() {
         return step;
     }
 
     @JsonProperty("step")
-    @JacksonXmlProperty(localName = "step")
     public void setStep(Integer step) {
         this.step = step;
     }

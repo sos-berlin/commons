@@ -7,8 +7,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -36,7 +34,6 @@ public class Categories {
      */
     @JsonProperty("deliveryDate")
     @JsonPropertyDescription("Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
-    @JacksonXmlProperty(localName = "deliveryDate")
     private Date deliveryDate;
     /**
      * 
@@ -44,8 +41,6 @@ public class Categories {
      * 
      */
     @JsonProperty("categories")
-    @JacksonXmlProperty(localName = "category")
-    @JacksonXmlElementWrapper(useWrapping = true, localName = "categories")
     private List<String> categories = null;
 
     /**
@@ -56,7 +51,6 @@ public class Categories {
      * 
      */
     @JsonProperty("deliveryDate")
-    @JacksonXmlProperty(localName = "deliveryDate")
     public Date getDeliveryDate() {
         return deliveryDate;
     }
@@ -69,7 +63,6 @@ public class Categories {
      * 
      */
     @JsonProperty("deliveryDate")
-    @JacksonXmlProperty(localName = "deliveryDate")
     public void setDeliveryDate(Date deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
@@ -80,7 +73,6 @@ public class Categories {
      * 
      */
     @JsonProperty("categories")
-    @JacksonXmlProperty(localName = "category")
     public List<String> getCategories() {
         return categories;
     }
@@ -91,7 +83,6 @@ public class Categories {
      * 
      */
     @JsonProperty("categories")
-    @JacksonXmlProperty(localName = "category")
     public void setCategories(List<String> categories) {
         this.categories = categories;
     }

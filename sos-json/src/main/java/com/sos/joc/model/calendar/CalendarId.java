@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -26,7 +25,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class CalendarId {
 
     @JsonProperty("jobschedulerId")
-    @JacksonXmlProperty(localName = "jobschedulerId")
     private String jobschedulerId;
     /**
      * non negative long
@@ -35,7 +33,6 @@ public class CalendarId {
      * 
      */
     @JsonProperty("id")
-    @JacksonXmlProperty(localName = "id")
     private Long id;
     /**
      * path
@@ -45,17 +42,14 @@ public class CalendarId {
      */
     @JsonProperty("path")
     @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
-    @JacksonXmlProperty(localName = "path")
     private String path;
 
     @JsonProperty("jobschedulerId")
-    @JacksonXmlProperty(localName = "jobschedulerId")
     public String getJobschedulerId() {
         return jobschedulerId;
     }
 
     @JsonProperty("jobschedulerId")
-    @JacksonXmlProperty(localName = "jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
         this.jobschedulerId = jobschedulerId;
     }
@@ -67,7 +61,6 @@ public class CalendarId {
      * 
      */
     @JsonProperty("id")
-    @JacksonXmlProperty(localName = "id")
     public Long getId() {
         return id;
     }
@@ -79,7 +72,6 @@ public class CalendarId {
      * 
      */
     @JsonProperty("id")
-    @JacksonXmlProperty(localName = "id")
     public void setId(Long id) {
         this.id = id;
     }
@@ -91,7 +83,6 @@ public class CalendarId {
      * 
      */
     @JsonProperty("path")
-    @JacksonXmlProperty(localName = "path")
     public String getPath() {
         return path;
     }
@@ -103,7 +94,6 @@ public class CalendarId {
      * 
      */
     @JsonProperty("path")
-    @JacksonXmlProperty(localName = "path")
     public void setPath(String path) {
         this.path = path;
     }

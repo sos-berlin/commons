@@ -6,8 +6,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -36,8 +34,6 @@ public class Months {
      * 
      */
     @JsonProperty("months")
-    @JacksonXmlProperty(localName = "month")
-    @JacksonXmlElementWrapper(useWrapping = true, localName = "months")
     private List<Integer> months = null;
     /**
      * date
@@ -47,7 +43,6 @@ public class Months {
      */
     @JsonProperty("from")
     @JsonPropertyDescription("ISO date YYYY-MM-DD")
-    @JacksonXmlProperty(localName = "from")
     private String from;
     /**
      * date
@@ -57,19 +52,12 @@ public class Months {
      */
     @JsonProperty("to")
     @JsonPropertyDescription("ISO date YYYY-MM-DD")
-    @JacksonXmlProperty(localName = "to")
     private String to;
     @JsonProperty("weekdays")
-    @JacksonXmlProperty(localName = "weekday")
-    @JacksonXmlElementWrapper(useWrapping = true, localName = "weekdays")
     private List<WeekDays> weekdays = null;
     @JsonProperty("monthdays")
-    @JacksonXmlProperty(localName = "monthday")
-    @JacksonXmlElementWrapper(useWrapping = true, localName = "monthdays")
     private List<MonthDays> monthdays = null;
     @JsonProperty("ultimos")
-    @JacksonXmlProperty(localName = "ultimo")
-    @JacksonXmlElementWrapper(useWrapping = true, localName = "ultimos")
     private List<MonthDays> ultimos = null;
 
     /**
@@ -78,7 +66,6 @@ public class Months {
      * 
      */
     @JsonProperty("months")
-    @JacksonXmlProperty(localName = "month")
     public List<Integer> getMonths() {
         return months;
     }
@@ -89,7 +76,6 @@ public class Months {
      * 
      */
     @JsonProperty("months")
-    @JacksonXmlProperty(localName = "month")
     public void setMonths(List<Integer> months) {
         this.months = months;
     }
@@ -101,7 +87,6 @@ public class Months {
      * 
      */
     @JsonProperty("from")
-    @JacksonXmlProperty(localName = "from")
     public String getFrom() {
         return from;
     }
@@ -113,7 +98,6 @@ public class Months {
      * 
      */
     @JsonProperty("from")
-    @JacksonXmlProperty(localName = "from")
     public void setFrom(String from) {
         this.from = from;
     }
@@ -125,7 +109,6 @@ public class Months {
      * 
      */
     @JsonProperty("to")
-    @JacksonXmlProperty(localName = "to")
     public String getTo() {
         return to;
     }
@@ -137,43 +120,36 @@ public class Months {
      * 
      */
     @JsonProperty("to")
-    @JacksonXmlProperty(localName = "to")
     public void setTo(String to) {
         this.to = to;
     }
 
     @JsonProperty("weekdays")
-    @JacksonXmlProperty(localName = "weekday")
     public List<WeekDays> getWeekdays() {
         return weekdays;
     }
 
     @JsonProperty("weekdays")
-    @JacksonXmlProperty(localName = "weekday")
     public void setWeekdays(List<WeekDays> weekdays) {
         this.weekdays = weekdays;
     }
 
     @JsonProperty("monthdays")
-    @JacksonXmlProperty(localName = "monthday")
     public List<MonthDays> getMonthdays() {
         return monthdays;
     }
 
     @JsonProperty("monthdays")
-    @JacksonXmlProperty(localName = "monthday")
     public void setMonthdays(List<MonthDays> monthdays) {
         this.monthdays = monthdays;
     }
 
     @JsonProperty("ultimos")
-    @JacksonXmlProperty(localName = "ultimo")
     public List<MonthDays> getUltimos() {
         return ultimos;
     }
 
     @JsonProperty("ultimos")
-    @JacksonXmlProperty(localName = "ultimo")
     public void setUltimos(List<MonthDays> ultimos) {
         this.ultimos = ultimos;
     }

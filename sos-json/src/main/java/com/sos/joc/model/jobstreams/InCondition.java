@@ -2,6 +2,7 @@
 package com.sos.joc.model.jobstreams;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -26,7 +27,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "markExpression",
     "skipOutCondition",
     "conditionExpression",
-    "nexPeriod",
+    "nextPeriod",
     "inconditionCommands",
     "outconditions"
 })
@@ -58,14 +59,14 @@ public class InCondition {
     @JsonPropertyDescription("Expression for Condition")
     private ConditionExpression conditionExpression;
     /**
-     * date
+     * delivery date
      * <p>
-     * ISO date YYYY-MM-DD
+     * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * 
      */
-    @JsonProperty("nexPeriod")
-    @JsonPropertyDescription("ISO date YYYY-MM-DD")
-    private String nexPeriod;
+    @JsonProperty("nextPeriod")
+    @JsonPropertyDescription("Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
+    private Date nextPeriod;
     @JsonProperty("inconditionCommands")
     private List<InConditionCommand> inconditionCommands = new ArrayList<InConditionCommand>();
     @JsonProperty("outconditions")
@@ -156,25 +157,25 @@ public class InCondition {
     }
 
     /**
-     * date
+     * delivery date
      * <p>
-     * ISO date YYYY-MM-DD
+     * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * 
      */
-    @JsonProperty("nexPeriod")
-    public String getNexPeriod() {
-        return nexPeriod;
+    @JsonProperty("nextPeriod")
+    public Date getNextPeriod() {
+        return nextPeriod;
     }
 
     /**
-     * date
+     * delivery date
      * <p>
-     * ISO date YYYY-MM-DD
+     * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * 
      */
-    @JsonProperty("nexPeriod")
-    public void setNexPeriod(String nexPeriod) {
-        this.nexPeriod = nexPeriod;
+    @JsonProperty("nextPeriod")
+    public void setNextPeriod(Date nextPeriod) {
+        this.nextPeriod = nextPeriod;
     }
 
     @JsonProperty("inconditionCommands")
@@ -199,12 +200,12 @@ public class InCondition {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("id", id).append("jobStream", jobStream).append("consumed", consumed).append("markExpression", markExpression).append("skipOutCondition", skipOutCondition).append("conditionExpression", conditionExpression).append("nexPeriod", nexPeriod).append("inconditionCommands", inconditionCommands).append("outconditions", outconditions).toString();
+        return new ToStringBuilder(this).append("id", id).append("jobStream", jobStream).append("consumed", consumed).append("markExpression", markExpression).append("skipOutCondition", skipOutCondition).append("conditionExpression", conditionExpression).append("nextPeriod", nextPeriod).append("inconditionCommands", inconditionCommands).append("outconditions", outconditions).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(consumed).append(nexPeriod).append(markExpression).append(conditionExpression).append(outconditions).append(jobStream).append(id).append(inconditionCommands).append(skipOutCondition).toHashCode();
+        return new HashCodeBuilder().append(consumed).append(markExpression).append(conditionExpression).append(nextPeriod).append(outconditions).append(jobStream).append(id).append(inconditionCommands).append(skipOutCondition).toHashCode();
     }
 
     @Override
@@ -216,7 +217,7 @@ public class InCondition {
             return false;
         }
         InCondition rhs = ((InCondition) other);
-        return new EqualsBuilder().append(consumed, rhs.consumed).append(nexPeriod, rhs.nexPeriod).append(markExpression, rhs.markExpression).append(conditionExpression, rhs.conditionExpression).append(outconditions, rhs.outconditions).append(jobStream, rhs.jobStream).append(id, rhs.id).append(inconditionCommands, rhs.inconditionCommands).append(skipOutCondition, rhs.skipOutCondition).isEquals();
+        return new EqualsBuilder().append(consumed, rhs.consumed).append(markExpression, rhs.markExpression).append(conditionExpression, rhs.conditionExpression).append(nextPeriod, rhs.nextPeriod).append(outconditions, rhs.outconditions).append(jobStream, rhs.jobStream).append(id, rhs.id).append(inconditionCommands, rhs.inconditionCommands).append(skipOutCondition, rhs.skipOutCondition).isEquals();
     }
 
 }
