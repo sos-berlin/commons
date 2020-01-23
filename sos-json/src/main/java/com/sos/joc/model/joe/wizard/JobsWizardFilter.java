@@ -18,12 +18,12 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-@JacksonXmlRootElement(localName = "jobs_filter")
+@JacksonXmlRootElement(localName = "jobs_wizard_filter")
 @JsonPropertyOrder({
     "jobschedulerId",
     "isOrderJob"
 })
-public class JobsFilter {
+public class JobsWizardFilter {
 
     /**
      * 
@@ -86,10 +86,10 @@ public class JobsFilter {
         if (other == this) {
             return true;
         }
-        if ((other instanceof JobsFilter) == false) {
+        if ((other instanceof JobsWizardFilter) == false) {
             return false;
         }
-        JobsFilter rhs = ((JobsFilter) other);
+        JobsWizardFilter rhs = ((JobsWizardFilter) other);
         return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(isOrderJob, rhs.isOrderJob).isEquals();
     }
 
