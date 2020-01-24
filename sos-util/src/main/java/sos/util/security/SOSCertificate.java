@@ -20,11 +20,13 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.TimeZone;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public class SOSCertificate {
 
-    private static final Logger LOGGER = Logger.getLogger(SOSCertificate.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSCertificate.class);
     /** ausgestellt für */
     private static String subjectDN = "O=APL/SOS,C=DE";
     /** ausgestellt von CN=Robert Ehrlich,C=DE,O=APL/SOS */

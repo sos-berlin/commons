@@ -9,7 +9,8 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import sos.util.SOSClassUtil;
 import sos.util.SOSLogger;
@@ -20,7 +21,7 @@ public class SOSSybaseConnection extends sos.connection.SOSConnection {
 
     private static final String REPLACEMENT[] = { "LOWER", "UPPER", "GETDATE()", "holdlock" };
     private static final SOSConnectionVersionLimiter VERSION_LIMITER;
-    private static final Logger LOGGER = Logger.getLogger(SOSSybaseConnection.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSSybaseConnection.class);
 
     static {
         VERSION_LIMITER = new SOSConnectionVersionLimiter();

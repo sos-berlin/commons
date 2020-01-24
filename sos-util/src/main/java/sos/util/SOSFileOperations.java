@@ -12,14 +12,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /** @author Florian Schreiber
  * @deprecated because it is a singleton, use SOSFileSystemOperations */
 @Deprecated
 public class SOSFileOperations {
 
-    private static final Logger LOGGER = Logger.getLogger(SOSFileOperations.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSFileOperations.class);
     private static Hashtable<String, String> BOOL = new Hashtable<String, String>();
     public static final int CREATE_DIR = 0x01;
     public static final int GRACIOUS = 0x02;
@@ -1077,7 +1079,7 @@ public class SOSFileOperations {
             lstResultList = list;
             return nrOfTransferedFiles;
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage(), e);
             if (copying) {
                 throw new Exception("error occurred copying file(s): " + e.getMessage());
             } else if (renaming) {

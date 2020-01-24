@@ -7,15 +7,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SOSExcelFileWriter {
 
-    private static final Logger LOGGER = Logger.getLogger(SOSExcelFileWriter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSExcelFileWriter.class);
     private ArrayList<Object[]> data;
     private Object[] header;
     private String nameOfSheet = "Sheet";
@@ -68,9 +69,9 @@ public class SOSExcelFileWriter {
             workbook.write(out);
             out.close();
         } catch (FileNotFoundException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage(), e);
         } catch (IOException e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage(), e);
         }
     }
 

@@ -5,7 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 
 import sos.util.SOSLogger;
@@ -13,7 +14,7 @@ import sos.xml.SOSXMLXPath;
 
 public class SOSConfigurationRequiredItem {
 
-    private static final Logger LOGGER = Logger.getLogger(SOSConfigurationRequiredItem.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSConfigurationRequiredItem.class);
     private SOSXMLXPath xPath = null;
     private String msgUnknownParameter = "";
     private List<String> checkIds = null;
@@ -177,7 +178,7 @@ public class SOSConfigurationRequiredItem {
             }
             sosLogger.debug("**********************************************************************************");
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
