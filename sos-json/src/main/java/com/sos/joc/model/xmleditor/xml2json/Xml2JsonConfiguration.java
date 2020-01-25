@@ -26,6 +26,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class Xml2JsonConfiguration {
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 
@@ -42,16 +44,26 @@ public class Xml2JsonConfiguration {
     @JsonProperty("objectType")
     private ObjectType objectType;
     /**
+     * disallow <script and <svg/on
+     * <p>
      * 
      * (Required)
      * 
      */
     @JsonProperty("configuration")
     private String configuration;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("schemaIdentifier")
     private String schemaIdentifier;
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 
@@ -62,6 +74,8 @@ public class Xml2JsonConfiguration {
     }
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 
@@ -96,6 +110,8 @@ public class Xml2JsonConfiguration {
     }
 
     /**
+     * disallow <script and <svg/on
+     * <p>
      * 
      * (Required)
      * 
@@ -106,6 +122,8 @@ public class Xml2JsonConfiguration {
     }
 
     /**
+     * disallow <script and <svg/on
+     * <p>
      * 
      * (Required)
      * 
@@ -115,11 +133,23 @@ public class Xml2JsonConfiguration {
         this.configuration = configuration;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("schemaIdentifier")
     public String getSchemaIdentifier() {
         return schemaIdentifier;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("schemaIdentifier")
     public void setSchemaIdentifier(String schemaIdentifier) {
         this.schemaIdentifier = schemaIdentifier;

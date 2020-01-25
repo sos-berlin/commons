@@ -26,6 +26,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class ReadConfiguration {
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 
@@ -47,6 +49,8 @@ public class ReadConfiguration {
     private Boolean forceLive;
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 
@@ -57,6 +61,8 @@ public class ReadConfiguration {
     }
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 

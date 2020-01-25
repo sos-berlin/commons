@@ -28,6 +28,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class ApplyConfiguration {
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 
@@ -38,26 +40,40 @@ public class ApplyConfiguration {
      * xmleditor object type
      * <p>
      * 
-     * (Required)
      * 
      */
     @JsonProperty("objectType")
     private ObjectType objectType;
     /**
+     * disallow <script and <svg/on
+     * <p>
      * 
-     * (Required)
      * 
      */
     @JsonProperty("configuration")
     private String configuration;
     @JsonProperty("id")
     private Integer id;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("name")
     private String name;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("schemaIdentifier")
     private String schemaIdentifier;
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 
@@ -68,6 +84,8 @@ public class ApplyConfiguration {
     }
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 
@@ -81,7 +99,6 @@ public class ApplyConfiguration {
      * xmleditor object type
      * <p>
      * 
-     * (Required)
      * 
      */
     @JsonProperty("objectType")
@@ -93,7 +110,6 @@ public class ApplyConfiguration {
      * xmleditor object type
      * <p>
      * 
-     * (Required)
      * 
      */
     @JsonProperty("objectType")
@@ -102,8 +118,9 @@ public class ApplyConfiguration {
     }
 
     /**
+     * disallow <script and <svg/on
+     * <p>
      * 
-     * (Required)
      * 
      */
     @JsonProperty("configuration")
@@ -112,8 +129,9 @@ public class ApplyConfiguration {
     }
 
     /**
+     * disallow <script and <svg/on
+     * <p>
      * 
-     * (Required)
      * 
      */
     @JsonProperty("configuration")
@@ -131,21 +149,45 @@ public class ApplyConfiguration {
         this.id = id;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("name")
     public String getName() {
         return name;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("name")
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("schemaIdentifier")
     public String getSchemaIdentifier() {
         return schemaIdentifier;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("schemaIdentifier")
     public void setSchemaIdentifier(String schemaIdentifier) {
         this.schemaIdentifier = schemaIdentifier;

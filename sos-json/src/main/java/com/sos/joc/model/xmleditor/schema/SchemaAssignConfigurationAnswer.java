@@ -1,5 +1,5 @@
 
-package com.sos.joc.model.xmleditor.schema.assign;
+package com.sos.joc.model.xmleditor.schema;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -20,7 +20,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "schema",
     "schemaIdentifier"
 })
-public class AssignSchemaConfigurationAnswer {
+public class SchemaAssignConfigurationAnswer {
 
     @JsonProperty("schema")
     private String schema;
@@ -62,10 +62,10 @@ public class AssignSchemaConfigurationAnswer {
         if (other == this) {
             return true;
         }
-        if ((other instanceof AssignSchemaConfigurationAnswer) == false) {
+        if ((other instanceof SchemaAssignConfigurationAnswer) == false) {
             return false;
         }
-        AssignSchemaConfigurationAnswer rhs = ((AssignSchemaConfigurationAnswer) other);
+        SchemaAssignConfigurationAnswer rhs = ((SchemaAssignConfigurationAnswer) other);
         return new EqualsBuilder().append(schema, rhs.schema).append(schemaIdentifier, rhs.schemaIdentifier).isEquals();
     }
 

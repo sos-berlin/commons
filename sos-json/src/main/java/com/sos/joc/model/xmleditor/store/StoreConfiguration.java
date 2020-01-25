@@ -29,6 +29,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class StoreConfiguration {
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 
@@ -45,22 +47,44 @@ public class StoreConfiguration {
     @JsonProperty("objectType")
     private ObjectType objectType;
     /**
+     * disallow <script and <svg/on
+     * <p>
      * 
      * (Required)
      * 
      */
     @JsonProperty("configuration")
     private String configuration;
+    /**
+     * disallow <script and <svg/on
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("configurationJson")
     private String configurationJson;
     @JsonProperty("id")
     private Integer id;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("name")
     private String name;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("schemaIdentifier")
     private String schemaIdentifier;
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 
@@ -71,6 +95,8 @@ public class StoreConfiguration {
     }
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 
@@ -105,6 +131,8 @@ public class StoreConfiguration {
     }
 
     /**
+     * disallow <script and <svg/on
+     * <p>
      * 
      * (Required)
      * 
@@ -115,6 +143,8 @@ public class StoreConfiguration {
     }
 
     /**
+     * disallow <script and <svg/on
+     * <p>
      * 
      * (Required)
      * 
@@ -124,11 +154,23 @@ public class StoreConfiguration {
         this.configuration = configuration;
     }
 
+    /**
+     * disallow <script and <svg/on
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("configurationJson")
     public String getConfigurationJson() {
         return configurationJson;
     }
 
+    /**
+     * disallow <script and <svg/on
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("configurationJson")
     public void setConfigurationJson(String configurationJson) {
         this.configurationJson = configurationJson;
@@ -144,21 +186,45 @@ public class StoreConfiguration {
         this.id = id;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("name")
     public String getName() {
         return name;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("name")
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("schemaIdentifier")
     public String getSchemaIdentifier() {
         return schemaIdentifier;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("schemaIdentifier")
     public void setSchemaIdentifier(String schemaIdentifier) {
         this.schemaIdentifier = schemaIdentifier;

@@ -27,6 +27,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class RenameConfiguration {
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 
@@ -44,12 +46,26 @@ public class RenameConfiguration {
     private ObjectType objectType;
     @JsonProperty("id")
     private Integer id;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("name")
     private String name;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("schemaIdentifier")
     private String schemaIdentifier;
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 
@@ -60,6 +76,8 @@ public class RenameConfiguration {
     }
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 
@@ -103,21 +121,45 @@ public class RenameConfiguration {
         this.id = id;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("name")
     public String getName() {
         return name;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("name")
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("schemaIdentifier")
     public String getSchemaIdentifier() {
         return schemaIdentifier;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("schemaIdentifier")
     public void setSchemaIdentifier(String schemaIdentifier) {
         this.schemaIdentifier = schemaIdentifier;

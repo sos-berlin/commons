@@ -1,5 +1,5 @@
 
-package com.sos.joc.model.xmleditor.validate;
+package com.sos.joc.model.xmleditor.schema;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,7 +11,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * xmleditor validate configuration in
+ * xmleditor schema download configuration in
  * <p>
  * schemaIdentifier only for OTHER
  * 
@@ -20,10 +20,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "jobschedulerId",
     "objectType",
-    "configuration",
     "schemaIdentifier"
 })
-public class ValidateConfiguration {
+public class SchemaDownloadConfiguration {
 
     /**
      * filename
@@ -43,14 +42,6 @@ public class ValidateConfiguration {
      */
     @JsonProperty("objectType")
     private ObjectType objectType;
-    /**
-     * disallow <script and <svg/on
-     * <p>
-     * 
-     * 
-     */
-    @JsonProperty("configuration")
-    private String configuration;
     /**
      * string without < and >
      * <p>
@@ -109,28 +100,6 @@ public class ValidateConfiguration {
     }
 
     /**
-     * disallow <script and <svg/on
-     * <p>
-     * 
-     * 
-     */
-    @JsonProperty("configuration")
-    public String getConfiguration() {
-        return configuration;
-    }
-
-    /**
-     * disallow <script and <svg/on
-     * <p>
-     * 
-     * 
-     */
-    @JsonProperty("configuration")
-    public void setConfiguration(String configuration) {
-        this.configuration = configuration;
-    }
-
-    /**
      * string without < and >
      * <p>
      * 
@@ -154,12 +123,12 @@ public class ValidateConfiguration {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("objectType", objectType).append("configuration", configuration).append("schemaIdentifier", schemaIdentifier).toString();
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("objectType", objectType).append("schemaIdentifier", schemaIdentifier).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(schemaIdentifier).append(jobschedulerId).append(configuration).append(objectType).toHashCode();
+        return new HashCodeBuilder().append(schemaIdentifier).append(jobschedulerId).append(objectType).toHashCode();
     }
 
     @Override
@@ -167,11 +136,11 @@ public class ValidateConfiguration {
         if (other == this) {
             return true;
         }
-        if ((other instanceof ValidateConfiguration) == false) {
+        if ((other instanceof SchemaDownloadConfiguration) == false) {
             return false;
         }
-        ValidateConfiguration rhs = ((ValidateConfiguration) other);
-        return new EqualsBuilder().append(schemaIdentifier, rhs.schemaIdentifier).append(jobschedulerId, rhs.jobschedulerId).append(configuration, rhs.configuration).append(objectType, rhs.objectType).isEquals();
+        SchemaDownloadConfiguration rhs = ((SchemaDownloadConfiguration) other);
+        return new EqualsBuilder().append(schemaIdentifier, rhs.schemaIdentifier).append(jobschedulerId, rhs.jobschedulerId).append(objectType, rhs.objectType).isEquals();
     }
 
 }

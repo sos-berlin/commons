@@ -25,6 +25,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class DeleteDraft {
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 
@@ -44,6 +46,8 @@ public class DeleteDraft {
     private Integer id;
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 
@@ -54,6 +58,8 @@ public class DeleteDraft {
     }
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 

@@ -1,5 +1,5 @@
 
-package com.sos.joc.model.xmleditor.schema.reassign;
+package com.sos.joc.model.xmleditor.schema;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,7 +11,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * xmleditor reassign schema configuration in
+ * xmleditor assign schema configuration in
  * <p>
  * 
  * 
@@ -20,14 +20,15 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "jobschedulerId",
     "objectType",
-    "configuration",
     "uri",
     "fileName",
     "fileContent"
 })
-public class ReassignSchemaConfiguration {
+public class SchemaAssignConfiguration {
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 
@@ -43,16 +44,34 @@ public class ReassignSchemaConfiguration {
      */
     @JsonProperty("objectType")
     private ObjectType objectType;
-    @JsonProperty("configuration")
-    private String configuration;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("uri")
     private String uri;
+    /**
+     * filename
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("fileName")
     private String fileName;
+    /**
+     * disallow <script and <svg/on
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("fileContent")
     private String fileContent;
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 
@@ -63,6 +82,8 @@ public class ReassignSchemaConfiguration {
     }
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 
@@ -96,41 +117,67 @@ public class ReassignSchemaConfiguration {
         this.objectType = objectType;
     }
 
-    @JsonProperty("configuration")
-    public String getConfiguration() {
-        return configuration;
-    }
-
-    @JsonProperty("configuration")
-    public void setConfiguration(String configuration) {
-        this.configuration = configuration;
-    }
-
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("uri")
     public String getUri() {
         return uri;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("uri")
     public void setUri(String uri) {
         this.uri = uri;
     }
 
+    /**
+     * filename
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("fileName")
     public String getFileName() {
         return fileName;
     }
 
+    /**
+     * filename
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("fileName")
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
 
+    /**
+     * disallow <script and <svg/on
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("fileContent")
     public String getFileContent() {
         return fileContent;
     }
 
+    /**
+     * disallow <script and <svg/on
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("fileContent")
     public void setFileContent(String fileContent) {
         this.fileContent = fileContent;
@@ -138,12 +185,12 @@ public class ReassignSchemaConfiguration {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("objectType", objectType).append("configuration", configuration).append("uri", uri).append("fileName", fileName).append("fileContent", fileContent).toString();
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("objectType", objectType).append("uri", uri).append("fileName", fileName).append("fileContent", fileContent).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(fileName).append(configuration).append(jobschedulerId).append(uri).append(fileContent).append(objectType).toHashCode();
+        return new HashCodeBuilder().append(fileName).append(jobschedulerId).append(uri).append(fileContent).append(objectType).toHashCode();
     }
 
     @Override
@@ -151,11 +198,11 @@ public class ReassignSchemaConfiguration {
         if (other == this) {
             return true;
         }
-        if ((other instanceof ReassignSchemaConfiguration) == false) {
+        if ((other instanceof SchemaAssignConfiguration) == false) {
             return false;
         }
-        ReassignSchemaConfiguration rhs = ((ReassignSchemaConfiguration) other);
-        return new EqualsBuilder().append(fileName, rhs.fileName).append(configuration, rhs.configuration).append(jobschedulerId, rhs.jobschedulerId).append(uri, rhs.uri).append(fileContent, rhs.fileContent).append(objectType, rhs.objectType).isEquals();
+        SchemaAssignConfiguration rhs = ((SchemaAssignConfiguration) other);
+        return new EqualsBuilder().append(fileName, rhs.fileName).append(jobschedulerId, rhs.jobschedulerId).append(uri, rhs.uri).append(fileContent, rhs.fileContent).append(objectType, rhs.objectType).isEquals();
     }
 
 }

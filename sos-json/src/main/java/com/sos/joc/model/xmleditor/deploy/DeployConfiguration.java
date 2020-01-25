@@ -28,6 +28,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class DeployConfiguration {
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 
@@ -44,12 +46,19 @@ public class DeployConfiguration {
     @JsonProperty("objectType")
     private ObjectType objectType;
     /**
+     * disallow <script and <svg/on
+     * <p>
      * 
-     * (Required)
      * 
      */
     @JsonProperty("configuration")
     private String configuration;
+    /**
+     * disallow <script and <svg/on
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("configurationJson")
     private String configurationJson;
     /**
@@ -62,6 +71,8 @@ public class DeployConfiguration {
     private AuditParams auditLog;
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 
@@ -72,6 +83,8 @@ public class DeployConfiguration {
     }
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 
@@ -106,8 +119,9 @@ public class DeployConfiguration {
     }
 
     /**
+     * disallow <script and <svg/on
+     * <p>
      * 
-     * (Required)
      * 
      */
     @JsonProperty("configuration")
@@ -116,8 +130,9 @@ public class DeployConfiguration {
     }
 
     /**
+     * disallow <script and <svg/on
+     * <p>
      * 
-     * (Required)
      * 
      */
     @JsonProperty("configuration")
@@ -125,11 +140,23 @@ public class DeployConfiguration {
         this.configuration = configuration;
     }
 
+    /**
+     * disallow <script and <svg/on
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("configurationJson")
     public String getConfigurationJson() {
         return configurationJson;
     }
 
+    /**
+     * disallow <script and <svg/on
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("configurationJson")
     public void setConfigurationJson(String configurationJson) {
         this.configurationJson = configurationJson;

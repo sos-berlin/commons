@@ -26,6 +26,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class DeleteAll {
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 
@@ -41,6 +43,8 @@ public class DeleteAll {
     private List<ObjectType> objectTypes = new ArrayList<ObjectType>();
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 
@@ -51,6 +55,8 @@ public class DeleteAll {
     }
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 
