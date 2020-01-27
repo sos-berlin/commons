@@ -20,6 +20,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "jobschedulerId",
     "objectType",
+    "show",
     "schemaIdentifier"
 })
 public class SchemaDownloadConfiguration {
@@ -42,6 +43,8 @@ public class SchemaDownloadConfiguration {
      */
     @JsonProperty("objectType")
     private ObjectType objectType;
+    @JsonProperty("show")
+    private Boolean show;
     /**
      * string without < and >
      * <p>
@@ -99,6 +102,16 @@ public class SchemaDownloadConfiguration {
         this.objectType = objectType;
     }
 
+    @JsonProperty("show")
+    public Boolean getShow() {
+        return show;
+    }
+
+    @JsonProperty("show")
+    public void setShow(Boolean show) {
+        this.show = show;
+    }
+
     /**
      * string without < and >
      * <p>
@@ -123,12 +136,12 @@ public class SchemaDownloadConfiguration {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("objectType", objectType).append("schemaIdentifier", schemaIdentifier).toString();
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("objectType", objectType).append("show", show).append("schemaIdentifier", schemaIdentifier).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(schemaIdentifier).append(jobschedulerId).append(objectType).toHashCode();
+        return new HashCodeBuilder().append(show).append(schemaIdentifier).append(jobschedulerId).append(objectType).toHashCode();
     }
 
     @Override
@@ -140,7 +153,7 @@ public class SchemaDownloadConfiguration {
             return false;
         }
         SchemaDownloadConfiguration rhs = ((SchemaDownloadConfiguration) other);
-        return new EqualsBuilder().append(schemaIdentifier, rhs.schemaIdentifier).append(jobschedulerId, rhs.jobschedulerId).append(objectType, rhs.objectType).isEquals();
+        return new EqualsBuilder().append(show, rhs.show).append(schemaIdentifier, rhs.schemaIdentifier).append(jobschedulerId, rhs.jobschedulerId).append(objectType, rhs.objectType).isEquals();
     }
 
 }
