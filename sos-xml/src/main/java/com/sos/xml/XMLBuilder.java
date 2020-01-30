@@ -64,7 +64,7 @@ public class XMLBuilder {
             doc = saxReader.read(stream);
         } catch (DocumentException e) {
             Throwable nested = e.getNestedException();
-            if (nested != null && SAXParseException.class.isInstance(nested)) {
+            if (nested != null && SAXParseException.class.isInstance(nested) && nested.getMessage().toUpperCase().contains("DOCTYPE")) {
                 // On Apache, this should be thrown when disallowing DOCTYPE
                 throw new SAXException("A DOCTYPE was passed into the XML document", e);
             } else if (nested != null && IOException.class.isInstance(nested)) {
@@ -95,7 +95,7 @@ public class XMLBuilder {
     
     public static SAXReader createSaxReader() throws SAXException {
         SAXReader saxReader = new SAXReader();
-        saxReader.setEncoding("UTF-8");
+        //saxReader.setEncoding("UTF-8");
         saxReader.setIncludeExternalDTDDeclarations(false);
         saxReader.setIncludeInternalDTDDeclarations(false);
         saxReader.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
