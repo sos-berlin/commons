@@ -95,6 +95,7 @@ public class XMLBuilder {
     
     public static SAXReader createSaxReader() throws SAXException {
         SAXReader saxReader = new SAXReader();
+        saxReader.setEncoding("UTF-8");
         saxReader.setIncludeExternalDTDDeclarations(false);
         saxReader.setIncludeInternalDTDDeclarations(false);
         saxReader.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
