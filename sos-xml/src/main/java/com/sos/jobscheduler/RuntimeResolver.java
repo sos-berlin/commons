@@ -62,7 +62,7 @@ public class RuntimeResolver {
     private static DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_LOCAL_DATE.withZone(ZoneOffset.UTC);
     private static DateTimeFormatter isoFormatter = DateTimeFormatter.ISO_INSTANT;
     private ZoneId runtimeTimezone = ZoneOffset.UTC;
-    private static String[] weekDaysMap = { "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday" };
+    private static String[] weekDaysMap = { "sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday" };
     private static String[] monthsMap = { "january", "february", "march", "april", "may", "june", "july", "august", "september", "october",
             "november", "december" };
 
