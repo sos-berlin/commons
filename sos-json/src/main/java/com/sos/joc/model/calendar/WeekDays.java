@@ -6,8 +6,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -35,7 +33,6 @@ public class WeekDays {
      */
     @JsonProperty("from")
     @JsonPropertyDescription("ISO date YYYY-MM-DD")
-    @JacksonXmlProperty(localName = "from")
     private String from;
     /**
      * date
@@ -45,7 +42,6 @@ public class WeekDays {
      */
     @JsonProperty("to")
     @JsonPropertyDescription("ISO date YYYY-MM-DD")
-    @JacksonXmlProperty(localName = "to")
     private String to;
     /**
      * 
@@ -53,8 +49,6 @@ public class WeekDays {
      * 
      */
     @JsonProperty("days")
-    @JacksonXmlProperty(localName = "day")
-    @JacksonXmlElementWrapper(useWrapping = true, localName = "days")
     private List<Integer> days = null;
 
     /**
@@ -64,7 +58,6 @@ public class WeekDays {
      * 
      */
     @JsonProperty("from")
-    @JacksonXmlProperty(localName = "from")
     public String getFrom() {
         return from;
     }
@@ -76,7 +69,6 @@ public class WeekDays {
      * 
      */
     @JsonProperty("from")
-    @JacksonXmlProperty(localName = "from")
     public void setFrom(String from) {
         this.from = from;
     }
@@ -88,7 +80,6 @@ public class WeekDays {
      * 
      */
     @JsonProperty("to")
-    @JacksonXmlProperty(localName = "to")
     public String getTo() {
         return to;
     }
@@ -100,7 +91,6 @@ public class WeekDays {
      * 
      */
     @JsonProperty("to")
-    @JacksonXmlProperty(localName = "to")
     public void setTo(String to) {
         this.to = to;
     }
@@ -111,7 +101,6 @@ public class WeekDays {
      * 
      */
     @JsonProperty("days")
-    @JacksonXmlProperty(localName = "day")
     public List<Integer> getDays() {
         return days;
     }
@@ -122,7 +111,6 @@ public class WeekDays {
      * 
      */
     @JsonProperty("days")
-    @JacksonXmlProperty(localName = "day")
     public void setDays(List<Integer> days) {
         this.days = days;
     }

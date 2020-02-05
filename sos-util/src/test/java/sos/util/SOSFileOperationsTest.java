@@ -1,20 +1,19 @@
 package sos.util;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 import java.util.Vector;
 import java.util.regex.Pattern;
 
-import org.apache.log4j.Logger;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** @author KB */
 public class SOSFileOperationsTest {
 
-    private static final Logger LOGGER = Logger.getLogger(SOSFileOperationsTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSFileOperationsTest.class);
     private String strReplaceWhat = "";
     private String strReplaceWith = "";
     private String strStringToWorkOn = "";

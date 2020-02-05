@@ -4,7 +4,6 @@ package com.sos.joc.model.calendar;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -28,92 +27,74 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class Period {
 
     @JsonProperty("singleStart")
-    @JacksonXmlProperty(localName = "singleStart")
     private String singleStart;
     @JsonProperty("begin")
-    @JacksonXmlProperty(localName = "begin")
     private String begin;
     @JsonProperty("end")
-    @JacksonXmlProperty(localName = "end")
     private String end;
     @JsonProperty("repeat")
-    @JacksonXmlProperty(localName = "repeat")
     private String repeat;
     @JsonProperty("absoluteRepeat")
-    @JacksonXmlProperty(localName = "absoluteRepeat")
     private String absoluteRepeat;
     @JsonProperty("whenHoliday")
-    @JacksonXmlProperty(localName = "whenHoliday")
     private String whenHoliday;
 
     @JsonProperty("singleStart")
-    @JacksonXmlProperty(localName = "singleStart")
     public String getSingleStart() {
         return singleStart;
     }
 
     @JsonProperty("singleStart")
-    @JacksonXmlProperty(localName = "singleStart")
     public void setSingleStart(String singleStart) {
         this.singleStart = singleStart;
     }
 
     @JsonProperty("begin")
-    @JacksonXmlProperty(localName = "begin")
     public String getBegin() {
         return begin;
     }
 
     @JsonProperty("begin")
-    @JacksonXmlProperty(localName = "begin")
     public void setBegin(String begin) {
         this.begin = begin;
     }
 
     @JsonProperty("end")
-    @JacksonXmlProperty(localName = "end")
     public String getEnd() {
         return end;
     }
 
     @JsonProperty("end")
-    @JacksonXmlProperty(localName = "end")
     public void setEnd(String end) {
         this.end = end;
     }
 
     @JsonProperty("repeat")
-    @JacksonXmlProperty(localName = "repeat")
     public String getRepeat() {
         return repeat;
     }
 
     @JsonProperty("repeat")
-    @JacksonXmlProperty(localName = "repeat")
     public void setRepeat(String repeat) {
         this.repeat = repeat;
     }
 
     @JsonProperty("absoluteRepeat")
-    @JacksonXmlProperty(localName = "absoluteRepeat")
     public String getAbsoluteRepeat() {
         return absoluteRepeat;
     }
 
     @JsonProperty("absoluteRepeat")
-    @JacksonXmlProperty(localName = "absoluteRepeat")
     public void setAbsoluteRepeat(String absoluteRepeat) {
         this.absoluteRepeat = absoluteRepeat;
     }
 
     @JsonProperty("whenHoliday")
-    @JacksonXmlProperty(localName = "whenHoliday")
     public String getWhenHoliday() {
         return whenHoliday;
     }
 
     @JsonProperty("whenHoliday")
-    @JacksonXmlProperty(localName = "whenHoliday")
     public void setWhenHoliday(String whenHoliday) {
         this.whenHoliday = whenHoliday;
     }

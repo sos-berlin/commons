@@ -3,12 +3,13 @@ package com.sos.joc.model.job;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.sos.classes.Latin1ToUtf8;
 import com.sos.joc.model.calendar.Calendar;
+import com.sos.joc.model.joe.schedule.RunTime;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -21,10 +22,10 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "job",
     "runTime",
+    "runTimeXml",
     "calendars"
 })
 public class ModifyJob {
@@ -37,13 +38,23 @@ public class ModifyJob {
      * 
      */
     @JsonProperty("job")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
     private String job;
+    /**
+     * runTime
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("runTime")
+    private RunTime runTime;
     /**
      * A run_time xml is expected which is specified in the <xsd:complexType name='run_time'> element of  http://www.sos-berlin.com/schema/scheduler.xsd
      * 
      */
-    @JsonProperty("runTime")
-    private String runTime;
+    @JsonProperty("runTimeXml")
+    @JsonPropertyDescription("A run_time xml is expected which is specified in the <xsd:complexType name='run_time'> element of  http://www.sos-berlin.com/schema/scheduler.xsd")
+    private String runTimeXml;
     @JsonProperty("calendars")
     private List<Calendar> calendars = new ArrayList<Calendar>();
 
@@ -53,8 +64,6 @@ public class ModifyJob {
      * absolute path based on live folder of a JobScheduler object.
      * (Required)
      * 
-     * @return
-     *     The job
      */
     @JsonProperty("job")
     public String getJob() {
@@ -67,8 +76,6 @@ public class ModifyJob {
      * absolute path based on live folder of a JobScheduler object.
      * (Required)
      * 
-     * @param job
-     *     The job
      */
     @JsonProperty("job")
     public void setJob(String job) {
@@ -76,42 +83,50 @@ public class ModifyJob {
     }
 
     /**
-     * A run_time xml is expected which is specified in the <xsd:complexType name='run_time'> element of  http://www.sos-berlin.com/schema/scheduler.xsd
+     * runTime
+     * <p>
      * 
-     * @return
-     *     The runTime
+     * 
      */
     @JsonProperty("runTime")
-    public String getRunTime() {
+    public RunTime getRunTime() {
         return runTime;
     }
 
     /**
-     * A run_time xml is expected which is specified in the <xsd:complexType name='run_time'> element of  http://www.sos-berlin.com/schema/scheduler.xsd
+     * runTime
+     * <p>
      * 
-     * @param runTime
-     *     The runTime
+     * 
      */
     @JsonProperty("runTime")
-    public void setRunTime(String runTime) {
+    public void setRunTime(RunTime runTime) {
         this.runTime = runTime;
     }
 
     /**
+     * A run_time xml is expected which is specified in the <xsd:complexType name='run_time'> element of  http://www.sos-berlin.com/schema/scheduler.xsd
      * 
-     * @return
-     *     The calendars
      */
+    @JsonProperty("runTimeXml")
+    public String getRunTimeXml() {
+        return runTimeXml;
+    }
+
+    /**
+     * A run_time xml is expected which is specified in the <xsd:complexType name='run_time'> element of  http://www.sos-berlin.com/schema/scheduler.xsd
+     * 
+     */
+    @JsonProperty("runTimeXml")
+    public void setRunTimeXml(String runTimeXml) {
+        this.runTimeXml = runTimeXml;
+    }
+
     @JsonProperty("calendars")
     public List<Calendar> getCalendars() {
         return calendars;
     }
 
-    /**
-     * 
-     * @param calendars
-     *     The calendars
-     */
     @JsonProperty("calendars")
     public void setCalendars(List<Calendar> calendars) {
         this.calendars = calendars;
@@ -119,12 +134,12 @@ public class ModifyJob {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("job", job).append("runTime", runTime).append("runTimeXml", runTimeXml).append("calendars", calendars).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(job).append(runTime).append(calendars).toHashCode();
+        return new HashCodeBuilder().append(runTime).append(job).append(runTimeXml).append(calendars).toHashCode();
     }
 
     @Override
@@ -136,7 +151,7 @@ public class ModifyJob {
             return false;
         }
         ModifyJob rhs = ((ModifyJob) other);
-        return new EqualsBuilder().append(job, rhs.job).append(runTime, rhs.runTime).append(calendars, rhs.calendars).isEquals();
+        return new EqualsBuilder().append(runTime, rhs.runTime).append(job, rhs.job).append(runTimeXml, rhs.runTimeXml).append(calendars, rhs.calendars).isEquals();
     }
 
 }

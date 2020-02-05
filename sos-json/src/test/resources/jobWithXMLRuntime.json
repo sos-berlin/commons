@@ -1,0 +1,9 @@
+{
+	"title": "this is a title",
+	"stopOnError": "no",
+	"script": {
+		"language": "shell",
+		"content": "\n        \necho hello world\n        \n    "
+	},
+	"runTime": "<run_time >\n        <weekdays >\n            <day day=\"1234567\">\n                <period single_start=\"12:00\"/>\n            </day>\n        </weekdays>\n    </run_time>"
+}

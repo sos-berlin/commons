@@ -8,8 +8,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.sos.joc.model.common.Err419;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -40,18 +38,12 @@ public class StartedTasks {
      */
     @JsonProperty("deliveryDate")
     @JsonPropertyDescription("Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
-    @JacksonXmlProperty(localName = "deliveryDate")
     private Date deliveryDate;
     @JsonProperty("tasks")
-    @JacksonXmlProperty(localName = "task")
-    @JacksonXmlElementWrapper(useWrapping = true, localName = "tasks")
     private List<TaskPath200> tasks = new ArrayList<TaskPath200>();
     @JsonProperty("ok")
-    @JacksonXmlProperty(localName = "ok")
     private Boolean ok;
     @JsonProperty("errors")
-    @JacksonXmlProperty(localName = "error")
-    @JacksonXmlElementWrapper(useWrapping = true, localName = "errors")
     private List<Err419> errors = new ArrayList<Err419>();
 
     /**
@@ -62,7 +54,6 @@ public class StartedTasks {
      * 
      */
     @JsonProperty("deliveryDate")
-    @JacksonXmlProperty(localName = "deliveryDate")
     public Date getDeliveryDate() {
         return deliveryDate;
     }
@@ -75,43 +66,36 @@ public class StartedTasks {
      * 
      */
     @JsonProperty("deliveryDate")
-    @JacksonXmlProperty(localName = "deliveryDate")
     public void setDeliveryDate(Date deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
 
     @JsonProperty("tasks")
-    @JacksonXmlProperty(localName = "task")
     public List<TaskPath200> getTasks() {
         return tasks;
     }
 
     @JsonProperty("tasks")
-    @JacksonXmlProperty(localName = "task")
     public void setTasks(List<TaskPath200> tasks) {
         this.tasks = tasks;
     }
 
     @JsonProperty("ok")
-    @JacksonXmlProperty(localName = "ok")
     public Boolean getOk() {
         return ok;
     }
 
     @JsonProperty("ok")
-    @JacksonXmlProperty(localName = "ok")
     public void setOk(Boolean ok) {
         this.ok = ok;
     }
 
     @JsonProperty("errors")
-    @JacksonXmlProperty(localName = "error")
     public List<Err419> getErrors() {
         return errors;
     }
 
     @JsonProperty("errors")
-    @JacksonXmlProperty(localName = "error")
     public void setErrors(List<Err419> errors) {
         this.errors = errors;
     }

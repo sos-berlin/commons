@@ -7,7 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import sos.connection.SOSConnection;
 import sos.settings.SOSConnectionSettings;
@@ -19,7 +20,7 @@ import sos.util.SOSString;
 
 public class SOSConfiguration {
 
-    private static final Logger LOGGER = Logger.getLogger(SOSConfiguration.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSConfiguration.class);
     private SOSConfigurationItem[] sosConfigurationItem = new SOSConfigurationItem[] {};
     private SOSConfigurationItem[] originParameterFromRequiredDefaults = new SOSConfigurationItem[] {};
     private SOSConfigurationItem[] originParameterFromSettings = new SOSConfigurationItem[] {};
@@ -461,7 +462,7 @@ public class SOSConfiguration {
             }
             LOGGER.debug("**********************************************************************************");
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
@@ -486,7 +487,7 @@ public class SOSConfiguration {
             }
             LOGGER.debug("**********************************************************************************");
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
@@ -500,7 +501,7 @@ public class SOSConfiguration {
                 sosConnection.connect();
                 LOGGER.debug("DB Connected");
             } catch (Exception e) {
-                LOGGER.error(e);
+                LOGGER.error(e.getMessage(), e);
             }
             String settingsTablename = "SETTINGS";
             String settingsApplication = "test_sosftp";
@@ -520,7 +521,7 @@ public class SOSConfiguration {
             }
             LOGGER.debug("**********************************************************************************");
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error(e.getMessage(), e);
         }
     }
 

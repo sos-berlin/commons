@@ -1,9 +1,9 @@
 
 package com.sos.joc.model.job;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.sos.classes.Latin1ToUtf8;
 
@@ -19,7 +19,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobschedulerId",
     "job",
@@ -43,6 +42,7 @@ public class JobFilter {
      * 
      */
     @JsonProperty("job")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
     private String job;
     /**
      * compact parameter
@@ -51,6 +51,7 @@ public class JobFilter {
      * 
      */
     @JsonProperty("compact")
+    @JsonPropertyDescription("controls if the object view is compact or detailed")
     private Boolean compact = false;
     @JsonProperty("compactView")
     private Boolean compactView = false;
@@ -59,8 +60,6 @@ public class JobFilter {
      * 
      * (Required)
      * 
-     * @return
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
     public String getJobschedulerId() {
@@ -71,8 +70,6 @@ public class JobFilter {
      * 
      * (Required)
      * 
-     * @param jobschedulerId
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
@@ -85,8 +82,6 @@ public class JobFilter {
      * absolute path based on live folder of a JobScheduler object.
      * (Required)
      * 
-     * @return
-     *     The job
      */
     @JsonProperty("job")
     public String getJob() {
@@ -99,8 +94,6 @@ public class JobFilter {
      * absolute path based on live folder of a JobScheduler object.
      * (Required)
      * 
-     * @param job
-     *     The job
      */
     @JsonProperty("job")
     public void setJob(String job) {
@@ -112,8 +105,6 @@ public class JobFilter {
      * <p>
      * controls if the object view is compact or detailed
      * 
-     * @return
-     *     The compact
      */
     @JsonProperty("compact")
     public Boolean getCompact() {
@@ -125,29 +116,17 @@ public class JobFilter {
      * <p>
      * controls if the object view is compact or detailed
      * 
-     * @param compact
-     *     The compact
      */
     @JsonProperty("compact")
     public void setCompact(Boolean compact) {
         this.compact = compact;
     }
 
-    /**
-     * 
-     * @return
-     *     The compactView
-     */
     @JsonProperty("compactView")
     public Boolean getCompactView() {
         return compactView;
     }
 
-    /**
-     * 
-     * @param compactView
-     *     The compactView
-     */
     @JsonProperty("compactView")
     public void setCompactView(Boolean compactView) {
         this.compactView = compactView;
@@ -155,7 +134,7 @@ public class JobFilter {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("job", job).append("compact", compact).append("compactView", compactView).toString();
     }
 
     @Override

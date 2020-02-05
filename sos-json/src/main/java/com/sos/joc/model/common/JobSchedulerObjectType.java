@@ -20,6 +20,10 @@ public enum JobSchedulerObjectType {
     FOLDER("FOLDER"),
     JOBSCHEDULER("JOBSCHEDULER"),
     DOCUMENTATION("DOCUMENTATION"),
+    MONITOR("MONITOR"),
+    NODEPARAMS("NODEPARAMS"),
+    HOLIDAYS("HOLIDAYS"),
+    JOE("JOE"),
     OTHER("OTHER");
     private final String value;
     private final static Map<String, JobSchedulerObjectType> CONSTANTS = new HashMap<String, JobSchedulerObjectType>();

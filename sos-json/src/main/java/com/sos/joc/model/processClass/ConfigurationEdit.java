@@ -2,13 +2,14 @@
 package com.sos.joc.model.processClass;
 
 import java.util.Date;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.sos.joc.model.audit.AuditParams;
+import com.sos.joc.model.joe.processclass.ProcessClass;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -17,12 +18,11 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 /**
  * edit processClass configuration
  * <p>
- * 
+ * old version from 1.13.0
  * 
  */
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JacksonXmlRootElement(localName = "configuration_edit")
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "deliveryDate",
     "configurationDate",
@@ -40,6 +40,7 @@ public class ConfigurationEdit {
      * 
      */
     @JsonProperty("deliveryDate")
+    @JsonPropertyDescription("Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
     @JacksonXmlProperty(localName = "delivery_date", isAttribute = true)
     private Date deliveryDate;
     /**
@@ -49,6 +50,7 @@ public class ConfigurationEdit {
      * 
      */
     @JsonProperty("configurationDate")
+    @JsonPropertyDescription("Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty")
     @JacksonXmlProperty(localName = "configuration_date", isAttribute = true)
     private Date configurationDate;
     /**
@@ -67,18 +69,19 @@ public class ConfigurationEdit {
      * 
      */
     @JsonProperty("processClass")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
     @JacksonXmlProperty(localName = "process_class", isAttribute = true)
     private String processClass;
     /**
-     * processClass configuration
+     * processClass without name, replace, spooler_id attributes
      * <p>
      * 
      * (Required)
      * 
      */
     @JsonProperty("configuration")
-    @JacksonXmlProperty(localName = "configuration", isAttribute = false)
-    private Configuration configuration;
+    @JacksonXmlProperty(localName = "process_class", isAttribute = false)
+    private ProcessClass configuration;
     /**
      * auditParams
      * <p>
@@ -94,8 +97,6 @@ public class ConfigurationEdit {
      * <p>
      * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * 
-     * @return
-     *     The deliveryDate
      */
     @JsonProperty("deliveryDate")
     @JacksonXmlProperty(localName = "delivery_date", isAttribute = true)
@@ -108,8 +109,6 @@ public class ConfigurationEdit {
      * <p>
      * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * 
-     * @param deliveryDate
-     *     The deliveryDate
      */
     @JsonProperty("deliveryDate")
     @JacksonXmlProperty(localName = "delivery_date", isAttribute = true)
@@ -122,8 +121,6 @@ public class ConfigurationEdit {
      * <p>
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
-     * @return
-     *     The configurationDate
      */
     @JsonProperty("configurationDate")
     @JacksonXmlProperty(localName = "configuration_date", isAttribute = true)
@@ -136,8 +133,6 @@ public class ConfigurationEdit {
      * <p>
      * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
-     * @param configurationDate
-     *     The configurationDate
      */
     @JsonProperty("configurationDate")
     @JacksonXmlProperty(localName = "configuration_date", isAttribute = true)
@@ -149,8 +144,6 @@ public class ConfigurationEdit {
      * 
      * (Required)
      * 
-     * @return
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
     @JacksonXmlProperty(localName = "jobscheduler_id", isAttribute = true)
@@ -162,8 +155,6 @@ public class ConfigurationEdit {
      * 
      * (Required)
      * 
-     * @param jobschedulerId
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
     @JacksonXmlProperty(localName = "jobscheduler_id", isAttribute = true)
@@ -177,8 +168,6 @@ public class ConfigurationEdit {
      * absolute path based on live folder of a JobScheduler object.
      * (Required)
      * 
-     * @return
-     *     The processClass
      */
     @JsonProperty("processClass")
     @JacksonXmlProperty(localName = "process_class", isAttribute = true)
@@ -192,8 +181,6 @@ public class ConfigurationEdit {
      * absolute path based on live folder of a JobScheduler object.
      * (Required)
      * 
-     * @param processClass
-     *     The processClass
      */
     @JsonProperty("processClass")
     @JacksonXmlProperty(localName = "process_class", isAttribute = true)
@@ -202,32 +189,28 @@ public class ConfigurationEdit {
     }
 
     /**
-     * processClass configuration
+     * processClass without name, replace, spooler_id attributes
      * <p>
      * 
      * (Required)
      * 
-     * @return
-     *     The configuration
      */
     @JsonProperty("configuration")
-    @JacksonXmlProperty(localName = "configuration", isAttribute = false)
-    public Configuration getConfiguration() {
+    @JacksonXmlProperty(localName = "process_class", isAttribute = false)
+    public ProcessClass getConfiguration() {
         return configuration;
     }
 
     /**
-     * processClass configuration
+     * processClass without name, replace, spooler_id attributes
      * <p>
      * 
      * (Required)
      * 
-     * @param configuration
-     *     The configuration
      */
     @JsonProperty("configuration")
-    @JacksonXmlProperty(localName = "configuration", isAttribute = false)
-    public void setConfiguration(Configuration configuration) {
+    @JacksonXmlProperty(localName = "process_class", isAttribute = false)
+    public void setConfiguration(ProcessClass configuration) {
         this.configuration = configuration;
     }
 
@@ -236,8 +219,6 @@ public class ConfigurationEdit {
      * <p>
      * 
      * 
-     * @return
-     *     The auditLog
      */
     @JsonProperty("auditLog")
     @JacksonXmlProperty(localName = "audit_log", isAttribute = false)
@@ -250,8 +231,6 @@ public class ConfigurationEdit {
      * <p>
      * 
      * 
-     * @param auditLog
-     *     The auditLog
      */
     @JsonProperty("auditLog")
     @JacksonXmlProperty(localName = "audit_log", isAttribute = false)
@@ -261,12 +240,12 @@ public class ConfigurationEdit {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("configurationDate", configurationDate).append("jobschedulerId", jobschedulerId).append("processClass", processClass).append("configuration", configuration).append("auditLog", auditLog).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(deliveryDate).append(configurationDate).append(jobschedulerId).append(processClass).append(configuration).append(auditLog).toHashCode();
+        return new HashCodeBuilder().append(configurationDate).append(auditLog).append(configuration).append(processClass).append(deliveryDate).append(jobschedulerId).toHashCode();
     }
 
     @Override
@@ -278,7 +257,7 @@ public class ConfigurationEdit {
             return false;
         }
         ConfigurationEdit rhs = ((ConfigurationEdit) other);
-        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(configurationDate, rhs.configurationDate).append(jobschedulerId, rhs.jobschedulerId).append(processClass, rhs.processClass).append(configuration, rhs.configuration).append(auditLog, rhs.auditLog).isEquals();
+        return new EqualsBuilder().append(configurationDate, rhs.configurationDate).append(auditLog, rhs.auditLog).append(configuration, rhs.configuration).append(processClass, rhs.processClass).append(deliveryDate, rhs.deliveryDate).append(jobschedulerId, rhs.jobschedulerId).isEquals();
     }
 
 }

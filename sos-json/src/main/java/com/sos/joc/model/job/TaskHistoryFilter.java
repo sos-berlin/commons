@@ -1,9 +1,9 @@
 
 package com.sos.joc.model.job;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.sos.classes.Latin1ToUtf8;
 
@@ -19,7 +19,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "jobschedulerId",
     "job",
@@ -42,6 +41,7 @@ public class TaskHistoryFilter {
      * 
      */
     @JsonProperty("job")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
     private String job;
     /**
      * non negative integer
@@ -56,8 +56,6 @@ public class TaskHistoryFilter {
      * 
      * (Required)
      * 
-     * @return
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
     public String getJobschedulerId() {
@@ -68,8 +66,6 @@ public class TaskHistoryFilter {
      * 
      * (Required)
      * 
-     * @param jobschedulerId
-     *     The jobschedulerId
      */
     @JsonProperty("jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
@@ -82,8 +78,6 @@ public class TaskHistoryFilter {
      * absolute path based on live folder of a JobScheduler object.
      * (Required)
      * 
-     * @return
-     *     The job
      */
     @JsonProperty("job")
     public String getJob() {
@@ -96,8 +90,6 @@ public class TaskHistoryFilter {
      * absolute path based on live folder of a JobScheduler object.
      * (Required)
      * 
-     * @param job
-     *     The job
      */
     @JsonProperty("job")
     public void setJob(String job) {
@@ -109,8 +101,6 @@ public class TaskHistoryFilter {
      * <p>
      * 
      * 
-     * @return
-     *     The maxLastHistoryItems
      */
     @JsonProperty("maxLastHistoryItems")
     public Integer getMaxLastHistoryItems() {
@@ -122,8 +112,6 @@ public class TaskHistoryFilter {
      * <p>
      * 
      * 
-     * @param maxLastHistoryItems
-     *     The maxLastHistoryItems
      */
     @JsonProperty("maxLastHistoryItems")
     public void setMaxLastHistoryItems(Integer maxLastHistoryItems) {
@@ -132,12 +120,12 @@ public class TaskHistoryFilter {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("job", job).append("maxLastHistoryItems", maxLastHistoryItems).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(job).append(maxLastHistoryItems).toHashCode();
+        return new HashCodeBuilder().append(maxLastHistoryItems).append(jobschedulerId).append(job).toHashCode();
     }
 
     @Override
@@ -149,7 +137,7 @@ public class TaskHistoryFilter {
             return false;
         }
         TaskHistoryFilter rhs = ((TaskHistoryFilter) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(job, rhs.job).append(maxLastHistoryItems, rhs.maxLastHistoryItems).isEquals();
+        return new EqualsBuilder().append(maxLastHistoryItems, rhs.maxLastHistoryItems).append(jobschedulerId, rhs.jobschedulerId).append(job, rhs.job).isEquals();
     }
 
 }

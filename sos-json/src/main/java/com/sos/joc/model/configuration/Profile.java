@@ -14,14 +14,14 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "account",
-    "lastLogin"
+    "modified"
 })
 public class Profile {
 
     @JsonProperty("account")
     private String account;
-    @JsonProperty("lastLogin")
-    private Date lastLogin;
+    @JsonProperty("modified")
+    private Date modified;
 
     /**
      * 
@@ -46,21 +46,21 @@ public class Profile {
     /**
      * 
      * @return
-     *     The lastLogin
+     *     The modified
      */
-    @JsonProperty("lastLogin")
-    public Date getLastLogin() {
-        return lastLogin;
+    @JsonProperty("modified")
+    public Date getModified() {
+        return modified;
     }
 
     /**
      * 
-     * @param lastLogin
-     *     The lastLogin
+     * @param modified
+     *     The modified
      */
-    @JsonProperty("lastLogin")
-    public void setLastLogin(Date lastLogin) {
-        this.lastLogin = lastLogin;
+    @JsonProperty("modified")
+    public void setModified(Date modified) {
+        this.modified = modified;
     }
 
     @Override
@@ -70,7 +70,7 @@ public class Profile {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(account).append(lastLogin).toHashCode();
+        return new HashCodeBuilder().append(account).append(modified).toHashCode();
     }
 
     @Override
@@ -82,7 +82,7 @@ public class Profile {
             return false;
         }
         Profile rhs = ((Profile) other);
-        return new EqualsBuilder().append(account, rhs.account).append(lastLogin, rhs.lastLogin).isEquals();
+        return new EqualsBuilder().append(account, rhs.account).append(modified, rhs.modified).isEquals();
     }
 
 }

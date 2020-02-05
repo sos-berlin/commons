@@ -4,13 +4,15 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Vector;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /** @author Andreas Püschel */
 @Deprecated
 public class SOSCommandline {
 
-    private static final Logger LOGGER = Logger.getLogger(SOSCommandline.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSCommandline.class);
 
     public static String[] splitArguments(final String arguments) throws Exception {
         String[] resultArguments = null;
@@ -197,7 +199,7 @@ public class SOSCommandline {
                         logger.debug3("Trying to get password by executing command in backticks: " + command);
                     }
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error(ex.getMessage(), ex);
                 }
                 Vector returnValues = SOSCommandline.execute(command, logger);
                 Integer exitValue = (Integer) returnValues.elementAt(0);
@@ -210,7 +212,7 @@ public class SOSCommandline {
                 try {
                     logger.debug3("Using password string as password. Command could not be executed: " + e);
                 } catch (Exception ex) {
-                    LOGGER.error(ex);
+                    LOGGER.error(ex.getMessage(), ex);
                 }
             }
         }

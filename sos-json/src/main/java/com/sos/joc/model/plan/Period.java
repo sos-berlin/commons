@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -33,7 +32,6 @@ public class Period {
      */
     @JsonProperty("begin")
     @JsonPropertyDescription("Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty")
-    @JacksonXmlProperty(localName = "begin")
     private Date begin;
     /**
      * timestamp
@@ -44,7 +42,6 @@ public class Period {
      */
     @JsonProperty("end")
     @JsonPropertyDescription("Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty")
-    @JacksonXmlProperty(localName = "end")
     private Date end;
     /**
      * non negative long
@@ -54,7 +51,6 @@ public class Period {
      * 
      */
     @JsonProperty("repeat")
-    @JacksonXmlProperty(localName = "repeat")
     private Long repeat;
 
     /**
@@ -65,7 +61,6 @@ public class Period {
      * 
      */
     @JsonProperty("begin")
-    @JacksonXmlProperty(localName = "begin")
     public Date getBegin() {
         return begin;
     }
@@ -78,7 +73,6 @@ public class Period {
      * 
      */
     @JsonProperty("begin")
-    @JacksonXmlProperty(localName = "begin")
     public void setBegin(Date begin) {
         this.begin = begin;
     }
@@ -91,7 +85,6 @@ public class Period {
      * 
      */
     @JsonProperty("end")
-    @JacksonXmlProperty(localName = "end")
     public Date getEnd() {
         return end;
     }
@@ -104,7 +97,6 @@ public class Period {
      * 
      */
     @JsonProperty("end")
-    @JacksonXmlProperty(localName = "end")
     public void setEnd(Date end) {
         this.end = end;
     }
@@ -117,7 +109,6 @@ public class Period {
      * 
      */
     @JsonProperty("repeat")
-    @JacksonXmlProperty(localName = "repeat")
     public Long getRepeat() {
         return repeat;
     }
@@ -130,7 +121,6 @@ public class Period {
      * 
      */
     @JsonProperty("repeat")
-    @JacksonXmlProperty(localName = "repeat")
     public void setRepeat(Long repeat) {
         this.repeat = repeat;
     }

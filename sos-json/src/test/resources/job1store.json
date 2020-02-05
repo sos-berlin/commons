@@ -1,0 +1,37 @@
+{
+  "jobschedulerId" : "myJobScheduler",
+  "path" : "/path/to/job",
+  "objectType" : "JOB",
+  "configuration" : {
+    "title" : "myJob",
+    "isOrderJob" : "yes",
+    "maxTasks" : 5,
+    "stopOnError" : "no",
+    "settings" : {
+      "logLevel" : "debug9"
+    },
+    "params" : {
+      "paramList" : [ {
+        "name" : "myParam",
+        "value" : "myParamVal"
+      }, {
+        "name" : "myParam2",
+        "value" : "myParamVal2"
+      } ]
+    },
+    "environment" : {
+      "variables" : [ {
+        "name" : "myEnv",
+        "value" : "myEnvVal"
+      } ]
+    },
+    "login" : {
+      "user" : "me",
+      "password" : "secret"
+    },
+    "script" : {
+      "language" : "shell",
+      "content" : "\necho hello\necho world\n"
+    }
+  }
+}

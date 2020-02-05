@@ -7,8 +7,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -37,7 +35,6 @@ public class Dates {
      */
     @JsonProperty("deliveryDate")
     @JsonPropertyDescription("Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
-    @JacksonXmlProperty(localName = "deliveryDate")
     private Date deliveryDate;
     /**
      * 
@@ -45,12 +42,8 @@ public class Dates {
      * 
      */
     @JsonProperty("dates")
-    @JacksonXmlProperty(localName = "date")
-    @JacksonXmlElementWrapper(useWrapping = true, localName = "dates")
     private List<String> dates = null;
     @JsonProperty("withExcludes")
-    @JacksonXmlProperty(localName = "withExclude")
-    @JacksonXmlElementWrapper(useWrapping = true, localName = "withExcludes")
     private List<String> withExcludes = null;
 
     /**
@@ -61,7 +54,6 @@ public class Dates {
      * 
      */
     @JsonProperty("deliveryDate")
-    @JacksonXmlProperty(localName = "deliveryDate")
     public Date getDeliveryDate() {
         return deliveryDate;
     }
@@ -74,7 +66,6 @@ public class Dates {
      * 
      */
     @JsonProperty("deliveryDate")
-    @JacksonXmlProperty(localName = "deliveryDate")
     public void setDeliveryDate(Date deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
@@ -85,7 +76,6 @@ public class Dates {
      * 
      */
     @JsonProperty("dates")
-    @JacksonXmlProperty(localName = "date")
     public List<String> getDates() {
         return dates;
     }
@@ -96,19 +86,16 @@ public class Dates {
      * 
      */
     @JsonProperty("dates")
-    @JacksonXmlProperty(localName = "date")
     public void setDates(List<String> dates) {
         this.dates = dates;
     }
 
     @JsonProperty("withExcludes")
-    @JacksonXmlProperty(localName = "withExclude")
     public List<String> getWithExcludes() {
         return withExcludes;
     }
 
     @JsonProperty("withExcludes")
-    @JacksonXmlProperty(localName = "withExclude")
     public void setWithExcludes(List<String> withExcludes) {
         this.withExcludes = withExcludes;
     }

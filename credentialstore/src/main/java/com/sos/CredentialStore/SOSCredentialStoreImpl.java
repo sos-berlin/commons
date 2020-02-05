@@ -6,8 +6,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 
-import org.apache.log4j.Logger;
 import org.linguafranca.pwdb.Entry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.sos.CredentialStore.Options.ISOSCredentialStoreOptionsBridge;
 import com.sos.CredentialStore.Options.SOSCredentialStoreOptions;
@@ -19,7 +20,7 @@ import com.sos.keepass.SOSKeePassDatabase;
 
 public class SOSCredentialStoreImpl extends JSToolBox {
 
-    private static final Logger LOGGER = Logger.getLogger(SOSCredentialStoreImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSCredentialStoreImpl.class);
     @JSOptionClass(description = "", name = "SOSCredentialStoreOptions")
     private SOSCredentialStoreOptions options = null;
     private ISOSCredentialStoreOptionsBridge optionsBridge = null;

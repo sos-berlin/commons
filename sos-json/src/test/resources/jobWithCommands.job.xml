@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+
+<job  stop_on_error="no" order="yes" name="job1" priority="idle">
+    <settings >
+        <history_on_process ><![CDATA[0]]></history_on_process>
+    </settings>
+
+    <script  language="java:javascript">
+        <![CDATA[
+function spooler_process(){
+	while(true) {
+		java.lang.Thread.sleep(1000*60*10);
+		spooler_log.info("10min sleep");
+	}
+	return true;
+}
+        ]]>
+    </script>
+
+    <run_time/>
+
+    <commands  on_exit_code="error">
+        <add_order  job_chain="job_chain1" replace="yes"/>
+
+        <start_job  job="job0"/>
+    </commands>
+
+    <commands  on_exit_code="success">
+        <add_order  job_chain="job_chain0" replace="yes"/>
+    </commands>
+</job>

@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import sos.connection.SOSConnection;
 import sos.connection.SOSMSSQLConnection;
@@ -29,7 +30,7 @@ public class SOSConnectionSettings extends sos.settings.SOSSettings {
     protected String entrySettingTitle = "TITLE";
     protected String entrySchemaSection = "**schema**";
     protected String defaultDocumentFileName = "settings_file.dat";
-    private static final Logger LOGGER = Logger.getLogger(SOSConnectionSettings.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSConnectionSettings.class);
     private SOSConnection sosConnection;
 
     public SOSConnectionSettings(SOSConnection sosConnection, String source) throws Exception {

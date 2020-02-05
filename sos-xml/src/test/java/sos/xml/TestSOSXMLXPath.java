@@ -2,16 +2,17 @@ package sos.xml;
 
 import java.io.FileInputStream;
 
-import org.apache.log4j.Logger;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 @Ignore("This Test just stores the tests from the main method in sos.xml.SOSXMLXPath.java, Tests have to be reviewed to make them runnable")
 public class TestSOSXMLXPath {
 
-    private static final Logger LOGGER = Logger.getLogger(TestSOSXMLXPath.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestSOSXMLXPath.class);
     private static final String XML =
             "<?xml version='1.0' encoding='UTF-8'?><soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/'>"
                     + "<soapenv:Header><wsa:To xmlns:wsa='http://schemas.xmlsoap.org/ws/2004/08/addressing'>"
@@ -62,7 +63,7 @@ public class TestSOSXMLXPath {
         try {
             SOSXMLXPath xpathXinclude = new SOSXMLXPath(new FileInputStream("C:/temp/a.xml"), true);
             NodeList nl = xpathXinclude.selectNodeList(xpathXinclude.getDocument().getElementsByTagName("*").item(0), "//test");
-            LOGGER.info(nl.getLength());
+            LOGGER.info("" + nl.getLength());
             for (int i = 0; i < nl.getLength(); i++) {
                 Node n = nl.item(i);
                 LOGGER.info("Tagname: " + n.getNodeName());

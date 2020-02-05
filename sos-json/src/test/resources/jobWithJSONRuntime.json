@@ -1,0 +1,18 @@
+{
+	"title": "this is a title",
+	"stopOnError": "no",
+	"script": {
+		"language": "shell",
+		"content": "\n        \necho hello world\n        \n    "
+	},
+	"runTime": {
+		"weekdays": {
+			"days": [{
+				"day": "1 2 3 4 5 6 7",
+				"periods": [{
+					"singleStart": "12:00"
+				}]
+			}]
+		}
+	}
+}
