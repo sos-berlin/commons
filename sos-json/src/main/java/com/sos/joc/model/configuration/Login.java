@@ -1,7 +1,6 @@
 
 package com.sos.joc.model.configuration;
 
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -11,23 +10,31 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * security_configuration
+ * login
  * <p>
  * 
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "defaultProfileAccount",
+    "enableRememberMe",
     "customLogo"
 })
 public class Login {
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("defaultProfileAccount")
     private String defaultProfileAccount;
+    @JsonProperty("enableRememberMe")
+    private Boolean enableRememberMe;
     /**
-     * security_configuration
+     * loginLogo
      * <p>
      * 
      * 
@@ -36,9 +43,10 @@ public class Login {
     private LoginLogo customLogo;
 
     /**
+     * string without < and >
+     * <p>
      * 
-     * @return
-     *     The defaultProfileAccount
+     * 
      */
     @JsonProperty("defaultProfileAccount")
     public String getDefaultProfileAccount() {
@@ -46,22 +54,31 @@ public class Login {
     }
 
     /**
+     * string without < and >
+     * <p>
      * 
-     * @param defaultProfileAccount
-     *     The defaultProfileAccount
+     * 
      */
     @JsonProperty("defaultProfileAccount")
     public void setDefaultProfileAccount(String defaultProfileAccount) {
         this.defaultProfileAccount = defaultProfileAccount;
     }
 
+    @JsonProperty("enableRememberMe")
+    public Boolean getEnableRememberMe() {
+        return enableRememberMe;
+    }
+
+    @JsonProperty("enableRememberMe")
+    public void setEnableRememberMe(Boolean enableRememberMe) {
+        this.enableRememberMe = enableRememberMe;
+    }
+
     /**
-     * security_configuration
+     * loginLogo
      * <p>
      * 
      * 
-     * @return
-     *     The customLogo
      */
     @JsonProperty("customLogo")
     public LoginLogo getCustomLogo() {
@@ -69,12 +86,10 @@ public class Login {
     }
 
     /**
-     * security_configuration
+     * loginLogo
      * <p>
      * 
      * 
-     * @param customLogo
-     *     The customLogo
      */
     @JsonProperty("customLogo")
     public void setCustomLogo(LoginLogo customLogo) {
@@ -83,12 +98,12 @@ public class Login {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("defaultProfileAccount", defaultProfileAccount).append("enableRemeberMe", enableRememberMe).append("customLogo", customLogo).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(defaultProfileAccount).append(customLogo).toHashCode();
+        return new HashCodeBuilder().append(enableRememberMe).append(customLogo).append(defaultProfileAccount).toHashCode();
     }
 
     @Override
@@ -100,7 +115,7 @@ public class Login {
             return false;
         }
         Login rhs = ((Login) other);
-        return new EqualsBuilder().append(defaultProfileAccount, rhs.defaultProfileAccount).append(customLogo, rhs.customLogo).isEquals();
+        return new EqualsBuilder().append(enableRememberMe, rhs.enableRememberMe).append(customLogo, rhs.customLogo).append(defaultProfileAccount, rhs.defaultProfileAccount).isEquals();
     }
 
 }
