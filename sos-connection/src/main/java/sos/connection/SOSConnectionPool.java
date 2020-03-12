@@ -44,10 +44,6 @@ public class SOSConnectionPool {
     }
 
     public SOSConnection getConnection() throws Exception {
-        return this.getConnection(null);
-    }
-
-    public SOSConnection getConnection(sos.util.SOSLogger logger) throws Exception {
         if (!this.lookupCalled) {
             if (this.dataSourceName == null || this.dataSourceName.isEmpty()) {
                 throw new Exception("missing datasource name!!");
@@ -59,11 +55,8 @@ public class SOSConnectionPool {
         }
         synchronized (this.getDataSource()) {
             SOSConnection retConnection = null;
-            if (logger == null) {
-                retConnection = SOSConnection.createInstance(this.getSosConnectionClassName(), this.getDataSource().getConnection());
-            } else {
-                retConnection = SOSConnection.createInstance(this.getSosConnectionClassName(), this.getDataSource().getConnection(), logger);
-            }
+            retConnection = SOSConnection.createInstance(this.getSosConnectionClassName(), this.getDataSource().getConnection());
+
             retConnection.prepare(retConnection.getConnection());
             return retConnection;
         }

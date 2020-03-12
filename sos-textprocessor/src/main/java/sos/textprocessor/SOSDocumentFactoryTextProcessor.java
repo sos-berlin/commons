@@ -11,18 +11,12 @@ import java.util.Map;
 import sos.connection.SOSConnection;
 import sos.hostware.Factory_processor;
 import sos.settings.SOSConnectionSettings;
-import sos.util.SOSLogger;
 
 public class SOSDocumentFactoryTextProcessor extends SOSTextProcessor {
-
+  
     Factory_processor processor = null;
 
     public SOSDocumentFactoryTextProcessor() throws Exception {
-        this.init();
-    }
-
-    public SOSDocumentFactoryTextProcessor(SOSLogger logger) throws Exception {
-        this.setLogger(logger);
         this.init();
     }
 
@@ -31,24 +25,9 @@ public class SOSDocumentFactoryTextProcessor extends SOSTextProcessor {
         this.init();
     }
 
-    public SOSDocumentFactoryTextProcessor(SOSConnectionSettings settings, SOSLogger logger) throws Exception {
-        this.setLogger(logger);
-        this.setSettings(settings);
-        this.init();
-    }
-
     public SOSDocumentFactoryTextProcessor(SOSConnectionSettings settings, String templateSectionName, String templateApplicationName)
             throws Exception {
         this.setSettings(settings);
-        this.setTemplateSectionName(templateSectionName);
-        this.setTemplateApplicationName(templateApplicationName);
-        this.init();
-    }
-
-    public SOSDocumentFactoryTextProcessor(SOSConnectionSettings settings, SOSLogger logger, String templateSectionName,
-            String templateApplicationName) throws Exception {
-        this.setSettings(settings);
-        this.setLogger(logger);
         this.setTemplateSectionName(templateSectionName);
         this.setTemplateApplicationName(templateApplicationName);
         this.init();

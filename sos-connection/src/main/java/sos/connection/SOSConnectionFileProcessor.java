@@ -8,17 +8,19 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Vector;
 
 import sos.util.SOSClassUtil;
 import sos.util.SOSFile;
-import sos.util.SOSLogger;
-import sos.util.SOSStandardLogger;
 
 public class SOSConnectionFileProcessor {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSConnectionFileProcessor.class);
     SOSConnection connection = null;
-    SOSLogger logger = null;
     String settingsFilename = null;
     String fileSpec = "^(.*)";
     boolean hasDirectory = false;
@@ -31,20 +33,8 @@ public class SOSConnectionFileProcessor {
         this.init();
     }
 
-    public SOSConnectionFileProcessor(SOSConnection sosConnection, SOSLogger sosLogger) throws Exception {
-        this.setConnection(sosConnection);
-        this.setLogger(sosLogger);
-        this.init();
-    }
-
     public SOSConnectionFileProcessor(String settingsFilename) throws Exception {
         this.setSettingsFilename(settingsFilename);
-        this.init();
-    }
-
-    public SOSConnectionFileProcessor(String settingsFilename, SOSLogger sosLogger) throws Exception {
-        this.setSettingsFilename(settingsFilename);
-        this.setLogger(sosLogger);
         this.init();
     }
 
@@ -54,17 +44,15 @@ public class SOSConnectionFileProcessor {
                 if (this.getSettingsFilename() == null || this.getSettingsFilename().trim().isEmpty()) {
                     throw new Exception("no connection and no settings filename were given for connection");
                 }
-                if (this.getLogger() != null) {
-                    this.getLogger().debug3("DB Connecting.. .");
-                }
-                this.setConnection(SOSConnection.createInstance(this.getSettingsFilename()));
-                this.getConnection().connect();
-                if (this.getLogger() != null) {
-                    this.getLogger().debug3("DB Connected");
-                }
             }
+
+            LOGGER.debug("DB Connecting.. .");
+            this.setConnection(SOSConnection.createInstance(this.getSettingsFilename()));
+            this.getConnection().connect();
+            LOGGER.debug("DB Connected");
+
         } catch (Exception e) {
-            throw new Exception("connect to database failed: " + e.getMessage(), e);
+            throw new Exception("connect to database failed: " + e.toString(), e);
         }
     }
 
@@ -83,10 +71,7 @@ public class SOSConnectionFileProcessor {
         boolean isEnd = false;
         try {
             if (inputFile.isDirectory()) {
-                if (this.getLogger() != null) {
-                    this.getLogger().info(String.format("%s: process directory %s, fileSpec = %s", methodName, inputFile.getAbsolutePath(), this
-                            .getFileSpec()));
-                }
+                LOGGER.info(String.format("%s: process directory %s, fileSpec = %s", methodName, inputFile.getAbsolutePath(), this.getFileSpec()));
                 this.hasDirectory = true;
                 this.initCounters();
                 Vector<File> filelist = SOSFile.getFilelist(inputFile.getAbsolutePath(), this.getFileSpec(), 0);
@@ -95,31 +80,28 @@ public class SOSConnectionFileProcessor {
                     this.process(iterator.next());
                 }
                 isEnd = true;
-                if (this.getLogger() != null) {
-                    this.getLogger().info(String.format("%s: directory proccessed (total = %s, success = %s, error = %s) %s", methodName, filelist
-                            .size(), this.successFiles.size(), this.errorFiles.size(), inputFile.getAbsolutePath()));
-                    if (!this.successFiles.isEmpty()) {
-                        this.getLogger().info(String.format("%s:   success:", methodName));
-                        for (int i = 0; i < this.successFiles.size(); i++) {
-                            this.getLogger().info(String.format("%s:     %s) %s", methodName, i + 1, this.successFiles.get(i)));
-                        }
-                    }
-                    if (!this.errorFiles.isEmpty()) {
-                        this.getLogger().info(String.format("%s:   error:", methodName));
-                        int i = 1;
-                        for (Entry<String, String> entry : this.errorFiles.entrySet()) {
-                            this.getLogger().info(String.format("%s:     %s) %s: %s", methodName, i, entry.getKey(), entry.getValue()));
-                            i++;
-                        }
+                LOGGER.info(String.format("%s: directory proccessed (total = %s, success = %s, error = %s) %s", methodName, filelist.size(),
+                        this.successFiles.size(), this.errorFiles.size(), inputFile.getAbsolutePath()));
+                if (!this.successFiles.isEmpty()) {
+                    LOGGER.info(String.format("%s:   success:", methodName));
+                    for (int i = 0; i < this.successFiles.size(); i++) {
+                        LOGGER.info(String.format("%s:     %s) %s", methodName, i + 1, this.successFiles.get(i)));
                     }
                 }
+                if (!this.errorFiles.isEmpty()) {
+                    LOGGER.info(String.format("%s:   error:", methodName));
+                    int i = 1;
+                    for (Entry<String, String> entry : this.errorFiles.entrySet()) {
+                        LOGGER.info(String.format("%s:     %s) %s: %s", methodName, i, entry.getKey(), entry.getValue()));
+                        i++;
+                    }
+                }
+
             } else {
                 FileReader fr = null;
                 BufferedReader br = null;
                 StringBuilder sb = new StringBuilder();
-                if (this.getLogger() != null) {
-                    this.getLogger().info(String.format("%s: process file %s", methodName, inputFile.getAbsolutePath()));
-                }
+                LOGGER.info(String.format("%s: process file %s", methodName, inputFile.getAbsolutePath()));
                 try {
                     fr = new FileReader(inputFile.getAbsolutePath());
                     br = new BufferedReader(fr);
@@ -151,16 +133,12 @@ public class SOSConnectionFileProcessor {
                     isEnd = true;
                 }
                 this.successFiles.add(inputFile.getAbsolutePath());
-                if (this.getLogger() != null) {
-                    this.getLogger().info(String.format("%s: file successfully processed %s", methodName, inputFile.getAbsolutePath()));
-                }
+                LOGGER.info(String.format("%s: file successfully processed %s", methodName, inputFile.getAbsolutePath()));
+
             }
         } catch (Exception e) {
             this.errorFiles.put(inputFile.getAbsolutePath(), e.getMessage());
-            if (this.getLogger() != null) {
-                this.getLogger().warn(String.format("%s: an error occurred processing file [%s]: %s", methodName, inputFile.getAbsolutePath(), e
-                        .getMessage()));
-            }
+            LOGGER.warn(String.format("%s: an error occurred processing file [%s]: %s", methodName, inputFile.getAbsolutePath(), e.toString()), e);
         } finally {
             try {
                 if (this.getConnection() != null && isEnd) {
@@ -191,14 +169,6 @@ public class SOSConnectionFileProcessor {
 
     public void setConnection(SOSConnection connection) {
         this.connection = connection;
-    }
-
-    public SOSLogger getLogger() {
-        return logger;
-    }
-
-    public void setLogger(SOSLogger logger) {
-        this.logger = logger;
     }
 
     public String getSettingsFilename() {
@@ -237,12 +207,8 @@ public class SOSConnectionFileProcessor {
         boolean logToStdErr = false;
         try {
             String settingsFile = args[0];
-            int logLevel = 0;
-            if (args.length > 3) {
-                logLevel = Integer.parseInt(args[3]);
-            }
-            logToStdErr =  Arrays.asList(args).contains("-execute-from-setup");
-            processor = new SOSConnectionFileProcessor(settingsFile, (SOSLogger) new SOSStandardLogger(logLevel));
+            logToStdErr = Arrays.asList(args).contains("-execute-from-setup");
+            processor = new SOSConnectionFileProcessor(settingsFile);
             File inputFile = null;
             for (int i = 0; i < args.length; i++) {
                 String param = args[i].trim();

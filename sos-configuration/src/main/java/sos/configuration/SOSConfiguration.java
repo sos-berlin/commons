@@ -538,7 +538,6 @@ public class SOSConfiguration {
                 LOGGER.debug("~~~~~~~~~~~~~~~");
             }
             String requiredDefaultFile = "./testDateien/Configuration.xml";
-            sos.util.SOSLogger sosLogger = new sos.util.SOSStandardLogger(10);
             test1(args, requiredDefaultFile);
             test2(args, requiredDefaultFile);
             test3(args, "./testDateien/sos_settings.ini", requiredDefaultFile);

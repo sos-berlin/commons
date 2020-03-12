@@ -6,10 +6,13 @@ package sos.connection;
 import java.sql.DatabaseMetaData;
 import java.util.HashSet;
 
-import sos.util.SOSLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** @author Andreas Liebert */
 public class SOSConnectionVersionLimiter {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSConnectionVersionLimiter.class);
 
     private HashSet excludedVersions = new HashSet();
     private HashSet supportedVersions = new HashSet();
@@ -133,11 +136,11 @@ public class SOSConnectionVersionLimiter {
         this.excludedFromVersion = excludedFromVersion;
     }
 
-    public int check(SOSConnection conn, SOSLogger log) throws BadDatabaseVersionException {
-        return check(conn, log, conn.getCompatibility());
+    public int check(SOSConnection conn) throws BadDatabaseVersionException {
+        return check(conn, conn.getCompatibility());
     }
 
-    public int check(SOSConnection conn, SOSLogger log, int compatibility) throws BadDatabaseVersionException {
+    public int check(SOSConnection conn, int compatibility) throws BadDatabaseVersionException {
         int major = -1;
         int minor = 0;
         boolean excluded = false;
@@ -153,8 +156,8 @@ public class SOSConnectionVersionLimiter {
                 minor = meta.getDatabaseMinorVersion();
                 conn.setMajorVersion(major);
                 conn.setMinorVersion(minor);
-                log.debug3("DatabaseMajorVersion: " + major);
-                log.debug3("DatabaseMinorVersion: " + minor);
+                LOGGER.debug("DatabaseMajorVersion: " + major);
+                LOGGER.debug("DatabaseMinorVersion: " + minor);
             } catch (AbstractMethodError ex) {
                 lastError = new Exception(ex);
             } catch (Exception ex) {
@@ -163,7 +166,7 @@ public class SOSConnectionVersionLimiter {
             try {
                 sDbVersion = meta.getDatabaseProductVersion();
                 conn.setProductVersion(sDbVersion);
-                log.debug3("DatabaseProductVersion: " + sDbVersion);
+                LOGGER.debug("DatabaseProductVersion: " + sDbVersion);
             } catch (Exception ex) {
                 lastError = ex;
             }
@@ -180,7 +183,7 @@ public class SOSConnectionVersionLimiter {
                     conn.setMinorVersion(minor);
                     db = new DBVersion(major, minor);
                 } catch (Exception e) {
-                    log.info("Error occured: " + e);
+                    LOGGER.info("Error occured: " + e);
                 }
             }
             if (db != null) {
@@ -190,14 +193,14 @@ public class SOSConnectionVersionLimiter {
             }
             excluded = isExcludedVersion(db, sDbVersion);
             untested = isUntestedVersion(db, sDbVersion);
-            log.debug3("Excluded Database Version: " + excluded);
-            log.debug3("Untested Database Version: " + untested);
+            LOGGER.debug("Excluded Database Version: " + excluded);
+            LOGGER.debug("Untested Database Version: " + untested);
         } catch (Exception e) {
             try {
                 if (compatibility != CHECK_OFF) {
-                    log.warn("Error occured checking database version: " + e);
+                    LOGGER.warn("Error occured checking database version: " + e);
                 } else {
-                    log.info("Error occured checking database version: " + e);
+                    LOGGER.info("Error occured checking database version: " + e);
                 }
             } catch (Exception ex) {
                 //

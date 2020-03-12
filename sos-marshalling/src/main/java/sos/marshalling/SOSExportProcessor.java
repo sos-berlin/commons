@@ -3,19 +3,18 @@ package sos.marshalling;
 import java.io.File;
 import java.util.StringTokenizer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import sos.connection.SOSConnection;
 import sos.util.SOSArguments;
-import sos.marshalling.SOSExport;
-import sos.util.SOSStandardLogger;
 
 /** @author Robert Ehrlich */
 public class SOSExportProcessor {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSExportProcessor.class);
     private SOSConnection sosConnection = null;
-    private SOSStandardLogger sosLogger = null;
     private File configFile = null;
-    private File logFile = null;
-    private int logLevel = 0;
     private File outputFile = null;
     private String tableNames = null;
     private String executeQuery = null;
@@ -33,8 +32,6 @@ public class SOSExportProcessor {
         }
         try {
             this.configFile = configFile;
-            this.logFile = logFile;
-            this.logLevel = logLevel;
             this.outputFile = outputFile;
             this.tableNames = tableNames;
             this.executeQuery = executeQuery;
@@ -71,10 +68,6 @@ public class SOSExportProcessor {
         System.out.println("                    für mehreren Tabellen : die Reihenfolge wie bei -tables.");
         System.out.println("        -execute    eigene SQL-Statement für eine Tabelle angeben.");
         System.out.println("                    SQL-Statement in doppelten Hochkommas.");
-        System.out.println("        -log        Namen der Log-Datei angeben.");
-        System.out.println("                    Default : sos_export.log");
-        System.out.println("        -log-level  Loglevel angeben.");
-        System.out.println("                    Default : 0  keine Log-Datei schreiben");
         System.out.println("");
         System.out.println("");
         System.out.println("Notiz : -execute und -tables dürfen nicht zusammen angegeben werden.");
@@ -90,7 +83,8 @@ public class SOSExportProcessor {
         System.out.println("Beispiel 3 : alle Daten der Tabellen t1 und t2 ohne zu loggen exportieren");
         System.out.println("         -config=config/hibernate.cfg.xml -tables=t1+t2");
         System.out.println("");
-        System.out.println("Beispiel 4 : wie Beispiel 3 + Schlüsselfelder T1_ID und T1_NAME für die Tabelle t1 und Schlüsselfeld T2_ID für die Tabelle t2 definieren");
+        System.out.println(
+                "Beispiel 4 : wie Beispiel 3 + Schlüsselfelder T1_ID und T1_NAME für die Tabelle t1 und Schlüsselfeld T2_ID für die Tabelle t2 definieren");
         System.out.println("         -config=config/hibernate.cfg.xml -tables=t1+t2 -keys=T1_ID,T1_NAME+T2_ID");
         System.out.println("");
         System.out.println("Beispiel 5 : eigene SQL-Statement für die Tabelle t1 definieren");
@@ -103,14 +97,9 @@ public class SOSExportProcessor {
                     && (executeQuery == null || "".equals(executeQuery))) {
                 throw new Exception("undefined operation for export. Check please input for your -tables or -execute arguments");
             }
-            if (logLevel == 0) {
-                sosLogger = new SOSStandardLogger(SOSStandardLogger.DEBUG);
-            } else {
-                sosLogger = new SOSStandardLogger(logFile.toString(), logLevel);
-            }
             sosConnection = SOSConnection.createInstance(configFile.toString());
             sosConnection.connect();
-            SOSExport export = new SOSExport(sosConnection, outputFile.toString(), "EXPORT", sosLogger);
+            SOSExport export = new SOSExport(sosConnection, outputFile.toString(), "EXPORT");
             prepareExport(export);
             export.doExport();
             System.out.println("");
@@ -178,14 +167,10 @@ public class SOSExportProcessor {
         }
         if (isExport) {
             SOSArguments arguments = new SOSArguments(args);
-            SOSExportProcessor processor =
-                    new SOSExportProcessor(
-                            new File(arguments.asString("-config=", "hibernate.cfg.xml")),
-                            new File(arguments.asString("-log=", "sos_export.log")), arguments.asInt("-log-level=", 0),
-                            new File(arguments.asString("-output=", "sos_export.xml")),
-                            new String(arguments.asString("-tables=", "")), 
-                            new String(arguments.asString("-execute=", "")), 
-                            new String(arguments.asString("-keys=", "")));
+            SOSExportProcessor processor = new SOSExportProcessor(new File(arguments.asString("-config=", "hibernate.cfg.xml")), new File(arguments
+                    .asString("-log=", "sos_export.log")), arguments.asInt("-log-level=", 0), new File(arguments.asString("-output=",
+                            "sos_export.xml")), new String(arguments.asString("-tables=", "")), new String(arguments.asString("-execute=", "")),
+                    new String(arguments.asString("-keys=", "")));
             arguments.checkAllUsed();
             processor.doExport();
         }

@@ -6,24 +6,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import sos.util.SOSClassUtil;
-import sos.util.SOSLogger;
 import sos.util.SOSString;
 
 /** @author Robert Ehrlich */
 public class SOSXMLSettings extends SOSSettings {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSXMLSettings.class);
     protected String application = "";
-    private Map<String,Map<String, Properties>> applications = new LinkedHashMap<String,Map<String, Properties>>();
+    private Map<String, Map<String, Properties>> applications = new LinkedHashMap<String, Map<String, Properties>>();
     protected boolean lowerCase = true;
 
     public SOSXMLSettings(String source) throws Exception {
         super(source);
-        this.load();
-    }
-
-    public SOSXMLSettings(String source, SOSLogger logger) throws Exception {
-        super(source, logger);
         this.load();
     }
 
@@ -33,20 +31,8 @@ public class SOSXMLSettings extends SOSSettings {
         this.load();
     }
 
-    public SOSXMLSettings(String source, String application, SOSLogger logger) throws Exception {
-        super(source, logger);
-        this.application = application;
-        this.load();
-    }
-
     public SOSXMLSettings(String source, String application, String section) throws Exception {
         super(source, section);
-        this.application = application;
-        this.load();
-    }
-
-    public SOSXMLSettings(String source, String application, String section, SOSLogger logger) throws Exception {
-        super(source, section, logger);
         this.application = application;
         this.load();
     }
@@ -58,7 +44,7 @@ public class SOSXMLSettings extends SOSSettings {
         try {
             sos.xml.SOSXMLXPath xpath = null;
             org.w3c.dom.NodeList nodeListApplications = null;
-            this.applications = new LinkedHashMap<String,Map<String, Properties>>();
+            this.applications = new LinkedHashMap<String, Map<String, Properties>>();
             xpath = new sos.xml.SOSXMLXPath(this.source);
             nodeListApplications = xpath.selectNodeList("/settings/application[" + xpathQueryAttributes + "]");
             for (int i = 0; i < nodeListApplications.getLength(); i++) {
@@ -85,9 +71,7 @@ public class SOSXMLSettings extends SOSSettings {
                 }
                 this.applications.put(applicationName, sections);
             }
-            if (logger != null) {
-                logger.debug3(SOSClassUtil.getMethodName() + ": xml [" + source + "] successfully loaded.");
-            }
+            LOGGER.debug(SOSClassUtil.getMethodName() + ": xml [" + source + "] successfully loaded.");
         } catch (NoClassDefFoundError e) {
             throw new Exception("Class not found  : " + e.getMessage());
         } catch (Exception e) {
@@ -103,9 +87,7 @@ public class SOSXMLSettings extends SOSSettings {
         if (SOSString.isEmpty(section)) {
             throw new Exception(SOSClassUtil.getMethodName() + ": section has no value!");
         }
-        if (logger != null) {
-            logger.debug6("calling " + SOSClassUtil.getMethodName() + " : application = " + application + " section = " + section);
-        }
+        LOGGER.debug("calling " + SOSClassUtil.getMethodName() + " : application = " + application + " section = " + section);
         if (this.applications != null && this.applications.containsKey(application)) {
             Map<String, Properties> sections = this.applications.get(application);
             if (sections.containsKey(section)) {
@@ -128,9 +110,7 @@ public class SOSXMLSettings extends SOSSettings {
         if (SOSString.isEmpty(application)) {
             throw new Exception(SOSClassUtil.getMethodName() + ": application has no value!");
         }
-        if (logger != null) {
-            logger.debug6("calling " + SOSClassUtil.getMethodName() + " : application = " + application);
-        }
+        LOGGER.debug("calling " + SOSClassUtil.getMethodName() + " : application = " + application);
         if (this.applications != null && this.applications.containsKey(application)) {
             Map<String, Properties> appSections = this.applications.get(application);
             for (Map.Entry<String, Properties> entry : appSections.entrySet()) {
@@ -164,10 +144,8 @@ public class SOSXMLSettings extends SOSSettings {
             if (SOSString.isEmpty(entry)) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": entry has no value!");
             }
-            if (logger != null) {
-                logger.debug6("calling " + SOSClassUtil.getMethodName() + " : application = " + application + " section = " + section + " entry = "
-                        + entry);
-            }
+            LOGGER.debug("calling " + SOSClassUtil.getMethodName() + " : application = " + application + " section = " + section + " entry = "
+                    + entry);
             if (this.applications != null && this.applications.containsKey(application)) {
                 Map<String, Properties> sections = this.applications.get(application);
                 if (sections.containsKey(section)) {
@@ -184,22 +162,14 @@ public class SOSXMLSettings extends SOSSettings {
     }
 
     public void setKeysToLowerCase() throws Exception {
-        if (logger != null) {
-            logger.debug3("calling " + SOSClassUtil.getMethodName());
-        }
-        if (logger != null) {
-            logger.debug3(".. now keys set to lower case.");
-        }
+        LOGGER.debug("calling " + SOSClassUtil.getMethodName());
+        LOGGER.debug(".. now keys set to lower case.");
         lowerCase = true;
     }
 
     public void setKeysToUpperCase() throws Exception {
-        if (logger != null) {
-            logger.debug3("calling " + SOSClassUtil.getMethodName());
-        }
-        if (logger != null) {
-            logger.debug3(".. now keys set to upper case.");
-        }
+        LOGGER.debug("calling " + SOSClassUtil.getMethodName());
+        LOGGER.debug(".. now keys set to upper case.");
         lowerCase = false;
     }
 

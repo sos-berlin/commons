@@ -13,15 +13,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import sos.util.SOSClassUtil;
-import sos.util.SOSLogger;
 import sos.util.SOSString;
 
 /** @author Andreas Püschel */
 public class SOSSybaseConnection extends sos.connection.SOSConnection {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSSybaseConnection.class);
     private static final String REPLACEMENT[] = { "LOWER", "UPPER", "GETDATE()", "holdlock" };
     private static final SOSConnectionVersionLimiter VERSION_LIMITER;
-    private static final Logger LOGGER = LoggerFactory.getLogger(SOSSybaseConnection.class);
 
     static {
         VERSION_LIMITER = new SOSConnectionVersionLimiter();
@@ -29,16 +28,8 @@ public class SOSSybaseConnection extends sos.connection.SOSConnection {
         VERSION_LIMITER.setMaxSupportedVersion(15, 0);
     }
 
-    public SOSSybaseConnection(final Connection connection, final SOSLogger logger) throws Exception {
-        super(connection, logger);
-    }
-
     public SOSSybaseConnection(final Connection connection) throws Exception {
         super(connection);
-    }
-
-    public SOSSybaseConnection(final String configFileName, final SOSLogger logger) throws Exception {
-        super(configFileName, logger);
     }
 
     public SOSSybaseConnection(final String configFileName) throws Exception {
@@ -47,20 +38,6 @@ public class SOSSybaseConnection extends sos.connection.SOSConnection {
 
     public SOSSybaseConnection(final String driver, final String url, final String dbuser, final String dbpassword) throws Exception {
         super(driver, url, dbuser, dbpassword);
-    }
-
-    public SOSSybaseConnection(final String driver, final String url, final String dbuser, final String dbpassword, final SOSLogger logger)
-            throws Exception {
-        super(driver, url, dbuser, dbpassword, logger);
-    }
-
-    public SOSSybaseConnection(final String driver, final String url, final String dbname, final String dbuser, final String dbpassword,
-            final SOSLogger logger) throws Exception {
-        super(driver, url, dbuser, dbpassword, logger);
-        if (dbname == null) {
-            throw new Exception(SOSClassUtil.getMethodName() + ": missing database name.");
-        }
-        this.dbname = dbname;
     }
 
     public SOSSybaseConnection(final String driver, final String url, final String dbname, final String dbuser, final String dbpassword)
@@ -93,14 +70,14 @@ public class SOSSybaseConnection extends sos.connection.SOSConnection {
         properties.setProperty("user", dbuser);
         properties.setProperty("password", dbpassword);
         try {
-            logger.debug9("calling " + SOSClassUtil.getMethodName());
+            LOGGER.trace("calling " + SOSClassUtil.getMethodName());
             Driver driver = (Driver) Class.forName(this.driver).newInstance();
             connection = driver.connect(url, properties);
             if (connection == null) {
                 throw new Exception("can't connect to database");
             }
-            VERSION_LIMITER.check(this, logger);
-            logger.debug6(".. successfully connected to " + url);
+            VERSION_LIMITER.check(this);
+            LOGGER.debug(".. successfully connected to " + url);
             prepare(connection);
         } catch (Exception e) {
             throw new Exception(SOSClassUtil.getMethodName() + ": " + e.toString(), e);
@@ -109,7 +86,7 @@ public class SOSSybaseConnection extends sos.connection.SOSConnection {
 
     @Override
     public void prepare(final Connection connection) throws Exception {
-        logger.debug6("calling " + SOSClassUtil.getMethodName());
+        LOGGER.debug("calling " + SOSClassUtil.getMethodName());
         Statement stmt = null;
         String isolationLevel = "set TRANSACTION ISOLATION LEVEL READ COMMITTED";
         String chainedOn = "set CHAINED ON";
@@ -153,13 +130,9 @@ public class SOSSybaseConnection extends sos.connection.SOSConnection {
     private void setSessionVariable(final Statement stmt, final String command) {
         try {
             stmt.execute(command);
-            logger.debug9(String.format(".. %1$s successfully set", command));
+            LOGGER.trace(String.format(".. %1$s successfully set", command));
         } catch (Exception e) {
-            try {
-                logger.warn(e.toString());
-            } catch (Exception e1) {
-                LOGGER.warn(e.getMessage(), e);
-            }
+            LOGGER.warn(e.toString(), e);
         }
     }
 
@@ -185,13 +158,13 @@ public class SOSSybaseConnection extends sos.connection.SOSConnection {
 
     @Override
     protected String replaceCasts(final String inputString) throws Exception {
-        logger.debug6("Calling " + SOSClassUtil.getMethodName());
+        LOGGER.debug("Calling " + SOSClassUtil.getMethodName());
         Pattern pattern = Pattern.compile(CAST_PATTERN);
         Matcher matcher = pattern.matcher(inputString);
         StringBuffer buffer = new StringBuffer();
         String replaceString;
         String token;
-        logger.debug9("..inputString [" + inputString + "]");
+        LOGGER.trace("..inputString [" + inputString + "]");
         while (matcher.find()) {
             replaceString = matcher.group().toLowerCase();
             if (matcher.group(1) != null && matcher.group(6) != null) {
@@ -236,7 +209,7 @@ public class SOSSybaseConnection extends sos.connection.SOSConnection {
             matcher.appendReplacement(buffer, replaceString);
         }
         matcher.appendTail(buffer);
-        logger.debug6(".. result [" + buffer.toString() + "]");
+        LOGGER.debug(".. result [" + buffer.toString() + "]");
         return buffer.toString();
     }
 

@@ -4,28 +4,27 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.Vector;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import sos.connection.SOSConnection;
 import sos.util.SOSFile;
-import sos.util.SOSStandardLogger;
 
 /** @author Robert Ehrlich */
 public class SOSImportProcessor {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSImportProcessor.class);
     private SOSConnection sosConnection = null;
-    private SOSStandardLogger sosLogger = null;
     private boolean update = false;
     private String fileSpec = "^(.*)";
     private File configFile = null;
     private File inputFile = null;
-    private File logFile = null;
-    private int logLevel = 0;
 
-    public SOSImportProcessor(String settingsFilename, SOSStandardLogger sosLogger) throws Exception {
+    public SOSImportProcessor(String settingsFilename) throws Exception {
         this.configFile = new File(settingsFilename);
-        this.sosLogger = sosLogger;
     }
 
-    public SOSImportProcessor(File configFile, File logFile, int logLevel, File inputFile) throws Exception {
+    public SOSImportProcessor(File configFile, File inputFile) throws Exception {
         if (configFile == null) {
             throw new NullPointerException("Import: Parameter config == null!");
         }
@@ -34,8 +33,6 @@ public class SOSImportProcessor {
         }
         try {
             this.configFile = configFile;
-            this.logFile = logFile;
-            this.logLevel = logLevel;
             this.inputFile = inputFile;
             if (configFile != null && !configFile.getName().isEmpty() && !configFile.exists()) {
                 throw new Exception("configuration file not found: " + configFile);
@@ -43,9 +40,7 @@ public class SOSImportProcessor {
             if (inputFile != null && !inputFile.getName().isEmpty() && !inputFile.exists()) {
                 throw new Exception("input file not found: " + inputFile);
             }
-            if (logLevel != 0 && "".equals(logFile.toString())) {
-                throw new Exception("log file is not defined");
-            }
+
         } catch (Exception e) {
             throw new Exception("error in SOSImportProcessor: " + e.getMessage(), e);
         }
@@ -58,10 +53,6 @@ public class SOSImportProcessor {
         System.out.println("                    Default : hibernate.cfg.xml");
         System.out.println("        -input      Namen der Import XML-Datei angeben.");
         System.out.println("                    Default : sos_export.xml ");
-        System.out.println("        -log        Namen der Log-Datei angeben.");
-        System.out.println("                    Default : sos_import.log");
-        System.out.println("        -log-level  Loglevel angeben.");
-        System.out.println("                    Default : 0  keine Log-Datei schreiben");
         System.out.println("");
         System.out.println("");
         System.out.println("Beispiel 1 : Datei sos_import.xml in die Tabelle t1 importieren");
@@ -70,14 +61,9 @@ public class SOSImportProcessor {
 
     public void doImport() throws Exception {
         try {
-            if (logLevel == 0) {
-                sosLogger = new SOSStandardLogger(SOSStandardLogger.DEBUG);
-            } else {
-                sosLogger = new SOSStandardLogger(logFile.toString(), logLevel);
-            }
             sosConnection = SOSConnection.createInstance(configFile.toString());
             sosConnection.connect();
-            SOSImport imp = new SOSImport(sosConnection, inputFile.toString(), null, null, null, sosLogger);
+            SOSImport imp = new SOSImport(sosConnection, inputFile.toString(), null, null, null);
             imp.doImport();
             sosConnection.commit();
             System.out.println("");
@@ -108,13 +94,13 @@ public class SOSImportProcessor {
                     this.process((File) iterator.next());
                 }
             } else {
-                SOSImport imp = new SOSImport(sosConnection, inputFile.toString(), null, null, null, sosLogger);
+                SOSImport imp = new SOSImport(sosConnection, inputFile.toString(), null, null, null);
                 imp.setUpdate(getUpdate());
                 imp.doImport();
                 sosConnection.commit();
             }
         } catch (Exception e) {
-            sosLogger.warn("an error occurred processing file [" + inputFile.getAbsolutePath() + "]: " + e);
+            LOGGER.warn("an error occurred processing file [" + inputFile.getAbsolutePath() + "]: " + e, e);
         } finally {
             try {
                 if (sosConnection != null) {
@@ -128,13 +114,9 @@ public class SOSImportProcessor {
 
     public static void main(String[] args) throws Exception {
         if (args.length < 2) {
-            System.out.println("Usage: SOSImportProcessor configuration-file  path  [file-specification] [update] [log-level]");
+            System.out.println("Usage: SOSImportProcessor configuration-file  path  [file-specification] [update]");
         }
-        int logLevel = 0;
-        if (args.length > 4) {
-            logLevel = Integer.parseInt(args[4]);
-        }
-        SOSImportProcessor processor = new SOSImportProcessor(args[0], new SOSStandardLogger(logLevel));
+        SOSImportProcessor processor = new SOSImportProcessor(args[0]);
         File inputFile = new File(args[1]);
         if (args.length > 2) {
             processor.setFileSpec(args[2]);

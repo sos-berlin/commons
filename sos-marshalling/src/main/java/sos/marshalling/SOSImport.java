@@ -12,18 +12,19 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.xerces.parsers.SAXParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import sos.connection.SOSConnection;
 import sos.connection.SOSMySQLConnection;
-import sos.util.SOSStandardLogger;
 
 /** @author Titus Meyer */
 public class SOSImport extends DefaultHandler {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSImport.class);
     private SOSConnection connection = null;
-    private SOSStandardLogger logger = null;
     private boolean autoCommit = false;
     private boolean enableInsert = true;
     private boolean enableUpdate = true;
@@ -176,7 +177,7 @@ public class SOSImport extends DefaultHandler {
 
     }
 
-    public SOSImport(SOSConnection conn, String fileName, String packageId, String packageElement, String packageValue, SOSStandardLogger log) {
+    public SOSImport(SOSConnection conn, String fileName, String packageId, String packageElement, String packageValue) {
         super();
         if (conn != null) {
             this.connection = conn;
@@ -193,29 +194,18 @@ public class SOSImport extends DefaultHandler {
         if (packageValue != null) {
             this.packageValue = packageValue;
         }
-        if (log != null) {
-            this.logger = log;
-        }
     }
 
     public SOSImport(SOSConnection conn, String fileName) {
-        this(conn, fileName, null, null, null, null);
-    }
-
-    public SOSImport(SOSConnection conn, String fileName, String packageId, String packageElement, String packageValue) {
-        this(conn, fileName, packageId, packageElement, packageValue, null);
+        this(conn, fileName, null, null, null);
     }
 
     public SOSImport() {
-        this(null, null, null, null, null, null);
+        this(null, null, null, null, null);
     }
 
     public void setConnection(SOSConnection conn) {
         this.connection = conn;
-    }
-
-    public void setLogger(SOSStandardLogger log) {
-        this.logger = log;
     }
 
     public void setAutoCommit(boolean autoCommit) {
@@ -282,9 +272,7 @@ public class SOSImport extends DefaultHandler {
     public void startDocument() throws SAXException {
         autoChecked = false;
         try {
-            if (logger != null) {
-                logger.debug2("Starte Import...");
-            }
+            LOGGER.debug("Starte Import...");
         } catch (Exception e) {
             throw new SAXException("SOSImport.startDocument: " + e.getMessage(), e);
         }
@@ -293,7 +281,7 @@ public class SOSImport extends DefaultHandler {
     public void endDocument() throws SAXException {
         autoChecked = false;
         try {
-            logger.debug2("...beende Import");
+            LOGGER.debug("...beende Import");
         } catch (Exception e) {
             throw new SAXException("SOSImport.endDocument: " + e.getMessage(), e);
         }
@@ -302,9 +290,7 @@ public class SOSImport extends DefaultHandler {
     public void startElement(String uri, String name, String qName, org.xml.sax.Attributes atts) throws SAXException {
         curElement = name;
         try {
-            if (logger != null) {
-                logger.debug9("import startElement: " + name);
-            }
+            LOGGER.trace("import startElement: " + name);
             if (name.equalsIgnoreCase(xmlTagname)) {
                 curExportOpen = true;
             } else if (name.equalsIgnoreCase(xmlTagname + "_package") && curExportOpen) {
@@ -316,9 +302,9 @@ public class SOSImport extends DefaultHandler {
                 curMetaOpened = true;
             } else if ("table".equalsIgnoreCase(name) && curMetaOpened) {
                 curMetaTableName = atts.getValue("name");
-                if (mappingTablenames != null && mappingTablenames.get(curMetaTableName) != null
-                        && !mappingTablenames.get(curMetaTableName).toString().isEmpty()) {
-                    logger.debug("import tablename " + curMetaTableName + " is mapping in " + mappingTablenames.get(curMetaTableName));
+                if (mappingTablenames != null && mappingTablenames.get(curMetaTableName) != null && !mappingTablenames.get(curMetaTableName)
+                        .toString().isEmpty()) {
+                    LOGGER.debug("import tablename " + curMetaTableName + " is mapping in " + mappingTablenames.get(curMetaTableName));
                     curMetaTableName = mappingTablenames.get(curMetaTableName).toString();
                 }
                 metaKeyRecords.get(curPackageId).setTable(curMetaTableName);
@@ -326,10 +312,8 @@ public class SOSImport extends DefaultHandler {
             } else if ("key_fields".equalsIgnoreCase(name) && curMetaOpened) {
                 curMetaKeysOpened = true;
             } else if ("field".equalsIgnoreCase(name) && curMetaKeysOpened) {
-                if (logger != null) {
-                    logger.debug9("add keyfield: name = " + normalizeFieldName(atts.getValue("name")) + " type = " + atts.getValue("type")
-                            + " typeID = " + atts.getValue("typeID") + " len = " + atts.getValue("len") + " scale = " + atts.getValue("scale"));
-                }
+                LOGGER.trace("add keyfield: name = " + normalizeFieldName(atts.getValue("name")) + " type = " + atts.getValue("type") + " typeID = "
+                        + atts.getValue("typeID") + " len = " + atts.getValue("len") + " scale = " + atts.getValue("scale"));
                 String field = atts.getValue("name");
                 if (autoNormalizeField && !autoChecked) {
                     autoNormalize(field);
@@ -340,10 +324,8 @@ public class SOSImport extends DefaultHandler {
             } else if ("fields".equalsIgnoreCase(name) && curMetaOpened) {
                 curMetaFieldsOpened = true;
             } else if ("field".equalsIgnoreCase(name) && curMetaFieldsOpened) {
-                if (logger != null) {
-                    logger.debug9("add field: name = " + normalizeFieldName(atts.getValue("name")) + " type = " + atts.getValue("type")
-                            + " typeID = " + atts.getValue("typeID") + " len = " + atts.getValue("len") + " scale = " + atts.getValue("scale"));
-                }
+                LOGGER.trace("add field: name = " + normalizeFieldName(atts.getValue("name")) + " type = " + atts.getValue("type") + " typeID = "
+                        + atts.getValue("typeID") + " len = " + atts.getValue("len") + " scale = " + atts.getValue("scale"));
                 String field = atts.getValue("name");
                 if (autoNormalizeField && !autoChecked) {
                     autoNormalize(field);
@@ -379,9 +361,7 @@ public class SOSImport extends DefaultHandler {
 
     public void endElement(String uri, String name, String qName) throws SAXException {
         try {
-            if (logger != null) {
-                logger.debug9("import endElement: " + name);
-            }
+            LOGGER.trace("import endElement: " + name);
             if (name.equalsIgnoreCase(xmlTagname)) {
                 curExportOpen = false;
             } else if (name.equalsIgnoreCase(xmlTagname + "_package")) {
@@ -451,9 +431,7 @@ public class SOSImport extends DefaultHandler {
             if (table == null || "".equals(table)) {
                 throw new IllegalArgumentException("SOSImport.setTable: you have to give a table name");
             }
-            if (logger != null) {
-                logger.debug3("setTable: table=" + table + " replace=" + replace);
-            }
+            LOGGER.debug("setTable: table=" + table + " replace=" + replace);
             tables.addTable(table, replace, restrict);
         } catch (Exception e) {
             throw new Exception("SOSImport.setTable: " + e.getMessage(), e);
@@ -490,9 +468,7 @@ public class SOSImport extends DefaultHandler {
             if (!file.canRead()) {
                 throw new FileNotFoundException("File not found: " + fileName);
             }
-            if (logger != null) {
-                logger.debug3("Using file: " + fileName);
-            }
+            LOGGER.debug("Using file: " + fileName);
             parser.parse(fileName);
         } catch (SAXException e) {
             throw new SAXException("SOSImport.doImport: " + e.getMessage(), e);
@@ -552,10 +528,8 @@ public class SOSImport extends DefaultHandler {
     private void importRecord(String name, int index, String operation) throws Exception {
         boolean isNewKey = false;
         try {
-            if (logger != null) {
-                logger.debug3("import_record(" + name + ", " + index + "): key_fields="
-                        + normalizeFieldName(metaKeyRecords.get(name).getKeyString() + " table=" + metaKeyRecords.get(name).getTable()));
-            }
+            LOGGER.debug("import_record(" + name + ", " + index + "): key_fields=" + normalizeFieldName(metaKeyRecords.get(name).getKeyString()
+                    + " table=" + metaKeyRecords.get(name).getTable()));
             if (connection == null) {
                 throw new Exception("No aktive database connection!");
             }
@@ -573,9 +547,7 @@ public class SOSImport extends DefaultHandler {
                     }
                 }
                 if (!found) {
-                    if (logger != null) {
-                        logger.debug3("Import denied for table by restriction: " + name);
-                    }
+                    LOGGER.debug("Import denied for table by restriction: " + name);
                     return;
                 }
             }
@@ -583,23 +555,17 @@ public class SOSImport extends DefaultHandler {
                 for (Iterator it = restrictObject.keySet().iterator(); it.hasNext();) {
                     String restrictName = it.next().toString();
                     String restrictValue = (String) restrictObject.get(restrictName);
-                    if (logger != null) {
-                        logger.debug3("checking for element: " + restrictName + "=" + restrictValue);
-                    }
+                    LOGGER.debug("checking for element: " + restrictName + "=" + restrictValue);
                     if (records.getValue(index, restrictName) == null) {
                         curBlockedPackageDepth = curPackageDepth;
-                        if (logger != null) {
-                            logger.debug3("import denied for element by restriction at depth " + curBlockedPackageDepth + ": " + restrictName
-                                    + " not in record");
-                        }
+                        LOGGER.debug("import denied for element by restriction at depth " + curBlockedPackageDepth + ": " + restrictName
+                                + " not in record");
                         return;
                     }
                     if (records.getValue(index, restrictName) != null && restrictValue.equalsIgnoreCase(records.getValue(index, restrictName))) {
                         curBlockedPackageDepth = curPackageDepth;
-                        if (logger != null) {
-                            logger.debug3("import denied for element by restriction at depth " + curBlockedPackageDepth + ": " + restrictName + ": "
-                                    + restrictValue + " != " + records.getValue(index, restrictName));
-                        }
+                        LOGGER.debug("import denied for element by restriction at depth " + curBlockedPackageDepth + ": " + restrictName + ": "
+                                + restrictValue + " != " + records.getValue(index, restrictName));
                         return;
                     }
                 }
@@ -608,16 +574,12 @@ public class SOSImport extends DefaultHandler {
             HashMap keys = new HashMap();
             for (Iterator it = metaKeyRecords.get(name).getIterator(); it.hasNext();) {
                 String key = it.next().toString();
-                if (logger != null) {
-                    logger.debug6("key_fields key [" + key + "] = " + records.getValue(index, key));
-                }
+                LOGGER.debug("key_fields key [" + key + "] = " + records.getValue(index, key));
                 keys.put(normalizeFieldName(key), records.getValue(index, key));
             }
             String keyHandler = metaKeyRecords.get(name).getTable().toLowerCase();
             if (this.keyHandler.containsKey(keyHandler)) {
-                if (logger != null) {
-                    logger.debug6("key_handler: " + (String) this.keyHandler.get(keyHandler));
-                }
+                LOGGER.debug("key_handler: " + (String) this.keyHandler.get(keyHandler));
                 Class[] params = new Class[] { HashMap.class };
                 Method method = getClass().getMethod((String) this.keyHandler.get(keyHandler), params);
                 HashMap[] args = { keys };
@@ -643,29 +605,22 @@ public class SOSImport extends DefaultHandler {
                 }
                 isNew = (record == null || record.isEmpty());
             }
-            if (logger != null) {
-                logger.debug6("is_new: " + isNew);
-            }
+            LOGGER.debug("is_new: " + isNew);
             record = new HashMap();
             for (Iterator it = records.getIterator(index); it.hasNext();) {
                 String key = it.next().toString();
                 String val = records.getValue(index, key);
-                if (logger != null) {
-                    if (val != null) {
-                        logger.debug9("record[" + key + "] = " + (val.length() > 255 ? "(" + val.length() + " Chars)" : val));
-                    } else {
-                        logger.debug9("record[" + key + "] = NULL");
-                    }
+                if (val != null) {
+                    LOGGER.trace("record[" + key + "] = " + (val.length() > 255 ? "(" + val.length() + " Chars)" : val));
+                } else {
+                    LOGGER.trace("record[" + key + "] = NULL");
                 }
                 record.put(key, fromXML(val));
             }
             String recordHandler = metaFieldRecords.get(name).getTable().toLowerCase();
             if (this.recordHandler.containsKey(recordHandler)) {
-                String recordIdentifier =
-                        this.recordIdentifier.containsKey(recordHandler) ? (String) this.recordIdentifier.get(recordHandler) : null;
-                if (logger != null) {
-                    logger.debug6("recordHandler: " + (String) this.recordHandler.get(recordHandler));
-                }
+                String recordIdentifier = this.recordIdentifier.containsKey(recordHandler) ? (String) this.recordIdentifier.get(recordHandler) : null;
+                LOGGER.debug("recordHandler: " + (String) this.recordHandler.get(recordHandler));
                 Class[] params = new Class[] { HashMap.class, HashMap.class, String.class };
                 Method method = getClass().getMethod((String) this.recordHandler.get(recordHandler), params);
                 Object[] args = { keys, record, recordIdentifier };
@@ -696,17 +651,13 @@ public class SOSImport extends DefaultHandler {
                     if (isNewKey) {
                         for (Iterator it = metaKeyRecords.get(name).getIterator(); it.hasNext();) {
                             String key = normalizeFieldName(it.next().toString());
-                            if (logger != null) {
-                                logger.debug6("updating key_fields key[" + key + "] = " + record.get(key));
-                            }
+                            LOGGER.debug("updating key_fields key[" + key + "] = " + record.get(key));
                             keys.put(key, (String) record.get(key));
                         }
                     } else {
                         for (Iterator it = metaKeyRecords.get(name).getIterator(); it.hasNext();) {
                             String key = normalizeFieldName(it.next().toString());
-                            if (logger != null) {
-                                logger.debug6("updating key_fields record[" + key + "] = " + record.get(key));
-                            }
+                            LOGGER.debug("updating key_fields record[" + key + "] = " + record.get(key));
                             record.put(key, (String) keys.get(key));
                         }
                     }
@@ -714,26 +665,20 @@ public class SOSImport extends DefaultHandler {
                 Map<String, List<Object>> blobs = getBlobs(name, record);
                 if (isNew) {
                     if (!enableInsert) {
-                        if (logger != null) {
-                            logger.debug1("record skipped: no insert enabled");
-                        }
+                        LOGGER.debug("record skipped: no insert enabled");
                     } else {
                         insertRecord(name, record);
                     }
                 } else {
                     if (!enableUpdate) {
-                        if (logger != null) {
-                            logger.debug1("record skipped: no update enabled");
-                        }
+                        LOGGER.debug("record skipped: no update enabled");
                     } else {
                         updateRecord(name, keys, record);
                     }
                 }
                 updateBlob(name, blobs, keys, record);
             } else {
-                if (logger != null) {
-                    logger.debug6("record skipped");
-                }
+                LOGGER.debug("record skipped");
             }
             if (autoCommit) {
                 connection.commit();
@@ -742,17 +687,15 @@ public class SOSImport extends DefaultHandler {
             if (autoCommit) {
                 connection.rollback();
             }
-            logger.error("" + e.getMessage());
-            throw new Exception("SOSImport.import_record: " + e.getMessage(), e);
+            LOGGER.error(e.toString(), e);
+            throw new Exception("SOSImport.import_record: " + e.toString(), e);
         }
     }
 
     private void deleteRecord(String name, int index) throws Exception {
         try {
-            if (logger != null) {
-                logger.debug3("delete_record(" + name + ", " + index + "): key_fields="
-                        + normalizeFieldName(metaKeyRecords.get(name).getKeyString() + " table=" + metaKeyRecords.get(name).getTable()));
-            }
+            LOGGER.debug("delete_record(" + name + ", " + index + "): key_fields=" + normalizeFieldName(metaKeyRecords.get(name).getKeyString()
+                    + " table=" + metaKeyRecords.get(name).getTable()));
             if (connection == null) {
                 throw new Exception("No aktive database connection!");
             }
@@ -770,9 +713,7 @@ public class SOSImport extends DefaultHandler {
                     }
                 }
                 if (!found) {
-                    if (logger != null) {
-                        logger.debug3("Import denied for table by restriction: " + name);
-                    }
+                    LOGGER.debug("Import denied for table by restriction: " + name);
                     return;
                 }
             }
@@ -780,23 +721,17 @@ public class SOSImport extends DefaultHandler {
                 for (Iterator it = restrictObject.keySet().iterator(); it.hasNext();) {
                     String restrictName = it.next().toString();
                     String restrictValue = (String) restrictObject.get(restrictName);
-                    if (logger != null) {
-                        logger.debug3("checking for element: " + restrictName + "=" + restrictValue);
-                    }
+                    LOGGER.debug("checking for element: " + restrictName + "=" + restrictValue);
                     if (records.getValue(index, restrictName) == null) {
                         curBlockedPackageDepth = curPackageDepth;
-                        if (logger != null) {
-                            logger.debug3("import denied for element by restriction at depth " + curBlockedPackageDepth + ": " + restrictName
-                                    + " not in record");
-                        }
+                        LOGGER.debug("import denied for element by restriction at depth " + curBlockedPackageDepth + ": " + restrictName
+                                + " not in record");
                         return;
                     }
                     if (records.getValue(index, restrictName) != null && restrictValue.equalsIgnoreCase(records.getValue(index, restrictName))) {
                         curBlockedPackageDepth = curPackageDepth;
-                        if (logger != null) {
-                            logger.debug3("import denied for element by restriction at depth " + curBlockedPackageDepth + ": " + restrictName + ": "
-                                    + restrictValue + " != " + records.getValue(index, restrictName));
-                        }
+                        LOGGER.debug("import denied for element by restriction at depth " + curBlockedPackageDepth + ": " + restrictName + ": "
+                                + restrictValue + " != " + records.getValue(index, restrictName));
                         return;
                     }
                 }
@@ -805,16 +740,12 @@ public class SOSImport extends DefaultHandler {
             HashMap keys = new HashMap();
             for (Iterator it = metaKeyRecords.get(name).getIterator(); it.hasNext();) {
                 String key = it.next().toString();
-                if (logger != null) {
-                    logger.debug6("key_fields key [" + key + "] = " + records.getValue(index, key));
-                }
+                LOGGER.debug("key_fields key [" + key + "] = " + records.getValue(index, key));
                 keys.put(normalizeFieldName(key), records.getValue(index, key));
             }
             String keyHandler = metaKeyRecords.get(name).getTable().toLowerCase();
             if (this.keyHandler.containsKey(keyHandler)) {
-                if (logger != null) {
-                    logger.debug6("key_handler: " + (String) this.keyHandler.get(keyHandler));
-                }
+                LOGGER.debug("key_handler: " + (String) this.keyHandler.get(keyHandler));
                 Class[] params = new Class[] { HashMap.class };
                 Method method = getClass().getMethod((String) this.keyHandler.get(keyHandler), params);
                 HashMap[] args = { keys };
@@ -828,18 +759,16 @@ public class SOSImport extends DefaultHandler {
             if (autoCommit) {
                 connection.rollback();
             }
-            logger.error("" + e.getMessage());
-            throw new Exception("SOSImport.import_record: " + e.getMessage(), e);
+            LOGGER.error(e.toString(), e);
+            throw new Exception("SOSImport.import_record: " + e.toString(), e);
         }
     }
 
     private void importRecord(String name, int index) throws Exception {
         boolean isNewKey = false;
         try {
-            if (logger != null) {
-                logger.debug3("import_record(" + name + ", " + index + "): key_fields="
-                        + normalizeFieldName(metaKeyRecords.get(name).getKeyString() + " table=" + metaKeyRecords.get(name).getTable()));
-            }
+            LOGGER.debug("import_record(" + name + ", " + index + "): key_fields=" + normalizeFieldName(metaKeyRecords.get(name).getKeyString()
+                    + " table=" + metaKeyRecords.get(name).getTable()));
             if (connection == null) {
                 throw new Exception("No aktive database connection!");
             }
@@ -857,9 +786,7 @@ public class SOSImport extends DefaultHandler {
                     }
                 }
                 if (!found) {
-                    if (logger != null) {
-                        logger.debug3("Import denied for table by restriction: " + name);
-                    }
+                    LOGGER.debug("Import denied for table by restriction: " + name);
                     return;
                 }
             }
@@ -867,23 +794,17 @@ public class SOSImport extends DefaultHandler {
                 for (Iterator it = restrictObject.keySet().iterator(); it.hasNext();) {
                     String restrictName = it.next().toString();
                     String restrictValue = (String) restrictObject.get(restrictName);
-                    if (logger != null) {
-                        logger.debug3("checking for element: " + restrictName + "=" + restrictValue);
-                    }
+                    LOGGER.debug("checking for element: " + restrictName + "=" + restrictValue);
                     if (records.getValue(index, restrictName) == null) {
                         curBlockedPackageDepth = curPackageDepth;
-                        if (logger != null) {
-                            logger.debug3("import denied for element by restriction at depth " + curBlockedPackageDepth + ": " + restrictName
-                                    + " not in record");
-                        }
+                        LOGGER.debug("import denied for element by restriction at depth " + curBlockedPackageDepth + ": " + restrictName
+                                + " not in record");
                         return;
                     }
                     if (records.getValue(index, restrictName) != null && restrictValue.equalsIgnoreCase(records.getValue(index, restrictName))) {
                         curBlockedPackageDepth = curPackageDepth;
-                        if (logger != null) {
-                            logger.debug3("import denied for element by restriction at depth " + curBlockedPackageDepth + ": " + restrictName + ": "
-                                    + restrictValue + " != " + records.getValue(index, restrictName));
-                        }
+                        LOGGER.debug("import denied for element by restriction at depth " + curBlockedPackageDepth + ": " + restrictName + ": "
+                                + restrictValue + " != " + records.getValue(index, restrictName));
                         return;
                     }
                 }
@@ -892,16 +813,12 @@ public class SOSImport extends DefaultHandler {
             HashMap keys = new HashMap();
             for (Iterator it = metaKeyRecords.get(name).getIterator(); it.hasNext();) {
                 String key = it.next().toString();
-                if (logger != null) {
-                    logger.debug6("key_fields key [" + key + "] = " + records.getValue(index, key));
-                }
+                LOGGER.debug("key_fields key [" + key + "] = " + records.getValue(index, key));
                 keys.put(normalizeFieldName(key), records.getValue(index, key));
             }
             String keyHandler = metaKeyRecords.get(name).getTable().toLowerCase();
             if (this.keyHandler.containsKey(keyHandler)) {
-                if (logger != null) {
-                    logger.debug6("key_handler: " + (String) this.keyHandler.get(keyHandler));
-                }
+                LOGGER.debug("key_handler: " + (String) this.keyHandler.get(keyHandler));
                 Class[] params = new Class[] { HashMap.class };
                 Method method = getClass().getMethod((String) this.keyHandler.get(keyHandler), params);
                 HashMap[] args = { keys };
@@ -920,29 +837,22 @@ public class SOSImport extends DefaultHandler {
                 record = connection.getSingle(stm.toString());
             }
             boolean isNew = record == null || record.isEmpty();
-            if (logger != null) {
-                logger.debug6("is_new: " + isNew);
-            }
+            LOGGER.debug("is_new: " + isNew);
             record = new HashMap<String, String>();
             for (Iterator it = records.getIterator(index); it.hasNext();) {
                 String key = it.next().toString();
                 String val = records.getValue(index, key);
-                if (logger != null) {
-                    if (val != null) {
-                        logger.debug9("record[" + key + "] = " + (val.length() > 255 ? "(" + val.length() + " Chars)" : val));
-                    } else {
-                        logger.debug9("record[" + key + "] = NULL");
-                    }
+                if (val != null) {
+                    LOGGER.trace("record[" + key + "] = " + (val.length() > 255 ? "(" + val.length() + " Chars)" : val));
+                } else {
+                    LOGGER.trace("record[" + key + "] = NULL");
                 }
                 record.put(key, fromXML(val));
             }
             String recordHandler = metaFieldRecords.get(name).getTable().toLowerCase();
             if (this.recordHandler.containsKey(recordHandler)) {
-                String recordIdentifier =
-                        this.recordIdentifier.containsKey(recordHandler) ? (String) this.recordIdentifier.get(recordHandler) : null;
-                if (logger != null) {
-                    logger.debug6("recordHandler: " + (String) this.recordHandler.get(recordHandler));
-                }
+                String recordIdentifier = this.recordIdentifier.containsKey(recordHandler) ? (String) this.recordIdentifier.get(recordHandler) : null;
+                LOGGER.debug("recordHandler: " + (String) this.recordHandler.get(recordHandler));
                 Class[] params = new Class[] { HashMap.class, HashMap.class, String.class };
                 Method method = getClass().getMethod((String) this.recordHandler.get(recordHandler), params);
                 Object[] args = { keys, record, recordIdentifier };
@@ -973,44 +883,34 @@ public class SOSImport extends DefaultHandler {
                     if (isNewKey) {
                         for (Iterator it = metaKeyRecords.get(name).getIterator(); it.hasNext();) {
                             String key = normalizeFieldName(it.next().toString());
-                            if (logger != null) {
-                                logger.debug6("updating key_fields key[" + key + "] = " + record.get(key));
-                            }
+                            LOGGER.debug("updating key_fields key[" + key + "] = " + record.get(key));
                             keys.put(key, (String) record.get(key));
                         }
                     } else {
                         for (Iterator it = metaKeyRecords.get(name).getIterator(); it.hasNext();) {
                             String key = normalizeFieldName(it.next().toString());
-                            if (logger != null) {
-                                logger.debug6("updating key_fields record[" + key + "] = " + record.get(key));
-                            }
+                            LOGGER.debug("updating key_fields record[" + key + "] = " + record.get(key));
                             record.put(key, (String) keys.get(key));
                         }
                     }
                 }
-                Map<String,List<Object>> blobs = getBlobs(name, record);
+                Map<String, List<Object>> blobs = getBlobs(name, record);
                 if (isNew) {
                     if (!enableInsert) {
-                        if (logger != null) {
-                            logger.debug1("record skipped: no insert enabled");
-                        }
+                        LOGGER.debug("record skipped: no insert enabled");
                     } else {
                         insertRecord(name, record);
                     }
                 } else {
                     if (!enableUpdate) {
-                        if (logger != null) {
-                            logger.debug1("record skipped: no update enabled");
-                        }
+                        LOGGER.debug("record skipped: no update enabled");
                     } else {
                         updateRecord(name, keys, record);
                     }
                 }
                 updateBlob(name, blobs, keys, record);
             } else {
-                if (logger != null) {
-                    logger.debug6("record skipped");
-                }
+                LOGGER.debug("record skipped");
             }
             if (autoCommit) {
                 connection.commit();
@@ -1019,8 +919,8 @@ public class SOSImport extends DefaultHandler {
             if (autoCommit) {
                 connection.rollback();
             }
-            logger.error("" + e.getMessage());
-            throw new Exception("SOSImport.import_record: " + e.getMessage(), e);
+            LOGGER.error(e.toString(), e);
+            throw new Exception("SOSImport.import_record: " + e.toString(), e);
         }
     }
 
@@ -1055,10 +955,8 @@ public class SOSImport extends DefaultHandler {
                     }
                     break;
                 }
-                if (logger != null) {
-                    logger.debug6("found " + blobType + ": name = " + key + " type = " + metaFieldRecords.get(name).getTypeName(key) + " typeID = "
-                            + metaFieldRecords.get(name).getTypeId(key));
-                }
+                LOGGER.debug("found " + blobType + ": name = " + key + " type = " + metaFieldRecords.get(name).getTypeName(key) + " typeID = "
+                        + metaFieldRecords.get(name).getTypeId(key));
                 obj.add(blobType);
                 blobs.put(key, obj);
                 record.put(key, null);
@@ -1069,14 +967,12 @@ public class SOSImport extends DefaultHandler {
         }
     }
 
-    private void updateBlob(String name, Map<String,List<Object>> blobs, HashMap keys, Map<String, String> record) throws Exception {
+    private void updateBlob(String name, Map<String, List<Object>> blobs, HashMap keys, Map<String, String> record) throws Exception {
         try {
             for (Iterator<String> it = blobs.keySet().iterator(); it.hasNext();) {
                 String blobName = it.next();
                 List<Object> blobValue = blobs.get(blobName);
-                if (logger != null) {
-                    logger.debug6("update " + (String) blobValue.get(0) + ": " + blobName);
-                }
+                LOGGER.debug("update " + (String) blobValue.get(0) + ": " + blobName);
                 StringBuilder stm = new StringBuilder();
                 String and = "";
                 for (Iterator it2 = keys.keySet().iterator(); it2.hasNext();) {
@@ -1102,9 +998,7 @@ public class SOSImport extends DefaultHandler {
 
     private void insertRecord(String name, Map<String, String> record) throws Exception {
         try {
-            if (logger != null) {
-                logger.debug6("inserting record");
-            }
+            LOGGER.debug("inserting record");
             StringBuilder fields = new StringBuilder();
             StringBuilder values = new StringBuilder();
             for (Iterator<String> it = record.keySet().iterator(); it.hasNext();) {
@@ -1124,9 +1018,7 @@ public class SOSImport extends DefaultHandler {
 
     private void updateRecord(String name, HashMap keys, Map<String, String> record) throws Exception {
         try {
-            if (logger != null) {
-                logger.debug6("updating record");
-            }
+            LOGGER.debug("updating record");
             StringBuilder stm = new StringBuilder("UPDATE " + metaFieldRecords.get(name).getTable() + " SET ");
             for (Iterator<String> it = record.keySet().iterator(); it.hasNext();) {
                 String key = it.next();
@@ -1149,9 +1041,7 @@ public class SOSImport extends DefaultHandler {
 
     private void deleteRecord(String name, HashMap keys) throws Exception {
         try {
-            if (logger != null) {
-                logger.debug6("delete record");
-            }
+            LOGGER.debug("delete record");
             StringBuilder stm = new StringBuilder("DELETE FROM " + metaFieldRecords.get(name).getTable());
             String and = " WHERE ";
             for (Iterator it = keys.keySet().iterator(); it.hasNext();) {
@@ -1161,9 +1051,7 @@ public class SOSImport extends DefaultHandler {
                     and = " AND ";
                 }
             }
-            if (logger != null) {
-                logger.debug9("deleted record:" + stm.toString());
-            }
+            LOGGER.trace("deleted record:" + stm.toString());
             connection.execute(stm.toString());
         } catch (Exception e) {
             throw new Exception("SOSImport.updateRecord: " + e.getMessage(), e);
@@ -1205,15 +1093,13 @@ public class SOSImport extends DefaultHandler {
         String copy = new String(field);
         try {
             if (field.equals(copy.toLowerCase())) {
-                if (logger != null) {
-                    logger.debug6("Auto Normalisation: lower case");
-                }
+                LOGGER.debug("Auto Normalisation: lower case");
                 setNormalizeFieldName("strtolower");
             } else if (field.equals(copy.toUpperCase())) {
-                logger.debug6("Auto Normalisation: upper case");
+                LOGGER.debug("Auto Normalisation: upper case");
                 setNormalizeFieldName("strtoupper");
             } else {
-                logger.debug6("Auto Normalisation: upper case");
+                LOGGER.debug("Auto Normalisation: upper case");
                 setNormalizeFieldName("strtoupper");
             }
         } catch (Exception e) {
