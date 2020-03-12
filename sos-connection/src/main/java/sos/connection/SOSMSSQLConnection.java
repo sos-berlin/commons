@@ -5,17 +5,20 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.Driver;
 import java.sql.Statement;
 import java.sql.Connection;
 
 import sos.util.SOSClassUtil;
-import sos.util.SOSLogger;
 import sos.util.SOSString;
 
 /** @author Ghassan Beydoun */
 public class SOSMSSQLConnection extends sos.connection.SOSConnection {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSMSSQLConnection.class);
     private static final String REPLACEMENT[] = { "LOWER", "UPPER", "GETDATE()", "WITH (UPDLOCK)" };
     private static final SOSConnectionVersionLimiter VERSION_LIMITER;
     private int lockTimeout = 3000;
@@ -26,24 +29,8 @@ public class SOSMSSQLConnection extends sos.connection.SOSConnection {
         VERSION_LIMITER.setMaxSupportedVersion(9, 0);
     }
 
-    public SOSMSSQLConnection(Connection connection, SOSLogger logger) throws Exception {
-        super(connection, logger);
-    }
-
     public SOSMSSQLConnection(Connection connection) throws Exception {
         super(connection);
-    }
-
-    public SOSMSSQLConnection(String configFileName, SOSLogger logger) throws Exception {
-        super(configFileName, logger);
-        String sLockTimeout = configFileProperties.getProperty("lock_timeout");
-        if (!SOSString.isEmpty(sLockTimeout)) {
-            try {
-                setLockTimeout(Integer.parseInt(sLockTimeout));
-            } catch (Exception e) {
-                throw new Exception("Bad value for lock_timeout: " + e.getMessage(), e);
-            }
-        }
     }
 
     public SOSMSSQLConnection(String configFileName) throws Exception {
@@ -60,18 +47,6 @@ public class SOSMSSQLConnection extends sos.connection.SOSConnection {
 
     public SOSMSSQLConnection(String driver, String url, String dbuser, String dbpassword) throws Exception {
         super(driver, url, dbuser, dbpassword);
-    }
-
-    public SOSMSSQLConnection(String driver, String url, String dbuser, String dbpassword, SOSLogger logger) throws Exception {
-        super(driver, url, dbuser, dbpassword, logger);
-    }
-
-    public SOSMSSQLConnection(String driver, String url, String dbname, String dbuser, String dbpassword, SOSLogger logger) throws Exception {
-        super(driver, url, dbuser, dbpassword, logger);
-        if (dbname == null) {
-            throw new Exception(SOSClassUtil.getMethodName() + ": missing database name.");
-        }
-        this.dbname = dbname;
     }
 
     public SOSMSSQLConnection(String driver, String url, String dbname, String dbuser, String dbpassword) throws Exception {
@@ -99,14 +74,14 @@ public class SOSMSSQLConnection extends sos.connection.SOSConnection {
         }
         properties.setProperty("selectMethod", "cursor");
         try {
-            logger.debug9("calling " + SOSClassUtil.getMethodName());
+            LOGGER.trace("calling " + SOSClassUtil.getMethodName());
             Driver driver = (Driver) Class.forName(this.driver).newInstance();
             connection = driver.connect(url, properties);
             if (connection == null) {
                 throw new Exception("can't connect to database");
             }
-            VERSION_LIMITER.check(this, logger);
-            logger.debug6(".. successfully connected to " + url);
+            VERSION_LIMITER.check(this);
+            LOGGER.debug(".. successfully connected to " + url);
             prepare(connection);
         } catch (Exception e) {
             throw new Exception(SOSClassUtil.getMethodName() + ": " + e.toString(), e);
@@ -114,7 +89,7 @@ public class SOSMSSQLConnection extends sos.connection.SOSConnection {
     }
 
     public void prepare(Connection connection) throws Exception {
-        logger.debug6("calling " + SOSClassUtil.getMethodName());
+        LOGGER.debug("calling " + SOSClassUtil.getMethodName());
         Statement stmt = null;
         String isoDateFormat = "set DATEFORMAT ymd";
         String defaultLanguage = "set LANGUAGE British";
@@ -127,9 +102,9 @@ public class SOSMSSQLConnection extends sos.connection.SOSConnection {
             connection.setAutoCommit(false);
             stmt = connection.createStatement();
             stmt.execute(isoDateFormat + ";" + defaultLanguage + ";" + lockTimeout);
-            logger.debug9(".. " + defaultLanguage + " successfully set.");
-            logger.debug9(".. " + isoDateFormat + " successfully set.");
-            logger.debug9(".. " + lockTimeout + " successfully set.");
+            LOGGER.trace(".. " + defaultLanguage + " successfully set.");
+            LOGGER.trace(".. " + isoDateFormat + " successfully set.");
+            LOGGER.trace(".. " + lockTimeout + " successfully set.");
             connection.rollback();
         } catch (Exception e) {
             throw new Exception(SOSClassUtil.getMethodName() + ": " + e.toString(), e);
@@ -163,13 +138,13 @@ public class SOSMSSQLConnection extends sos.connection.SOSConnection {
     }
 
     protected String replaceCasts(String inputString) throws Exception {
-        logger.debug6("Calling " + SOSClassUtil.getMethodName());
+        LOGGER.debug("Calling " + SOSClassUtil.getMethodName());
         Pattern pattern = Pattern.compile(CAST_PATTERN);
         Matcher matcher = pattern.matcher(inputString);
         StringBuffer buffer = new StringBuffer();
         String replaceString;
         String token;
-        logger.debug9("..inputString [" + inputString + "]");
+        LOGGER.trace("..inputString [" + inputString + "]");
         while (matcher.find()) {
             replaceString = matcher.group().toLowerCase();
             if (matcher.group(1) != null && matcher.group(6) != null) {
@@ -214,7 +189,7 @@ public class SOSMSSQLConnection extends sos.connection.SOSConnection {
             matcher.appendReplacement(buffer, replaceString);
         }
         matcher.appendTail(buffer);
-        logger.debug6(".. result [" + buffer.toString() + "]");
+        LOGGER.debug(".. result [" + buffer.toString() + "]");
         return buffer.toString();
     }
 

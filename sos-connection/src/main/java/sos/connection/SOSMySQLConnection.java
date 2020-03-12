@@ -5,18 +5,21 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.Driver;
 
 import java.sql.Connection;
 import java.sql.Statement;
 
 import sos.util.SOSClassUtil;
-import sos.util.SOSLogger;
 import sos.util.SOSString;
 
 /** @author Ghassan Beydoun */
 public class SOSMySQLConnection extends sos.connection.SOSConnection {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSMySQLConnection.class);
     private static final String REPLACEMENT[] = { "LCASE", "UCASE", "NOW()", "FOR UPDATE" };
     private static final SOSConnectionVersionLimiter VERSION_LIMITER;
     static {
@@ -26,24 +29,12 @@ public class SOSMySQLConnection extends sos.connection.SOSConnection {
         VERSION_LIMITER.setMaxSupportedVersion(5, 1);
     }
 
-    public SOSMySQLConnection(Connection connection, SOSLogger logger) throws Exception {
-        super(connection, logger);
-    }
-
     public SOSMySQLConnection(Connection connection) throws Exception {
         super(connection);
     }
 
-    public SOSMySQLConnection(String configFileName, SOSLogger logger) throws Exception {
-        super(configFileName, logger);
-    }
-
     public SOSMySQLConnection(String configFileName) throws Exception {
         super(configFileName);
-    }
-
-    public SOSMySQLConnection(String driver, String url, String dbuser, String dbpassword, SOSLogger logger) throws Exception {
-        super(driver, url, dbuser, dbpassword, logger);
     }
 
     public SOSMySQLConnection(String driver, String url, String dbuser, String dbpassword) throws Exception {
@@ -67,14 +58,14 @@ public class SOSMySQLConnection extends sos.connection.SOSConnection {
         properties.setProperty("user", dbuser);
         properties.setProperty("password", dbpassword);
         try {
-            logger.debug6(SOSClassUtil.getMethodName());
+            LOGGER.debug(SOSClassUtil.getMethodName());
             Driver driver = (Driver) Class.forName(this.driver).newInstance();
             connection = driver.connect(url, properties);
             if (connection == null) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": can't connect to database");
             }
-            logger.debug6(".. successfully connected to " + url);
-            VERSION_LIMITER.check(this, logger);
+            LOGGER.debug(".. successfully connected to " + url);
+            VERSION_LIMITER.check(this);
             prepare(connection);
         } catch (Exception e) {
             throw new Exception(SOSClassUtil.getMethodName() + ": " + e.toString(), e);
@@ -83,7 +74,7 @@ public class SOSMySQLConnection extends sos.connection.SOSConnection {
 
     public void prepare(Connection connection) throws Exception {
         Statement stmt = null;
-        logger.debug6("calling " + SOSClassUtil.getMethodName());
+        LOGGER.debug("calling " + SOSClassUtil.getMethodName());
         try {
             if (connection == null) {
                 throw new Exception("can't connect to database");
@@ -126,7 +117,7 @@ public class SOSMySQLConnection extends sos.connection.SOSConnection {
     }
 
     protected String replaceCasts(String inputString) throws Exception {
-        logger.debug6("Calling " + SOSClassUtil.getMethodName());
+        LOGGER.debug("Calling " + SOSClassUtil.getMethodName());
         Pattern pattern = Pattern.compile(CAST_PATTERN);
         Matcher matcher = pattern.matcher(inputString);
         StringBuffer buffer = new StringBuffer();
@@ -176,7 +167,7 @@ public class SOSMySQLConnection extends sos.connection.SOSConnection {
             matcher.appendReplacement(buffer, replaceString);
         }
         matcher.appendTail(buffer);
-        logger.debug6(".. result [" + buffer.toString() + "]");
+        LOGGER.debug(".. result [" + buffer.toString() + "]");
         return buffer.toString();
     }
 

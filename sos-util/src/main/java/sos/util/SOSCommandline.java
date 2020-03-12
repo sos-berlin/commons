@@ -7,7 +7,6 @@ import java.util.Vector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /** @author Andreas Püschel */
 @Deprecated
 public class SOSCommandline {
@@ -68,11 +67,6 @@ public class SOSCommandline {
 
     /** executes a command */
     public static Vector execute(final String command) {
-        return SOSCommandline.execute(command, null);
-    }
-
-    /** executes a command */
-    public static Vector execute(final String command, final SOSLogger logger) {
         Vector returnValues = new Vector();
         try {
             try {
@@ -80,13 +74,7 @@ public class SOSCommandline {
                 final BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
                 final BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
                 p.waitFor();
-                if (logger != null) {
-                    try {
-                        logger.debug3("command returned exit code: " + p.exitValue());
-                    } catch (Exception exc) {
-                        //
-                    }
-                }
+                LOGGER.debug("command returned exit code: " + p.exitValue());
                 returnValues.add(0, new Integer(p.exitValue()));
                 try {
                     String line = "";
@@ -98,12 +86,10 @@ public class SOSCommandline {
                         }
                     }
                     try {
-                        if (logger != null) {
-                            if (stdout != null && stdout.trim().length() > 0) {
-                                logger.debug8("Command returned output to stdout ...");
-                            } else {
-                                logger.debug8("Command did not return any output to stdout.");
-                            }
+                        if (stdout != null && stdout.trim().length() > 0) {
+                            LOGGER.trace("Command returned output to stdout ...");
+                        } else {
+                            LOGGER.trace("Command did not return any output to stdout.");
                         }
                     } catch (Exception exc) {
                         //
@@ -112,13 +98,7 @@ public class SOSCommandline {
                 } catch (Exception ex) {
                     returnValues.add(1, "");
                     returnValues.add(2, ex.getMessage());
-                    if (logger != null) {
-                        try {
-                            logger.debug("error occurred processing stdout: " + ex.getMessage());
-                        } catch (Exception exc) {
-                            //
-                        }
-                    }
+                    LOGGER.debug("error occurred processing stdout: " + ex.getMessage());
                 }
 
                 try {
@@ -131,25 +111,18 @@ public class SOSCommandline {
                         }
                     }
                     try {
-                        if (logger != null) {
-                            if (stderr != null && stderr.trim().length() > 0) {
-                                logger.debug8("Command returned output to stderr ...");
-                            } else {
-                                logger.debug8("Command did not return any output to stderr.");
-                            }
+                        if (stderr != null && stderr.trim().length() > 0) {
+                            LOGGER.trace("Command returned output to stderr ...");
+                        } else {
+                            LOGGER.trace("Command did not return any output to stderr.");
                         }
+
                     } catch (Exception exc) {
                     }
                     returnValues.add(2, stderr);
                 } catch (Exception ex) {
                     returnValues.add(2, ex.getMessage());
-                    if (logger != null) {
-                        try {
-                            logger.debug("error occurred processing stderr: " + ex.getMessage());
-                        } catch (Exception exc) {
-                            //
-                        }
-                    }
+                    LOGGER.debug("error occurred processing stderr: " + ex.getMessage());
                 }
                 if (stdInput != null) {
                     stdInput.close();
@@ -161,22 +134,10 @@ public class SOSCommandline {
                 returnValues.add(0, new Integer(1));
                 returnValues.add(1, "");
                 returnValues.add(2, ex.getMessage());
-                if (logger != null) {
-                    try {
-                        logger.debug("error occurred executing command: " + ex.getMessage());
-                    } catch (Exception exc) {
-                        //
-                    }
-                }
+                LOGGER.debug("error occurred executing command: " + ex.getMessage());
             }
         } catch (Exception e) {
-            try {
-                if (logger != null) {
-                    logger.debug("Command could not be executed successfully: " + e.getMessage());
-                }
-            } catch (Exception ex) {
-                //
-            }
+            LOGGER.debug("Command could not be executed successfully: " + e.getMessage());
             returnValues.add(0, new Integer(1));
             returnValues.add(1, "");
             returnValues.add(2, e.getMessage());
@@ -185,46 +146,29 @@ public class SOSCommandline {
     }
 
     public static String getExternalPassword(final String password) {
-        return SOSCommandline.getExternalPassword(password, null);
-    }
-
-    public static String getExternalPassword(final String password, final SOSLogger logger) {
         String returnPassword = password;
         String firstChar = null;
         try {
             if (password != null && password.startsWith("`") && password.endsWith("`")) {
                 String command = password.substring(1, password.length() - 1);
-                try {
-                    if (logger != null) {
-                        logger.debug3("Trying to get password by executing command in backticks: " + command);
-                    }
-                } catch (Exception ex) {
-                    LOGGER.error(ex.getMessage(), ex);
-                }
-                Vector returnValues = SOSCommandline.execute(command, logger);
+                LOGGER.debug("Trying to get password by executing command in backticks: " + command);
+                Vector returnValues = SOSCommandline.execute(command);
                 Integer exitValue = (Integer) returnValues.elementAt(0);
                 if (exitValue.compareTo(new Integer(0)) == 0 && (String) returnValues.elementAt(1) != null) {
                     returnPassword = (String) returnValues.elementAt(1);
                 }
             }
         } catch (Exception e) {
-            if (logger != null) {
-                try {
-                    logger.debug3("Using password string as password. Command could not be executed: " + e);
-                } catch (Exception ex) {
-                    LOGGER.error(ex.getMessage(), ex);
-                }
-            }
+            LOGGER.debug("Using password string as password. Command could not be executed: " + e);
         }
         return returnPassword;
     }
 
     public static void main(final String[] args) {
         try {
-            SOSStandardLogger logger = new SOSStandardLogger(9);
             String password = "`c:/sosftp/getpassword.cmd \"a\" \"b\" `";
             password = "`\\tmp\\lGetPasswd.cmd ssh wilma.sos sos`";
-            LOGGER.debug(getExternalPassword(password, logger));
+            LOGGER.debug(getExternalPassword(password));
         } catch (Exception e) {
             LOGGER.error("error:" + e.toString());
         }

@@ -8,13 +8,17 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import sos.util.SOSClassUtil;
-import sos.util.SOSLogger;
 import sos.util.SOSString;
 
 /** @author Andreas Püschel
  * @author Ghassan Beydoun */
 public class SOSFbSQLConnection extends sos.connection.SOSConnection implements SequenceReader {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSFbSQLConnection.class);
 
     private static final String REPLACEMENT[] = { "LOWER", "UPPER", "CURRENT_TIMESTAMP", "FOR UPDATE WITH LOCK" };
     private static final SOSConnectionVersionLimiter VERSION_LIMITER;
@@ -24,24 +28,12 @@ public class SOSFbSQLConnection extends sos.connection.SOSConnection implements 
         VERSION_LIMITER.setExcludedThroughVersion(1, 4);
     }
 
-    public SOSFbSQLConnection(Connection connection, SOSLogger logger) throws Exception {
-        super(connection, logger);
-    }
-
     public SOSFbSQLConnection(Connection connection) throws Exception {
         super(connection);
     }
 
-    public SOSFbSQLConnection(String configFileName, SOSLogger logger) throws Exception {
-        super(configFileName, logger);
-    }
-
     public SOSFbSQLConnection(String configFileName) throws Exception {
         super(configFileName);
-    }
-
-    public SOSFbSQLConnection(String driver, String url, String dbuser, String dbpassword, SOSLogger logger) throws Exception {
-        super(driver, url, dbuser, dbpassword, logger);
     }
 
     public SOSFbSQLConnection(String driver, String url, String dbuser, String dbpassword) throws Exception {
@@ -50,7 +42,7 @@ public class SOSFbSQLConnection extends sos.connection.SOSConnection implements 
 
     public void connect() throws Exception {
         Properties properties = new Properties();
-        logger.debug6("calling " + SOSClassUtil.getMethodName());
+        LOGGER.debug("calling " + SOSClassUtil.getMethodName());
         if (SOSString.isEmpty(url)) {
             throw new Exception(SOSClassUtil.getMethodName() + ": missing database url.");
         }
@@ -70,13 +62,13 @@ public class SOSFbSQLConnection extends sos.connection.SOSConnection implements 
         if (connection == null) {
             throw new Exception("can't connect to database");
         }
-        VERSION_LIMITER.check(this, logger);
-        logger.debug6(".. successfully connected to " + url);
+        VERSION_LIMITER.check(this);
+        LOGGER.debug(".. successfully connected to " + url);
         prepare(connection);
     }
 
     public void prepare(Connection connection) throws Exception {
-        logger.debug6("calling " + SOSClassUtil.getMethodName());
+        LOGGER.debug("calling " + SOSClassUtil.getMethodName());
         Statement stmt = null;
         try {
             if (connection == null) {
@@ -117,13 +109,13 @@ public class SOSFbSQLConnection extends sos.connection.SOSConnection implements 
     }
 
     protected String replaceCasts(String inputString) throws Exception {
-        logger.debug6("Calling " + SOSClassUtil.getMethodName());
+        LOGGER.debug("Calling " + SOSClassUtil.getMethodName());
         Pattern pattern = Pattern.compile(CAST_PATTERN);
         Matcher matcher = pattern.matcher(inputString);
         StringBuffer buffer = new StringBuffer();
         String replaceString = null;
         String token;
-        logger.debug9("..inputString [" + inputString + "]");
+        LOGGER.trace("..inputString [" + inputString + "]");
         while (matcher.find()) {
             replaceString = matcher.group().toLowerCase();
             if (matcher.group(1) != null && matcher.group(6) != null) {
@@ -168,7 +160,7 @@ public class SOSFbSQLConnection extends sos.connection.SOSConnection implements 
             matcher.appendReplacement(buffer, replaceString);
         }
         matcher.appendTail(buffer);
-        logger.debug6(".. result [" + buffer.toString() + "]");
+        LOGGER.debug(".. result [" + buffer.toString() + "]");
         return buffer.toString();
     }
 

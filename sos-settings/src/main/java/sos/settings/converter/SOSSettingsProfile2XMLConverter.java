@@ -12,12 +12,15 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import sos.util.SOSClassUtil;
-import sos.util.SOSLogger;
 
 /** @author Robert Ehrlich */
 public class SOSSettingsProfile2XMLConverter {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSSettingsProfile2XMLConverter.class);
     private String source = "";
     private String xmlEncoding = "ISO-8859-1";
     private String xmlStylesheet = "";
@@ -25,18 +28,11 @@ public class SOSSettingsProfile2XMLConverter {
     private static final Pattern ENTRY_PATTERN = Pattern.compile("^([; a-z A-Z 0-9_]+)[ \t\n]*=(.*)$");
     private static final String INDENT = "  ";
     private String newLine = System.getProperty("line.separator");
-    private SOSLogger logger;
     private Map<String, Map<String, String>> sections = new LinkedHashMap<String, Map<String, String>>();
     private Map<String, List<String>> entryNotes = new LinkedHashMap<String, List<String>>();
 
     public SOSSettingsProfile2XMLConverter(String source) throws Exception {
         this.source = source;
-        this.load();
-    }
-
-    public SOSSettingsProfile2XMLConverter(String source, SOSLogger logger) throws Exception {
-        this.source = source;
-        this.logger = logger;
         this.load();
     }
 
@@ -87,9 +83,7 @@ public class SOSSettingsProfile2XMLConverter {
                 }
                 sections.put(sectionName, entries);
             }
-            if (logger != null) {
-                logger.debug3(SOSClassUtil.getMethodName() + ": profile [" + source + "] successfully loaded.");
-            }
+            LOGGER.debug(SOSClassUtil.getMethodName() + ": profile [" + source + "] successfully loaded.");
         } catch (Exception e) {
             throw new Exception(SOSClassUtil.getMethodName() + ": " + e.toString());
         } finally {
@@ -143,8 +137,8 @@ public class SOSSettingsProfile2XMLConverter {
                     int notesSize = notes.size();
                     StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < notesSize; i++) {
-                        String before =
-                                (i > 0) ? INDENT + INDENT + INDENT + INDENT + INDENT + INDENT + INDENT + INDENT + INDENT + INDENT + INDENT : "";
+                        String before = (i > 0) ? INDENT + INDENT + INDENT + INDENT + INDENT + INDENT + INDENT + INDENT + INDENT + INDENT + INDENT
+                                : "";
                         String after = (i == (notesSize - 1)) ? "" : newLine;
                         sb.append(before).append(notes.get(i)).append(after);
                     }
@@ -171,9 +165,9 @@ public class SOSSettingsProfile2XMLConverter {
         StringBuilder sb = new StringBuilder();
         sb.append(indent).append("<note language=\"").append(language).append("\">").append(newLine).append(indent).append(INDENT).append(
                 "<div xmlns=\"http://www.w3.org/1999/xhtml\">").append(newLine).append(indent).append(INDENT).append(INDENT).append("<p>").append(
-                newLine).append(indent).append(INDENT).append(INDENT).append(INDENT).append(this.writeCDATA(value)).append(newLine).append(indent).append(
-                INDENT).append(INDENT).append("</p>").append(newLine).append(indent).append(INDENT).append("</div>").append(newLine).append(indent).append(
-                "</note>").append(newLine);
+                        newLine).append(indent).append(INDENT).append(INDENT).append(INDENT).append(this.writeCDATA(value)).append(newLine).append(
+                                indent).append(INDENT).append(INDENT).append("</p>").append(newLine).append(indent).append(INDENT).append("</div>")
+                .append(newLine).append(indent).append("</note>").append(newLine);
         return sb.toString();
     }
 

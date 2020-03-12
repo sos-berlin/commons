@@ -1,13 +1,6 @@
 package sos.marshalling;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -16,18 +9,26 @@ import java.io.Writer;
 import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.Types;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import sos.connection.SOSConnection;
 import sos.connection.SOSMySQLConnection;
-import sos.marshalling.SOSImExportTableFieldTypes;
-import sos.util.SOSStandardLogger;
 
 /** @author Titus Meyer */
 public class SOSExport {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSExport.class);
     private static final char[] HEX_CHAR = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
     private SOSConnection connection = null;
-    private SOSStandardLogger logger = null;
     private String application = null;
     private String fileName = null;
     private String xmlTagname = "sos_export";
@@ -42,7 +43,7 @@ public class SOSExport {
     private int rekursionCnt = 0;
     private int lineWrap = 254;
 
-    public SOSExport(SOSConnection conn, String fileName, String application, SOSStandardLogger log) {
+    public SOSExport(SOSConnection conn, String fileName, String application) {
         if (conn != null) {
             this.connection = conn;
         }
@@ -52,18 +53,11 @@ public class SOSExport {
         if (application != null) {
             this.application = application;
         }
-        if (log != null) {
-            this.logger = log;
-        }
         System.setProperty("oracledatabasemetadata.get_lob_precision", "false");
     }
 
     public void setConnection(SOSConnection conn) {
         this.connection = conn;
-    }
-
-    public void setLogger(SOSStandardLogger log) {
-        this.logger = log;
     }
 
     public void setApplication(String application) {
@@ -120,9 +114,7 @@ public class SOSExport {
                 if (obj.getParameterCnt() < countStr(query, "?")) {
                     throw new IllegalArgumentException("SOSExport.query: too few fields in parameter for substitution in the query");
                 }
-                if (logger != null) {
-                    logger.debug3("query: tag=" + tag + " key=" + key + " query_id=" + queryId + " query_cnt=" + queryCnt);
-                }
+                LOGGER.debug("query: tag=" + tag + " key=" + key + " query_id=" + queryId + " query_cnt=" + queryCnt);
                 if (queryId >= 0 && queryId < queries.cnt()) {
                     queries.get(queryId).addDependRef(new Integer(queryCnt));
                 } else if (queryCnt > 0 && (queryCnt - 1) < queries.cnt()) {
@@ -150,9 +142,7 @@ public class SOSExport {
                 if (obj.getParameterCnt() < countStr(query, "?")) {
                     throw new IllegalArgumentException("SOSExport.query: too few fields in parameter for substitution in the query");
                 }
-                if (logger != null) {
-                    logger.debug3("query: tag=" + tag + " key=" + key + " query_id=" + queryId + " query_cnt=" + queryCnt);
-                }
+                LOGGER.debug("query: tag=" + tag + " key=" + key + " query_id=" + queryId + " query_cnt=" + queryCnt);
                 if (queryId >= 0 && queryId < queries.cnt()) {
                     queries.get(queryId).addDependRef(new Integer(queryCnt));
                 } else if (queryCnt > 0 && (queryCnt - 1) < queries.cnt()) {
@@ -181,9 +171,7 @@ public class SOSExport {
                 if (obj.getParameterCnt() < countStr(query, "?")) {
                     throw new IllegalArgumentException("SOSExport.query: too few fields in parameter for substitution in the query");
                 }
-                if (logger != null) {
-                    logger.debug3("add: tag=" + tag + " key=" + key + " query_id=" + queryId + "query_cnt=" + queryCnt);
-                }
+                LOGGER.debug("add: tag=" + tag + " key=" + key + " query_id=" + queryId + "query_cnt=" + queryCnt);
                 if (queryId >= 0 && queryId < queries.cnt()) {
                     queries.get(queryId).addIndepdRef(new Integer(queryCnt));
                 } else if (parameter != null) {
@@ -206,9 +194,7 @@ public class SOSExport {
                 if (obj.getParameterCnt() < countStr(query, "?")) {
                     throw new IllegalArgumentException("SOSExport.query: too few fields in parameter for substitution in the query");
                 }
-                if (logger != null) {
-                    logger.debug3("add: tag=" + tag + " key=" + key + " query_id=" + queryId + "query_cnt=" + queryCnt);
-                }
+                LOGGER.debug("add: tag=" + tag + " key=" + key + " query_id=" + queryId + "query_cnt=" + queryCnt);
                 if (queryId >= 0 && queryId < queries.cnt()) {
                     queries.get(queryId).addIndepdRef(new Integer(queryCnt));
                 } else if (parameter != null) {
@@ -239,15 +225,13 @@ public class SOSExport {
                 if (!file.canWrite()) {
                     throw new FileNotFoundException("File not writeable: " + fileName);
                 }
-                if (logger != null) {
-                    logger.debug2("Starte Export in die Datei...");
-                }
+                LOGGER.debug("Starte Export in die Datei...");
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 FileOutputStream fos = new FileOutputStream(fileName);
                 OutputStreamWriter fw = new OutputStreamWriter(fos, xmlEncoding);
                 fw.write("<?xml version=\"1.0\" encoding=\"" + xmlEncoding + "\"?>\n");
-                fw.write(indent(1) + "<" + normalizeTagName(xmlTagname) + " application=\"" + application + "\" created=\""
-                        + dateFormat.format(new Date()) + "\">\n");
+                fw.write(indent(1) + "<" + normalizeTagName(xmlTagname) + " application=\"" + application + "\" created=\"" + dateFormat.format(
+                        new Date()) + "\">\n");
                 dateFormat = null;
                 for (int i = 0; i < queries.cnt(); i++) {
                     if (!queries.get(i).isDone() && !queries.get(i).isDependent()) {
@@ -261,20 +245,16 @@ public class SOSExport {
                 fw.write(indent(-1) + "</" + normalizeTagName(xmlTagname) + ">\n");
                 fw.close();
                 fos.close();
-                if (logger != null) {
-                    logger.debug2("...Export in die Datei beendet");
-                }
+                LOGGER.debug("...Export in die Datei beendet");
                 return "";
             } else {
-                if (logger != null) {
-                    logger.debug2("Starte Export...");
-                }
+                LOGGER.debug("Starte Export...");
                 StringBuilder output = new StringBuilder();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 // XML Header
                 output.append("<?xml version=\"1.0\" encoding=\"" + xmlEncoding + "\"?>\n");
-                output.append(indent(1) + "<" + normalizeTagName(xmlTagname) + " application=\"" + application + "\" created=\""
-                        + dateFormat.format(new Date()) + "\">\n");
+                output.append(indent(1) + "<" + normalizeTagName(xmlTagname) + " application=\"" + application + "\" created=\"" + dateFormat.format(
+                        new Date()) + "\">\n");
                 dateFormat = null;
                 for (int i = 0; i < queries.cnt(); i++) {
                     if (!queries.get(i).isDone()) {
@@ -282,9 +262,7 @@ public class SOSExport {
                     }
                 }
                 output.append(indent(-1) + "</" + normalizeTagName(xmlTagname) + ">\n");
-                if (logger != null) {
-                    logger.debug2("...Export beendet");
-                }
+                LOGGER.debug("...Export beendet");
                 return output.toString();
             }
         } catch (Exception e) {
@@ -308,11 +286,9 @@ public class SOSExport {
 
     private String exportQueries(int queryId, List<String> parameterValues, Writer fw) throws Exception {
         try {
-            if (logger != null) {
-                logger.debug3("export_queries: " + " name=\"" + queries.get(queryId).getTag() + "\" query_id=\"" + queryId + "\" key=\""
-                        + queries.get(queryId).keysToStr() + "\" dependend=\"" + queries.get(queryId).dependRefToStr() + "\" operation=\""
-                        + queries.get(queryId).getOperation() + "\" independend=\"" + queries.get(queryId).indepdRefToStr() + "\"");
-            }
+            LOGGER.debug("export_queries: " + " name=\"" + queries.get(queryId).getTag() + "\" query_id=\"" + queryId + "\" key=\"" + queries.get(
+                    queryId).keysToStr() + "\" dependend=\"" + queries.get(queryId).dependRefToStr() + "\" operation=\"" + queries.get(queryId)
+                            .getOperation() + "\" independend=\"" + queries.get(queryId).indepdRefToStr() + "\"");
             rekursionCnt++;
             String queryStm = substituteQuery(queries.get(queryId).getQuery(), parameterValues);
             Map<String, String> allFieldNames = prepareGetFieldName(queryStm);
@@ -325,9 +301,7 @@ public class SOSExport {
                 fw.write(indent(0) + "<" + normalizeTagName("table name=\"") + queries.get(queryId).getTag() + "\" />\n");
                 fw.write(indent(1) + "<" + normalizeTagName("key_fields") + ">\n");
                 for (int i = 0; i < queries.get(queryId).getKeyCnt(); i++) {
-                    if (logger != null) {
-                        logger.debug6("key_field[" + i + "]=\"" + queries.get(queryId).getKey(i) + "\"");
-                    }
+                    LOGGER.debug("key_field[" + i + "]=\"" + queries.get(queryId).getKey(i) + "\"");
                     fw.write(indent() + "<" + normalizeTagName("field name=\"") + normalizeFieldName(queries.get(queryId).getKey(i)) + "\"");
                     fw.write(" type=\"" + fieldTypes.getTypeName(normalizeFieldName(queries.get(queryId).getKey(i))) + "\"");
                     fw.write(" typeID=\"" + fieldTypes.getTypeId(normalizeFieldName(queries.get(queryId).getKey(i))) + "\"");
@@ -352,15 +326,10 @@ public class SOSExport {
                 fw.write(indent(1) + "<" + normalizeTagName(xmlTagname + "_data") + ">\n");
                 for (int i = 0; i < result.size(); i++) {
                     Map<String, String> record = result.get(i);
-                    if (logger != null) {
-                        logger.debug9("get: " + queries.get(queryId).getTag() + " query_id=" + queryId);
-                    }
+                    LOGGER.trace("get: " + queries.get(queryId).getTag() + " query_id=" + queryId);
                     fw.write(indent(1) + "<" + normalizeTagName(xmlTagname + "_record name=\"") + queries.get(queryId).getTag() + "\">\n");
-                    fw.write(indent(1)
-                            + "<"
-                            + normalizeTagName(xmlTagname + "_fields")
-                            + (queries.get(queryId).getOperation() != null && !queries.get(queryId).getOperation().isEmpty() ? " operation=\""
-                                    + queries.get(queryId).getOperation() + "\" " : "") + ">\n");
+                    fw.write(indent(1) + "<" + normalizeTagName(xmlTagname + "_fields") + (queries.get(queryId).getOperation() != null && !queries
+                            .get(queryId).getOperation().isEmpty() ? " operation=\"" + queries.get(queryId).getOperation() + "\" " : "") + ">\n");
                     for (Iterator<String> it = record.keySet().iterator(); it.hasNext();) {
                         String key = it.next();
                         String lobType = null;
@@ -409,8 +378,8 @@ public class SOSExport {
                             for (int j = 0; j < queries.get(queryId).getKeyCnt(); j++) {
                                 String keyFieldName = getKeyFieldName(allFieldNames, queries.get(queryId).getKey(j));
                                 queryBlobStm.append(and + normalizeFieldName(keyFieldName) + " =");
-                                queryBlobStm.append(quote(fieldTypes.getTypeId(normalizeFieldName(queries.get(queryId).getKey(j))),
-                                        (String) record.get(normalizeFieldName(queries.get(queryId).getKey(j)))));
+                                queryBlobStm.append(quote(fieldTypes.getTypeId(normalizeFieldName(queries.get(queryId).getKey(j))), (String) record
+                                        .get(normalizeFieldName(queries.get(queryId).getKey(j)))));
                                 and = " AND ";
                             }
                             byte[] blob = null;
@@ -435,9 +404,7 @@ public class SOSExport {
                     if (queries.get(queryId).getIndepdRefCnt() > 0) {
                         for (int j = 0; j < queries.get(queryId).getIndepdRefCnt(); j++) {
                             int recQuery = queries.get(queryId).getIndepdRef(j).intValue();
-                            if (logger != null) {
-                                logger.debug6("recursive independend query: " + queries.get(recQuery).getQuery());
-                            }
+                            LOGGER.debug("recursive independend query: " + queries.get(recQuery).getQuery());
                             exportQueries(recQuery, queryParams(recQuery, record), fw);
                         }
                     }
@@ -445,9 +412,7 @@ public class SOSExport {
                     if (queries.get(queryId).getDependRefCnt() > 0) {
                         for (int j = 0; j < queries.get(queryId).getDependRefCnt(); j++) {
                             int recQuery = queries.get(queryId).getDependRef(j).intValue();
-                            if (logger != null) {
-                                logger.debug6("recursive dependend query: " + queries.get(recQuery).getQuery());
-                            }
+                            LOGGER.debug("recursive dependend query: " + queries.get(recQuery).getQuery());
                             exportQueries(recQuery, queryParams(recQuery, record), fw);
                         }
                     }
@@ -465,12 +430,10 @@ public class SOSExport {
 
     public String exportQueriesForDelete(int queryId, List<String> parameterValues, Writer fw) throws Exception {
         try {
-            if (logger != null) {
-                logger.debug3("export_queries: " + " name=\"" + queries.get(queryId).getTag() + "\" query_id=\"" + queryId + "\" key=\""
-                        + queries.get(queryId).keysToStr() + "\" dependend=\"" + queries.get(queryId).dependRefToStr() + "\" operation=\""
-                        + queries.get(queryId).getOperation() + "\" field_keys=\"" + queries.get(queryId).getFieldsKeys() + "\" independend=\""
-                        + queries.get(queryId).indepdRefToStr() + "\"");
-            }
+            LOGGER.debug("export_queries: " + " name=\"" + queries.get(queryId).getTag() + "\" query_id=\"" + queryId + "\" key=\"" + queries.get(
+                    queryId).keysToStr() + "\" dependend=\"" + queries.get(queryId).dependRefToStr() + "\" operation=\"" + queries.get(queryId)
+                            .getOperation() + "\" field_keys=\"" + queries.get(queryId).getFieldsKeys() + "\" independend=\"" + queries.get(queryId)
+                                    .indepdRefToStr() + "\"");
             rekursionCnt++;
             String queryStm = substituteQuery(queries.get(queryId).getQuery(), parameterValues);
             @SuppressWarnings("unused")
@@ -481,9 +444,7 @@ public class SOSExport {
             fw.write(indent(0) + "<" + normalizeTagName("table name=\"") + queries.get(queryId).getTag() + "\" />\n");
             fw.write(indent(1) + "<" + normalizeTagName("key_fields") + ">\n");
             for (int i = 0; i < queries.get(queryId).getKeyCnt(); i++) {
-                if (logger != null) {
-                    logger.debug6("key_field[" + i + "]=\"" + queries.get(queryId).getKey(i) + "\"");
-                }
+                LOGGER.debug("key_field[" + i + "]=\"" + queries.get(queryId).getKey(i) + "\"");
                 fw.write(indent() + "<" + normalizeTagName("field name=\"") + normalizeFieldName(queries.get(queryId).getKey(i)) + "\"");
                 fw.write(" type=\"" + fieldTypes.getTypeName(normalizeFieldName(queries.get(queryId).getKey(i))) + "\"");
                 fw.write(" typeID=\"" + fieldTypes.getTypeId(normalizeFieldName(queries.get(queryId).getKey(i))) + "\"");
@@ -507,15 +468,10 @@ public class SOSExport {
             fw.write(indent(-1) + "</" + normalizeTagName(xmlTagname + "_meta") + ">\n");
             fw.write(indent(1) + "<" + normalizeTagName(xmlTagname + "_data") + ">\n");
             Map<String, String> record = queries.get(queryId).getFieldsKeys();
-            if (logger != null) {
-                logger.debug9("get: " + queries.get(queryId).getTag() + " query_id=" + queryId);
-            }
+            LOGGER.trace("get: " + queries.get(queryId).getTag() + " query_id=" + queryId);
             fw.write(indent(1) + "<" + normalizeTagName(xmlTagname + "_record name=\"") + queries.get(queryId).getTag() + "\">\n");
-            fw.write(indent(1)
-                    + "<"
-                    + normalizeTagName(xmlTagname + "_fields")
-                    + (queries.get(queryId).getOperation() != null && queries.get(queryId).getOperation().length() > 0 ? " operation=\""
-                            + queries.get(queryId).getOperation() + "\" " : "") + ">\n");
+            fw.write(indent(1) + "<" + normalizeTagName(xmlTagname + "_fields") + (queries.get(queryId).getOperation() != null && queries.get(queryId)
+                    .getOperation().length() > 0 ? " operation=\"" + queries.get(queryId).getOperation() + "\" " : "") + ">\n");
             for (Iterator<String> it = record.keySet().iterator(); it.hasNext();) {
                 String key = it.next();
                 if (record.get(key) != null) {
@@ -542,18 +498,14 @@ public class SOSExport {
             if (queries.get(queryId).getIndepdRefCnt() > 0) {
                 for (int j = 0; j < queries.get(queryId).getIndepdRefCnt(); j++) {
                     int recQuery = queries.get(queryId).getIndepdRef(j).intValue();
-                    if (logger != null) {
-                        logger.debug6("recursive independend query: " + queries.get(recQuery).getQuery());
-                    }
+                    LOGGER.debug("recursive independend query: " + queries.get(recQuery).getQuery());
                     exportQueries(recQuery, queryParams(recQuery, record), fw);
                 }
             }
             if (queries.get(queryId).getDependRefCnt() > 0) {
                 for (int j = 0; j < queries.get(queryId).getDependRefCnt(); j++) {
                     int recQuery = queries.get(queryId).getDependRef(j).intValue();
-                    if (logger != null) {
-                        logger.debug6("recursive dependend query: " + queries.get(recQuery).getQuery());
-                    }
+                    LOGGER.debug("recursive dependend query: " + queries.get(recQuery).getQuery());
                     exportQueriesForDelete(recQuery, queryParams(recQuery, record), fw);
                 }
             }
@@ -571,11 +523,9 @@ public class SOSExport {
     private String exportQueries(int queryId, List<String> parameterValues) throws Exception {
         StringBuilder output = new StringBuilder();
         try {
-            if (logger != null) {
-                logger.debug3("export_queries: name=\"" + queries.get(queryId).getTag() + "\" query_id=\"" + queryId + "\" key=\""
-                        + queries.get(queryId).keysToStr() + "\" dependend=\"" + queries.get(queryId).dependRefToStr() + "\" independend=\""
-                        + queries.get(queryId).indepdRefToStr() + "\"");
-            }
+            LOGGER.debug("export_queries: name=\"" + queries.get(queryId).getTag() + "\" query_id=\"" + queryId + "\" key=\"" + queries.get(queryId)
+                    .keysToStr() + "\" dependend=\"" + queries.get(queryId).dependRefToStr() + "\" independend=\"" + queries.get(queryId)
+                            .indepdRefToStr() + "\"");
             rekursionCnt++;
             String queryStm = substituteQuery(queries.get(queryId).getQuery(), parameterValues);
             Map<String, String> allFieldNames = prepareGetFieldName(queryStm);
@@ -588,11 +538,9 @@ public class SOSExport {
                         "\" />\n");
                 output.append(indent(1)).append("<").append(normalizeTagName("key_fields")).append(">\n");
                 for (int i = 0; i < queries.get(queryId).getKeyCnt(); i++) {
-                    if (logger != null) {
-                        logger.debug6("key_field[" + i + "]=\"" + queries.get(queryId).getKey(i) + "\"");
-                    }
-                    output.append(indent()).append("<").append(normalizeTagName("field name=\"")).append(
-                            normalizeFieldName(queries.get(queryId).getKey(i))).append("\"");
+                    LOGGER.debug("key_field[" + i + "]=\"" + queries.get(queryId).getKey(i) + "\"");
+                    output.append(indent()).append("<").append(normalizeTagName("field name=\"")).append(normalizeFieldName(queries.get(queryId)
+                            .getKey(i))).append("\"");
                     output.append(" type=\"").append(fieldTypes.getTypeName(normalizeFieldName(queries.get(queryId).getKey(i)))).append("\"");
                     output.append(" typeID=\"").append(fieldTypes.getTypeId(normalizeFieldName(queries.get(queryId).getKey(i)))).append("\"");
                     output.append(" len=\"").append(fieldTypes.getLength(normalizeFieldName(queries.get(queryId).getKey(i)))).append("\"");
@@ -604,8 +552,8 @@ public class SOSExport {
                 output.append(indent(1)).append(normalizeTagName("<fields>")).append("\n");
                 Object[] fields = result.get(0).keySet().toArray();
                 for (int i = 0; i < fields.length; i++) {
-                    output.append(indent()).append("<").append(normalizeTagName("field name=\"")).append(normalizeFieldName((String) fields[i])).append(
-                            "\"");
+                    output.append(indent()).append("<").append(normalizeTagName("field name=\"")).append(normalizeFieldName((String) fields[i]))
+                            .append("\"");
                     output.append(" type=\"").append(fieldTypes.getTypeName(normalizeFieldName((String) fields[i]))).append("\"");
                     output.append(" typeID=\"").append(fieldTypes.getTypeId(normalizeFieldName((String) fields[i]))).append("\"");
                     output.append(" len=\"").append(fieldTypes.getLength(normalizeFieldName((String) fields[i]))).append("\"");
@@ -618,12 +566,9 @@ public class SOSExport {
                 output.append(indent(1)).append("<").append(normalizeTagName(xmlTagname + "_data")).append(">\n");
                 for (int i = 0; i < result.size(); i++) {
                     Map<String, String> record = result.get(i);
-                    if (logger != null) {
-                        logger.debug9("get: " + queries.get(queryId).getTag() + " query_id=" + queryId);
-                    }
-                    output.append(indent(1)).append("<").append(normalizeTagName(xmlTagname + "_record name=\"")).append(
-                            queries.get(queryId).getTag()).append("\">\n").append(indent(1)).append("<").append(
-                            normalizeTagName(xmlTagname + "_fields")).append(">\n");
+                    LOGGER.trace("get: " + queries.get(queryId).getTag() + " query_id=" + queryId);
+                    output.append(indent(1)).append("<").append(normalizeTagName(xmlTagname + "_record name=\"")).append(queries.get(queryId)
+                            .getTag()).append("\">\n").append(indent(1)).append("<").append(normalizeTagName(xmlTagname + "_fields")).append(">\n");
                     for (Iterator<String> it = record.keySet().iterator(); it.hasNext();) {
                         String key = it.next();
                         String lobType = null;
@@ -672,8 +617,8 @@ public class SOSExport {
                             for (int j = 0; j < queries.get(queryId).getKeyCnt(); j++) {
                                 String keyFieldName = getKeyFieldName(allFieldNames, queries.get(queryId).getKey(j));
                                 queryBlobStm.append(and).append(normalizeFieldName(keyFieldName)).append(" =");
-                                queryBlobStm.append(quote(fieldTypes.getTypeId(normalizeFieldName(queries.get(queryId).getKey(j))),
-                                        (String) record.get(normalizeFieldName(queries.get(queryId).getKey(j)))));
+                                queryBlobStm.append(quote(fieldTypes.getTypeId(normalizeFieldName(queries.get(queryId).getKey(j))), (String) record
+                                        .get(normalizeFieldName(queries.get(queryId).getKey(j)))));
                                 and = " AND ";
                             }
                             byte[] blob = null;
@@ -696,18 +641,14 @@ public class SOSExport {
                     if (queries.get(queryId).getIndepdRefCnt() > 0) {
                         for (int j = 0; j < queries.get(queryId).getIndepdRefCnt(); j++) {
                             int recQuery = queries.get(queryId).getIndepdRef(j).intValue();
-                            if (logger != null) {
-                                logger.debug6("recursive independend query: " + queries.get(recQuery).getQuery());
-                            }
+                            LOGGER.debug("recursive independend query: " + queries.get(recQuery).getQuery());
                             output.append(exportQueries(recQuery, queryParams(recQuery, record)));
                         }
                     }
                     if (queries.get(queryId).getDependRefCnt() > 0) {
                         for (int j = 0; j < queries.get(queryId).getDependRefCnt(); j++) {
                             int recQuery = queries.get(queryId).getDependRef(j).intValue();
-                            if (logger != null) {
-                                logger.debug6("recursive dependend query: " + queries.get(recQuery).getQuery());
-                            }
+                            LOGGER.debug("recursive dependend query: " + queries.get(recQuery).getQuery());
                             output.append(exportQueries(recQuery, queryParams(recQuery, record)));
                         }
                     }
@@ -771,13 +712,9 @@ public class SOSExport {
     public List<String> queryParams(int queryId, Map<String, String> record) throws Exception {
         List<String> values = new ArrayList<String>();
         try {
-            if (logger != null) {
-                logger.debug3("query_params: query_id=" + queryId);
-            }
+            LOGGER.debug("query_params: query_id=" + queryId);
             for (int i = 0; i < queries.get(queryId).getParameterCnt(); i++) {
-                if (logger != null) {
-                    logger.debug6("param_value[" + i + "] = " + queries.get(queryId).getParameter(i));
-                }
+                LOGGER.debug("param_value[" + i + "] = " + queries.get(queryId).getParameter(i));
                 if (record.containsKey(normalizeFieldName(queries.get(queryId).getParameter(i)))) {
                     values.add(record.get(normalizeFieldName(queries.get(queryId).getParameter(i))));
                 }
@@ -894,12 +831,10 @@ public class SOSExport {
                 Integer type = new Integer(fieldDesc.get("columnType"));
                 BigInteger size = new BigInteger(fieldDesc.get("columnDisplaySize"));
                 Integer scale = new Integer(fieldDesc.get("scale"));
-                if (logger != null) {
-                    logger.debug9("field_type: name=" + fieldDesc.get("columnName") + " type=" + fieldDesc.get("columnTypeName") + " type_id=" + type
-                            + " size=" + size + " scale=" + scale);
-                }
-                fieldTypes.addField(normalizeFieldName(normalizeFieldName(fieldDesc.get("columnName"))),
-                        fieldDesc.get("columnTypeName"), type, size, scale);
+                LOGGER.trace("field_type: name=" + fieldDesc.get("columnName") + " type=" + fieldDesc.get("columnTypeName") + " type_id=" + type
+                        + " size=" + size + " scale=" + scale);
+                fieldTypes.addField(normalizeFieldName(normalizeFieldName(fieldDesc.get("columnName"))), fieldDesc.get("columnTypeName"), type, size,
+                        scale);
             }
             resultSet.close();
             return fieldTypes;

@@ -4,15 +4,17 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import sos.util.SOSClassUtil;
-import sos.util.SOSLogger;
 import sos.util.SOSString;
 
 public abstract class SOSSettings {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSSettings.class);
     protected String source = "";
     protected String section = "";
-    protected SOSLogger logger;
     protected String entry = "";
     protected String author = "SOS";
     protected Hashtable sources = new Hashtable();
@@ -30,17 +32,6 @@ public abstract class SOSSettings {
         this.source = source;
     }
 
-    public SOSSettings(String source, SOSLogger logger) throws Exception {
-        if (SOSString.isEmpty(source)) {
-            throw new Exception(SOSClassUtil.getMethodName() + " invalid source name !!.");
-        }
-        if (logger == null) {
-            throw new Exception(SOSClassUtil.getMethodName() + " invalid logger object !!.");
-        }
-        this.logger = logger;
-        this.source = source;
-    }
-
     public SOSSettings(String source, String section) throws Exception {
         if (SOSString.isEmpty(source)) {
             throw new Exception(SOSClassUtil.getMethodName() + " invalid source name !!.");
@@ -50,21 +41,6 @@ public abstract class SOSSettings {
         }
         this.source = source;
         this.section = section;
-    }
-
-    public SOSSettings(String source, String section, SOSLogger logger) throws Exception {
-        if (SOSString.isEmpty(source)) {
-            throw new Exception(SOSClassUtil.getMethodName() + " invalid source name !!.");
-        }
-        if (SOSString.isEmpty(section)) {
-            throw new Exception(SOSClassUtil.getMethodName() + " invalid section name !!.");
-        }
-        if (logger == null) {
-            throw new Exception(SOSClassUtil.getMethodName() + " sosLogger object must not be null.");
-        }
-        this.source = source;
-        this.section = section;
-        this.logger = logger;
     }
 
     public abstract Properties getSection() throws Exception;

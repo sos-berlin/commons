@@ -9,12 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 
-import sos.util.SOSLogger;
 import sos.xml.SOSXMLXPath;
 
 public class SOSConfigurationRequiredItem {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SOSConfigurationRequiredItem.class);
+
     private SOSXMLXPath xPath = null;
     private String msgUnknownParameter = "";
     private List<String> checkIds = null;
@@ -128,7 +128,6 @@ public class SOSConfigurationRequiredItem {
 
     public static void main(String[] args) {
         try {
-            SOSLogger sosLogger = new sos.util.SOSStandardLogger(9);
             SOSConfigurationItem pOperation = new SOSConfigurationItem();
             pOperation.setName("operation");
             pOperation.setValue("send");
@@ -153,30 +152,30 @@ public class SOSConfigurationRequiredItem {
             SOSConfigurationItem sshProxyUser = new SOSConfigurationItem();
             sshProxyUser.setName("ssh_proxy_user");
             sshProxyUser.setValue("sos");
-            SOSConfigurationItem[] p1 =
-                    new SOSConfigurationItem[] { pOperation, pfilePath, pProtocol, pUser, sshProxyHost, sshProxyPort, sshProxyUser };
-            sosLogger.debug("***************************Start configuration Item vorher************************");
+            SOSConfigurationItem[] p1 = new SOSConfigurationItem[] { pOperation, pfilePath, pProtocol, pUser, sshProxyHost, sshProxyPort,
+                    sshProxyUser };
+            LOGGER.debug("***************************Start configuration Item vorher************************");
             for (int i = 0; i < p1.length; i++) {
-                sosLogger.debug(i + "'te Parameter");
-                sosLogger.debug("name    =\t " + p1[i].getName());
-                sosLogger.debug("value   =\t " + p1[i].getValue());
-                sosLogger.debug("default =\t " + p1[i].getDefaults());
-                sosLogger.debug("itemId  =\t " + p1[i].getItemId());
-                sosLogger.debug("");
+                LOGGER.debug(i + "'te Parameter");
+                LOGGER.debug("name    =\t " + p1[i].getName());
+                LOGGER.debug("value   =\t " + p1[i].getValue());
+                LOGGER.debug("default =\t " + p1[i].getDefaults());
+                LOGGER.debug("itemId  =\t " + p1[i].getItemId());
+                LOGGER.debug("");
             }
-            sosLogger.debug("**********************************************************************************");
+            LOGGER.debug("**********************************************************************************");
             SOSConfigurationRequiredItem ri = new SOSConfigurationRequiredItem("J:/E/java/mo/doc/sosftp/Redesign/Configuration.xml");
             p1 = ri.check(p1);
-            sosLogger.debug("***************************Start configuration Item nachher************************");
+            LOGGER.debug("***************************Start configuration Item nachher************************");
             for (int i = 0; i < p1.length; i++) {
-                sosLogger.debug(i + "'te Parameter");
-                sosLogger.debug("name    =\t " + p1[i].getName());
-                sosLogger.debug("value   =\t " + p1[i].getValue());
-                sosLogger.debug("default =\t " + p1[i].getDefaults());
-                sosLogger.debug("itemId  =\t " + p1[i].getItemId());
-                sosLogger.debug("");
+                LOGGER.debug(i + "'te Parameter");
+                LOGGER.debug("name    =\t " + p1[i].getName());
+                LOGGER.debug("value   =\t " + p1[i].getValue());
+                LOGGER.debug("default =\t " + p1[i].getDefaults());
+                LOGGER.debug("itemId  =\t " + p1[i].getItemId());
+                LOGGER.debug("");
             }
-            sosLogger.debug("**********************************************************************************");
+            LOGGER.debug("**********************************************************************************");
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
         }

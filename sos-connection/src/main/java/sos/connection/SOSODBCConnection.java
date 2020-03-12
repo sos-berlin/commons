@@ -5,28 +5,23 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.Driver;
 import java.sql.Connection;
 
 import sos.util.SOSClassUtil;
-import sos.util.SOSLogger;
 import sos.util.SOSString;
 
 /** @author Ghassan Beydoun */
 public class SOSODBCConnection extends sos.connection.SOSConnection {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSODBCConnection.class);
     private static final String REPLACEMENT[] = { "LCASE", "UCASE", "NOW()", "FOR UPDATE" };
-
-    public SOSODBCConnection(Connection connection, SOSLogger logger) throws Exception {
-        super(connection, logger);
-    }
 
     public SOSODBCConnection(Connection connection) throws Exception {
         super(connection);
-    }
-
-    public SOSODBCConnection(String configFileName, SOSLogger logger) throws Exception {
-        super(configFileName, logger);
     }
 
     public SOSODBCConnection(String configFileName) throws Exception {
@@ -35,18 +30,6 @@ public class SOSODBCConnection extends sos.connection.SOSConnection {
 
     public SOSODBCConnection(String driver, String url, String dbuser, String dbpassword) throws Exception {
         super(driver, url, dbuser, dbpassword);
-    }
-
-    public SOSODBCConnection(String driver, String url, String dbuser, String dbpassword, SOSLogger logger) throws Exception {
-        super(driver, url, dbuser, dbpassword, logger);
-    }
-
-    public SOSODBCConnection(String driver, String url, String dbname, String dbuser, String dbpassword, SOSLogger logger) throws Exception {
-        super(driver, url, dbuser, dbpassword, logger);
-        if (dbname == null) {
-            throw new Exception(SOSClassUtil.getMethodName() + ": missing database name.");
-        }
-        this.dbname = dbname;
     }
 
     public SOSODBCConnection(String driver, String url, String dbname, String dbuser, String dbpassword) throws Exception {
@@ -77,13 +60,13 @@ public class SOSODBCConnection extends sos.connection.SOSConnection {
         properties.setProperty("user", dbuser);
         properties.setProperty("password", dbpassword);
         try {
-            logger.debug9("calling " + SOSClassUtil.getMethodName());
+            LOGGER.trace("calling " + SOSClassUtil.getMethodName());
             Driver driver = (Driver) Class.forName(this.driver).newInstance();
             connection = driver.connect(url, properties);
             if (connection == null) {
                 throw new Exception("can't connect to database");
             }
-            logger.debug6(".. successfully connected to " + url);
+            LOGGER.debug(".. successfully connected to " + url);
             prepare(connection);
         } catch (Exception e) {
             throw new Exception(SOSClassUtil.getMethodName() + ": " + e.toString(), e);
@@ -92,7 +75,7 @@ public class SOSODBCConnection extends sos.connection.SOSConnection {
 
     public void prepare(Connection connection) throws Exception {
         try {
-            logger.debug6("calling " + SOSClassUtil.getMethodName());
+            LOGGER.debug("calling " + SOSClassUtil.getMethodName());
             connection.setAutoCommit(false);
             connection.rollback();
         } catch (Exception e) {
@@ -119,13 +102,13 @@ public class SOSODBCConnection extends sos.connection.SOSConnection {
     }
 
     protected String replaceCasts(String inputString) throws Exception {
-        logger.debug6("Calling " + SOSClassUtil.getMethodName());
+        LOGGER.debug("Calling " + SOSClassUtil.getMethodName());
         Pattern pattern = Pattern.compile(CAST_PATTERN);
         Matcher matcher = pattern.matcher(inputString);
         StringBuffer buffer = new StringBuffer();
         String replaceString;
         String token;
-        logger.debug9("..inputString [" + inputString + "]");
+        LOGGER.trace("..inputString [" + inputString + "]");
         while (matcher.find()) {
             replaceString = matcher.group().toLowerCase();
             if (matcher.group(1) != null && matcher.group(6) != null) {
@@ -158,7 +141,7 @@ public class SOSODBCConnection extends sos.connection.SOSConnection {
             matcher.appendReplacement(buffer, replaceString);
         }
         matcher.appendTail(buffer);
-        logger.debug6(".. result [" + buffer.toString() + "]");
+        LOGGER.debug(".. result [" + buffer.toString() + "]");
         return buffer.toString();
     }
 

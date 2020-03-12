@@ -8,14 +8,17 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import sos.settings.SOSConnectionSettings;
 import sos.util.SOSClassUtil;
-import sos.util.SOSLogger;
 
 public abstract class SOSTextProcessor {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSTextProcessor.class);
+
     protected SOSConnectionSettings settings = null;
-    protected SOSLogger logger = null;
     protected String language = "de";
     protected boolean hasLocalizedTemplates = false;
     protected Map<String, String> scriptLanguages = new HashMap<String, String>();
@@ -44,33 +47,13 @@ public abstract class SOSTextProcessor {
         this.init();
     }
 
-    public SOSTextProcessor(SOSLogger logger) throws Exception {
-        this.setLogger(logger);
-        this.init();
-    }
-
     public SOSTextProcessor(SOSConnectionSettings settings) throws Exception {
         this.setSettings(settings);
         this.init();
     }
 
-    public SOSTextProcessor(SOSConnectionSettings settings, SOSLogger logger) throws Exception {
-        this.setSettings(settings);
-        this.setLogger(logger);
-        this.init();
-    }
-
     public SOSTextProcessor(SOSConnectionSettings settings, String templateSectionName, String templateApplicationName) throws Exception {
         this.setSettings(settings);
-        this.setTemplateSectionName(templateSectionName);
-        this.setTemplateApplicationName(templateApplicationName);
-        this.init();
-    }
-
-    public SOSTextProcessor(SOSConnectionSettings settings, SOSLogger logger, String templateSectionName, String templateApplicationName)
-            throws Exception {
-        this.setSettings(settings);
-        this.setLogger(logger);
         this.setTemplateSectionName(templateSectionName);
         this.setTemplateApplicationName(templateApplicationName);
         this.init();
@@ -104,9 +87,7 @@ public abstract class SOSTextProcessor {
     }
 
     public String getTemplate(String templateName) throws Exception {
-        if (this.getLogger() != null) {
-            this.getLogger().debug6(SOSClassUtil.getMethodName() + " begin: template=" + templateName);
-        }
+        LOGGER.debug(SOSClassUtil.getMethodName() + " begin: template=" + templateName);
         this.setTemplateName(templateName);
         if (this.templates == null || !this.templates.containsKey(templateName)) {
             this.loadTemplate(templateName);
@@ -126,11 +107,9 @@ public abstract class SOSTextProcessor {
         if (this.templateScriptLanguage == null || this.templateScriptLanguage.isEmpty()) {
             this.templateScriptLanguage = "javascript";
         }
-        if (this.getLogger() != null) {
-            this.getLogger().debug9(SOSClassUtil.getMethodName() + ": templateContent=" + this.templateContent);
-            this.getLogger().debug9(SOSClassUtil.getMethodName() + ": templateScriptLanguage=" + this.templateScriptLanguage);
-            this.getLogger().debug6(SOSClassUtil.getMethodName() + " end");
-        }
+        LOGGER.trace(SOSClassUtil.getMethodName() + ": templateContent=" + this.templateContent);
+        LOGGER.trace(SOSClassUtil.getMethodName() + ": templateScriptLanguage=" + this.templateScriptLanguage);
+        LOGGER.debug(SOSClassUtil.getMethodName() + " end");
         return this.templateContent;
     }
 
@@ -149,8 +128,8 @@ public abstract class SOSTextProcessor {
         if (this.getTemplateSectionName() == null || this.getTemplateSectionName().isEmpty()) {
             throw new Exception("no template section name has been given for settings.");
         }
-        this.setTemplates(this.getSettings().getSection(this.getTemplateApplicationName(),
-                this.getTemplateSectionName() + (this.hasLocalizedTemplates() ? "_" + this.getLanguage() : "")));
+        this.setTemplates(this.getSettings().getSection(this.getTemplateApplicationName(), this.getTemplateSectionName() + (this
+                .hasLocalizedTemplates() ? "_" + this.getLanguage() : "")));
         if (this.templates == null || this.templates.isEmpty()) {
             return this.templates;
         }
@@ -193,16 +172,11 @@ public abstract class SOSTextProcessor {
     }
 
     protected String loadTemplate(String templateName) throws Exception {
-        if (this.getLogger() != null) {
-            this.getLogger().debug6(SOSClassUtil.getMethodName() + " begin: templateName=" + templateName);
-        }
+        LOGGER.debug(SOSClassUtil.getMethodName() + " begin: templateName=" + templateName);
         this.setTemplateName(templateName);
-        this.templateContent =
-                this.getSettings().getSectionEntry(this.getTemplateApplicationName(),
-                        this.getTemplateSectionName() + (this.hasLocalizedTemplates() ? "_" + this.getLanguage() : ""), templateName);
-        if (this.getLogger() != null) {
-            this.getLogger().debug9(SOSClassUtil.getMethodName() + ": templateContent=" + this.templateContent);
-        }
+        this.templateContent = this.getSettings().getSectionEntry(this.getTemplateApplicationName(), this.getTemplateSectionName() + (this
+                .hasLocalizedTemplates() ? "_" + this.getLanguage() : ""), templateName);
+        LOGGER.trace(SOSClassUtil.getMethodName() + ": templateContent=" + this.templateContent);
         if (this.templateContent == null || this.templateContent.trim().isEmpty()) {
             this.loadTemplateDocument(templateName);
         } else {
@@ -212,24 +186,17 @@ public abstract class SOSTextProcessor {
             this.templates.put(templateName, this.templateContent);
             this.checkTemplateScriptLanguage(templateName);
         }
-        if (this.getLogger() != null) {
-            this.getLogger().debug6(SOSClassUtil.getMethodName() + " end");
-        }
+        LOGGER.debug(SOSClassUtil.getMethodName() + " end");
         return this.templateContent;
     }
 
     protected String loadTemplateDocument(String templateName) throws Exception {
-        if (this.getLogger() != null) {
-            this.getLogger().debug6(SOSClassUtil.getMethodName() + " begin: templateName=" + templateName);
-        }
+        LOGGER.debug(SOSClassUtil.getMethodName() + " begin: templateName=" + templateName);
         this.setTemplateName(templateName);
-        Object content =
-                this.getSettings().getSectionEntryDocument(this.getTemplateApplicationName(),
-                        this.getTemplateSectionName() + (this.hasLocalizedTemplates() ? "_" + this.getLanguage() : ""), templateName);
+        Object content = this.getSettings().getSectionEntryDocument(this.getTemplateApplicationName(), this.getTemplateSectionName() + (this
+                .hasLocalizedTemplates() ? "_" + this.getLanguage() : ""), templateName);
         this.templateContent = (content == null) ? null : new String((byte[]) content);
-        if (this.getLogger() != null) {
-            this.getLogger().debug9(SOSClassUtil.getMethodName() + ": templateContent=" + this.templateContent);
-        }
+        LOGGER.trace(SOSClassUtil.getMethodName() + ": templateContent=" + this.templateContent);
         if (this.templateContent != null) {
             if (this.templates == null) {
                 this.templates = new Properties();
@@ -237,9 +204,7 @@ public abstract class SOSTextProcessor {
             this.templates.put(templateName, this.templateContent);
             this.checkTemplateScriptLanguage(templateName);
         }
-        if (this.getLogger() != null) {
-            this.getLogger().debug6(SOSClassUtil.getMethodName() + " end");
-        }
+        LOGGER.debug(SOSClassUtil.getMethodName() + " end");
         return this.templateContent;
     }
 
@@ -581,14 +546,6 @@ public abstract class SOSTextProcessor {
 
     protected void setScripts(Properties scripts) {
         this.scripts = scripts;
-    }
-
-    public SOSLogger getLogger() {
-        return logger;
-    }
-
-    public void setLogger(SOSLogger logger) {
-        this.logger = logger;
     }
 
     public boolean isForceReload() {
