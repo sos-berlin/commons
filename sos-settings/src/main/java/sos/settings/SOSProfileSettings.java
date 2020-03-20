@@ -22,7 +22,7 @@ public class SOSProfileSettings extends sos.settings.SOSSettings {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SOSProfileSettings.class);
     private static final Pattern SECTION_PATTERN = Pattern.compile("^\\s*\\[([^\\]]*)\\].*$");
-    private static final Pattern ENTRY_PATTERN = Pattern.compile("^([^=#]+)[ \t\n]*=(.*)$");
+    private static final Pattern ENTRY_PATTERN = Pattern.compile("^([^=#;]+)[ \t\n]*=(.*)$");
     private final ArrayList<String> sections = new ArrayList<String>();
     private final Properties entries = new Properties();
     protected boolean lowerCase = true;
@@ -68,7 +68,11 @@ public class SOSProfileSettings extends sos.settings.SOSSettings {
                     }
                 }
             }
-            LOGGER.debug(SOSClassUtil.getMethodName() + ": profile [" + source + "] successfully loaded.");
+
+            if (LOGGER.isDebugEnabled()) {
+                // SOSClassUtil.printStackTrace(true);
+                LOGGER.debug(SOSClassUtil.getMethodName() + ": profile [" + source + "] successfully loaded.");
+            }
         } catch (Exception e) {
             throw new Exception(SOSClassUtil.getMethodName() + ": " + e.toString());
         } finally {
@@ -112,6 +116,24 @@ public class SOSProfileSettings extends sos.settings.SOSSettings {
                 keyValue = p.split(enuma.nextElement().toString());
                 if (getSectionEntry(section, keyValue[1]) != null) {
                     properties.put(normalizeKey(keyValue[1]), this.getSectionEntry(section, keyValue[1]));
+                }
+            }
+            return properties;
+        } catch (Exception e) {
+            throw new Exception("error occurred in " + SOSClassUtil.getMethodName() + ": " + e);
+        }
+    }
+
+    public Properties getSection(final String section, boolean usePrefix, String propertyPrefix) throws Exception {
+        try {
+            Properties properties = new Properties();
+            Pattern p = Pattern.compile("[#]");
+            String[] keyValue = null;
+            java.util.Enumeration<Object> enuma = entries.keys();
+            while (enuma.hasMoreElements()) {
+                keyValue = p.split(enuma.nextElement().toString());
+                if (getSectionEntry(section, keyValue[1]) != null) {
+                    properties.put(normalizeKey(propertyPrefix+keyValue[1]), this.getSectionEntry(section, keyValue[1]));
                 }
             }
             return properties;
