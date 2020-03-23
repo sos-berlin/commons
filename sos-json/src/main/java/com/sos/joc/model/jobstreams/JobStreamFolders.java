@@ -14,18 +14,19 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * In-Conditions
+ * jobStreamFolders
  * <p>
- * List of all In Conditions
+ * List of all jobStreams and their folders
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "deliveryDate",
     "jobschedulerId",
-    "jobsInconditions"
+    "jobStreamFilter",
+    "jobStreams"
 })
-public class InConditions {
+public class JobStreamFolders {
 
     /**
      * delivery date
@@ -40,13 +41,20 @@ public class InConditions {
      * filename
      * <p>
      * 
-     * (Required)
      * 
      */
     @JsonProperty("jobschedulerId")
     private String jobschedulerId;
-    @JsonProperty("jobsInconditions")
-    private List<JobInCondition> jobsInconditions = new ArrayList<JobInCondition>();
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("jobStreamFilter")
+    private String jobStreamFilter;
+    @JsonProperty("jobStreams")
+    private List<Folders2Jobstream> jobStreams = new ArrayList<Folders2Jobstream>();
 
     /**
      * delivery date
@@ -74,7 +82,6 @@ public class InConditions {
      * filename
      * <p>
      * 
-     * (Required)
      * 
      */
     @JsonProperty("jobschedulerId")
@@ -86,7 +93,6 @@ public class InConditions {
      * filename
      * <p>
      * 
-     * (Required)
      * 
      */
     @JsonProperty("jobschedulerId")
@@ -94,24 +100,46 @@ public class InConditions {
         this.jobschedulerId = jobschedulerId;
     }
 
-    @JsonProperty("jobsInconditions")
-    public List<JobInCondition> getJobsInconditions() {
-        return jobsInconditions;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("jobStreamFilter")
+    public String getJobStreamFilter() {
+        return jobStreamFilter;
     }
 
-    @JsonProperty("jobsInconditions")
-    public void setJobsInconditions(List<JobInCondition> jobsInconditions) {
-        this.jobsInconditions = jobsInconditions;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("jobStreamFilter")
+    public void setJobStreamFilter(String jobStreamFilter) {
+        this.jobStreamFilter = jobStreamFilter;
+    }
+
+    @JsonProperty("jobStreams")
+    public List<Folders2Jobstream> getJobStreams() {
+        return jobStreams;
+    }
+
+    @JsonProperty("jobStreams")
+    public void setJobStreams(List<Folders2Jobstream> jobStreams) {
+        this.jobStreams = jobStreams;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("jobschedulerId", jobschedulerId).append("jobsInconditions", jobsInconditions).toString();
+        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("jobschedulerId", jobschedulerId).append("jobStreamFilter", jobStreamFilter).append("jobStreams", jobStreams).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(deliveryDate).append(jobschedulerId).append(jobsInconditions).toHashCode();
+        return new HashCodeBuilder().append(jobStreams).append(deliveryDate).append(jobschedulerId).append(jobStreamFilter).toHashCode();
     }
 
     @Override
@@ -119,11 +147,11 @@ public class InConditions {
         if (other == this) {
             return true;
         }
-        if ((other instanceof InConditions) == false) {
+        if ((other instanceof JobStreamFolders) == false) {
             return false;
         }
-        InConditions rhs = ((InConditions) other);
-        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(jobschedulerId, rhs.jobschedulerId).append(jobsInconditions, rhs.jobsInconditions).isEquals();
+        JobStreamFolders rhs = ((JobStreamFolders) other);
+        return new EqualsBuilder().append(jobStreams, rhs.jobStreams).append(deliveryDate, rhs.deliveryDate).append(jobschedulerId, rhs.jobschedulerId).append(jobStreamFilter, rhs.jobStreamFilter).isEquals();
     }
 
 }

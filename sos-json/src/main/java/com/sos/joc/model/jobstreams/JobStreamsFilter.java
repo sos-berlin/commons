@@ -12,19 +12,21 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * JobStream Filter
+ * JobStreams Filter
  * <p>
- * Job Stream filter
+ * Reset Workflow, unconsume expressions
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "deliveryDate",
     "jobschedulerId",
+    "job",
     "jobStream",
+    "status",
     "limit"
 })
-public class JobStreamFilter {
+public class JobStreamsFilter {
 
     /**
      * delivery date
@@ -35,10 +37,40 @@ public class JobStreamFilter {
     @JsonProperty("deliveryDate")
     @JsonPropertyDescription("Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
     private Date deliveryDate;
+    /**
+     * filename
+     * <p>
+     * 
+     * (Required)
+     * 
+     */
     @JsonProperty("jobschedulerId")
     private String jobschedulerId;
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
+    @JsonProperty("job")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
+    private String job;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("jobStream")
     private String jobStream;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("status")
+    private String status;
     @JsonProperty("limit")
     private Integer limit = 10000;
 
@@ -64,24 +96,94 @@ public class JobStreamFilter {
         this.deliveryDate = deliveryDate;
     }
 
+    /**
+     * filename
+     * <p>
+     * 
+     * (Required)
+     * 
+     */
     @JsonProperty("jobschedulerId")
     public String getJobschedulerId() {
         return jobschedulerId;
     }
 
+    /**
+     * filename
+     * <p>
+     * 
+     * (Required)
+     * 
+     */
     @JsonProperty("jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
         this.jobschedulerId = jobschedulerId;
     }
 
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
+    @JsonProperty("job")
+    public String getJob() {
+        return job;
+    }
+
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
+    @JsonProperty("job")
+    public void setJob(String job) {
+        this.job = job;
+    }
+
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("jobStream")
     public String getJobStream() {
         return jobStream;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("jobStream")
     public void setJobStream(String jobStream) {
         this.jobStream = jobStream;
+    }
+
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("status")
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("status")
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @JsonProperty("limit")
@@ -96,12 +198,12 @@ public class JobStreamFilter {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("jobschedulerId", jobschedulerId).append("jobStream", jobStream).append("limit", limit).toString();
+        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("jobschedulerId", jobschedulerId).append("job", job).append("jobStream", jobStream).append("status", status).append("limit", limit).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobStream).append(limit).append(deliveryDate).append(jobschedulerId).toHashCode();
+        return new HashCodeBuilder().append(jobStream).append(limit).append(deliveryDate).append(jobschedulerId).append(job).append(status).toHashCode();
     }
 
     @Override
@@ -109,11 +211,11 @@ public class JobStreamFilter {
         if (other == this) {
             return true;
         }
-        if ((other instanceof JobStreamFilter) == false) {
+        if ((other instanceof JobStreamsFilter) == false) {
             return false;
         }
-        JobStreamFilter rhs = ((JobStreamFilter) other);
-        return new EqualsBuilder().append(jobStream, rhs.jobStream).append(limit, rhs.limit).append(deliveryDate, rhs.deliveryDate).append(jobschedulerId, rhs.jobschedulerId).isEquals();
+        JobStreamsFilter rhs = ((JobStreamsFilter) other);
+        return new EqualsBuilder().append(jobStream, rhs.jobStream).append(limit, rhs.limit).append(deliveryDate, rhs.deliveryDate).append(jobschedulerId, rhs.jobschedulerId).append(job, rhs.job).append(status, rhs.status).isEquals();
     }
 
 }

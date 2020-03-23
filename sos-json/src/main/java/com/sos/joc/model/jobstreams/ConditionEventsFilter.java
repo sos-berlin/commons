@@ -27,12 +27,38 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 })
 public class ConditionEventsFilter {
 
+    /**
+     * filename
+     * <p>
+     * 
+     * (Required)
+     * 
+     */
     @JsonProperty("jobschedulerId")
     private String jobschedulerId;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("session")
     private String session;
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
     @JsonProperty("path")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
     private String path;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("jobStream")
     private String jobStream;
     /**
@@ -51,41 +77,91 @@ public class ConditionEventsFilter {
     @JsonPropertyDescription("restricts the number of responsed records; -1=unlimited")
     private Integer limit = 0;
 
+    /**
+     * filename
+     * <p>
+     * 
+     * (Required)
+     * 
+     */
     @JsonProperty("jobschedulerId")
     public String getJobschedulerId() {
         return jobschedulerId;
     }
 
+    /**
+     * filename
+     * <p>
+     * 
+     * (Required)
+     * 
+     */
     @JsonProperty("jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
         this.jobschedulerId = jobschedulerId;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("session")
     public String getSession() {
         return session;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("session")
     public void setSession(String session) {
         this.session = session;
     }
 
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
     @JsonProperty("path")
     public String getPath() {
         return path;
     }
 
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
     @JsonProperty("path")
     public void setPath(String path) {
         this.path = path;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("jobStream")
     public String getJobStream() {
         return jobStream;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("jobStream")
     public void setJobStream(String jobStream) {
         this.jobStream = jobStream;

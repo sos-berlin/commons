@@ -41,6 +41,12 @@ public class InCondition {
      */
     @JsonProperty("id")
     private Long id;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("jobStream")
     private String jobStream;
     @JsonProperty("consumed")
@@ -94,11 +100,23 @@ public class InCondition {
         this.id = id;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("jobStream")
     public String getJobStream() {
         return jobStream;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("jobStream")
     public void setJobStream(String jobStream) {
         this.jobStream = jobStream;

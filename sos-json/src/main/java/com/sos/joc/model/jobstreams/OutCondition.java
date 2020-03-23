@@ -36,6 +36,12 @@ public class OutCondition {
      */
     @JsonProperty("id")
     private Long id;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("jobStream")
     private String jobStream;
     /**
@@ -74,11 +80,23 @@ public class OutCondition {
         this.id = id;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("jobStream")
     public String getJobStream() {
         return jobStream;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("jobStream")
     public void setJobStream(String jobStream) {
         this.jobStream = jobStream;

@@ -31,12 +31,18 @@ public class OutConditions {
      * delivery date
      * <p>
      * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
-     * (Required)
      * 
      */
     @JsonProperty("deliveryDate")
     @JsonPropertyDescription("Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
     private Date deliveryDate;
+    /**
+     * filename
+     * <p>
+     * 
+     * (Required)
+     * 
+     */
     @JsonProperty("jobschedulerId")
     private String jobschedulerId;
     @JsonProperty("jobsOutconditions")
@@ -46,7 +52,6 @@ public class OutConditions {
      * delivery date
      * <p>
      * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
-     * (Required)
      * 
      */
     @JsonProperty("deliveryDate")
@@ -58,7 +63,6 @@ public class OutConditions {
      * delivery date
      * <p>
      * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
-     * (Required)
      * 
      */
     @JsonProperty("deliveryDate")
@@ -66,11 +70,25 @@ public class OutConditions {
         this.deliveryDate = deliveryDate;
     }
 
+    /**
+     * filename
+     * <p>
+     * 
+     * (Required)
+     * 
+     */
     @JsonProperty("jobschedulerId")
     public String getJobschedulerId() {
         return jobschedulerId;
     }
 
+    /**
+     * filename
+     * <p>
+     * 
+     * (Required)
+     * 
+     */
     @JsonProperty("jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
         this.jobschedulerId = jobschedulerId;

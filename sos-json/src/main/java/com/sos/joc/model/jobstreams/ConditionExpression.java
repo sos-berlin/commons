@@ -26,8 +26,20 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 })
 public class ConditionExpression {
 
+    /**
+     * disallow <script and <svg/on
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("expression")
     private String expression;
+    /**
+     * disallow <script and <svg/on
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("validatedExpression")
     private String validatedExpression;
     @JsonProperty("value")
@@ -35,21 +47,45 @@ public class ConditionExpression {
     @JsonProperty("jobStreamEvents")
     private List<String> jobStreamEvents = new ArrayList<String>();
 
+    /**
+     * disallow <script and <svg/on
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("expression")
     public String getExpression() {
         return expression;
     }
 
+    /**
+     * disallow <script and <svg/on
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("expression")
     public void setExpression(String expression) {
         this.expression = expression;
     }
 
+    /**
+     * disallow <script and <svg/on
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("validatedExpression")
     public String getValidatedExpression() {
         return validatedExpression;
     }
 
+    /**
+     * disallow <script and <svg/on
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("validatedExpression")
     public void setValidatedExpression(String validatedExpression) {
         this.validatedExpression = validatedExpression;

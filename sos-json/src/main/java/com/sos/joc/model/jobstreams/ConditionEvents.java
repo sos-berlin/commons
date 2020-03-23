@@ -37,6 +37,12 @@ public class ConditionEvents {
     @JsonProperty("deliveryDate")
     @JsonPropertyDescription("Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
     private Date deliveryDate;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("session")
     private String session;
     /**
@@ -71,11 +77,23 @@ public class ConditionEvents {
         this.deliveryDate = deliveryDate;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("session")
     public String getSession() {
         return session;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("session")
     public void setSession(String session) {
         this.session = session;
