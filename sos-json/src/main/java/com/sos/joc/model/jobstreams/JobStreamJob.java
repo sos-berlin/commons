@@ -1,12 +1,9 @@
 
 package com.sos.joc.model.jobstreams;
 
-import java.util.ArrayList;
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.sos.joc.model.common.NameValuePair;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -22,8 +19,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "jobId",
     "job",
-    "startDelay",
-    "params"
+    "startDelay"
 })
 public class JobStreamJob {
 
@@ -51,14 +47,6 @@ public class JobStreamJob {
      */
     @JsonProperty("startDelay")
     private Long startDelay;
-    /**
-     * params or environment variables
-     * <p>
-     * 
-     * 
-     */
-    @JsonProperty("params")
-    private List<NameValuePair> params = new ArrayList<NameValuePair>();
 
     /**
      * non negative long
@@ -126,36 +114,14 @@ public class JobStreamJob {
         this.startDelay = startDelay;
     }
 
-    /**
-     * params or environment variables
-     * <p>
-     * 
-     * 
-     */
-    @JsonProperty("params")
-    public List<NameValuePair> getParams() {
-        return params;
-    }
-
-    /**
-     * params or environment variables
-     * <p>
-     * 
-     * 
-     */
-    @JsonProperty("params")
-    public void setParams(List<NameValuePair> params) {
-        this.params = params;
-    }
-
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobId", jobId).append("job", job).append("startDelay", startDelay).append("params", params).toString();
+        return new ToStringBuilder(this).append("jobId", jobId).append("job", job).append("startDelay", startDelay).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobId).append(startDelay).append(job).append(params).toHashCode();
+        return new HashCodeBuilder().append(jobId).append(startDelay).append(job).toHashCode();
     }
 
     @Override
@@ -167,7 +133,7 @@ public class JobStreamJob {
             return false;
         }
         JobStreamJob rhs = ((JobStreamJob) other);
-        return new EqualsBuilder().append(jobId, rhs.jobId).append(startDelay, rhs.startDelay).append(job, rhs.job).append(params, rhs.params).isEquals();
+        return new EqualsBuilder().append(jobId, rhs.jobId).append(startDelay, rhs.startDelay).append(job, rhs.job).isEquals();
     }
 
 }
