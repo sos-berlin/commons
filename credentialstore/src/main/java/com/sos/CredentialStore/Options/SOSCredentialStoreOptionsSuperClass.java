@@ -5,7 +5,6 @@ import java.util.HashMap;
 import com.sos.JSHelper.Annotations.JSOptionClass;
 import com.sos.JSHelper.Annotations.JSOptionDefinition;
 import com.sos.JSHelper.Exceptions.JSExceptionMandatoryOptionMissing;
-import com.sos.JSHelper.Listener.JSListener;
 import com.sos.JSHelper.Options.JSOptionsClass;
 import com.sos.JSHelper.Options.SOSOptionBoolean;
 import com.sos.JSHelper.Options.SOSOptionInFileName;
@@ -193,11 +192,6 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
         objParentClass = this.getClass();
     }
 
-    public SOSCredentialStoreOptionsSuperClass(final JSListener listener) {
-        this();
-        this.registerMessageListener(listener);
-    }
-
     public SOSCredentialStoreOptionsSuperClass(final HashMap<String, String> settings) throws Exception {
         this();
         this.setAllOptions(settings);
@@ -205,9 +199,9 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
 
     @Override
     public void setAllOptions(final HashMap<String, String> settings) {
-        objSettings = settings;
+        // objSettings = settings;
         super.setSettings(objSettings);
-        super.setAllOptions(settings);
+        // super.setAllOptions(settings);
     }
 
     @Override
