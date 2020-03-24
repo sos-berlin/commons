@@ -54,7 +54,11 @@ public class RuntimeResolver {
             if (z2 == null) {
                 z2 = o2.getBegin();
             }
-            return z1.compareTo(z2);
+            int c = z1.compareTo(z2);
+            if (c == 0) {
+                return 1;
+            }
+            return c;
         }
     });
     private SortedSet<String> holidays = new TreeSet<String>();
@@ -288,7 +292,7 @@ public class RuntimeResolver {
             return p;
         }
         if (periodElem.hasAttribute("absolute_repeat")) {
-            p.setRepeat(periodElem.getAttribute("absolute_repeat"));
+            p.setAbsoluteRepeat(periodElem.getAttribute("absolute_repeat"));
             return p;
         }
         return p;
