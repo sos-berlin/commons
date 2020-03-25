@@ -198,10 +198,8 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
     }
 
     @Override
-    public void setAllOptions(final HashMap<String, String> settings) {
-        // objSettings = settings;
-        super.setSettings(objSettings);
-        // super.setAllOptions(settings);
+    public void setAllOptions(HashMap<String, String> settings) {
+        super.setAllOptions(settings);
     }
 
     @Override
