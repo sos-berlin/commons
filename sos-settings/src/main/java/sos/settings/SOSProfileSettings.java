@@ -69,9 +69,9 @@ public class SOSProfileSettings extends sos.settings.SOSSettings {
                 }
             }
 
-            if (LOGGER.isDebugEnabled()) {
+            if (LOGGER.isTraceEnabled()) {
                 // SOSClassUtil.printStackTrace(true);
-                LOGGER.debug(SOSClassUtil.getMethodName() + ": profile [" + source + "] successfully loaded.");
+                LOGGER.trace(SOSClassUtil.getMethodName() + ": profile [" + source + "] successfully loaded.");
             }
         } catch (Exception e) {
             throw new Exception(SOSClassUtil.getMethodName() + ": " + e.toString());
