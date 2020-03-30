@@ -22,6 +22,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "deliveryDate",
     "jobschedulerId",
     "job",
+    "folder",
     "jobStream",
     "status",
     "limit"
@@ -55,6 +56,15 @@ public class JobStreamsFilter {
     @JsonProperty("job")
     @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
     private String job;
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
+    @JsonProperty("folder")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
+    private String folder;
     /**
      * string without < and >
      * <p>
@@ -143,6 +153,28 @@ public class JobStreamsFilter {
     }
 
     /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
+    @JsonProperty("folder")
+    public String getFolder() {
+        return folder;
+    }
+
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
+    @JsonProperty("folder")
+    public void setFolder(String folder) {
+        this.folder = folder;
+    }
+
+    /**
      * string without < and >
      * <p>
      * 
@@ -198,12 +230,12 @@ public class JobStreamsFilter {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("jobschedulerId", jobschedulerId).append("job", job).append("jobStream", jobStream).append("status", status).append("limit", limit).toString();
+        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("jobschedulerId", jobschedulerId).append("job", job).append("folder", folder).append("jobStream", jobStream).append("status", status).append("limit", limit).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobStream).append(limit).append(deliveryDate).append(jobschedulerId).append(job).append(status).toHashCode();
+        return new HashCodeBuilder().append(folder).append(jobStream).append(limit).append(deliveryDate).append(jobschedulerId).append(job).append(status).toHashCode();
     }
 
     @Override
@@ -215,7 +247,7 @@ public class JobStreamsFilter {
             return false;
         }
         JobStreamsFilter rhs = ((JobStreamsFilter) other);
-        return new EqualsBuilder().append(jobStream, rhs.jobStream).append(limit, rhs.limit).append(deliveryDate, rhs.deliveryDate).append(jobschedulerId, rhs.jobschedulerId).append(job, rhs.job).append(status, rhs.status).isEquals();
+        return new EqualsBuilder().append(folder, rhs.folder).append(jobStream, rhs.jobStream).append(limit, rhs.limit).append(deliveryDate, rhs.deliveryDate).append(jobschedulerId, rhs.jobschedulerId).append(job, rhs.job).append(status, rhs.status).isEquals();
     }
 
 }

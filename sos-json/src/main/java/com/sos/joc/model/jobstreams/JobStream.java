@@ -25,6 +25,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "jobschedulerId",
     "id",
     "jobStream",
+    "folder",
     "state",
     "jobstreamStarters"
 })
@@ -64,6 +65,14 @@ public class JobStream {
      */
     @JsonProperty("jobStream")
     private String jobStream;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("folder")
+    private String folder;
     /**
      * string without < and >
      * <p>
@@ -171,6 +180,28 @@ public class JobStream {
      * 
      * 
      */
+    @JsonProperty("folder")
+    public String getFolder() {
+        return folder;
+    }
+
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("folder")
+    public void setFolder(String folder) {
+        this.folder = folder;
+    }
+
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("state")
     public String getState() {
         return state;
@@ -199,12 +230,12 @@ public class JobStream {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("jobschedulerId", jobschedulerId).append("id", id).append("jobStream", jobStream).append("state", state).append("jobstreamStarters", jobstreamStarters).toString();
+        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("jobschedulerId", jobschedulerId).append("id", id).append("jobStream", jobStream).append("folder", folder).append("state", state).append("jobstreamStarters", jobstreamStarters).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobStream).append(jobstreamStarters).append(id).append(state).append(deliveryDate).append(jobschedulerId).toHashCode();
+        return new HashCodeBuilder().append(folder).append(jobStream).append(jobstreamStarters).append(id).append(state).append(deliveryDate).append(jobschedulerId).toHashCode();
     }
 
     @Override
@@ -216,7 +247,7 @@ public class JobStream {
             return false;
         }
         JobStream rhs = ((JobStream) other);
-        return new EqualsBuilder().append(jobStream, rhs.jobStream).append(jobstreamStarters, rhs.jobstreamStarters).append(id, rhs.id).append(state, rhs.state).append(deliveryDate, rhs.deliveryDate).append(jobschedulerId, rhs.jobschedulerId).isEquals();
+        return new EqualsBuilder().append(folder, rhs.folder).append(jobStream, rhs.jobStream).append(jobstreamStarters, rhs.jobstreamStarters).append(id, rhs.id).append(state, rhs.state).append(deliveryDate, rhs.deliveryDate).append(jobschedulerId, rhs.jobschedulerId).isEquals();
     }
 
 }

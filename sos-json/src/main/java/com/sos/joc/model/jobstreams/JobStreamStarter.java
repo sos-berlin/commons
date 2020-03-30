@@ -23,6 +23,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "state",
     "jobStreamStarterId",
+    "title",
     "jobs",
     "runTime",
     "params"
@@ -45,6 +46,14 @@ public class JobStreamStarter {
      */
     @JsonProperty("jobStreamStarterId")
     private Long jobStreamStarterId;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("title")
+    private String title;
     @JsonProperty("jobs")
     private List<JobStreamJob> jobs = new ArrayList<JobStreamJob>();
     /**
@@ -108,6 +117,28 @@ public class JobStreamStarter {
         this.jobStreamStarterId = jobStreamStarterId;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("title")
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("title")
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     @JsonProperty("jobs")
     public List<JobStreamJob> getJobs() {
         return jobs;
@@ -164,12 +195,12 @@ public class JobStreamStarter {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("state", state).append("jobStreamStarterId", jobStreamStarterId).append("jobs", jobs).append("runTime", runTime).append("params", params).toString();
+        return new ToStringBuilder(this).append("state", state).append("jobStreamStarterId", jobStreamStarterId).append("title", title).append("jobs", jobs).append("runTime", runTime).append("params", params).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobStreamStarterId).append(state).append(runTime).append(params).append(jobs).toHashCode();
+        return new HashCodeBuilder().append(jobs).append(jobStreamStarterId).append(state).append(runTime).append(title).append(params).toHashCode();
     }
 
     @Override
@@ -181,7 +212,7 @@ public class JobStreamStarter {
             return false;
         }
         JobStreamStarter rhs = ((JobStreamStarter) other);
-        return new EqualsBuilder().append(jobStreamStarterId, rhs.jobStreamStarterId).append(state, rhs.state).append(runTime, rhs.runTime).append(params, rhs.params).append(jobs, rhs.jobs).isEquals();
+        return new EqualsBuilder().append(jobs, rhs.jobs).append(jobStreamStarterId, rhs.jobStreamStarterId).append(state, rhs.state).append(runTime, rhs.runTime).append(title, rhs.title).append(params, rhs.params).isEquals();
     }
 
 }
