@@ -28,13 +28,13 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class OutConditions {
 
     /**
-     * delivery date
+     * date time
      * <p>
-     * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
+     * Date time. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * 
      */
     @JsonProperty("deliveryDate")
-    @JsonPropertyDescription("Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
+    @JsonPropertyDescription("Date time. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
     private Date deliveryDate;
     /**
      * filename
@@ -49,9 +49,9 @@ public class OutConditions {
     private List<JobOutCondition> jobsOutconditions = new ArrayList<JobOutCondition>();
 
     /**
-     * delivery date
+     * date time
      * <p>
-     * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
+     * Date time. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * 
      */
     @JsonProperty("deliveryDate")
@@ -60,9 +60,9 @@ public class OutConditions {
     }
 
     /**
-     * delivery date
+     * date time
      * <p>
-     * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
+     * Date time. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * 
      */
     @JsonProperty("deliveryDate")

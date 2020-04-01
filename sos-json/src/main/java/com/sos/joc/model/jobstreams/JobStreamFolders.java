@@ -29,13 +29,13 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class JobStreamFolders {
 
     /**
-     * delivery date
+     * date time
      * <p>
-     * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
+     * Date time. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * 
      */
     @JsonProperty("deliveryDate")
-    @JsonPropertyDescription("Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
+    @JsonPropertyDescription("Date time. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
     private Date deliveryDate;
     /**
      * filename
@@ -57,9 +57,9 @@ public class JobStreamFolders {
     private List<Folders2Jobstream> jobStreams = new ArrayList<Folders2Jobstream>();
 
     /**
-     * delivery date
+     * date time
      * <p>
-     * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
+     * Date time. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * 
      */
     @JsonProperty("deliveryDate")
@@ -68,9 +68,9 @@ public class JobStreamFolders {
     }
 
     /**
-     * delivery date
+     * date time
      * <p>
-     * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
+     * Date time. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * 
      */
     @JsonProperty("deliveryDate")

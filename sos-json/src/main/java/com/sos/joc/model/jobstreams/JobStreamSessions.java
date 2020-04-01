@@ -14,7 +14,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * jobStreams
+ * jobStreamSessions
  * <p>
  * List of all jobStreams and their folders
  * 
@@ -22,9 +22,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "deliveryDate",
-    "jobstreams"
+    "jobstreamSessions"
 })
-public class JobStreams {
+public class JobStreamSessions {
 
     /**
      * date time
@@ -35,8 +35,8 @@ public class JobStreams {
     @JsonProperty("deliveryDate")
     @JsonPropertyDescription("Date time. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
     private Date deliveryDate;
-    @JsonProperty("jobstreams")
-    private List<JobStream> jobstreams = new ArrayList<JobStream>();
+    @JsonProperty("jobstreamSessions")
+    private List<JobStreamSesssion> jobstreamSessions = new ArrayList<JobStreamSesssion>();
 
     /**
      * date time
@@ -60,24 +60,24 @@ public class JobStreams {
         this.deliveryDate = deliveryDate;
     }
 
-    @JsonProperty("jobstreams")
-    public List<JobStream> getJobstreams() {
-        return jobstreams;
+    @JsonProperty("jobstreamSessions")
+    public List<JobStreamSesssion> getJobstreamSessions() {
+        return jobstreamSessions;
     }
 
-    @JsonProperty("jobstreams")
-    public void setJobstreams(List<JobStream> jobstreams) {
-        this.jobstreams = jobstreams;
+    @JsonProperty("jobstreamSessions")
+    public void setJobstreamSessions(List<JobStreamSesssion> jobstreamSessions) {
+        this.jobstreamSessions = jobstreamSessions;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("jobstreams", jobstreams).toString();
+        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("jobstreamSessions", jobstreamSessions).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(deliveryDate).append(jobstreams).toHashCode();
+        return new HashCodeBuilder().append(deliveryDate).append(jobstreamSessions).toHashCode();
     }
 
     @Override
@@ -85,11 +85,11 @@ public class JobStreams {
         if (other == this) {
             return true;
         }
-        if ((other instanceof JobStreams) == false) {
+        if ((other instanceof JobStreamSessions) == false) {
             return false;
         }
-        JobStreams rhs = ((JobStreams) other);
-        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(jobstreams, rhs.jobstreams).isEquals();
+        JobStreamSessions rhs = ((JobStreamSessions) other);
+        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(jobstreamSessions, rhs.jobstreamSessions).isEquals();
     }
 
 }

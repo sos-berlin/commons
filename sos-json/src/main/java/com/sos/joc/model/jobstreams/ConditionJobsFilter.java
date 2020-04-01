@@ -22,7 +22,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "jobschedulerId",
     "jobs",
-    "context"
+    "session"
 })
 public class ConditionJobsFilter {
 
@@ -43,8 +43,8 @@ public class ConditionJobsFilter {
      * 
      * 
      */
-    @JsonProperty("context")
-    private String context;
+    @JsonProperty("session")
+    private String session;
 
     /**
      * filename
@@ -86,9 +86,9 @@ public class ConditionJobsFilter {
      * 
      * 
      */
-    @JsonProperty("context")
-    public String getContext() {
-        return context;
+    @JsonProperty("session")
+    public String getSession() {
+        return session;
     }
 
     /**
@@ -97,19 +97,19 @@ public class ConditionJobsFilter {
      * 
      * 
      */
-    @JsonProperty("context")
-    public void setContext(String context) {
-        this.context = context;
+    @JsonProperty("session")
+    public void setSession(String session) {
+        this.session = session;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("jobs", jobs).append("context", context).toString();
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("jobs", jobs).append("session", session).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(context).append(jobschedulerId).append(jobs).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(session).append(jobs).toHashCode();
     }
 
     @Override
@@ -121,7 +121,7 @@ public class ConditionJobsFilter {
             return false;
         }
         ConditionJobsFilter rhs = ((ConditionJobsFilter) other);
-        return new EqualsBuilder().append(context, rhs.context).append(jobschedulerId, rhs.jobschedulerId).append(jobs, rhs.jobs).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(session, rhs.session).append(jobs, rhs.jobs).isEquals();
     }
 
 }

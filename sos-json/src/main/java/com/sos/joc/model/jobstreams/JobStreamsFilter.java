@@ -22,6 +22,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "deliveryDate",
     "jobschedulerId",
     "job",
+    "session",
     "folder",
     "jobStream",
     "status",
@@ -30,13 +31,13 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class JobStreamsFilter {
 
     /**
-     * delivery date
+     * date time
      * <p>
-     * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
+     * Date time. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * 
      */
     @JsonProperty("deliveryDate")
-    @JsonPropertyDescription("Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
+    @JsonPropertyDescription("Date time. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
     private Date deliveryDate;
     /**
      * filename
@@ -56,6 +57,14 @@ public class JobStreamsFilter {
     @JsonProperty("job")
     @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
     private String job;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("session")
+    private String session;
     /**
      * path
      * <p>
@@ -85,9 +94,9 @@ public class JobStreamsFilter {
     private Integer limit = 10000;
 
     /**
-     * delivery date
+     * date time
      * <p>
-     * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
+     * Date time. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * 
      */
     @JsonProperty("deliveryDate")
@@ -96,9 +105,9 @@ public class JobStreamsFilter {
     }
 
     /**
-     * delivery date
+     * date time
      * <p>
-     * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
+     * Date time. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * 
      */
     @JsonProperty("deliveryDate")
@@ -150,6 +159,28 @@ public class JobStreamsFilter {
     @JsonProperty("job")
     public void setJob(String job) {
         this.job = job;
+    }
+
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("session")
+    public String getSession() {
+        return session;
+    }
+
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("session")
+    public void setSession(String session) {
+        this.session = session;
     }
 
     /**
@@ -230,12 +261,12 @@ public class JobStreamsFilter {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("jobschedulerId", jobschedulerId).append("job", job).append("folder", folder).append("jobStream", jobStream).append("status", status).append("limit", limit).toString();
+        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("jobschedulerId", jobschedulerId).append("job", job).append("session", session).append("folder", folder).append("jobStream", jobStream).append("status", status).append("limit", limit).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(folder).append(jobStream).append(limit).append(deliveryDate).append(jobschedulerId).append(job).append(status).toHashCode();
+        return new HashCodeBuilder().append(folder).append(session).append(jobStream).append(limit).append(deliveryDate).append(jobschedulerId).append(job).append(status).toHashCode();
     }
 
     @Override
@@ -247,7 +278,7 @@ public class JobStreamsFilter {
             return false;
         }
         JobStreamsFilter rhs = ((JobStreamsFilter) other);
-        return new EqualsBuilder().append(folder, rhs.folder).append(jobStream, rhs.jobStream).append(limit, rhs.limit).append(deliveryDate, rhs.deliveryDate).append(jobschedulerId, rhs.jobschedulerId).append(job, rhs.job).append(status, rhs.status).isEquals();
+        return new EqualsBuilder().append(folder, rhs.folder).append(session, rhs.session).append(jobStream, rhs.jobStream).append(limit, rhs.limit).append(deliveryDate, rhs.deliveryDate).append(jobschedulerId, rhs.jobschedulerId).append(job, rhs.job).append(status, rhs.status).isEquals();
     }
 
 }
