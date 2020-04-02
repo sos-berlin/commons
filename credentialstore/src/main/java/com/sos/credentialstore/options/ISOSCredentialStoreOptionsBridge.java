@@ -1,4 +1,4 @@
-package com.sos.CredentialStore.Options;
+package com.sos.credentialstore.options;
 
 import com.sos.JSHelper.Options.SOSOptionAuthenticationMethod;
 import com.sos.JSHelper.Options.SOSOptionHostName;

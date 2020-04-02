@@ -1,4 +1,4 @@
-package com.sos.CredentialStore.Options;
+package com.sos.credentialstore.options;
 
 import com.sos.JSHelper.Options.SOSOptionBoolean;
 import com.sos.JSHelper.Options.SOSOptionInFileName;

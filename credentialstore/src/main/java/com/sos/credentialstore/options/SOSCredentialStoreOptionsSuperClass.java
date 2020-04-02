@@ -1,4 +1,4 @@
-package com.sos.CredentialStore.Options;
+package com.sos.credentialstore.options;
 
 import java.util.HashMap;
 
