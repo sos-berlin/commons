@@ -1,6 +1,7 @@
 
 package com.sos.joc.model.joe.schedule;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
@@ -53,6 +54,7 @@ public class Schedule
      * 
      */
     @JsonProperty("substitute")
+    @JsonAlias({"substitute", "path" })
     @JsonPropertyDescription("path to another schedule")
     @JacksonXmlProperty(localName = "substitute", isAttribute = true)
     private String substitute;
