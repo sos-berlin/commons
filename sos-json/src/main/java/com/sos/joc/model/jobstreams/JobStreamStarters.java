@@ -23,7 +23,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "deliveryDate",
     "jobschedulerId",
-    "jobStream",
+    "jobStreamId",
     "jobstreamStarters"
 })
 public class JobStreamStarters {
@@ -52,8 +52,8 @@ public class JobStreamStarters {
      * 
      * 
      */
-    @JsonProperty("jobStream")
-    private Long jobStream;
+    @JsonProperty("jobStreamId")
+    private Long jobStreamId;
     @JsonProperty("jobstreamStarters")
     private List<JobStreamStarter> jobstreamStarters = new ArrayList<JobStreamStarter>();
 
@@ -109,9 +109,9 @@ public class JobStreamStarters {
      * 
      * 
      */
-    @JsonProperty("jobStream")
-    public Long getJobStream() {
-        return jobStream;
+    @JsonProperty("jobStreamId")
+    public Long getJobStreamId() {
+        return jobStreamId;
     }
 
     /**
@@ -120,9 +120,9 @@ public class JobStreamStarters {
      * 
      * 
      */
-    @JsonProperty("jobStream")
-    public void setJobStream(Long jobStream) {
-        this.jobStream = jobStream;
+    @JsonProperty("jobStreamId")
+    public void setJobStreamId(Long jobStreamId) {
+        this.jobStreamId = jobStreamId;
     }
 
     @JsonProperty("jobstreamStarters")
@@ -137,12 +137,12 @@ public class JobStreamStarters {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("jobschedulerId", jobschedulerId).append("jobStream", jobStream).append("jobstreamStarters", jobstreamStarters).toString();
+        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("jobschedulerId", jobschedulerId).append("jobStreamId", jobStreamId).append("jobstreamStarters", jobstreamStarters).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobStream).append(jobstreamStarters).append(deliveryDate).append(jobschedulerId).toHashCode();
+        return new HashCodeBuilder().append(jobstreamStarters).append(deliveryDate).append(jobschedulerId).append(jobStreamId).toHashCode();
     }
 
     @Override
@@ -154,7 +154,7 @@ public class JobStreamStarters {
             return false;
         }
         JobStreamStarters rhs = ((JobStreamStarters) other);
-        return new EqualsBuilder().append(jobStream, rhs.jobStream).append(jobstreamStarters, rhs.jobstreamStarters).append(deliveryDate, rhs.deliveryDate).append(jobschedulerId, rhs.jobschedulerId).isEquals();
+        return new EqualsBuilder().append(jobstreamStarters, rhs.jobstreamStarters).append(deliveryDate, rhs.deliveryDate).append(jobschedulerId, rhs.jobschedulerId).append(jobStreamId, rhs.jobStreamId).isEquals();
     }
 
 }
