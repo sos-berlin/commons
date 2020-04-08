@@ -189,7 +189,7 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
     }
 
     public SOSCredentialStoreOptionsSuperClass() {
-        objParentClass = this.getClass();
+        currentClass = this.getClass();
     }
 
     public SOSCredentialStoreOptionsSuperClass(final HashMap<String, String> settings) throws Exception {
