@@ -54,7 +54,6 @@ public class Schedule
      * 
      */
     @JsonProperty("substitute")
-    @JsonAlias({"substitute", "path"})
     @JsonPropertyDescription("path to another schedule")
     @JacksonXmlProperty(localName = "substitute", isAttribute = true)
     private String substitute;
