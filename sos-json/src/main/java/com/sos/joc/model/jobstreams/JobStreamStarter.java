@@ -2,9 +2,11 @@
 package com.sos.joc.model.jobstreams;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.sos.joc.model.common.NameValuePair;
 import com.sos.joc.model.joe.schedule.RunTime;
@@ -56,13 +58,14 @@ public class JobStreamStarter {
     @JsonProperty("title")
     private String title;
     /**
-     * string without < and >
+     * timestamp
      * <p>
-     * 
+     * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
      */
     @JsonProperty("nextStart")
-    private String nextStart;
+    @JsonPropertyDescription("Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty")
+    private Date nextStart;
     @JsonProperty("jobs")
     private List<JobStreamJob> jobs = new ArrayList<JobStreamJob>();
     /**
@@ -149,24 +152,24 @@ public class JobStreamStarter {
     }
 
     /**
-     * string without < and >
+     * timestamp
      * <p>
-     * 
+     * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
      */
     @JsonProperty("nextStart")
-    public String getNextStart() {
+    public Date getNextStart() {
         return nextStart;
     }
 
     /**
-     * string without < and >
+     * timestamp
      * <p>
-     * 
+     * Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty
      * 
      */
     @JsonProperty("nextStart")
-    public void setNextStart(String nextStart) {
+    public void setNextStart(Date nextStart) {
         this.nextStart = nextStart;
     }
 
