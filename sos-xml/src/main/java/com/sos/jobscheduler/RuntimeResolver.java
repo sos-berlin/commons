@@ -223,7 +223,7 @@ public class RuntimeResolver {
     private Calendar getCalendarFromString(String cal) throws SOSInvalidDataException {
         if (cal != null && !cal.isEmpty()) {
             if (!cal.matches("^\\d{4}-\\d{2}-\\d{2}$")) {
-                throw new SOSInvalidDataException("dates must have the format YYYY-MM-DD.");
+                throw new SOSInvalidDataException("date " + cal + " must have the format YYYY-MM-DD.");
             }
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(Date.from(Instant.parse(cal + "T00:00:00Z")));
