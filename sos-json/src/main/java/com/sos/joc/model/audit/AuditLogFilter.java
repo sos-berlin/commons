@@ -7,8 +7,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.sos.joc.model.common.Folder;
 import com.sos.joc.model.job.JobPath;
 import com.sos.joc.model.order.OrderPath;
@@ -31,6 +29,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "calendars",
     "folders",
     "account",
+    "requests",
     "regex",
     "dateFrom",
     "dateTo",
@@ -41,24 +40,19 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class AuditLogFilter {
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 
      */
     @JsonProperty("jobschedulerId")
-    @JacksonXmlProperty(localName = "jobschedulerId")
     private String jobschedulerId;
     @JsonProperty("jobs")
-    @JacksonXmlProperty(localName = "job")
-    @JacksonXmlElementWrapper(useWrapping = true, localName = "jobs")
     private List<JobPath> jobs = new ArrayList<JobPath>();
     @JsonProperty("orders")
-    @JacksonXmlProperty(localName = "order")
-    @JacksonXmlElementWrapper(useWrapping = true, localName = "orders")
     private List<OrderPath> orders = new ArrayList<OrderPath>();
     @JsonProperty("calendars")
-    @JacksonXmlProperty(localName = "calendar")
-    @JacksonXmlElementWrapper(useWrapping = true, localName = "calendars")
     private List<String> calendars = new ArrayList<String>();
     /**
      * folders
@@ -67,12 +61,17 @@ public class AuditLogFilter {
      * 
      */
     @JsonProperty("folders")
-    @JacksonXmlProperty(localName = "folder")
-    @JacksonXmlElementWrapper(useWrapping = true, localName = "folders")
     private List<Folder> folders = new ArrayList<Folder>();
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("account")
-    @JacksonXmlProperty(localName = "account")
     private String account;
+    @JsonProperty("requests")
+    private List<String> requests = new ArrayList<String>();
     /**
      * filter with regex
      * <p>
@@ -81,21 +80,32 @@ public class AuditLogFilter {
      */
     @JsonProperty("regex")
     @JsonPropertyDescription("regular expression to filter JobScheduler objects by matching the path")
-    @JacksonXmlProperty(localName = "regex")
     private String regex;
+    /**
+     * string for dateFrom and dateTo as search filter
+     * <p>
+     *  0 or [number][smhdwMy] (where smhdwMy unit for second, minute, etc) or ISO 8601 timestamp
+     * 
+     */
     @JsonProperty("dateFrom")
-    @JacksonXmlProperty(localName = "dateFrom")
+    @JsonPropertyDescription("0 or [number][smhdwMy] (where smhdwMy unit for second, minute, etc) or ISO 8601 timestamp")
     private String dateFrom;
+    /**
+     * string for dateFrom and dateTo as search filter
+     * <p>
+     *  0 or [number][smhdwMy] (where smhdwMy unit for second, minute, etc) or ISO 8601 timestamp
+     * 
+     */
     @JsonProperty("dateTo")
-    @JacksonXmlProperty(localName = "dateTo")
+    @JsonPropertyDescription("0 or [number][smhdwMy] (where smhdwMy unit for second, minute, etc) or ISO 8601 timestamp")
     private String dateTo;
     /**
-     * see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+     * string without < and >
+     * <p>
+     * 
      * 
      */
     @JsonProperty("timeZone")
-    @JsonPropertyDescription("see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones")
-    @JacksonXmlProperty(localName = "timeZone")
     private String timeZone;
     /**
      * restricts the number of responsed records; -1=unlimited
@@ -103,66 +113,66 @@ public class AuditLogFilter {
      */
     @JsonProperty("limit")
     @JsonPropertyDescription("restricts the number of responsed records; -1=unlimited")
-    @JacksonXmlProperty(localName = "limit")
     private Integer limit = 10000;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("ticketLink")
-    @JacksonXmlProperty(localName = "ticketLink")
     private String ticketLink;
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 
      */
     @JsonProperty("jobschedulerId")
-    @JacksonXmlProperty(localName = "jobschedulerId")
     public String getJobschedulerId() {
         return jobschedulerId;
     }
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 
      */
     @JsonProperty("jobschedulerId")
-    @JacksonXmlProperty(localName = "jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
         this.jobschedulerId = jobschedulerId;
     }
 
     @JsonProperty("jobs")
-    @JacksonXmlProperty(localName = "job")
     public List<JobPath> getJobs() {
         return jobs;
     }
 
     @JsonProperty("jobs")
-    @JacksonXmlProperty(localName = "job")
     public void setJobs(List<JobPath> jobs) {
         this.jobs = jobs;
     }
 
     @JsonProperty("orders")
-    @JacksonXmlProperty(localName = "order")
     public List<OrderPath> getOrders() {
         return orders;
     }
 
     @JsonProperty("orders")
-    @JacksonXmlProperty(localName = "order")
     public void setOrders(List<OrderPath> orders) {
         this.orders = orders;
     }
 
     @JsonProperty("calendars")
-    @JacksonXmlProperty(localName = "calendar")
     public List<String> getCalendars() {
         return calendars;
     }
 
     @JsonProperty("calendars")
-    @JacksonXmlProperty(localName = "calendar")
     public void setCalendars(List<String> calendars) {
         this.calendars = calendars;
     }
@@ -174,7 +184,6 @@ public class AuditLogFilter {
      * 
      */
     @JsonProperty("folders")
-    @JacksonXmlProperty(localName = "folder")
     public List<Folder> getFolders() {
         return folders;
     }
@@ -186,21 +195,40 @@ public class AuditLogFilter {
      * 
      */
     @JsonProperty("folders")
-    @JacksonXmlProperty(localName = "folder")
     public void setFolders(List<Folder> folders) {
         this.folders = folders;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("account")
-    @JacksonXmlProperty(localName = "account")
     public String getAccount() {
         return account;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("account")
-    @JacksonXmlProperty(localName = "account")
     public void setAccount(String account) {
         this.account = account;
+    }
+
+    @JsonProperty("requests")
+    public List<String> getRequests() {
+        return requests;
+    }
+
+    @JsonProperty("requests")
+    public void setRequests(List<String> requests) {
+        this.requests = requests;
     }
 
     /**
@@ -210,7 +238,6 @@ public class AuditLogFilter {
      * 
      */
     @JsonProperty("regex")
-    @JacksonXmlProperty(localName = "regex")
     public String getRegex() {
         return regex;
     }
@@ -222,51 +249,72 @@ public class AuditLogFilter {
      * 
      */
     @JsonProperty("regex")
-    @JacksonXmlProperty(localName = "regex")
     public void setRegex(String regex) {
         this.regex = regex;
     }
 
+    /**
+     * string for dateFrom and dateTo as search filter
+     * <p>
+     *  0 or [number][smhdwMy] (where smhdwMy unit for second, minute, etc) or ISO 8601 timestamp
+     * 
+     */
     @JsonProperty("dateFrom")
-    @JacksonXmlProperty(localName = "dateFrom")
     public String getDateFrom() {
         return dateFrom;
     }
 
+    /**
+     * string for dateFrom and dateTo as search filter
+     * <p>
+     *  0 or [number][smhdwMy] (where smhdwMy unit for second, minute, etc) or ISO 8601 timestamp
+     * 
+     */
     @JsonProperty("dateFrom")
-    @JacksonXmlProperty(localName = "dateFrom")
     public void setDateFrom(String dateFrom) {
         this.dateFrom = dateFrom;
     }
 
+    /**
+     * string for dateFrom and dateTo as search filter
+     * <p>
+     *  0 or [number][smhdwMy] (where smhdwMy unit for second, minute, etc) or ISO 8601 timestamp
+     * 
+     */
     @JsonProperty("dateTo")
-    @JacksonXmlProperty(localName = "dateTo")
     public String getDateTo() {
         return dateTo;
     }
 
+    /**
+     * string for dateFrom and dateTo as search filter
+     * <p>
+     *  0 or [number][smhdwMy] (where smhdwMy unit for second, minute, etc) or ISO 8601 timestamp
+     * 
+     */
     @JsonProperty("dateTo")
-    @JacksonXmlProperty(localName = "dateTo")
     public void setDateTo(String dateTo) {
         this.dateTo = dateTo;
     }
 
     /**
-     * see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+     * string without < and >
+     * <p>
+     * 
      * 
      */
     @JsonProperty("timeZone")
-    @JacksonXmlProperty(localName = "timeZone")
     public String getTimeZone() {
         return timeZone;
     }
 
     /**
-     * see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+     * string without < and >
+     * <p>
+     * 
      * 
      */
     @JsonProperty("timeZone")
-    @JacksonXmlProperty(localName = "timeZone")
     public void setTimeZone(String timeZone) {
         this.timeZone = timeZone;
     }
@@ -276,7 +324,6 @@ public class AuditLogFilter {
      * 
      */
     @JsonProperty("limit")
-    @JacksonXmlProperty(localName = "limit")
     public Integer getLimit() {
         return limit;
     }
@@ -286,31 +333,40 @@ public class AuditLogFilter {
      * 
      */
     @JsonProperty("limit")
-    @JacksonXmlProperty(localName = "limit")
     public void setLimit(Integer limit) {
         this.limit = limit;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("ticketLink")
-    @JacksonXmlProperty(localName = "ticketLink")
     public String getTicketLink() {
         return ticketLink;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("ticketLink")
-    @JacksonXmlProperty(localName = "ticketLink")
     public void setTicketLink(String ticketLink) {
         this.ticketLink = ticketLink;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("jobs", jobs).append("orders", orders).append("calendars", calendars).append("folders", folders).append("account", account).append("regex", regex).append("dateFrom", dateFrom).append("dateTo", dateTo).append("timeZone", timeZone).append("limit", limit).append("ticketLink", ticketLink).toString();
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("jobs", jobs).append("orders", orders).append("calendars", calendars).append("folders", folders).append("account", account).append("requests", requests).append("regex", regex).append("dateFrom", dateFrom).append("dateTo", dateTo).append("timeZone", timeZone).append("limit", limit).append("ticketLink", ticketLink).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(folders).append(jobs).append(timeZone).append(dateFrom).append(ticketLink).append(regex).append(calendars).append(dateTo).append(limit).append(orders).append(jobschedulerId).append(account).toHashCode();
+        return new HashCodeBuilder().append(folders).append(jobs).append(timeZone).append(requests).append(dateFrom).append(ticketLink).append(regex).append(calendars).append(dateTo).append(limit).append(orders).append(jobschedulerId).append(account).toHashCode();
     }
 
     @Override
@@ -322,7 +378,7 @@ public class AuditLogFilter {
             return false;
         }
         AuditLogFilter rhs = ((AuditLogFilter) other);
-        return new EqualsBuilder().append(folders, rhs.folders).append(jobs, rhs.jobs).append(timeZone, rhs.timeZone).append(dateFrom, rhs.dateFrom).append(ticketLink, rhs.ticketLink).append(regex, rhs.regex).append(calendars, rhs.calendars).append(dateTo, rhs.dateTo).append(limit, rhs.limit).append(orders, rhs.orders).append(jobschedulerId, rhs.jobschedulerId).append(account, rhs.account).isEquals();
+        return new EqualsBuilder().append(folders, rhs.folders).append(jobs, rhs.jobs).append(timeZone, rhs.timeZone).append(requests, rhs.requests).append(dateFrom, rhs.dateFrom).append(ticketLink, rhs.ticketLink).append(regex, rhs.regex).append(calendars, rhs.calendars).append(dateTo, rhs.dateTo).append(limit, rhs.limit).append(orders, rhs.orders).append(jobschedulerId, rhs.jobschedulerId).append(account, rhs.account).isEquals();
     }
 
 }
