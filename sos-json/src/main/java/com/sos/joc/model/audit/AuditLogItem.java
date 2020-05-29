@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -36,12 +35,13 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class AuditLogItem {
 
     /**
+     * string without < and >
+     * <p>
      * 
      * (Required)
      * 
      */
     @JsonProperty("account")
-    @JacksonXmlProperty(localName = "account")
     private String account;
     /**
      * 
@@ -49,7 +49,6 @@ public class AuditLogItem {
      * 
      */
     @JsonProperty("request")
-    @JacksonXmlProperty(localName = "request")
     private String request;
     /**
      * timestamp
@@ -60,13 +59,22 @@ public class AuditLogItem {
      */
     @JsonProperty("created")
     @JsonPropertyDescription("Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty")
-    @JacksonXmlProperty(localName = "created")
     private Date created;
+    /**
+     * filename
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("jobschedulerId")
-    @JacksonXmlProperty(localName = "jobschedulerId")
     private String jobschedulerId;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("comment")
-    @JacksonXmlProperty(localName = "comment")
     private String comment;
     /**
      * JSON object as string, parameter of request
@@ -74,19 +82,38 @@ public class AuditLogItem {
      */
     @JsonProperty("parameters")
     @JsonPropertyDescription("JSON object as string, parameter of request")
-    @JacksonXmlProperty(localName = "parameters")
     private String parameters;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("job")
-    @JacksonXmlProperty(localName = "job")
     private String job;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("jobChain")
-    @JacksonXmlProperty(localName = "jobChain")
     private String jobChain;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("orderId")
-    @JacksonXmlProperty(localName = "orderId")
     private String orderId;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("calendar")
-    @JacksonXmlProperty(localName = "calendar")
     private String calendar;
     /**
      * non negative integer
@@ -95,30 +122,36 @@ public class AuditLogItem {
      * 
      */
     @JsonProperty("timeSpent")
-    @JacksonXmlProperty(localName = "timeSpent")
     private Integer timeSpent;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("ticketLink")
-    @JacksonXmlProperty(localName = "ticketLink")
     private String ticketLink;
 
     /**
+     * string without < and >
+     * <p>
      * 
      * (Required)
      * 
      */
     @JsonProperty("account")
-    @JacksonXmlProperty(localName = "account")
     public String getAccount() {
         return account;
     }
 
     /**
+     * string without < and >
+     * <p>
      * 
      * (Required)
      * 
      */
     @JsonProperty("account")
-    @JacksonXmlProperty(localName = "account")
     public void setAccount(String account) {
         this.account = account;
     }
@@ -129,7 +162,6 @@ public class AuditLogItem {
      * 
      */
     @JsonProperty("request")
-    @JacksonXmlProperty(localName = "request")
     public String getRequest() {
         return request;
     }
@@ -140,7 +172,6 @@ public class AuditLogItem {
      * 
      */
     @JsonProperty("request")
-    @JacksonXmlProperty(localName = "request")
     public void setRequest(String request) {
         this.request = request;
     }
@@ -153,7 +184,6 @@ public class AuditLogItem {
      * 
      */
     @JsonProperty("created")
-    @JacksonXmlProperty(localName = "created")
     public Date getCreated() {
         return created;
     }
@@ -166,31 +196,50 @@ public class AuditLogItem {
      * 
      */
     @JsonProperty("created")
-    @JacksonXmlProperty(localName = "created")
     public void setCreated(Date created) {
         this.created = created;
     }
 
+    /**
+     * filename
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("jobschedulerId")
-    @JacksonXmlProperty(localName = "jobschedulerId")
     public String getJobschedulerId() {
         return jobschedulerId;
     }
 
+    /**
+     * filename
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("jobschedulerId")
-    @JacksonXmlProperty(localName = "jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
         this.jobschedulerId = jobschedulerId;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("comment")
-    @JacksonXmlProperty(localName = "comment")
     public String getComment() {
         return comment;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("comment")
-    @JacksonXmlProperty(localName = "comment")
     public void setComment(String comment) {
         this.comment = comment;
     }
@@ -200,7 +249,6 @@ public class AuditLogItem {
      * 
      */
     @JsonProperty("parameters")
-    @JacksonXmlProperty(localName = "parameters")
     public String getParameters() {
         return parameters;
     }
@@ -210,55 +258,94 @@ public class AuditLogItem {
      * 
      */
     @JsonProperty("parameters")
-    @JacksonXmlProperty(localName = "parameters")
     public void setParameters(String parameters) {
         this.parameters = parameters;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("job")
-    @JacksonXmlProperty(localName = "job")
     public String getJob() {
         return job;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("job")
-    @JacksonXmlProperty(localName = "job")
     public void setJob(String job) {
         this.job = job;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("jobChain")
-    @JacksonXmlProperty(localName = "jobChain")
     public String getJobChain() {
         return jobChain;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("jobChain")
-    @JacksonXmlProperty(localName = "jobChain")
     public void setJobChain(String jobChain) {
         this.jobChain = jobChain;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("orderId")
-    @JacksonXmlProperty(localName = "orderId")
     public String getOrderId() {
         return orderId;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("orderId")
-    @JacksonXmlProperty(localName = "orderId")
     public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("calendar")
-    @JacksonXmlProperty(localName = "calendar")
     public String getCalendar() {
         return calendar;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("calendar")
-    @JacksonXmlProperty(localName = "calendar")
     public void setCalendar(String calendar) {
         this.calendar = calendar;
     }
@@ -270,7 +357,6 @@ public class AuditLogItem {
      * 
      */
     @JsonProperty("timeSpent")
-    @JacksonXmlProperty(localName = "timeSpent")
     public Integer getTimeSpent() {
         return timeSpent;
     }
@@ -282,19 +368,28 @@ public class AuditLogItem {
      * 
      */
     @JsonProperty("timeSpent")
-    @JacksonXmlProperty(localName = "timeSpent")
     public void setTimeSpent(Integer timeSpent) {
         this.timeSpent = timeSpent;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("ticketLink")
-    @JacksonXmlProperty(localName = "ticketLink")
     public String getTicketLink() {
         return ticketLink;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("ticketLink")
-    @JacksonXmlProperty(localName = "ticketLink")
     public void setTicketLink(String ticketLink) {
         this.ticketLink = ticketLink;
     }

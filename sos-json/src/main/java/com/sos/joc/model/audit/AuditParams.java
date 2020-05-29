@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -16,7 +17,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  * 
  */
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JacksonXmlRootElement(localName = "audit_params")
 @JsonPropertyOrder({
     "comment",
     "timeSpent",
@@ -24,8 +26,14 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 })
 public class AuditParams {
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("comment")
-    @JacksonXmlProperty(localName = "comment")
+    @JacksonXmlProperty(localName = "comment", isAttribute = true)
     private String comment;
     /**
      * non negative integer
@@ -34,20 +42,38 @@ public class AuditParams {
      * 
      */
     @JsonProperty("timeSpent")
-    @JacksonXmlProperty(localName = "timeSpent")
+    @JacksonXmlProperty(localName = "time_spent", isAttribute = true)
     private Integer timeSpent;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("ticketLink")
-    @JacksonXmlProperty(localName = "ticketLink")
+    @JacksonXmlProperty(localName = "ticket_link", isAttribute = true)
     private String ticketLink;
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("comment")
-    @JacksonXmlProperty(localName = "comment")
+    @JacksonXmlProperty(localName = "comment", isAttribute = true)
     public String getComment() {
         return comment;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("comment")
-    @JacksonXmlProperty(localName = "comment")
+    @JacksonXmlProperty(localName = "comment", isAttribute = true)
     public void setComment(String comment) {
         this.comment = comment;
     }
@@ -59,7 +85,7 @@ public class AuditParams {
      * 
      */
     @JsonProperty("timeSpent")
-    @JacksonXmlProperty(localName = "timeSpent")
+    @JacksonXmlProperty(localName = "time_spent", isAttribute = true)
     public Integer getTimeSpent() {
         return timeSpent;
     }
@@ -71,19 +97,31 @@ public class AuditParams {
      * 
      */
     @JsonProperty("timeSpent")
-    @JacksonXmlProperty(localName = "timeSpent")
+    @JacksonXmlProperty(localName = "time_spent", isAttribute = true)
     public void setTimeSpent(Integer timeSpent) {
         this.timeSpent = timeSpent;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("ticketLink")
-    @JacksonXmlProperty(localName = "ticketLink")
+    @JacksonXmlProperty(localName = "ticket_link", isAttribute = true)
     public String getTicketLink() {
         return ticketLink;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("ticketLink")
-    @JacksonXmlProperty(localName = "ticketLink")
+    @JacksonXmlProperty(localName = "ticket_link", isAttribute = true)
     public void setTicketLink(String ticketLink) {
         this.ticketLink = ticketLink;
     }
