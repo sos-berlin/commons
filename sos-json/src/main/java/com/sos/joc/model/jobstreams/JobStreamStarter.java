@@ -27,6 +27,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "jobStreamStarterId",
     "title",
     "nextStart",
+    "endOfJobStream",
+    "requiredJob",
     "jobs",
     "runTime",
     "params"
@@ -66,6 +68,24 @@ public class JobStreamStarter {
     @JsonProperty("nextStart")
     @JsonPropertyDescription("Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ or empty")
     private Date nextStart;
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
+    @JsonProperty("endOfJobStream")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
+    private String endOfJobStream;
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
+    @JsonProperty("requiredJob")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
+    private String requiredJob;
     @JsonProperty("jobs")
     private List<JobStreamJob> jobs = new ArrayList<JobStreamJob>();
     /**
@@ -173,6 +193,50 @@ public class JobStreamStarter {
         this.nextStart = nextStart;
     }
 
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
+    @JsonProperty("endOfJobStream")
+    public String getEndOfJobStream() {
+        return endOfJobStream;
+    }
+
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
+    @JsonProperty("endOfJobStream")
+    public void setEndOfJobStream(String endOfJobStream) {
+        this.endOfJobStream = endOfJobStream;
+    }
+
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
+    @JsonProperty("requiredJob")
+    public String getRequiredJob() {
+        return requiredJob;
+    }
+
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
+    @JsonProperty("requiredJob")
+    public void setRequiredJob(String requiredJob) {
+        this.requiredJob = requiredJob;
+    }
+
     @JsonProperty("jobs")
     public List<JobStreamJob> getJobs() {
         return jobs;
@@ -229,12 +293,12 @@ public class JobStreamStarter {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("state", state).append("jobStreamStarterId", jobStreamStarterId).append("title", title).append("nextStart", nextStart).append("jobs", jobs).append("runTime", runTime).append("params", params).toString();
+        return new ToStringBuilder(this).append("state", state).append("jobStreamStarterId", jobStreamStarterId).append("title", title).append("nextStart", nextStart).append("endOfJobStream", endOfJobStream).append("requiredJob", requiredJob).append("jobs", jobs).append("runTime", runTime).append("params", params).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobs).append(jobStreamStarterId).append(state).append(nextStart).append(runTime).append(title).append(params).toHashCode();
+        return new HashCodeBuilder().append(endOfJobStream).append(jobs).append(jobStreamStarterId).append(requiredJob).append(state).append(nextStart).append(runTime).append(title).append(params).toHashCode();
     }
 
     @Override
@@ -246,7 +310,7 @@ public class JobStreamStarter {
             return false;
         }
         JobStreamStarter rhs = ((JobStreamStarter) other);
-        return new EqualsBuilder().append(jobs, rhs.jobs).append(jobStreamStarterId, rhs.jobStreamStarterId).append(state, rhs.state).append(nextStart, rhs.nextStart).append(runTime, rhs.runTime).append(title, rhs.title).append(params, rhs.params).isEquals();
+        return new EqualsBuilder().append(endOfJobStream, rhs.endOfJobStream).append(jobs, rhs.jobs).append(jobStreamStarterId, rhs.jobStreamStarterId).append(requiredJob, rhs.requiredJob).append(state, rhs.state).append(nextStart, rhs.nextStart).append(runTime, rhs.runTime).append(title, rhs.title).append(params, rhs.params).isEquals();
     }
 
 }
