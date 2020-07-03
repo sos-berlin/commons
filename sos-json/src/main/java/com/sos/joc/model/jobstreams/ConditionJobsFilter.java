@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.sos.joc.model.job.JobPath;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -21,6 +22,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "jobschedulerId",
+    "folder",
     "jobs",
     "session"
 })
@@ -35,6 +37,15 @@ public class ConditionJobsFilter {
      */
     @JsonProperty("jobschedulerId")
     private String jobschedulerId;
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
+    @JsonProperty("folder")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
+    private String folder;
     @JsonProperty("jobs")
     private List<JobPath> jobs = new ArrayList<JobPath>();
     /**
@@ -68,6 +79,28 @@ public class ConditionJobsFilter {
     @JsonProperty("jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
         this.jobschedulerId = jobschedulerId;
+    }
+
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
+    @JsonProperty("folder")
+    public String getFolder() {
+        return folder;
+    }
+
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
+    @JsonProperty("folder")
+    public void setFolder(String folder) {
+        this.folder = folder;
     }
 
     @JsonProperty("jobs")
@@ -104,12 +137,12 @@ public class ConditionJobsFilter {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("jobs", jobs).append("session", session).toString();
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("folder", folder).append("jobs", jobs).append("session", session).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(session).append(jobs).toHashCode();
+        return new HashCodeBuilder().append(folder).append(jobschedulerId).append(session).append(jobs).toHashCode();
     }
 
     @Override
@@ -121,7 +154,7 @@ public class ConditionJobsFilter {
             return false;
         }
         ConditionJobsFilter rhs = ((ConditionJobsFilter) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(session, rhs.session).append(jobs, rhs.jobs).isEquals();
+        return new EqualsBuilder().append(folder, rhs.folder).append(jobschedulerId, rhs.jobschedulerId).append(session, rhs.session).append(jobs, rhs.jobs).isEquals();
     }
 
 }
