@@ -1,9 +1,11 @@
 
 package com.sos.joc.model.joe.jobchain;
 
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.sos.joc.model.joe.order.ReturnCodeAddOrder;
@@ -16,7 +18,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "returnCode",
     "toState",
-    "addOrder"
+    "addOrders"
 })
 public class OnReturnCode {
 
@@ -31,15 +33,10 @@ public class OnReturnCode {
     @JsonProperty("toState")
     @JacksonXmlProperty(localName = "to_state", isAttribute = false)
     private ToState toState;
-    /**
-     * add order in return code
-     * <p>
-     * 
-     * 
-     */
-    @JsonProperty("addOrder")
+    @JsonProperty("addOrders")
+    @JacksonXmlElementWrapper(useWrapping = false)
     @JacksonXmlProperty(localName = "add_order", isAttribute = false)
-    private ReturnCodeAddOrder addOrder;
+    private List<ReturnCodeAddOrder> addOrders = null;
 
     /**
      * 
@@ -75,38 +72,26 @@ public class OnReturnCode {
         this.toState = toState;
     }
 
-    /**
-     * add order in return code
-     * <p>
-     * 
-     * 
-     */
-    @JsonProperty("addOrder")
+    @JsonProperty("addOrders")
     @JacksonXmlProperty(localName = "add_order", isAttribute = false)
-    public ReturnCodeAddOrder getAddOrder() {
-        return addOrder;
+    public List<ReturnCodeAddOrder> getAddOrders() {
+        return addOrders;
     }
 
-    /**
-     * add order in return code
-     * <p>
-     * 
-     * 
-     */
-    @JsonProperty("addOrder")
+    @JsonProperty("addOrders")
     @JacksonXmlProperty(localName = "add_order", isAttribute = false)
-    public void setAddOrder(ReturnCodeAddOrder addOrder) {
-        this.addOrder = addOrder;
+    public void setAddOrders(List<ReturnCodeAddOrder> addOrders) {
+        this.addOrders = addOrders;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("returnCode", returnCode).append("toState", toState).append("addOrder", addOrder).toString();
+        return new ToStringBuilder(this).append("returnCode", returnCode).append("toState", toState).append("addOrders", addOrders).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(returnCode).append(addOrder).append(toState).toHashCode();
+        return new HashCodeBuilder().append(returnCode).append(addOrders).append(toState).toHashCode();
     }
 
     @Override
@@ -118,7 +103,7 @@ public class OnReturnCode {
             return false;
         }
         OnReturnCode rhs = ((OnReturnCode) other);
-        return new EqualsBuilder().append(returnCode, rhs.returnCode).append(addOrder, rhs.addOrder).append(toState, rhs.toState).isEquals();
+        return new EqualsBuilder().append(returnCode, rhs.returnCode).append(addOrders, rhs.addOrders).append(toState, rhs.toState).isEquals();
     }
 
 }
