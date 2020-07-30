@@ -379,12 +379,12 @@ public class RuntimeResolver {
         return getCalendarDatesFrom(curObject, today);
     }
 
-    @SuppressWarnings("unchecked")
     private static TreeSet<RuntimeCalendar> getCalendarDatesFrom(org.dom4j.Element curObject, String from) {
-        List<org.dom4j.Element> dateList = curObject.selectNodes(".//date[@calendar]");
-        List<org.dom4j.Attribute> holidayList = curObject.selectNodes(".//holiday[@calendar]/@calendar");
+        List<org.dom4j.Node> dateList = curObject.selectNodes(".//date[@calendar]");
+        List<org.dom4j.Node> holidayList = curObject.selectNodes(".//holiday[@calendar]/@calendar");
         Map<String, RuntimeCalendar> calendars = new HashMap<String, RuntimeCalendar>();
-        for (org.dom4j.Element dateElem : dateList) {
+        for (org.dom4j.Node dateNode : dateList) {
+            org.dom4j.Element dateElem = (org.dom4j.Element) dateNode;
             String calendarPath = dateElem.attributeValue("calendar");
             if (!calendars.containsKey(calendarPath)) {
                 RuntimeCalendar calendar = new RuntimeCalendar();
@@ -396,7 +396,7 @@ public class RuntimeResolver {
                 calendar.setPeriods(getCalendarPeriods(dateElem.selectNodes("period")));
             }
         }
-        for (org.dom4j.Attribute holidayNode : holidayList) {
+        for (org.dom4j.Node holidayNode : holidayList) {
             String calendarPath = holidayNode.getStringValue();
             if (!calendars.containsKey(calendarPath)) {
                 RuntimeCalendar calendar = new RuntimeCalendar();
@@ -421,9 +421,9 @@ public class RuntimeResolver {
         return dates;
     }
 
-    private static Set<String> getCalendarDatesFromToday(List<org.dom4j.Attribute> nodeList, String today) {
+    private static Set<String> getCalendarDatesFromToday(List<org.dom4j.Node> nodeList, String today) {
         SortedSet<String> dates = new TreeSet<String>();
-        for (org.dom4j.Attribute dateNode : nodeList) {
+        for (org.dom4j.Node dateNode : nodeList) {
             String date = dateNode.getStringValue();
             if (today.compareTo(date) < 1) {
                 dates.add(date);
@@ -458,9 +458,10 @@ public class RuntimeResolver {
         return periods;
     }
 
-    private static List<Period> getCalendarPeriods(List<org.dom4j.Element> nodeList) {
+    private static List<Period> getCalendarPeriods(List<org.dom4j.Node> nodeList) {
         List<Period> periods = new ArrayList<Period>();
-        for (org.dom4j.Element period : nodeList) {
+        for (org.dom4j.Node periodNode : nodeList) {
+            org.dom4j.Element period = (org.dom4j.Element) periodNode;
             Period p = new Period();
             p.setSingleStart(period.attributeValue("single_start"));
             p.setRepeat(period.attributeValue("repeat"));
@@ -563,7 +564,6 @@ public class RuntimeResolver {
         updateCalendarInRuntimes(new String(Files.readAllBytes(xmlFile)), writer, calendars);
     }
 
-    @SuppressWarnings("unchecked")
     public static void updateCalendarInRuntimes(org.dom4j.Document doc, Writer writer, Collection<RuntimeCalendar> calendars) throws IOException,
             DocumentException {
         XMLWriter xmlWriter = null;
