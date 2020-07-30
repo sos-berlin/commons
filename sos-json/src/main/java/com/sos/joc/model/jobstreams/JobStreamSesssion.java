@@ -22,6 +22,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "id",
+    "jobschedulerId",
     "jobStreamId",
     "jobStream",
     "session",
@@ -40,6 +41,15 @@ public class JobStreamSesssion {
      */
     @JsonProperty("id")
     private Long id;
+    /**
+     * filename
+     * <p>
+     * 
+     * (Required)
+     * 
+     */
+    @JsonProperty("jobschedulerId")
+    private String jobschedulerId;
     /**
      * non negative long
      * <p>
@@ -107,6 +117,30 @@ public class JobStreamSesssion {
     @JsonProperty("id")
     public void setId(Long id) {
         this.id = id;
+    }
+
+    /**
+     * filename
+     * <p>
+     * 
+     * (Required)
+     * 
+     */
+    @JsonProperty("jobschedulerId")
+    public String getJobschedulerId() {
+        return jobschedulerId;
+    }
+
+    /**
+     * filename
+     * <p>
+     * 
+     * (Required)
+     * 
+     */
+    @JsonProperty("jobschedulerId")
+    public void setJobschedulerId(String jobschedulerId) {
+        this.jobschedulerId = jobschedulerId;
     }
 
     /**
@@ -241,12 +275,12 @@ public class JobStreamSesssion {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("id", id).append("jobStreamId", jobStreamId).append("jobStream", jobStream).append("session", session).append("running", running).append("started", started).append("ended", ended).append("jobstreamTasks", jobstreamTasks).toString();
+        return new ToStringBuilder(this).append("id", id).append("jobschedulerId", jobschedulerId).append("jobStreamId", jobStreamId).append("jobStream", jobStream).append("session", session).append("running", running).append("started", started).append("ended", ended).append("jobstreamTasks", jobstreamTasks).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(running).append(jobstreamTasks).append(session).append(jobStream).append(ended).append(started).append(id).append(jobStreamId).toHashCode();
+        return new HashCodeBuilder().append(running).append(jobstreamTasks).append(session).append(jobStream).append(ended).append(started).append(id).append(jobschedulerId).append(jobStreamId).toHashCode();
     }
 
     @Override
@@ -258,7 +292,7 @@ public class JobStreamSesssion {
             return false;
         }
         JobStreamSesssion rhs = ((JobStreamSesssion) other);
-        return new EqualsBuilder().append(running, rhs.running).append(jobstreamTasks, rhs.jobstreamTasks).append(session, rhs.session).append(jobStream, rhs.jobStream).append(ended, rhs.ended).append(started, rhs.started).append(id, rhs.id).append(jobStreamId, rhs.jobStreamId).isEquals();
+        return new EqualsBuilder().append(running, rhs.running).append(jobstreamTasks, rhs.jobstreamTasks).append(session, rhs.session).append(jobStream, rhs.jobStream).append(ended, rhs.ended).append(started, rhs.started).append(id, rhs.id).append(jobschedulerId, rhs.jobschedulerId).append(jobStreamId, rhs.jobStreamId).isEquals();
     }
 
 }
