@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.sos.joc.model.audit.AuditParams;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -24,7 +25,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "deliveryDate",
     "jobschedulerId",
     "jobStreamId",
-    "jobstreamStarters"
+    "jobstreamStarters",
+    "auditLog"
 })
 public class JobStreamStarters {
 
@@ -56,6 +58,14 @@ public class JobStreamStarters {
     private Long jobStreamId;
     @JsonProperty("jobstreamStarters")
     private List<JobStreamStarter> jobstreamStarters = new ArrayList<JobStreamStarter>();
+    /**
+     * auditParams
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("auditLog")
+    private AuditParams auditLog;
 
     /**
      * date time
@@ -135,14 +145,36 @@ public class JobStreamStarters {
         this.jobstreamStarters = jobstreamStarters;
     }
 
+    /**
+     * auditParams
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("auditLog")
+    public AuditParams getAuditLog() {
+        return auditLog;
+    }
+
+    /**
+     * auditParams
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("auditLog")
+    public void setAuditLog(AuditParams auditLog) {
+        this.auditLog = auditLog;
+    }
+
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("jobschedulerId", jobschedulerId).append("jobStreamId", jobStreamId).append("jobstreamStarters", jobstreamStarters).toString();
+        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("jobschedulerId", jobschedulerId).append("jobStreamId", jobStreamId).append("jobstreamStarters", jobstreamStarters).append("auditLog", auditLog).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobstreamStarters).append(deliveryDate).append(jobschedulerId).append(jobStreamId).toHashCode();
+        return new HashCodeBuilder().append(jobstreamStarters).append(deliveryDate).append(jobschedulerId).append(auditLog).append(jobStreamId).toHashCode();
     }
 
     @Override
@@ -154,7 +186,7 @@ public class JobStreamStarters {
             return false;
         }
         JobStreamStarters rhs = ((JobStreamStarters) other);
-        return new EqualsBuilder().append(jobstreamStarters, rhs.jobstreamStarters).append(deliveryDate, rhs.deliveryDate).append(jobschedulerId, rhs.jobschedulerId).append(jobStreamId, rhs.jobStreamId).isEquals();
+        return new EqualsBuilder().append(jobstreamStarters, rhs.jobstreamStarters).append(deliveryDate, rhs.deliveryDate).append(jobschedulerId, rhs.jobschedulerId).append(auditLog, rhs.auditLog).append(jobStreamId, rhs.jobStreamId).isEquals();
     }
 
 }
