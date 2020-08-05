@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.sos.classes.Latin1ToUtf8;
 import com.sos.joc.model.common.NameValuePair;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -24,6 +23,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "job",
     "at",
+    "jobStream",
     "timeZone",
     "params",
     "environment"
@@ -50,11 +50,20 @@ public class StartJob {
     @JsonPropertyDescription("ISO format yyyy-mm-dd HH:MM[:SS] or now or now + HH:MM[:SS] or now + SECONDS")
     private String at;
     /**
-     * see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("jobStream")
+    private String jobStream;
+    /**
+     * string without < and >
+     * <p>
+     * 
      * 
      */
     @JsonProperty("timeZone")
-    @JsonPropertyDescription("see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones")
     private String timeZone;
     /**
      * params or environment variables
@@ -94,7 +103,7 @@ public class StartJob {
      */
     @JsonProperty("job")
     public void setJob(String job) {
-        this.job = Latin1ToUtf8.convert(job);
+        this.job = job;
     }
 
     /**
@@ -120,7 +129,31 @@ public class StartJob {
     }
 
     /**
-     * see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("jobStream")
+    public String getJobStream() {
+        return jobStream;
+    }
+
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("jobStream")
+    public void setJobStream(String jobStream) {
+        this.jobStream = jobStream;
+    }
+
+    /**
+     * string without < and >
+     * <p>
+     * 
      * 
      */
     @JsonProperty("timeZone")
@@ -129,7 +162,9 @@ public class StartJob {
     }
 
     /**
-     * see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+     * string without < and >
+     * <p>
+     * 
      * 
      */
     @JsonProperty("timeZone")
@@ -183,12 +218,12 @@ public class StartJob {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("job", job).append("at", at).append("timeZone", timeZone).append("params", params).append("environment", environment).toString();
+        return new ToStringBuilder(this).append("job", job).append("at", at).append("jobStream", jobStream).append("timeZone", timeZone).append("params", params).append("environment", environment).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(timeZone).append(environment).append(at).append(job).append(params).toHashCode();
+        return new HashCodeBuilder().append(environment).append(at).append(jobStream).append(timeZone).append(job).append(params).toHashCode();
     }
 
     @Override
@@ -200,7 +235,7 @@ public class StartJob {
             return false;
         }
         StartJob rhs = ((StartJob) other);
-        return new EqualsBuilder().append(timeZone, rhs.timeZone).append(environment, rhs.environment).append(at, rhs.at).append(job, rhs.job).append(params, rhs.params).isEquals();
+        return new EqualsBuilder().append(environment, rhs.environment).append(at, rhs.at).append(jobStream, rhs.jobStream).append(timeZone, rhs.timeZone).append(job, rhs.job).append(params, rhs.params).isEquals();
     }
 
 }

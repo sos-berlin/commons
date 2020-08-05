@@ -24,6 +24,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "jobschedulerId",
     "job",
+    "jobStream",
     "session",
     "at",
     "timeZone",
@@ -50,6 +51,15 @@ public class JobStreamStartJob {
     @JsonProperty("job")
     @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
     private String job;
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
+    @JsonProperty("jobStream")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
+    private String jobStream;
     /**
      * string without < and >
      * <p>
@@ -136,6 +146,28 @@ public class JobStreamStartJob {
     @JsonProperty("job")
     public void setJob(String job) {
         this.job = job;
+    }
+
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
+    @JsonProperty("jobStream")
+    public String getJobStream() {
+        return jobStream;
+    }
+
+    /**
+     * path
+     * <p>
+     * absolute path based on live folder of a JobScheduler object.
+     * 
+     */
+    @JsonProperty("jobStream")
+    public void setJobStream(String jobStream) {
+        this.jobStream = jobStream;
     }
 
     /**
@@ -250,12 +282,12 @@ public class JobStreamStartJob {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("job", job).append("session", session).append("at", at).append("timeZone", timeZone).append("params", params).append("auditLog", auditLog).toString();
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("job", job).append("jobStream", jobStream).append("session", session).append("at", at).append("timeZone", timeZone).append("params", params).append("auditLog", auditLog).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(at).append(auditLog).append(session).append(timeZone).append(jobschedulerId).append(job).append(params).toHashCode();
+        return new HashCodeBuilder().append(at).append(auditLog).append(session).append(jobStream).append(timeZone).append(jobschedulerId).append(job).append(params).toHashCode();
     }
 
     @Override
@@ -267,7 +299,7 @@ public class JobStreamStartJob {
             return false;
         }
         JobStreamStartJob rhs = ((JobStreamStartJob) other);
-        return new EqualsBuilder().append(at, rhs.at).append(auditLog, rhs.auditLog).append(session, rhs.session).append(timeZone, rhs.timeZone).append(jobschedulerId, rhs.jobschedulerId).append(job, rhs.job).append(params, rhs.params).isEquals();
+        return new EqualsBuilder().append(at, rhs.at).append(auditLog, rhs.auditLog).append(session, rhs.session).append(jobStream, rhs.jobStream).append(timeZone, rhs.timeZone).append(jobschedulerId, rhs.jobschedulerId).append(job, rhs.job).append(params, rhs.params).isEquals();
     }
 
 }

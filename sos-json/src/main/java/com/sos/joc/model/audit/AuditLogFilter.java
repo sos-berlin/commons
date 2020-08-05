@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.sos.joc.model.common.Folder;
+import com.sos.joc.model.jobstreams.JobStreamPath;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -23,6 +25,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "jobschedulerId",
     "jobs",
+    "jobStreams",
     "orders",
     "calendars",
     "folders",
@@ -48,6 +51,8 @@ public class AuditLogFilter {
     private String jobschedulerId;
     @JsonProperty("jobs")
     private List<JobPath> jobs = new ArrayList<JobPath>();
+    @JsonProperty("jobStreams")
+    private List<JobStreamPath> jobStreams = new ArrayList<JobStreamPath>();
     @JsonProperty("orders")
     private List<OrderPath> orders = new ArrayList<OrderPath>();
     @JsonProperty("calendars")
@@ -153,6 +158,16 @@ public class AuditLogFilter {
     @JsonProperty("jobs")
     public void setJobs(List<JobPath> jobs) {
         this.jobs = jobs;
+    }
+
+    @JsonProperty("jobStreams")
+    public List<JobStreamPath> getJobStreams() {
+        return jobStreams;
+    }
+
+    @JsonProperty("jobStreams")
+    public void setJobStreams(List<JobStreamPath> jobStreams) {
+        this.jobStreams = jobStreams;
     }
 
     @JsonProperty("orders")
@@ -359,12 +374,12 @@ public class AuditLogFilter {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("jobs", jobs).append("orders", orders).append("calendars", calendars).append("folders", folders).append("account", account).append("requests", requests).append("regex", regex).append("dateFrom", dateFrom).append("dateTo", dateTo).append("timeZone", timeZone).append("limit", limit).append("ticketLink", ticketLink).toString();
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("jobs", jobs).append("jobStreams", jobStreams).append("orders", orders).append("calendars", calendars).append("folders", folders).append("account", account).append("requests", requests).append("regex", regex).append("dateFrom", dateFrom).append("dateTo", dateTo).append("timeZone", timeZone).append("limit", limit).append("ticketLink", ticketLink).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(folders).append(jobs).append(timeZone).append(requests).append(dateFrom).append(ticketLink).append(regex).append(calendars).append(dateTo).append(limit).append(orders).append(jobschedulerId).append(account).toHashCode();
+        return new HashCodeBuilder().append(jobStreams).append(folders).append(jobs).append(timeZone).append(requests).append(dateFrom).append(ticketLink).append(regex).append(calendars).append(dateTo).append(limit).append(orders).append(jobschedulerId).append(account).toHashCode();
     }
 
     @Override
@@ -376,7 +391,7 @@ public class AuditLogFilter {
             return false;
         }
         AuditLogFilter rhs = ((AuditLogFilter) other);
-        return new EqualsBuilder().append(folders, rhs.folders).append(jobs, rhs.jobs).append(timeZone, rhs.timeZone).append(requests, rhs.requests).append(dateFrom, rhs.dateFrom).append(ticketLink, rhs.ticketLink).append(regex, rhs.regex).append(calendars, rhs.calendars).append(dateTo, rhs.dateTo).append(limit, rhs.limit).append(orders, rhs.orders).append(jobschedulerId, rhs.jobschedulerId).append(account, rhs.account).isEquals();
+        return new EqualsBuilder().append(jobStreams, rhs.jobStreams).append(folders, rhs.folders).append(jobs, rhs.jobs).append(timeZone, rhs.timeZone).append(requests, rhs.requests).append(dateFrom, rhs.dateFrom).append(ticketLink, rhs.ticketLink).append(regex, rhs.regex).append(calendars, rhs.calendars).append(dateTo, rhs.dateTo).append(limit, rhs.limit).append(orders, rhs.orders).append(jobschedulerId, rhs.jobschedulerId).append(account, rhs.account).isEquals();
     }
 
 }

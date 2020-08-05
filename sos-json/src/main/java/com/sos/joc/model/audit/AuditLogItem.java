@@ -27,6 +27,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "parameters",
     "job",
     "jobChain",
+    "jobStream",
     "orderId",
     "calendar",
     "timeSpent",
@@ -99,6 +100,14 @@ public class AuditLogItem {
      */
     @JsonProperty("jobChain")
     private String jobChain;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("jobStream")
+    private String jobStream;
     /**
      * string without < and >
      * <p>
@@ -312,6 +321,28 @@ public class AuditLogItem {
      * 
      * 
      */
+    @JsonProperty("jobStream")
+    public String getJobStream() {
+        return jobStream;
+    }
+
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("jobStream")
+    public void setJobStream(String jobStream) {
+        this.jobStream = jobStream;
+    }
+
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("orderId")
     public String getOrderId() {
         return orderId;
@@ -396,12 +427,12 @@ public class AuditLogItem {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("account", account).append("request", request).append("created", created).append("jobschedulerId", jobschedulerId).append("comment", comment).append("parameters", parameters).append("job", job).append("jobChain", jobChain).append("orderId", orderId).append("calendar", calendar).append("timeSpent", timeSpent).append("ticketLink", ticketLink).toString();
+        return new ToStringBuilder(this).append("account", account).append("request", request).append("created", created).append("jobschedulerId", jobschedulerId).append("comment", comment).append("parameters", parameters).append("job", job).append("jobChain", jobChain).append("jobStream", jobStream).append("orderId", orderId).append("calendar", calendar).append("timeSpent", timeSpent).append("ticketLink", ticketLink).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(calendar).append(request).append(orderId).append(timeSpent).append(created).append(jobChain).append(ticketLink).append(comment).append(jobschedulerId).append(job).append(parameters).append(account).toHashCode();
+        return new HashCodeBuilder().append(calendar).append(request).append(orderId).append(timeSpent).append(created).append(jobChain).append(jobStream).append(ticketLink).append(comment).append(jobschedulerId).append(job).append(parameters).append(account).toHashCode();
     }
 
     @Override
@@ -413,7 +444,7 @@ public class AuditLogItem {
             return false;
         }
         AuditLogItem rhs = ((AuditLogItem) other);
-        return new EqualsBuilder().append(calendar, rhs.calendar).append(request, rhs.request).append(orderId, rhs.orderId).append(timeSpent, rhs.timeSpent).append(created, rhs.created).append(jobChain, rhs.jobChain).append(ticketLink, rhs.ticketLink).append(comment, rhs.comment).append(jobschedulerId, rhs.jobschedulerId).append(job, rhs.job).append(parameters, rhs.parameters).append(account, rhs.account).isEquals();
+        return new EqualsBuilder().append(calendar, rhs.calendar).append(request, rhs.request).append(orderId, rhs.orderId).append(timeSpent, rhs.timeSpent).append(created, rhs.created).append(jobChain, rhs.jobChain).append(jobStream, rhs.jobStream).append(ticketLink, rhs.ticketLink).append(comment, rhs.comment).append(jobschedulerId, rhs.jobschedulerId).append(job, rhs.job).append(parameters, rhs.parameters).append(account, rhs.account).isEquals();
     }
 
 }
