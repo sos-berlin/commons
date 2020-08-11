@@ -76,6 +76,11 @@
     		<groupId>jaxen</groupId>
     		<artifactId>jaxen</artifactId>
 		</dependency>
+		
+		<dependency>
+            <groupId>org.dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+        </dependency>
 
     </dependencies>
 
