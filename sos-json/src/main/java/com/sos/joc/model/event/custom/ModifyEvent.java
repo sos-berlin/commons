@@ -3,9 +3,9 @@ package com.sos.joc.model.event.custom;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.sos.joc.model.audit.AuditParams;
 import com.sos.joc.model.common.NameValuePair;
@@ -21,7 +21,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Generated("org.jsonschema2pojo")
 @JsonPropertyOrder({
     "eventjobChain",
     "orderId",
@@ -31,6 +30,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "eventClass",
     "eventId",
     "exitCode",
+    "expiresTimezone",
     "expires",
     "expirationPeriod",
     "expirationCycle",
@@ -46,7 +46,14 @@ public class ModifyEvent {
      * 
      */
     @JsonProperty("eventjobChain")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
     private String eventjobChain;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("orderId")
     private String orderId;
     /**
@@ -56,6 +63,7 @@ public class ModifyEvent {
      * 
      */
     @JsonProperty("jobChain")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
     private String jobChain;
     /**
      * path
@@ -64,11 +72,30 @@ public class ModifyEvent {
      * 
      */
     @JsonProperty("job")
+    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
     private String job;
+    /**
+     * filename
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("jobschedulerId")
     private String jobschedulerId;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("eventClass")
     private String eventClass;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("eventId")
     private String eventId;
     /**
@@ -79,10 +106,36 @@ public class ModifyEvent {
      */
     @JsonProperty("exitCode")
     private Integer exitCode;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("expiresTimezone")
+    private String expiresTimezone;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("expires")
     private String expires;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("expirationPeriod")
     private String expirationPeriod;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("expirationCycle")
     private String expirationCycle;
     /**
@@ -107,8 +160,6 @@ public class ModifyEvent {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @return
-     *     The eventjobChain
      */
     @JsonProperty("eventjobChain")
     public String getEventjobChain() {
@@ -120,8 +171,6 @@ public class ModifyEvent {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @param eventjobChain
-     *     The eventjobChain
      */
     @JsonProperty("eventjobChain")
     public void setEventjobChain(String eventjobChain) {
@@ -129,9 +178,10 @@ public class ModifyEvent {
     }
 
     /**
+     * string without < and >
+     * <p>
      * 
-     * @return
-     *     The orderId
+     * 
      */
     @JsonProperty("orderId")
     public String getOrderId() {
@@ -139,9 +189,10 @@ public class ModifyEvent {
     }
 
     /**
+     * string without < and >
+     * <p>
      * 
-     * @param orderId
-     *     The orderId
+     * 
      */
     @JsonProperty("orderId")
     public void setOrderId(String orderId) {
@@ -153,8 +204,6 @@ public class ModifyEvent {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @return
-     *     The jobChain
      */
     @JsonProperty("jobChain")
     public String getJobChain() {
@@ -166,8 +215,6 @@ public class ModifyEvent {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @param jobChain
-     *     The jobChain
      */
     @JsonProperty("jobChain")
     public void setJobChain(String jobChain) {
@@ -179,8 +226,6 @@ public class ModifyEvent {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @return
-     *     The job
      */
     @JsonProperty("job")
     public String getJob() {
@@ -192,8 +237,6 @@ public class ModifyEvent {
      * <p>
      * absolute path based on live folder of a JobScheduler object.
      * 
-     * @param job
-     *     The job
      */
     @JsonProperty("job")
     public void setJob(String job) {
@@ -201,9 +244,10 @@ public class ModifyEvent {
     }
 
     /**
+     * filename
+     * <p>
      * 
-     * @return
-     *     The jobschedulerId
+     * 
      */
     @JsonProperty("jobschedulerId")
     public String getJobschedulerId() {
@@ -211,9 +255,10 @@ public class ModifyEvent {
     }
 
     /**
+     * filename
+     * <p>
      * 
-     * @param jobschedulerId
-     *     The jobschedulerId
+     * 
      */
     @JsonProperty("jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
@@ -221,9 +266,10 @@ public class ModifyEvent {
     }
 
     /**
+     * string without < and >
+     * <p>
      * 
-     * @return
-     *     The eventClass
+     * 
      */
     @JsonProperty("eventClass")
     public String getEventClass() {
@@ -231,9 +277,10 @@ public class ModifyEvent {
     }
 
     /**
+     * string without < and >
+     * <p>
      * 
-     * @param eventClass
-     *     The eventClass
+     * 
      */
     @JsonProperty("eventClass")
     public void setEventClass(String eventClass) {
@@ -241,9 +288,10 @@ public class ModifyEvent {
     }
 
     /**
+     * string without < and >
+     * <p>
      * 
-     * @return
-     *     The eventId
+     * 
      */
     @JsonProperty("eventId")
     public String getEventId() {
@@ -251,9 +299,10 @@ public class ModifyEvent {
     }
 
     /**
+     * string without < and >
+     * <p>
      * 
-     * @param eventId
-     *     The eventId
+     * 
      */
     @JsonProperty("eventId")
     public void setEventId(String eventId) {
@@ -265,8 +314,6 @@ public class ModifyEvent {
      * <p>
      * 
      * 
-     * @return
-     *     The exitCode
      */
     @JsonProperty("exitCode")
     public Integer getExitCode() {
@@ -278,8 +325,6 @@ public class ModifyEvent {
      * <p>
      * 
      * 
-     * @param exitCode
-     *     The exitCode
      */
     @JsonProperty("exitCode")
     public void setExitCode(Integer exitCode) {
@@ -287,9 +332,32 @@ public class ModifyEvent {
     }
 
     /**
+     * string without < and >
+     * <p>
      * 
-     * @return
-     *     The expires
+     * 
+     */
+    @JsonProperty("expiresTimezone")
+    public String getExpiresTimezone() {
+        return expiresTimezone;
+    }
+
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("expiresTimezone")
+    public void setExpiresTimezone(String expiresTimezone) {
+        this.expiresTimezone = expiresTimezone;
+    }
+
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
      */
     @JsonProperty("expires")
     public String getExpires() {
@@ -297,9 +365,10 @@ public class ModifyEvent {
     }
 
     /**
+     * string without < and >
+     * <p>
      * 
-     * @param expires
-     *     The expires
+     * 
      */
     @JsonProperty("expires")
     public void setExpires(String expires) {
@@ -307,9 +376,10 @@ public class ModifyEvent {
     }
 
     /**
+     * string without < and >
+     * <p>
      * 
-     * @return
-     *     The expirationPeriod
+     * 
      */
     @JsonProperty("expirationPeriod")
     public String getExpirationPeriod() {
@@ -317,9 +387,10 @@ public class ModifyEvent {
     }
 
     /**
+     * string without < and >
+     * <p>
      * 
-     * @param expirationPeriod
-     *     The expirationPeriod
+     * 
      */
     @JsonProperty("expirationPeriod")
     public void setExpirationPeriod(String expirationPeriod) {
@@ -327,9 +398,10 @@ public class ModifyEvent {
     }
 
     /**
+     * string without < and >
+     * <p>
      * 
-     * @return
-     *     The expirationCycle
+     * 
      */
     @JsonProperty("expirationCycle")
     public String getExpirationCycle() {
@@ -337,9 +409,10 @@ public class ModifyEvent {
     }
 
     /**
+     * string without < and >
+     * <p>
      * 
-     * @param expirationCycle
-     *     The expirationCycle
+     * 
      */
     @JsonProperty("expirationCycle")
     public void setExpirationCycle(String expirationCycle) {
@@ -351,8 +424,6 @@ public class ModifyEvent {
      * <p>
      * 
      * 
-     * @return
-     *     The params
      */
     @JsonProperty("params")
     public List<NameValuePair> getParams() {
@@ -364,8 +435,6 @@ public class ModifyEvent {
      * <p>
      * 
      * 
-     * @param params
-     *     The params
      */
     @JsonProperty("params")
     public void setParams(List<NameValuePair> params) {
@@ -377,8 +446,6 @@ public class ModifyEvent {
      * <p>
      * 
      * 
-     * @return
-     *     The auditLog
      */
     @JsonProperty("auditLog")
     public AuditParams getAuditLog() {
@@ -390,8 +457,6 @@ public class ModifyEvent {
      * <p>
      * 
      * 
-     * @param auditLog
-     *     The auditLog
      */
     @JsonProperty("auditLog")
     public void setAuditLog(AuditParams auditLog) {
@@ -400,12 +465,12 @@ public class ModifyEvent {
 
     @Override
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return new ToStringBuilder(this).append("eventjobChain", eventjobChain).append("orderId", orderId).append("jobChain", jobChain).append("job", job).append("jobschedulerId", jobschedulerId).append("eventClass", eventClass).append("eventId", eventId).append("exitCode", exitCode).append("expiresTimezone", expiresTimezone).append("expires", expires).append("expirationPeriod", expirationPeriod).append("expirationCycle", expirationCycle).append("params", params).append("auditLog", auditLog).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(eventjobChain).append(orderId).append(jobChain).append(job).append(jobschedulerId).append(eventClass).append(eventId).append(exitCode).append(expires).append(expirationPeriod).append(expirationCycle).append(params).append(auditLog).toHashCode();
+        return new HashCodeBuilder().append(eventId).append(expires).append(eventClass).append(auditLog).append(orderId).append(expirationCycle).append(jobChain).append(params).append(expirationPeriod).append(expiresTimezone).append(eventjobChain).append(exitCode).append(job).append(jobschedulerId).toHashCode();
     }
 
     @Override
@@ -417,7 +482,7 @@ public class ModifyEvent {
             return false;
         }
         ModifyEvent rhs = ((ModifyEvent) other);
-        return new EqualsBuilder().append(eventjobChain, rhs.eventjobChain).append(orderId, rhs.orderId).append(jobChain, rhs.jobChain).append(job, rhs.job).append(jobschedulerId, rhs.jobschedulerId).append(eventClass, rhs.eventClass).append(eventId, rhs.eventId).append(exitCode, rhs.exitCode).append(expires, rhs.expires).append(expirationPeriod, rhs.expirationPeriod).append(expirationCycle, rhs.expirationCycle).append(params, rhs.params).append(auditLog, rhs.auditLog).isEquals();
+        return new EqualsBuilder().append(eventId, rhs.eventId).append(expires, rhs.expires).append(eventClass, rhs.eventClass).append(auditLog, rhs.auditLog).append(orderId, rhs.orderId).append(expirationCycle, rhs.expirationCycle).append(jobChain, rhs.jobChain).append(params, rhs.params).append(expirationPeriod, rhs.expirationPeriod).append(expiresTimezone, rhs.expiresTimezone).append(eventjobChain, rhs.eventjobChain).append(exitCode, rhs.exitCode).append(job, rhs.job).append(jobschedulerId, rhs.jobschedulerId).isEquals();
     }
 
 }
