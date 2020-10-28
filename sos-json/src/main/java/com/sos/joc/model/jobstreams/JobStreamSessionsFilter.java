@@ -23,7 +23,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "jobStream",
     "jobStreamId",
     "jobStreamStarterId",
-    "status",
+    "state",
     "dateFrom",
     "dateTo",
     "timeZone",
@@ -78,8 +78,8 @@ public class JobStreamSessionsFilter {
      * 
      * 
      */
-    @JsonProperty("status")
-    private String status;
+    @JsonProperty("state")
+    private String state;
     /**
      * string for dateFrom and dateTo as search filter
      * <p>
@@ -227,9 +227,9 @@ public class JobStreamSessionsFilter {
      * 
      * 
      */
-    @JsonProperty("status")
-    public String getStatus() {
-        return status;
+    @JsonProperty("state")
+    public String getState() {
+        return state;
     }
 
     /**
@@ -238,9 +238,9 @@ public class JobStreamSessionsFilter {
      * 
      * 
      */
-    @JsonProperty("status")
-    public void setStatus(String status) {
-        this.status = status;
+    @JsonProperty("state")
+    public void setState(String state) {
+        this.state = state;
     }
 
     /**
@@ -321,12 +321,12 @@ public class JobStreamSessionsFilter {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("session", session).append("jobStream", jobStream).append("jobStreamId", jobStreamId).append("jobStreamStarterId", jobStreamStarterId).append("status", status).append("dateFrom", dateFrom).append("dateTo", dateTo).append("timeZone", timeZone).append("limit", limit).toString();
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("session", session).append("jobStream", jobStream).append("jobStreamId", jobStreamId).append("jobStreamStarterId", jobStreamStarterId).append("state", state).append("dateFrom", dateFrom).append("dateTo", dateTo).append("timeZone", timeZone).append("limit", limit).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(session).append(jobStream).append(dateTo).append(limit).append(jobStreamStarterId).append(timeZone).append(jobschedulerId).append(dateFrom).append(jobStreamId).append(status).toHashCode();
+        return new HashCodeBuilder().append(session).append(jobStream).append(dateTo).append(limit).append(jobStreamStarterId).append(timeZone).append(state).append(jobschedulerId).append(dateFrom).append(jobStreamId).toHashCode();
     }
 
     @Override
@@ -338,7 +338,7 @@ public class JobStreamSessionsFilter {
             return false;
         }
         JobStreamSessionsFilter rhs = ((JobStreamSessionsFilter) other);
-        return new EqualsBuilder().append(session, rhs.session).append(jobStream, rhs.jobStream).append(dateTo, rhs.dateTo).append(limit, rhs.limit).append(jobStreamStarterId, rhs.jobStreamStarterId).append(timeZone, rhs.timeZone).append(jobschedulerId, rhs.jobschedulerId).append(dateFrom, rhs.dateFrom).append(jobStreamId, rhs.jobStreamId).append(status, rhs.status).isEquals();
+        return new EqualsBuilder().append(session, rhs.session).append(jobStream, rhs.jobStream).append(dateTo, rhs.dateTo).append(limit, rhs.limit).append(jobStreamStarterId, rhs.jobStreamStarterId).append(timeZone, rhs.timeZone).append(state, rhs.state).append(jobschedulerId, rhs.jobschedulerId).append(dateFrom, rhs.dateFrom).append(jobStreamId, rhs.jobStreamId).isEquals();
     }
 
 }
