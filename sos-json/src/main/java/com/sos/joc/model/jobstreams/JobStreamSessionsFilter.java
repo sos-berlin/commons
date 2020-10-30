@@ -1,6 +1,8 @@
 
 package com.sos.joc.model.jobstreams;
 
+import java.util.ArrayList;
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
@@ -23,7 +25,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "jobStream",
     "jobStreamId",
     "jobStreamStarterId",
-    "state",
+    "status",
     "dateFrom",
     "dateTo",
     "timeZone",
@@ -40,14 +42,8 @@ public class JobStreamSessionsFilter {
      */
     @JsonProperty("jobschedulerId")
     private String jobschedulerId;
-    /**
-     * string without < and >
-     * <p>
-     * 
-     * 
-     */
     @JsonProperty("session")
-    private String session;
+    private List<String> session = new ArrayList<String>();
     /**
      * string without < and >
      * <p>
@@ -78,8 +74,8 @@ public class JobStreamSessionsFilter {
      * 
      * 
      */
-    @JsonProperty("state")
-    private String state;
+    @JsonProperty("status")
+    private String status;
     /**
      * string for dateFrom and dateTo as search filter
      * <p>
@@ -133,25 +129,13 @@ public class JobStreamSessionsFilter {
         this.jobschedulerId = jobschedulerId;
     }
 
-    /**
-     * string without < and >
-     * <p>
-     * 
-     * 
-     */
     @JsonProperty("session")
-    public String getSession() {
+    public List<String> getSession() {
         return session;
     }
 
-    /**
-     * string without < and >
-     * <p>
-     * 
-     * 
-     */
     @JsonProperty("session")
-    public void setSession(String session) {
+    public void setSession(List<String> session) {
         this.session = session;
     }
 
@@ -227,9 +211,9 @@ public class JobStreamSessionsFilter {
      * 
      * 
      */
-    @JsonProperty("state")
-    public String getState() {
-        return state;
+    @JsonProperty("status")
+    public String getStatus() {
+        return status;
     }
 
     /**
@@ -238,9 +222,9 @@ public class JobStreamSessionsFilter {
      * 
      * 
      */
-    @JsonProperty("state")
-    public void setState(String state) {
-        this.state = state;
+    @JsonProperty("status")
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     /**
@@ -321,12 +305,12 @@ public class JobStreamSessionsFilter {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("session", session).append("jobStream", jobStream).append("jobStreamId", jobStreamId).append("jobStreamStarterId", jobStreamStarterId).append("state", state).append("dateFrom", dateFrom).append("dateTo", dateTo).append("timeZone", timeZone).append("limit", limit).toString();
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("session", session).append("jobStream", jobStream).append("jobStreamId", jobStreamId).append("jobStreamStarterId", jobStreamStarterId).append("status", status).append("dateFrom", dateFrom).append("dateTo", dateTo).append("timeZone", timeZone).append("limit", limit).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(session).append(jobStream).append(dateTo).append(limit).append(jobStreamStarterId).append(timeZone).append(state).append(jobschedulerId).append(dateFrom).append(jobStreamId).toHashCode();
+        return new HashCodeBuilder().append(session).append(jobStream).append(dateTo).append(limit).append(jobStreamStarterId).append(timeZone).append(jobschedulerId).append(dateFrom).append(jobStreamId).append(status).toHashCode();
     }
 
     @Override
@@ -338,7 +322,7 @@ public class JobStreamSessionsFilter {
             return false;
         }
         JobStreamSessionsFilter rhs = ((JobStreamSessionsFilter) other);
-        return new EqualsBuilder().append(session, rhs.session).append(jobStream, rhs.jobStream).append(dateTo, rhs.dateTo).append(limit, rhs.limit).append(jobStreamStarterId, rhs.jobStreamStarterId).append(timeZone, rhs.timeZone).append(state, rhs.state).append(jobschedulerId, rhs.jobschedulerId).append(dateFrom, rhs.dateFrom).append(jobStreamId, rhs.jobStreamId).isEquals();
+        return new EqualsBuilder().append(session, rhs.session).append(jobStream, rhs.jobStream).append(dateTo, rhs.dateTo).append(limit, rhs.limit).append(jobStreamStarterId, rhs.jobStreamStarterId).append(timeZone, rhs.timeZone).append(jobschedulerId, rhs.jobschedulerId).append(dateFrom, rhs.dateFrom).append(jobStreamId, rhs.jobStreamId).append(status, rhs.status).isEquals();
     }
 
 }
