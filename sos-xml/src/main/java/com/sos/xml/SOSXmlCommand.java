@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
@@ -245,8 +246,13 @@ public class SOSXmlCommand {
             }
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/xml");
+            
+            if (urlParameters.indexOf("<?xml") < 0) {
+                urlParameters = "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>" + urlParameters;
+            }
+            byte[] body = urlParameters.getBytes(StandardCharsets.ISO_8859_1);
 
-            connection.setRequestProperty("Content-Length", Integer.toString(urlParameters.getBytes().length));
+            connection.setRequestProperty("Content-Length", Integer.toString(body.length));
             // connection.setRequestProperty("Content-Language", "en-US");
             connection.setRequestProperty("X-CSRF-Token", getCsrfToken(csrfToken));
 
@@ -257,7 +263,7 @@ public class SOSXmlCommand {
 
             // Send request
             DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
-            wr.writeBytes(urlParameters);
+            wr.write(body);
             wr.close();
             return connection;
         } catch (Exception e) {
