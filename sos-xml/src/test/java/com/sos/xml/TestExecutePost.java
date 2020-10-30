@@ -17,8 +17,8 @@ public class TestExecutePost {
     @Test
     public void testSosXmlCommand() throws Exception {
         try {
-            SOSXmlCommand sosXmlCommand= new SOSXmlCommand("http://galadriel:40412/jobscheduler/master/api/command"); 
-            String answer = sosXmlCommand.executeXMLPost("<subsystem.show what=\"statistics\"/>");
+            SOSXmlCommand sosXmlCommand= new SOSXmlCommand("http://galadriel:40413/jobscheduler/master/api/command"); 
+            String answer = sosXmlCommand.executeXMLPost("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><subsystem.show what=\"statistics\"/>");
             System.out.println(answer);
             SOSXMLXPath sosxml = new SOSXMLXPath(new StringBuffer(answer));
             Node n = sosxml.selectSingleNode("//subsystem[@name='job']//job.statistic[@job_state='pending']");
