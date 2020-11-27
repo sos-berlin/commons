@@ -24,6 +24,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "jobschedulerId",
     "folder",
     "jobs",
+    "compact",
     "session"
 })
 public class ConditionJobsFilter {
@@ -48,6 +49,8 @@ public class ConditionJobsFilter {
     private String folder;
     @JsonProperty("jobs")
     private List<JobPath> jobs = new ArrayList<JobPath>();
+    @JsonProperty("compact")
+    private Boolean compact;
     /**
      * string without < and >
      * <p>
@@ -113,6 +116,16 @@ public class ConditionJobsFilter {
         this.jobs = jobs;
     }
 
+    @JsonProperty("compact")
+    public Boolean getCompact() {
+        return compact;
+    }
+
+    @JsonProperty("compact")
+    public void setCompact(Boolean compact) {
+        this.compact = compact;
+    }
+
     /**
      * string without < and >
      * <p>
@@ -137,12 +150,12 @@ public class ConditionJobsFilter {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("folder", folder).append("jobs", jobs).append("session", session).toString();
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("folder", folder).append("jobs", jobs).append("compact", compact).append("session", session).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(folder).append(jobschedulerId).append(session).append(jobs).toHashCode();
+        return new HashCodeBuilder().append(folder).append(jobschedulerId).append(compact).append(session).append(jobs).toHashCode();
     }
 
     @Override
@@ -154,7 +167,7 @@ public class ConditionJobsFilter {
             return false;
         }
         ConditionJobsFilter rhs = ((ConditionJobsFilter) other);
-        return new EqualsBuilder().append(folder, rhs.folder).append(jobschedulerId, rhs.jobschedulerId).append(session, rhs.session).append(jobs, rhs.jobs).isEquals();
+        return new EqualsBuilder().append(folder, rhs.folder).append(jobschedulerId, rhs.jobschedulerId).append(compact, rhs.compact).append(session, rhs.session).append(jobs, rhs.jobs).isEquals();
     }
 
 }
