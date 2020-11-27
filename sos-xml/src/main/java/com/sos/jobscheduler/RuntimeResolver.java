@@ -97,11 +97,11 @@ public class RuntimeResolver {
         return resolve(xpath, runtime, from, to, null);
     }
 
-    public RunTime resolve(SOSXMLXPath xpath, String from, String to, String jobschedulerTimezone) throws Exception {
+    public RunTime resolve(SOSXMLXPath xpath, String from, String to, String jobschedulerTimezone) throws SOSInvalidDataException, DOMException, TransformerException   {
         return resolve(xpath, xpath.getRoot(), from, to, jobschedulerTimezone);
     }
 
-    public RunTime resolve(SOSXMLXPath xpath, Element runtime, String from, String to, String jobschedulerTimezone) throws Exception {
+    public RunTime resolve(SOSXMLXPath xpath, Element runtime, String from, String to, String jobschedulerTimezone) throws SOSInvalidDataException, DOMException, TransformerException  {
         setTimeZone(jobschedulerTimezone, runtime.getAttribute("time_zone"));
         if (from == null || from.isEmpty()) {
             from = dateFormatter.format(Instant.now());
@@ -195,7 +195,7 @@ public class RuntimeResolver {
         }
     }
 
-    private void addPeriods(String date, NodeList periodList) throws Exception {
+    private void addPeriods(String date, NodeList periodList) throws SOSInvalidDataException  {
         for (int j = 0; j < periodList.getLength(); j++) {
             Period p = getPeriod((Element) periodList.item(j), date);
             if (p != null) {
@@ -204,7 +204,7 @@ public class RuntimeResolver {
         }
     }
 
-    private void addPeriods(String date, NodeList periodList, int dayOfMonth) throws Exception {
+    private void addPeriods(String date, NodeList periodList, int dayOfMonth) throws SOSInvalidDataException   {
         if (dayOfMonth > 9) {
             addPeriods(date, periodList);
         } else {
