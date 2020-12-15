@@ -23,8 +23,10 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "jobschedulerId",
     "folder",
+    "jobStream",
     "jobs",
     "compact",
+    "expression",
     "session"
 })
 public class ConditionJobsFilter {
@@ -47,10 +49,26 @@ public class ConditionJobsFilter {
     @JsonProperty("folder")
     @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
     private String folder;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("jobStream")
+    private String jobStream;
     @JsonProperty("jobs")
     private List<JobPath> jobs = new ArrayList<JobPath>();
     @JsonProperty("compact")
     private Boolean compact;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("expression")
+    private String expression;
     /**
      * string without < and >
      * <p>
@@ -106,6 +124,28 @@ public class ConditionJobsFilter {
         this.folder = folder;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("jobStream")
+    public String getJobStream() {
+        return jobStream;
+    }
+
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("jobStream")
+    public void setJobStream(String jobStream) {
+        this.jobStream = jobStream;
+    }
+
     @JsonProperty("jobs")
     public List<JobPath> getJobs() {
         return jobs;
@@ -132,6 +172,28 @@ public class ConditionJobsFilter {
      * 
      * 
      */
+    @JsonProperty("expression")
+    public String getExpression() {
+        return expression;
+    }
+
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("expression")
+    public void setExpression(String expression) {
+        this.expression = expression;
+    }
+
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("session")
     public String getSession() {
         return session;
@@ -150,12 +212,12 @@ public class ConditionJobsFilter {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("folder", folder).append("jobs", jobs).append("compact", compact).append("session", session).toString();
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("folder", folder).append("jobStream", jobStream).append("jobs", jobs).append("compact", compact).append("expression", expression).append("session", session).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(folder).append(jobschedulerId).append(compact).append(session).append(jobs).toHashCode();
+        return new HashCodeBuilder().append(folder).append(expression).append(compact).append(session).append(jobs).append(jobStream).append(jobschedulerId).toHashCode();
     }
 
     @Override
@@ -167,7 +229,7 @@ public class ConditionJobsFilter {
             return false;
         }
         ConditionJobsFilter rhs = ((ConditionJobsFilter) other);
-        return new EqualsBuilder().append(folder, rhs.folder).append(jobschedulerId, rhs.jobschedulerId).append(compact, rhs.compact).append(session, rhs.session).append(jobs, rhs.jobs).isEquals();
+        return new EqualsBuilder().append(folder, rhs.folder).append(expression, rhs.expression).append(compact, rhs.compact).append(session, rhs.session).append(jobs, rhs.jobs).append(jobStream, rhs.jobStream).append(jobschedulerId, rhs.jobschedulerId).isEquals();
     }
 
 }
