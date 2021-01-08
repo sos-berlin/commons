@@ -21,6 +21,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "job",
+    "haveReferenceToOtherFolders",
     "inconditions"
 })
 public class JobInCondition {
@@ -34,6 +35,8 @@ public class JobInCondition {
     @JsonProperty("job")
     @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
     private String job;
+    @JsonProperty("haveReferenceToOtherFolders")
+    private Boolean haveReferenceToOtherFolders;
     @JsonProperty("inconditions")
     private List<InCondition> inconditions = new ArrayList<InCondition>();
 
@@ -59,6 +62,16 @@ public class JobInCondition {
         this.job = job;
     }
 
+    @JsonProperty("haveReferenceToOtherFolders")
+    public Boolean getHaveReferenceToOtherFolders() {
+        return haveReferenceToOtherFolders;
+    }
+
+    @JsonProperty("haveReferenceToOtherFolders")
+    public void setHaveReferenceToOtherFolders(Boolean haveReferenceToOtherFolders) {
+        this.haveReferenceToOtherFolders = haveReferenceToOtherFolders;
+    }
+
     @JsonProperty("inconditions")
     public List<InCondition> getInconditions() {
         return inconditions;
@@ -71,12 +84,12 @@ public class JobInCondition {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("job", job).append("inconditions", inconditions).toString();
+        return new ToStringBuilder(this).append("job", job).append("haveReferenceToOtherFolders", haveReferenceToOtherFolders).append("inconditions", inconditions).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(job).append(inconditions).toHashCode();
+        return new HashCodeBuilder().append(inconditions).append(haveReferenceToOtherFolders).append(job).toHashCode();
     }
 
     @Override
@@ -88,7 +101,7 @@ public class JobInCondition {
             return false;
         }
         JobInCondition rhs = ((JobInCondition) other);
-        return new EqualsBuilder().append(job, rhs.job).append(inconditions, rhs.inconditions).isEquals();
+        return new EqualsBuilder().append(inconditions, rhs.inconditions).append(haveReferenceToOtherFolders, rhs.haveReferenceToOtherFolders).append(job, rhs.job).isEquals();
     }
 
 }
