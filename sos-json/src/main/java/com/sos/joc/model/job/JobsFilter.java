@@ -28,6 +28,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "orders",
     "compact",
     "compactView",
+    "withoutDuration",
     "regex",
     "isOrderJob",
     "dateFrom",
@@ -45,6 +46,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class JobsFilter {
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 
@@ -69,6 +72,15 @@ public class JobsFilter {
     @JsonProperty("compactView")
     private Boolean compactView = false;
     /**
+     * withoutDuration parameter
+     * <p>
+     * controls if the duration should be estimated
+     * 
+     */
+    @JsonProperty("withoutDuration")
+    @JsonPropertyDescription("controls if the duration should be estimated")
+    private Boolean withoutDuration = false;
+    /**
      * filter with regex
      * <p>
      * regular expression to filter JobScheduler objects by matching the path
@@ -79,18 +91,33 @@ public class JobsFilter {
     private String regex;
     @JsonProperty("isOrderJob")
     private Boolean isOrderJob;
+    /**
+     * string for dateFrom and dateTo as search filter
+     * <p>
+     *  0 or [number][smhdwMy] (where smhdwMy unit for second, minute, etc) or ISO 8601 timestamp
+     * 
+     */
     @JsonProperty("dateFrom")
+    @JsonPropertyDescription("0 or [number][smhdwMy] (where smhdwMy unit for second, minute, etc) or ISO 8601 timestamp")
     private String dateFrom;
+    /**
+     * string for dateFrom and dateTo as search filter
+     * <p>
+     *  0 or [number][smhdwMy] (where smhdwMy unit for second, minute, etc) or ISO 8601 timestamp
+     * 
+     */
     @JsonProperty("dateTo")
+    @JsonPropertyDescription("0 or [number][smhdwMy] (where smhdwMy unit for second, minute, etc) or ISO 8601 timestamp")
     private String dateTo;
     @JsonProperty("criticality")
     private List<JobCriticalityFilter> criticality = new ArrayList<JobCriticalityFilter>();
     /**
-     * see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+     * string without < and >
+     * <p>
+     * 
      * 
      */
     @JsonProperty("timeZone")
-    @JsonPropertyDescription("see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones")
     private String timeZone;
     /**
      * folders
@@ -119,6 +146,8 @@ public class JobsFilter {
     private Boolean runTimeIsTemporary;
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 
@@ -129,6 +158,8 @@ public class JobsFilter {
     }
 
     /**
+     * filename
+     * <p>
      * 
      * (Required)
      * 
@@ -201,6 +232,28 @@ public class JobsFilter {
     }
 
     /**
+     * withoutDuration parameter
+     * <p>
+     * controls if the duration should be estimated
+     * 
+     */
+    @JsonProperty("withoutDuration")
+    public Boolean getWithoutDuration() {
+        return withoutDuration;
+    }
+
+    /**
+     * withoutDuration parameter
+     * <p>
+     * controls if the duration should be estimated
+     * 
+     */
+    @JsonProperty("withoutDuration")
+    public void setWithoutDuration(Boolean withoutDuration) {
+        this.withoutDuration = withoutDuration;
+    }
+
+    /**
      * filter with regex
      * <p>
      * regular expression to filter JobScheduler objects by matching the path
@@ -232,21 +285,45 @@ public class JobsFilter {
         this.isOrderJob = isOrderJob;
     }
 
+    /**
+     * string for dateFrom and dateTo as search filter
+     * <p>
+     *  0 or [number][smhdwMy] (where smhdwMy unit for second, minute, etc) or ISO 8601 timestamp
+     * 
+     */
     @JsonProperty("dateFrom")
     public String getDateFrom() {
         return dateFrom;
     }
 
+    /**
+     * string for dateFrom and dateTo as search filter
+     * <p>
+     *  0 or [number][smhdwMy] (where smhdwMy unit for second, minute, etc) or ISO 8601 timestamp
+     * 
+     */
     @JsonProperty("dateFrom")
     public void setDateFrom(String dateFrom) {
         this.dateFrom = dateFrom;
     }
 
+    /**
+     * string for dateFrom and dateTo as search filter
+     * <p>
+     *  0 or [number][smhdwMy] (where smhdwMy unit for second, minute, etc) or ISO 8601 timestamp
+     * 
+     */
     @JsonProperty("dateTo")
     public String getDateTo() {
         return dateTo;
     }
 
+    /**
+     * string for dateFrom and dateTo as search filter
+     * <p>
+     *  0 or [number][smhdwMy] (where smhdwMy unit for second, minute, etc) or ISO 8601 timestamp
+     * 
+     */
     @JsonProperty("dateTo")
     public void setDateTo(String dateTo) {
         this.dateTo = dateTo;
@@ -263,7 +340,9 @@ public class JobsFilter {
     }
 
     /**
-     * see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+     * string without < and >
+     * <p>
+     * 
      * 
      */
     @JsonProperty("timeZone")
@@ -272,7 +351,9 @@ public class JobsFilter {
     }
 
     /**
-     * see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+     * string without < and >
+     * <p>
+     * 
      * 
      */
     @JsonProperty("timeZone")
@@ -372,12 +453,12 @@ public class JobsFilter {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("jobs", jobs).append("excludeJobs", excludeJobs).append("orders", orders).append("compact", compact).append("compactView", compactView).append("regex", regex).append("isOrderJob", isOrderJob).append("dateFrom", dateFrom).append("dateTo", dateTo).append("criticality", criticality).append("timeZone", timeZone).append("folders", folders).append("states", states).append("limit", limit).append("historyStates", historyStates).append("taskIds", taskIds).append("historyIds", historyIds).append("runTimeIsTemporary", runTimeIsTemporary).toString();
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("jobs", jobs).append("excludeJobs", excludeJobs).append("orders", orders).append("compact", compact).append("compactView", compactView).append("withoutDuration", withoutDuration).append("regex", regex).append("isOrderJob", isOrderJob).append("dateFrom", dateFrom).append("dateTo", dateTo).append("criticality", criticality).append("timeZone", timeZone).append("folders", folders).append("states", states).append("limit", limit).append("historyStates", historyStates).append("taskIds", taskIds).append("historyIds", historyIds).append("runTimeIsTemporary", runTimeIsTemporary).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(folders).append(compact).append(jobs).append(historyStates).append(criticality).append(timeZone).append(dateFrom).append(taskIds).append(historyIds).append(compactView).append(states).append(isOrderJob).append(regex).append(dateTo).append(limit).append(orders).append(runTimeIsTemporary).append(jobschedulerId).append(excludeJobs).toHashCode();
+        return new HashCodeBuilder().append(folders).append(compact).append(jobs).append(withoutDuration).append(historyStates).append(criticality).append(timeZone).append(dateFrom).append(taskIds).append(historyIds).append(compactView).append(states).append(isOrderJob).append(regex).append(dateTo).append(limit).append(orders).append(runTimeIsTemporary).append(jobschedulerId).append(excludeJobs).toHashCode();
     }
 
     @Override
@@ -389,7 +470,7 @@ public class JobsFilter {
             return false;
         }
         JobsFilter rhs = ((JobsFilter) other);
-        return new EqualsBuilder().append(folders, rhs.folders).append(compact, rhs.compact).append(jobs, rhs.jobs).append(historyStates, rhs.historyStates).append(criticality, rhs.criticality).append(timeZone, rhs.timeZone).append(dateFrom, rhs.dateFrom).append(taskIds, rhs.taskIds).append(historyIds, rhs.historyIds).append(compactView, rhs.compactView).append(states, rhs.states).append(isOrderJob, rhs.isOrderJob).append(regex, rhs.regex).append(dateTo, rhs.dateTo).append(limit, rhs.limit).append(orders, rhs.orders).append(runTimeIsTemporary, rhs.runTimeIsTemporary).append(jobschedulerId, rhs.jobschedulerId).append(excludeJobs, rhs.excludeJobs).isEquals();
+        return new EqualsBuilder().append(folders, rhs.folders).append(compact, rhs.compact).append(jobs, rhs.jobs).append(withoutDuration, rhs.withoutDuration).append(historyStates, rhs.historyStates).append(criticality, rhs.criticality).append(timeZone, rhs.timeZone).append(dateFrom, rhs.dateFrom).append(taskIds, rhs.taskIds).append(historyIds, rhs.historyIds).append(compactView, rhs.compactView).append(states, rhs.states).append(isOrderJob, rhs.isOrderJob).append(regex, rhs.regex).append(dateTo, rhs.dateTo).append(limit, rhs.limit).append(orders, rhs.orders).append(runTimeIsTemporary, rhs.runTimeIsTemporary).append(jobschedulerId, rhs.jobschedulerId).append(excludeJobs, rhs.excludeJobs).isEquals();
     }
 
 }
