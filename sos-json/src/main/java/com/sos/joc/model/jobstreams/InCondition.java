@@ -26,6 +26,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "consumed",
     "markExpression",
     "skipOutCondition",
+    "haveReferenceToOtherFolders",
     "conditionExpression",
     "nextPeriod",
     "inconditionCommands",
@@ -55,6 +56,8 @@ public class InCondition {
     private Boolean markExpression;
     @JsonProperty("skipOutCondition")
     private Boolean skipOutCondition;
+    @JsonProperty("haveReferenceToOtherFolders")
+    private Boolean haveReferenceToOtherFolders;
     /**
      * Expression
      * <p>
@@ -152,6 +155,16 @@ public class InCondition {
         this.skipOutCondition = skipOutCondition;
     }
 
+    @JsonProperty("haveReferenceToOtherFolders")
+    public Boolean getHaveReferenceToOtherFolders() {
+        return haveReferenceToOtherFolders;
+    }
+
+    @JsonProperty("haveReferenceToOtherFolders")
+    public void setHaveReferenceToOtherFolders(Boolean haveReferenceToOtherFolders) {
+        this.haveReferenceToOtherFolders = haveReferenceToOtherFolders;
+    }
+
     /**
      * Expression
      * <p>
@@ -218,12 +231,12 @@ public class InCondition {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("id", id).append("jobStream", jobStream).append("consumed", consumed).append("markExpression", markExpression).append("skipOutCondition", skipOutCondition).append("conditionExpression", conditionExpression).append("nextPeriod", nextPeriod).append("inconditionCommands", inconditionCommands).append("outconditions", outconditions).toString();
+        return new ToStringBuilder(this).append("id", id).append("jobStream", jobStream).append("consumed", consumed).append("markExpression", markExpression).append("skipOutCondition", skipOutCondition).append("haveReferenceToOtherFolders", haveReferenceToOtherFolders).append("conditionExpression", conditionExpression).append("nextPeriod", nextPeriod).append("inconditionCommands", inconditionCommands).append("outconditions", outconditions).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(consumed).append(markExpression).append(conditionExpression).append(nextPeriod).append(outconditions).append(jobStream).append(id).append(inconditionCommands).append(skipOutCondition).toHashCode();
+        return new HashCodeBuilder().append(consumed).append(markExpression).append(haveReferenceToOtherFolders).append(conditionExpression).append(nextPeriod).append(outconditions).append(jobStream).append(id).append(inconditionCommands).append(skipOutCondition).toHashCode();
     }
 
     @Override
@@ -235,7 +248,7 @@ public class InCondition {
             return false;
         }
         InCondition rhs = ((InCondition) other);
-        return new EqualsBuilder().append(consumed, rhs.consumed).append(markExpression, rhs.markExpression).append(conditionExpression, rhs.conditionExpression).append(nextPeriod, rhs.nextPeriod).append(outconditions, rhs.outconditions).append(jobStream, rhs.jobStream).append(id, rhs.id).append(inconditionCommands, rhs.inconditionCommands).append(skipOutCondition, rhs.skipOutCondition).isEquals();
+        return new EqualsBuilder().append(consumed, rhs.consumed).append(markExpression, rhs.markExpression).append(haveReferenceToOtherFolders, rhs.haveReferenceToOtherFolders).append(conditionExpression, rhs.conditionExpression).append(nextPeriod, rhs.nextPeriod).append(outconditions, rhs.outconditions).append(jobStream, rhs.jobStream).append(id, rhs.id).append(inconditionCommands, rhs.inconditionCommands).append(skipOutCondition, rhs.skipOutCondition).isEquals();
     }
 
 }
