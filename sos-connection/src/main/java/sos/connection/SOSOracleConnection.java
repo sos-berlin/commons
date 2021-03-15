@@ -69,14 +69,10 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
         if (SOSString.isEmpty(driver)) {
             throw new Exception(SOSClassUtil.getMethodName() + ": missing database driver.");
         }
-        if (SOSString.isEmpty(dbuser)) {
-            throw new Exception(SOSClassUtil.getMethodName() + ": missing database user.");
+        if (!SOSString.isEmpty(dbuser ) && !"[SSO]".equalsIgnoreCase(dbuser)) {
+            properties.setProperty("user", dbuser);
+            properties.setProperty("password", dbpassword);
         }
-        if (SOSString.isEmpty(dbpassword)) {
-            throw new Exception(SOSClassUtil.getMethodName() + ": missing database password.");
-        }
-        properties.setProperty("user", dbuser);
-        properties.setProperty("password", dbpassword);
         Driver driver = (Driver) Class.forName(this.driver).newInstance();
         connection = driver.connect(url, properties);
         if (connection == null) {

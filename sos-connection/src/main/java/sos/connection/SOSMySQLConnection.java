@@ -49,14 +49,13 @@ public class SOSMySQLConnection extends sos.connection.SOSConnection {
         if (SOSString.isEmpty(driver)) {
             throw new Exception(SOSClassUtil.getMethodName() + ": missing database driver.");
         }
-        if (SOSString.isEmpty(dbuser)) {
-            throw new Exception(SOSClassUtil.getMethodName() + ": missing database user.");
+        if (!SOSString.isEmpty(dbuser) && !"[SSO]".equalsIgnoreCase(dbuser)) {
+            if (SOSString.isEmpty(dbpassword)) {
+                dbpassword = "";
+            }
+            properties.setProperty("user", dbuser);
+            properties.setProperty("password", dbpassword);
         }
-        if (SOSString.isEmpty(dbpassword)) {
-            dbpassword = "";
-        }
-        properties.setProperty("user", dbuser);
-        properties.setProperty("password", dbpassword);
         try {
             LOGGER.debug(SOSClassUtil.getMethodName());
             Driver driver = (Driver) Class.forName(this.driver).newInstance();
