@@ -1,5 +1,6 @@
 package sos.util;
 
+import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Map;
 
@@ -11,7 +12,7 @@ public class SOSString {
     public static boolean isEmpty(String string) {
         return string == null || string.isEmpty();
     }
-    
+
     public static String toString(Object o) {
         return toString(o, null);
     }
@@ -21,13 +22,24 @@ public class SOSString {
             return null;
         }
         try {
-            ReflectionToStringBuilder.setDefaultStyle(ToStringStyle.SHORT_PREFIX_STYLE);
+            ReflectionToStringBuilder builder = new ReflectionToStringBuilder(o, ToStringStyle.SHORT_PREFIX_STYLE) {
 
-            if (excludeFieldNames == null) {
-                return ReflectionToStringBuilder.toString(o);
-            } else {
-                return ReflectionToStringBuilder.toStringExclude(o, excludeFieldNames);
+                @Override
+                protected Object getValue(Field field) throws IllegalArgumentException, IllegalAccessException {
+                    Object val = field.get(this.getObject());
+                    if (val != null && val instanceof String) {
+                        String v = val.toString();
+                        if (v.length() > 255) {
+                            val = v.substring(0, 255) + "<truncated>";
+                        }
+                    }
+                    return val;
+                }
+            };
+            if (excludeFieldNames != null) {
+                builder.setExcludeFieldNames(excludeFieldNames.stream().toArray(String[]::new));
             }
+            return builder.toString();
         } catch (Throwable t) {
         }
         return o.toString();
