@@ -26,8 +26,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "startDelay",
     "nextPeriod",
     "skipOutCondition",
-    "jobsInconditions",
-    "jobsOutconditions"
+    "inconditions",
+    "outconditions"
 })
 public class JobStreamJob {
 
@@ -66,10 +66,10 @@ public class JobStreamJob {
     private Date nextPeriod;
     @JsonProperty("skipOutCondition")
     private Boolean skipOutCondition;
-    @JsonProperty("jobsInconditions")
-    private List<JobInCondition> jobsInconditions = new ArrayList<JobInCondition>();
-    @JsonProperty("jobsOutconditions")
-    private List<JobOutCondition> jobsOutconditions = new ArrayList<JobOutCondition>();
+    @JsonProperty("inconditions")
+    private List<InCondition> inconditions = new ArrayList<InCondition>();
+    @JsonProperty("outconditions")
+    private List<OutCondition> outconditions = new ArrayList<OutCondition>();
 
     /**
      * non negative long
@@ -169,34 +169,34 @@ public class JobStreamJob {
         this.skipOutCondition = skipOutCondition;
     }
 
-    @JsonProperty("jobsInconditions")
-    public List<JobInCondition> getJobsInconditions() {
-        return jobsInconditions;
+    @JsonProperty("inconditions")
+    public List<InCondition> getInconditions() {
+        return inconditions;
     }
 
-    @JsonProperty("jobsInconditions")
-    public void setJobsInconditions(List<JobInCondition> jobsInconditions) {
-        this.jobsInconditions = jobsInconditions;
+    @JsonProperty("inconditions")
+    public void setInconditions(List<InCondition> inconditions) {
+        this.inconditions = inconditions;
     }
 
-    @JsonProperty("jobsOutconditions")
-    public List<JobOutCondition> getJobsOutconditions() {
-        return jobsOutconditions;
+    @JsonProperty("outconditions")
+    public List<OutCondition> getOutconditions() {
+        return outconditions;
     }
 
-    @JsonProperty("jobsOutconditions")
-    public void setJobsOutconditions(List<JobOutCondition> jobsOutconditions) {
-        this.jobsOutconditions = jobsOutconditions;
+    @JsonProperty("outconditions")
+    public void setOutconditions(List<OutCondition> outconditions) {
+        this.outconditions = outconditions;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobId", jobId).append("job", job).append("startDelay", startDelay).append("nextPeriod", nextPeriod).append("skipOutCondition", skipOutCondition).append("jobsInconditions", jobsInconditions).append("jobsOutconditions", jobsOutconditions).toString();
+        return new ToStringBuilder(this).append("jobId", jobId).append("job", job).append("startDelay", startDelay).append("nextPeriod", nextPeriod).append("skipOutCondition", skipOutCondition).append("inconditions", inconditions).append("outconditions", outconditions).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobId).append(nextPeriod).append(startDelay).append(jobsOutconditions).append(job).append(skipOutCondition).append(jobsInconditions).toHashCode();
+        return new HashCodeBuilder().append(jobId).append(nextPeriod).append(outconditions).append(inconditions).append(startDelay).append(job).append(skipOutCondition).toHashCode();
     }
 
     @Override
@@ -208,7 +208,7 @@ public class JobStreamJob {
             return false;
         }
         JobStreamJob rhs = ((JobStreamJob) other);
-        return new EqualsBuilder().append(jobId, rhs.jobId).append(nextPeriod, rhs.nextPeriod).append(startDelay, rhs.startDelay).append(jobsOutconditions, rhs.jobsOutconditions).append(job, rhs.job).append(skipOutCondition, rhs.skipOutCondition).append(jobsInconditions, rhs.jobsInconditions).isEquals();
+        return new EqualsBuilder().append(jobId, rhs.jobId).append(nextPeriod, rhs.nextPeriod).append(outconditions, rhs.outconditions).append(inconditions, rhs.inconditions).append(startDelay, rhs.startDelay).append(job, rhs.job).append(skipOutCondition, rhs.skipOutCondition).isEquals();
     }
 
 }
