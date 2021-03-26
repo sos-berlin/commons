@@ -23,32 +23,33 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "deliveryDate",
     "jobs",
     "orders",
+    "jobstreams",
     "schedules"
 })
 public class UsedBy {
 
     /**
-     * delivery date
+     * date time
      * <p>
-     * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
-     * (Required)
+     * Date time. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * 
      */
     @JsonProperty("deliveryDate")
-    @JsonPropertyDescription("Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
+    @JsonPropertyDescription("Date time. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
     private Date deliveryDate;
     @JsonProperty("jobs")
     private List<String> jobs = null;
     @JsonProperty("orders")
     private List<String> orders = null;
+    @JsonProperty("jobstreams")
+    private List<String> jobstreams = null;
     @JsonProperty("schedules")
     private List<String> schedules = null;
 
     /**
-     * delivery date
+     * date time
      * <p>
-     * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
-     * (Required)
+     * Date time. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * 
      */
     @JsonProperty("deliveryDate")
@@ -57,10 +58,9 @@ public class UsedBy {
     }
 
     /**
-     * delivery date
+     * date time
      * <p>
-     * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
-     * (Required)
+     * Date time. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * 
      */
     @JsonProperty("deliveryDate")
@@ -88,6 +88,16 @@ public class UsedBy {
         this.orders = orders;
     }
 
+    @JsonProperty("jobstreams")
+    public List<String> getJobstreams() {
+        return jobstreams;
+    }
+
+    @JsonProperty("jobstreams")
+    public void setJobstreams(List<String> jobstreams) {
+        this.jobstreams = jobstreams;
+    }
+
     @JsonProperty("schedules")
     public List<String> getSchedules() {
         return schedules;
@@ -100,12 +110,12 @@ public class UsedBy {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("jobs", jobs).append("orders", orders).append("schedules", schedules).toString();
+        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("jobs", jobs).append("orders", orders).append("jobstreams", jobstreams).append("schedules", schedules).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(orders).append(deliveryDate).append(jobs).append(schedules).toHashCode();
+        return new HashCodeBuilder().append(orders).append(jobstreams).append(deliveryDate).append(jobs).append(schedules).toHashCode();
     }
 
     @Override
@@ -117,7 +127,7 @@ public class UsedBy {
             return false;
         }
         UsedBy rhs = ((UsedBy) other);
-        return new EqualsBuilder().append(orders, rhs.orders).append(deliveryDate, rhs.deliveryDate).append(jobs, rhs.jobs).append(schedules, rhs.schedules).isEquals();
+        return new EqualsBuilder().append(orders, rhs.orders).append(jobstreams, rhs.jobstreams).append(deliveryDate, rhs.deliveryDate).append(jobs, rhs.jobs).append(schedules, rhs.schedules).isEquals();
     }
 
 }
