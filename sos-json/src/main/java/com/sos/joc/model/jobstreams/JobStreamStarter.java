@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.sos.joc.model.calendar.Calendar;
 import com.sos.joc.model.common.NameValuePair;
 import com.sos.joc.model.joe.schedule.RunTime;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -32,7 +31,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "requiredJob",
     "jobs",
     "runTime",
-    "calendars",
     "params"
 })
 public class JobStreamStarter {
@@ -98,8 +96,6 @@ public class JobStreamStarter {
      */
     @JsonProperty("runTime")
     private RunTime runTime;
-    @JsonProperty("calendars")
-    private List<Calendar> calendars = new ArrayList<Calendar>();
     /**
      * params or environment variables
      * <p>
@@ -273,16 +269,6 @@ public class JobStreamStarter {
         this.runTime = runTime;
     }
 
-    @JsonProperty("calendars")
-    public List<Calendar> getCalendars() {
-        return calendars;
-    }
-
-    @JsonProperty("calendars")
-    public void setCalendars(List<Calendar> calendars) {
-        this.calendars = calendars;
-    }
-
     /**
      * params or environment variables
      * <p>
@@ -307,12 +293,12 @@ public class JobStreamStarter {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("state", state).append("jobStreamStarterId", jobStreamStarterId).append("title", title).append("nextStart", nextStart).append("endOfJobStream", endOfJobStream).append("requiredJob", requiredJob).append("jobs", jobs).append("runTime", runTime).append("calendars", calendars).append("params", params).toString();
+        return new ToStringBuilder(this).append("state", state).append("jobStreamStarterId", jobStreamStarterId).append("title", title).append("nextStart", nextStart).append("endOfJobStream", endOfJobStream).append("requiredJob", requiredJob).append("jobs", jobs).append("runTime", runTime).append("params", params).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(endOfJobStream).append(calendars).append(jobs).append(jobStreamStarterId).append(requiredJob).append(state).append(nextStart).append(runTime).append(title).append(params).toHashCode();
+        return new HashCodeBuilder().append(endOfJobStream).append(jobs).append(jobStreamStarterId).append(requiredJob).append(state).append(nextStart).append(runTime).append(title).append(params).toHashCode();
     }
 
     @Override
@@ -324,7 +310,7 @@ public class JobStreamStarter {
             return false;
         }
         JobStreamStarter rhs = ((JobStreamStarter) other);
-        return new EqualsBuilder().append(endOfJobStream, rhs.endOfJobStream).append(calendars, rhs.calendars).append(jobs, rhs.jobs).append(jobStreamStarterId, rhs.jobStreamStarterId).append(requiredJob, rhs.requiredJob).append(state, rhs.state).append(nextStart, rhs.nextStart).append(runTime, rhs.runTime).append(title, rhs.title).append(params, rhs.params).isEquals();
+        return new EqualsBuilder().append(endOfJobStream, rhs.endOfJobStream).append(jobs, rhs.jobs).append(jobStreamStarterId, rhs.jobStreamStarterId).append(requiredJob, rhs.requiredJob).append(state, rhs.state).append(nextStart, rhs.nextStart).append(runTime, rhs.runTime).append(title, rhs.title).append(params, rhs.params).isEquals();
     }
 
 }

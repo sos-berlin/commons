@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.sos.joc.model.common.NameValuePair;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -22,7 +21,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "jobschedulerId",
-    "jobStream",
     "session",
     "params"
 })
@@ -37,15 +35,6 @@ public class JobStreamStarted {
      */
     @JsonProperty("jobschedulerId")
     private String jobschedulerId;
-    /**
-     * path
-     * <p>
-     * absolute path based on live folder of a JobScheduler object.
-     * 
-     */
-    @JsonProperty("jobStream")
-    @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
-    private String jobStream;
     /**
      * string without < and >
      * <p>
@@ -85,28 +74,6 @@ public class JobStreamStarted {
     @JsonProperty("jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
         this.jobschedulerId = jobschedulerId;
-    }
-
-    /**
-     * path
-     * <p>
-     * absolute path based on live folder of a JobScheduler object.
-     * 
-     */
-    @JsonProperty("jobStream")
-    public String getJobStream() {
-        return jobStream;
-    }
-
-    /**
-     * path
-     * <p>
-     * absolute path based on live folder of a JobScheduler object.
-     * 
-     */
-    @JsonProperty("jobStream")
-    public void setJobStream(String jobStream) {
-        this.jobStream = jobStream;
     }
 
     /**
@@ -155,12 +122,12 @@ public class JobStreamStarted {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("jobStream", jobStream).append("session", session).append("params", params).toString();
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("session", session).append("params", params).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobStream).append(jobschedulerId).append(params).append(session).toHashCode();
+        return new HashCodeBuilder().append(jobschedulerId).append(params).append(session).toHashCode();
     }
 
     @Override
@@ -172,7 +139,7 @@ public class JobStreamStarted {
             return false;
         }
         JobStreamStarted rhs = ((JobStreamStarted) other);
-        return new EqualsBuilder().append(jobStream, rhs.jobStream).append(jobschedulerId, rhs.jobschedulerId).append(params, rhs.params).append(session, rhs.session).isEquals();
+        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(params, rhs.params).append(session, rhs.session).isEquals();
     }
 
 }
