@@ -22,6 +22,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
     "deliveryDate",
+    "jobschedulerId",
     "jobstreams"
 })
 public class JobStreams {
@@ -35,6 +36,14 @@ public class JobStreams {
     @JsonProperty("deliveryDate")
     @JsonPropertyDescription("Date time. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
     private Date deliveryDate;
+    /**
+     * filename
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("jobschedulerId")
+    private String jobschedulerId;
     @JsonProperty("jobstreams")
     private List<JobStream> jobstreams = new ArrayList<JobStream>();
 
@@ -60,6 +69,28 @@ public class JobStreams {
         this.deliveryDate = deliveryDate;
     }
 
+    /**
+     * filename
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("jobschedulerId")
+    public String getJobschedulerId() {
+        return jobschedulerId;
+    }
+
+    /**
+     * filename
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("jobschedulerId")
+    public void setJobschedulerId(String jobschedulerId) {
+        this.jobschedulerId = jobschedulerId;
+    }
+
     @JsonProperty("jobstreams")
     public List<JobStream> getJobstreams() {
         return jobstreams;
@@ -72,12 +103,12 @@ public class JobStreams {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("jobstreams", jobstreams).toString();
+        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("jobschedulerId", jobschedulerId).append("jobstreams", jobstreams).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(deliveryDate).append(jobstreams).toHashCode();
+        return new HashCodeBuilder().append(jobstreams).append(deliveryDate).append(jobschedulerId).toHashCode();
     }
 
     @Override
@@ -89,7 +120,7 @@ public class JobStreams {
             return false;
         }
         JobStreams rhs = ((JobStreams) other);
-        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(jobstreams, rhs.jobstreams).isEquals();
+        return new EqualsBuilder().append(jobstreams, rhs.jobstreams).append(deliveryDate, rhs.deliveryDate).append(jobschedulerId, rhs.jobschedulerId).isEquals();
     }
 
 }
