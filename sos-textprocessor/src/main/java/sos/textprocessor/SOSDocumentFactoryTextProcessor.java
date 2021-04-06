@@ -9,12 +9,12 @@ import java.util.Iterator;
 import java.util.Map;
 
 import sos.connection.SOSConnection;
-import sos.hostware.Factory_processor;
+//import sos.hostware.Factory_processor;
 import sos.settings.SOSConnectionSettings;
 
 public class SOSDocumentFactoryTextProcessor extends SOSTextProcessor {
   
-    Factory_processor processor = null;
+//    Factory_processor processor = null;
 
     public SOSDocumentFactoryTextProcessor() throws Exception {
         this.init();
@@ -35,7 +35,7 @@ public class SOSDocumentFactoryTextProcessor extends SOSTextProcessor {
 
     public void init() throws Exception {
         super.init();
-        this.processor = new Factory_processor();
+//        this.processor = new Factory_processor();
     }
 
     public void process() throws Exception {
@@ -85,47 +85,47 @@ public class SOSDocumentFactoryTextProcessor extends SOSTextProcessor {
         this.setTemplateScriptLanguage(templateScriptLanguage);
         this.setReplacements(replacements);
         try {
-            if (this.processor == null) {
-                this.processor = new Factory_processor();
-            }
+//            if (this.processor == null) {
+//                this.processor = new Factory_processor();
+//            }
             if (this.documentFile == null) {
                 this.documentFile = File.createTempFile("sos", ".tmp");
             }
-            this.processor.set_document_filename(this.documentFile.getAbsolutePath());
-            this.processor.set_language(this.getTemplateScriptLanguage());
-            if ("javascript".equalsIgnoreCase(this.getTemplateScriptLanguage())) {
-                this.processor.add_obj(this, "document_factory");
-            }
-            this.processor.set_template_filename(templateFile.getAbsolutePath());
+//            this.processor.set_document_filename(this.documentFile.getAbsolutePath());
+//            this.processor.set_language(this.getTemplateScriptLanguage());
+//            if ("javascript".equalsIgnoreCase(this.getTemplateScriptLanguage())) {
+//                this.processor.add_obj(this, "document_factory");
+//            }
+//            this.processor.set_template_filename(templateFile.getAbsolutePath());
             Iterator<String> keys = replacements.keySet().iterator();
             while (keys.hasNext()) {
                 key = keys.next();
                 if (key != null) {
                     value = replacements.get(key);
-                    if (value != null) {
-                        this.processor.set_parameter(key, value);
-                    }
+//                    if (value != null) {
+//                        this.processor.set_parameter(key, value);
+//                    }
                 }
             }
-            this.processor.add_parameters();
-            if (this.scripts != null && !this.scripts.isEmpty() && this.scripts.containsKey("start_script." + this.getTemplateScriptLanguage())) {
-                processor.parse(this.scripts.getProperty("start_script." + this.getTemplateScriptLanguage()));
-            }
-            this.processor.process();
-            this.processor.close_output_file();
-            this.processor.close();
+//            this.processor.add_parameters();
+//            if (this.scripts != null && !this.scripts.isEmpty() && this.scripts.containsKey("start_script." + this.getTemplateScriptLanguage())) {
+//                processor.parse(this.scripts.getProperty("start_script." + this.getTemplateScriptLanguage()));
+//            }
+//            this.processor.process();
+//            this.processor.close_output_file();
+//            this.processor.close();
             return this.documentFile;
         } catch (Exception e) {
             throw new Exception("error occurred processing template: " + e.getMessage());
         } finally {
-            if (this.processor != null) {
-                try {
-                    this.processor.close();
-                    this.processor = null;
-                } catch (Exception ex) {
-                    //
-                }
-            }
+//            if (this.processor != null) {
+//                try {
+//                    this.processor.close();
+//                    this.processor = null;
+//                } catch (Exception ex) {
+//                    //
+//                }
+//            }
         }
     }
 
@@ -188,12 +188,12 @@ public class SOSDocumentFactoryTextProcessor extends SOSTextProcessor {
         return content.toString();
     }
 
-    public Factory_processor getProcessor() throws Exception {
-        if (this.processor == null) {
-            this.processor = new Factory_processor();
-        }
-        return processor;
-    }
+//    public Factory_processor getProcessor() throws Exception {
+//        if (this.processor == null) {
+//            this.processor = new Factory_processor();
+//        }
+//        return processor;
+//    }
 
     public static void main(String[] args) {
         try {
