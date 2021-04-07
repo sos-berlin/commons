@@ -1,15 +1,11 @@
 
 package com.sos.joc.model.jobstreams;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.sos.joc.model.common.NameValuePair;
-import com.sos.joc.model.joe.schedule.RunTime;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -26,15 +22,13 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "state",
     "jobStreamStarterId",
     "starterName",
+    "exist",
     "title",
     "nextStart",
     "endOfJobStream",
-    "requiredJob",
-    "jobs",
-    "runTime",
-    "params"
+    "requiredJob"
 })
-public class JobStreamStarter {
+public class JobStreamStarterExist {
 
     /**
      * string without < and >
@@ -60,6 +54,8 @@ public class JobStreamStarter {
      */
     @JsonProperty("starterName")
     private String starterName;
+    @JsonProperty("exist")
+    private Boolean exist;
     /**
      * string without < and >
      * <p>
@@ -95,24 +91,6 @@ public class JobStreamStarter {
     @JsonProperty("requiredJob")
     @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
     private String requiredJob;
-    @JsonProperty("jobs")
-    private List<JobStreamJob> jobs = new ArrayList<JobStreamJob>();
-    /**
-     * runTime
-     * <p>
-     * 
-     * 
-     */
-    @JsonProperty("runTime")
-    private RunTime runTime;
-    /**
-     * params or environment variables
-     * <p>
-     * 
-     * 
-     */
-    @JsonProperty("params")
-    private List<NameValuePair> params = new ArrayList<NameValuePair>();
 
     /**
      * string without < and >
@@ -178,6 +156,16 @@ public class JobStreamStarter {
     @JsonProperty("starterName")
     public void setStarterName(String starterName) {
         this.starterName = starterName;
+    }
+
+    @JsonProperty("exist")
+    public Boolean getExist() {
+        return exist;
+    }
+
+    @JsonProperty("exist")
+    public void setExist(Boolean exist) {
+        this.exist = exist;
     }
 
     /**
@@ -268,68 +256,14 @@ public class JobStreamStarter {
         this.requiredJob = requiredJob;
     }
 
-    @JsonProperty("jobs")
-    public List<JobStreamJob> getJobs() {
-        return jobs;
-    }
-
-    @JsonProperty("jobs")
-    public void setJobs(List<JobStreamJob> jobs) {
-        this.jobs = jobs;
-    }
-
-    /**
-     * runTime
-     * <p>
-     * 
-     * 
-     */
-    @JsonProperty("runTime")
-    public RunTime getRunTime() {
-        return runTime;
-    }
-
-    /**
-     * runTime
-     * <p>
-     * 
-     * 
-     */
-    @JsonProperty("runTime")
-    public void setRunTime(RunTime runTime) {
-        this.runTime = runTime;
-    }
-
-    /**
-     * params or environment variables
-     * <p>
-     * 
-     * 
-     */
-    @JsonProperty("params")
-    public List<NameValuePair> getParams() {
-        return params;
-    }
-
-    /**
-     * params or environment variables
-     * <p>
-     * 
-     * 
-     */
-    @JsonProperty("params")
-    public void setParams(List<NameValuePair> params) {
-        this.params = params;
-    }
-
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("state", state).append("jobStreamStarterId", jobStreamStarterId).append("starterName", starterName).append("title", title).append("nextStart", nextStart).append("endOfJobStream", endOfJobStream).append("requiredJob", requiredJob).append("jobs", jobs).append("runTime", runTime).append("params", params).toString();
+        return new ToStringBuilder(this).append("state", state).append("jobStreamStarterId", jobStreamStarterId).append("starterName", starterName).append("exist", exist).append("title", title).append("nextStart", nextStart).append("endOfJobStream", endOfJobStream).append("requiredJob", requiredJob).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(endOfJobStream).append(starterName).append(jobs).append(jobStreamStarterId).append(requiredJob).append(state).append(nextStart).append(runTime).append(title).append(params).toHashCode();
+        return new HashCodeBuilder().append(exist).append(endOfJobStream).append(starterName).append(jobStreamStarterId).append(requiredJob).append(state).append(nextStart).append(title).toHashCode();
     }
 
     @Override
@@ -337,11 +271,11 @@ public class JobStreamStarter {
         if (other == this) {
             return true;
         }
-        if ((other instanceof JobStreamStarter) == false) {
+        if ((other instanceof JobStreamStarterExist) == false) {
             return false;
         }
-        JobStreamStarter rhs = ((JobStreamStarter) other);
-        return new EqualsBuilder().append(endOfJobStream, rhs.endOfJobStream).append(starterName, rhs.starterName).append(jobs, rhs.jobs).append(jobStreamStarterId, rhs.jobStreamStarterId).append(requiredJob, rhs.requiredJob).append(state, rhs.state).append(nextStart, rhs.nextStart).append(runTime, rhs.runTime).append(title, rhs.title).append(params, rhs.params).isEquals();
+        JobStreamStarterExist rhs = ((JobStreamStarterExist) other);
+        return new EqualsBuilder().append(exist, rhs.exist).append(endOfJobStream, rhs.endOfJobStream).append(starterName, rhs.starterName).append(jobStreamStarterId, rhs.jobStreamStarterId).append(requiredJob, rhs.requiredJob).append(state, rhs.state).append(nextStart, rhs.nextStart).append(title, rhs.title).isEquals();
     }
 
 }

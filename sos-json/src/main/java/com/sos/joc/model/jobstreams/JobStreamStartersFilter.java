@@ -19,6 +19,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "jobschedulerId",
     "jobStreamId",
+    "starterName",
     "jobStream",
     "state",
     "limit"
@@ -42,6 +43,14 @@ public class JobStreamStartersFilter {
      */
     @JsonProperty("jobStreamId")
     private Long jobStreamId;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("starterName")
+    private String starterName;
     /**
      * string without < and >
      * <p>
@@ -113,6 +122,28 @@ public class JobStreamStartersFilter {
      * 
      * 
      */
+    @JsonProperty("starterName")
+    public String getStarterName() {
+        return starterName;
+    }
+
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("starterName")
+    public void setStarterName(String starterName) {
+        this.starterName = starterName;
+    }
+
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("jobStream")
     public String getJobStream() {
         return jobStream;
@@ -163,12 +194,12 @@ public class JobStreamStartersFilter {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("jobStreamId", jobStreamId).append("jobStream", jobStream).append("state", state).append("limit", limit).toString();
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("jobStreamId", jobStreamId).append("starterName", starterName).append("jobStream", jobStream).append("state", state).append("limit", limit).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobStream).append(limit).append(state).append(jobschedulerId).append(jobStreamId).toHashCode();
+        return new HashCodeBuilder().append(starterName).append(jobStream).append(limit).append(state).append(jobschedulerId).append(jobStreamId).toHashCode();
     }
 
     @Override
@@ -180,7 +211,7 @@ public class JobStreamStartersFilter {
             return false;
         }
         JobStreamStartersFilter rhs = ((JobStreamStartersFilter) other);
-        return new EqualsBuilder().append(jobStream, rhs.jobStream).append(limit, rhs.limit).append(state, rhs.state).append(jobschedulerId, rhs.jobschedulerId).append(jobStreamId, rhs.jobStreamId).isEquals();
+        return new EqualsBuilder().append(starterName, rhs.starterName).append(jobStream, rhs.jobStream).append(limit, rhs.limit).append(state, rhs.state).append(jobschedulerId, rhs.jobschedulerId).append(jobStreamId, rhs.jobStreamId).isEquals();
     }
 
 }
