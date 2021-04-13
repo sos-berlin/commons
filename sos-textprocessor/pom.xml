@@ -32,13 +32,6 @@
             <version>${project.version}</version>
         </dependency>
 
-        <!-- sos jar files -->
-        <dependency>
-            <groupId>sos</groupId>
-            <artifactId>hostware</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
     </dependencies>
 
 </project>
