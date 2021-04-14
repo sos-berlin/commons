@@ -20,21 +20,32 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "jobschedulerId",
+    "jobStreamStarterId",
+    "starterName",
+    "starterExists",
     "session",
     "params"
 })
 public class JobStreamStarted {
 
     /**
-     * filename
+     * non negative long
      * <p>
      * 
-     * (Required)
      * 
      */
-    @JsonProperty("jobschedulerId")
-    private String jobschedulerId;
+    @JsonProperty("jobStreamStarterId")
+    private Long jobStreamStarterId;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("starterName")
+    private String starterName;
+    @JsonProperty("starterExists")
+    private Boolean starterExists;
     /**
      * string without < and >
      * <p>
@@ -53,27 +64,57 @@ public class JobStreamStarted {
     private List<NameValuePair> params = new ArrayList<NameValuePair>();
 
     /**
-     * filename
+     * non negative long
      * <p>
      * 
-     * (Required)
      * 
      */
-    @JsonProperty("jobschedulerId")
-    public String getJobschedulerId() {
-        return jobschedulerId;
+    @JsonProperty("jobStreamStarterId")
+    public Long getJobStreamStarterId() {
+        return jobStreamStarterId;
     }
 
     /**
-     * filename
+     * non negative long
      * <p>
      * 
-     * (Required)
      * 
      */
-    @JsonProperty("jobschedulerId")
-    public void setJobschedulerId(String jobschedulerId) {
-        this.jobschedulerId = jobschedulerId;
+    @JsonProperty("jobStreamStarterId")
+    public void setJobStreamStarterId(Long jobStreamStarterId) {
+        this.jobStreamStarterId = jobStreamStarterId;
+    }
+
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("starterName")
+    public String getStarterName() {
+        return starterName;
+    }
+
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("starterName")
+    public void setStarterName(String starterName) {
+        this.starterName = starterName;
+    }
+
+    @JsonProperty("starterExists")
+    public Boolean getStarterExists() {
+        return starterExists;
+    }
+
+    @JsonProperty("starterExists")
+    public void setStarterExists(Boolean starterExists) {
+        this.starterExists = starterExists;
     }
 
     /**
@@ -122,12 +163,12 @@ public class JobStreamStarted {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("session", session).append("params", params).toString();
+        return new ToStringBuilder(this).append("jobStreamStarterId", jobStreamStarterId).append("starterName", starterName).append("starterExists", starterExists).append("session", session).append("params", params).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobschedulerId).append(params).append(session).toHashCode();
+        return new HashCodeBuilder().append(jobStreamStarterId).append(starterExists).append(params).append(starterName).append(session).toHashCode();
     }
 
     @Override
@@ -139,7 +180,7 @@ public class JobStreamStarted {
             return false;
         }
         JobStreamStarted rhs = ((JobStreamStarted) other);
-        return new EqualsBuilder().append(jobschedulerId, rhs.jobschedulerId).append(params, rhs.params).append(session, rhs.session).isEquals();
+        return new EqualsBuilder().append(jobStreamStarterId, rhs.jobStreamStarterId).append(starterExists, rhs.starterExists).append(params, rhs.params).append(starterName, rhs.starterName).append(session, rhs.session).isEquals();
     }
 
 }
