@@ -1,11 +1,14 @@
 
 package com.sos.joc.model.jobstreams;
 
+import java.util.ArrayList;
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.sos.joc.model.audit.AuditParams;
+import com.sos.joc.model.common.Folder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -23,6 +26,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "job",
     "session",
     "folder",
+    "folders",
     "jobStream",
     "status",
     "limit",
@@ -65,6 +69,14 @@ public class JobStreamsFilter {
     @JsonProperty("folder")
     @JsonPropertyDescription("absolute path based on live folder of a JobScheduler object.")
     private String folder;
+    /**
+     * folders
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("folders")
+    private List<Folder> folders = new ArrayList<Folder>();
     /**
      * string without < and >
      * <p>
@@ -183,6 +195,28 @@ public class JobStreamsFilter {
     }
 
     /**
+     * folders
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("folders")
+    public List<Folder> getFolders() {
+        return folders;
+    }
+
+    /**
+     * folders
+     * <p>
+     * 
+     * 
+     */
+    @JsonProperty("folders")
+    public void setFolders(List<Folder> folders) {
+        this.folders = folders;
+    }
+
+    /**
      * string without < and >
      * <p>
      * 
@@ -260,12 +294,12 @@ public class JobStreamsFilter {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("job", job).append("session", session).append("folder", folder).append("jobStream", jobStream).append("status", status).append("limit", limit).append("auditLog", auditLog).toString();
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("job", job).append("session", session).append("folder", folder).append("folders", folders).append("jobStream", jobStream).append("status", status).append("limit", limit).append("auditLog", auditLog).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(folder).append(auditLog).append(session).append(jobStream).append(limit).append(jobschedulerId).append(job).append(status).toHashCode();
+        return new HashCodeBuilder().append(folder).append(folders).append(auditLog).append(session).append(jobStream).append(limit).append(jobschedulerId).append(job).append(status).toHashCode();
     }
 
     @Override
@@ -277,7 +311,7 @@ public class JobStreamsFilter {
             return false;
         }
         JobStreamsFilter rhs = ((JobStreamsFilter) other);
-        return new EqualsBuilder().append(folder, rhs.folder).append(auditLog, rhs.auditLog).append(session, rhs.session).append(jobStream, rhs.jobStream).append(limit, rhs.limit).append(jobschedulerId, rhs.jobschedulerId).append(job, rhs.job).append(status, rhs.status).isEquals();
+        return new EqualsBuilder().append(folder, rhs.folder).append(folders, rhs.folders).append(auditLog, rhs.auditLog).append(session, rhs.session).append(jobStream, rhs.jobStream).append(limit, rhs.limit).append(jobschedulerId, rhs.jobschedulerId).append(job, rhs.job).append(status, rhs.status).isEquals();
     }
 
 }

@@ -2,13 +2,12 @@
 package com.sos.joc.model.jobstreams;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.sos.joc.model.audit.AuditParams;
+import com.sos.joc.model.common.Folder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -22,7 +21,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "deliveryDate",
     "jobschedulerId",
     "folders",
     "jobStreams",
@@ -32,15 +30,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class JobStreamsSelector {
 
     /**
-     * date time
-     * <p>
-     * Date time. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
-     * 
-     */
-    @JsonProperty("deliveryDate")
-    @JsonPropertyDescription("Date time. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
-    private Date deliveryDate;
-    /**
      * filename
      * <p>
      * 
@@ -49,8 +38,14 @@ public class JobStreamsSelector {
      */
     @JsonProperty("jobschedulerId")
     private String jobschedulerId;
+    /**
+     * folders
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("folders")
-    private List<String> folders = new ArrayList<String>();
+    private List<Folder> folders = new ArrayList<Folder>();
     @JsonProperty("jobStreams")
     private List<JobStreamLocation> jobStreams = new ArrayList<JobStreamLocation>();
     @JsonProperty("limit")
@@ -63,28 +58,6 @@ public class JobStreamsSelector {
      */
     @JsonProperty("auditLog")
     private AuditParams auditLog;
-
-    /**
-     * date time
-     * <p>
-     * Date time. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
-     * 
-     */
-    @JsonProperty("deliveryDate")
-    public Date getDeliveryDate() {
-        return deliveryDate;
-    }
-
-    /**
-     * date time
-     * <p>
-     * Date time. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
-     * 
-     */
-    @JsonProperty("deliveryDate")
-    public void setDeliveryDate(Date deliveryDate) {
-        this.deliveryDate = deliveryDate;
-    }
 
     /**
      * filename
@@ -110,13 +83,25 @@ public class JobStreamsSelector {
         this.jobschedulerId = jobschedulerId;
     }
 
+    /**
+     * folders
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("folders")
-    public List<String> getFolders() {
+    public List<Folder> getFolders() {
         return folders;
     }
 
+    /**
+     * folders
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("folders")
-    public void setFolders(List<String> folders) {
+    public void setFolders(List<Folder> folders) {
         this.folders = folders;
     }
 
@@ -164,12 +149,12 @@ public class JobStreamsSelector {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("jobschedulerId", jobschedulerId).append("folders", folders).append("jobStreams", jobStreams).append("limit", limit).append("auditLog", auditLog).toString();
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("folders", folders).append("jobStreams", jobStreams).append("limit", limit).append("auditLog", auditLog).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(folders).append(jobStreams).append(auditLog).append(limit).append(deliveryDate).append(jobschedulerId).toHashCode();
+        return new HashCodeBuilder().append(limit).append(folders).append(jobStreams).append(jobschedulerId).append(auditLog).toHashCode();
     }
 
     @Override
@@ -181,7 +166,7 @@ public class JobStreamsSelector {
             return false;
         }
         JobStreamsSelector rhs = ((JobStreamsSelector) other);
-        return new EqualsBuilder().append(folders, rhs.folders).append(jobStreams, rhs.jobStreams).append(auditLog, rhs.auditLog).append(limit, rhs.limit).append(deliveryDate, rhs.deliveryDate).append(jobschedulerId, rhs.jobschedulerId).isEquals();
+        return new EqualsBuilder().append(limit, rhs.limit).append(folders, rhs.folders).append(jobStreams, rhs.jobStreams).append(jobschedulerId, rhs.jobschedulerId).append(auditLog, rhs.auditLog).isEquals();
     }
 
 }
