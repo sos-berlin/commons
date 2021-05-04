@@ -1,14 +1,16 @@
 package com.sos.resources;
 
-import com.google.common.io.Resources;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.xml.transform.stream.StreamSource;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Path;
+
+import javax.xml.transform.stream.StreamSource;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+//import com.google.common.io.Resources;
 
 /** A class to get common resources in various types.
  *
@@ -17,33 +19,35 @@ import java.net.URL;
  * SOSProductionResource or by giving a full resource name (String) to the
  * access method.
  *
- * @version 1.0
- * @author Stefan Schädlich */
+ */
 public class SOSResourceFactory {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SOSResourceFactory.class);
 
     public static URL asURL(SOSResource forResource) {
-        LOGGER.info("Try to read resource {}.", forResource.getFullName());
-        return Resources.getResource(forResource.getFullName());
+        return asURL(forResource.getFullName());
     }
 
     public static URL asURL(String forResource) {
         LOGGER.info("Try to read resource {}.", forResource);
-        return Resources.getResource(normalizePackageName(forResource));
+        URL url = SOSResourceFactory.class.getClassLoader().getResource(normalizePackageName(forResource));
+        if (url == null) {
+            throw new IllegalArgumentException("resource '" + forResource + "is unreadable");
+        }
+        return url;
     }
 
     public static InputStream asInputStream(SOSResource forResource) {
-        try {
-            return asURL(forResource).openStream();
-        } catch (IOException e) {
-            LOGGER.error("Error reading resource {}.", forResource.getFullName(), e);
-            throw new RuntimeException(e);
-        }
+        return asInputStream(forResource.getFullName());
     }
 
     public static InputStream asInputStream(String forResource) {
         try {
+//            InputStream in =  SOSResourceFactory.class.getClassLoader().getResourceAsStream(forResource);
+//            if (in == null) {
+//                throw new IOException("resource stream of '" + forResource + "is unreadable");
+//            }
+//            return in;
             return asURL(forResource).openStream();
         } catch (IOException e) {
             LOGGER.error("Error reading resource {}.", forResource, e);
@@ -59,22 +63,15 @@ public class SOSResourceFactory {
         return new StreamSource(asInputStream(forResource));
     }
 
-    public static File asFile(SOSResource forResource) {
-        URL url = asURL(forResource);
-        return ResourceHelper.getInstance().createFileFromURL(url);
+    public static Path asFile(SOSResource forResource) {
+        return ResourceHelper.getInstance().createFileFromURL(asURL(forResource));
     }
 
-    public static File asFile(String forResource) {
-        URL url = asURL(forResource);
-        return ResourceHelper.getInstance().createFileFromURL(url);
-    }
-
-    public static void removeTemporaryFiles() {
-        ResourceHelper.destroy();
+    public static Path asFile(String forResource) {
+        return ResourceHelper.getInstance().createFileFromURL(asURL(forResource));
     }
 
     private static String normalizePackageName(String forResource) {
         return (forResource.startsWith("/")) ? forResource.substring(1) : forResource;
     }
-
 }

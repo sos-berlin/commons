@@ -1,14 +1,14 @@
 package com.sos.resources;
 
-import com.google.common.io.Files;
-import com.google.common.io.Resources;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.util.Comparator;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** A singleton to deal with resources.
  *
@@ -17,7 +17,7 @@ import java.nio.charset.Charset;
 public class ResourceHelper {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ResourceHelper.class);
-    private static File workingDirectory = null;
+    private static Path workingDirectory = null;
     private static ResourceHelper instance = null;
 
     private ResourceHelper() {
@@ -36,79 +36,45 @@ public class ResourceHelper {
      * 
      * @param resource
      * @return */
-    public File createFileFromURL(URL resource) {
+    public Path createFileFromURL(URL resource) {
         LOGGER.info("Resource is {}.", resource.getPath());
-        String[] arr = resource.getPath().split("/");
-        String filenameWithoutPath = arr[arr.length - 1];
-        File configFile = null;
         try {
-            String fileContent = Resources.toString(resource, Charset.defaultCharset());
-            configFile = createFileFromString(fileContent, filenameWithoutPath);
-        } catch (IOException e) {
+            String filename = resource.getPath().replaceFirst(".*/([^/]+)$", "$1");
+            createWorkingDirectory();
+            Path configFile = workingDirectory.resolve(filename);
+            LOGGER.info(String.format("Copy resource %s to %s", resource.getPath(), configFile.toString()));
+            Files.copy(resource.openStream(), configFile, StandardCopyOption.REPLACE_EXISTING);
+            return configFile;
+        } catch (Exception e) {
             LOGGER.error("Error reading resource {}.", resource.getPath(), e);
             throw new RuntimeException(e);
         }
-        return configFile;
     }
 
-    /** Create a file with given fileContent in a file named filenameWithoutPath
-     * (resides in the workingDirectory).
-     * 
-     * @param fileContent
-     * @param filenameWithoutPath
-     * @return */
-    private File createFileFromString(String fileContent, String filenameWithoutPath) {
-        File configFile = null;
-        createWorkingDirectory();
-        LOGGER.info("Copy resource to folder {}.", workingDirectory.getAbsolutePath());
-        LOGGER.info("Targetname is {}.", filenameWithoutPath);
-        try {
-            workingDirectory.mkdirs();
-            LOGGER.info("Create file from Resource String:\n{},", fileContent);
-            configFile = new File(workingDirectory, filenameWithoutPath);
-            LOGGER.info("Write file {}.", configFile.getAbsolutePath());
-            Files.write(fileContent, configFile, Charset.defaultCharset());
-        } catch (IOException e) {
-            LOGGER.error("Could not create File from resource String:\n{}", fileContent);
-            throw new RuntimeException(e);
-        }
-        return configFile;
-    }
-
-    public File getWorkingDirectory() {
+    public Path getWorkingDirectory() {
         return workingDirectory;
     }
 
-    public static void destroy() {
-        removeFolderRecursively(workingDirectory);
-    }
-
-    private static void removeFolderRecursively(File folder) {
-        if (workingDirectory != null && workingDirectory.isDirectory()) {
-            for (File f : folder.listFiles()) {
-                if (f.isFile()) {
-                    deleteFile(f);
-                } else {
-                    removeFolderRecursively(f);
-                }
-            }
-            deleteFile(folder);
-        }
-    }
-
-    private static void deleteFile(File f) {
-        String type = (f.isDirectory()) ? "folder" : "file";
-        if (f.delete()) {
-            LOGGER.info("Temporary {} [{}] removed succesfully.", type, f.getAbsolutePath());
-        } else {
-            LOGGER.warn("Could not delete Temporary {} [{}].", type, f.getAbsolutePath());
-        }
-    }
-
-    public File createWorkingDirectory() {
+    public Path createWorkingDirectory() throws IOException {
         if (workingDirectory == null) {
-            workingDirectory = Files.createTempDir();
+            workingDirectory = Files.createTempDirectory(null);
         }
         return workingDirectory;
+    }
+    
+    public static void destroy() {
+        if (Files.exists(workingDirectory)) {
+            try {
+                Files.walk(workingDirectory).sorted(Comparator.reverseOrder()).forEach(entry -> {
+                    try {
+                        Files.delete(entry);
+                    } catch (IOException e) {
+                        throw new RuntimeException(String.format("%1$s could not be removed: %2$s", entry.toString(), e.toString()), e);
+                    }
+                });
+            } catch (IOException e) {
+                LOGGER.error("Error at delete resource {}.", workingDirectory, e);
+            }
+        }
     }
 }
