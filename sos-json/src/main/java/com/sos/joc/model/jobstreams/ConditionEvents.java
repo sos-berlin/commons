@@ -23,20 +23,27 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "deliveryDate",
     "session",
-    "conditionEvents"
+    "conditionEvents",
+    "conditionMissingEvents"
 })
 public class ConditionEvents {
 
     /**
-     * delivery date
+     * date time
      * <p>
-     * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
+     * Date time. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * (Required)
      * 
      */
     @JsonProperty("deliveryDate")
-    @JsonPropertyDescription("Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
+    @JsonPropertyDescription("Date time. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
     private Date deliveryDate;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("session")
     private String session;
     /**
@@ -46,11 +53,13 @@ public class ConditionEvents {
      */
     @JsonProperty("conditionEvents")
     private List<ConditionEvent> conditionEvents = new ArrayList<ConditionEvent>();
+    @JsonProperty("conditionMissingEvents")
+    private List<ConditionEvent> conditionMissingEvents = new ArrayList<ConditionEvent>();
 
     /**
-     * delivery date
+     * date time
      * <p>
-     * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
+     * Date time. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * (Required)
      * 
      */
@@ -60,9 +69,9 @@ public class ConditionEvents {
     }
 
     /**
-     * delivery date
+     * date time
      * <p>
-     * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
+     * Date time. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * (Required)
      * 
      */
@@ -71,11 +80,23 @@ public class ConditionEvents {
         this.deliveryDate = deliveryDate;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("session")
     public String getSession() {
         return session;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("session")
     public void setSession(String session) {
         this.session = session;
@@ -101,14 +122,24 @@ public class ConditionEvents {
         this.conditionEvents = conditionEvents;
     }
 
+    @JsonProperty("conditionMissingEvents")
+    public List<ConditionEvent> getConditionMissingEvents() {
+        return conditionMissingEvents;
+    }
+
+    @JsonProperty("conditionMissingEvents")
+    public void setConditionMissingEvents(List<ConditionEvent> conditionMissingEvents) {
+        this.conditionMissingEvents = conditionMissingEvents;
+    }
+
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("session", session).append("conditionEvents", conditionEvents).toString();
+        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("session", session).append("conditionEvents", conditionEvents).append("conditionMissingEvents", conditionMissingEvents).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(deliveryDate).append(conditionEvents).append(session).toHashCode();
+        return new HashCodeBuilder().append(conditionMissingEvents).append(deliveryDate).append(conditionEvents).append(session).toHashCode();
     }
 
     @Override
@@ -120,7 +151,7 @@ public class ConditionEvents {
             return false;
         }
         ConditionEvents rhs = ((ConditionEvents) other);
-        return new EqualsBuilder().append(deliveryDate, rhs.deliveryDate).append(conditionEvents, rhs.conditionEvents).append(session, rhs.session).isEquals();
+        return new EqualsBuilder().append(conditionMissingEvents, rhs.conditionMissingEvents).append(deliveryDate, rhs.deliveryDate).append(conditionEvents, rhs.conditionEvents).append(session, rhs.session).isEquals();
     }
 
 }

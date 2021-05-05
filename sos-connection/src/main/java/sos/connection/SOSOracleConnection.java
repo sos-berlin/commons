@@ -1,46 +1,43 @@
 package sos.connection;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.Writer;
+import java.sql.Blob;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.Types;
 import java.util.GregorianCalendar;
 import java.util.Properties;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import java.sql.Driver;
-import java.sql.Statement;
-import java.sql.ResultSet;
-import java.sql.Blob;
-import java.sql.Connection;
-import java.sql.CallableStatement;
-import java.sql.Types;
-
-import java.io.File;
-import java.io.Reader;
-import java.io.Writer;
-import java.io.StringReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.FileOutputStream;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-
-import java.io.ByteArrayOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.BufferedInputStream;
-
-import java.lang.NullPointerException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import oracle.sql.BLOB;
 import oracle.sql.CLOB;
-
 import sos.util.SOSClassUtil;
-import sos.util.SOSLogger;
 import sos.util.SOSString;
 
 /** @author Ghassan Beydoun */
 public class SOSOracleConnection extends sos.connection.SOSConnection implements SequenceReader {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSOracleConnection.class);
     private static final String REPLACEMENT[] = { "LOWER", "UPPER", "SYSDATE", "FOR UPDATE" };
     private static final SOSConnectionVersionLimiter VERSION_LIMITER;
     static {
@@ -51,24 +48,12 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
         VERSION_LIMITER.setMaxSupportedVersion(10, 2);
     }
 
-    public SOSOracleConnection(Connection connection, SOSLogger logger) throws Exception {
-        super(connection, logger);
-    }
-
     public SOSOracleConnection(Connection connection) throws Exception {
         super(connection);
     }
 
-    public SOSOracleConnection(String configFileName, SOSLogger logger) throws Exception {
-        super(configFileName, logger);
-    }
-
     public SOSOracleConnection(String configFileName) throws Exception {
         super(configFileName);
-    }
-
-    public SOSOracleConnection(String driver, String url, String dbuser, String dbpassword, SOSLogger logger) throws Exception {
-        super(driver, url, dbuser, dbpassword, logger);
     }
 
     public SOSOracleConnection(String driver, String url, String dbuser, String dbpassword) throws Exception {
@@ -77,33 +62,29 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
 
     public void connect() throws Exception {
         Properties properties = new Properties();
-        logger.debug6("calling " + SOSClassUtil.getMethodName());
+        LOGGER.debug("calling " + SOSClassUtil.getMethodName());
         if (SOSString.isEmpty(url)) {
             throw new Exception(SOSClassUtil.getMethodName() + ": missing database url.");
         }
         if (SOSString.isEmpty(driver)) {
             throw new Exception(SOSClassUtil.getMethodName() + ": missing database driver.");
         }
-        if (SOSString.isEmpty(dbuser)) {
-            throw new Exception(SOSClassUtil.getMethodName() + ": missing database user.");
+        if (!SOSString.isEmpty(dbuser ) && !"[SSO]".equalsIgnoreCase(dbuser)) {
+            properties.setProperty("user", dbuser);
+            properties.setProperty("password", dbpassword);
         }
-        if (SOSString.isEmpty(dbpassword)) {
-            throw new Exception(SOSClassUtil.getMethodName() + ": missing database password.");
-        }
-        properties.setProperty("user", dbuser);
-        properties.setProperty("password", dbpassword);
         Driver driver = (Driver) Class.forName(this.driver).newInstance();
         connection = driver.connect(url, properties);
         if (connection == null) {
             throw new Exception("can't connect to database");
         }
-        logger.debug6(".. successfully connected to " + url);
-        VERSION_LIMITER.check(this, logger);
+        LOGGER.debug(".. successfully connected to " + url);
+        VERSION_LIMITER.check(this);
         prepare(connection);
     }
 
     public void prepare(Connection connection) throws Exception {
-        logger.debug6("calling " + SOSClassUtil.getMethodName());
+        LOGGER.debug("calling " + SOSClassUtil.getMethodName());
         Statement stmt = null;
         try {
             if (connection == null) {
@@ -119,9 +100,9 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
             stmt.addBatch(nlsDateFormat);
             stmt.addBatch(nlsSort);
             stmt.executeBatch();
-            logger.debug9(".. " + nlsNumericCharacters + " successfully set.");
-            logger.debug9(".. " + nlsDateFormat + " successfully set.");
-            logger.debug9(".. " + nlsSort + " successfully set.");
+            LOGGER.trace(".. " + nlsNumericCharacters + " successfully set.");
+            LOGGER.trace(".. " + nlsDateFormat + " successfully set.");
+            LOGGER.trace(".. " + nlsSort + " successfully set.");
             CallableStatement enableStmt = null;
             enableStmt = this.getConnection().prepareCall("begin dbms_output.enable(10000); end;");
             enableStmt.executeUpdate();
@@ -148,7 +129,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
         ResultSet rs = null;
         OutputStream out = null;
         try {
-            logger.debug6("calling " + SOSClassUtil.getMethodName());
+            LOGGER.debug("calling " + SOSClassUtil.getMethodName());
             if (connection == null) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
                         + " may be the connect method was not called");
@@ -187,7 +168,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
             }
             query.append(condition);
             theQuery = normalizeStatement(query.toString(), REPLACEMENT);
-            logger.debug9(".. " + theQuery);
+            LOGGER.trace(".. " + theQuery);
             stmt = connection.createStatement();
             stmt.execute(theQuery);
             stmt.close();
@@ -210,14 +191,14 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
             query.append(condition);
             query.append(" FOR UPDATE");
             theQuery = normalizeStatement(query.toString(), REPLACEMENT);
-            logger.debug9(".. " + theQuery);
+            LOGGER.trace(".. " + theQuery);
             stmt = connection.createStatement();
             rs = stmt.executeQuery(theQuery);
             if (rs.next()) {
                 BLOB blob = (oracle.sql.BLOB) rs.getBlob(1);
                 out = blob.getBinaryOutputStream();
                 chunkSize = blob.getChunkSize();
-                logger.debug9(".. current chunk size: " + chunkSize);
+                LOGGER.trace(".. current chunk size: " + chunkSize);
                 byte[] buffer = new byte[chunkSize];
                 int bytesRead = 0;
                 while ((bytesRead = in.read(buffer)) != -1) {
@@ -227,7 +208,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
             } else {
                 throw new Exception("failed: no blob found: " + theQuery);
             }
-            logger.debug6(".. blob successfully updated.");
+            LOGGER.debug(".. blob successfully updated.");
         } catch (Exception e) {
             if (connection != null) {
                 connection.rollback();
@@ -276,7 +257,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
         String theQuery = null;
         int chunkSize = 0;
         try {
-            logger.debug6("calling " + SOSClassUtil.getMethodName());
+            LOGGER.debug("calling " + SOSClassUtil.getMethodName());
             if (connection == null) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
                         + " may be the connect method was not called");
@@ -319,7 +300,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
             }
             query.append(condition);
             theQuery = normalizeStatement(query.toString(), REPLACEMENT);
-            logger.debug9(".. " + theQuery);
+            LOGGER.trace(".. " + theQuery);
             stmt = connection.createStatement();
             stmt.execute(theQuery);
             query = new StringBuilder();
@@ -341,13 +322,13 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
             query.append(condition);
             query.append(" FOR UPDATE");
             theQuery = normalizeStatement(query.toString(), REPLACEMENT);
-            logger.debug9(".. select the BLOB: " + theQuery);
+            LOGGER.trace(".. select the BLOB: " + theQuery);
             rs = stmt.executeQuery(theQuery);
             if (rs.next()) {
                 BLOB blob = (oracle.sql.BLOB) rs.getBlob(1);
                 out = blob.getBinaryOutputStream();
                 chunkSize = blob.getChunkSize();
-                logger.debug9(".. current chunk size: " + chunkSize);
+                LOGGER.trace(".. current chunk size: " + chunkSize);
                 byte[] buffer = new byte[chunkSize];
                 int bytesRead = 0;
                 while ((bytesRead = in.read(buffer)) != -1) {
@@ -357,7 +338,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
             } else {
                 throw new Exception("failed: no blob found: " + theQuery);
             }
-            logger.debug6(".. blob successfully updated.");
+            LOGGER.debug(".. blob successfully updated.");
         } catch (Exception e) {
             if (connection != null) {
                 connection.rollback();
@@ -404,7 +385,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
         long readBytes = 0;
         int len = 0;
         try {
-            logger.debug9("calling " + SOSClassUtil.getMethodName());
+            LOGGER.trace("calling " + SOSClassUtil.getMethodName());
             if (connection == null) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
                         + " may be the connect method was not called");
@@ -419,7 +400,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
             }
             stmt = connection.createStatement();
             rs = stmt.executeQuery(query);
-            logger.debug6(SOSClassUtil.getMethodName() + ": " + query);
+            LOGGER.debug(SOSClassUtil.getMethodName() + ": " + query);
             if (rs.next()) {
                 in = rs.getBinaryStream(1);
                 if (in == null) {
@@ -431,7 +412,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
                     out.write(buff, 0, len);
                     readBytes += len;
                 } else {
-                    logger.debug9(".. blob column has 0 bytes.");
+                    LOGGER.trace(".. blob column has 0 bytes.");
                     return readBytes;
                 }
                 while (0 < (len = in.read(buff))) {
@@ -439,7 +420,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
                     readBytes += len;
                 }
             }
-            logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
+            LOGGER.trace(SOSClassUtil.getMethodName() + " successfully executed.");
         } catch (Exception e) {
             if (profiler != null) {
                 try {
@@ -491,7 +472,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
         Blob blob;
         int bytesRead;
         try {
-            logger.debug9("calling " + SOSClassUtil.getMethodName());
+            LOGGER.trace("calling " + SOSClassUtil.getMethodName());
             if (connection == null) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
                         + " may be the connect method was not called");
@@ -505,19 +486,19 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
                 }
             }
             stmt = connection.createStatement();
-            logger.debug6(".. " + query);
+            LOGGER.debug(".. " + query);
             rs = stmt.executeQuery(query);
             if (rs.next()) {
                 blob = rs.getBlob(1);
                 if (blob == null) {
-                    logger.debug9(".. ResultSet returns NULL value.");
+                    LOGGER.trace(".. ResultSet returns NULL value.");
                     return result;
                 }
                 byte[] data = new byte[(int) blob.length()];
                 out = new ByteArrayOutputStream((int) blob.length());
                 in = new BufferedInputStream(blob.getBinaryStream());
                 if (in == null) {
-                    logger.debug9(".. ResultSet InputStream returns NULL value.");
+                    LOGGER.trace(".. ResultSet InputStream returns NULL value.");
                     return result;
                 }
                 if ((bytesRead = in.read(data, 0, data.length)) != -1) {
@@ -525,7 +506,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
                     result = out.toByteArray();
                 }
             }
-            logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
+            LOGGER.trace(SOSClassUtil.getMethodName() + " successfully executed.");
         } catch (Exception e) {
             if (profiler != null) {
                 try {
@@ -584,19 +565,19 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
         int bytesRead = 0;
         long totalBytesRead = 0;
         try {
-            logger.debug9("calling " + SOSClassUtil.getMethodName());
+            LOGGER.trace("calling " + SOSClassUtil.getMethodName());
             if (connection == null) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
                         + " may be the connect method was not called");
             }
             query = normalizeStatement(query, REPLACEMENT);
-            logger.debug6(SOSClassUtil.getMethodName() + ": " + query);
+            LOGGER.debug(SOSClassUtil.getMethodName() + ": " + query);
             stmt = connection.createStatement();
             rs = stmt.executeQuery(query);
             if (rs.next()) {
                 in = rs.getCharacterStream(1);
                 if (in == null) {
-                    logger.debug9(".. ResultSet returns NULL value.");
+                    LOGGER.trace(".. ResultSet returns NULL value.");
                     return totalBytesRead;
                 }
                 file = new File(fileName);
@@ -607,7 +588,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
                     totalBytesRead += bytesRead;
                 }
             }
-            logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
+            LOGGER.trace(SOSClassUtil.getMethodName() + " successfully executed.");
         } catch (Exception e) {
             throw e;
         } finally {
@@ -657,26 +638,26 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
         int bytesRead = 0;
         StringBuilder sb = new StringBuilder();
         try {
-            logger.debug9("calling " + SOSClassUtil.getMethodName());
+            LOGGER.trace("calling " + SOSClassUtil.getMethodName());
             if (connection == null) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
                         + " may be the connect method is not called");
             }
             query = normalizeStatement(query, REPLACEMENT);
-            logger.debug6(SOSClassUtil.getMethodName() + ": " + query);
+            LOGGER.debug(SOSClassUtil.getMethodName() + ": " + query);
             stmt = connection.createStatement();
             rs = stmt.executeQuery(query);
             if (rs.next()) {
                 in = rs.getCharacterStream(1);
                 if (in == null) {
-                    logger.debug9(".. ResultSet returns NULL value.");
+                    LOGGER.trace(".. ResultSet returns NULL value.");
                     return sb.toString();
                 }
                 while ((bytesRead = in.read()) != -1) {
                     sb.append((char) bytesRead);
                 }
             }
-            logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
+            LOGGER.trace(SOSClassUtil.getMethodName() + " successfully executed.");
         } catch (Exception e) {
             throw e;
         } finally {
@@ -716,7 +697,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
         Writer out = null;
         CLOB clob = null;
         try {
-            logger.debug9("calling " + SOSClassUtil.getMethodName());
+            LOGGER.trace("calling " + SOSClassUtil.getMethodName());
             if (connection == null) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
                         + " may be the connect method was not called");
@@ -752,7 +733,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
             }
             query.append(condition);
             theQuery = this.normalizeStatement(query.toString(), REPLACEMENT);
-            logger.debug6(SOSClassUtil.getMethodName() + ": " + theQuery);
+            LOGGER.debug(SOSClassUtil.getMethodName() + ": " + theQuery);
             stmt = connection.createStatement();
             stmt.executeUpdate(theQuery);
             try {
@@ -780,7 +761,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
             query.append(condition);
             query.append(" for update nowait");
             theQuery = this.normalizeStatement(query.toString(), REPLACEMENT);
-            logger.debug6(SOSClassUtil.getMethodName() + ": " + theQuery);
+            LOGGER.debug(SOSClassUtil.getMethodName() + ": " + theQuery);
             rs = stmt.executeQuery(theQuery);
             if (rs.next()) {
                 clob = (CLOB) rs.getClob(1);
@@ -792,7 +773,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
                 out.write(buffer, 0, bytesRead);
                 totalBytesWritten += bytesRead;
             }
-            logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
+            LOGGER.trace(SOSClassUtil.getMethodName() + " successfully executed.");
         } catch (Exception e) {
             throw e;
         } finally {
@@ -840,7 +821,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
         StringReader in = null;
         CLOB clob = null;
         try {
-            logger.debug9("calling " + SOSClassUtil.getMethodName());
+            LOGGER.trace("calling " + SOSClassUtil.getMethodName());
             if (connection == null) {
                 throw new Exception("sorry, there is no successful connection established." + " may be the connect method is not called");
             }
@@ -875,7 +856,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
             }
             query.append(condition);
             theQuery = this.normalizeStatement(query.toString(), REPLACEMENT);
-            logger.debug6(SOSClassUtil.getMethodName() + ": " + theQuery);
+            LOGGER.debug(SOSClassUtil.getMethodName() + ": " + theQuery);
             stmt = connection.createStatement();
             stmt.executeUpdate(theQuery);
             try {
@@ -903,7 +884,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
             query.append(condition);
             query.append(" for update nowait");
             theQuery = this.normalizeStatement(query.toString(), REPLACEMENT);
-            logger.debug6(SOSClassUtil.getMethodName() + ": " + theQuery);
+            LOGGER.debug(SOSClassUtil.getMethodName() + ": " + theQuery);
             rs = stmt.executeQuery(theQuery);
             if (rs.next()) {
                 clob = (CLOB) rs.getClob(1);
@@ -916,7 +897,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
                 out.write(buffer, 0, bytesRead);
                 totalBytesWritten += bytesRead;
             }
-            logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
+            LOGGER.trace(SOSClassUtil.getMethodName() + " successfully executed.");
         } catch (Exception e) {
             throw e;
         } finally {
@@ -1002,7 +983,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
     }
 
     protected String replaceCasts(String inputString) throws Exception {
-        logger.debug6("Calling " + SOSClassUtil.getMethodName());
+        LOGGER.debug("Calling " + SOSClassUtil.getMethodName());
         Pattern pattern = Pattern.compile(CAST_PATTERN);
         Matcher matcher = pattern.matcher(inputString);
         StringBuffer buffer = new StringBuffer();
@@ -1052,7 +1033,7 @@ public class SOSOracleConnection extends sos.connection.SOSConnection implements
             matcher.appendReplacement(buffer, replaceString);
         }
         matcher.appendTail(buffer);
-        logger.debug6(".. result [" + buffer.toString() + "]");
+        LOGGER.debug(".. result [" + buffer.toString() + "]");
         return buffer.toString();
     }
 

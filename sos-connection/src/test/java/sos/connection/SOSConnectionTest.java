@@ -1,7 +1,5 @@
 package sos.connection;
 
-import sos.util.SOSStandardLogger;
-
 public class SOSConnectionTest {
 
     public static void main(String[] args) throws Exception {
@@ -10,7 +8,7 @@ public class SOSConnectionTest {
         SOSConnection conn = null;
 
         try {
-            conn = new SOSMySQLConnection(configFile, new SOSStandardLogger(9));
+            conn = new SOSMySQLConnection(configFile);
             conn.connect();
 
         } catch (Exception ex) {

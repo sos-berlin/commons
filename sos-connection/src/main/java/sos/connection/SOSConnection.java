@@ -7,7 +7,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.InputStream;
-import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.lang.reflect.Constructor;
 import java.sql.Connection;
@@ -29,14 +28,14 @@ import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.sos.keepass.SOSKeePassResolver;
 
 import sos.connection.util.SOSProfiler;
-import sos.util.NullBufferedWriter;
 import sos.util.SOSClassUtil;
 import sos.util.SOSCommandline;
-import sos.util.SOSLogger;
-import sos.util.SOSStandardLogger;
 import sos.util.SOSString;
 import sos.xml.SOSXMLXPath;
 
@@ -86,6 +85,8 @@ import sos.xml.SOSXMLXPath;
  * @author Ghassan Beydoun **/
 public abstract class SOSConnection {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSConnection.class);
+
     protected static final String NLS_DE = "DE";
     protected static final String NLS_ISO = "ISO";
     protected static final String CAST_PATTERN = "(\\s*%cast\\s*)*\\s*(\\()*\\s*(\\s*%cast\\s*)+\\s*(\\(\\s*\\S+\\s*(\\S+?).*?)\\)"
@@ -102,7 +103,6 @@ public abstract class SOSConnection {
     protected String dbuser;
     protected String dbpassword;
     protected String dbname;
-    protected SOSLogger logger = null;
     private boolean execReturnsResultSet = false;
     private static final String EXEC_COMMENT_RETURN_RESULTSET = "EXECRETURNSRESULTSET";
     private static final String REPLACE_BACKSLASH = "\\\\'";
@@ -135,18 +135,13 @@ public abstract class SOSConnection {
         //
     }
 
-    public SOSConnection(final Connection connection, final SOSLogger logger) throws Exception {
-        this.connection = connection;
-        this.logger = logger;
-    }
-
     public SOSConnection(final Connection connection) throws Exception {
-        this(connection, new SOSStandardLogger(new NullBufferedWriter(new OutputStreamWriter(System.out)), SOSStandardLogger.DEBUG9));
+        this.connection = connection;
     }
 
-    public SOSConnection(final String configFileName, final SOSLogger logger) throws Exception {
-        logger.debug6("calling " + SOSClassUtil.getMethodName());
-        logger.debug9(".. configFileName: " + configFileName);
+    public SOSConnection(final String configFileName) throws Exception {
+        LOGGER.debug("calling " + SOSClassUtil.getMethodName());
+        LOGGER.trace(".. configFileName: " + configFileName);
 
         File file = new File(configFileName);
         if (!file.exists()) {
@@ -223,8 +218,6 @@ public abstract class SOSConnection {
         if (!SOSString.isEmpty(sCompatibility)) {
             setCompatibility(getCompatibility(sCompatibility));
         }
-        this.logger = logger;
-
         processPassword();
     }
 
@@ -260,13 +253,8 @@ public abstract class SOSConnection {
 
     }
 
-    public SOSConnection(final String driver, final String url, final String dbuser, final String dbpassword, final SOSLogger logger)
-            throws Exception {
-        if (logger == null) {
-            throw new Exception(SOSClassUtil.getMethodName() + ": missing logger.");
-        }
-        this.logger = logger;
-        logger.debug6("calling " + SOSClassUtil.getMethodName());
+    public SOSConnection(final String driver, final String url, final String dbuser, final String dbpassword) throws Exception {
+        LOGGER.debug("calling " + SOSClassUtil.getMethodName());
         if (SOSString.isEmpty(driver)) {
             throw new Exception(SOSClassUtil.getMethodName() + ": missing database driver.");
         }
@@ -275,34 +263,17 @@ public abstract class SOSConnection {
         this.dbuser = dbuser;
         this.dbpassword = dbpassword;
         processPassword();
-        logger.debug9(".. driver=" + driver + ", url=" + url + ", dbuser=" + dbuser);
-    }
-
-    public SOSConnection(final String driver, final String url, final String dbuser, final String dbpassword, final SOSLogger logger,
-            final int compatibility) throws Exception {
-        this(driver, url, dbuser, dbpassword, logger);
-        setCompatibility(compatibility);
-    }
-
-    public SOSConnection(final String configFileName) throws Exception {
-        this(configFileName, new SOSStandardLogger(new NullBufferedWriter(new OutputStreamWriter(System.out)), SOSStandardLogger.DEBUG9));
-    }
-
-    public SOSConnection(final String driver, final String url, final String dbuser, final String dbpassword) throws Exception {
-        this(driver, url, dbuser, dbpassword, new SOSStandardLogger(new NullBufferedWriter(new OutputStreamWriter(System.out)),
-                SOSStandardLogger.DEBUG9));
+        LOGGER.trace(".. driver=" + driver + ", url=" + url + ", dbuser=" + dbuser);
     }
 
     @SuppressWarnings("deprecation")
     private void processPassword() {
-        dbpassword = SOSCommandline.getExternalPassword(dbpassword, logger);
+        dbpassword = SOSCommandline.getExternalPassword(dbpassword);
     }
 
-    public static String getClassName(final String configFileName, final SOSLogger logger) throws Exception {
-        if (logger != null) {
-            logger.debug9("calling " + SOSClassUtil.getMethodName());
-            logger.debug9(".. configuration file: " + configFileName);
-        }
+    public static String getClassName(final String configFileName) throws Exception {
+        LOGGER.trace("calling " + SOSClassUtil.getMethodName());
+        LOGGER.trace(".. configuration file: " + configFileName);
         File file = new File(configFileName);
         if (!file.exists()) {
             throw new Exception("configuration file not found: " + configFileName);
@@ -372,40 +343,23 @@ public abstract class SOSConnection {
         }
     }
 
-    public static SOSConnection createInstance(final String configFileName, final SOSLogger logger) throws Exception {
-        logger.debug6("calling " + SOSClassUtil.getMethodName());
-        String className = SOSConnection.getClassName(configFileName, logger);
-        logger.debug9(".. creating instance for: " + className);
-        Object[] arguments = { configFileName, logger };
-        return createInstance(className, arguments);
-    }
-
-    public static SOSConnection createInstance(final String className, final Connection connection, final SOSLogger logger) throws Exception {
-        logger.debug6("calling " + SOSClassUtil.getMethodName());
-        Object[] arguments = { connection, logger };
+    public static SOSConnection createInstance(final String configFileName) throws Exception {
+        LOGGER.debug("calling " + SOSClassUtil.getMethodName());
+        String className = SOSConnection.getClassName(configFileName);
+        LOGGER.trace(".. creating instance for: " + className);
+        Object[] arguments = { configFileName };
         return createInstance(className, arguments);
     }
 
     public static SOSConnection createInstance(final String className, final Connection connection) throws Exception {
+        LOGGER.debug("calling " + SOSClassUtil.getMethodName());
         Object[] arguments = { connection };
-        return createInstance(className, arguments);
-    }
-
-    public static SOSConnection createInstance(final String configFileName) throws Exception {
-        String className = SOSConnection.getClassName(configFileName, null);
-        Object[] arguments = { configFileName };
         return createInstance(className, arguments);
     }
 
     public static SOSConnection createInstance(final String className, final String driver, final String url, final String dbuser,
             final String dbpassword) throws Exception {
         Object[] arguments = { driver, url, dbuser, dbpassword };
-        return createInstance(className, arguments);
-    }
-
-    public static SOSConnection createInstance(final String className, final String driver, final String url, final String dbuser,
-            final String dbpassword, final SOSLogger logger) throws Exception {
-        Object[] arguments = { driver, url, dbuser, dbpassword, logger };
         return createInstance(className, arguments);
     }
 
@@ -425,13 +379,13 @@ public abstract class SOSConnection {
         String key = null;
         String value = null;
         try {
-            logger.debug9("calling " + SOSClassUtil.getMethodName());
+            LOGGER.trace("calling " + SOSClassUtil.getMethodName());
             if (connection == null) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
                         + " may be the connect method was not called");
             }
             query = normalizeStatement(query, getReplacement());
-            logger.debug6(SOSClassUtil.getMethodName() + ": " + query);
+            LOGGER.debug(SOSClassUtil.getMethodName() + ": " + query);
             try {
                 if (profiler != null) {
                     profiler.start(query);
@@ -453,7 +407,7 @@ public abstract class SOSConnection {
                     results.put(normalizeKey(key), value.trim());
                 }
             }
-            logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
+            LOGGER.trace(SOSClassUtil.getMethodName() + " successfully executed.");
         } catch (Exception e) {
             if (profiler != null) {
                 try {
@@ -497,13 +451,13 @@ public abstract class SOSConnection {
         int columnCount = 0;
         String key, value;
         try {
-            logger.debug9("calling " + SOSClassUtil.getMethodName());
+            LOGGER.trace("calling " + SOSClassUtil.getMethodName());
             if (connection == null) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
                         + " may be the connect method was not called");
             }
             query = normalizeStatement(query, getReplacement());
-            logger.debug6(SOSClassUtil.getMethodName() + ": " + query);
+            LOGGER.debug(SOSClassUtil.getMethodName() + ": " + query);
             if (profiler != null) {
                 try {
                     profiler.start(query);
@@ -522,11 +476,11 @@ public abstract class SOSConnection {
                     if (SOSString.isEmpty(value)) {
                         value = "";
                     }
-                    logger.debug9(SOSClassUtil.getMethodName() + ", key= " + key + ", value= " + value);
+                    LOGGER.trace(SOSClassUtil.getMethodName() + ", key= " + key + ", value= " + value);
                     results.setProperty(normalizeKey(key), value.trim());
                 }
             }
-            logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
+            LOGGER.trace(SOSClassUtil.getMethodName() + " successfully executed.");
         } catch (Exception e) {
             if (profiler != null) {
                 try {
@@ -570,13 +524,13 @@ public abstract class SOSConnection {
         int columnCount = 0;
         String key, value;
         try {
-            logger.debug9("calling " + SOSClassUtil.getMethodName());
+            LOGGER.trace("calling " + SOSClassUtil.getMethodName());
             if (connection == null) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
                         + " may be the connect method was not called");
             }
             query = normalizeStatement(query, getReplacement());
-            logger.debug6(SOSClassUtil.getMethodName() + ": " + query);
+            LOGGER.debug(SOSClassUtil.getMethodName() + ": " + query);
             if (profiler != null) {
                 try {
                     profiler.start(query);
@@ -595,11 +549,11 @@ public abstract class SOSConnection {
                     if (SOSString.isEmpty(value)) {
                         value = "";
                     }
-                    logger.debug9(SOSClassUtil.getMethodName() + ", key= " + key + ", value= " + value);
+                    LOGGER.trace(SOSClassUtil.getMethodName() + ", key= " + key + ", value= " + value);
                     results.setProperty(normalizeKey(key), value.trim());
                 }
             }
-            logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
+            LOGGER.trace(SOSClassUtil.getMethodName() + " successfully executed.");
         } catch (Exception e) {
             if (profiler != null) {
                 try {
@@ -640,13 +594,13 @@ public abstract class SOSConnection {
         ResultSet rs = null;
         String result = "";
         try {
-            logger.debug9("calling " + SOSClassUtil.getMethodName());
+            LOGGER.trace("calling " + SOSClassUtil.getMethodName());
             if (connection == null) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
                         + " may be the connect method was not called");
             }
             query = normalizeStatement(query, getReplacement());
-            logger.debug6(SOSClassUtil.getMethodName() + ": " + query);
+            LOGGER.debug(SOSClassUtil.getMethodName() + ": " + query);
             if (profiler != null) {
                 profiler.start(query);
             }
@@ -658,7 +612,7 @@ public abstract class SOSConnection {
                     result = "";
                 }
             }
-            logger.debug9(SOSClassUtil.getMethodName() + ".. successfully executed.");
+            LOGGER.trace(SOSClassUtil.getMethodName() + ".. successfully executed.");
         } catch (Exception e) {
             if (profiler != null) {
                 try {
@@ -703,13 +657,13 @@ public abstract class SOSConnection {
         String key, value;
         int columnCount = 0;
         try {
-            logger.debug9("calling " + SOSClassUtil.getMethodName() + ": " + query);
+            LOGGER.trace("calling " + SOSClassUtil.getMethodName() + ": " + query);
             if (connection == null) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
                         + " may be the connect method was not called");
             }
             query = normalizeStatement(query, getReplacement());
-            logger.debug6(SOSClassUtil.getMethodName() + ": " + query);
+            LOGGER.debug(SOSClassUtil.getMethodName() + ": " + query);
             if (profiler != null) {
                 try {
                     profiler.start(query);
@@ -733,7 +687,7 @@ public abstract class SOSConnection {
                 results.add(record);
                 record = new HashMap<String, String>();
             }
-            logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
+            LOGGER.trace(SOSClassUtil.getMethodName() + " successfully executed.");
         } catch (Exception e) {
             if (profiler != null) {
                 try {
@@ -778,13 +732,13 @@ public abstract class SOSConnection {
         String key, value;
         int columnCount = 0;
         try {
-            logger.debug9("calling " + SOSClassUtil.getMethodName() + ": " + query);
+            LOGGER.trace("calling " + SOSClassUtil.getMethodName() + ": " + query);
             if (connection == null) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
                         + " may be the connect method was not called");
             }
             query = normalizeStatement(query, getReplacement());
-            logger.debug6(SOSClassUtil.getMethodName() + ": " + query);
+            LOGGER.debug(SOSClassUtil.getMethodName() + ": " + query);
             if (profiler != null) {
                 try {
                     profiler.start(query);
@@ -808,7 +762,7 @@ public abstract class SOSConnection {
                 results.add(record);
                 record = new HashMap<String, String>();
             }
-            logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
+            LOGGER.trace(SOSClassUtil.getMethodName() + " successfully executed.");
         } catch (Exception e) {
             if (profiler != null) {
                 try {
@@ -850,13 +804,13 @@ public abstract class SOSConnection {
         ResultSet rs = null;
         String value;
         try {
-            logger.debug9("calling " + SOSClassUtil.getMethodName());
+            LOGGER.trace("calling " + SOSClassUtil.getMethodName());
             if (connection == null) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
                         + " may be the connect method was not called");
             }
             query = normalizeStatement(query, getReplacement());
-            logger.debug6(SOSClassUtil.getMethodName() + ": " + query);
+            LOGGER.debug(SOSClassUtil.getMethodName() + ": " + query);
             if (profiler != null) {
                 profiler.start(query);
             }
@@ -868,7 +822,7 @@ public abstract class SOSConnection {
                     results.add(value.trim());
                 }
             }
-            logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
+            LOGGER.trace(SOSClassUtil.getMethodName() + " successfully executed.");
         } catch (Exception e) {
             if (profiler != null) {
                 try {
@@ -910,7 +864,7 @@ public abstract class SOSConnection {
         StringBuilder query = null;
         String theQuery = null;
         try {
-            logger.debug9("calling " + SOSClassUtil.getMethodName());
+            LOGGER.trace("calling " + SOSClassUtil.getMethodName());
             if (connection == null) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
                         + " may be the connect method was not called");
@@ -941,7 +895,7 @@ public abstract class SOSConnection {
                 query.append(" WHERE ").append(condition);
             }
             theQuery = this.normalizeStatement(query.toString(), getReplacement());
-            logger.debug6(SOSClassUtil.getMethodName() + ": " + theQuery);
+            LOGGER.debug(SOSClassUtil.getMethodName() + ": " + theQuery);
             if (profiler != null) {
                 try {
                     profiler.start(theQuery);
@@ -952,7 +906,7 @@ public abstract class SOSConnection {
             pstmt = connection.prepareStatement(theQuery);
             pstmt.setBinaryStream(1, in, data.length);
             pstmt.executeUpdate();
-            logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
+            LOGGER.trace(SOSClassUtil.getMethodName() + " successfully executed.");
         } catch (Exception e) {
             if (profiler != null) {
                 try {
@@ -994,7 +948,7 @@ public abstract class SOSConnection {
         long totalBytesWritten = 0;
         String theQuery = null;
         try {
-            logger.debug9("calling " + SOSClassUtil.getMethodName());
+            LOGGER.trace("calling " + SOSClassUtil.getMethodName());
             if (connection == null) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
                         + " may be the connect method was not called");
@@ -1024,7 +978,7 @@ public abstract class SOSConnection {
                 query.append(" WHERE ").append(condition);
             }
             theQuery = this.normalizeStatement(query.toString(), getReplacement());
-            logger.debug6(SOSClassUtil.getMethodName() + ": " + theQuery);
+            LOGGER.debug(SOSClassUtil.getMethodName() + ": " + theQuery);
             if (profiler != null) {
                 try {
                     profiler.start(theQuery);
@@ -1036,7 +990,7 @@ public abstract class SOSConnection {
             totalBytesWritten = data.length();
             pstmt.setCharacterStream(1, new java.io.StringReader(data), (int) totalBytesWritten);
             pstmt.executeUpdate();
-            logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
+            LOGGER.trace(SOSClassUtil.getMethodName() + " successfully executed.");
         } catch (Exception e) {
             if (profiler != null) {
                 profiler.stop("ERROR", e.getMessage());
@@ -1068,13 +1022,13 @@ public abstract class SOSConnection {
         int bytesRead;
         StringBuilder sb = new StringBuilder();
         try {
-            logger.debug9("calling " + SOSClassUtil.getMethodName());
+            LOGGER.trace("calling " + SOSClassUtil.getMethodName());
             if (connection == null) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
                         + " Maybe the connect method was not called.");
             }
             query = normalizeStatement(query, getReplacement());
-            logger.debug6(SOSClassUtil.getMethodName() + ": " + query);
+            LOGGER.debug(SOSClassUtil.getMethodName() + ": " + query);
             if (profiler != null) {
                 try {
                     profiler.start(query);
@@ -1086,26 +1040,26 @@ public abstract class SOSConnection {
             try {
                 rs = stmt.executeQuery(query);
             } catch (Exception e) {
-                logger.debug6(".. query failed: " + query + ": " + e.getMessage());
+                LOGGER.debug(".. query failed: " + query + ": " + e.getMessage());
                 throw new Exception(SOSClassUtil.getMethodName() + ": " + e.getMessage());
             }
             if (rs.next()) {
                 in = rs.getCharacterStream(1);
                 if (in == null) {
-                    logger.debug6(".. ResultSet returns NULL value.");
+                    LOGGER.debug(".. ResultSet returns NULL value.");
                     return "";
                 }
                 if ((bytesRead = in.read()) != -1) {
                     sb.append((char) bytesRead);
                 } else {
-                    logger.debug6(".. CLOB column has 0 bytes.");
+                    LOGGER.debug(".. CLOB column has 0 bytes.");
                     return "";
                 }
                 while ((bytesRead = in.read()) != -1) {
                     sb.append((char) bytesRead);
                 }
             }
-            logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
+            LOGGER.trace(SOSClassUtil.getMethodName() + " successfully executed.");
         } catch (Exception e) {
             if (profiler != null) {
                 try {
@@ -1149,13 +1103,13 @@ public abstract class SOSConnection {
         long readBytes = 0;
         Reader in = null;
         try {
-            logger.debug9("calling " + SOSClassUtil.getMethodName());
+            LOGGER.trace("calling " + SOSClassUtil.getMethodName());
             if (connection == null) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
                         + " may be the connect method was not called");
             }
             query = normalizeStatement(query, getReplacement());
-            logger.debug6(SOSClassUtil.getMethodName() + ": " + query);
+            LOGGER.debug(SOSClassUtil.getMethodName() + ": " + query);
             if (profiler != null) {
                 profiler.start(query);
             }
@@ -1164,7 +1118,7 @@ public abstract class SOSConnection {
             if (rs.next()) {
                 in = rs.getCharacterStream(1);
                 if (in == null) {
-                    logger.debug9(".. ResultSet returns NULL value.");
+                    LOGGER.trace(".. ResultSet returns NULL value.");
                     return readBytes;
                 }
                 if ((bytesRead = in.read()) != -1) {
@@ -1172,7 +1126,7 @@ public abstract class SOSConnection {
                     out.write(bytesRead);
                     readBytes++;
                 } else {
-                    logger.debug9(".. CLOB column has 0 bytes.");
+                    LOGGER.trace(".. CLOB column has 0 bytes.");
                     return readBytes;
                 }
                 while ((bytesRead = in.read()) != -1) {
@@ -1180,7 +1134,7 @@ public abstract class SOSConnection {
                     readBytes++;
                 }
             }
-            logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
+            LOGGER.trace(SOSClassUtil.getMethodName() + " successfully executed.");
         } catch (Exception e) {
             if (profiler != null) {
                 profiler.stop("ERROR", e.getMessage());
@@ -1231,7 +1185,7 @@ public abstract class SOSConnection {
         String theQuery = null;
         Reader in = null;
         try {
-            logger.debug9("calling " + SOSClassUtil.getMethodName());
+            LOGGER.trace("calling " + SOSClassUtil.getMethodName());
             if (connection == null) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
                         + " may be the connect method was not called");
@@ -1261,7 +1215,7 @@ public abstract class SOSConnection {
                 query.append(" WHERE ").append(condition);
             }
             theQuery = this.normalizeStatement(query.toString(), getReplacement());
-            logger.debug6(SOSClassUtil.getMethodName() + ": " + theQuery);
+            LOGGER.debug(SOSClassUtil.getMethodName() + ": " + theQuery);
             if (profiler != null) {
                 try {
                     profiler.start(theQuery);
@@ -1274,7 +1228,7 @@ public abstract class SOSConnection {
             in = new FileReader(file);
             pstmt.setCharacterStream(1, in, (int) totalBytesWritten);
             pstmt.executeUpdate();
-            logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
+            LOGGER.trace(SOSClassUtil.getMethodName() + " successfully executed.");
         } catch (Exception e) {
             if (profiler != null) {
                 try {
@@ -1317,7 +1271,7 @@ public abstract class SOSConnection {
         StringBuilder query = null;
         String theQuery = null;
         try {
-            logger.debug9("calling " + SOSClassUtil.getMethodName());
+            LOGGER.trace("calling " + SOSClassUtil.getMethodName());
             if (connection == null) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
                         + " may be the connect method was not called");
@@ -1352,16 +1306,16 @@ public abstract class SOSConnection {
                 query.append(" WHERE ").append(condition);
             }
             theQuery = normalizeStatement(query.toString(), getReplacement());
-            logger.debug6(SOSClassUtil.getMethodName() + ": " + theQuery);
+            LOGGER.debug(SOSClassUtil.getMethodName() + ": " + theQuery);
             if (profiler != null) {
                 profiler.start(theQuery);
             }
             pstmt = connection.prepareStatement(theQuery);
             totalBytesRead = file.length();
-            logger.debug9(".. length: " + totalBytesRead);
+            LOGGER.trace(".. length: " + totalBytesRead);
             pstmt.setBinaryStream(1, in, (int) totalBytesRead);
             pstmt.executeUpdate();
-            logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
+            LOGGER.trace(SOSClassUtil.getMethodName() + " successfully executed.");
         } catch (Exception e) {
             if (profiler != null) {
                 try {
@@ -1408,13 +1362,13 @@ public abstract class SOSConnection {
         long readBytes = 0;
         int len = 0;
         try {
-            logger.debug9("calling " + SOSClassUtil.getMethodName());
+            LOGGER.trace("calling " + SOSClassUtil.getMethodName());
             if (connection == null) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
                         + " Maybe the connect method was not called.");
             }
             query = normalizeStatement(query, getReplacement());
-            logger.debug6(SOSClassUtil.getMethodName() + ": " + query);
+            LOGGER.debug(SOSClassUtil.getMethodName() + ": " + query);
             if (profiler != null) {
                 try {
                     profiler.start(query);
@@ -1435,7 +1389,7 @@ public abstract class SOSConnection {
                     out.write(buff, 0, len);
                     readBytes += len;
                 } else {
-                    logger.debug9(".. BLOB column has 0 bytes.");
+                    LOGGER.trace(".. BLOB column has 0 bytes.");
                     return readBytes;
                 }
                 while (0 < (len = in.read(buff))) {
@@ -1443,7 +1397,7 @@ public abstract class SOSConnection {
                     readBytes += len;
                 }
             }
-            logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
+            LOGGER.trace(SOSClassUtil.getMethodName() + " successfully executed.");
         } catch (Exception e) {
             if (profiler != null) {
                 try {
@@ -1491,13 +1445,13 @@ public abstract class SOSConnection {
         Statement stmt = null;
         byte[] result = {};
         try {
-            logger.debug9("calling " + SOSClassUtil.getMethodName());
+            LOGGER.trace("calling " + SOSClassUtil.getMethodName());
             if (connection == null) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
                         + " may be the connect method was not called");
             }
             query = normalizeStatement(query, getReplacement());
-            logger.debug6(SOSClassUtil.getMethodName() + ": " + query);
+            LOGGER.debug(SOSClassUtil.getMethodName() + ": " + query);
             if (profiler != null) {
                 try {
                     profiler.start(query);
@@ -1511,10 +1465,10 @@ public abstract class SOSConnection {
                 result = rs.getBytes(1);
             }
             if (result == null) {
-                logger.debug9(".. BLOB column has 0 bytes.");
+                LOGGER.trace(".. BLOB column has 0 bytes.");
                 return result;
             }
-            logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
+            LOGGER.trace(SOSClassUtil.getMethodName() + " successfully executed.");
         } catch (Exception e) {
             if (profiler != null) {
                 try {
@@ -1560,13 +1514,13 @@ public abstract class SOSConnection {
 
     public void executeQuery(String query, final int resultSetType, final int resultSetConcurrency, final int resultSetHoldability) throws Exception {
         try {
-            logger.debug9("calling " + SOSClassUtil.getMethodName());
+            LOGGER.trace("calling " + SOSClassUtil.getMethodName());
             if (connection == null) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
                         + " Maybe the connect method was not called.");
             }
             query = normalizeStatement(query, getReplacement());
-            logger.debug6(SOSClassUtil.getMethodName() + ": " + query);
+            LOGGER.debug(SOSClassUtil.getMethodName() + ": " + query);
             if (profiler != null) {
                 try {
                     profiler.start(query);
@@ -1587,7 +1541,7 @@ public abstract class SOSConnection {
                 statement = connection.createStatement();
             }
             resultSet = statement.executeQuery(query);
-            logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
+            LOGGER.trace(SOSClassUtil.getMethodName() + " successfully executed.");
             if (profiler != null) {
                 try {
                     profiler.stop("", "");
@@ -1616,7 +1570,7 @@ public abstract class SOSConnection {
 
     public void closeQuery() throws Exception {
         try {
-            logger.debug9("calling " + SOSClassUtil.getMethodName());
+            LOGGER.trace("calling " + SOSClassUtil.getMethodName());
             if (connection == null) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
                         + " may be the connect method was not called");
@@ -1637,19 +1591,19 @@ public abstract class SOSConnection {
         int rowCount = 0;
         Statement stmt = null;
         try {
-            logger.debug9("calling " + SOSClassUtil.getMethodName());
+            LOGGER.trace("calling " + SOSClassUtil.getMethodName());
             if (connection == null) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
                         + " may be the connect method was not called");
             }
             query = normalizeStatement(query, getReplacement());
-            logger.debug6(SOSClassUtil.getMethodName() + ": " + query);
+            LOGGER.debug(SOSClassUtil.getMethodName() + ": " + query);
             if (profiler != null) {
                 profiler.start(query);
             }
             stmt = connection.createStatement();
             rowCount = stmt.executeUpdate(query);
-            logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
+            LOGGER.trace(SOSClassUtil.getMethodName() + " successfully executed.");
             try {
                 if (profiler != null) {
                     try {
@@ -1697,19 +1651,19 @@ public abstract class SOSConnection {
     public void execute(String query) throws Exception {
         Statement stmt = null;
         try {
-            logger.debug9("calling " + SOSClassUtil.getMethodName());
+            LOGGER.trace("calling " + SOSClassUtil.getMethodName());
             if (connection == null) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
                         + " may be the connect method was not called");
             }
             query = normalizeStatement(query, getReplacement());
-            logger.debug6(SOSClassUtil.getMethodName() + ": " + query);
+            LOGGER.debug(SOSClassUtil.getMethodName() + ": " + query);
             if (profiler != null) {
                 profiler.start(query);
             }
             stmt = connection.createStatement();
             stmt.execute(query);
-            logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
+            LOGGER.trace(SOSClassUtil.getMethodName() + " successfully executed.");
             if (profiler != null) {
                 try {
                     profiler.stop("", "");
@@ -1735,23 +1689,23 @@ public abstract class SOSConnection {
     }
 
     public void commit() throws Exception {
-        logger.debug9("calling " + SOSClassUtil.getMethodName());
+        LOGGER.trace("calling " + SOSClassUtil.getMethodName());
         if (connection == null) {
             throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
                     + " may be the connect method was not called");
         }
         connection.commit();
-        logger.debug6(SOSClassUtil.getMethodName() + " successfully executed.");
+        LOGGER.debug(SOSClassUtil.getMethodName() + " successfully executed.");
     }
 
     public void rollback() throws Exception {
-        logger.debug9("calling " + SOSClassUtil.getMethodName());
+        LOGGER.trace("calling " + SOSClassUtil.getMethodName());
         if (connection == null) {
             throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
                     + " may be the connect method was not called");
         }
         connection.rollback();
-        logger.debug6(SOSClassUtil.getMethodName() + " successfully executed.");
+        LOGGER.debug(SOSClassUtil.getMethodName() + " successfully executed.");
     }
 
     public void setAutoCommit(final boolean autoCommit) throws Exception {
@@ -1836,7 +1790,7 @@ public abstract class SOSConnection {
         int fieldCount = this.fieldCount();
         String[] fieldNames = new String[fieldCount];
         try {
-            logger.debug6("calling " + SOSClassUtil.getMethodName());
+            LOGGER.debug("calling " + SOSClassUtil.getMethodName());
             if (connection == null) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
                         + " may be the connect method was not called");
@@ -1845,7 +1799,7 @@ public abstract class SOSConnection {
                 fieldNames[i] = normalizeKey(resultSet.getMetaData().getColumnName(i + 1));
             }
             Arrays.sort(fieldNames);
-            logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
+            LOGGER.trace(SOSClassUtil.getMethodName() + " successfully executed.");
         } catch (Exception e) {
             throw e;
         }
@@ -1863,7 +1817,7 @@ public abstract class SOSConnection {
     public Map<String, String> fieldDesc(final int index) throws Exception {
         Map<String, String> fieldDesc = new HashMap<String, String>();
         try {
-            logger.debug6("calling " + SOSClassUtil.getMethodName());
+            LOGGER.debug("calling " + SOSClassUtil.getMethodName());
             if (connection == null) {
                 throw new Exception(SOSClassUtil.getMethodName() + ": sorry, there is no successful connection established."
                         + " may be the connect method was not called");
@@ -1875,7 +1829,7 @@ public abstract class SOSConnection {
             fieldDesc.put("columnTypeName", resultSet.getMetaData().getColumnTypeName(index));
             fieldDesc.put("precision", String.valueOf(resultSet.getMetaData().getPrecision(index)));
             fieldDesc.put("scale", String.valueOf(resultSet.getMetaData().getScale(index)));
-            logger.debug9(SOSClassUtil.getMethodName() + " successfully executed.");
+            LOGGER.trace(SOSClassUtil.getMethodName() + " successfully executed.");
         } catch (Exception e) {
             throw e;
         }
@@ -1887,8 +1841,8 @@ public abstract class SOSConnection {
     }
 
     public String normalizeStatement(final String inputString, final String[] replacement) throws Exception {
-        logger.debug9("Calling " + SOSClassUtil.getMethodName());
-        logger.debug9("..inputString=" + inputString);
+        LOGGER.trace("Calling " + SOSClassUtil.getMethodName());
+        LOGGER.trace("..inputString=" + inputString);
         if (!inputString.matches("(?s).*(%lcase|%ucase|%now|%updlock|%cast|%timestamp).*")) {
             return inputString;
         }
@@ -1925,7 +1879,7 @@ public abstract class SOSConnection {
             matcher.appendReplacement(buffer, replaceString);
         }
         matcher.appendTail(buffer);
-        logger.debug9(SOSClassUtil.getMethodName() + ", result [" + buffer.toString() + "]");
+        LOGGER.trace(SOSClassUtil.getMethodName() + ", result [" + buffer.toString() + "]");
         if (inputString.matches("(.*%cast.*)")) {
             return replaceCasts(buffer.toString());
         }
@@ -1956,7 +1910,7 @@ public abstract class SOSConnection {
             connection.close();
             connection = null;
             try {
-                logger.debug6(SOSClassUtil.getMethodName() + ": successfully disconnected.");
+                LOGGER.debug(SOSClassUtil.getMethodName() + ": successfully disconnected.");
             } catch (Exception e) {
                 //
             }
@@ -2030,14 +1984,14 @@ public abstract class SOSConnection {
     }
 
     public void setKeysToLowerCase() throws Exception {
-        logger.debug6("calling " + SOSClassUtil.getMethodName());
-        logger.debug9(".. now keys set to lower case.");
+        LOGGER.debug("calling " + SOSClassUtil.getMethodName());
+        LOGGER.trace(".. now keys set to lower case.");
         lowerCase = true;
     }
 
     public void setKeysToUpperCase() throws Exception {
-        logger.debug6("calling " + SOSClassUtil.getMethodName());
-        logger.debug9(".. now keys set to upper case.");
+        LOGGER.debug("calling " + SOSClassUtil.getMethodName());
+        LOGGER.trace(".. now keys set to upper case.");
         lowerCase = false;
     }
 
@@ -2047,7 +2001,7 @@ public abstract class SOSConnection {
         if (contentOfClobAttribute == null || contentOfClobAttribute.isEmpty()) {
             throw new Exception(SOSClassUtil.getMethodName() + ": contentOfClobAttribute is empty");
         }
-        logger.debug6(SOSClassUtil.getMethodName() + ": contentOfClobAttribute = " + contentOfClobAttribute);
+        LOGGER.debug(SOSClassUtil.getMethodName() + ": contentOfClobAttribute = " + contentOfClobAttribute);
         contentOfClobAttribute = contentOfClobAttribute.replaceAll("\r\n", "\n");
         ArrayList<String> statements = new ArrayList<String>();
         StringBuffer splitSB = new StringBuffer();
@@ -2067,7 +2021,7 @@ public abstract class SOSConnection {
                 if (endsWithEnd(statement)) {
                     if (this.isProcedureSyntax(statement)) {
                         statements.add(statement + endSB.toString());
-                        logger.debug6(SOSClassUtil.getMethodName() + " : statement =" + statement + endSB.toString());
+                        LOGGER.debug(SOSClassUtil.getMethodName() + " : statement =" + statement + endSB.toString());
                     } else {
                         String s = statement.replaceAll(REPLACE_BACKSLASH, REPLACEMENT_BACKSLASH);
                         s = s.replaceAll(REPLACE_DOUBLE_APOSTROPHE, REPLACEMENT_DOUBLE_APOSTROPHE);
@@ -2076,7 +2030,7 @@ public abstract class SOSConnection {
                             int posPLSQL = statement.indexOf(beginProcedure);
                             String substatement = statement.substring(posPLSQL);
                             statements.add(substatement + endSB.toString());
-                            logger.debug6(SOSClassUtil.getMethodName() + " : statement =" + substatement + endSB.toString());
+                            LOGGER.debug(SOSClassUtil.getMethodName() + " : statement =" + substatement + endSB.toString());
                         }
                     }
                 } else {
@@ -2136,7 +2090,7 @@ public abstract class SOSConnection {
             }
             if (!"".equals(value)) {
                 statements.add(value);
-                logger.debug6(SOSClassUtil.getMethodName() + ": statement = " + value);
+                LOGGER.debug(SOSClassUtil.getMethodName() + ": statement = " + value);
             }
             if (semicolon != -1) {
                 sub = new StringBuffer(st.substring(semicolon + 1));
@@ -2224,27 +2178,27 @@ public abstract class SOSConnection {
                     try {
                         int major = Integer.parseInt(version.substring(0, 2));
                         if (this.getMajorVersion() >= major) {
-                            logger.debug9("using sql comment : db major version = " + this.getMajorVersion() + " comment major version = " + major
+                            LOGGER.trace("using sql comment : db major version = " + this.getMajorVersion() + " comment major version = " + major
                                     + " ");
                             int minor = Integer.parseInt(version.substring(2, 4));
                             if (this.getMinorVersion() >= minor) {
                                 isVersionComment = true;
-                                logger.debug9("using sql comment : db minor version = " + this.getMinorVersion() + " comment minor version = " + minor
+                                LOGGER.trace("using sql comment : db minor version = " + this.getMinorVersion() + " comment minor version = " + minor
                                         + " ");
                             } else {
-                                logger.debug9("skip sql comment : db minor version = " + this.getMinorVersion() + " comment minor version = " + minor
+                                LOGGER.trace("skip sql comment : db minor version = " + this.getMinorVersion() + " comment minor version = " + minor
                                         + " ");
                             }
                         } else {
-                            logger.debug9("skip sql comment : db major version = " + this.getMajorVersion() + " comment major version = " + major
+                            LOGGER.trace("skip sql comment : db major version = " + this.getMajorVersion() + " comment major version = " + major
                                     + " ");
                         }
                     } catch (Exception e) {
-                        logger.warn("skip sql comment : no numerical major/minor version in comment = " + version + " database major version = "
+                        LOGGER.warn("skip sql comment : no numerical major/minor version in comment = " + version + " database major version = "
                                 + this.getMajorVersion() + " minor version = " + this.getMinorVersion());
                     }
                 } else {
-                    logger.warn("skip sql comment : invalid comment major version length = " + contentArr[0] + " db major version = " + this
+                    LOGGER.warn("skip sql comment : invalid comment major version length = " + contentArr[0] + " db major version = " + this
                             .getMajorVersion());
                 }
                 if (!isVersionComment) {
@@ -2296,15 +2250,15 @@ public abstract class SOSConnection {
                 String sqlToLower = sql.toLowerCase();
                 if ("commit".equals(sqlToLower)) {
                     if (countAddBatches > 0) {
-                        logger.debug3(String.format("%s: call executeBatch - %s batches", methodName, countAddBatches));
+                        LOGGER.debug(String.format("%s: call executeBatch - %s batches", methodName, countAddBatches));
                         st.executeBatch();
                         countAddBatches = 0;
                     }
-                    logger.debug3(String.format("%s: call connection commit", methodName));
+                    LOGGER.debug(String.format("%s: call connection commit", methodName));
                     this.connection.commit();
                 } else if ("rollback".equals(sqlToLower)) {
                     if (countAddBatches > 0) {
-                        logger.debug3(String.format("%s: call executeBatch - %s batches", methodName, countAddBatches));
+                        LOGGER.debug(String.format("%s: call executeBatch - %s batches", methodName, countAddBatches));
                         st.executeBatch();
                         countAddBatches = 0;
                     }
@@ -2312,12 +2266,12 @@ public abstract class SOSConnection {
                 } else if (sqlToLower.startsWith("select") || (sqlToLower.startsWith("exec") && (this.execReturnsResultSet || sqlToLower.contains(
                         EXEC_COMMENT_RETURN_RESULTSET.toLowerCase())))) {
                     if (countAddBatches > 0) {
-                        logger.debug3(String.format("%s: call executeBatch - %s batches", methodName, countAddBatches));
+                        LOGGER.debug(String.format("%s: call executeBatch - %s batches", methodName, countAddBatches));
                         st.executeBatch();
                         countAddBatches = 0;
                     }
                     try {
-                        logger.debug3(String.format("%s: call executeQuery - %s", methodName, sql));
+                        LOGGER.debug(String.format("%s: call executeQuery - %s", methodName, sql));
                         this.statement = st;
                         if (this.resultSet != null) {
                             this.resultSet.close();
@@ -2341,18 +2295,18 @@ public abstract class SOSConnection {
                         throw ex;
                     }
                 } else {
-                    logger.debug6(String.format("%s: call addBatch - %s", methodName, sql));
+                    LOGGER.debug(String.format("%s: call addBatch - %s", methodName, sql));
                     st.addBatch(sql);
                     countAddBatches++;
                     if (++count % this.batchSize == 0) {
-                        logger.debug3(String.format("%s: call executeBatch - %s batches", methodName, countAddBatches));
+                        LOGGER.debug(String.format("%s: call executeBatch - %s batches", methodName, countAddBatches));
                         st.executeBatch();
                         countAddBatches = 0;
                     }
                 }
             }
             if (countAddBatches > 0) {
-                logger.debug3(String.format("%s: call executeBatch - %s batches", methodName, countAddBatches));
+                LOGGER.debug(String.format("%s: call executeBatch - %s batches", methodName, countAddBatches));
                 st.executeBatch();
             }
         } catch (Exception ex) {
@@ -2391,19 +2345,17 @@ public abstract class SOSConnection {
         try {
             supportsBatchUpdates = this.connection.getMetaData().supportsBatchUpdates();
         } catch (Exception ex) {
-            logger.warn(String.format("%s: %s", methodName, ex.getMessage()));
+            LOGGER.warn(String.format("%s: %s", methodName, ex.getMessage()));
         }
         if (executeBatch) {
             executeBatch = supportsBatchUpdates;
         }
-        logger.info(String.format("%s: executeBatch = %s (supportsBatchUpdates = %s, useExecuteBatch = %s, batchSize = %s)", methodName, executeBatch,
+        LOGGER.info(String.format("%s: executeBatch = %s (supportsBatchUpdates = %s, useExecuteBatch = %s, batchSize = %s)", methodName, executeBatch,
                 supportsBatchUpdates, this.getUseExecuteBatch(), this.batchSize));
         try {
             statements = this.getStatements(contentOfClobAttribute);
             if (statements == null || statements.isEmpty()) {
-                if (logger != null) {
-                    logger.info("no sql statements found");
-                }
+                LOGGER.info("no sql statements found");
             } else {
                 if (executeBatch) {
                     this.executeBatch(statements);
@@ -2532,9 +2484,7 @@ public abstract class SOSConnection {
             Class connectionClass = getClass(className);
             Class[] parameterTypes = new Class[arguments.length];
             for (int i = 0; i < parameterTypes.length; i++) {
-                if (arguments[i] instanceof SOSLogger) {
-                    parameterTypes[i] = SOSLogger.class;
-                } else if (arguments[i] instanceof Connection) {
+                if (arguments[i] instanceof Connection) {
                     parameterTypes[i] = Connection.class;
                 } else {
                     parameterTypes[i] = arguments[i].getClass();

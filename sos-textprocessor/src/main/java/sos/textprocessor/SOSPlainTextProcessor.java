@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.text.DecimalFormat;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
@@ -14,17 +13,10 @@ import java.util.Map;
 import sos.connection.SOSConnection;
 import sos.settings.SOSConnectionSettings;
 import sos.util.SOSDate;
-import sos.util.SOSLogger;
-import sos.util.SOSStandardLogger;
 
 public class SOSPlainTextProcessor extends SOSTextProcessor {
 
     public SOSPlainTextProcessor() throws Exception {
-        this.init();
-    }
-
-    public SOSPlainTextProcessor(SOSLogger logger) throws Exception {
-        this.setLogger(logger);
         this.init();
     }
 
@@ -33,23 +25,8 @@ public class SOSPlainTextProcessor extends SOSTextProcessor {
         this.init();
     }
 
-    public SOSPlainTextProcessor(SOSConnectionSettings settings, SOSLogger logger) throws Exception {
-        this.setSettings(settings);
-        this.setLogger(logger);
-        this.init();
-    }
-
     public SOSPlainTextProcessor(SOSConnectionSettings settings, String templateSectionName, String templateApplicationName) throws Exception {
         this.setSettings(settings);
-        this.setTemplateSectionName(templateSectionName);
-        this.setTemplateApplicationName(templateApplicationName);
-        this.init();
-    }
-
-    public SOSPlainTextProcessor(SOSConnectionSettings settings, SOSLogger logger, String templateSectionName, String templateApplicationName)
-            throws Exception {
-        this.setSettings(settings);
-        this.setLogger(logger);
         this.setTemplateSectionName(templateSectionName);
         this.setTemplateApplicationName(templateApplicationName);
         this.init();
@@ -163,12 +140,10 @@ public class SOSPlainTextProcessor extends SOSTextProcessor {
                     value = replacements.get(key);
                     if (value != null) {
                         try {
-                            content =
-                                    content.replaceAll("&\\#\\(" + key + "\\)", SOSDate.getDateAsString(SOSDate.getDate(value),
-                                            this.getDateFormat()));
-                            content =
-                                    content.replaceAll("&\\#\\#\\(" + key + "\\)", SOSDate.getDateTimeAsString(
-                                            SOSDate.getDate(value), this.getDatetimeFormat()));
+                            content = content.replaceAll("&\\#\\(" + key + "\\)", SOSDate.getDateAsString(SOSDate.getDate(value), this
+                                    .getDateFormat()));
+                            content = content.replaceAll("&\\#\\#\\(" + key + "\\)", SOSDate.getDateTimeAsString(SOSDate.getDate(value), this
+                                    .getDatetimeFormat()));
                         } catch (Exception ex) {
                             // ignore this error: replacement is not convertible
                             // to date

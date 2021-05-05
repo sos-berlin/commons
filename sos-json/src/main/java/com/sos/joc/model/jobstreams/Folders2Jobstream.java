@@ -24,16 +24,34 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 })
 public class Folders2Jobstream {
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("jobStream")
     private String jobStream;
     @JsonProperty("folders")
     private List<String> folders = new ArrayList<String>();
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("jobStream")
     public String getJobStream() {
         return jobStream;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("jobStream")
     public void setJobStream(String jobStream) {
         this.jobStream = jobStream;

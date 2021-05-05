@@ -31,8 +31,20 @@ public class InConditionCommand {
      */
     @JsonProperty("id")
     private Long id;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("command")
     private String command;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("commandParam")
     private String commandParam;
 
@@ -58,21 +70,45 @@ public class InConditionCommand {
         this.id = id;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("command")
     public String getCommand() {
         return command;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("command")
     public void setCommand(String command) {
         this.command = command;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("commandParam")
     public String getCommandParam() {
         return commandParam;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("commandParam")
     public void setCommandParam(String commandParam) {
         this.commandParam = commandParam;

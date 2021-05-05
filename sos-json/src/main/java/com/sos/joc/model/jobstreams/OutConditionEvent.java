@@ -35,8 +35,20 @@ public class OutConditionEvent {
      */
     @JsonProperty("id")
     private Long id;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("command")
     private String command;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("event")
     private String event;
     @JsonProperty("exists")
@@ -45,6 +57,12 @@ public class OutConditionEvent {
     private Boolean globalEvent;
     @JsonProperty("existsInJobStream")
     private Boolean existsInJobStream;
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("jobStream")
     private String jobStream;
 
@@ -70,21 +88,45 @@ public class OutConditionEvent {
         this.id = id;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("command")
     public String getCommand() {
         return command;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("command")
     public void setCommand(String command) {
         this.command = command;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("event")
     public String getEvent() {
         return event;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("event")
     public void setEvent(String event) {
         this.event = event;
@@ -120,11 +162,23 @@ public class OutConditionEvent {
         this.existsInJobStream = existsInJobStream;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("jobStream")
     public String getJobStream() {
         return jobStream;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("jobStream")
     public void setJobStream(String jobStream) {
         this.jobStream = jobStream;

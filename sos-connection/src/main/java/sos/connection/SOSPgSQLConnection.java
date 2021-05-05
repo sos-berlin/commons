@@ -1,24 +1,26 @@
 package sos.connection;
 
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.SQLWarning;
+import java.sql.Statement;
 import java.util.GregorianCalendar;
 import java.util.Properties;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import java.sql.Driver;
-import java.sql.SQLWarning;
-import java.sql.Statement;
-import java.sql.Connection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import sos.util.SOSClassUtil;
-import sos.util.SOSLogger;
 import sos.util.SOSString;
 
 /** @author Andreas Püschel
  * @author Ghassan Beydoun */
 public class SOSPgSQLConnection extends sos.connection.SOSConnection implements SequenceReader {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSPgSQLConnection.class);
     private static final String REPLACEMENT[] = { "LOWER", "UPPER", "CURRENT_TIMESTAMP", "FOR UPDATE" };
     private static final SOSConnectionVersionLimiter VERSION_LIMITER;
     static {
@@ -28,25 +30,13 @@ public class SOSPgSQLConnection extends sos.connection.SOSConnection implements 
         VERSION_LIMITER.setExcludedThroughVersion(7, 999);
     }
 
-    public SOSPgSQLConnection(Connection connection, SOSLogger logger) throws Exception {
-        super(connection, logger);
-    }
-
     public SOSPgSQLConnection(Connection connection) throws Exception {
         super(connection);
         prepare(connection);
     }
 
-    public SOSPgSQLConnection(String configFileName, SOSLogger logger) throws Exception {
-        super(configFileName, logger);
-    }
-
     public SOSPgSQLConnection(String configFileName) throws Exception {
         super(configFileName);
-    }
-
-    public SOSPgSQLConnection(String driver, String url, String dbuser, String dbpassword, SOSLogger logger) throws Exception {
-        super(driver, url, dbuser, dbpassword, logger);
     }
 
     public SOSPgSQLConnection(String driver, String url, String dbuser, String dbpassword) throws Exception {
@@ -55,33 +45,32 @@ public class SOSPgSQLConnection extends sos.connection.SOSConnection implements 
 
     public void connect() throws Exception {
         Properties properties = new Properties();
-        logger.debug6("calling " + SOSClassUtil.getMethodName());
+        LOGGER.debug("calling " + SOSClassUtil.getMethodName());
         if (SOSString.isEmpty(url)) {
             throw new Exception(SOSClassUtil.getMethodName() + ": missing database url.");
         }
         if (SOSString.isEmpty(driver)) {
             throw new Exception(SOSClassUtil.getMethodName() + ": missing database driver.");
         }
-        if (SOSString.isEmpty(dbuser)) {
-            throw new Exception(SOSClassUtil.getMethodName() + ": missing database user.");
+        if (!SOSString.isEmpty(dbuser) && !"[SSO]".equalsIgnoreCase(dbuser)) {
+            if (SOSString.isEmpty(dbpassword)) {
+                dbpassword = "";
+            }
+            properties.setProperty("user", dbuser);
+            properties.setProperty("password", dbpassword);
         }
-        if (SOSString.isEmpty(dbpassword)) {
-            dbpassword = "";
-        }
-        properties.setProperty("user", dbuser);
-        properties.setProperty("password", dbpassword);
         Driver driver = (Driver) Class.forName(this.driver).newInstance();
         connection = driver.connect(url, properties);
         if (connection == null) {
             throw new Exception("can't connect to database");
         }
-        VERSION_LIMITER.check(this, logger);
-        logger.debug6(".. successfully connected to " + url);
+        VERSION_LIMITER.check(this);
+        LOGGER.debug(".. successfully connected to " + url);
         prepare(connection);
     }
 
     public void prepare(Connection connection) throws Exception {
-        logger.debug6("calling " + SOSClassUtil.getMethodName());
+        LOGGER.debug("calling " + SOSClassUtil.getMethodName());
         Statement stmt = null;
         try {
             if (connection == null) {
@@ -94,11 +83,11 @@ public class SOSPgSQLConnection extends sos.connection.SOSConnection implements 
             String dateStyle = "SELECT set_config('datestyle', 'ISO, YMD', true)";
             String defaultTransactionIsolation = "SELECT set_config('default_transaction_isolation', 'repeatable read', true)";
             stmt.execute(numericCharacters);
-            logger.debug9(".. " + numericCharacters + " successfully set.");
+            LOGGER.trace(".. " + numericCharacters + " successfully set.");
             stmt.execute(dateStyle);
-            logger.debug9(".. " + dateStyle + " successfully set.");
+            LOGGER.trace(".. " + dateStyle + " successfully set.");
             stmt.execute(defaultTransactionIsolation);
-            logger.debug9(".. " + defaultTransactionIsolation + " successfully set.");
+            LOGGER.trace(".. " + defaultTransactionIsolation + " successfully set.");
         } catch (Exception e) {
             throw e;
         } finally {
@@ -131,13 +120,13 @@ public class SOSPgSQLConnection extends sos.connection.SOSConnection implements 
     }
 
     protected String replaceCasts(String inputString) throws Exception {
-        logger.debug6("Calling " + SOSClassUtil.getMethodName());
+        LOGGER.debug("Calling " + SOSClassUtil.getMethodName());
         Pattern pattern = Pattern.compile(CAST_PATTERN);
         Matcher matcher = pattern.matcher(inputString);
         StringBuffer buffer = new StringBuffer();
         String replaceString = null;
         String token;
-        logger.debug9("..inputString [" + inputString + "]");
+        LOGGER.trace("..inputString [" + inputString + "]");
         while (matcher.find()) {
             replaceString = matcher.group().toLowerCase();
             if (matcher.group(1) != null && matcher.group(6) != null) {
@@ -182,7 +171,7 @@ public class SOSPgSQLConnection extends sos.connection.SOSConnection implements 
             matcher.appendReplacement(buffer, replaceString);
         }
         matcher.appendTail(buffer);
-        logger.debug6(".. result [" + buffer.toString() + "]");
+        LOGGER.debug(".. result [" + buffer.toString() + "]");
         return buffer.toString();
     }
 
@@ -194,8 +183,8 @@ public class SOSPgSQLConnection extends sos.connection.SOSConnection implements 
         return getSingleValue("SELECT nextval('" + sequence + "')");
     }
 
-    public Vector getOutput() throws Exception {
-        Vector out = new Vector();
+    public Vector<String> getOutput() throws Exception {
+        Vector<String> out = new Vector<>();
         SQLWarning warning = getConnection().getWarnings();
         while (warning != null) {
             out.add(warning.getMessage());

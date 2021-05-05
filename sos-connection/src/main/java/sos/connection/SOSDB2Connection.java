@@ -1,20 +1,23 @@
 package sos.connection;
 
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.Statement;
 import java.util.GregorianCalendar;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import java.sql.Driver;
-import java.sql.Statement;
-import java.sql.Connection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import sos.util.SOSClassUtil;
-import sos.util.SOSLogger;
 import sos.util.SOSString;
 
 /** @author Andreas Püschel */
 public class SOSDB2Connection extends sos.connection.SOSConnection implements SequenceReader {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSDB2Connection.class);
 
     private static final String REPLACEMENT[] = { "LOWER", "UPPER", "CURRENT TIMESTAMP", "FOR UPDATE" };
     private static final SOSConnectionVersionLimiter VERSION_LIMITER;
@@ -25,24 +28,12 @@ public class SOSDB2Connection extends sos.connection.SOSConnection implements Se
         VERSION_LIMITER.setExcludedThroughVersion(7, 999);
     }
 
-    public SOSDB2Connection(Connection connection, SOSLogger logger) throws Exception {
-        super(connection, logger);
-    }
-
     public SOSDB2Connection(Connection connection) throws Exception {
         super(connection);
     }
 
-    public SOSDB2Connection(String configFileName, SOSLogger logger) throws Exception {
-        super(configFileName, logger);
-    }
-
     public SOSDB2Connection(String configFileName) throws Exception {
         super(configFileName);
-    }
-
-    public SOSDB2Connection(String driver, String url, String dbuser, String dbpassword, SOSLogger logger) throws Exception {
-        super(driver, url, dbuser, dbpassword, logger);
     }
 
     public SOSDB2Connection(String driver, String url, String dbuser, String dbpassword) throws Exception {
@@ -51,7 +42,7 @@ public class SOSDB2Connection extends sos.connection.SOSConnection implements Se
 
     public void connect() throws Exception {
         Properties properties = new Properties();
-        logger.debug6("calling " + SOSClassUtil.getMethodName());
+        LOGGER.debug("calling " + SOSClassUtil.getMethodName());
         if (SOSString.isEmpty(url)) {
             throw new Exception(SOSClassUtil.getMethodName() + ": missing database url.");
         }
@@ -71,13 +62,13 @@ public class SOSDB2Connection extends sos.connection.SOSConnection implements Se
         if (connection == null) {
             throw new Exception("can't connect to database");
         }
-        VERSION_LIMITER.check(this, logger);
-        logger.debug6(".. successfully connected to " + url);
+        VERSION_LIMITER.check(this);
+        LOGGER.debug(".. successfully connected to " + url);
         prepare(connection);
     }
 
     public void prepare(Connection connection) throws Exception {
-        logger.debug6("calling " + SOSClassUtil.getMethodName());
+        LOGGER.debug("calling " + SOSClassUtil.getMethodName());
         Statement stmt = null;
         try {
             if (connection == null) {
@@ -118,7 +109,7 @@ public class SOSDB2Connection extends sos.connection.SOSConnection implements Se
     }
 
     protected String replaceCasts(String inputString) throws Exception {
-        logger.debug6("Calling " + SOSClassUtil.getMethodName());
+        LOGGER.debug("Calling " + SOSClassUtil.getMethodName());
         Pattern pattern = Pattern.compile(CAST_PATTERN);
         Matcher matcher = pattern.matcher(inputString);
         StringBuffer buffer = new StringBuffer();
@@ -167,7 +158,7 @@ public class SOSDB2Connection extends sos.connection.SOSConnection implements Se
             matcher.appendReplacement(buffer, replaceString);
         }
         matcher.appendTail(buffer);
-        logger.debug6(".. result [" + buffer.toString() + "]");
+        LOGGER.debug(".. result [" + buffer.toString() + "]");
         return buffer.toString();
     }
 

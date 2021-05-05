@@ -619,6 +619,17 @@ public class SOSDate {
     public static String getDuration(Duration duration) {
         return duration == null ? null : duration.toString().replace("PT", "").toLowerCase();
     }
+    
+    public static String getDateTime(Instant it) {
+        try {
+            if (it == null) {
+                return null;
+            }
+            return SOSDate.getDateTimeAsString(Date.from(it), dateTimeFormat);
+        } catch (Throwable t) {
+            return it.toString();
+        }
+    }
 
     public static void main(String[] args) {
         try {

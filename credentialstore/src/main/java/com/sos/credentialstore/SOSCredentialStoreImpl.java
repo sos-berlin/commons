@@ -1,4 +1,4 @@
-package com.sos.CredentialStore;
+package com.sos.credentialstore;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -10,8 +10,8 @@ import org.linguafranca.pwdb.Entry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sos.CredentialStore.Options.ISOSCredentialStoreOptionsBridge;
-import com.sos.CredentialStore.Options.SOSCredentialStoreOptions;
+import com.sos.credentialstore.options.ISOSCredentialStoreOptionsBridge;
+import com.sos.credentialstore.options.SOSCredentialStoreOptions;
 import com.sos.JSHelper.Annotations.JSOptionClass;
 import com.sos.JSHelper.Basics.JSToolBox;
 import com.sos.JSHelper.Exceptions.JobSchedulerException;

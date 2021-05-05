@@ -20,8 +20,10 @@ import java.util.SortedSet;
 import java.util.TimeZone;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sos.exception.SOSInvalidDataException;
@@ -50,6 +52,7 @@ public class FrequencyResolver {
     private Frequencies includes = null;
     private Frequencies excludes = null;
     private static DateTimeFormatter df = DateTimeFormatter.ISO_LOCAL_DATE.withZone(ZoneOffset.UTC);
+    private static ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     public FrequencyResolver() {
     }
@@ -76,7 +79,7 @@ public class FrequencyResolver {
 
     public Dates resolve(String calendarJson, String from, String to) throws SOSMissingDataException, SOSInvalidDataException, JsonParseException,
             JsonMappingException, IOException {
-        return resolve(new ObjectMapper().readValue(calendarJson, com.sos.joc.model.calendar.Calendar.class), from, to);
+        return resolve(objectMapper.readValue(calendarJson, com.sos.joc.model.calendar.Calendar.class), from, to);
     }
 
     public Dates resolve(com.sos.joc.model.calendar.Calendar calendar, String from, String to) throws SOSMissingDataException,
@@ -128,7 +131,7 @@ public class FrequencyResolver {
 
     public Dates resolveRestrictions(String basedCalendarJson, String calendarJson, String from, String to)
             throws SOSMissingDataException, SOSInvalidDataException, JsonParseException, JsonMappingException, IOException {
-        return resolveRestrictions(new ObjectMapper().readValue(basedCalendarJson, com.sos.joc.model.calendar.Calendar.class), new ObjectMapper()
+        return resolveRestrictions(objectMapper.readValue(basedCalendarJson, com.sos.joc.model.calendar.Calendar.class), objectMapper
                 .readValue(calendarJson, com.sos.joc.model.calendar.Calendar.class), from, to);
     }
 
@@ -155,7 +158,6 @@ public class FrequencyResolver {
             if (calendar != null && !this.dates.isEmpty()) {
                 this.dateFrom = getFrom(from);
                 this.dateTo = getTo(to);
-                //datesWithoutRestrictions = dates.subMap(df.format(dateFrom.toInstant()), df.format(dateTo.toInstant().plusSeconds(24*60*60)));
                 for (Entry<String, Calendar> entry : dates.entrySet()) {
                     if (entry.getValue().before(dateFrom)) {
                         continue;
@@ -166,6 +168,8 @@ public class FrequencyResolver {
                     datesWithoutRestrictions.put(entry.getKey(), entry.getValue());
                 }
                 if (this.dateFrom.compareTo(this.dateTo) <= 0) {
+                    final String s = df.format(this.dateFrom.toInstant());
+                    this.dateFrom = getFirstDayOfMonthCalendar(this.dateFrom);
                     this.includes = calendar.getIncludes();
                     //this.excludes = calendar.getExcludes(); //TODO exists?
                     addDatesRestrictions();
@@ -174,6 +178,8 @@ public class FrequencyResolver {
                     addUltimosRestrictions();
                     addMonthsRestrictions();
                     addRepetitionsRestrictions();
+                    
+                    restrictions = restrictions.stream().filter(dt -> dt.compareTo(s) >= 0).collect(Collectors.toCollection(TreeSet::new));
                 }
             }
             restrictions.addAll(datesWithoutRestrictions.keySet());
@@ -190,7 +196,7 @@ public class FrequencyResolver {
     
     public Dates resolveRestrictionsFromToday(com.sos.joc.model.calendar.Calendar basedCalendar, String calendarJson) throws SOSMissingDataException,
             SOSInvalidDataException, JsonParseException, JsonMappingException, IOException {
-        return resolveRestrictions(basedCalendar, new ObjectMapper().readValue(calendarJson, com.sos.joc.model.calendar.Calendar.class), df.format(
+        return resolveRestrictions(basedCalendar, objectMapper.readValue(calendarJson, com.sos.joc.model.calendar.Calendar.class), df.format(
                 Instant.now()), null);
     }
 
@@ -206,7 +212,7 @@ public class FrequencyResolver {
 
     public Dates resolveRestrictionsFromUTCYesterday(com.sos.joc.model.calendar.Calendar basedCalendar, String calendarJson)
             throws SOSMissingDataException, SOSInvalidDataException, JsonParseException, JsonMappingException, IOException {
-        return resolveRestrictions(basedCalendar, new ObjectMapper().readValue(calendarJson, com.sos.joc.model.calendar.Calendar.class), df.format(
+        return resolveRestrictions(basedCalendar, objectMapper.readValue(calendarJson, com.sos.joc.model.calendar.Calendar.class), df.format(
                 ZonedDateTime.now(ZoneOffset.UTC).minusDays(1L)), null);
     }
 
@@ -1049,6 +1055,11 @@ public class FrequencyResolver {
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
         return cal;
+    }
+    
+    private Calendar getFirstDayOfMonthCalendar(Calendar curCalendar) {
+        curCalendar.set(Calendar.DATE, 1);
+        return (Calendar) curCalendar.clone();
     }
     
     private void addDatesRestrictions() throws SOSInvalidDataException {

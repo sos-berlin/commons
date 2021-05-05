@@ -131,9 +131,6 @@ public class SOSKeePassResolver {
             return path;
         }
         if (!uri.startsWith(SOSKeePassPath.PATH_PREFIX)) {
-            if (isTraceEnabled) {
-                LOGGER.trace("[skip]cs syntax missing");// not display uri - password?
-            }
             return null;
         }
         if (file == null) {

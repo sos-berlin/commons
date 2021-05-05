@@ -54,7 +54,11 @@ public class RuntimeResolver {
             if (z2 == null) {
                 z2 = o2.getBegin();
             }
-            return z1.compareTo(z2);
+            int c = z1.compareTo(z2);
+            if (c == 0) {
+                return 1;
+            }
+            return c;
         }
     });
     private SortedSet<String> holidays = new TreeSet<String>();
@@ -93,11 +97,11 @@ public class RuntimeResolver {
         return resolve(xpath, runtime, from, to, null);
     }
 
-    public RunTime resolve(SOSXMLXPath xpath, String from, String to, String jobschedulerTimezone) throws Exception {
+    public RunTime resolve(SOSXMLXPath xpath, String from, String to, String jobschedulerTimezone) throws SOSInvalidDataException, DOMException, TransformerException   {
         return resolve(xpath, xpath.getRoot(), from, to, jobschedulerTimezone);
     }
 
-    public RunTime resolve(SOSXMLXPath xpath, Element runtime, String from, String to, String jobschedulerTimezone) throws Exception {
+    public RunTime resolve(SOSXMLXPath xpath, Element runtime, String from, String to, String jobschedulerTimezone) throws SOSInvalidDataException, DOMException, TransformerException  {
         setTimeZone(jobschedulerTimezone, runtime.getAttribute("time_zone"));
         if (from == null || from.isEmpty()) {
             from = dateFormatter.format(Instant.now());
@@ -191,7 +195,7 @@ public class RuntimeResolver {
         }
     }
 
-    private void addPeriods(String date, NodeList periodList) throws Exception {
+    private void addPeriods(String date, NodeList periodList) throws SOSInvalidDataException  {
         for (int j = 0; j < periodList.getLength(); j++) {
             Period p = getPeriod((Element) periodList.item(j), date);
             if (p != null) {
@@ -200,7 +204,7 @@ public class RuntimeResolver {
         }
     }
 
-    private void addPeriods(String date, NodeList periodList, int dayOfMonth) throws Exception {
+    private void addPeriods(String date, NodeList periodList, int dayOfMonth) throws SOSInvalidDataException   {
         if (dayOfMonth > 9) {
             addPeriods(date, periodList);
         } else {
@@ -219,7 +223,7 @@ public class RuntimeResolver {
     private Calendar getCalendarFromString(String cal) throws SOSInvalidDataException {
         if (cal != null && !cal.isEmpty()) {
             if (!cal.matches("^\\d{4}-\\d{2}-\\d{2}$")) {
-                throw new SOSInvalidDataException("dates must have the format YYYY-MM-DD.");
+                throw new SOSInvalidDataException("date " + cal + " must have the format YYYY-MM-DD.");
             }
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(Date.from(Instant.parse(cal + "T00:00:00Z")));
@@ -288,7 +292,7 @@ public class RuntimeResolver {
             return p;
         }
         if (periodElem.hasAttribute("absolute_repeat")) {
-            p.setRepeat(periodElem.getAttribute("absolute_repeat"));
+            p.setAbsoluteRepeat(periodElem.getAttribute("absolute_repeat"));
             return p;
         }
         return p;
@@ -375,12 +379,12 @@ public class RuntimeResolver {
         return getCalendarDatesFrom(curObject, today);
     }
 
-    @SuppressWarnings("unchecked")
     private static TreeSet<RuntimeCalendar> getCalendarDatesFrom(org.dom4j.Element curObject, String from) {
-        List<org.dom4j.Element> dateList = curObject.selectNodes(".//date[@calendar]");
-        List<org.dom4j.Attribute> holidayList = curObject.selectNodes(".//holiday[@calendar]/@calendar");
+        List<org.dom4j.Node> dateList = curObject.selectNodes(".//date[@calendar]");
+        List<org.dom4j.Node> holidayList = curObject.selectNodes(".//holiday[@calendar]/@calendar");
         Map<String, RuntimeCalendar> calendars = new HashMap<String, RuntimeCalendar>();
-        for (org.dom4j.Element dateElem : dateList) {
+        for (org.dom4j.Node dateNode : dateList) {
+            org.dom4j.Element dateElem = (org.dom4j.Element) dateNode;
             String calendarPath = dateElem.attributeValue("calendar");
             if (!calendars.containsKey(calendarPath)) {
                 RuntimeCalendar calendar = new RuntimeCalendar();
@@ -392,7 +396,7 @@ public class RuntimeResolver {
                 calendar.setPeriods(getCalendarPeriods(dateElem.selectNodes("period")));
             }
         }
-        for (org.dom4j.Attribute holidayNode : holidayList) {
+        for (org.dom4j.Node holidayNode : holidayList) {
             String calendarPath = holidayNode.getStringValue();
             if (!calendars.containsKey(calendarPath)) {
                 RuntimeCalendar calendar = new RuntimeCalendar();
@@ -417,9 +421,9 @@ public class RuntimeResolver {
         return dates;
     }
 
-    private static Set<String> getCalendarDatesFromToday(List<org.dom4j.Attribute> nodeList, String today) {
+    private static Set<String> getCalendarDatesFromToday(List<org.dom4j.Node> nodeList, String today) {
         SortedSet<String> dates = new TreeSet<String>();
-        for (org.dom4j.Attribute dateNode : nodeList) {
+        for (org.dom4j.Node dateNode : nodeList) {
             String date = dateNode.getStringValue();
             if (today.compareTo(date) < 1) {
                 dates.add(date);
@@ -454,9 +458,10 @@ public class RuntimeResolver {
         return periods;
     }
 
-    private static List<Period> getCalendarPeriods(List<org.dom4j.Element> nodeList) {
+    private static List<Period> getCalendarPeriods(List<org.dom4j.Node> nodeList) {
         List<Period> periods = new ArrayList<Period>();
-        for (org.dom4j.Element period : nodeList) {
+        for (org.dom4j.Node periodNode : nodeList) {
+            org.dom4j.Element period = (org.dom4j.Element) periodNode;
             Period p = new Period();
             p.setSingleStart(period.attributeValue("single_start"));
             p.setRepeat(period.attributeValue("repeat"));
@@ -559,7 +564,6 @@ public class RuntimeResolver {
         updateCalendarInRuntimes(new String(Files.readAllBytes(xmlFile)), writer, calendars);
     }
 
-    @SuppressWarnings("unchecked")
     public static void updateCalendarInRuntimes(org.dom4j.Document doc, Writer writer, Collection<RuntimeCalendar> calendars) throws IOException,
             DocumentException {
         XMLWriter xmlWriter = null;

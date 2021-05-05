@@ -17,7 +17,7 @@ public class SOSFile {
     static final int BUFF_SIZE = 100000;
     static final byte[] buffer = new byte[BUFF_SIZE];
 
-    public static boolean canReadFile(final File file, final SOSStandardLogger sosLogger) throws Exception {
+    public static boolean canReadFile(final File file) throws Exception {
         boolean rep = true;
         int repeatCount = 5;
         while (rep && repeatCount != -1) {
@@ -34,9 +34,7 @@ public class SOSFile {
                 if (repeatCount == -1) {
                     throw new Exception("..file cannot be accessed: " + file.getAbsolutePath() + ": " + e);
                 }
-                if (sosLogger != null) {
-                    sosLogger.debug1("trial " + (5 - repeatCount) + " of 5 to access order file: " + file.getAbsolutePath());
-                }
+                LOGGER.debug("trial " + (5 - repeatCount) + " of 5 to access order file: " + file.getAbsolutePath());
                 Thread.sleep(1000);
             }
         }
@@ -51,9 +49,7 @@ public class SOSFile {
         InputStream in = null;
         OutputStream out = null;
         try {
-            if (LOGGER != null) {
-                LOGGER.debug("Copying file " + source.getAbsolutePath() + " with buffer of " + BUFF_SIZE + " bytes");
-            }
+            LOGGER.debug("Copying file " + source.getAbsolutePath() + " with buffer of " + BUFF_SIZE + " bytes");
             in = new FileInputStream(source);
             out = new FileOutputStream(dest, append);
             while (true) {
@@ -220,12 +216,10 @@ public class SOSFile {
         }
     }
 
-    public static boolean renameTo(final File source, final File dest, final SOSStandardLogger sosLogger) throws Exception {
+    public static boolean renameTo(final File source, final File dest) throws Exception {
         boolean retVal = true;
         try {
-            if (sosLogger != null) {
-                sosLogger.debug1("..trying to move File " + source.getAbsolutePath() + " to " + dest.getAbsolutePath());
-            }
+            LOGGER.debug("..trying to move File " + source.getAbsolutePath() + " to " + dest.getAbsolutePath());
             copyFile(source, dest);
             if (!source.delete()) {
                 retVal = false;
@@ -236,10 +230,9 @@ public class SOSFile {
         }
     }
 
-    public static boolean renameTo(final String source, final String dest, final SOSStandardLogger sosLogger) throws Exception {
-        return renameTo(new File(source), new File(dest), sosLogger);
+    public static boolean renameTo(final String source, final String dest) throws Exception {
+        return renameTo(new File(source), new File(dest));
     }
-
 
     public static String subFileMask(final String filespec, final String substitute) throws IOException {
         if (filespec == null) {

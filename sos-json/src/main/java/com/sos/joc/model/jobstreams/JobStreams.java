@@ -14,7 +14,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 
 /**
- * jobStreamFolders
+ * jobStreams
  * <p>
  * List of all jobStreams and their folders
  * 
@@ -23,33 +23,34 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 @JsonPropertyOrder({
     "deliveryDate",
     "jobschedulerId",
-    "jobStreamFilter",
-    "jobStreamFolders"
+    "jobstreams"
 })
 public class JobStreams {
 
     /**
-     * delivery date
+     * date time
      * <p>
-     * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
-     * (Required)
+     * Date time. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * 
      */
     @JsonProperty("deliveryDate")
-    @JsonPropertyDescription("Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
+    @JsonPropertyDescription("Date time. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ")
     private Date deliveryDate;
+    /**
+     * filename
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("jobschedulerId")
     private String jobschedulerId;
-    @JsonProperty("jobStreamFilter")
-    private String jobStreamFilter;
-    @JsonProperty("jobStreamFolders")
-    private List<Folders2Jobstream> jobStreamFolders = new ArrayList<Folders2Jobstream>();
+    @JsonProperty("jobstreams")
+    private List<JobStream> jobstreams = new ArrayList<JobStream>();
 
     /**
-     * delivery date
+     * date time
      * <p>
-     * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
-     * (Required)
+     * Date time. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * 
      */
     @JsonProperty("deliveryDate")
@@ -58,10 +59,9 @@ public class JobStreams {
     }
 
     /**
-     * delivery date
+     * date time
      * <p>
-     * Current date of the JOC server/REST service. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
-     * (Required)
+     * Date time. Value is UTC timestamp in ISO 8601 YYYY-MM-DDThh:mm:ss.sZ
      * 
      */
     @JsonProperty("deliveryDate")
@@ -69,44 +69,46 @@ public class JobStreams {
         this.deliveryDate = deliveryDate;
     }
 
+    /**
+     * filename
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("jobschedulerId")
     public String getJobschedulerId() {
         return jobschedulerId;
     }
 
+    /**
+     * filename
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("jobschedulerId")
     public void setJobschedulerId(String jobschedulerId) {
         this.jobschedulerId = jobschedulerId;
     }
 
-    @JsonProperty("jobStreamFilter")
-    public String getJobStreamFilter() {
-        return jobStreamFilter;
+    @JsonProperty("jobstreams")
+    public List<JobStream> getJobstreams() {
+        return jobstreams;
     }
 
-    @JsonProperty("jobStreamFilter")
-    public void setJobStreamFilter(String jobStreamFilter) {
-        this.jobStreamFilter = jobStreamFilter;
-    }
-
-    @JsonProperty("jobStreamFolders")
-    public List<Folders2Jobstream> getJobStreamFolders() {
-        return jobStreamFolders;
-    }
-
-    @JsonProperty("jobStreamFolders")
-    public void setJobStreamFolders(List<Folders2Jobstream> jobStreamFolders) {
-        this.jobStreamFolders = jobStreamFolders;
+    @JsonProperty("jobstreams")
+    public void setJobstreams(List<JobStream> jobstreams) {
+        this.jobstreams = jobstreams;
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("jobschedulerId", jobschedulerId).append("jobStreamFilter", jobStreamFilter).append("jobStreamFolders", jobStreamFolders).toString();
+        return new ToStringBuilder(this).append("deliveryDate", deliveryDate).append("jobschedulerId", jobschedulerId).append("jobstreams", jobstreams).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(jobStreamFolders).append(deliveryDate).append(jobschedulerId).append(jobStreamFilter).toHashCode();
+        return new HashCodeBuilder().append(jobstreams).append(deliveryDate).append(jobschedulerId).toHashCode();
     }
 
     @Override
@@ -118,7 +120,7 @@ public class JobStreams {
             return false;
         }
         JobStreams rhs = ((JobStreams) other);
-        return new EqualsBuilder().append(jobStreamFolders, rhs.jobStreamFolders).append(deliveryDate, rhs.deliveryDate).append(jobschedulerId, rhs.jobschedulerId).append(jobStreamFilter, rhs.jobStreamFilter).isEquals();
+        return new EqualsBuilder().append(jobstreams, rhs.jobstreams).append(deliveryDate, rhs.deliveryDate).append(jobschedulerId, rhs.jobschedulerId).isEquals();
     }
 
 }

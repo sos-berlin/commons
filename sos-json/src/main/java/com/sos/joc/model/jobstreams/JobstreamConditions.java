@@ -24,16 +24,34 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 })
 public class JobstreamConditions {
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("jobStream")
     private String jobStream;
     @JsonProperty("jobs")
     private List<ConditionRef> jobs = new ArrayList<ConditionRef>();
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("jobStream")
     public String getJobStream() {
         return jobStream;
     }
 
+    /**
+     * string without < and >
+     * <p>
+     * 
+     * 
+     */
     @JsonProperty("jobStream")
     public void setJobStream(String jobStream) {
         this.jobStream = jobStream;

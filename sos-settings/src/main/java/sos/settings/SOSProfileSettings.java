@@ -12,14 +12,17 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import sos.util.SOSClassUtil;
-import sos.util.SOSLogger;
 import sos.util.SOSString;
 
 public class SOSProfileSettings extends sos.settings.SOSSettings {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSProfileSettings.class);
     private static final Pattern SECTION_PATTERN = Pattern.compile("^\\s*\\[([^\\]]*)\\].*$");
-    private static final Pattern ENTRY_PATTERN = Pattern.compile("^([^=#]+)[ \t\n]*=(.*)$");
+    private static final Pattern ENTRY_PATTERN = Pattern.compile("^([^=#;]+)[ \t\n]*=(.*)$");
     private final ArrayList<String> sections = new ArrayList<String>();
     private final Properties entries = new Properties();
     protected boolean lowerCase = true;
@@ -29,18 +32,8 @@ public class SOSProfileSettings extends sos.settings.SOSSettings {
         this.load();
     }
 
-    public SOSProfileSettings(final String source, final SOSLogger logger) throws Exception {
-        super(source, logger);
-        this.load();
-    }
-
     public SOSProfileSettings(final String source, final String section) throws Exception {
         super(source, section);
-        this.load();
-    }
-
-    public SOSProfileSettings(final String source, final String section, final SOSLogger logger) throws Exception {
-        super(source, section, logger);
         this.load();
     }
 
@@ -75,8 +68,10 @@ public class SOSProfileSettings extends sos.settings.SOSSettings {
                     }
                 }
             }
-            if (logger != null) {
-                logger.debug3(SOSClassUtil.getMethodName() + ": profile [" + source + "] successfully loaded.");
+
+            if (LOGGER.isTraceEnabled()) {
+                // SOSClassUtil.printStackTrace(true);
+                LOGGER.trace(SOSClassUtil.getMethodName() + ": profile [" + source + "] successfully loaded.");
             }
         } catch (Exception e) {
             throw new Exception(SOSClassUtil.getMethodName() + ": " + e.toString());
@@ -121,6 +116,24 @@ public class SOSProfileSettings extends sos.settings.SOSSettings {
                 keyValue = p.split(enuma.nextElement().toString());
                 if (getSectionEntry(section, keyValue[1]) != null) {
                     properties.put(normalizeKey(keyValue[1]), this.getSectionEntry(section, keyValue[1]));
+                }
+            }
+            return properties;
+        } catch (Exception e) {
+            throw new Exception("error occurred in " + SOSClassUtil.getMethodName() + ": " + e);
+        }
+    }
+
+    public Properties getSection(final String section, boolean usePrefix, String propertyPrefix) throws Exception {
+        try {
+            Properties properties = new Properties();
+            Pattern p = Pattern.compile("[#]");
+            String[] keyValue = null;
+            java.util.Enumeration<Object> enuma = entries.keys();
+            while (enuma.hasMoreElements()) {
+                keyValue = p.split(enuma.nextElement().toString());
+                if (getSectionEntry(section, keyValue[1]) != null) {
+                    properties.put(normalizeKey(propertyPrefix+keyValue[1]), this.getSectionEntry(section, keyValue[1]));
                 }
             }
             return properties;
@@ -229,23 +242,15 @@ public class SOSProfileSettings extends sos.settings.SOSSettings {
 
     @Override
     public void setKeysToLowerCase() throws Exception {
-        if (logger != null) {
-            logger.debug3("calling " + SOSClassUtil.getMethodName());
-        }
-        if (logger != null) {
-            logger.debug3(".. now keys set to lower case.");
-        }
+        LOGGER.debug("calling " + SOSClassUtil.getMethodName());
+        LOGGER.debug(".. now keys set to lower case.");
         lowerCase = true;
     }
 
     @Override
     public void setKeysToUpperCase() throws Exception {
-        if (logger != null) {
-            logger.debug3("calling " + SOSClassUtil.getMethodName());
-        }
-        if (logger != null) {
-            logger.debug3(".. now keys set to upper case.");
-        }
+        LOGGER.debug("calling " + SOSClassUtil.getMethodName());
+        LOGGER.debug(".. now keys set to upper case.");
         lowerCase = false;
     }
 
