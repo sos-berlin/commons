@@ -72,7 +72,7 @@ public class ResourceHelper {
                         throw new RuntimeException(String.format("%1$s could not be removed: %2$s", entry.toString(), e.toString()), e);
                     }
                 });
-            } catch (IOException e) {
+            } catch (Exception e) {
                 LOGGER.error("Error at delete resource {}.", workingDirectory, e);
             }
         }
