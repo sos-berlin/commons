@@ -2,6 +2,7 @@ package com.sos.xml;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -11,9 +12,17 @@ import com.sos.exception.SOSConnectionRefusedException;
 import sos.xml.SOSXMLXPath;
 
 public class TestExecutePost {
-
     
 
+    @Ignore
+    @Test
+    public void testShowHistory() throws Exception {
+            SOSXmlCommand cmd= new SOSXmlCommand("http://localhost:4444/jobscheduler/master/api/command"); 
+            String answer = cmd.executeXMLPost("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><show_history job=\"/my_job\"/>");
+            System.out.println(answer);
+            
+        }
+    
     @Test
     public void testSosXmlCommand() throws Exception {
         try {
