@@ -28,6 +28,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "folder",
     "folders",
     "jobStream",
+    "jobStreams",
     "status",
     "limit",
     "auditLog"
@@ -85,6 +86,8 @@ public class JobStreamsFilter {
      */
     @JsonProperty("jobStream")
     private String jobStream;
+    @JsonProperty("jobStreams")
+    private List<String> jobStreams = new ArrayList<String>();
     /**
      * string without < and >
      * <p>
@@ -238,6 +241,16 @@ public class JobStreamsFilter {
         this.jobStream = jobStream;
     }
 
+    @JsonProperty("jobStreams")
+    public List<String> getJobStreams() {
+        return jobStreams;
+    }
+
+    @JsonProperty("jobStreams")
+    public void setJobStreams(List<String> jobStreams) {
+        this.jobStreams = jobStreams;
+    }
+
     /**
      * string without < and >
      * <p>
@@ -294,12 +307,12 @@ public class JobStreamsFilter {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("job", job).append("session", session).append("folder", folder).append("folders", folders).append("jobStream", jobStream).append("status", status).append("limit", limit).append("auditLog", auditLog).toString();
+        return new ToStringBuilder(this).append("jobschedulerId", jobschedulerId).append("job", job).append("session", session).append("folder", folder).append("folders", folders).append("jobStream", jobStream).append("jobStreams", jobStreams).append("status", status).append("limit", limit).append("auditLog", auditLog).toString();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(folder).append(folders).append(auditLog).append(session).append(jobStream).append(limit).append(jobschedulerId).append(job).append(status).toHashCode();
+        return new HashCodeBuilder().append(folder).append(folders).append(jobStreams).append(auditLog).append(session).append(jobStream).append(limit).append(jobschedulerId).append(job).append(status).toHashCode();
     }
 
     @Override
@@ -311,7 +324,7 @@ public class JobStreamsFilter {
             return false;
         }
         JobStreamsFilter rhs = ((JobStreamsFilter) other);
-        return new EqualsBuilder().append(folder, rhs.folder).append(folders, rhs.folders).append(auditLog, rhs.auditLog).append(session, rhs.session).append(jobStream, rhs.jobStream).append(limit, rhs.limit).append(jobschedulerId, rhs.jobschedulerId).append(job, rhs.job).append(status, rhs.status).isEquals();
+        return new EqualsBuilder().append(folder, rhs.folder).append(folders, rhs.folders).append(jobStreams, rhs.jobStreams).append(auditLog, rhs.auditLog).append(session, rhs.session).append(jobStream, rhs.jobStream).append(limit, rhs.limit).append(jobschedulerId, rhs.jobschedulerId).append(job, rhs.job).append(status, rhs.status).isEquals();
     }
 
 }

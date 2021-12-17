@@ -24,7 +24,7 @@ public class SOSPrivateConf {
         this.filename = filename;
     }
 
-    private void init() throws SOSMissingDataException  {
+    private void init() throws SOSMissingDataException {
         if (config == null) {
             Path path = Paths.get(filename);
             if (Files.exists(path)) {
@@ -39,23 +39,42 @@ public class SOSPrivateConf {
 
     public String getValue(String key) throws SOSMissingDataException {
         LOGGER.debug("reading key: " + key);
-        init();
-        String value = null;
+        String value = "";
+        try {
+            init();
+        } catch (SOSMissingDataException e) {
+            return "";
+        }
+
         value = config.getString(key);
         return value;
     }
 
-    public String getValue(String objectId, String key) throws SOSMissingDataException  {
+    public String getValueDefaultEmpty(String key) {
         LOGGER.debug("reading key: " + key);
-        init();
+        try {
+            init();
+            String value = null;
+            value = config.getString(key);
+            return value;
+        } catch (ConfigException | SOSMissingDataException e) {
+            return "";
+        }
+    }
+
+    public String getValue(String objectId, String key) {
+        LOGGER.debug("reading key: " + key);
         Config configClass = null;
-        String value = null;
+        String value = "";
 
         try {
+            init();
             configClass = config.getConfig(objectId);
-        } catch (ConfigException e) {
+        } catch (ConfigException.Missing e) {
             LOGGER.warn("The configuration item " + objectId + " is missing in private.conf!");
             LOGGER.warn("see https://kb.sos-berlin.com/x/NwgCAQ for further details on how to setup a secure connection");
+        } catch (SOSMissingDataException e) {
+
         }
         if (configClass != null) {
             value = configClass.getString(key);
@@ -64,18 +83,42 @@ public class SOSPrivateConf {
 
     }
 
-    public String getDecodedValue(String objectId, String key) throws UnsupportedEncodingException, SOSMissingDataException {
-        String s = getValue(objectId, key);
-        if (s != null) {
+    public String getValueDefaultEmpty(String objectId, String key) {
+        LOGGER.debug("reading key: " + key);
+
+        Config configClass = null;
+        String value = "";
+        try {
+            init();
+            configClass = config.getConfig(objectId);
+        } catch (ConfigException.Missing e) {
+            LOGGER.warn("The configuration item " + objectId + " is missing in private.conf!");
+            LOGGER.warn("see https://kb.sos-berlin.com/x/NwgCAQ for further details on how to setup a secure connection");
+        } catch (SOSMissingDataException e) {
+
+        }
+        if (configClass != null) {
+            try {
+                value = configClass.getString(key);
+            } catch (ConfigException.Missing e) {
+                value = "";
+            }
+        }
+        return value;
+    }
+
+    public String getDecodedValue(String objectId, String key) throws UnsupportedEncodingException {
+        String s = getValueDefaultEmpty(objectId, key);
+        if (!s.isEmpty()) {
             return new String(Base64.getDecoder().decode(s.getBytes("UTF-8")), "UTF-8");
         } else {
             return null;
         }
     }
 
-    public String getDecodedValue(String key) throws SOSMissingDataException, UnsupportedEncodingException  {
-        String s = getValue(key);
-        if (s != null) {
+    public String getDecodedValue(String key) throws UnsupportedEncodingException {
+        String s = getValueDefaultEmpty(key);
+        if (!s.isEmpty()) {
             return new String(Base64.getDecoder().decode(s.getBytes("UTF-8")), "UTF-8");
         } else {
             return null;
