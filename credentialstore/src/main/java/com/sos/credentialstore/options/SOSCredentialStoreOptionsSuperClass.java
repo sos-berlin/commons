@@ -74,7 +74,7 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
     }
 
     @JSOptionDefinition(name = "CredentialStore_FileName", description = "", key = "CredentialStore_FileName", type = "SOSOptionInFileName", mandatory = true)
-    public SOSOptionInFileName credentialStoreFileName = new SOSOptionInFileName(this, className + ".CredentialStore_FileName", "", " ", " ", true);
+    public SOSOptionInFileName credentialStoreFileName = new SOSOptionInFileName(this, className + ".CredentialStore_FileName", "", "", "", true);
     public SOSOptionInFileName csFileName = (SOSOptionInFileName) credentialStoreFileName.setAlias(className + ".CS_FileName");
 
     public SOSOptionInFileName getCredentialStoreFileName() {
@@ -86,7 +86,7 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
     }
 
     @JSOptionDefinition(name = "CredentialStore_KeyFileName", description = "", key = "CredentialStore_KeyFileName", type = "SOSOptionInFileName", mandatory = false)
-    public SOSOptionInFileName credentialStoreKeyFileName = new SOSOptionInFileName(this, className + ".CredentialStore_KeyFileName", "", " ", " ",
+    public SOSOptionInFileName credentialStoreKeyFileName = new SOSOptionInFileName(this, className + ".CredentialStore_KeyFileName", "", "", "",
             false);
     public SOSOptionInFileName csKeyFileName = (SOSOptionInFileName) credentialStoreKeyFileName.setAlias(className + ".CS_KeyFileName");
 
@@ -99,7 +99,7 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
     }
 
     @JSOptionDefinition(name = "CredentialStore_KeyPath", description = "", key = "CredentialStore_KeyPath", type = "SOSOptionString", mandatory = true)
-    public SOSOptionString credentialStoreKeyPath = new SOSOptionString(this, className + ".CredentialStore_KeyPath", "", " ", " ", true);
+    public SOSOptionString credentialStoreKeyPath = new SOSOptionString(this, className + ".CredentialStore_KeyPath", "", "", "", true);
     public SOSOptionString csKeyPath = (SOSOptionString) credentialStoreKeyPath.setAlias(className + ".CS_KeyPath");
 
     public SOSOptionString getCredentialStoreKeyPath() {
@@ -166,7 +166,7 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
     }
 
     @JSOptionDefinition(name = "CredentialStore_password", description = "", key = "CredentialStore_password", type = "SOSOptionPassword", mandatory = false)
-    public SOSOptionPassword credentialStorePassword = new SOSOptionPassword(this, className + ".CredentialStore_password", "", " ", " ", false);
+    public SOSOptionPassword credentialStorePassword = new SOSOptionPassword(this, className + ".CredentialStore_password", "", "", "", false);
     public SOSOptionPassword CS_password = (SOSOptionPassword) credentialStorePassword.setAlias(className + ".CS_password");
 
     public SOSOptionPassword getCredentialStorePassword() {
