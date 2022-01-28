@@ -18,6 +18,8 @@ import com.sos.JSHelper.Exceptions.JobSchedulerException;
 import com.sos.JSHelper.Options.SOSOptionElement;
 import com.sos.keepass.SOSKeePassDatabase;
 
+import sos.util.SOSString;
+
 public class SOSCredentialStoreImpl extends JSToolBox {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SOSCredentialStoreImpl.class);
@@ -55,10 +57,10 @@ public class SOSCredentialStoreImpl extends JSToolBox {
             options.credentialStoreKeyPath.checkMandatory(true);
             String keePassPassword = null;
             String keePassKeyFile = null;
-            if (options.credentialStorePassword.isDirty()) {
+            if (!SOSString.isEmpty(options.credentialStorePassword.getValue())) {
                 keePassPassword = options.credentialStorePassword.getValue();
             }
-            if (options.credentialStoreKeyFileName.isDirty()) {
+            if (!SOSString.isEmpty(options.credentialStoreKeyFileName.getValue())) {
                 keePassKeyFile = options.credentialStoreKeyFileName.getValue();
             }
 
