@@ -3,6 +3,7 @@ package com.sos.keepass;
 import java.nio.file.Paths;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,7 @@ public class SOSKeePassResolverTest {
     public void setUp() throws Exception {
     }
 
+    @Ignore
     @Test
     public void resolveFullPathsSeveralEntriesTest() throws Exception {
 
@@ -30,6 +32,7 @@ public class SOSKeePassResolverTest {
         LOGGER.info(val);
     }
 
+    @Ignore
     @Test
     public void resolveFullPathsSameEntryTest() throws Exception {
 
@@ -42,6 +45,7 @@ public class SOSKeePassResolverTest {
         LOGGER.info(val);
     }
 
+    @Ignore
     @Test
     public void resolveSeveralEntriesTest() throws Exception {
 
@@ -54,6 +58,7 @@ public class SOSKeePassResolverTest {
         LOGGER.info(val);
     }
 
+    @Ignore
     @Test
     public void resolveSameEntryTest() throws Exception {
 
@@ -66,6 +71,7 @@ public class SOSKeePassResolverTest {
         LOGGER.info(val);
     }
 
+    @Ignore
     @Test
     public void resolveSeveralEntries2Test() throws Exception {
 
@@ -78,6 +84,7 @@ public class SOSKeePassResolverTest {
         LOGGER.info(val);
     }
 
+    @Ignore
     @Test
     public void resolveSameEntry2Test() throws Exception {
 
@@ -90,6 +97,7 @@ public class SOSKeePassResolverTest {
         LOGGER.info(val);
     }
 
+    @Ignore
     @Test
     public void resolveSeveralEntries3Test() throws Exception {
 
@@ -103,6 +111,7 @@ public class SOSKeePassResolverTest {
         LOGGER.info(val);
     }
 
+    @Ignore
     @Test
     public void resolveSameEntry3Test() throws Exception {
 
@@ -114,5 +123,29 @@ public class SOSKeePassResolverTest {
 
         val = r.resolve("cs://@url");
         LOGGER.info(val);
+    }
+
+    @Ignore
+    @Test
+    public void keyFileVersion2Test() throws Exception {
+        SOSKeePassResolver r = new SOSKeePassResolver(Paths.get(DIR).resolve("keepass_2.50-f.kdbx"));
+        r.setEntryPath("/server/my_server");
+
+        LOGGER.info(r.resolve("cs://@title"));
+        LOGGER.info(r.resolve("cs://@url"));
+        LOGGER.info(r.resolve("cs://@password"));
+        LOGGER.info(r.resolve("cs://@notes"));
+    }
+
+    @Ignore
+    @Test
+    public void keyFileVersion2AndPasswordTest() throws Exception {
+        SOSKeePassResolver r = new SOSKeePassResolver(Paths.get(DIR).resolve("keepass_2.50-p-f.kdbx"), "test");
+        r.setEntryPath("/server/my_server");
+
+        LOGGER.info(r.resolve("cs://@title"));
+        LOGGER.info(r.resolve("cs://@url"));
+        LOGGER.info(r.resolve("cs://@password"));
+        LOGGER.info(r.resolve("cs://@notes"));
     }
 }
