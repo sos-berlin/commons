@@ -31,6 +31,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
     "processClass",
     "fileWatchingProcessClass",
     "numOfNodes",
+    "hasFileOrderSources",
     "nodes",
     "fileOrderSources",
     "endNodes",
@@ -81,6 +82,8 @@ public class JobChainP {
      */
     @JsonProperty("numOfNodes")
     private Integer numOfNodes;
+    @JsonProperty("hasFileOrderSources")
+    private Boolean hasFileOrderSources;
     @JsonProperty("nodes")
     private List<JobChainNodeP> nodes = new ArrayList<JobChainNodeP>();
     @JsonProperty("fileOrderSources")
@@ -310,6 +313,16 @@ public class JobChainP {
     @JsonProperty("numOfNodes")
     public void setNumOfNodes(Integer numOfNodes) {
         this.numOfNodes = numOfNodes;
+    }
+    
+    @JsonProperty("hasFileOrderSources")
+    public Boolean getHasFileOrderSources() {
+        return hasFileOrderSources;
+    }
+    
+    @JsonProperty("hasFileOrderSources")
+    public void setHasFileOrderSources(Boolean hasFileOrderSources) {
+        this.hasFileOrderSources = hasFileOrderSources;
     }
 
     /**
