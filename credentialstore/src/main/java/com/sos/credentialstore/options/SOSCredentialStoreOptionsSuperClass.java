@@ -178,16 +178,16 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
         credentialStorePassword = val;
     }
 
-    @JSOptionDefinition(name = "CredentialStore_Module", description = "", key = "CredentialStore_Module", type = "SOSOptionString", mandatory = false)
-    public SOSOptionString credentialStoreModule = new SOSOptionString(this, className + ".CredentialStore_Module", "",
+    @JSOptionDefinition(name = "CredentialStore_KeePass_Module", description = "", key = "CredentialStore_KeePass_Module", type = "SOSOptionString", mandatory = false)
+    public SOSOptionString credentialStoreKeePassModule = new SOSOptionString(this, className + ".CredentialStore_KeePass_Module", "",
             SOSKeePassDatabase.DEFAULT_MODULE.name(), SOSKeePassDatabase.DEFAULT_MODULE.name(), false);
 
-    public SOSOptionString getCredentialStoreModule() {
-        return credentialStoreModule;
+    public SOSOptionString getCredentialStoreKeePassModule() {
+        return credentialStoreKeePassModule;
     }
 
-    public void setCredentialStoreModule(final SOSOptionString val) {
-        credentialStoreModule = val;
+    public void setCredentialStoreKeePassModule(final SOSOptionString val) {
+        credentialStoreKeePassModule = val;
     }
 
     @JSOptionDefinition(name = "use_credential_Store", description = "", key = "use_credential_Store", type = "SOSOptionBoolean", mandatory = false)

@@ -68,7 +68,7 @@ public class SOSCredentialStoreImpl extends JSToolBox {
             SOSKeePassDatabase kpd = null;
             Entry<?, ?, ?, ?> entry = null;
             try {
-                kpd = new SOSKeePassDatabase(keePassFile, SOSKeePassDatabase.getModule(options.credentialStoreModule.getValue()));
+                kpd = new SOSKeePassDatabase(keePassFile, SOSKeePassDatabase.getModule(options.credentialStoreKeePassModule.getValue()));
                 kpd.load(keePassPassword, Paths.get(keePassKeyFile));
                 entry = kpd.getEntryByPath(options.credentialStoreKeyPath.getValue());
                 if (entry == null) {
