@@ -1,4 +1,4 @@
-package com.sos.keepass.extensions.credentials;
+package com.sos.keepass.db.kdbx.credentials;
 
 import java.io.FileInputStream;
 import java.io.InputStream;

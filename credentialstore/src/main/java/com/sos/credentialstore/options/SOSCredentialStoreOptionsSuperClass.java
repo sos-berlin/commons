@@ -11,6 +11,7 @@ import com.sos.JSHelper.Options.SOSOptionInFileName;
 import com.sos.JSHelper.Options.SOSOptionOutFileName;
 import com.sos.JSHelper.Options.SOSOptionPassword;
 import com.sos.JSHelper.Options.SOSOptionString;
+import com.sos.keepass.SOSKeePassDatabase;
 
 @JSOptionClass(name = "SOSCredentialStoreOptionsSuperClass", description = "SOSCredentialStoreOptionsSuperClass")
 public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
@@ -175,6 +176,18 @@ public class SOSCredentialStoreOptionsSuperClass extends JSOptionsClass {
 
     public void setCredentialStorePassword(final SOSOptionPassword val) {
         credentialStorePassword = val;
+    }
+
+    @JSOptionDefinition(name = "CredentialStore_Module", description = "", key = "CredentialStore_Module", type = "SOSOptionString", mandatory = false)
+    public SOSOptionString credentialStoreModule = new SOSOptionString(this, className + ".CredentialStore_Module", "",
+            SOSKeePassDatabase.DEFAULT_MODULE.name(), SOSKeePassDatabase.DEFAULT_MODULE.name(), false);
+
+    public SOSOptionString getCredentialStoreModule() {
+        return credentialStoreModule;
+    }
+
+    public void setCredentialStoreModule(final SOSOptionString val) {
+        credentialStoreModule = val;
     }
 
     @JSOptionDefinition(name = "use_credential_Store", description = "", key = "use_credential_Store", type = "SOSOptionBoolean", mandatory = false)
