@@ -107,6 +107,8 @@ public class SOSKeyStoreReader {
                 KeyStore ks = KeyStore.getInstance(storeType);
                 ks.load(is, getPassword());
                 return ks;
+            } catch (Throwable e) {
+                throw new IOException(String.format("[%s][%s]%s", path, storeType, e.toString()), e);
             }
         }
     }
