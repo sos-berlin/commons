@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.regex.Matcher;
@@ -48,7 +49,7 @@ public class SOSProfileSettings extends sos.settings.SOSSettings {
             if (!file.exists()) {
                 throw new Exception("couldn't find settings-file [" + file.getAbsolutePath() + "].");
             }
-            in = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+            in = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
             while (true) {
                 line = in.readLine();
                 if (line == null) {
@@ -133,7 +134,7 @@ public class SOSProfileSettings extends sos.settings.SOSSettings {
             while (enuma.hasMoreElements()) {
                 keyValue = p.split(enuma.nextElement().toString());
                 if (getSectionEntry(section, keyValue[1]) != null) {
-                    properties.put(normalizeKey(propertyPrefix+keyValue[1]), this.getSectionEntry(section, keyValue[1]));
+                    properties.put(normalizeKey(propertyPrefix + keyValue[1]), this.getSectionEntry(section, keyValue[1]));
                 }
             }
             return properties;
